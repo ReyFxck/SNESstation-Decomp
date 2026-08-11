@@ -9,19 +9,19 @@ The current call-target scanner finds **1,137 heuristic JAL targets** in the ana
 | Metric | Count | Proxy |
 |---|---:|---:|
 | Matching | 0 | **0.00%** |
-| Reconstructed / matching | 14 | **1.23%** |
-| Mapped (identified + partial + reconstructed) | 41 | **3.61%** |
+| Reconstructed / matching | 98 | **8.62%** |
+| Mapped (identified + partial + reconstructed) | 130 | **11.43%** |
 
 ## Renderer draw-family map
 
-This grid is exact for the **28 macro-expanded draw-family entry points from `0x0018428c` through `0x0018adb8`** currently tracked in `docs/RENDERER_MAP.md`.
+This grid is exact for the **30 macro-expanded draw-family entry points from `0x0018428c` through `0x0018bac0`** currently tracked in `docs/RENDERER_MAP.md`.
 
-- **Reconstructed:** 4/28 = **14.3%**
-- **Mapped:** 9/28 = **32.1%**
+- **Reconstructed:** 30/30 = **100.0%**
+- **Mapped:** 30/30 = **100.0%**
 
 ```text
-🟩🟩🟩🟨🟨🟨🟩🟨🟨⬜⬜⬜⬜⬜
-⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
+🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
+🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
 ```
 
 Legend: 🟩 reconstructed · 🟨 identified · 🟧 partial · ⬜ unknown · 🟦 matching

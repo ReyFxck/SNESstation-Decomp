@@ -24,7 +24,7 @@ STATUS_ICON = {
 }
 
 DRAW_FAMILY_START = 0x0018428C
-DRAW_FAMILY_END = 0x0018ADB8
+DRAW_FAMILY_END = 0x0018BAC0
 
 
 def pct(n: int, d: int) -> float:
@@ -50,9 +50,9 @@ def main() -> None:
     draw_recon = [r for r in draw if r["status"] in {"RECONSTRUCTED", "MATCHING"}]
     draw_mapped = [r for r in draw if r["status"] != "UNKNOWN"]
 
-    # Fourteen squares per row keeps the exact 28-function draw-family map compact.
+    # Fifteen squares per row keeps the exact 30-function draw-family map compact.
     blocks = [STATUS_ICON[r["status"]] for r in draw]
-    grid_lines = ["".join(blocks[i:i+14]) for i in range(0, len(blocks), 14)]
+    grid_lines = ["".join(blocks[i:i+15]) for i in range(0, len(blocks), 15)]
 
     text = f"""# Generated progress snapshot
 
@@ -70,7 +70,7 @@ The current call-target scanner finds **{JAL_CANDIDATE_PROXY:,} heuristic JAL ta
 
 ## Renderer draw-family map
 
-This grid is exact for the **28 macro-expanded draw-family entry points from `0x0018428c` through `0x0018adb8`** currently tracked in `docs/RENDERER_MAP.md`.
+This grid is exact for the **30 macro-expanded draw-family entry points from `0x0018428c` through `0x0018bac0`** currently tracked in `docs/RENDERER_MAP.md`.
 
 - **Reconstructed:** {len(draw_recon)}/{len(draw)} = **{pct(len(draw_recon), len(draw)):.1f}%**
 - **Mapped:** {len(draw_mapped)}/{len(draw)} = **{pct(len(draw_mapped), len(draw)):.1f}%**

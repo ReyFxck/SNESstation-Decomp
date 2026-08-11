@@ -12,13 +12,13 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 > Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **1.23%** (14 tracked targets)
-- **Mapped / identified:** **3.61%** (41 tracked targets)
-- **Renderer draw family:** **14.3% reconstructed / 32.1% mapped**
+- **Reconstructed:** **8.62%** (98 tracked targets)
+- **Mapped / identified:** **11.43%** (130 tracked targets)
+- **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
 ```text
-🟩🟩🟩🟨🟨🟨🟩🟨🟨⬜⬜⬜⬜⬜
-⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
+🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
+🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
 ```
 
 🟩 reconstructed · 🟨 identified · 🟧 partial · ⬜ unknown · 🟦 matching
@@ -75,25 +75,30 @@ Recovered or strongly identified:
 | `0x0018428c` | `DrawTile` | recovered |
 | `0x001845a8` | `DrawClippedTile` | recovered |
 | `0x00184a40` | `DrawTilex2` | recovered |
-| `0x001851f4` | `DrawTilex2x2` | high-confidence identification |
-| `0x00185510` | `DrawClippedTilex2x2` | high-confidence identification |
+| `0x001851f4` | `DrawTilex2x2` | recovered |
+| `0x00185510` | `DrawClippedTilex2x2` | recovered |
 | `0x001859a8` | `DrawLargePixel` | recovered |
-| `0x00185d8c` | `DrawTile16` | high-confidence identification |
-| `0x001860a8` | `DrawClippedTile16` | high-confidence identification |
-| `0x001acd04` | normal 4-pixel writer | recovered |
-| `0x001ace28` | flipped 4-pixel writer | recovered |
-| `0x001acf4c` | x2 4-pixel writer | recovered |
-| `0x001ad090` | flipped x2 4-pixel writer | recovered |
+| `0x00185d8c` | `DrawTile16` | recovered |
+| `0x001860a8` | `DrawClippedTile16` | recovered |
+| `0x0018789c` | `DrawTile16Add` | recovered |
+| `0x00188804` | `DrawTile16Sub` | recovered |
+| `0x0018a6d4` | `DrawLargePixel16Add` | recovered |
+| `0x0018bac0` | `DrawLargePixel16Sub1_2` | recovered |
+| `0x0018c124` | `get_tree` (ZIP Implode) | recovered |
+| `0x0018d918` | `explode` | recovered |
+| `0x0018dd6c` | `huft_build` | recovered |
+| `0x0018e4c0` | `unReduce` | recovered |
+| `0x0018ea64` | `unShrink` | recovered |
 
 The complete current renderer map is in [`docs/RENDERER_MAP.md`](docs/RENDERER_MAP.md).
 
-## Current bottleneck
+## Current frontier
 
-The R5900 instruction set is **not** the main problem anymore. In the selected EE code range, all `859/859` instructions that LLVM initially printed as `<unknown>` are classified by `tools/annotate_r5900_unknown.py`.
+The R5900 instruction set is **not** the main problem anymore. All `859/859` LLVM `<unknown>` instructions in the selected EE-code range are classified, and the tracked 30-function renderer draw family is now fully reconstructed.
 
-The next dense area is the old Snes9x **16-bit color-math renderer family**: Add/Sub/Half variants and their pixel writers. The control flow is repetitive and recognizable, but exact arithmetic and names must be proven from the binary instead of assigned by resemblance.
+The current binary frontier is the surrounding legacy `unzip.c` API after `0x0018f010`. A parallel matching-build track is now practical because a close PS2 source tree records **EE GCC 3.2.2-b1** and release flags, with a `get_tree` GAS listing whose opening machine words match the SNES Station target. Matching remains 0% until that compiler is reproduced and a complete byte comparison succeeds.
 
-See [`docs/BOTTLENECKS.md`](docs/BOTTLENECKS.md).
+See [`docs/BOTTLENECKS.md`](docs/BOTTLENECKS.md), [`docs/UNZIP_MAP.md`](docs/UNZIP_MAP.md), and [`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md).
 
 ## Repository policy
 
@@ -168,7 +173,7 @@ Useful contributions include:
 - compiler / PS2SDK fingerprinting from 2003–2004;
 - matching individual reconstructed functions;
 - documenting PS2-specific renderer differences;
-- mapping the 16-bit Add/Sub/Half renderer family;
+- matching recovered functions with the candidate EE GCC 3.2.2-b1 toolchain;
 - identifying audio and IOP scheduling behavior;
 - verifying symbols and structure offsets independently.
 

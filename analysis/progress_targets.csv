@@ -18,31 +18,82 @@ address,name,area,status,confidence,notes
 0x0018428c,DrawTile,renderer,RECONSTRUCTED,very-high,Classic 8-bit tile renderer
 0x001845a8,DrawClippedTile,renderer,RECONSTRUCTED,very-high,Clipped 8-bit tile renderer
 0x00184a40,DrawTilex2,renderer,RECONSTRUCTED,very-high,Horizontal x2 tile renderer
-0x00184d5c,DrawClippedTilex2,renderer,IDENTIFIED,high,Clipped x2 partner
-0x001851f4,DrawTilex2x2,renderer,IDENTIFIED,high,x2x2 writer pair
-0x00185510,DrawClippedTilex2x2,renderer,IDENTIFIED,high,Clipped x2x2 partner
+0x00184d5c,DrawClippedTilex2,renderer,RECONSTRUCTED,very-high,Clipped horizontal x2 renderer; C recovered
+0x001851f4,DrawTilex2x2,renderer,RECONSTRUCTED,very-high,Horizontal/vertical x2 tile renderer; C recovered
+0x00185510,DrawClippedTilex2x2,renderer,RECONSTRUCTED,very-high,Clipped x2x2 renderer; C recovered
 0x001859a8,DrawLargePixel,renderer,RECONSTRUCTED,very-high,Large/mosaic pixel expansion path
-0x00185d8c,DrawTile16,renderer,IDENTIFIED,high,First 16-bit tile renderer
-0x001860a8,DrawClippedTile16,renderer,IDENTIFIED,high,Clipped 16-bit partner
-0x00186540,renderer_draw_00186540,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x0018685c,renderer_draw_0018685c,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x00186cf4,renderer_draw_00186cf4,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x00187010,renderer_draw_00187010,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x001874a8,renderer_draw_001874a8,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x0018789c,renderer_draw_0018789c,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x00187bb8,renderer_draw_00187bb8,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x00188050,renderer_draw_00188050,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x0018836c,renderer_draw_0018836c,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x00188804,renderer_draw_00188804,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x00188b20,renderer_draw_00188b20,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x00188fb8,renderer_draw_00188fb8,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x001892d4,renderer_draw_001892d4,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x0018976c,renderer_draw_0018976c,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x00189a88,renderer_draw_00189a88,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x00189f20,renderer_draw_00189f20,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x0018a23c,renderer_draw_0018a23c,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x0018a6d4,renderer_draw_0018a6d4,renderer,UNKNOWN,low,Color-math draw-family boundary
-0x0018adb8,renderer_draw_0018adb8,renderer,UNKNOWN,low,Color-math / large-pixel family boundary
+0x00185d8c,DrawTile16,renderer,RECONSTRUCTED,very-high,Base 16-bit tile renderer; C recovered
+0x001860a8,DrawClippedTile16,renderer,RECONSTRUCTED,very-high,Clipped base 16-bit renderer; C recovered
+0x00186540,DrawTile16x2,renderer,RECONSTRUCTED,very-high,16-bit horizontal x2 renderer; C recovered
+0x0018685c,DrawClippedTile16x2,renderer,RECONSTRUCTED,very-high,Clipped 16-bit x2 renderer; C recovered
+0x00186cf4,DrawTile16x2x2,renderer,RECONSTRUCTED,very-high,16-bit x2x2 renderer; C recovered
+0x00187010,DrawClippedTile16x2x2,renderer,RECONSTRUCTED,very-high,Clipped 16-bit x2x2 renderer; C recovered
+0x001874a8,DrawLargePixel16,renderer,RECONSTRUCTED,very-high,16-bit large/mosaic pixel renderer; C recovered
+0x0018789c,DrawTile16Add,renderer,RECONSTRUCTED,very-high,16-bit add colour-math tile renderer; C recovered
+0x00187bb8,DrawClippedTile16Add,renderer,RECONSTRUCTED,very-high,Clipped add colour-math renderer; C recovered
+0x00188050,DrawTile16Add1_2,renderer,RECONSTRUCTED,very-high,16-bit half-add tile renderer; C recovered
+0x0018836c,DrawClippedTile16Add1_2,renderer,RECONSTRUCTED,very-high,Clipped half-add renderer; C recovered
+0x00188804,DrawTile16Sub,renderer,RECONSTRUCTED,very-high,16-bit subtract colour-math renderer; C recovered
+0x00188b20,DrawClippedTile16Sub,renderer,RECONSTRUCTED,very-high,Clipped subtract renderer; C recovered
+0x00188fb8,DrawTile16Sub1_2,renderer,RECONSTRUCTED,very-high,16-bit half-subtract renderer; C recovered
+0x001892d4,DrawClippedTile16Sub1_2,renderer,RECONSTRUCTED,very-high,Clipped half-subtract renderer; C recovered
+0x0018976c,DrawTile16FixedAdd1_2,renderer,RECONSTRUCTED,very-high,Fixed-colour half-add selector renderer; C recovered
+0x00189a88,DrawClippedTile16FixedAdd1_2,renderer,RECONSTRUCTED,very-high,Clipped fixed-colour half-add renderer; C recovered
+0x00189f20,DrawTile16FixedSub1_2,renderer,RECONSTRUCTED,very-high,Fixed-colour half-sub selector renderer; C recovered
+0x0018a23c,DrawClippedTile16FixedSub1_2,renderer,RECONSTRUCTED,very-high,Clipped fixed-colour half-sub renderer; C recovered
+0x0018a6d4,DrawLargePixel16Add,renderer,RECONSTRUCTED,very-high,Large/mosaic 16-bit add renderer; C recovered
+0x0018adb8,DrawLargePixel16Add1_2,renderer,RECONSTRUCTED,very-high,Large/mosaic 16-bit half-add renderer; C recovered
+0x0018b43c,DrawLargePixel16Sub,renderer,RECONSTRUCTED,very-high,Large/mosaic 16-bit subtract renderer; C recovered
+0x0018bac0,DrawLargePixel16Sub1_2,renderer,RECONSTRUCTED,very-high,Large/mosaic 16-bit half-sub renderer; C recovered
+0x0018c124,get_tree,unzip,RECONSTRUCTED,very-high,PKZIP Implode tree-length reader; nibble run format proven
+0x0018c1f8,explode_lit8,unzip,RECONSTRUCTED,very-high,Implode decoder: coded literals + 8K distance; generic C recovery
+0x0018c834,explode_lit4,unzip,RECONSTRUCTED,very-high,Implode decoder: coded literals + 4K distance; generic C recovery
+0x0018ce70,explode_nolit8,unzip,RECONSTRUCTED,very-high,Implode decoder: raw literals + 8K distance; generic C recovery
+0x0018d3c4,explode_nolit4,unzip,RECONSTRUCTED,very-high,Implode decoder: raw literals + 4K distance; generic C recovery
+0x0018d918,explode,unzip,RECONSTRUCTED,very-high,PKZIP method-6 dispatcher/tree builder; four-way flags proven
+0x0018dc60,ReadByte,unzip,RECONSTRUCTED,very-high,Compressed-input refill and byte reader
+0x0018dd6c,huft_build,unzip,RECONSTRUCTED,very-high,Classic linked-allocation canonical Huffman table builder
+0x0018e2e0,huft_free,unzip,RECONSTRUCTED,very-high,Frees linked huft allocation chain through dummy predecessor entry
+0x0018e318,flush,unzip,RECONSTRUCTED,very-high,Flush slide buffer + CRC/output accounting
+0x0018e3ac,flush_stack,unzip,RECONSTRUCTED,very-high,Flush Shrink stack + CRC/output accounting
+0x0018e440,FillBitBuffer,unzip,RECONSTRUCTED,very-high,Shared legacy-ZIP bit-buffer refill helper
+0x0018e4c0,unReduce,unzip,RECONSTRUCTED,very-high,Legacy ZIP Reduce state machine and copy expansion
+0x0018e92c,LoadFollowers,unzip,RECONSTRUCTED,very-high,Loads 256 probabilistic follower tables
+0x0018ea64,unShrink,unzip,RECONSTRUCTED,very-high,Legacy ZIP Shrink LZW decoder with partial clearing
+0x0018eeb4,partial_clear,unzip,RECONSTRUCTED,very-high,Shrink partial-clear helper; callable internal block has no stack prologue
+0x0018f010,unzlocal_getByte,unzip,RECONSTRUCTED,very-high,unzip 0.15 byte reader; behavior recovered
+0x0018f070,unzlocal_getShort,unzip,RECONSTRUCTED,very-high,little-endian 16-bit reader; behavior recovered
+0x0018f0ec,unzlocal_getLong,unzip,RECONSTRUCTED,very-high,little-endian 32-bit reader under -mlong64 ABI; behavior recovered
+0x0018f1b8,strcmpcasenosensitive_internal,unzip,RECONSTRUCTED,very-high,ASCII case-insensitive filename compare
+0x0018f240,unzStringFileNameCompare,unzip,RECONSTRUCTED,very-high,case-sensitivity dispatcher; target entry begins before stack adjustment
+0x0018f27c,unzlocal_SearchCentralDir,unzip,RECONSTRUCTED,very-high,searches backwards for PKZIP end-of-central-directory signature
+0x0018f408,unzOpen,unzip,IDENTIFIED,very-high,unzip 0.15 archive open/parser; exact target structure layout still pending
+0x0018f5e0,unzClose,unzip,RECONSTRUCTED,very-high,closes active file then archive handle and frees state
+0x0018f638,unzGetGlobalInfo,unzip,RECONSTRUCTED,very-high,leaf global-info copy; no conventional prologue
+0x0018f654,unzlocal_DosDateToTmuDate,unzip,RECONSTRUCTED,very-high,DOS date/time field decoder
+0x0018f6cc,unzlocal_GetCurrentFileInfoInternal,unzip,IDENTIFIED,very-high,large central-directory entry parser; exact target layouts pending
+0x0018fab4,unzGetCurrentFileInfo,unzip,RECONSTRUCTED,very-high,thin wrapper around internal current-file parser
+0x0018faec,unzGoToFirstFile,unzip,RECONSTRUCTED,very-high,resets central-dir position and loads first entry
+0x0018fb54,unzGoToNextFile,unzip,RECONSTRUCTED,very-high,advances by 46-byte central-dir header plus variable fields
+0x0018fbfc,unzLocateFile,unzip,RECONSTRUCTED,very-high,linear filename search preserving previous position on failure
+0x0018fcec,unzlocal_CheckCurrentFileCoherencyHeader,unzip,IDENTIFIED,very-high,validates local PKZIP header against central-directory metadata
+0x0018ff6c,unzOpenCurrentFile,unzip,IDENTIFIED,very-high,allocates per-file state and initializes compression-method handler
+0x001900d4,unzReadCurrentFile,unzip,IDENTIFIED,very-high,dispatches Stored/Shrunk/Reduced/Imploded/Deflated read paths
+0x00190458,unztell,unzip,RECONSTRUCTED,very-high,leaf current uncompressed output position
+0x00190474,unzeof,unzip,RECONSTRUCTED,very-high,leaf current-file EOF test
+0x001904a0,unzGetLocalExtrafield,unzip,RECONSTRUCTED,very-high,reads current local-header extra field
+0x00190578,unzCloseCurrentFile,unzip,RECONSTRUCTED,very-high,"CRC check, inflate teardown and per-file cleanup"
+0x00190628,unzGetGlobalComment,unzip,RECONSTRUCTED,very-high,reads archive global comment from EOCD+22
+0x00190700,compress2,zlib,RECONSTRUCTED,very-high,zlib 1.1.3 memory-buffer compressor; target embeds version 1.1.3
+0x001907cc,compress,zlib,RECONSTRUCTED,very-high,thin compress2 wrapper using default compression level -1
+0x001907e8,uncompress,zlib,RECONSTRUCTED,very-high,zlib 1.1.3 whole-buffer decompressor
+0x001908bc,deflateInit_,zlib,RECONSTRUCTED,very-high,thin wrapper supplying method=8 window=15 memLevel=8 strategy=0
+0x001908ec,deflateInit2_,zlib,IDENTIFIED,very-high,zlib 1.1.3 deflate state allocator/initializer
+0x00190fa0,deflate,zlib,IDENTIFIED,very-high,zlib deflate stream engine; called by compress2 with Z_FINISH
+0x00191308,deflateEnd,zlib,IDENTIFIED,very-high,zlib deflate state teardown
+0x00192784,inflateEnd,zlib,IDENTIFIED,very-high,zlib inflate state teardown used by uncompress
+0x00192948,inflateInit_,zlib,IDENTIFIED,very-high,zlib inflate initializer wrapper used with version 1.1.3 / stream size 0x48
+0x0019296c,inflate,zlib,IDENTIFIED,very-high,zlib inflate stream engine; called by uncompress with Z_FINISH
 0x0019be70,CDVD_Init,ps2,IDENTIFIED,high,CDVD RPC initialization
 0x0019cc0c,SifInitRpc,ps2,IDENTIFIED,high,PS2 RPC init
 0x0019d600,SifLoadModule,ps2,IDENTIFIED,high,IOP module path loader
@@ -58,4 +109,23 @@ address,name,area,status,confidence,notes
 0x001ace28,WRITE_4PIXELS_FLIPPED,renderer,RECONSTRUCTED,very-high,Flipped 4-pixel writer
 0x001acf4c,WRITE_4PIXELSx2,renderer,RECONSTRUCTED,very-high,Horizontal x2 4-pixel writer
 0x001ad090,WRITE_4PIXELS_FLIPPEDx2,renderer,RECONSTRUCTED,very-high,Flipped horizontal x2 writer
-0x001ad7ac,color_math_writer_family_start,renderer,PARTIAL,medium,Known transition into 16-bit/color-math writer family
+0x001ad1d4,WRITE_4PIXELSx2x2,renderer,RECONSTRUCTED,very-high,8-bit x2x2 pixel writer; C recovered
+0x001ad398,WRITE_4PIXELS_FLIPPEDx2x2,renderer,RECONSTRUCTED,very-high,Flipped 8-bit x2x2 pixel writer; C recovered
+0x001ad55c,WRITE_4PIXELS16,renderer,RECONSTRUCTED,very-high,Normal 16-bit 4-pixel writer; C recovered
+0x001ad684,WRITE_4PIXELS16_FLIPPED,renderer,RECONSTRUCTED,very-high,Flipped 16-bit 4-pixel writer; C recovered
+0x001ad7ac,WRITE_4PIXELS16x2,renderer,RECONSTRUCTED,very-high,Normal 16-bit horizontal x2 writer; C recovered
+0x001ad8f4,WRITE_4PIXELS16_FLIPPEDx2,renderer,RECONSTRUCTED,very-high,Flipped 16-bit horizontal x2 writer; C recovered
+0x001ada3c,WRITE_4PIXELS16x2x2,renderer,RECONSTRUCTED,very-high,Normal 16-bit x2x2 writer; C recovered
+0x001adc34,WRITE_4PIXELS16_FLIPPEDx2x2,renderer,RECONSTRUCTED,very-high,Flipped 16-bit x2x2 writer; C recovered
+0x001ade2c,WRITE_4PIXELS16_ADD,renderer,RECONSTRUCTED,very-high,Normal ADD colour-math writer; masks/table proven in binary
+0x001ae2c0,WRITE_4PIXELS16_FLIPPED_ADD,renderer,RECONSTRUCTED,very-high,Flipped ADD colour-math writer
+0x001ae754,WRITE_4PIXELS16_ADD1_2,renderer,RECONSTRUCTED,very-high,Normal half-ADD colour-math writer
+0x001aeb58,WRITE_4PIXELS16_FLIPPED_ADD1_2,renderer,RECONSTRUCTED,very-high,Flipped half-ADD colour-math writer
+0x001aef5c,WRITE_4PIXELS16_SUB,renderer,RECONSTRUCTED,very-high,Normal SUB colour-math writer; 0x8420/0xfbde signature proven
+0x001af310,WRITE_4PIXELS16_FLIPPED_SUB,renderer,RECONSTRUCTED,very-high,Flipped SUB colour-math writer
+0x001af6c4,WRITE_4PIXELS16_SUB1_2,renderer,RECONSTRUCTED,very-high,Normal half-SUB colour-math writer
+0x001afa88,WRITE_4PIXELS16_FLIPPED_SUB1_2,renderer,RECONSTRUCTED,very-high,Flipped half-SUB colour-math writer
+0x001afe4c,WRITE_4PIXELS16_ADDF1_2,renderer,RECONSTRUCTED,very-high,Normal fixed-colour half-ADD selector writer
+0x001b008c,WRITE_4PIXELS16_FLIPPED_ADDF1_2,renderer,RECONSTRUCTED,very-high,Flipped fixed-colour half-ADD selector writer
+0x001b02cc,WRITE_4PIXELS16_SUBF1_2,renderer,RECONSTRUCTED,very-high,Normal fixed-colour half-SUB selector writer
+0x001b052c,WRITE_4PIXELS16_FLIPPED_SUBF1_2,renderer,RECONSTRUCTED,very-high,Flipped fixed-colour half-SUB selector writer

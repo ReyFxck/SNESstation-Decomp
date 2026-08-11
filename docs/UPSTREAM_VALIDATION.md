@@ -21,3 +21,21 @@ Two particularly useful validations:
 Rule for this project: old source can confirm a name/shape only **after** the
 binary has supplied enough evidence for it.  PS2-specific differences remain
 first-class reconstruction targets.
+
+
+## Shared PS2 unzip validation
+
+Progress 3 identified PKZIP Implode/Explode, Reduce and Shrink directly from the SNES Station binary. Only after that identification, the same common unzip source family and PS2 release listings were located in the public `iaddis/SNESticle` tree.
+
+This is stronger than a loose resemblance because the PS2 release listing for `get_tree` uses the same 96-byte frame and starts with the same machine words as SNES Station `0x0018c124`. It is still treated as validation, not as permission to assume every SNES Station file/function came from SNESticle. See [`TOOLCHAIN_FINGERPRINT.md`](TOOLCHAIN_FINGERPRINT.md).
+
+## Embedded zlib validation
+
+The SNES Station target itself contains the literal version string `1.1.3`
+and the adjacent `deflate 1.1.3 Copyright 1995-1998 Jean-loup Gailly` text.
+That makes **zlib 1.1.3** the exact baseline for the library block beginning at
+`0x00190700`.
+
+The independently identified `compress2`, `compress`, `uncompress` and
+`deflateInit_` control flow matches the corresponding zlib 1.1.3 wrapper
+structure. Newer zlib versions are not used as the baseline for this block.
