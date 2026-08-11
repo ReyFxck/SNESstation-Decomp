@@ -58,3 +58,15 @@ It does **not** justify a MATCHING status yet because:
 
 The first matching experiment should use `get_tree`: it is small, mostly
 self-contained, and has a historical PS2 compiler listing for comparison.
+
+## Important negative evidence from zlib
+
+The zlib pass added a useful correction. Historical EE GCC 3.2.2-b1 output is
+close enough to establish translation-unit lineage and optimization style, but
+`deflateInit2_` does **not** preserve the same saved-register assignment as the
+SNES Station target. The outer structure/frame is very close while internal
+register allocation differs.
+
+Therefore the candidate should not be promoted from “strong lead” to “exact
+compiler” on the basis of matching prologues. Future matching work should test
+compiler patch level, flags, and exact source revision systematically.

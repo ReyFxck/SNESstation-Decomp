@@ -88,12 +88,101 @@ address,name,status,confidence,notes
 0x001907cc,compress,RECONSTRUCTED,very-high,thin compress2 wrapper using default compression level -1
 0x001907e8,uncompress,RECONSTRUCTED,very-high,zlib 1.1.3 whole-buffer decompressor
 0x001908bc,deflateInit_,RECONSTRUCTED,very-high,thin wrapper supplying method=8 window=15 memLevel=8 strategy=0
-0x001908ec,deflateInit2_,IDENTIFIED,very-high,zlib 1.1.3 deflate state allocator/initializer
-0x00190fa0,deflate,IDENTIFIED,very-high,zlib deflate stream engine; called by compress2 with Z_FINISH
-0x00191308,deflateEnd,IDENTIFIED,very-high,zlib deflate state teardown
-0x00192784,inflateEnd,IDENTIFIED,very-high,zlib inflate state teardown used by uncompress
-0x00192948,inflateInit_,IDENTIFIED,very-high,zlib inflate initializer wrapper used with version 1.1.3 / stream size 0x48
-0x0019296c,inflate,IDENTIFIED,very-high,zlib inflate stream engine; called by uncompress with Z_FINISH
+0x001908ec,deflateInit2_,RECONSTRUCTED,very-high,zlib 1.1.3 state allocator/initializer; target state size 0x16d8 and allocation flow recovered
+0x00190bb4,deflateSetDictionary,RECONSTRUCTED,very-high,preset dictionary setup and hash insertion recovered
+0x00190d10,deflateReset,RECONSTRUCTED,very-high,stream/state reset plus tree/LZ init recovered
+0x00190dc0,deflateParams,RECONSTRUCTED,very-high,level/strategy transition logic recovered
+0x00190ec8,putShortMSB,RECONSTRUCTED,very-high,two-byte pending-buffer writer; leaf function recovered
+0x00190ef8,flush_pending,RECONSTRUCTED,very-high,pending output copy/accounting recovered
+0x00190fa0,deflate,RECONSTRUCTED,very-high,zlib 1.1.3 main compressor state machine recovered in C; target boundary and PS2 state layout proven
+0x00191308,deflateEnd,RECONSTRUCTED,very-high,deflate allocation teardown and status return recovered
+0x00191400,deflateCopy,RECONSTRUCTED,very-high,state duplication and pointer rebasing recovered
+0x0019165c,read_buf,RECONSTRUCTED,very-high,input copy/adler/total accounting helper recovered
+0x0019170c,lm_init,RECONSTRUCTED,very-high,LZ match-state initialization and level table setup recovered
+0x001917b0,longest_match,RECONSTRUCTED,very-high,zlib 1.1.3 longest-match search recovered in C; target boundary mapped
+0x001919a4,fill_window,RECONSTRUCTED,very-high,zlib 1.1.3 sliding-window refill/renormalization recovered in C
+0x00191b64,deflate_stored,RECONSTRUCTED,very-high,zlib 1.1.3 stored-block engine recovered in C
+0x00191d4c,deflate_fast,RECONSTRUCTED,very-high,zlib 1.1.3 fast compressor engine recovered in C
+0x001921a8,deflate_slow,RECONSTRUCTED,very-high,zlib 1.1.3 lazy-match compressor engine recovered in C
+0x0019272c,inflateReset,RECONSTRUCTED,very-high,inflate state reset and block reset recovered
+0x00192784,inflateEnd,RECONSTRUCTED,very-high,inflate block/state teardown recovered
+0x00192800,inflateInit2_,RECONSTRUCTED,very-high,inflate state allocation / nowrap / window setup recovered
+0x00192948,inflateInit_,RECONSTRUCTED,very-high,thin DEF_WBITS wrapper recovered
+0x0019296c,inflate,RECONSTRUCTED,very-high,full 14-state zlib 1.1.3 inflate interface state machine recovered
+0x00192e60,inflateSetDictionary,RECONSTRUCTED,very-high,preset dictionary verification/install path recovered
+0x00192f30,inflateSync,RECONSTRUCTED,very-high,00 00 ff ff sync marker scan and state restart recovered
+0x0019304c,inflateSyncPoint,RECONSTRUCTED,very-high,thin inflate block sync-point query recovered
+0x00193094,get_crc_table,RECONSTRUCTED,very-high,returns embedded zlib 1.1.3 CRC table at 0x001c8a80; C recovered from target table access/unrolled loop
+0x001930a0,crc32,RECONSTRUCTED,very-high,table-driven zlib 1.1.3 CRC32; target uses 64-bit uLong entries under -mlong64; C recovered from target table access/unrolled loop
+0x00193298,gz_open,IDENTIFIED,very-high,gzio.c internal open; target allocates 0x80-byte gz_stream and parses mode
+0x00193564,gzopen,IDENTIFIED,very-high,gzio.c path open wrapper; calls gz_open with fd=-1
+0x00193580,gzdopen,IDENTIFIED,very-high,gzio.c fd wrapper; formats <fd:%d> then calls gz_open
+0x001935d8,gzsetparams,IDENTIFIED,very-high,gzio.c compression parameter update; write-mode check and deflateParams path proven
+0x00193674,get_byte,IDENTIFIED,very-high,gzio.c buffered byte reader; input refill and EOF path proven
+0x0019371c,check_header,IDENTIFIED,very-high,gzio.c gzip header parser; magic/flags/optional fields flow mapped
+0x00193914,destroy,IDENTIFIED,very-high,gzio.c cleanup routine; read/write state teardown and file close mapped
+0x00193a34,gzread,IDENTIFIED,very-high,"gzio.c reader; transparent path, inflate path, CRC and concatenated gzip handling mapped"
+0x00193cd8,gzgetc,IDENTIFIED,very-high,gzio.c one-byte read wrapper; direct call to gzread proven
+0x00193d0c,gzgets,IDENTIFIED,very-high,gzio.c line reader; bytewise gzread loop mapped
+0x00193dbc,gzwrite,IDENTIFIED,very-high,gzio.c writer; deflate loop and CRC update mapped
+0x00193e8c,gzprintf,IDENTIFIED,very-high,gzio.c formatted writer; 0x1070 frame exposes 4096-byte format buffer
+0x00193f08,gzputc,IDENTIFIED,very-high,gzio.c one-byte write wrapper; direct gzwrite call proven
+0x00193f44,gzputs,IDENTIFIED,very-high,gzio.c string write wrapper; strlen + gzwrite flow proven
+0x00193f88,do_flush,IDENTIFIED,very-high,gzio.c internal deflate/output flush loop mapped
+0x001940ac,gzflush,IDENTIFIED,very-high,gzio.c public flush wrapper; calls do_flush
+0x001940ec,gzseek,IDENTIFIED,very-high,gzio.c uncompressed seek implementation mapped
+0x001942d4,gzrewind,IDENTIFIED,very-high,gzio.c read-stream rewind/reset path mapped
+0x00194378,gztell,IDENTIFIED,very-high,"gzio.c tell wrapper; calls gzseek(file,0,SEEK_CUR)"
+0x00194398,gzeof,IDENTIFIED,very-high,gzio.c EOF leaf; mode check and z_eof return proven
+0x001943c0,putLong,IDENTIFIED,very-high,gzio.c four-byte little-endian output helper mapped
+0x0019441c,getLong,IDENTIFIED,very-high,gzio.c four-byte little-endian input helper mapped
+0x00194498,gzclose,IDENTIFIED,very-high,gzio.c close path; finish flush trailer and destroy flow mapped
+0x0019450c,gzerror,IDENTIFIED,very-high,gzio.c error-string builder; z_err/errno/path concatenation flow mapped
+0x00194628,inflate_blocks_reset,RECONSTRUCTED,very-high,zlib 1.1.3 block reset; target frees tree/code substate by mode
+0x001946e8,inflate_blocks_new,RECONSTRUCTED,very-high,"allocates 0x48-byte block state, 1440 hufts and sliding window"
+0x001947d0,inflate_blocks,RECONSTRUCTED,very-high,full ten-state DEFLATE block decoder recovered
+0x00195280,inflate_blocks_free,RECONSTRUCTED,very-high,block decoder teardown recovered
+0x001952e8,inflate_set_dictionary,RECONSTRUCTED,very-high,copies preset dictionary into inflate window
+0x0019532c,inflate_blocks_sync_point,RECONSTRUCTED,very-high,leaf sync-point test; true in LENS mode
+0x0019533c,inflate_codes_new,RECONSTRUCTED,very-high,allocates 0x1c-byte literal/length-distance decoder state
+0x001953ac,inflate_codes,RECONSTRUCTED,very-high,ten-state literal/length/distance decoder recovered
+0x00195b10,inflate_codes_free,RECONSTRUCTED,very-high,leaf decoder-state free wrapper
+0x00195b40,inflate_fast,RECONSTRUCTED,very-high,fast literal/length/distance loop recovered
+0x00195f80,huft_build,RECONSTRUCTED,very-high,zlib 1.1.3 multi-level Huffman table builder recovered
+0x001964d4,inflate_trees_bits,RECONSTRUCTED,very-high,dynamic bit-length Huffman tree builder recovered
+0x001965d4,inflate_trees_dynamic,RECONSTRUCTED,very-high,dynamic literal/length and distance trees recovered
+0x001967b0,inflate_trees_fixed,RECONSTRUCTED,very-high,leaf fixed-tree selector; target tables at 0x00424870/0x00425870
+0x001967e8,inflate_flush,RECONSTRUCTED,very-high,circular-window output flush and checksum update recovered
+0x00196980,tr_static_init,RECONSTRUCTED,very-high,empty leaf under target STDC/prebuilt-tree configuration
+0x00196988,_tr_init,RECONSTRUCTED,very-high,trees.c deflate Huffman-state initializer recovered; exact target field offsets proven
+0x00196a00,init_block,RECONSTRUCTED,very-high,trees.c dynamic-tree frequency reset recovered in C
+0x00196a94,pqdownheap,RECONSTRUCTED,very-high,trees.c heap repair helper recovered; target leaf boundary proven
+0x00196b98,gen_bitlen,RECONSTRUCTED,very-high,trees.c optimal bit-length generator recovered; 0xc0 target frame and 64-bit accounting proven
+0x00196e80,gen_codes,RECONSTRUCTED,very-high,trees.c canonical Huffman-code generator recovered; calls bi_reverse at 0x00198840
+0x00196f24,build_tree,RECONSTRUCTED,very-high,trees.c heap/Huffman builder recovered; target calls to pqdownheap/gen_bitlen/gen_codes mapped
+0x001971ec,scan_tree,RECONSTRUCTED,very-high,bit-length tree frequency scanner reconstructed
+0x001972f4,send_tree,RECONSTRUCTED,very-high,run-length encoded bit-length tree sender reconstructed
+0x00197874,build_bl_tree,RECONSTRUCTED,very-high,bit-length tree construction and transmitted-count selection reconstructed
+0x00197910,send_all_trees,RECONSTRUCTED,very-high,dynamic Huffman tree header/body sender reconstructed
+0x00197bf4,_tr_stored_block,RECONSTRUCTED,very-high,stored-block tree output wrapper reconstructed
+0x00197cb0,_tr_align,RECONSTRUCTED,very-high,static-tree empty-block alignment helper reconstructed
+0x00197f64,_tr_flush_block,RECONSTRUCTED,very-high,stored/static/dynamic block selection and emission reconstructed
+0x001981e8,_tr_tally,RECONSTRUCTED,very-high,literal/distance tally helper reconstructed; leaf boundary was missed by prologue scanner
+0x00198308,compress_block,RECONSTRUCTED,very-high,literal/length-distance Huffman stream emitter reconstructed
+0x0019879c,set_data_type,RECONSTRUCTED,very-high,ASCII/binary data-type heuristic reconstructed
+0x00198840,bi_reverse,RECONSTRUCTED,very-high,bit-reversal helper reconstructed
+0x0019886c,bi_flush,RECONSTRUCTED,very-high,bit-buffer partial flush helper reconstructed
+0x00198904,bi_windup,RECONSTRUCTED,very-high,bit-buffer byte alignment/final flush helper reconstructed
+0x0019897c,copy_block,RECONSTRUCTED,very-high,stored-block byte copier with optional length header reconstructed
+0x00198a58,zlibVersion,RECONSTRUCTED,very-high,zutil.c version accessor; target returns embedded 1.1.3 string
+0x00198a64,zError,RECONSTRUCTED,very-high,zutil.c error-string lookup recovered; target uses 2-err table index
+0x00198a84,zcalloc,RECONSTRUCTED,very-high,zlib allocation wrapper; ignores opaque and forwards items/size to allocator
+0x00198aa4,zcfree,RECONSTRUCTED,very-high,zlib free wrapper; ignores opaque and forwards pointer to free
+0x00198ac0,adler32,RECONSTRUCTED,very-high,Adler-32 recovered; BASE=65521 NMAX=5552 and 16-byte unrolled accumulation proven in target
+0x00198c58,graphics_wrapper_entry_A,IDENTIFIED,high,near-duplicate graphics wrapper; calls 0x00199590 then 0x00198d78 with default 320x240 display setup
+0x00198cc8,graphics_wrapper_entry_B,IDENTIFIED,high,near-duplicate graphics wrapper; same call/default pattern as 0x00198c58
+0x00198d78,graphics_display_init,PARTIAL,high,stores display parameters; resets GS CSR at 0x12001000 and enters CRT/privileged-register setup
+0x00199070,gs_privileged_display_program,PARTIAL,high,packs width/height/display offsets and writes a 64-bit privileged display value to 0x12000080
 0x0019be70,CDVD_Init,IDENTIFIED,high,CDVD RPC initialization
 0x0019cc0c,SifInitRpc,IDENTIFIED,high,PS2 RPC init
 0x0019d600,SifLoadModule,IDENTIFIED,high,IOP module path loader

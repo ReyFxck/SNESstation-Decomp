@@ -1,80 +1,114 @@
-# Progress 3 summary
+# Progress 4 summary
 
-> Live scoreboard: [`PROGRESS.generated.md`](PROGRESS.generated.md). Update `analysis/progress_targets.csv` and run `python3 tools/update_progress.py` to refresh the README percentages and block grid.
+> Live scoreboard: [`PROGRESS.generated.md`](PROGRESS.generated.md). Update `analysis/progress_targets.csv` and run `python3 tools/update_progress.py` to refresh the README percentages and the generated SVG progress panel.
 
-Progress 3 closes the first complete renderer draw-family block, recovers the
-legacy ZIP methods, maps the surrounding unzip API, and identifies the exact
-embedded zlib version.
+Progress 4 closes the main zlib 1.1.3 Deflate/Inflate core, maps the previously
+unnamed gzip I/O corridor, adds an evidence-based Petari-style progress graphic,
+and moves active binary analysis into the PS2 GS/video subsystem.
 
 ## Current scoreboard
 
-- **98 reconstructed targets**
-- **130 mapped targets**
-- **8.62% reconstructed** on the conservative 1,137-JAL proxy
-- **11.43% mapped** on the same proxy
+- **165 reconstructed targets**
+- **219 mapped targets**
+- **14.51% reconstructed** on the conservative 1,137-JAL proxy
+- **19.26% mapped** on the same proxy
 - **0.00% matching** (kept deliberately strict)
 - renderer draw-family subgrid: **30/30 reconstructed**
 
-## Renderer milestone
+The project-wide visual summary is generated as [`assets/progress.svg`](../assets/progress.svg).
+It uses 200 cells as a quantized view of the same proxy; it is a visualization,
+not a replacement for the underlying per-address status CSV.
+
+## Renderer milestone remains closed
 
 All 30 tracked draw-family entry points from `0x0018428c` through
-`0x0018bac0` now have behavior-oriented C reconstructions:
+`0x0018bac0` have behavior-oriented C reconstructions, including 8/16-bit,
+clipped, x2/x2x2, large-pixel, Add/Sub/Half/fixed-colour paths and their
+normal/flipped writers.
 
-- 8-bit normal, clipped, x2 and x2x2 paths;
-- 16-bit normal, clipped, x2 and x2x2 paths;
-- large/mosaic pixel paths;
-- Add, Sub, Add1_2, Sub1_2 and fixed-colour variants;
-- normal/flipped pixel writers.
+## Legacy ZIP / unzip milestone
 
-The binary proves the classic 16-bit color arithmetic through the `0x0421`,
-`0xfbde` and `0x8420` masks plus the X2/ZERO lookup tables.
+The old archive path is now well bounded:
 
-## Legacy ZIP + unzip API milestone
+- Implode/Explode recovered;
+- Reduce recovered;
+- Shrink recovered, including internal `partial_clear` boundary handling;
+- unzip 0.15-style API mapped through `0x00190628`.
 
-Recovered legacy methods:
+This work also established an important boundary rule: real direct-call targets
+can exist without a conventional stack-frame prologue.
 
-- Implode/Explode: `0x0018c124..0x0018e440`
-- Reduce: `0x0018e4c0..0x0018e92c`
-- Shrink: `0x0018ea64..0x0018eeb4`
+## zlib 1.1.3 core milestone
 
-The surrounding unzip 0.15-style API is mapped from `0x0018f010` through
-`0x00190628`. Eighteen small/medium API helpers now have C reconstructions;
-five large stateful parsers/readers remain identified pending exact struct
-layout work.
+The target itself identifies the embedded library as **zlib 1.1.3**. Progress 4
+recovers the main compression/decompression machinery rather than merely naming
+it from upstream source.
 
-A notable boundary lesson remains `partial_clear` at `0x0018eeb4`: it is a
-real direct-call target but has no conventional stack prologue.
+Behaviorally reconstructed target code now includes:
 
-## zlib 1.1.3 milestone
+- `compress2`, `compress`, `uncompress`;
+- Deflate initialization/state management;
+- `deflate`, `longest_match`, `fill_window`;
+- stored/fast/slow Deflate engines;
+- Inflate interface and 14-state stream machine;
+- block decoder, slow codes decoder and fast path;
+- dynamic/fixed Huffman tree construction and circular output flush;
+- complete `trees.c` Huffman-output side through `copy_block`;
+- CRC32, Adler32, `zlibVersion`, `zError`, `zcalloc`, and `zcfree`.
 
-The target itself embeds `1.1.3` and the old deflate copyright string. The
-next block therefore has an exact upstream baseline:
+The target `deflate_state` allocation is independently accounted for through
+**0x16d8 bytes**, including the dynamic trees, heap, literal/distance buffers,
+64-bit length fields and bit buffer. See [`ZLIB_MAP.md`](ZLIB_MAP.md).
 
-- `0x00190700` `compress2` — reconstructed
-- `0x001907cc` `compress` — reconstructed
-- `0x001907e8` `uncompress` — reconstructed
-- `0x001908bc` `deflateInit_` — reconstructed
-- `0x001908ec` `deflateInit2_` — identified
-- `0x00190fa0` `deflate` — identified
-- `0x00191308` `deflateEnd` — identified
-- `0x00192784` `inflateEnd` — identified
-- `0x00192948` `inflateInit_` — identified
-- `0x0019296c` `inflate` — identified
+### gzip I/O gap
 
-The new binary frontier is the **zlib 1.1.3 Deflate/Inflate core**, beginning
-at `0x001908ec`.
+The interval `0x00193298..0x00194627` is now mapped to the 24-function zlib
+1.1.3 `gzio.c` API (`gz_open`, `gzread`, `gzwrite`, `gzseek`, `gzclose`, etc.).
+Those functions are intentionally still marked **IDENTIFIED**, not
+RECONSTRUCTED. Evidence includes the `0x80`-byte gzip stream object, `0x4000`
+I/O buffers, gzip header handling, and the large local format buffer in
+`gzprintf`.
 
-## Matching/toolchain lead
+Therefore the zlib corridor is **fully mapped at the module level but not yet
+fully reconstructed**.
 
-A close PS2 SNESticle build archive contains GCC assembly listings for shared
-legacy-ZIP code. Its `get_tree` listing starts with the same R5900 prologue
-machine words as SNES Station, and its Makefile records EE GCC `3.2.2-b1` plus
-release flags. This remains the strongest compiler fingerprint candidate.
+## PS2 GS/video frontier
 
-Matching stays at **0%** until the old toolchain is reproduced and complete
-functions compare byte-for-byte.
+`adler32` returns at `0x00198c54`. The next function at `0x00198c58` is already
+PS2 graphics code.
+
+The first audited GS pass now tracks:
+
+| Address | Provisional name | State |
+|---|---|---|
+| `0x00198c58` | `graphics_wrapper_entry_A` | identified |
+| `0x00198cc8` | `graphics_wrapper_entry_B` | identified |
+| `0x00198d78` | `graphics_display_init` | partial |
+| `0x00199070` | `gs_privileged_display_program` | partial |
+
+The two wrapper entries are near duplicates and both call `0x00199590` before
+entering `0x00198d78` with the same default 320x240 setup. The larger routine
+resets GS CSR at `0x12001000`; `0x00199070` writes a packed 64-bit display value
+to privileged GS register address `0x12000080`.
+
+Historical shared PS2 `gs.c` code is useful structural validation, but no class
+name has been assigned and no historical function name is treated as proven
+unless the target signature agrees. See [`PS2_GS_MAP.md`](PS2_GS_MAP.md).
+
+## Matching/toolchain status
+
+A close historical PS2 build records EE GCC `3.2.2-b1` plus R5900 release
+flags. It remains a strong compiler-family fingerprint, not a proven exact
+compiler. Larger functions such as `deflateInit2_` show different register
+allocation even when structure is very similar.
+
+**Matching remains 0.00%.** A function becomes matching only after an actual
+candidate-toolchain rebuild compares byte-for-byte with the target.
 
 ## Validation
 
-All current recovered C files pass host C99 syntax checking with
-`-Wall -Wextra -Werror`.
+- all **34** current `src/**/*.c` translation units pass host C99 syntax checks
+  with `-Wall -Wextra -Werror`;
+- all **13** `src/zlib/*.c` units also compile to objects and combine with
+  `ld -r` into one relocatable research object without duplicate definitions;
+- `git diff --check` is clean.

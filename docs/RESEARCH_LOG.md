@@ -52,7 +52,10 @@ A public PS2 SNESticle tree contains release GAS listings for the same shared le
 
 ## Current frontier
 
-Continue into the surrounding `unzip.c` API at `0x0018f010+`, while preparing an EE GCC 3.2.2-b1 reproduction experiment around the small `get_tree` function.
+The embedded zlib 1.1.3 corridor is now behaviorally reconstructed through its
+final `adler32` return at `0x00198c54`. The active binary frontier has moved to
+the PS2 GS/video block beginning at `0x00198c58`. EE GCC 3.2.2-b1 remains a
+strong comparison candidate, not a proven exact compiler.
 
 ## Progress 3 — renderer completion, legacy ZIP, unzip API, zlib fingerprint
 
@@ -65,3 +68,89 @@ Continue into the surrounding `unzip.c` API at `0x0018f010+`, while preparing an
 - Current frontier moved to zlib `deflateInit2_` at `0x001908ec`.
 - SNESticle PS2 GCC 3.2.2-b1 listings remain the strongest matching-toolchain
   lead, but no target is marked MATCHING yet.
+
+## 2026-08-10 — zlib Inflate core closed
+
+Recovered the complete zlib 1.1.3 Inflate interface and its internal DEFLATE
+block decoder through `inflate_flush` at `0x001967e8`. This includes the
+`inflate_blocks` state machine, slow and fast literal/length-distance decoders,
+`huft_build`, dynamic/fixed Huffman tree construction, and circular-window
+flush logic.
+
+A boundary correction was made during this pass: `0x001967b0` is the leaf
+`inflate_trees_fixed`; `0x001967e8` is `inflate_flush`. The leaf has no normal
+stack-frame prologue, reinforcing the earlier Shrink lesson that prologue-only
+scans are insufficient.
+
+The next contiguous module begins at `0x00196980`: zlib `trees.c`, the Deflate
+Huffman-output side. Initial boundaries for `_tr_init`, `init_block`,
+`pqdownheap`, `gen_bitlen`, and `gen_codes` are now mapped.
+
+## 2026-08-10 — toolchain fingerprint correction
+
+The historical SNESticle EE GCC 3.2.2-b1 listing remains an excellent
+structural reference, but it is **not** accepted as an exact matching compiler
+yet. Small wrappers such as `deflateInit_` have extremely close instruction
+shape, while `deflateInit2_` shows different saved-register/allocation choices
+inside the function. This can come from compiler revision, flags, source
+revision, or surrounding translation-unit differences. Matching therefore
+remains 0.00%.
+
+## 2026-08-10 — zlib Deflate / trees.c closed and gzio mapped
+
+Recovered the large Deflate compressor paths that had previously remained only
+identified: `deflate`, `longest_match`, `fill_window`, and the stored/fast/slow
+engines. The complete `trees.c` Huffman-output side is now behaviorally
+reconstructed from `_tr_init` through `copy_block`.
+
+The target `deflate_state` layout was independently accounted for through its
+full `0x16d8` allocation. This resolves the tree, heap, literal/distance buffer,
+64-bit length-accounting, and bit-buffer offsets instead of treating them as an
+opaque state blob.
+
+A symbol-boundary correction was made before publishing the map:
+`pqdownheap=0x00196a94`, `gen_bitlen=0x00196b98`,
+`gen_codes=0x00196e80`, and `build_tree=0x00196f24`.
+`bi_reverse=0x00198840` is proven directly by the target shift/OR loop.
+
+The zutil tail and `adler32` were also recovered at `0x00198a58..0x00198c54`.
+`adler32` exposes the canonical zlib constants `5552` and `65521` in the target.
+
+Finally, the previously unnamed gap `0x00193298..0x00194627` was mapped to the
+24-function zlib 1.1.3 `gzio.c` API. Evidence includes the gzip magic path,
+`0x4000` I/O buffers, the `0x80`-byte gzip stream allocation, and the
+`0x1070`-byte `gzprintf` stack frame around its 4096-byte formatting buffer.
+The functions are currently marked IDENTIFIED, not RECONSTRUCTED.
+
+## 2026-08-10 — Progress 4: zlib corridor closed
+
+- Reconstructed the remaining Deflate engines: `deflate`, `longest_match`,
+  `fill_window`, `deflate_stored`, `deflate_fast`, and `deflate_slow`.
+- Reconstructed the complete `trees.c` Huffman-output/bitstream side from
+  `_tr_init` through `copy_block`, including leaf `_tr_tally`.
+- Recovered `zlibVersion`, `zError`, `zcalloc`, `zcfree`, and `adler32`.
+- Corrected a research-header address typo from `0x001a8a84/0x001a8aa4` to
+  the target VAs `0x00198a84/0x00198aa4`.
+- Host validation: all `src/zlib/*.c` compile with
+  `-std=c99 -Wall -Wextra -Werror` and combine with `ld -r`.
+- Confirmed a hard module boundary: `adler32` returns at `0x00198c54`;
+  `0x00198c58` begins PS2 GS/video code.
+- Added a generated Petari-style SVG progress panel and moved the active
+  frontier documentation to `docs/PS2_GS_MAP.md`.
+
+## 2026-08-10 — PS2 GS frontier audited
+
+Audited the first non-zlib block directly from the target instead of assigning
+historical `gs.c` names by sequence. `0x00198c58` and `0x00198cc8` are
+near-duplicate graphics wrapper entries: both call `0x00199590` and then
+`0x00198d78` with the same default 320x240 display arguments.
+
+`0x00198d78` is now classified as a partial graphics/display initializer. It
+stores display parameters in an object-like state and performs the PS2 GS CSR
+reset sequence at `0x12001000`. `0x00199070` is a separate partial low-level
+routine that packs display geometry/offset fields and writes a 64-bit value to
+privileged GS display register address `0x12000080`.
+
+Historical shared PS2 `gs.c` contains the same classes of low-level operations
+(GS reset, CRT setup, display-register packing), so it is retained as
+structural validation only. The wrapper/class identity remains unresolved.

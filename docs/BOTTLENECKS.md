@@ -10,17 +10,34 @@
 - 16-bit Add/Sub/Half math is proven from target masks/tables.
 - Implode/Explode, Reduce and Shrink are recognized historical ZIP code.
 - The surrounding unzip 0.15-style API is mapped through `0x00190628`.
-- The next library baseline is now exact: **zlib 1.1.3**.
+- The next library baseline is exact: **zlib 1.1.3**.
+- The zlib Inflate state machine, block decoder, Huffman builders, fast path, and circular flush are reconstructed.
+- The Deflate compressor engines and the complete `trees.c` Huffman writer are behaviorally reconstructed.
+- zutil/Adler32 are reconstructed, and the full `gzio.c` function map is now known.
 
 ## Current binary frontier
 
-The active frontier is `0x001908ec+`, the embedded zlib 1.1.3 Deflate/Inflate
-core. Algorithm identification is no longer the hard part; the work is now:
+The embedded zlib 1.1.3 corridor is now mapped from `compress2` at
+`0x00190700` through `adler32` returning at `0x00198c54`. The Deflate/Inflate
+core, block/codes/fast decode, dynamic/fixed Huffman trees, Deflate tree
+emission, CRC32 and Adler32 are behaviorally reconstructed. The 24-function
+`gzio.c` interval at `0x00193298..0x00194627` is mapped but still needs
+source reconstruction.
 
-1. split the large zlib functions at exact target boundaries;
-2. compare them against zlib 1.1.3, not newer releases;
-3. distinguish compiler/layout differences caused by PS2 `-mlong64`;
-4. recover any local patches before promoting source to RECONSTRUCTED.
+The next module starts at **`0x00198c58` and is PS2 GS/video setup**. Initial
+analysis already isolates duplicated constructor-like entry points, a large GS
+initialization wrapper at `0x00198d78`, and privileged-register display setup
+around `0x00199070`. Historical shared `Gep/Source/ps2/gs.c` code provides a
+useful structural reference, but target signatures differ and names remain
+conservative. See `docs/PS2_GS_MAP.md`.
+
+Current work is now:
+
+1. map the `0x00198c58..0x0019xxxx` GS/GIF/DMA helper cluster;
+2. separate low-level C graphics helpers from the surrounding C++ wrapper;
+3. recover object-field meanings from target call sites;
+4. continue the matching-toolchain track in parallel without promoting near
+   matches to MATCHING.
 
 ## Parallel bottleneck: true matching builds
 

@@ -9,8 +9,10 @@ The current call-target scanner finds **1,137 heuristic JAL targets** in the ana
 | Metric | Count | Proxy |
 |---|---:|---:|
 | Matching | 0 | **0.00%** |
-| Reconstructed / matching | 98 | **8.62%** |
-| Mapped (identified + partial + reconstructed) | 130 | **11.43%** |
+| Reconstructed / matching | 165 | **14.51%** |
+| Mapped (identified + partial + reconstructed) | 219 | **19.26%** |
+
+The README graphic is generated to [`assets/progress.svg`](../assets/progress.svg). Its 200 cells are a quantized visualization of this same 1,137-target proxy, inspired by the compact visual progress summaries used by established decompilation projects.
 
 ## Renderer draw-family map
 
@@ -32,4 +34,4 @@ Each square corresponds to one function boundary, in ascending address order. Th
 
 A decomp project can measure different things. **Matching** means rebuilt code is proven to reproduce the target machine code; **reconstructed** means source behavior/structure has been recovered but is not yet compiler-matched; **mapped** includes high-confidence identifications that still need source reconstruction.
 
-Until the original compiler/toolchain fingerprint is nailed down, the reconstructed and renderer percentages are more useful than the matching percentage.
+Until the exact original compiler/toolchain is reproduced, reconstructed and mapped coverage are more useful than the matching percentage.

@@ -19,10 +19,17 @@ The adapter in `include/legacy_zip_recovered.h` intentionally abstracts the
 still-unmapped concrete unzip structure offsets; the algorithms/function
 boundaries themselves are high-confidence recoveries.
 
-### Legacy ZIP / zlib progress 3
+### Legacy ZIP / zlib recovery
 
 - `unzip/explode_recovered.c` — Implode/Explode method 6 family
 - `unzip/unreduce_recovered.c` — Reduce
 - `unzip/unshrink_recovered.c` — Shrink + partial clear
-- `unzip/unzip_api_recovered.c` — small/medium unzip 0.15-style API helpers
+- `unzip/unzip_api_recovered.c` — unzip 0.15-style API helpers
 - `zlib/zlib_buffer_api_recovered.c` — zlib 1.1.3 compress/uncompress wrappers
+- `zlib/deflate_state_recovered.c` / `deflate_engine_recovered.c` — Deflate state and compressor engines
+- `zlib/inflate_state_recovered.c` — public Inflate state machine
+- `zlib/infblock_*`, `infcodes_recovered.c`, `inffast_recovered.c`, `inftrees_recovered.c`, `infutil_recovered.c` — DEFLATE decoder core
+- `zlib/trees_recovered.c` — complete Deflate Huffman-output writer
+- `zlib/crc32_recovered.c` / `zutil_adler_recovered.c` — checksums and zutil tail
+
+The remaining zlib-specific source cleanup is the mapped `gzio.c` file-I/O block at `0x00193298..0x00194627`.

@@ -9,21 +9,18 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 <!-- DECOMP_PROGRESS_START -->
 ## Decompilation progress
 
+<p align="center">
+  <img src="assets/progress.svg" width="720" alt="SNES Station v0.23 decompilation progress" />
+</p>
+
 > Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **8.62%** (98 tracked targets)
-- **Mapped / identified:** **11.43%** (130 tracked targets)
+- **Reconstructed:** **14.51%** (165 tracked targets)
+- **Mapped / identified:** **19.26%** (219 tracked targets)
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
-```text
-🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
-🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
-```
-
-🟩 reconstructed · 🟨 identified · 🟧 partial · ⬜ unknown · 🟦 matching
-
-The renderer grid contains one square per tracked draw-family function, ordered by address.
+The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
 <!-- DECOMP_PROGRESS_END -->
 
 ## Target binary
@@ -92,13 +89,45 @@ Recovered or strongly identified:
 
 The complete current renderer map is in [`docs/RENDERER_MAP.md`](docs/RENDERER_MAP.md).
 
+### Legacy ZIP / zlib side
+
+The old ZIP path and the embedded zlib corridor are now substantially recovered:
+
+- PKZIP Implode/Explode, Reduce and Shrink methods;
+- unzip 0.15-style archive API;
+- exact embedded zlib baseline: **1.1.3**;
+- Deflate and Inflate public interfaces;
+- Inflate block/codes/fast/Huffman decoder;
+- Deflate longest-match engines and Huffman tree writer;
+- CRC32, Adler32 and zutil wrappers.
+
+The contiguous zlib map runs from `compress2 @ 0x00190700` through the return
+of `adler32 @ 0x00198c54`. See [`docs/ZLIB_MAP.md`](docs/ZLIB_MAP.md).
+
 ## Current frontier
 
-The R5900 instruction set is **not** the main problem anymore. All `859/859` LLVM `<unknown>` instructions in the selected EE-code range are classified, and the tracked 30-function renderer draw family is now fully reconstructed.
+The R5900 instruction set is **not** the main problem anymore. All `859/859`
+LLVM `<unknown>` instructions in the selected EE-code range are classified,
+the tracked 30-function renderer draw family is fully reconstructed, and the
+embedded zlib 1.1.3 corridor is mapped through `0x00198c54`. Its Deflate,
+Inflate, Huffman, checksum and utility core is behaviorally reconstructed; the
+24-function `gzio.c` subrange remains identified rather than reconstructed.
 
-The current binary frontier is the surrounding legacy `unzip.c` API after `0x0018f010`. A parallel matching-build track is now practical because a close PS2 source tree records **EE GCC 3.2.2-b1** and release flags, with a `get_tree` GAS listing whose opening machine words match the SNES Station target. Matching remains 0% until that compiler is reproduced and a complete byte comparison succeeds.
+The active frontier is now **PS2 GS/video setup beginning at `0x00198c58`**.
+The first pass has already isolated duplicated constructor-like entry points, a
+large graphics initialization wrapper at `0x00198d78`, and privileged GS
+register programming around `0x00199070`. Historical shared PS2 graphics source
+is being used as structural validation only; class/function names remain
+conservative until target signatures are proven.
 
-See [`docs/BOTTLENECKS.md`](docs/BOTTLENECKS.md), [`docs/UNZIP_MAP.md`](docs/UNZIP_MAP.md), and [`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md).
+A parallel matching-build track remains open because a close PS2 source tree
+records EE GCC `3.2.2-b1` and R5900 release flags. Larger functions show
+register-allocation differences, so **Matching remains 0.00%** until a real
+rebuild produces byte-identical machine code.
+
+See [`docs/BOTTLENECKS.md`](docs/BOTTLENECKS.md),
+[`docs/ZLIB_MAP.md`](docs/ZLIB_MAP.md), [`docs/PS2_GS_MAP.md`](docs/PS2_GS_MAP.md),
+and [`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md).
 
 ## Repository policy
 
