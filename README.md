@@ -16,8 +16,8 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 > Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **46.61%** (530 tracked targets)
-- **Mapped / identified:** **52.33%** (595 tracked targets)
+- **Reconstructed:** **47.93%** (545 tracked targets)
+- **Mapped / identified:** **53.65%** (610 tracked targets)
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
 The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
@@ -111,23 +111,26 @@ LLVM `<unknown>` instructions in the selected EE-code range are classified, the
 tracked 30-function renderer draw family is fully reconstructed, and the large
 ZIP/zlib/GSLIB/PS2LIB corridors have been crossed.
 
-Progress 8 closes the contiguous GNU C++ runtime from `std::type_info @
-0x001a9fa8` through the `std::bad_alloc` deleting destructor ending at
-`0x001ab3bc`. Target RTTI strings and vtable address points independently prove
-`__class_type_info`, `__si_class_type_info`, `__vmi_class_type_info`, the
-standard exception hierarchy, and the public `__dynamic_cast` entry. The old
-exception allocator also exposes its 0x50-byte header and four 512-byte
-emergency slots directly in machine code.
+Progress 9 crosses the former `0x001ab3c0` runtime boundary, reconstructs the
+EE D-cache synchronization leaves, and then closes the Snes9x mapped-memory,
+CPU shutdown, renderer-selection and SPC700/APU access corridor through
+`S9xAPUSetByteZ @ 0x001acbf0`. The target proves the 4 KiB Map/WriteMap layout,
+cycle accounting, SRAM/BWRAM special cases, `WaitAddress` idle optimization,
+and the APU `0xf0..0xff` hardware window.
 
-The complex VMI/dynamic-cast walkers are deliberately left IDENTIFIED until
-their complete ambiguity/virtual-base state machines are rewritten. That still
-does **not** make anything MATCHING: the blue count stays at 0 until an actual
-historical-toolchain rebuild compares complete machine code byte-for-byte after
-relocation normalization.
+The new corridor ends at `0x001acd00`, immediately before the already recovered
+pixel-writer tail at `0x001acd04`. That existing tail reaches
+`gsDriver_getTexSizeFromInt @ 0x001b0790`, whose return at `0x001b07d0` is
+followed by zero padding and then string/data storage at `0x001b0880`. The
+**contiguous high-address code tail is therefore closed**; the next work moves
+back to earlier unmapped frontend/Snes9x core regions instead of chasing a
+higher-address frontier.
 
-The next clean contiguous frontier is **`0x001ab3c0`**, where the binary leaves
-libsupc++ and enters an EE CP0/cache-maintenance path. See
-[`docs/RUNTIME_PROGRESS8.md`](docs/RUNTIME_PROGRESS8.md) and
+This still does **not** make anything MATCHING: the blue count stays at 0 until
+an actual historical-toolchain rebuild compares complete machine code
+byte-for-byte after relocation normalization. See
+[`docs/CORE_PROGRESS9.md`](docs/CORE_PROGRESS9.md),
+[`docs/RUNTIME_PROGRESS8.md`](docs/RUNTIME_PROGRESS8.md), and
 [`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md).
 
 ## Repository policy

@@ -27,18 +27,24 @@ The old library/runtime corridor has now been crossed continuously through:
 6. GCC 3.2.2-b1 DI/soft-double and DWARF unwind runtime;
 7. NEW/XPADMAN `libpad`;
 8. libsupc++ EH, RTTI, `__dynamic_cast`, catch state and standard exceptions
-   through `0x001ab3bc`.
+   through `0x001ab3bc`;
+9. EE D-cache synchronization and Snes9x Map/WriteMap access through the
+   CPU-shutdown and APU direct-page leaves at `0x001acd00`;
+10. the already-reconstructed renderer/pixel-writer tail through the final
+    helper return at `0x001b07d0`.
 
-The next clean contiguous runtime frontier is **`0x001ab3c0`**, where the target
-switches to an EE CP0/cache-maintenance path.
+There is no later high-address executable frontier in this tail: zero padding
+follows through `0x001b087f`, then string/data storage begins at `0x001b0880`.
+The productive frontier therefore moves back to earlier unmapped application
+and Snes9x core regions.
 
 Current priorities:
 
-1. finish independent source models for the already-mapped complex
+1. recover SNES Station frontend/config/input code around the known GUI;
+2. map CPU/PPU state and background/object/Mode 7 paths around the now-recovered
+   mapped-memory core;
+3. finish independent source models for the already-mapped complex
    `__vmi_class_type_info` dynamic/upcast walkers;
-2. recover SNES Station frontend/config/input code around the known GUI;
-3. continue Snes9x 1.41 structure/layout recovery outside the completed draw
-   family;
 4. attack SjPCM/AmigaMod audio glue and EE/IOP scheduling;
 5. reproduce the historical compiler/runtime and begin real byte comparisons.
 

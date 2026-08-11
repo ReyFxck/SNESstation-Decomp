@@ -134,10 +134,18 @@ exception allocation/free, catch bookkeeping, EH globals and new-handler state
 are reconstructed. Complex VMI dynamic/upcast walkers stay IDENTIFIED pending a
 complete independent rewrite. See [`RUNTIME_PROGRESS8.md`](RUNTIME_PROGRESS8.md).
 
+## Progress 9 core-tail milestone
+
+The former `0x001ab3c0` frontier is crossed through EE D-cache maintenance,
+Snes9x 4 KiB mapped-memory get/set, CPU shutdown/APU catch-up, renderer selection
+and SPC700/APU memory access. The new code ends at `0x001acd00`, directly joining
+the already reconstructed renderer-helper tail at `0x001acd04`. See
+[`CORE_PROGRESS9.md`](CORE_PROGRESS9.md).
+
 ## Next frontier
 
-Progress 8 crosses `0x001a9fa8` and maps the linked `std::type_info` /
-libsupc++ RTTI and exception core through `0x001ab3bc`. The next clean frontier
-is **`0x001ab3c0`**, where EE CP0/cache-maintenance code begins. Matching stays
-0.00% until the historical EE toolchain can be rebuilt and complete functions
-compare byte-for-byte.
+The contiguous high-address code tail now reaches the final helper return at
+`0x001b07d0`; padding and data follow. Work should return to earlier unmapped
+frontend, CPU/PPU, background/object, Mode 7, audio-glue and save-state regions.
+Matching stays 0.00% until the historical EE toolchain can be rebuilt and
+complete functions compare byte-for-byte.

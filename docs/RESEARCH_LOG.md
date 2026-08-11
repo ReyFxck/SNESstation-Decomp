@@ -389,3 +389,46 @@ The next instruction at `0x001ab3c0` starts an unrelated EE CP0/cache path,
 providing a clean runtime boundary. Progress reaches 530 reconstructed / 595
 mapped targets (46.61% / 52.33% on the conservative 1,137-JAL proxy). Matching
 remains 0.00%.
+
+## 2026-08-11 — Progress 9: cache/getset/APU tail corridor closed
+
+The `0x001ab3c0` frontier immediately after libsupc++ resolves to two EE D-cache
+synchronization functions. `SyncDCache` conditionally brackets an aligned range
+with `DIntr/EIntr`; `iSyncDCache` probes both R5900 cache ways across a 0x1000
+index span using `cache 0x10`, CP0 TagLo and `cache 0x14`.
+
+At `0x001ab4e8` the binary switches directly into Snes9x mapped-memory access.
+The target proves a 4 KiB map (`Address >> 12`, mask `0xfff`) with 18 special
+map codes before direct pointers. `S9xGetMemPointer`, byte/word reads and writes,
+`S9xSetPCBase`, `CPUShutdown`, and `GetBasePointer` are reconstructed while
+preserving the target's direct-map `MemorySpeed[block]` accounting and its
+0xFFF word-crossing slow path. That boundary read stores its first byte into
+OpenBus before the second access. The target's SetWord slot 6 also unexpectedly
+shares the fixed SPC7110 storage path with slot 13 even though byte access treats
+slot 6 differently; the raw jump table was re-read from the ELF and the quirk is
+preserved rather than normalized.
+
+`CPUShutdown @ 0x001ac604` exposes the classic branch-idle optimization in the
+target: repeated branches to `WaitAddress` can fast-forward CPU cycles to
+`NextEvent`, optionally execute SA-1 work and run the APU opcode table until its
+cycle counter catches up.
+
+`SelectTileRenderer @ 0x001ac838` then bridges directly into the renderer work
+already recovered earlier. Its three installed function pointers select the
+normal/add/sub/half/fixed-color 16-bit tile, clipped and large-pixel families,
+and every target address resolves to an existing reconstructed renderer entry.
+
+Finally, `S9xAPUGetByte/SetByte` and their Z direct-page variants reconstruct the
+SPC700 `0xf0..0xff` hardware window: ports, control, DSP, timer targets,
+read-clear timer counters and the `0xffc0` IPL-ROM shadow rule. The latter uses
+a distinct 64-byte ExtraRAM shadow: it is always updated, while the visible
+direct page is left untouched whenever ShowROM is set.
+
+The last new function ends at `0x001acd00`; `WRITE_4PIXELS` begins immediately at
+`0x001acd04`. Because the existing pixel-writer tail is already reconstructed
+through `gsDriver_getTexSizeFromInt @ 0x001b0790`, the contiguous recovered code
+tail now reaches its return at `0x001b07d0`. Zero padding follows to
+`0x001b087f`, with string/data storage beginning at `0x001b0880`.
+
+Progress reaches 545 reconstructed / 610 mapped targets (47.93% / 53.65% on the
+conservative 1,137-JAL proxy). Matching remains 0.00%.

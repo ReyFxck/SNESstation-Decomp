@@ -97,3 +97,20 @@ See `docs/RUNTIME_PROGRESS7.md`. The next clean runtime frontier is the
 The complex VMI dynamic/upcast walkers remain mapped but intentionally not
 claimed reconstructed. See `docs/RUNTIME_PROGRESS8.md`. The next clean runtime
 frontier is `0x001ab3c0`.
+
+
+## Progress 9 Snes9x mapped-memory / APU tail recovery
+
+- `ps2/ee_cache_recovered.c` — target `SyncDCache` / `iSyncDCache` CP0/cache walk.
+- `snes9x/getset_recovered.c` — `S9xGetMemPointer`, byte/word get/set,
+  `S9xSetPCBase`, and `GetBasePointer` with the target 4 KiB map behavior.
+- `snes9x/cpu_shutdown_renderer_select_recovered.c` — CPU idle fast-forward /
+  APU catch-up helper plus PPU color-math renderer-function selector.
+- `snes9x/apumem_recovered.c` — SPC700/APU byte and direct-page access leaves,
+  ports/DSP/timers and IPL-ROM shadow behavior.
+- `analysis/functions/core_getset_apumem_001ab3c0.asm` — focused target evidence
+  through `0x001acd00`.
+
+This closes the former `0x001ab3c0` frontier and connects directly to the
+already reconstructed pixel-writer tail at `0x001acd04`. See
+`docs/CORE_PROGRESS9.md`.

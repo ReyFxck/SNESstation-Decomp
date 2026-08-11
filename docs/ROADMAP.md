@@ -27,7 +27,10 @@
 - [x] identify `CMemory::LoadROM`
 - [x] SRAM load/save path
 - [ ] reconstruct ROM loader in smaller verified units
-- [ ] map CPU/PPU/APU global structure layouts
+- [x] reconstruct mapped-memory get/set and PC-base access corridor
+- [x] recover CPU shutdown / APU catch-up helper
+- [x] reconstruct SPC700/APU byte and direct-page access leaves
+- [ ] map remaining CPU/PPU/APU global structure layouts
 - [ ] map save-state serialization
 
 ## Phase 4 — renderer
@@ -39,6 +42,7 @@
 - [x] x2x2 pair
 - [x] 16-bit normal/clipped pair
 - [x] Add/Sub/Half/fixed-color color-math families
+- [x] recover target tile-renderer selector and function-pointer wiring
 - [ ] background/object renderer mapping
 - [ ] Mode 7 path
 
@@ -50,6 +54,7 @@
 - [ ] SjPCM interface
 - [ ] AmigaMod interface
 - [ ] SPU2 buffering/timing
+- [x] recover EE D-cache range synchronization leaves
 - [ ] EE/IOP scheduling assumptions
 
 ## Phase 6 — matching / rebuild
