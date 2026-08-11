@@ -1,0 +1,15 @@
+address,name,status,confidence,notes
+0x00100008,_start,IDENTIFIED,high,ELF entry after SJCRUNCH unpack
+0x00104e7c,loadModuleBuffer,RECONSTRUCTED,high,DMA IOP module wrapper; source in src/ps2/load_module_buffer.c
+0x00104f18,main,PARTIAL,high,startup sequence reconstructed through CDVD_Init
+0x0019be70,CDVD_Init,IDENTIFIED,high,CDVD RPC init; embedded CDVD IRX is loaded immediately before it
+0x0019cc0c,SifInitRpc,IDENTIFIED,high,PS2 RPC init
+0x0019d600,SifLoadModule,IDENTIFIED,high,ROM module path loader
+0x0019d63c,SifAllocIopHeap,IDENTIFIED,high,IOP heap allocation RPC
+0x0019d6b8,SifFreeIopHeap,IDENTIFIED,high,IOP heap free RPC
+0x0019d740,SifIopReset,IDENTIFIED,high,IOP reset with EELOADCNF argument
+0x0019e388,printf,IDENTIFIED,high,varargs stdout formatter
+0x0019e3d0,sprintf_like,IDENTIFIED,medium-high,varargs destination formatter
+0x0019e414,puts_like,IDENTIFIED,high,writes string bytes to fd 1
+0x001a08ec,mcInit,IDENTIFIED,high,memory card RPC initialization
+0x001a9e88,operator_new,IDENTIFIED,high,C++ allocation/new-handler loop

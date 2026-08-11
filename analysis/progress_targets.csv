@@ -1,0 +1,61 @@
+address,name,area,status,confidence,notes
+0x00100008,_start,startup,IDENTIFIED,high,Unpacked ELF entry
+0x00102ab0,top_level_gui,frontend,IDENTIFIED,high,Top-level ROM selector / GUI entry from main flow
+0x00104e7c,loadModuleBuffer,ps2,RECONSTRUCTED,high,IOP module buffer loader
+0x00104f18,main,frontend,PARTIAL,high,Boot and top-level application flow substantially mapped
+0x00105750,path_config_block,frontend,PARTIAL,medium-high,Save/config path construction block
+0x0010a840,apu_buffer_allocator,audio,IDENTIFIED,high,APU/audio buffer allocation path
+0x0012a400,ppu_vram_cache_invalidate,ppu,IDENTIFIED,medium-high,VRAM write/cache invalidation path
+0x00142a78,tile_lookup_table_init,renderer,RECONSTRUCTED,high,Builds odd/even high/low tile lookup tables
+0x00143780,renderer_4bpp_setup,renderer,IDENTIFIED,medium-high,Renderer state/setup block
+0x00145240,renderer_cache_select,renderer,IDENTIFIED,medium-high,Selects tile cache / validity map
+0x00151074,CMemory_Init,memory,RECONSTRUCTED,high,Core memory allocator/initializer
+0x00151330,per_rom_cleanup,memory,PARTIAL,medium-high,Cleanup path; deliberately not named CMemory::Deinit yet
+0x001513bc,CMemory_LoadROM,memory,IDENTIFIED,high,ROM load path proven by failure branch/string
+0x00153354,CMemory_LoadSRAM,memory,RECONSTRUCTED,high,SRAM loading path
+0x001534b8,CMemory_SaveSRAM,memory,RECONSTRUCTED,high,SRAM saving path
+0x00183e04,ConvertTile,renderer,RECONSTRUCTED,very-high,2/4/8bpp VRAM-to-64-byte tile converter
+0x0018428c,DrawTile,renderer,RECONSTRUCTED,very-high,Classic 8-bit tile renderer
+0x001845a8,DrawClippedTile,renderer,RECONSTRUCTED,very-high,Clipped 8-bit tile renderer
+0x00184a40,DrawTilex2,renderer,RECONSTRUCTED,very-high,Horizontal x2 tile renderer
+0x00184d5c,DrawClippedTilex2,renderer,IDENTIFIED,high,Clipped x2 partner
+0x001851f4,DrawTilex2x2,renderer,IDENTIFIED,high,x2x2 writer pair
+0x00185510,DrawClippedTilex2x2,renderer,IDENTIFIED,high,Clipped x2x2 partner
+0x001859a8,DrawLargePixel,renderer,RECONSTRUCTED,very-high,Large/mosaic pixel expansion path
+0x00185d8c,DrawTile16,renderer,IDENTIFIED,high,First 16-bit tile renderer
+0x001860a8,DrawClippedTile16,renderer,IDENTIFIED,high,Clipped 16-bit partner
+0x00186540,renderer_draw_00186540,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x0018685c,renderer_draw_0018685c,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x00186cf4,renderer_draw_00186cf4,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x00187010,renderer_draw_00187010,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x001874a8,renderer_draw_001874a8,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x0018789c,renderer_draw_0018789c,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x00187bb8,renderer_draw_00187bb8,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x00188050,renderer_draw_00188050,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x0018836c,renderer_draw_0018836c,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x00188804,renderer_draw_00188804,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x00188b20,renderer_draw_00188b20,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x00188fb8,renderer_draw_00188fb8,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x001892d4,renderer_draw_001892d4,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x0018976c,renderer_draw_0018976c,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x00189a88,renderer_draw_00189a88,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x00189f20,renderer_draw_00189f20,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x0018a23c,renderer_draw_0018a23c,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x0018a6d4,renderer_draw_0018a6d4,renderer,UNKNOWN,low,Color-math draw-family boundary
+0x0018adb8,renderer_draw_0018adb8,renderer,UNKNOWN,low,Color-math / large-pixel family boundary
+0x0019be70,CDVD_Init,ps2,IDENTIFIED,high,CDVD RPC initialization
+0x0019cc0c,SifInitRpc,ps2,IDENTIFIED,high,PS2 RPC init
+0x0019d600,SifLoadModule,ps2,IDENTIFIED,high,IOP module path loader
+0x0019d63c,SifAllocIopHeap,ps2,IDENTIFIED,high,IOP heap allocator RPC
+0x0019d6b8,SifFreeIopHeap,ps2,IDENTIFIED,high,IOP heap free RPC
+0x0019d740,SifIopReset,ps2,IDENTIFIED,high,IOP reset wrapper
+0x0019e388,printf,libc,IDENTIFIED,high,Varargs stdout formatter
+0x0019e3d0,sprintf_like,libc,IDENTIFIED,high,Varargs destination formatter
+0x0019e414,puts_like,libc,IDENTIFIED,high,Writes string bytes to fd 1
+0x001a08ec,mcInit,ps2,IDENTIFIED,high,Memory-card RPC initialization
+0x001a9e88,operator_new,cpp,IDENTIFIED,high,C++ allocation/new-handler loop
+0x001acd04,WRITE_4PIXELS,renderer,RECONSTRUCTED,very-high,Normal 4-pixel writer
+0x001ace28,WRITE_4PIXELS_FLIPPED,renderer,RECONSTRUCTED,very-high,Flipped 4-pixel writer
+0x001acf4c,WRITE_4PIXELSx2,renderer,RECONSTRUCTED,very-high,Horizontal x2 4-pixel writer
+0x001ad090,WRITE_4PIXELS_FLIPPEDx2,renderer,RECONSTRUCTED,very-high,Flipped horizontal x2 writer
+0x001ad7ac,color_math_writer_family_start,renderer,PARTIAL,medium,Known transition into 16-bit/color-math writer family

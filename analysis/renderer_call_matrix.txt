@@ -1,0 +1,37 @@
+SNES Station v0.23 renderer family call matrix
+
+18428c  DrawTile                 -> 1acd04 / 1ace28    (WRITE_4PIXELS normal/flipped)
+1845a8  DrawClippedTile          -> 1acd04 / 1ace28
+184a40  DrawTilex2               -> 1acf4c / 1ad090    (x2 normal/flipped)
+184d5c  DrawClippedTilex2        -> 1acf4c / 1ad090
+1851f4  DrawTilex2x2             -> 1ad1d4 / 1ad398    (x2x2 normal/flipped)
+185510  DrawClippedTilex2x2      -> 1ad1d4 / 1ad398
+1859a8  DrawLargePixel           -> inline large-pixel loops
+185d8c  DrawTile16               -> 1ad55c / 1ad684    (16-bit normal/flipped)
+1860a8  DrawClippedTile16        -> 1ad55c / 1ad684
+186540  next 16-bit variant pair -> 1ad7ac / 1ad8f4
+18685c  clipped partner          -> 1ad7ac / 1ad8f4
+186cf4  next 16-bit variant pair -> 1ada3c / 1adc34
+187010  clipped partner          -> 1ada3c / 1adc34
+1874a8  large-pixel variant      -> inline
+18789c  next 16-bit variant pair -> 1ade2c / 1ae2c0
+187bb8  clipped partner          -> 1ade2c / 1ae2c0
+188050  next 16-bit variant pair -> 1ae754 / 1aeb58
+18836c  clipped partner          -> 1ae754 / 1aeb58
+188804  next 16-bit variant pair -> 1aef5c / 1af310
+188b20  clipped partner          -> 1aef5c / 1af310
+188fb8  next 16-bit variant pair -> 1af6c4 / 1afa88
+1892d4  clipped partner          -> 1af6c4 / 1afa88
+18976c  next 16-bit variant pair -> 1afe4c / 1b008c
+189a88  clipped partner          -> 1afe4c / 1b008c
+189f20  next 16-bit variant pair -> 1b02cc / 1b052c
+18a23c  clipped partner          -> 1b02cc / 1b052c
+18a6d4  large-pixel variant      -> inline
+18adb8  large-pixel variant      -> inline
+
+Every function in this matrix also reaches ConvertTile (183e04) on cache miss
+and the direct-colour-map rebuild routine (14308c) when needed.
+
+Exact Add/Sub/Half color-math names after DrawTile16 are intentionally not
+assigned yet. The structure is clear; the exact semantic name waits for the
+helper arithmetic to be reconstructed.

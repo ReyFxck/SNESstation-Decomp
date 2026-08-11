@@ -1,0 +1,16 @@
+R5900 instructions printed as <unknown> by LLVM in EE-code range 0x00100000..0x001affff
+
+Total: 859
+
+789  R5900 3-operand MULT
+ 16  LQ
+ 16  MFLO1
+  8  EI
+  8  SQ
+  6  SQRT.S
+  6  MTLO1
+  6  DI
+  2  DIVU1
+  2  MULTU1
+
+The annotation tool handles all of these encodings conservatively.

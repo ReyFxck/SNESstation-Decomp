@@ -1,0 +1,24 @@
+# User-supplied reference binaries (never commit)
+original/*.ELF
+original/*.elf
+original/*.bin
+build/
+reference/embedded_irx/
+
+# Full/generated disassembly and analysis output
+asm/full.asm
+asm/full_r5900_annotated.asm
+notes/strings.txt
+notes/*.log
+
+# Ghidra projects
+*.gpr
+*.rep/
+.gpr/
+
+# Host/editor junk
+__pycache__/
+*.pyc
+.DS_Store
+.vscode/
+.idea/
