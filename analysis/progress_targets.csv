@@ -52,7 +52,8 @@ address,name,area,status,confidence,notes
 0x0010a768,snes_leaf_0010a768,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a7ac,snes_leaf_0010a7ac,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a7fc,snes_leaf_0010a7fc,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
-0x0010a840,apu_buffer_allocator,audio,IDENTIFIED,high,APU/audio buffer allocation path
+0x0010a840,apu_buffer_allocator,audio,RECONSTRUCTED,high,Three target allocations and failure cleanup recovered directly from R5900 assembly
+0x0010a8bc,apu_buffer_cleanup,audio,RECONSTRUCTED,high,Frees and nulls APU buffers at target global offsets +0x04/+0x20/+0x24
 0x0010c300,snes_dispatch_0010c300,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010c328,snes_dispatch_0010c328,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010e33c,snes_leaf_0010e33c,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -96,7 +97,8 @@ address,name,area,status,confidence,notes
 0x00148338,snes_leaf_00148338,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00150c90,snes_leaf_00150c90,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00151074,CMemory_Init,memory,RECONSTRUCTED,high,Core memory allocator/initializer
-0x00151330,per_rom_cleanup,memory,PARTIAL,medium-high,Cleanup path; deliberately not named CMemory::Deinit yet
+0x00151330,per_rom_cleanup,memory,RECONSTRUCTED,high,Calls 0x00151360 then target helper 0x00150f54 with memory and mode 0; complete target body recovered
+0x00151360,per_rom_buffer_cleanup,memory,RECONSTRUCTED,high,Frees and nulls object temporary pointers at effective offsets +0xb064/+0xb068
 0x001513bc,CMemory_LoadROM,memory,IDENTIFIED,high,ROM load path proven by failure branch/string
 0x00153354,CMemory_LoadSRAM,memory,RECONSTRUCTED,high,SRAM loading path
 0x001534b8,CMemory_SaveSRAM,memory,RECONSTRUCTED,high,SRAM saving path

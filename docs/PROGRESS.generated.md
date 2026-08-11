@@ -9,8 +9,8 @@ The current call-target scanner finds **1,137 heuristic JAL targets** in the ana
 | Metric | Count | Proxy |
 |---|---:|---:|
 | Matching | 0 | **0.00%** |
-| Reconstructed / matching | 685 | **60.25%** |
-| Mapped (identified + partial + reconstructed) | 739 | **65.00%** |
+| Reconstructed / matching | 689 | **60.60%** |
+| Mapped (identified + partial + reconstructed) | 741 | **65.17%** |
 
 The README graphic is generated to [`assets/progress.svg`](../assets/progress.svg). Its 200 cells are a quantized visualization of this same 1,137-target proxy, inspired by the compact visual progress summaries used by established decompilation projects.
 

@@ -114,3 +114,14 @@ frontier is `0x001ab3c0`.
 This closes the former `0x001ab3c0` frontier and connects directly to the
 already reconstructed pixel-writer tail at `0x001acd04`. See
 `docs/CORE_PROGRESS9.md`.
+
+## Progress 11 APU allocation / per-ROM cleanup recovery
+
+- `snes9x/apu_alloc_recovered.c` — exact three-buffer allocation/failure cleanup
+  corridor at `0x0010a840..0x0010a933`;
+- `snes9x/memory_cleanup_recovered.c` — per-ROM cleanup orchestrator and
+  temporary-buffer teardown at `0x00151330..0x001513bb`.
+
+The target itself remains authoritative. `0x0012a400` is intentionally left
+identified rather than promoted because its focused assembly capture ends with
+live control flow back into the parent PPU routine. See `docs/PROGRESS11.md`.

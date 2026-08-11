@@ -1,0 +1,17 @@
+Progress 11 local validation
+============================
+
+JAL target verification: PASS
+  0x0010a840: present
+  0x0010a8bc: present
+  0x00151330: present
+  0x00151360: present
+
+wrote docs/PROGRESS.generated.md, assets/progress.svg and README progress block
+matching=0 reconstructed=689 mapped=741
+draw_reconstructed=30/30 draw_mapped=30/30
+
+syntax src/snes9x/apu_alloc_recovered.c: PASS
+syntax src/snes9x/memory_cleanup_recovered.c: PASS
+
+git diff --check: PASS
