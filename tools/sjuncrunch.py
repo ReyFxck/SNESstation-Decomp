@@ -3,6 +3,7 @@ import argparse
 import ctypes
 import ctypes.util
 import hashlib
+import os
 import struct
 from pathlib import Path
 
@@ -10,10 +11,26 @@ HEADER_OFF = 0x2F00
 
 
 def load_lzo():
-    name = ctypes.util.find_library("lzo2")
-    if not name:
-        raise SystemExit("liblzo2 runtime not found (Debian: apt install liblzo2-2)")
-    lib = ctypes.CDLL(name)
+    names = [
+        os.environ.get("SNESSTATION_LZO_LIBRARY"),
+        ctypes.util.find_library("lzo2"),
+        "liblzo2.so.2",
+        "liblzo2.so",
+    ]
+    lib = None
+    for name in names:
+        if not name:
+            continue
+        try:
+            lib = ctypes.CDLL(name)
+            break
+        except OSError:
+            pass
+    if lib is None:
+        raise SystemExit(
+            "liblzo2 runtime not found (Debian: apt install liblzo2-2; "
+            "or set SNESSTATION_LZO_LIBRARY to its full path)"
+        )
     fn = lib.lzo1x_decompress
     fn.argtypes = [ctypes.c_void_p, ctypes.c_size_t,
                    ctypes.c_void_p, ctypes.POINTER(ctypes.c_size_t),

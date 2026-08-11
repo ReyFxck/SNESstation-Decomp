@@ -16,8 +16,8 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 > Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **70.54%** (802 tracked targets)
-- **Mapped / identified:** **72.74%** (827 tracked targets)
+- **Reconstructed:** **85.05%** (967 tracked targets)
+- **Mapped / identified:** **87.25%** (992 tracked targets)
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
 The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
@@ -46,6 +46,37 @@ Reference fingerprints:
 | Unpacked SHA-256 | `739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b` |
 
 The binary itself contains the strings **`Snes9x`** and **`1.41`**, so Snes9x 1.41 is treated as the primary upstream baseline. Close-era Snes9x source is used only to validate names and structure *after* the binary gives enough independent evidence.
+
+## Version ledger for future matching
+
+An **unknown** entry is deliberate: it is safer than silently compiling against
+a modern replacement. Exact blob hashes, evidence and matching consequences are
+recorded in [`docs/DEPENDENCY_VERSIONS.md`](docs/DEPENDENCY_VERSIONS.md).
+
+| Component used by SNES Station | Version / revision | Evidence status |
+|---|---|---|
+| SNES Station | `0.23 WIP`, 24 January 2004 | exact target identity |
+| Snes9x core | `1.41` (not `1.41-1`) | exact target string + source-order validation |
+| zlib | `1.1.3` | exact target version/copyright strings |
+| Gilles Vollant unzip | `0.15` (1998) | exact target version string |
+| Hiryu CDVD filesystem IOP module | `1.13` | exact embedded version string and IRX hash |
+| SjPCM IOP module | `2.0` | exact embedded version string and IRX hash |
+| AmigaMod IOP module | version unknown; `Vzzrzzn` build | exact embedded blob hash; no version string |
+| Hiryu `gsLib` | unversioned early snapshot | binary-specific class/method/layout fingerprint |
+| EE `libcdvd` client | early Hiryu/Sjeep family | paired RPC implementation; exact source revision unknown |
+| Newlib `mathfp` | `1.10.0` | strong constants/function-order fingerprint |
+| EE GCC application compiler | `3.2.2-b1` candidate | strong code/object-layout fingerprint; not globally proven |
+| EE binutils assembler/linker | exact release unknown | link layout recorded; tool revision still unproven |
+| linked `libgcc` / unwind / `libsupc++` | GCC `3.2.2-b1` / 3.2.2-era family | archive sizes and public offsets strongly fingerprinted |
+| EE libc / allocator / stdio | old PS2LIB/Newlib-era snapshot | target behavior recovered; bundle revision unknown |
+| `libpad` / `libmtap` | NEW `XPADMAN` / `XMTAPMAN` generation | exact RPC family; console-ROM revision varies |
+| `libmc`, libkernel, SIF, FileIO, loadfile | old PS2DEV/PS2LIB generation | exact client ABI; archive/commit revision unknown |
+| SJCRUNCH packer | SJCRUNCH2, stub built `Jul 12 2002` | exact container/stub date; packer and LZO revisions unknown |
+| IOP-module compiler | GCC 2 family | embedded `gcc2_compiled.` markers; exact release unknown |
+| ROM modules | `XSIO2MAN`, `XPADMAN`, `XMTAPMAN`, `XMCMAN`, `XMCSERV`, `LIBSD` | exact names; versions belong to the console ROM |
+
+The official README additionally credits Gustavo Scotti-era PS2 kernel work and
+the joypad library by `pukko`; neither credit exposes a unique source revision.
 
 ## What has been recovered so far
 
@@ -94,7 +125,7 @@ The complete current renderer map is in [`docs/RENDERER_MAP.md`](docs/RENDERER_M
 The old ZIP path and the embedded zlib corridor are now substantially recovered:
 
 - PKZIP Implode/Explode, Reduce and Shrink methods;
-- unzip 0.15-style archive API;
+- exact unzip 0.15 archive API;
 - exact embedded zlib baseline: **1.1.3**;
 - Deflate and Inflate public interfaces;
 - Inflate block/codes/fast/Huffman decoder;
@@ -127,12 +158,14 @@ back to earlier unmapped frontend/Snes9x core regions instead of chasing a
 higher-address frontier.
 
 Progress 11 started that earlier-region pass with 40 short code-referenced
-targets while rejecting scanner/data false positives. Progress 12 continued
-from that vetted base across Q15 transforms, slot/controller runtime,
-memory-card/persistence I/O and state-block transfer helpers. **Progress 13 now
-crosses 70% reconstructed** with 796/1,137 proxy targets, adding independently
-modeled GCC soft-float/C++ EH leaves plus target-specific frontend, PPU/map,
-controller, persistence and date helpers. See [`docs/PROGRESS13.md`](docs/PROGRESS13.md).
+targets while rejecting scanner/data false positives. Progresses 12–15 then
+crossed Q15 transforms, slot/controller runtime, persistence I/O, GCC/C++
+runtime leaves, `padInit`, and the renderer setup leaf. **Progress 16 reaches
+85.05% reconstructed** with 967/1,137 proxy targets. It adds 165 complete
+address-labelled R5900 structural decompiles: 156 warning-free functions and
+nine short functions whose exact warning sets were individually reviewed. The
+49 larger ambiguous candidates were deliberately left out. See
+[`docs/PROGRESS16.md`](docs/PROGRESS16.md).
 
 This still does **not** make anything MATCHING: the blue count stays at 0 until
 an actual historical-toolchain rebuild compares complete machine code
@@ -167,6 +200,9 @@ The analysis pipeline is designed to work on a Debian environment such as DroidS
 apt update
 apt install -y python3 binutils liblzo2-2
 ```
+
+When `liblzo2` is installed outside the system loader path, point the unpacker
+at it with `SNESSTATION_LZO_LIBRARY=/absolute/path/to/liblzo2.so.2`.
 
 If PS2DEV is installed, the scripts prefer:
 

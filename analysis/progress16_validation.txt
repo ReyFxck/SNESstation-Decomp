@@ -1,0 +1,12 @@
+Progress 16 validation
+======================
+matching=0 reconstructed=967 mapped=992 partial=1 identified=24
+expected proxy: reconstructed=967/1137=85.05%, mapped=992/1137=87.25%
+new structural recoveries: 165
+warning-free decompiles: 156
+short reviewed-warning decompiles: 9
+reviewed-warning targets: 0x001029c4, 0x0010c094, 0x0010c1f8, 0x0010d734, 0x0012c444, 0x0012c4a8, 0x0012e04c, 0x001a5228, 0x001a54c8
+areas: cpu-audio-runtime=25, frontend-core=39, gcc-runtime=15, legacy-zip-zlib=2, memory-ppu=42, renderer=13, snes-core-dsp=29
+processor: Ghidra 10.4 + ghidra-emotionengine-reloaded 2.1.10, r5900:LE:32:default
+matching remains zero; structural decompilation is not a byte match
+host syntax check: PASS (88 recovered C translation units)

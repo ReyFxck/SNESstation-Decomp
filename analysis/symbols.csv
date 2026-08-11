@@ -1,6 +1,10 @@
 address,name,status,confidence,notes
 0x00100008,_start,IDENTIFIED,high,Unpacked ELF entry
+0x0010038c,snes_p16_0010038c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 51 pseudocode lines, sha256 ec7f310744998181; address label retained because the historical symbol is unproven"
 0x001005b0,snes_p11_001005b0,RECONSTRUCTED,high,VSync callback teardown wrapper; target call order recovered
+0x001005ec,snes_p16_001005ec,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 71 pseudocode lines, sha256 d797abdff5b3395f; address label retained because the historical symbol is unproven"
+0x001008dc,snes_p16_001008dc,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 141 pseudocode lines, sha256 cc6835787e6ccb12; address label retained because the historical symbol is unproven"
+0x00100e78,snes_p16_00100e78,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 274 pseudocode lines, sha256 e5a249ab10e023a6; address label retained because the historical symbol is unproven"
 0x00101814,snes_leaf_00101814,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00101858,snes_leaf_00101858,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00101860,snes_leaf_00101860,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -16,14 +20,25 @@ address,name,status,confidence,notes
 0x0010191c,snes_leaf_0010191c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00101924,snes_p13_path_wrapper_00101924,RECONSTRUCTED,high,Progress 13: complete four-scratch seed + path-format wrapper stack flow recovered; original helper names remain unproven
 0x001019a0,snes_leaf_001019a0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001019a8,snes_p16_001019a8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 27 pseudocode lines, sha256 478c4f8fcf320007; address label retained because the historical symbol is unproven"
 0x00101b04,snes_p11_00101b04,RECONSTRUCTED,very-high,640x480 black rect clear with alpha disable/enable and pipe flush
+0x00101b64,snes_p16_00101b64,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 29 pseudocode lines, sha256 93ba3b147c7fcaea; address label retained because the historical symbol is unproven"
+0x00101e8c,snes_p16_00101e8c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 15 pseudocode lines, sha256 08afb01406db9a96; address label retained because the historical symbol is unproven"
+0x00101ef0,snes_p16_00101ef0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 112 pseudocode lines, sha256 256f52ccf22c2ed9; address label retained because the historical symbol is unproven"
+0x001029c4,snes_p16_001029c4,RECONSTRUCTED,medium,"Progress 16: complete short R5900 decompile; absolute-global label overlap reviewed; 26 pseudocode lines, sha256 bd5c6c4475056690; address label retained because the historical symbol is unproven"
 0x00102ab0,top_level_gui,IDENTIFIED,high,Top-level ROM selector / GUI entry from main flow
+0x00103314,snes_p16_00103314,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 243 pseudocode lines, sha256 96cf1a1175cb0f3d; address label retained because the historical symbol is unproven"
+0x00103b34,snes_p16_00103b34,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 28 pseudocode lines, sha256 deba38cacb384d86; address label retained because the historical symbol is unproven"
 0x00103c7c,snes_dispatch_00103c7c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00103cb0,snes_leaf_00103cb0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00103cd4,snes_p16_00103cd4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 19 pseudocode lines, sha256 ab94ad68d1b5a9b3; address label retained because the historical symbol is unproven"
 0x00103d90,snes_p12_00103d90,RECONSTRUCTED,high,cdfs path sprintf wrapper; target index*0x90-0x84 record addressing preserved
+0x00103dd4,snes_p16_00103dd4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 71 pseudocode lines, sha256 ae7bd3639c9601c6; address label retained because the historical symbol is unproven"
 0x001041c0,snes_leaf_001041c0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010421c,snes_leaf_0010421c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00104234,snes_p16_00104234,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 35 pseudocode lines, sha256 76c44692c58c3654; address label retained because the historical symbol is unproven"
 0x00104358,snes_p11_00104358,RECONSTRUCTED,high,Destructor-like leaf: restore vtable then free owned member when non-null
+0x00104418,snes_p16_00104418,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 74 pseudocode lines, sha256 2fbe96d1e566f465; address label retained because the historical symbol is unproven"
 0x00104998,mtapInit_00104998,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x001049f0,mtapPortOpen_001049f0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00104a54,mtapPortClose_00104a54,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -38,13 +53,23 @@ address,name,status,confidence,notes
 0x001056c0,snes_dispatch_001056c0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00105718,snes_dispatch_00105718,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00105750,build_sram_path_00105750,RECONSTRUCTED,very-high,"Progress 14: complete split-path, 0x1b basename truncation, mc0:SNES_EMU/ prefix and .SRM append flow recovered from 0x00105750..0x001057f8"
+0x001057fc,snes_p16_001057fc,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 9 pseudocode lines, sha256 c62f6a52245b9ed8; address label retained because the historical symbol is unproven"
+0x00105898,snes_p16_00105898,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 41 pseudocode lines, sha256 c61fd3e24cfc975b; address label retained because the historical symbol is unproven"
+0x001059cc,snes_p16_001059cc,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 32 pseudocode lines, sha256 ba47edbbb6bf417e; address label retained because the historical symbol is unproven"
+0x00105ae8,snes_p16_00105ae8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 82 pseudocode lines, sha256 641e82e45b797602; address label retained because the historical symbol is unproven"
 0x00105cb8,snes_p11_00105cb8,RECONSTRUCTED,very-high,Audio/config selector maps modes 1/2/3 to 12000/24000/48000 and stores option/argument
 0x00105d30,snes_dispatch_00105d30,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00105d78,snes_dispatch_00105d78,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00105e04,snes_dispatch_00105e04,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00106054,snes_p11_00106054,RECONSTRUCTED,very-high,Display/default-state initializer with region byte 0x45 branch and fixed target constants
+0x001060dc,snes_p16_001060dc,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 72 pseudocode lines, sha256 ad543407ca845301; address label retained because the historical symbol is unproven"
+0x001064c0,snes_p16_001064c0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 62 pseudocode lines, sha256 0fd417a3ad83bbd8; address label retained because the historical symbol is unproven"
 0x00106824,snes_p12_00106824,RECONSTRUCTED,very-high,Lazy mcInit followed by mcGetInfo/mcSync; returns whether card type equals 2
+0x0010689c,snes_p16_0010689c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 64 pseudocode lines, sha256 da61565d541b6b1c; address label retained because the historical symbol is unproven"
 0x00106bcc,SjPCM_Init_00106bcc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00106c08,snes_p16_00106c08,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 21 pseudocode lines, sha256 25db47518d4cc7e9; address label retained because the historical symbol is unproven"
+0x00106ca0,snes_p16_00106ca0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 188 pseudocode lines, sha256 0c487a91fff154b7; address label retained because the historical symbol is unproven"
+0x00107358,snes_p16_00107358,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 62 pseudocode lines, sha256 1c104710fd4701b7; address label retained because the historical symbol is unproven"
 0x00107578,snes_fatal_spin_00107578,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010768c,snes_p11_0010768c,RECONSTRUCTED,very-high,RPC command 3 zero-payload wrapper with initialized guard
 0x001076e4,snes_p11_001076e4,RECONSTRUCTED,very-high,RPC command 4 zero-payload wrapper with initialized guard
@@ -60,17 +85,31 @@ address,name,status,confidence,notes
 0x00107f18,amigaModQuit_00107f18,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x001080cc,snes_qsort_001080cc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00108a34,snes_rand_00108a34,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00108a9c,snes_p16_00108a9c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 47 pseudocode lines, sha256 7f54043f6b7b71d3; address label retained because the historical symbol is unproven"
 0x00108bfc,snes_p11_00108bfc,RECONSTRUCTED,high,RPC command 1 word request wrapper; returns second receive word or -1 when uninitialized
 0x00108ce4,snes_p11_00108ce4,RECONSTRUCTED,high,Second client copy of RPC command 1 word request wrapper
 0x0010a18c,snes_p13_color_blend_0010a18c,RECONSTRUCTED,very-high,Progress 13: packed two-mask 5-bit weighted blend and equal-color fast path reconstructed
+0x0010a264,snes_p16_0010a264,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 34 pseudocode lines, sha256 2889cd0ff0f7232e; address label retained because the historical symbol is unproven"
 0x0010a768,snes_leaf_0010a768,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a7ac,snes_leaf_0010a7ac,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a7fc,snes_leaf_0010a7fc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a840,apu_buffer_allocator,RECONSTRUCTED,very-high,"Progress 14: exact three-allocation order, failure cleanup through 0x0010a8bc and boolean return flow represented by recovered source"
 0x0010a8bc,snes_p11_0010a8bc,RECONSTRUCTED,high,Frees and clears three target-owned pointer slots in target order
+0x0010a934,snes_p16_0010a934,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 229 pseudocode lines, sha256 21a894d2fd3929cf; address label retained because the historical symbol is unproven"
+0x0010ad48,snes_p16_0010ad48,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 280 pseudocode lines, sha256 7c61dcf9f28d5fe2; address label retained because the historical symbol is unproven"
+0x0010b370,snes_p16_0010b370,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 68 pseudocode lines, sha256 89cb54ea995f3456; address label retained because the historical symbol is unproven"
+0x0010b564,snes_p16_0010b564,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 56 pseudocode lines, sha256 b44e1cee1689ef77; address label retained because the historical symbol is unproven"
 0x0010b72c,snes_p13_apu_io_write_0010b72c,RECONSTRUCTED,very-high,Progress 13: mirrored APU byte write plus FA/FB/FC timer-target zero=>0x100 handling recovered
+0x0010b7f8,snes_p16_0010b7f8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 37 pseudocode lines, sha256 51612250f888fddb; address label retained because the historical symbol is unproven"
+0x0010c094,snes_p16_0010c094,RECONSTRUCTED,medium,"Progress 16: complete short R5900 decompile; absolute-global label overlap reviewed; 29 pseudocode lines, sha256 a51d5f9f1a69ac9c; address label retained because the historical symbol is unproven"
+0x0010c1f8,snes_p16_0010c1f8,RECONSTRUCTED,medium,"Progress 16: complete short R5900 decompile; unreachable compiler block and global-label overlap reviewed; 22 pseudocode lines, sha256 32b56f3ad65770f5; address label retained because the historical symbol is unproven"
 0x0010c300,snes_dispatch_0010c300,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010c328,snes_dispatch_0010c328,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0010c340,snes_p16_0010c340,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 173 pseudocode lines, sha256 0af33014773ad10d; address label retained because the historical symbol is unproven"
+0x0010c6f8,snes_p16_0010c6f8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 220 pseudocode lines, sha256 779834a4edbb0e4e; address label retained because the historical symbol is unproven"
+0x0010d2a8,snes_p16_0010d2a8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 116 pseudocode lines, sha256 9ca425ca226c3ff6; address label retained because the historical symbol is unproven"
+0x0010d4f0,snes_p16_0010d4f0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 97 pseudocode lines, sha256 16ca39693433f60c; address label retained because the historical symbol is unproven"
+0x0010d734,snes_p16_0010d734,RECONSTRUCTED,medium,"Progress 16: complete short R5900 decompile; indirect jump-table lowering reviewed; 12 pseudocode lines, sha256 ef5f9a0c4db9be17; address label retained because the historical symbol is unproven"
 0x0010e33c,snes_leaf_0010e33c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010e348,snes_leaf_0010e348,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010e354,snes_leaf_0010e354,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -80,16 +119,39 @@ address,name,status,confidence,notes
 0x0011439c,snes_p11_0011439c,RECONSTRUCTED,very-high,"Applies cheat byte, lazily captures original value, preserves direct-map vs SetByte path"
 0x0011444c,snes_p11_0011444c,RECONSTRUCTED,very-high,Applies every active cheat when global cheat-enable byte is nonzero
 0x001144d0,snes_p11_001144d0,RECONSTRUCTED,very-high,Restores every active cheat record
+0x00114544,snes_p16_00114544,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 37 pseudocode lines, sha256 48259e7369031ed8; address label retained because the historical symbol is unproven"
+0x00114818,snes_p16_00114818,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 932 pseudocode lines, sha256 7569dd0a41ca48ac; address label retained because the historical symbol is unproven"
 0x001159f4,snes_dispatch_001159f4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00115b58,snes_p16_00115b58,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 33 pseudocode lines, sha256 0a44bdbb4ed11ef5; address label retained because the historical symbol is unproven"
+0x00115db0,snes_p16_00115db0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 81 pseudocode lines, sha256 efecf6b6ce5d43d0; address label retained because the historical symbol is unproven"
 0x00116128,snes_leaf_00116128,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00116174,snes_leaf_00116174,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001161a8,snes_p16_001161a8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 125 pseudocode lines, sha256 a1e59c2c08470222; address label retained because the historical symbol is unproven"
 0x0011c050,snes_dispatch_0011c050,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00127b78,snes_p16_00127b78,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 63 pseudocode lines, sha256 acf9da0d6cb5d004; address label retained because the historical symbol is unproven"
+0x00127e00,snes_p16_00127e00,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 63 pseudocode lines, sha256 88e4326aa5fbd8f8; address label retained because the historical symbol is unproven"
 0x001291e4,snes_p11_001291e4,RECONSTRUCTED,high,One of three identical status-bit table-base selectors for 0x00336xxx tables
+0x00129250,snes_p16_00129250,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 42 pseudocode lines, sha256 d67ee7bbf99ca589; address label retained because the historical symbol is unproven"
 0x0012a400,ppu_vram_cache_invalidate,IDENTIFIED,medium-high,VRAM write/cache invalidation path
+0x0012b3e8,snes_p16_0012b3e8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 30 pseudocode lines, sha256 6c0bb600fa5bc459; address label retained because the historical symbol is unproven"
+0x0012b498,snes_p16_0012b498,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 186 pseudocode lines, sha256 a3ea758ca59cb99a; address label retained because the historical symbol is unproven"
 0x0012b9a4,snes_p13_record_ram_init_0012b9a4,RECONSTRUCTED,very-high,Progress 13: eight 0x16-byte record defaults and 0x4300..0x437f RAM sentinel pattern reconstructed
+0x0012ba5c,snes_p16_0012ba5c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 89 pseudocode lines, sha256 f2150e9b563f4c8d; address label retained because the historical symbol is unproven"
+0x0012bd48,snes_p16_0012bd48,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 61 pseudocode lines, sha256 252aab4e1c8966e9; address label retained because the historical symbol is unproven"
+0x0012bf5c,snes_p16_0012bf5c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 25 pseudocode lines, sha256 4666538915b1eebc; address label retained because the historical symbol is unproven"
+0x0012c02c,snes_p16_0012c02c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 34 pseudocode lines, sha256 1f44dc215cbe3707; address label retained because the historical symbol is unproven"
 0x0012c13c,snes_leaf_0012c13c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012c160,snes_leaf_0012c160,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012c188,snes_p16_0012c188,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 50 pseudocode lines, sha256 67e4b57835da245e; address label retained because the historical symbol is unproven"
 0x0012c2a4,snes_p11_0012c2a4,RECONSTRUCTED,high,Signed-short global pair wrapper forwards two output pointers to transform helper
+0x0012c2dc,snes_p16_0012c2dc,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 30 pseudocode lines, sha256 9853428ee8d8ae6d; address label retained because the historical symbol is unproven"
+0x0012c398,snes_p16_0012c398,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 27 pseudocode lines, sha256 591eafd4ce4a3624; address label retained because the historical symbol is unproven"
+0x0012c444,snes_p16_0012c444,RECONSTRUCTED,medium,"Progress 16: complete short R5900 decompile; absolute-global label overlap reviewed; 14 pseudocode lines, sha256 bdecfdb2aaad2126; address label retained because the historical symbol is unproven"
+0x0012c4a8,snes_p16_0012c4a8,RECONSTRUCTED,medium,"Progress 16: complete short R5900 decompile; absolute-global label overlap reviewed; 24 pseudocode lines, sha256 6abb6c955f0988cf; address label retained because the historical symbol is unproven"
+0x0012cbd8,snes_p16_0012cbd8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 50 pseudocode lines, sha256 c8f8497b9ca06b41; address label retained because the historical symbol is unproven"
+0x0012d334,snes_p16_0012d334,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 41 pseudocode lines, sha256 e4a4cc7927b352e3; address label retained because the historical symbol is unproven"
+0x0012d4ac,snes_p16_0012d4ac,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 41 pseudocode lines, sha256 088c351fd84e8f1e; address label retained because the historical symbol is unproven"
+0x0012d624,snes_p16_0012d624,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 41 pseudocode lines, sha256 9e275499f97d3ac1; address label retained because the historical symbol is unproven"
 0x0012d79c,snes_p12_0012d79c,RECONSTRUCTED,very-high,Complete Q15 3x3 row transform leaf; first target matrix/vector set
 0x0012d85c,snes_p12_0012d85c,RECONSTRUCTED,very-high,Complete Q15 3x3 row transform leaf; second target matrix/vector set
 0x0012d91c,snes_p12_0012d91c,RECONSTRUCTED,very-high,Complete Q15 3x3 row transform leaf; third target matrix/vector set
@@ -102,11 +164,13 @@ address,name,status,confidence,notes
 0x0012df50,snes_leaf_0012df50,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012dfb0,snes_leaf_0012dfb0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012dffc,snes_leaf_0012dffc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012e04c,snes_p16_0012e04c,RECONSTRUCTED,medium,"Progress 16: complete short R5900 decompile; unreachable compiler block and global-label overlap reviewed; 19 pseudocode lines, sha256 23fa887fbe428489; address label retained because the historical symbol is unproven"
 0x0012e2c4,snes_leaf_0012e2c4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012e2d0,snes_leaf_0012e2d0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012e2e0,snes_p11_0012e2e0,RECONSTRUCTED,very-high,Transparent-nibble merge copies source half while preserving keyed old nibbles
 0x0012e374,snes_p13_bitplane_transpose_0012e374,RECONSTRUCTED,very-high,Progress 13: complete 32-byte to four bit-plane byte transpose recovered from target shifts/masks
 0x0012e568,snes_leaf_0012e568,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012e5b8,snes_p16_0012e5b8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 46 pseudocode lines, sha256 6fdfed7331e61d54; address label retained because the historical symbol is unproven"
 0x0012e688,snes_dispatch_0012e688,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012e6c4,snes_dispatch_0012e6c4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012e704,snes_dispatch_0012e704,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -116,7 +180,11 @@ address,name,status,confidence,notes
 0x0012feb4,snes_leaf_0012feb4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012febc,snes_leaf_0012febc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012fec4,snes_dispatch_0012fec4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00130134,snes_p16_00130134,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 142 pseudocode lines, sha256 a7e60619f222e09b; address label retained because the historical symbol is unproven"
+0x001305a0,snes_p16_001305a0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 54 pseudocode lines, sha256 f6635b8bc6b1a6f5; address label retained because the historical symbol is unproven"
+0x001306f8,snes_p16_001306f8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 69 pseudocode lines, sha256 9b5c29871d00923c; address label retained because the historical symbol is unproven"
 0x001308f8,snes_p13_gate_predicate_001308f8,RECONSTRUCTED,high,Progress 13: complete predicate control flow over window/mode and two status-bit gates recovered
+0x001309c4,snes_p16_001309c4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 33 pseudocode lines, sha256 0648ee7f969dcae4; address label retained because the historical symbol is unproven"
 0x00130c78,snes_p11_00130c78,RECONSTRUCTED,very-high,CPU state block-boundary reset/update leaf; masks flags with 0xffffecff
 0x0013e014,snes_dispatch_0013e014,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0013e024,snes_dispatch_0013e024,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -127,46 +195,104 @@ address,name,status,confidence,notes
 0x00140c30,snes_dispatch_00140c30,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00142a78,tile_lookup_table_init,RECONSTRUCTED,high,Builds odd/even high/low tile lookup tables
 0x0014308c,snes_p11_0014308c,RECONSTRUCTED,very-high,Builds exact 8x256 16-bit packed lookup table and clears target ready byte
+0x0014311c,S9xStartScreenRefresh,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 80 pseudocode lines, sha256 586873c122c26561; name validated against Snes9x 1.41 source order and target behavior"
+0x0014368c,S9xSetupOBJ,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 63 pseudocode lines, sha256 eae06c64514b81ee; name validated against Snes9x 1.41 source order and target behavior"
 0x00143780,renderer_4bpp_setup,RECONSTRUCTED,very-high,Progress 15: complete 0x00143780..0x001437a4 leaf recovered; implicit $t4-indexed cache word set to -1 and renderer-ready byte cleared
+0x001437d8,DrawOBJS,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 201 pseudocode lines, sha256 a7ea620eb9e06274; name validated against Snes9x 1.41 source order and target behavior"
+0x00143e7c,DrawBackgroundMosaic,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 204 pseudocode lines, sha256 8185590ca3a81725; name validated against Snes9x 1.41 source order and target behavior"
+0x001443ec,DrawBackgroundOffset,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 288 pseudocode lines, sha256 9fa557b0d1b1b4bf; name validated against Snes9x 1.41 source order and target behavior"
+0x00144ad8,DrawBackgroundMode5,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 293 pseudocode lines, sha256 b2a9796828a21e40; name validated against Snes9x 1.41 source order and target behavior"
 0x00145240,renderer_cache_select,IDENTIFIED,medium-high,Selects tile cache / validity map
+0x001452b0,DrawBackground,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 315 pseudocode lines, sha256 d290e8bc26e92024; name validated against Snes9x 1.41 source order and target behavior"
+0x00145c08,DrawBGMode7Background,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 178 pseudocode lines, sha256 b22b4ba294ba291c; name validated against Snes9x 1.41 source order and target behavior"
+0x001461a8,DrawBGMode7Background16,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 174 pseudocode lines, sha256 4f318d4ee934682f; name validated against Snes9x 1.41 source order and target behavior"
 0x00148338,snes_leaf_00148338,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00148394,DrawBGMode7Background16_i,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 474 pseudocode lines, sha256 b3f723aeecfac378; name validated against Snes9x 1.41 source order and target behavior"
+0x0014e140,RenderScreen,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 222 pseudocode lines, sha256 480fa3e77caf83b6; name validated against Snes9x 1.41 source order and target behavior"
+0x0014e828,DisplayChar,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 62 pseudocode lines, sha256 8c262e199139301a; name validated against Snes9x 1.41 source order and target behavior"
+0x0014eaa4,S9xDisplayString,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 55 pseudocode lines, sha256 b9c63816f4371132; name validated against Snes9x 1.41 source order and target behavior"
+0x00150b1c,ForceInterleave1OverrideSnes9x,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 63 pseudocode lines, sha256 94fb6c9fa404b5f4; name validated against Snes9x 1.41 source order and target behavior"
 0x00150c90,snes_leaf_00150c90,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00150ccc,CMemory_ScoreHiROM,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 47 pseudocode lines, sha256 2ef9a3400d4c82fc; name validated against Snes9x 1.41 source order and target behavior"
+0x00150e18,CMemory_ScoreLoROM,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 44 pseudocode lines, sha256 f51f51a4af1017af; name validated against Snes9x 1.41 source order and target behavior"
+0x00150f54,CMemory_Safe,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 40 pseudocode lines, sha256 32138679b25cb215; name validated against Snes9x 1.41 source order and target behavior"
 0x00151074,CMemory_Init,RECONSTRUCTED,high,Core memory allocator/initializer
 0x00151330,per_rom_cleanup,RECONSTRUCTED,high,"Progress 14: complete wrapper flow recovered: free/clear per-ROM buffers via 0x00151360 then call 0x00150f54(memory, 0); historical C++ method name remains unclaimed"
 0x00151360,snes_p11_00151360,RECONSTRUCTED,high,Per-ROM cleanup leaf frees and clears two allocation members
 0x001513bc,CMemory_LoadROM,IDENTIFIED,high,ROM load path proven by failure branch/string
+0x001520b8,snes_p16_001520b8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 77 pseudocode lines, sha256 c2558d68e194c04b; address label retained because the historical symbol is unproven"
+0x001522d8,CMemory_InitROM,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 450 pseudocode lines, sha256 d963e74b5c266787; name validated against Snes9x 1.41 source order and target behavior"
 0x00153354,CMemory_LoadSRAM,RECONSTRUCTED,high,SRAM loading path
 0x001534b8,CMemory_SaveSRAM,RECONSTRUCTED,high,SRAM saving path
 0x001535c0,snes_leaf_001535c0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00153608,CMemory_map_WriteProtectROM_00153608,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00153674,snes_p13_frontend_table_init_00153674,RECONSTRUCTED,high,"Progress 13: complete optional 15x8 table initialization, 16-entry base bank and final callback reconstructed"
 0x00153780,snes_p13_frontend_bank_init_00153780,RECONSTRUCTED,high,Progress 13: complete two 16-entry pointer/flag bank initialization including external 0x8000 lanes recovered
+0x001538b0,CMemory_LoROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 215 pseudocode lines, sha256 799957acac451fe1; name validated against Snes9x 1.41 source order and target behavior"
+0x00153da4,CMemory_BSLoROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 164 pseudocode lines, sha256 79f04f1a9dc5944b; name validated against Snes9x 1.41 source order and target behavior"
+0x001541e0,CMemory_HiROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 150 pseudocode lines, sha256 269a2e22fcdae5ec; name validated against Snes9x 1.41 source order and target behavior"
+0x0015458c,CMemory_TalesROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 180 pseudocode lines, sha256 622b612de7ef9642; name validated against Snes9x 1.41 source order and target behavior"
+0x00154a24,CMemory_AlphaROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 95 pseudocode lines, sha256 70b277ec7364e3d0; name validated against Snes9x 1.41 source order and target behavior"
+0x00154c2c,CMemory_SuperFXROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 132 pseudocode lines, sha256 5876e9adbbf0d485; name validated against Snes9x 1.41 source order and target behavior"
+0x00154f9c,CMemory_SA1ROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 147 pseudocode lines, sha256 ec932f645931ff89; name validated against Snes9x 1.41 source order and target behavior"
+0x00155334,CMemory_LoROM24MBSMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 144 pseudocode lines, sha256 a090b8158c058c19; name validated against Snes9x 1.41 source order and target behavior"
+0x0015568c,CMemory_SufamiTurboLoROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 165 pseudocode lines, sha256 bb9f989fec83d5aa; name validated against Snes9x 1.41 source order and target behavior"
+0x00155a44,CMemory_SRAM512KLoROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 106 pseudocode lines, sha256 1619d9df76ad1960; name validated against Snes9x 1.41 source order and target behavior"
+0x00155ca0,CMemory_BSHiROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 180 pseudocode lines, sha256 37bf1c2dd199a65f; name validated against Snes9x 1.41 source order and target behavior"
+0x00156118,CMemory_JumboLoROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 180 pseudocode lines, sha256 a323cad6504e0a33; name validated against Snes9x 1.41 source order and target behavior"
+0x00156514,CMemory_SPC7110HiROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 156 pseudocode lines, sha256 fc8fb9c91c5ddf91; name validated against Snes9x 1.41 source order and target behavior"
 0x00156884,snes_leaf_00156884,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x001568c4,snes_leaf_001568c4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00156914,snes_leaf_00156914,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00156934,CMemory_StaticRAMSize_00156934,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00156994,CMemory_Size_00156994,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00156c0c,CMemory_MapMode_00156c0c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00156c60,CMemory_ApplyROMFixes,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 539 pseudocode lines, sha256 11da7935b8f97782; name validated against Snes9x 1.41 source order and target behavior"
+0x001584d0,CMemory_CheckForIPSPatch,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 167 pseudocode lines, sha256 af80fdafccdc0ae9; name validated against Snes9x 1.41 source order and target behavior"
 0x00158974,snes_p13_header_validate_00158974,RECONSTRUCTED,very-high,Progress 13: complete structured byte/bit validation and subordinate multibyte-validator result convention recovered
 0x00158a58,snes_p13_multibyte_validate_00158a58,RECONSTRUCTED,very-high,Progress 13: complete 16-byte bounded multibyte validator state/count behavior reconstructed
 0x00158b3c,snes_leaf_00158b3c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00158b5c,snes_leaf_00158b5c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00158b74,snes_p16_00158b74,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 138 pseudocode lines, sha256 f81af16e7b6240ce; address label retained because the historical symbol is unproven"
 0x00158fd0,snes_leaf_00158fd0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00158fdc,snes_leaf_00158fdc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00158ff0,snes_dispatch_00158ff0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00159058,snes_p16_00159058,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 42 pseudocode lines, sha256 097f6bcdbf6b9fa1; address label retained because the historical symbol is unproven"
 0x001591a8,snes_p13_palette_expand_001591a8,RECONSTRUCTED,high,Progress 13: 256-entry 15-bit component lookup expansion and selected 32-byte bank recovered
+0x00159268,snes_p16_00159268,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 639 pseudocode lines, sha256 9439f1f13e685e14; address label retained because the historical symbol is unproven"
+0x0015a5f0,snes_p16_0015a5f0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 358 pseudocode lines, sha256 aaf66c96454d415b; address label retained because the historical symbol is unproven"
+0x0015bc70,snes_p16_0015bc70,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 259 pseudocode lines, sha256 ddc03ef9133e169f; address label retained because the historical symbol is unproven"
+0x0015c124,snes_p16_0015c124,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 216 pseudocode lines, sha256 c59364c25beffebe; address label retained because the historical symbol is unproven"
+0x0015c624,snes_p16_0015c624,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 199 pseudocode lines, sha256 fa487280626b8f97; address label retained because the historical symbol is unproven"
+0x0015cae0,snes_p16_0015cae0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 75 pseudocode lines, sha256 faeaf318d49d159f; address label retained because the historical symbol is unproven"
+0x0015cce4,snes_p16_0015cce4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 36 pseudocode lines, sha256 3b6ebefc6c9ee335; address label retained because the historical symbol is unproven"
 0x0015cdf8,snes_p13_stage_advance_0015cdf8,RECONSTRUCTED,very-high,Progress 13: seven-state jump-table progression including intentional fallthrough conditions reconstructed
+0x0015cea4,snes_p16_0015cea4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 79 pseudocode lines, sha256 705761cfea477142; address label retained because the historical symbol is unproven"
+0x0015d0bc,snes_p16_0015d0bc,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 76 pseudocode lines, sha256 a2d7620e73f82082; address label retained because the historical symbol is unproven"
+0x0015d334,snes_p16_0015d334,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 20 pseudocode lines, sha256 7aca40fc180be9a3; address label retained because the historical symbol is unproven"
+0x0015d3ec,snes_p16_0015d3ec,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 89 pseudocode lines, sha256 7c377afabde3d630; address label retained because the historical symbol is unproven"
+0x0015d6d8,snes_p16_0015d6d8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 61 pseudocode lines, sha256 7093ea543f3000b7; address label retained because the historical symbol is unproven"
 0x0015d8ec,snes_p13_ppu_reset_0015d8ec,RECONSTRUCTED,very-high,Progress 13: complete PPU/reset defaults and 0x2200..0x23ff RAM clear/default bytes recovered
 0x0015d9ac,snes_p13_ppu_frontend_reset_0015d9ac,RECONSTRUCTED,high,"Progress 13: register defaults, map-state reset/select, mode bits, refresh and RAM mode clear reconstructed"
+0x0015dab4,snes_p16_0015dab4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 41 pseudocode lines, sha256 35814bb93376042d; address label retained because the historical symbol is unproven"
 0x0015db74,snes_p13_ppu_frontend_reload_0015db74,RECONSTRUCTED,high,"Progress 13: map reload/select, PPU mode bits, window size, runtime bank and active flags reconstructed"
+0x0015dc84,snes_p16_0015dc84,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 54 pseudocode lines, sha256 9afd4e3cfdf7cca0; address label retained because the historical symbol is unproven"
 0x0015de14,snes_p11_0015de14,RECONSTRUCTED,very-high,Little-endian 16-bit read from two byte reads; first byte updates shadow
+0x0015de68,snes_p16_0015de68,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 75 pseudocode lines, sha256 3d39c7fefd038967; address label retained because the historical symbol is unproven"
 0x0015e034,snes_p11_0015e034,RECONSTRUCTED,very-high,Little-endian 16-bit write split into two byte writes
 0x0015e07c,snes_p13_set_map_cursor_0015e07c,RECONSTRUCTED,very-high,Progress 13: complete 12-way Snes9x map selector plus direct-pointer path and +0x20/+0x24 cursor writes reconstructed
 0x0015e190,snes_leaf_0015e190,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0015e198,snes_p13_map_window_0015e198,RECONSTRUCTED,high,Progress 13: mirrored pointer-map fill loops and selector/region address arithmetic recovered
+0x0015e298,snes_p16_0015e298,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 50 pseudocode lines, sha256 cebd74b094b0e0f5; address label retained because the historical symbol is unproven"
+0x0015e40c,snes_p16_0015e40c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 267 pseudocode lines, sha256 839b763d6d50821b; address label retained because the historical symbol is unproven"
+0x0015ecec,snes_p16_0015ecec,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 47 pseudocode lines, sha256 ff2706fd30857e22; address label retained because the historical symbol is unproven"
+0x0015eeac,snes_p16_0015eeac,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 49 pseudocode lines, sha256 11002cd18fd54f3c; address label retained because the historical symbol is unproven"
 0x0015f030,snes_p13_ppu_shift_window_0015f030,RECONSTRUCTED,very-high,"Progress 13: complete variable-bit 32-bit read window, output bytes and optional source/phase advance reconstructed"
 0x0015f15c,snes_p11_0015f15c,RECONSTRUCTED,high,First identical status-bit table-base selector for 0x003f5xxx tables
+0x0016ded4,snes_p16_0016ded4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 31 pseudocode lines, sha256 d78d81625d9d1f58; address label retained because the historical symbol is unproven"
+0x0016efa0,snes_p16_0016efa0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 40 pseudocode lines, sha256 943a59c41badb860; address label retained because the historical symbol is unproven"
 0x0016f0a0,snes_p11_0016f0a0,RECONSTRUCTED,high,Second identical status-bit table-base selector for 0x003f5xxx tables
+0x0016f10c,snes_p16_0016f10c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 42 pseudocode lines, sha256 8accffac833d2251; address label retained because the historical symbol is unproven"
 0x0016f9b0,snes_p11_0016f9b0,RECONSTRUCTED,very-high,Fills 256-entry map page in 16-entry runs from data-base/page/group addressing
 0x0016fa18,snes_p11_0016fa18,RECONSTRUCTED,very-high,Initializes four chip/page selector bytes and invokes map-page builder for 0..3
 0x0016fa7c,snes_dispatch_0016fa7c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -179,10 +305,18 @@ address,name,status,confidence,notes
 0x001701fc,snes_leaf_001701fc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00170204,snes_dispatch_00170204,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0017022c,snes_p11_0017022c,RECONSTRUCTED,high,Mode-1 open/process/close wrapper returning success only for process result 1
+0x0017028c,snes_p16_0017028c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 46 pseudocode lines, sha256 ef0f48319b0aeb9f; address label retained because the historical symbol is unproven"
 0x00171160,snes_p11_00171160,RECONSTRUCTED,high,Second identical status-bit table-base selector for 0x00336xxx tables
 0x001711e8,snes_p11_001711e8,RECONSTRUCTED,high,Mode-0 open/process/close wrapper; returns boolean open success
+0x0017124c,snes_p16_0017124c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 48 pseudocode lines, sha256 40454a1ebe1ac736; address label retained because the historical symbol is unproven"
+0x00171348,snes_p16_00171348,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 61 pseudocode lines, sha256 99841feea5dd8413; address label retained because the historical symbol is unproven"
+0x00171700,snes_p16_00171700,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 159 pseudocode lines, sha256 33928ebd1ba934c1; address label retained because the historical symbol is unproven"
 0x00171de8,snes_leaf_00171de8,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00171e0c,snes_p16_00171e0c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 122 pseudocode lines, sha256 c809d15a0e8badbc; address label retained because the historical symbol is unproven"
 0x00172174,snes_p12_00172174,RECONSTRUCTED,very-high,Formats %s:%06d: header then writes header and payload in exact target order
+0x001721ec,snes_p16_001721ec,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 124 pseudocode lines, sha256 6353ec0c21392710; address label retained because the historical symbol is unproven"
+0x001725ac,snes_p16_001725ac,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 46 pseudocode lines, sha256 9427019e34553ec3; address label retained because the historical symbol is unproven"
+0x001726ec,snes_p16_001726ec,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 38 pseudocode lines, sha256 88883d5ec01aa32a; address label retained because the historical symbol is unproven"
 0x00173c24,snes_p11_00173c24,RECONSTRUCTED,high,Third identical status-bit table-base selector for 0x00336xxx tables
 0x00173dfc,snes_leaf_00173dfc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00173e4c,snes_leaf_00173e4c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -197,18 +331,31 @@ address,name,status,confidence,notes
 0x001742b4,snes_p11_001742b4,RECONSTRUCTED,high,Masks stored value to 8 bits and dispatches current mode low nibble
 0x001742e8,snes_leaf_001742e8,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x001742f8,snes_p12_001742f8,RECONSTRUCTED,very-high,"Nonzero slot activation writes state/A4=4 and reconfigures with (8,-1,0)"
+0x00174350,snes_p16_00174350,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 52 pseudocode lines, sha256 8d751780f50225ee; address label retained because the historical symbol is unproven"
 0x001744d0,snes_p11_001744d0,RECONSTRUCTED,very-high,Updates one of eight controller words and derives all-neutral/0x7f flag
+0x00174564,snes_p16_00174564,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 37 pseudocode lines, sha256 7d30e1f2d86f79de; address label retained because the historical symbol is unproven"
 0x00174618,snes_p12_00174618,RECONSTRUCTED,very-high,"Slot scale/packed mode update, axis rescale and conditional stop dispatch"
 0x001746a4,snes_p12_001746a4,RECONSTRUCTED,very-high,Two-global gate around slot state and +0x4c return field recovered
 0x00174720,snes_leaf_00174720,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00174728,snes_p16_00174728,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 33 pseudocode lines, sha256 04d31b4099244399; address label retained because the historical symbol is unproven"
 0x00174830,snes_p12_00174830,RECONSTRUCTED,very-high,0xe0-stride slot +0x3c store followed by recomputation call
 0x00174860,snes_leaf_00174860,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0017487c,snes_leaf_0017487c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00174898,snes_p16_00174898,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 119 pseudocode lines, sha256 fe9f211a4d7981c8; address label retained because the historical symbol is unproven"
+0x00174b94,snes_p16_00174b94,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 144 pseudocode lines, sha256 feb7b90fb974fc93; address label retained because the historical symbol is unproven"
+0x00175cb4,snes_p16_00175cb4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 408 pseudocode lines, sha256 072b0ad04e4305f4; address label retained because the historical symbol is unproven"
 0x00176578,snes_dispatch_00176578,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00176594,snes_p16_00176594,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 659 pseudocode lines, sha256 5ab8f22403b5315e; address label retained because the historical symbol is unproven"
+0x00177a84,snes_p16_00177a84,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 81 pseudocode lines, sha256 1c59edbad70d2552; address label retained because the historical symbol is unproven"
+0x00177cec,snes_p16_00177cec,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 29 pseudocode lines, sha256 3219257aa2b035c0; address label retained because the historical symbol is unproven"
+0x00177db0,snes_p16_00177db0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 44 pseudocode lines, sha256 165e1dd1b16ed618; address label retained because the historical symbol is unproven"
+0x00177e6c,snes_p16_00177e6c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 126 pseudocode lines, sha256 3fa03d9e3b9df9df; address label retained because the historical symbol is unproven"
 0x0017ec24,snes_leaf_0017ec24,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00180b80,snes_p16_00180b80,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 147 pseudocode lines, sha256 19124a3159f93d43; address label retained because the historical symbol is unproven"
 0x0018255c,snes_p11_0018255c,RECONSTRUCTED,very-high,Special D/E/F-bank byte fetch using 20-bit address mask and global base offset
 0x001825e4,snes_p13_days_in_month_001825e4,RECONSTRUCTED,very-high,Progress 13: exact month jump table and target four-year February rule reconstructed
 0x00182910,snes_p11_00182910,RECONSTRUCTED,very-high,Special D/E/F-bank base-pointer resolver using 0x000f0000 address mask
+0x00182984,snes_p16_00182984,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 57 pseudocode lines, sha256 0ae5c2e361f3fdca; address label retained because the historical symbol is unproven"
 0x001832a4,snes_p13_runtime_block_init_001832a4,RECONSTRUCTED,very-high,Progress 13: fixed state-byte defaults and 64 KiB tail clear recovered
 0x0018339c,snes_leaf_0018339c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x001833a4,snes_p13_write_record_001833a4,RECONSTRUCTED,very-high,"Progress 13: fixed-path open, exact 24 one-byte writes, close and success/failure convention reconstructed"
@@ -217,6 +364,7 @@ address,name,status,confidence,notes
 0x00183678,snes_dispatch_00183678,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x001836d0,snes_p13_weekday_001836d0,RECONSTRUCTED,very-high,"Progress 13: decimal date fields, target month-offset table, leap adjustment and unsigned modulo-7 calculation reconstructed"
 0x00183778,snes_p13_days_in_month_00183778,RECONSTRUCTED,very-high,Progress 13: duplicate month-length helper independently confirmed with identical jump-table behavior
+0x00183aa4,snes_p16_00183aa4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 51 pseudocode lines, sha256 70f07e5b493aefd6; address label retained because the historical symbol is unproven"
 0x00183bdc,snes_p11_00183bdc,RECONSTRUCTED,very-high,"13-byte code-stream reader with blocked, refill and 0x0f sentinel paths"
 0x00183c58,snes_p12_00183c58,RECONSTRUCTED,very-high,Enabled template-to-backing segmented copy with selector-derived clamped offset and pre-refresh
 0x00183d40,snes_p12_00183d40,RECONSTRUCTED,very-high,Inverse backing-to-template segmented copy with selector-derived clamped offset and post-refresh
@@ -265,6 +413,7 @@ address,name,status,confidence,notes
 0x0018e440,FillBitBuffer,RECONSTRUCTED,very-high,Shared legacy-ZIP bit-buffer refill helper
 0x0018e4c0,unReduce,RECONSTRUCTED,very-high,Legacy ZIP Reduce state machine and copy expansion
 0x0018e92c,LoadFollowers,RECONSTRUCTED,very-high,Loads 256 probabilistic follower tables
+0x0018ea58,snes_p16_0018ea58,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 125 pseudocode lines, sha256 ab9d9b5aaea0ab3c; address label retained because the historical symbol is unproven"
 0x0018ea64,unShrink,RECONSTRUCTED,very-high,Legacy ZIP Shrink LZW decoder with partial clearing
 0x0018eeb4,partial_clear,RECONSTRUCTED,very-high,Shrink partial-clear helper; callable internal block has no stack prologue
 0x0018f010,unzlocal_getByte,RECONSTRUCTED,very-high,unzip 0.15 byte reader; behavior recovered
@@ -355,6 +504,7 @@ address,name,status,confidence,notes
 0x0019533c,inflate_codes_new,RECONSTRUCTED,very-high,allocates 0x1c-byte literal/length-distance decoder state
 0x001953ac,inflate_codes,RECONSTRUCTED,very-high,ten-state literal/length/distance decoder recovered
 0x00195b10,inflate_codes_free,RECONSTRUCTED,very-high,leaf decoder-state free wrapper
+0x00195b3c,snes_p16_00195b3c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 195 pseudocode lines, sha256 705478c5a2e3a924; address label retained because the historical symbol is unproven"
 0x00195b40,inflate_fast,RECONSTRUCTED,very-high,fast literal/length/distance loop recovered
 0x00195f80,huft_build,RECONSTRUCTED,very-high,zlib 1.1.3 multi-level Huffman table builder recovered
 0x001964d4,inflate_trees_bits,RECONSTRUCTED,very-high,dynamic bit-length Huffman tree builder recovered
@@ -633,7 +783,9 @@ address,name,status,confidence,notes
 0x001a35b0,dpadd,RECONSTRUCTED,very-high,Soft-double add public behavior represented by libgcc runtime model
 0x001a3610,dpsub,RECONSTRUCTED,very-high,Soft-double subtract public behavior represented by libgcc runtime model
 0x001a3680,dpmul,RECONSTRUCTED,very-high,Soft-double multiply public behavior represented by libgcc runtime model
+0x001a36e0,snes_p16_001a36e0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 101 pseudocode lines, sha256 63162f56d362b8ab; address label retained because the historical symbol is unproven"
 0x001a3950,dpdiv,RECONSTRUCTED,very-high,Soft-double divide public behavior represented by libgcc runtime model
+0x001a39b0,snes_p16_001a39b0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 72 pseudocode lines, sha256 c90dfeb9616ba7c3; address label retained because the historical symbol is unproven"
 0x001a3ad8,dpcmp,RECONSTRUCTED,very-high,Soft-double compare public behavior represented by libgcc runtime model
 0x001a3b30,litodp,RECONSTRUCTED,very-high,Signed SI-to-DF goFast conversion; exact 0xc0 object
 0x001a3bf0,dptoli,RECONSTRUCTED,very-high,DF-to-signed-SI goFast conversion; exact 0xa0 object
@@ -652,9 +804,14 @@ address,name,status,confidence,notes
 0x001a4108,extract_cie_info,IDENTIFIED,very-high,CIE augmentation parser; eh/z/L/R/P flow aligns with GCC 3.2.2 unwind-dw2.c
 0x001a42b8,execute_stack_op,IDENTIFIED,very-high,DW_OP stack-machine evaluator; large 0x290-byte frame and opcode dispatch mapped
 0x001a4848,execute_cfa_program,IDENTIFIED,very-high,DWARF CFA instruction evaluator aligned to GCC 3.2.2 unwind-dw2.c
+0x001a4d78,snes_p16_001a4d78,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 52 pseudocode lines, sha256 26a3483fd27f0e89; address label retained because the historical symbol is unproven"
 0x001a4ef0,__frame_state_for,IDENTIFIED,very-high,Public symbol at exact +0x1130 historical unwind-dw2.o offset
 0x001a51d0,snes_dispatch_001a51d0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001a5228,snes_p16_001a5228,RECONSTRUCTED,medium,"Progress 16: complete short R5900 decompile; known non-returning sink annotation reviewed; 28 pseudocode lines, sha256 e90204a6239c66d4; address label retained because the historical symbol is unproven"
+0x001a52d0,snes_p16_001a52d0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 102 pseudocode lines, sha256 014dbc68ea72a43c; address label retained because the historical symbol is unproven"
+0x001a54c8,snes_p16_001a54c8,RECONSTRUCTED,medium,"Progress 16: complete short R5900 decompile; known non-returning sink annotation reviewed; 34 pseudocode lines, sha256 0a7ddd0ca277ee1d; address label retained because the historical symbol is unproven"
 0x001a55a8,_Unwind_RaiseException,IDENTIFIED,very-high,Public symbol at exact +0x17e8 historical unwind-dw2.o offset
+0x001a57e8,snes_p16_001a57e8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 43 pseudocode lines, sha256 0be015b7b3c78d5a; address label retained because the historical symbol is unproven"
 0x001a5918,_Unwind_ForcedUnwind,IDENTIFIED,very-high,Public symbol at exact +0x1b58 historical unwind-dw2.o offset
 0x001a5ac0,_Unwind_Resume,IDENTIFIED,very-high,Public symbol at exact +0x1d00 historical unwind-dw2.o offset
 0x001a5c58,_Unwind_DeleteException,RECONSTRUCTED,very-high,Progress 13: exact cleanup callback at unwind-exception +8 and reason-code 1 recovered from full target flow
@@ -677,8 +834,16 @@ address,name,status,confidence,notes
 0x001a6188,__deregister_frame,RECONSTRUCTED,very-high,"Progress 13: zero-FDE guard, deregister_frame_info and object free wrapper recovered"
 0x001a61c0,fde_base_from_object,RECONSTRUCTED,very-high,Selects text/data base from linked FDE object for relative encodings
 0x001a6240,fde_get_cie_encoding,RECONSTRUCTED,very-high,CIE augmentation parser returning FDE pointer encoding
+0x001a64e8,snes_p16_001a64e8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 91 pseudocode lines, sha256 1df8ab6a4d45fb5f; address label retained because the historical symbol is unproven"
+0x001a6770,snes_p16_001a6770,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 75 pseudocode lines, sha256 ceadd45a65d25ade; address label retained because the historical symbol is unproven"
+0x001a68f0,snes_p16_001a68f0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 66 pseudocode lines, sha256 e25e2090b3afa59a; address label retained because the historical symbol is unproven"
+0x001a6a70,snes_p16_001a6a70,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 63 pseudocode lines, sha256 46f5ade20941c581; address label retained because the historical symbol is unproven"
+0x001a6c18,snes_p16_001a6c18,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 128 pseudocode lines, sha256 48701dde6075352c; address label retained because the historical symbol is unproven"
 0x001a6f30,_Unwind_Find_FDE,IDENTIFIED,very-high,Exact +0x1270 historical offset inside 0x18c0 object
+0x001a7438,snes_p16_001a7438,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 63 pseudocode lines, sha256 19bcaf53e2a38a44; address label retained because the historical symbol is unproven"
 0x001a7580,__floatdidf,RECONSTRUCTED,very-high,Progress 13: signed DI to double conversion reconstructed as high*2^32 plus unsigned-corrected low word
+0x001a7638,snes_p16_001a7638,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 22 pseudocode lines, sha256 b0aa7ac317b94f3e; address label retained because the historical symbol is unproven"
+0x001a7788,snes_p16_001a7788,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 321 pseudocode lines, sha256 a0a27809b1d4ac8d; address label retained because the historical symbol is unproven"
 0x001a7e30,__unpack_f,RECONSTRUCTED,very-high,Progress 13: SF IEEE class/sign/exponent/fraction unpack including subnormal normalization recovered
 0x001a7f10,__make_fp,RECONSTRUCTED,very-high,Progress 13: SF parts constructor wrapper and __pack_f call recovered
 0x001a7f40,__pack_d,RECONSTRUCTED,high,"Progress 13: DF pack behavior modeled from target class branches, exponent limits and rounding corridor"
