@@ -340,4 +340,3 @@
   19fdd0: b8 5a 43 ac  	sw	$3, 0x5ab8($2)
   19fdd4: d9 ff 00 10  	b	0x19fd3c <.text+0x9fd3c>
   19fdd8: 2d 18 00 00  	move	$3, $zero
-

@@ -18,7 +18,8 @@
 - [x] SRAM path helpers
 - [x] recover CDVD + old SIF RPC/FileIO/loadfile runtime corridor
 - [ ] reconstruct remaining GUI/frontend functions
-- [ ] map input/configuration structures
+- [x] recover linked NEW/XPADMAN libpad client
+- [ ] map application input/configuration structures
 
 ## Phase 3 — Snes9x core mapping
 
@@ -53,11 +54,14 @@
 
 ## Phase 6 — matching / rebuild
 
-- [ ] fingerprint historical GCC/binutils/PS2SDK
+- [x] fingerprint historical GCC/binutils/PS2SDK runtime family
 - [ ] establish matching build environment
 - [ ] compile independent recovered objects
 - [ ] compare assembly function-by-function
 - [ ] link progressively larger replacement executable
 
 - [x] reconstruct old SIF command send/init/interrupt-dispatch corridor
-- [ ] classify floating-point runtime beginning at `0x0019fddc`
+- [x] classify/reconstruct floating-point runtime beginning at `0x0019fddc`
+- [x] map GCC 3.2.2-b1 libgcc/unwind object corridor
+- [x] map/reconstruct libsupc++ RTTI and exception core through `0x001ab3bc`
+- [ ] reconstruct complex `__vmi_class_type_info` dynamic/upcast walkers

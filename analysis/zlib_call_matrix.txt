@@ -34,6 +34,33 @@ Inflate interface / checksum
 00193094 get_crc_table
 001930a0 crc32
 
+
+Gzip I/O / gzio.c
+00193298 gz_open
+00193564 gzopen
+00193580 gzdopen
+001935d8 gzsetparams
+00193674 get_byte
+0019371c check_header
+00193914 destroy
+00193a34 gzread
+00193cd8 gzgetc
+00193d0c gzgets
+00193dbc gzwrite
+00193e8c gzprintf
+00193f08 gzputc
+00193f44 gzputs
+00193f88 do_flush
+001940ac gzflush
+001940ec gzseek
+001942d4 gzrewind
+00194378 gztell
+00194398 gzeof
+001943c0 putLong
+0019441c getLong
+00194498 gzclose
+0019450c gzerror
+
 Inflate block / Huffman decoder
 00194628 inflate_blocks_reset
 001946e8 inflate_blocks_new

@@ -57,6 +57,54 @@ It is intentionally not treated as a host-native byte-layout struct.
 The main `inflate()` state machine has all fourteen zlib 1.1.3 modes recovered:
 `METHOD`, `FLAG`, `DICT4..DICT0`, `BLOCKS`, `CHECK4..CHECK1`, `DONE`, and `BAD`.
 
+## gzip I/O (`gzio.c`)
+
+| Address | Function | State |
+|---|---|---|
+| `0x00193298` | `gz_open` | reconstructed |
+| `0x00193564` | `gzopen` | reconstructed |
+| `0x00193580` | `gzdopen` | reconstructed |
+| `0x001935d8` | `gzsetparams` | reconstructed |
+| `0x00193674` | `get_byte` | reconstructed |
+| `0x0019371c` | `check_header` | reconstructed |
+| `0x00193914` | `destroy` | reconstructed |
+| `0x00193a34` | `gzread` | reconstructed |
+| `0x00193cd8` | `gzgetc` | reconstructed |
+| `0x00193d0c` | `gzgets` | reconstructed |
+| `0x00193dbc` | `gzwrite` | reconstructed |
+| `0x00193e8c` | `gzprintf` | reconstructed |
+| `0x00193f08` | `gzputc` | reconstructed |
+| `0x00193f44` | `gzputs` | reconstructed |
+| `0x00193f88` | `do_flush` | reconstructed |
+| `0x001940ac` | `gzflush` | reconstructed |
+| `0x001940ec` | `gzseek` | reconstructed |
+| `0x001942d4` | `gzrewind` | reconstructed |
+| `0x00194378` | `gztell` | reconstructed |
+| `0x00194398` | `gzeof` | reconstructed |
+| `0x001943c0` | `putLong` | reconstructed |
+| `0x0019441c` | `getLong` | reconstructed |
+| `0x00194498` | `gzclose` | reconstructed |
+| `0x0019450c` | `gzerror` | reconstructed |
+
+The target gzip object is `0x80` bytes with the embedded `zr_stream` occupying
+`+0x00..+0x47`; the fd, input/output buffers, CRC, message/path pointers, mode,
+and start position follow at the offsets recorded in
+`src/zlib/gzio_recovered.c`. Several PS2-port quirks differ from desktop zlib
+1.1.3 and are deliberately preserved:
+
+- `gzdopen` formats `"<fd:%d>"`, but `gz_open` never consumes its `fd` argument
+  and always opens the formatted path instead;
+- the integer file-handle field starts at zero, while cleanup skips close only
+  for negative handles, so a sufficiently early open failure can attempt to
+  close fd 0;
+- `gzflush` does not perform the extra `fflush` present in generic zlib source;
+- `gzerror` does not use `strerror` for `Z_ERRNO`; it falls back to the embedded
+  zlib error table;
+- the emitted gzip header uses OS byte `3`.
+
+These differences come from the target binary and are not normalized back to
+upstream behavior.
+
 ## Inflate block/Huffman engine
 
 | Address | Function | State |

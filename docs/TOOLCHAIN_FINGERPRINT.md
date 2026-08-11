@@ -70,3 +70,23 @@ register allocation differs.
 Therefore the candidate should not be promoted from “strong lead” to “exact
 compiler” on the basis of matching prologues. Future matching work should test
 compiler patch level, flags, and exact source revision systematically.
+
+
+## Progress 7: archive-level fingerprint
+
+Progress 7 materially strengthens the GCC 3.2.2-b1 hypothesis. Independent
+analysis of the target found consecutive archive-member boundaries whose sizes
+are exactly those recorded by the historical EE link map: `_udivdi3.o` and
+`_umoddi3.o` are each `0x6c8`; `unwind-dw2.o` is `0x1f00`;
+`unwind-dw2-fde.o` is `0x18c0`; and the soft-float support sequence
+`_unpack_sf/_make_sf/_pack_df/_unpack_df/_fpcmp_parts_df/_pack_sf` preserves
+`0xe0/0x30/0x190/0xe8/0x108/0x160` respectively.
+
+The two unwind objects go further: public `_Unwind_*` functions occur at the
+same offsets within the object as in the historical map. This is the strongest
+compiler/runtime-family fingerprint in the project so far.
+
+It is still not blue/matching proof. Object layout can identify the linked
+runtime revision while application translation units still differ due to source
+revision, flags or compiler patch level. A matching status requires a
+reproducible compiler plus direct byte comparison.

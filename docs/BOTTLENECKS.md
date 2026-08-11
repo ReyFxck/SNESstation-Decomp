@@ -17,23 +17,30 @@
 
 ## Current binary frontier
 
-Two large contiguous third-party/shared-library corridors are now bounded:
+The old library/runtime corridor has now been crossed continuously through:
 
-1. zlib 1.1.3: `0x00190700..0x00198c54`;
-2. Hiryu GSLIB slice: `0x00198c58..0x0019be6c`.
+1. zlib 1.1.3 (`0x00190700..0x00198c54`);
+2. Hiryu GSLIB (`0x00198c58..0x0019be6c`);
+3. CDVD / old PS2LIB runtime and SIF command support;
+4. Newlib 1.10 `mathfp`;
+5. old `libmc`;
+6. GCC 3.2.2-b1 DI/soft-double and DWARF unwind runtime;
+7. NEW/XPADMAN `libpad`;
+8. libsupc++ EH, RTTI, `__dynamic_cast`, catch state and standard exceptions
+   through `0x001ab3bc`.
 
-The former CDVD/RPC frontier has been crossed. `CDVD_Init @ 0x0019be70`
-through `SifIopReset @ 0x0019d740` is now separated into historical libcdvd,
-string helpers, SIF RPC, FileIO, loadfile and IOP-heap/control code. The next
-large contiguous runtime frontier is old PS2LIB `vsnprintf.o` at `0x0019d84c`.
+The next clean contiguous runtime frontier is **`0x001ab3c0`**, where the target
+switches to an EE CP0/cache-maintenance path.
 
 Current priorities:
 
-1. reconstruct the old PS2LIB formatter core without confusing it with Newlib's later formatter;
-2. recover SNES Station frontend/config/input paths around the already known GUI;
-3. continue Snes9x 1.41 structure/layout recovery outside the completed draw family;
-4. attack audio/SjPCM/AmigaMod glue and EE/IOP scheduling;
-5. continue the exact-toolchain track without promoting near matches to MATCHING.
+1. finish independent source models for the already-mapped complex
+   `__vmi_class_type_info` dynamic/upcast walkers;
+2. recover SNES Station frontend/config/input code around the known GUI;
+3. continue Snes9x 1.41 structure/layout recovery outside the completed draw
+   family;
+4. attack SjPCM/AmigaMod audio glue and EE/IOP scheduling;
+5. reproduce the historical compiler/runtime and begin real byte comparisons.
 
 ## Parallel bottleneck: true matching builds
 

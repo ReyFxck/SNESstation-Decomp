@@ -16,8 +16,8 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 > Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **34.30%** (390 tracked targets)
-- **Mapped / identified:** **35.80%** (407 tracked targets)
+- **Reconstructed:** **46.61%** (530 tracked targets)
+- **Mapped / identified:** **52.33%** (595 tracked targets)
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
 The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
@@ -107,35 +107,27 @@ of `adler32 @ 0x00198c54`. See [`docs/ZLIB_MAP.md`](docs/ZLIB_MAP.md).
 ## Current frontier
 
 The R5900 instruction set is **not** the main problem anymore. All `859/859`
-LLVM `<unknown>` instructions in the selected EE-code range are classified,
-the tracked 30-function renderer draw family is fully reconstructed, and the
-contiguous embedded zlib 1.1.3 corridor is behaviorally reconstructed through
-`0x00198c54`.
+LLVM `<unknown>` instructions in the selected EE-code range are classified, the
+tracked 30-function renderer draw family is fully reconstructed, and the large
+ZIP/zlib/GSLIB/PS2LIB corridors have been crossed.
 
-The post-zlib PS2 graphics corridor is identified from target evidence as
-**Hiryu GSLIB** and behaviorally reconstructed through `0x0019be6c`: `gsDriver`,
-`gsPipe`, `gsFont`, and the low-level vertical-retrace/DMA helpers. The original
-`gsPipe` diagnostic strings occur in the target, and exact object layouts prove
-`sizeof(gsPipe)=0x34` and `sizeof(gsDriver)=0x74`. This also corrects the first
-object allocated by `main`: it is `gsDriver`, not a generic frontend object.
+Progress 8 closes the contiguous GNU C++ runtime from `std::type_info @
+0x001a9fa8` through the `std::bad_alloc` deleting destructor ending at
+`0x001ab3bc`. Target RTTI strings and vtable address points independently prove
+`__class_type_info`, `__si_class_type_info`, `__vmi_class_type_info`, the
+standard exception hierarchy, and the public `__dynamic_cast` entry. The old
+exception allocator also exposes its 0x50-byte header and four 512-byte
+emergency slots directly in machine code.
 
-The former `CDVD_Init @ 0x0019be70` frontier has now been crossed as well. The
-following runtime corridor is substantially reconstructed as Hiryu/Sjeep
-libcdvd plus old PS2DEV/PS2LIB string, SIF RPC, FileIO, loadfile/IOP control,
-`vsnprintf` formatter, heap/ctype parsing, interrupt/program-break helpers and
-SIF command dispatch. Exact 32-bit EE layouts are modeled explicitly so host
-validation does not change target offsets. Late support reaches
-`SifLoadFileInit @ 0x0019fd20`; the next clean unclassified function begins at
-`0x0019fddc` and enters a floating-point math corridor.
+The complex VMI/dynamic-cast walkers are deliberately left IDENTIFIED until
+their complete ambiguity/virtual-base state machines are rewritten. That still
+does **not** make anything MATCHING: the blue count stays at 0 until an actual
+historical-toolchain rebuild compares complete machine code byte-for-byte after
+relocation normalization.
 
-A parallel matching-build track remains open because a close PS2 source tree
-records EE GCC `3.2.2-b1` and R5900 release flags. Larger functions show
-register-allocation differences, so **Matching remains 0.00%** until a real
-rebuild produces byte-identical machine code.
-
-See [`docs/BOTTLENECKS.md`](docs/BOTTLENECKS.md),
-[`docs/ZLIB_MAP.md`](docs/ZLIB_MAP.md), [`docs/PS2_GS_MAP.md`](docs/PS2_GS_MAP.md),
-[`docs/CDVD_LIBKERNEL_MAP.md`](docs/CDVD_LIBKERNEL_MAP.md), and
+The next clean contiguous frontier is **`0x001ab3c0`**, where the binary leaves
+libsupc++ and enters an EE CP0/cache-maintenance path. See
+[`docs/RUNTIME_PROGRESS8.md`](docs/RUNTIME_PROGRESS8.md) and
 [`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md).
 
 ## Repository policy

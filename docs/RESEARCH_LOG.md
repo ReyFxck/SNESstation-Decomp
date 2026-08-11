@@ -325,3 +325,67 @@ this target `SifInitCmd` has no reboot-count refresh path.
 Progress reaches 390 reconstructed / 407 mapped targets (34.30% / 35.80% on the
 conservative 1,137-JAL proxy). Matching remains 0.00%. The next clean
 unclassified function begins at 0x0019fddc and enters floating-point math code.
+
+## 2026-08-11 — Progress 7: mathfp, libmc, libgcc/unwind and libpad
+
+The former floating-point frontier at `0x0019fddc` resolves to Newlib 1.10
+`mathfp`. `cosf/sinf/tanf/atanf` match the historical polynomial families, while
+the target replaces generic `sqrtf/fabsf` with direct EE instructions. The
+`numtestf` classifier preserves an R5900/`-mlong64` sign-extension quirk, so the
+recovered source documents target behavior instead of silently repairing it.
+
+The next contiguous block is old `libmc`, reconstructed through async `mcSync`
+and `SifCheckStatRpc`. It is an earlier revision than the later public PS2SDK
+snapshot: `mcInit` has no reboot-count reset prelude, and several historical
+quirks remain visible.
+
+The linked GCC runtime then produced the strongest toolchain fingerprint yet.
+Multiple archive objects have exact EE GCC 3.2.2-b1 historical text sizes,
+including two consecutive 0x6c8 DI division/remainder objects, a sequence of
+soft-double packing helpers, `unwind-dw2.o = 0x1f00`, and
+`unwind-dw2-fde.o = 0x18c0`. Public `_Unwind_*` symbols retain the same offsets
+inside those objects. This sharply identifies the runtime/toolchain family but
+still does not count as byte-identical MATCHING.
+
+At `0x001a8420`, the runtime changes to NEW/XPADMAN `libpad`. RPC IDs
+`0x80000100/0x80000101` and commands 0x06..0x12 align with the XPADMAN path and
+with modules loaded during startup. The client is reconstructed through
+`padGetConnection @ 0x001a9080`; `padInit` stays PARTIAL only because the
+research model does not reproduce its exact bind busy-wait timing.
+
+Immediately afterward, `operator delete/delete[]`, a duplicated unwind-pe helper
+set, GNU C++ personality helpers, terminate/unexpected, throw/rethrow, and
+`operator new/new[]` establish the libsupc++ exception boundary. The next clean
+frontier is `0x001a9fa8`, where `std::type_info` / RTTI begins.
+
+Progress reaches 485 reconstructed / 544 mapped targets (42.66% / 47.85% on the
+conservative 1,137-JAL proxy). Matching remains 0.00%.
+
+
+## 2026-08-11 — Progress 8: libsupc++ RTTI and exception core closed
+
+The `0x001a9fa8` frontier resolves cleanly to `std::type_info`. Target RTTI
+name strings and vtable address points independently establish
+`__class_type_info`, `__si_class_type_info`, `__vmi_class_type_info`,
+`std::bad_cast`, `std::bad_typeid`, `std::exception`, `std::bad_exception`, and
+`std::bad_alloc`. Destructor triples and the small `type_info` virtual leaves
+are reconstructed directly from target assembly.
+
+The class RTTI virtual slots then identify catch, upcast, dynamic-cast, and
+public-source helpers. The compact class/si upcast leaves are reconstructed; the
+large VMI ambiguity/virtual-base walkers remain IDENTIFIED so the project does
+not turn a correct symbol name into an unsupported source-reconstruction claim.
+`__dynamic_cast @ 0x001aae70` is likewise mapped through its vtable[-1] whole
+type, vtable[-2] offset-to-top, `__do_dyncast` call, and public-source fallback.
+
+At `0x001aafb8`, `__cxa_allocate_exception` proves a 0x50-byte exception header
+and a four-slot 512-byte emergency pool. `__cxa_free_exception`,
+`__cxa_begin_catch`, `__cxa_end_catch`, `std::uncaught_exception`, the shared
+standard-exception `what()` body, both EH-global getters, `std::set_new_handler`,
+and the final `std::bad_alloc` destructors are reconstructed through
+`0x001ab3bc`.
+
+The next instruction at `0x001ab3c0` starts an unrelated EE CP0/cache path,
+providing a clean runtime boundary. Progress reaches 530 reconstructed / 595
+mapped targets (46.61% / 52.33% on the conservative 1,137-JAL proxy). Matching
+remains 0.00%.

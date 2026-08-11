@@ -379,8 +379,196 @@ address,name,area,status,confidence,notes
 0x0019fd00,PollSema,libkernel,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x45"
 0x0019fd10,iSifSetDChain,libkernel,RECONSTRUCTED,very-high,"One-syscall interrupt-context SIF receive-chain wrapper, syscall -0x78"
 0x0019fd20,SifLoadFileInit,loadfile,RECONSTRUCTED,very-high,Binds loadfile RPC server 0x80000006 and records initialization
-0x001a08ec,mcInit,ps2,IDENTIFIED,high,Memory-card RPC initialization
+0x0019fddc,cosf,mathfp,RECONSTRUCTED,very-high,Newlib 1.10 mathfp sine generator inlined with cosine mode; target constants and control flow proven
+0x001a0024,sinf,mathfp,RECONSTRUCTED,very-high,Newlib 1.10 mathfp sine generator inlined with sine mode; target constants and control flow proven
+0x001a0254,tanf,mathfp,RECONSTRUCTED,very-high,Newlib 1.10 mathfp tangent; 2/pi and rational coefficients match target exactly
+0x001a045c,atanf,mathfp,RECONSTRUCTED,very-high,Newlib 1.10 atanf with non-atan2 atangentf path inlined; ROOT3/table/polynomial proven
+0x001a06a0,sqrtf,mathfp,RECONSTRUCTED,very-high,Target EE leaf is jr ra with hardware sqrt.s in delay slot; preserves target override rather than generic Newlib C
+0x001a06b0,fabsf,mathfp,RECONSTRUCTED,very-high,Target EE leaf is jr ra with abs.s in delay slot
+0x001a06c0,numtestf,mathfp,RECONSTRUCTED,very-high,Newlib mathfp classifier with target -mlong64 sign-extension quirk preserved; positive NaN/Inf fall through as NUM
+0x001a0740,mcGetInfoApdx,libmc,RECONSTRUCTED,very-high,Old libmc completion callback; uncached endParameter type/free/format copy proven
+0x001a07c8,mcReadFixAlign,libmc,RECONSTRUCTED,very-high,Old libmc read alignment callback; MC/XMC second-fragment offsets proven
+0x001a0870,mcStoreDir,libmc,RECONSTRUCTED,very-high,Old libmc chdir callback; target 1024-byte fallback quirk preserved
+0x001a08ec,mcInit,libmc,RECONSTRUCTED,very-high,"Older libmc init; binds 0x80000400, XMC init/version checks 0x205/0x206; target lacks later reboot-reset prelude"
+0x001a0a68,mcGetInfo,libmc,RECONSTRUCTED,very-high,Asynchronous get-info request with MC/XMC field permutation and completion callback
+0x001a0ba0,mcOpen,libmc,RECONSTRUCTED,very-high,Asynchronous memory-card open wrapper
+0x001a0c7c,mcClose,libmc,RECONSTRUCTED,very-high,Asynchronous memory-card close wrapper
+0x001a0d2c,mcSeek,libmc,RECONSTRUCTED,very-high,Asynchronous memory-card seek wrapper
+0x001a0df0,mcRead,libmc,RECONSTRUCTED,very-high,Asynchronous read with cache writeback and mcReadFixAlign callback
+0x001a0ee8,mcWrite,libmc,RECONSTRUCTED,very-high,Asynchronous write; target 16-byte prefix/alignment staging preserved
+0x001a1020,mcFlush,libmc,RECONSTRUCTED,very-high,Asynchronous memory-card flush wrapper
+0x001a10d0,mcMkDir,libmc,RECONSTRUCTED,very-high,Historical mcMkDir wrapper over mcOpen(mode 0x40); command remap preserved
+0x001a10fc,mcChdir,libmc,RECONSTRUCTED,very-high,Asynchronous chdir with curDir cache and mcStoreDir callback
+0x001a1204,mcGetDir,libmc,RECONSTRUCTED,very-high,Directory enumeration RPC wrapper and table cache writeback
+0x001a130c,mcSetFileInfo,libmc,RECONSTRUCTED,very-high,File-info staging/copy and set-info RPC wrapper
+0x001a147c,mcDelete,libmc,RECONSTRUCTED,very-high,Asynchronous memory-card delete wrapper
+0x001a1554,mcFormat,libmc,RECONSTRUCTED,very-high,Asynchronous memory-card format wrapper
+0x001a1610,mcUnformat,libmc,RECONSTRUCTED,very-high,Asynchronous memory-card unformat wrapper
+0x001a16cc,mcGetEntSpace,libmc,RECONSTRUCTED,very-high,XMC-only entry-space query
+0x001a17a4,mcRename,libmc,RECONSTRUCTED,very-high,Rename via SET_INFO flag 0x10 and staged 31-byte name
+0x001a18c0,mcChangeThreadPriority,libmc,RECONSTRUCTED,very-high,XMC priority RPC; historical target quirk leaves level argument unused
+0x001a1974,mcSync,libmc,RECONSTRUCTED,very-high,Wait/poll async command completion via SifCheckStatRpc; 100000-iteration spin preserved
+0x001a1a54,strcpy_sjis,libmc,RECONSTRUCTED,very-high,ASCII-to-two-byte SJIS helper used by memory-card icon metadata
+0x001a1af4,SifCheckStatRpc,sifrpc,RECONSTRUCTED,very-high,Leaf RPC busy-state check pulled by libmc; packet id/status-bit logic proven
+0x001a1b20,__muldi3,libgcc,RECONSTRUCTED,very-high,GCC 3.2.2-b1 DI multiply; target object span and arithmetic recovered
+0x001a1b98,__floatdisf,libgcc,RECONSTRUCTED,very-high,GCC DI-to-SF helper; caller ABI and conversion flow recovered
+0x001a1c98,__fixunsdfdi,libgcc,RECONSTRUCTED,very-high,Raw DFmode to unsigned DI conversion; high-word split algorithm recovered
+0x001a1db8,__divdi3,libgcc,RECONSTRUCTED,very-high,Signed DI division entry; sign handling and unsigned core flow recovered
+0x001a1f08,__udivmoddi4_div_clone,libgcc,RECONSTRUCTED,high,Internal unsigned div/mod core called by target __divdi3
+0x001a25b0,__udivdi3,libgcc,RECONSTRUCTED,very-high,Public unsigned DI divide wrapper; containing archive object is exactly 0x6c8 bytes
+0x001a25d0,__udivmoddi4_udiv_clone,libgcc,RECONSTRUCTED,high,Internal unsigned division core in _udivdi3.o
+0x001a2c78,__umoddi3,libgcc,RECONSTRUCTED,very-high,Public unsigned DI remainder wrapper; containing archive object is exactly 0x6c8 bytes
+0x001a2c98,__udivmoddi4_umod_clone,libgcc,RECONSTRUCTED,high,Internal unsigned division core in _umoddi3.o
+0x001a3340,fptodp,libgcc,RECONSTRUCTED,very-high,US_SOFTWARE_GOFAST SF-to-DF wrapper; exact historical object size 0x40
+0x001a3380,_fpadd_parts_d,libgcc,IDENTIFIED,very-high,Internal soft-double add/sub core; _addsub_df.o layout matches GCC 3.2.2-b1
+0x001a35b0,dpadd,libgcc,PARTIAL,very-high,Soft-double add public wrapper recovered; exact archive offset +0x230
+0x001a3610,dpsub,libgcc,PARTIAL,very-high,Soft-double subtract public wrapper recovered; exact archive offset +0x290
+0x001a3680,dpmul,libgcc,PARTIAL,very-high,Soft-double multiply object identified exactly; finite-value research model recovered
+0x001a3950,dpdiv,libgcc,PARTIAL,very-high,Soft-double divide object identified exactly; finite-value research model recovered
+0x001a3ad8,dpcmp,libgcc,PARTIAL,very-high,Soft-double compare object identified exactly; public relation semantics mapped
+0x001a3b30,litodp,libgcc,RECONSTRUCTED,very-high,Signed SI-to-DF goFast conversion; exact 0xc0 object
+0x001a3bf0,dptoli,libgcc,RECONSTRUCTED,very-high,DF-to-signed-SI goFast conversion; exact 0xa0 object
+0x001a3c90,__make_dp,libgcc,IDENTIFIED,very-high,DF constructor wrapper; exact 0x30 object and __pack_d call proven
+0x001a3cc0,dptofp,libgcc,RECONSTRUCTED,very-high,DF-to-SF goFast conversion; exact 0x58 object
+0x001a3d18,dptoul,libgcc,RECONSTRUCTED,very-high,DF-to-unsigned-SI goFast conversion; assembly class/sign/exponent flow proven
+0x001a3dc0,size_of_encoded_value,unwind,RECONSTRUCTED,very-high,DW_EH_PE fixed-size helper; also exact start of 0x1f00 unwind-dw2.o
+0x001a3e30,base_of_encoded_value,unwind,RECONSTRUCTED,very-high,DW_EH_PE base selector; calls target Text/Data/Region accessors
+0x001a3ee8,read_uleb128,unwind,RECONSTRUCTED,very-high,DWARF unsigned LEB128 reader recovered
+0x001a3f28,read_sleb128,unwind,RECONSTRUCTED,very-high,DWARF signed LEB128 reader recovered including sign extension
+0x001a3f88,read_encoded_value_with_base,unwind,RECONSTRUCTED,very-high,DW_EH_PE decoder recovered; aligned/relative/indirect formats mapped
+0x001a40e8,_Unwind_GetLanguageSpecificData,unwind,RECONSTRUCTED,very-high,Exact unwind-dw2.o +0x328 offset; context +0x148
+0x001a40f0,_Unwind_GetRegionStart,unwind,RECONSTRUCTED,very-high,Exact unwind-dw2.o +0x330 offset; context +0x154
+0x001a40f8,_Unwind_GetDataRelBase,unwind,RECONSTRUCTED,very-high,Exact unwind-dw2.o +0x338 offset; context +0x150
+0x001a4100,_Unwind_GetTextRelBase,unwind,RECONSTRUCTED,very-high,Exact unwind-dw2.o +0x340 offset; context +0x14c
+0x001a4108,extract_cie_info,unwind,IDENTIFIED,very-high,CIE augmentation parser; eh/z/L/R/P flow aligns with GCC 3.2.2 unwind-dw2.c
+0x001a42b8,execute_stack_op,unwind,IDENTIFIED,very-high,DW_OP stack-machine evaluator; large 0x290-byte frame and opcode dispatch mapped
+0x001a4848,execute_cfa_program,unwind,IDENTIFIED,very-high,DWARF CFA instruction evaluator aligned to GCC 3.2.2 unwind-dw2.c
+0x001a4ef0,__frame_state_for,unwind,IDENTIFIED,very-high,Public symbol at exact +0x1130 historical unwind-dw2.o offset
+0x001a55a8,_Unwind_RaiseException,unwind,IDENTIFIED,very-high,Public symbol at exact +0x17e8 historical unwind-dw2.o offset
+0x001a5918,_Unwind_ForcedUnwind,unwind,IDENTIFIED,very-high,Public symbol at exact +0x1b58 historical unwind-dw2.o offset
+0x001a5ac0,_Unwind_Resume,unwind,IDENTIFIED,very-high,Public symbol at exact +0x1d00 historical unwind-dw2.o offset
+0x001a5c58,_Unwind_DeleteException,unwind,IDENTIFIED,very-high,Public cleanup entry at exact +0x1e98 historical offset
+0x001a5c80,_Unwind_GetGR,unwind,RECONSTRUCTED,very-high,Leaf register-slot dereference; exact +0x1ec0 historical offset
+0x001a5c98,_Unwind_SetGR,unwind,RECONSTRUCTED,very-high,Leaf register-slot store; exact +0x1ed8 historical offset
+0x001a5cb0,_Unwind_GetIP,unwind,RECONSTRUCTED,very-high,Leaf context +0x144 load; exact +0x1ef0 historical offset
+0x001a5cb8,_Unwind_SetIP,unwind,RECONSTRUCTED,very-high,Leaf context +0x144 store; exact +0x1ef8 historical offset
+0x001a5f30,__register_frame_info_bases,unwind-fde,IDENTIFIED,very-high,Exact +0x270 offset inside 0x18c0 unwind-dw2-fde.o
+0x001a5f80,__register_frame_info,unwind-fde,IDENTIFIED,very-high,Exact +0x2c0 offset inside unwind-dw2-fde.o
+0x001a5fa0,__register_frame,unwind-fde,IDENTIFIED,very-high,Exact +0x2e0 offset inside unwind-dw2-fde.o
+0x001a5ff0,__register_frame_info_table_bases,unwind-fde,IDENTIFIED,very-high,Exact +0x330 historical offset
+0x001a6038,__register_frame_info_table,unwind-fde,IDENTIFIED,very-high,Exact +0x378 historical offset
+0x001a6058,__register_frame_table,unwind-fde,IDENTIFIED,very-high,Exact +0x398 historical offset
+0x001a6090,__deregister_frame_info_bases,unwind-fde,IDENTIFIED,very-high,Exact +0x3d0 historical offset
+0x001a6168,__deregister_frame_info,unwind-fde,IDENTIFIED,very-high,Exact +0x4a8 historical offset
+0x001a6188,__deregister_frame,unwind-fde,IDENTIFIED,very-high,Exact +0x4c8 historical offset
+0x001a6f30,_Unwind_Find_FDE,unwind-fde,IDENTIFIED,very-high,Exact +0x1270 historical offset inside 0x18c0 object
+0x001a7e30,__unpack_f,libgcc,IDENTIFIED,very-high,Exact 0xe0 _unpack_sf.o object; called by fptodp
+0x001a7f10,__make_fp,libgcc,IDENTIFIED,very-high,Exact 0x30 _make_sf.o object; called by dptofp
+0x001a7f40,__pack_d,libgcc,IDENTIFIED,very-high,Exact 0x190 _pack_df.o object; called by __make_dp
+0x001a80d0,__unpack_d,libgcc,IDENTIFIED,very-high,Exact 0xe8 _unpack_df.o object; shared by DF conversions
+0x001a81b8,__fpcmp_parts_d,libgcc,IDENTIFIED,very-high,Exact 0x108 _fpcmp_parts_df.o object; called by dpcmp
+0x001a82c0,__pack_f,libgcc,IDENTIFIED,very-high,Exact 0x160 _pack_sf.o object; target ends exactly at libpad boundary 0x001a8420
+0x001a8420,padGetDmaStr,libpad,RECONSTRUCTED,very-high,NEW/XPADMAN double-buffer selector; SyncDCache over 256-byte DMA area and newest frame selection recovered
+0x001a8484,padInit,libpad,PARTIAL,very-high,"NEW/XPADMAN init; bind IDs 0x80000100/101, wait loops, version query, state clear and command 0x10 proven; research model omits exact bind wait timing"
+0x001a8614,padEnd,libpad,RECONSTRUCTED,very-high,PAD_RPCCMD_END async RPC and initialized-state clear recovered
+0x001a8690,padPortOpen,libpad,RECONSTRUCTED,very-high,"64-byte alignment check, two 128-byte DMA records and OPEN RPC recovered"
+0x001a87b0,padPortClose,libpad,RECONSTRUCTED,very-high,CLOSE RPC and PadState open flag clear recovered
+0x001a8864,padRead,libpad,RECONSTRUCTED,very-high,Newest DMA record copied by target length
+0x001a88a8,padGetState,libpad,RECONSTRUCTED,very-high,STABLE plus BUSY request maps to EXECCMD exactly as NEW_PADMAN libpad
+0x001a8918,padGetReqState,libpad,RECONSTRUCTED,very-high,DMA reqState leaf
+0x001a8938,padSetReqState,libpad,RECONSTRUCTED,very-high,DMA reqState store leaf; returns 1
+0x001a896c,padStateInt2String,libpad,RECONSTRUCTED,very-high,Eight-entry historical pad-state string table selector
+0x001a89ac,padReqStateInt2String,libpad,RECONSTRUCTED,very-high,Request-state string table selector
+0x001a89e4,padGetPortMax,libpad,RECONSTRUCTED,very-high,NEW_PADMAN command 0x0c RPC wrapper
+0x001a8a4c,padGetSlotMax,libpad,RECONSTRUCTED,very-high,NEW_PADMAN command 0x0d RPC wrapper
+0x001a8abc,padGetModVersion,libpad,RECONSTRUCTED,very-high,NEW_PADMAN command 0x12 RPC wrapper
+0x001a8b24,padInfoMode,libpad,RECONSTRUCTED,very-high,NEW_PADMAN shared-DMA mode query switch recovered
+0x001a8c20,padSetMainMode,libpad,RECONSTRUCTED,very-high,Command 0x06; marks request BUSY on accepted mode change
+0x001a8ce0,padInfoPressMode,libpad,RECONSTRUCTED,very-high,Pressure support test against button mask 0x3ffff
+0x001a8d0c,padEnterPressMode,libpad,RECONSTRUCTED,very-high,"Tiny padSetButtonInfo(...,0xfff) wrapper"
+0x001a8d28,padExitPressMode,libpad,RECONSTRUCTED,very-high,"Tiny padSetButtonInfo(...,0) wrapper"
+0x001a8d44,padGetButtonMask,libpad,RECONSTRUCTED,very-high,NEW_PADMAN command 0x09 RPC wrapper
+0x001a8dbc,padSetButtonInfo,libpad,RECONSTRUCTED,very-high,NEW_PADMAN command 0x0a; BUSY request update recovered
+0x001a8e74,padInfoAct,libpad,RECONSTRUCTED,very-high,NEW_PADMAN actuator metadata read directly from DMA record
+0x001a8f08,padSetActAlign,libpad,RECONSTRUCTED,very-high,Command 0x08 with six actuator bytes; BUSY request update recovered
+0x001a8fe4,padSetActDirect,libpad,RECONSTRUCTED,very-high,Command 0x07 with six actuator bytes
+0x001a9080,padGetConnection,libpad,RECONSTRUCTED,very-high,NEW_PADMAN command 0x11 connection query
+0x001a90f8,operator_delete,cpp-runtime,RECONSTRUCTED,very-high,Itanium ABI _ZdlPv; null check then free @ 0x0019e784
+0x001a9118,operator_delete_array,cpp-runtime,RECONSTRUCTED,very-high,Itanium ABI _ZdaPv; exact forwarding wrapper to operator delete
+0x001a9138,size_of_encoded_value_eh_personality,cpp-eh,RECONSTRUCTED,very-high,Second inlined unwind-pe fixed-size decoder copy in eh_personality.o
+0x001a91b0,base_of_encoded_value_eh_personality,cpp-eh,RECONSTRUCTED,very-high,Second unwind-pe base selector; calls shared target Unwind base accessors
+0x001a9268,read_uleb128_eh_personality,cpp-eh,RECONSTRUCTED,very-high,Second unsigned LEB128 reader copy in eh_personality.o
+0x001a92a8,read_sleb128_eh_personality,cpp-eh,RECONSTRUCTED,very-high,Second signed LEB128 reader copy in eh_personality.o
+0x001a9308,read_encoded_value_with_base_eh_personality,cpp-eh,RECONSTRUCTED,very-high,Second DW_EH_PE decoder copy in eh_personality.o
+0x001a9488,parse_lsda_header,cpp-eh,IDENTIFIED,very-high,C++ LSDA header parser; LPStart/TType/call-site layout matches GCC 3.2.2 eh_personality.cc
+0x001a9588,get_ttype_entry,cpp-eh,IDENTIFIED,very-high,Type-table entry decoder using size_of_encoded_value and encoded pointer reader
+0x001a95f8,get_adjusted_ptr,cpp-eh,IDENTIFIED,very-high,RTTI pointer adjustment and __do_catch dispatch match GCC 3.2.2 personality
+0x001a9698,check_exception_spec,cpp-eh,IDENTIFIED,very-high,Exception-spec type-list walk; get_ttype_entry/get_adjusted_ptr loop proven
+0x001a9728,__gxx_personality_v0,cpp-eh,IDENTIFIED,very-high,GNU C++ DWARF personality routine; version/actions/LSDA state machine aligned to GCC 3.2.2 source
+0x001a9b88,__cxa_call_unexpected,cpp-eh,IDENTIFIED,very-high,Public unexpected-handler path; begins by backing from unwind header to __cxa_exception and calling __cxa_begin_catch
+0x001a9ca8,__terminate,cpp-eh,IDENTIFIED,very-high,__cxxabiv1::__terminate handler call plus abort/catch path; matches GCC 3.2.2 eh_terminate.cc
+0x001a9cf0,std_terminate,cpp-eh,RECONSTRUCTED,very-high,Loads installed terminate handler and forwards to __terminate
+0x001a9d08,__unexpected,cpp-eh,RECONSTRUCTED,very-high,Calls supplied unexpected handler then std::terminate
+0x001a9d20,std_unexpected,cpp-eh,RECONSTRUCTED,very-high,Loads installed unexpected handler and forwards to __unexpected
+0x001a9d38,std_set_terminate,cpp-eh,RECONSTRUCTED,very-high,Exact handler-slot swap leaf
+0x001a9d48,std_set_unexpected,cpp-eh,RECONSTRUCTED,very-high,Exact handler-slot swap leaf
+0x001a9d58,__gxx_exception_cleanup,cpp-eh,IDENTIFIED,very-high,"Cleanup callback: foreign-catch reason check, exception destructor and __cxa_free_exception flow match eh_throw.cc"
+0x001a9db8,__cxa_throw,cpp-eh,IDENTIFIED,very-high,"Builds __cxa_exception header, GNUCC++ class, increments uncaught count and calls _Unwind_RaiseException"
+0x001a9e40,__cxa_rethrow,cpp-eh,IDENTIFIED,very-high,"Negates handlerCount on active caught exception, raises unwind again, then terminate fallback"
 0x001a9e88,operator_new,cpp,IDENTIFIED,high,C++ allocation/new-handler loop
+0x001a9f68,operator_new_array,cpp-runtime,RECONSTRUCTED,very-high,Itanium array-new forwarding wrapper to operator new @ 0x001a9e88
+0x001a9fa8,std_type_info_destructor_D2,cpp-rtti,RECONSTRUCTED,very-high,std::type_info base destructor; stores vptr 0x00426d08
+0x001a9fb8,std_type_info_destructor_D1,cpp-rtti,RECONSTRUCTED,very-high,std::type_info complete destructor; same vptr-store leaf
+0x001a9fc8,std_type_info_destructor_D0,cpp-rtti,RECONSTRUCTED,very-high,std::type_info deleting destructor; vptr store then operator delete
+0x001a9ff0,std_bad_cast_destructor_D2,cpp-rtti,RECONSTRUCTED,very-high,std::bad_cast base destructor; chains std::exception
+0x001aa018,std_bad_cast_destructor_D1,cpp-rtti,RECONSTRUCTED,very-high,std::bad_cast complete destructor
+0x001aa040,std_bad_cast_destructor_D0,cpp-rtti,RECONSTRUCTED,very-high,std::bad_cast deleting destructor
+0x001aa078,std_bad_typeid_destructor_D2,cpp-rtti,RECONSTRUCTED,very-high,std::bad_typeid base destructor; chains std::exception
+0x001aa0a0,std_bad_typeid_destructor_D1,cpp-rtti,RECONSTRUCTED,very-high,std::bad_typeid complete destructor
+0x001aa0c8,std_bad_typeid_destructor_D0,cpp-rtti,RECONSTRUCTED,very-high,std::bad_typeid deleting destructor
+0x001aa100,std_type_info_is_pointer_p,cpp-rtti,RECONSTRUCTED,very-high,std::type_info::__is_pointer_p leaf returns false
+0x001aa108,std_type_info_is_function_p,cpp-rtti,RECONSTRUCTED,very-high,std::type_info::__is_function_p leaf returns false
+0x001aa110,std_type_info_do_catch,cpp-rtti,RECONSTRUCTED,very-high,std::type_info::__do_catch compares the two name pointers
+0x001aa128,std_type_info_do_upcast,cpp-rtti,RECONSTRUCTED,very-high,base std::type_info::__do_upcast leaf returns false
+0x001aa130,class_type_info_destructor_D2,cpp-rtti,RECONSTRUCTED,very-high,__class_type_info D2; vptr then std::type_info destructor
+0x001aa158,class_type_info_destructor_D1,cpp-rtti,RECONSTRUCTED,very-high,__class_type_info D1
+0x001aa180,class_type_info_destructor_D0,cpp-rtti,RECONSTRUCTED,very-high,__class_type_info D0; chains base and operator delete
+0x001aa1b8,si_class_type_info_destructor_D2,cpp-rtti,RECONSTRUCTED,very-high,__si_class_type_info D2
+0x001aa1e0,si_class_type_info_destructor_D1,cpp-rtti,RECONSTRUCTED,very-high,__si_class_type_info D1
+0x001aa208,si_class_type_info_destructor_D0,cpp-rtti,RECONSTRUCTED,very-high,__si_class_type_info D0
+0x001aa240,vmi_class_type_info_destructor_D2,cpp-rtti,RECONSTRUCTED,very-high,__vmi_class_type_info D2
+0x001aa268,vmi_class_type_info_destructor_D1,cpp-rtti,RECONSTRUCTED,very-high,__vmi_class_type_info D1
+0x001aa290,vmi_class_type_info_destructor_D0,cpp-rtti,RECONSTRUCTED,very-high,__vmi_class_type_info D0
+0x001aa2c8,class_type_info_do_catch,cpp-rtti,RECONSTRUCTED,very-high,__class_type_info::__do_catch; name fast path plus recursive RTTI dispatch
+0x001aa320,class_type_info_do_upcast_wrapper,cpp-rtti,RECONSTRUCTED,very-high,public two-argument __do_upcast wrapper; requires contained-public flags 0x6
+0x001aa390,class_type_info_do_find_public_src,cpp-rtti,RECONSTRUCTED,very-high,base find-public-source leaf returns 6 on same object and 1 otherwise
+0x001aa3a8,si_class_type_info_do_find_public_src,cpp-rtti,IDENTIFIED,very-high,__si_class_type_info virtual slot +0x20; recurses into sole base
+0x001aa400,vmi_class_type_info_do_find_public_src,cpp-rtti,IDENTIFIED,very-high,__vmi_class_type_info public-source search over direct bases
+0x001aa548,class_type_info_do_dyncast,cpp-rtti,IDENTIFIED,very-high,__class_type_info::__do_dyncast; result-field writes and name tests mapped
+0x001aa590,si_class_type_info_do_dyncast,cpp-rtti,IDENTIFIED,very-high,__si_class_type_info::__do_dyncast; sole-base recursion mapped
+0x001aa638,vmi_class_type_info_do_dyncast,cpp-rtti,IDENTIFIED,very-high,__vmi_class_type_info::__do_dyncast; complex multi-base search mapped but not rewritten
+0x001aab20,class_type_info_do_upcast,cpp-rtti,RECONSTRUCTED,very-high,"protected three-argument __do_upcast; identical name sets result {obj,6,*,8}"
+0x001aab58,si_class_type_info_do_upcast,cpp-rtti,RECONSTRUCTED,very-high,__si_class_type_info protected upcast; self fast path then sole-base recursion
+0x001aabd8,vmi_class_type_info_do_upcast,cpp-rtti,IDENTIFIED,very-high,__vmi_class_type_info protected upcast; multi-base ambiguity/public/virtual path walker
+0x001aae70,__dynamic_cast,cpp-rtti,IDENTIFIED,very-high,Itanium ABI __dynamic_cast; whole-object RTTI from vtable[-1]/[-2] and __do_dyncast dispatch proven
+0x001aafb8,__cxa_allocate_exception,cpp-eh,RECONSTRUCTED,very-high,0x50-byte exception header; malloc then four 512-byte emergency slots; zeroes header
+0x001ab080,__cxa_free_exception,cpp-eh,RECONSTRUCTED,very-high,frees normal allocation or clears emergency-slot bit
+0x001ab0f0,__cxa_begin_catch,cpp-eh,RECONSTRUCTED,very-high,updates handlerCount/caught chain and decrements uncaughtExceptions
+0x001ab158,__cxa_end_catch,cpp-eh,RECONSTRUCTED,very-high,end-catch/rethrow handler-count state machine and unwind-delete path recovered
+0x001ab200,std_uncaught_exception,cpp-eh,RECONSTRUCTED,very-high,std::uncaught_exception() returns __cxa_get_globals()->uncaughtExceptions != 0
+0x001ab228,std_exception_destructor_D2,cpp-eh,RECONSTRUCTED,very-high,std::exception D2 vptr-store leaf
+0x001ab238,std_exception_destructor_D1,cpp-eh,RECONSTRUCTED,very-high,std::exception D1 vptr-store leaf
+0x001ab248,std_exception_destructor_D0,cpp-eh,RECONSTRUCTED,very-high,std::exception D0 vptr store then operator delete
+0x001ab270,std_bad_exception_destructor_D2,cpp-eh,RECONSTRUCTED,very-high,std::bad_exception D2; chains std::exception
+0x001ab298,std_bad_exception_destructor_D1,cpp-eh,RECONSTRUCTED,very-high,std::bad_exception D1
+0x001ab2c0,std_bad_exception_destructor_D0,cpp-eh,RECONSTRUCTED,very-high,std::bad_exception D0
+0x001ab2f8,std_exception_what,cpp-eh,RECONSTRUCTED,very-high,shared what() body resolves dynamic type_info through vtable[-1] and returns its name
+0x001ab308,__cxa_get_globals_fast,cpp-eh,RECONSTRUCTED,very-high,single static EH-globals pointer leaf at 0x004481d0
+0x001ab318,__cxa_get_globals,cpp-eh,RECONSTRUCTED,very-high,same static EH-globals pointer in this single-thread runtime
+0x001ab328,std_set_new_handler,cpp-runtime,RECONSTRUCTED,very-high,std::set_new_handler swaps global handler slot at 0x00426b1c
+0x001ab338,std_bad_alloc_destructor_D2,cpp-runtime,RECONSTRUCTED,very-high,std::bad_alloc D2; chains std::exception
+0x001ab360,std_bad_alloc_destructor_D1,cpp-runtime,RECONSTRUCTED,very-high,std::bad_alloc D1
+0x001ab388,std_bad_alloc_destructor_D0,cpp-runtime,RECONSTRUCTED,very-high,std::bad_alloc D0; chains base and operator delete
 0x001acd04,WRITE_4PIXELS,renderer,RECONSTRUCTED,very-high,Normal 4-pixel writer
 0x001ace28,WRITE_4PIXELS_FLIPPED,renderer,RECONSTRUCTED,very-high,Flipped 4-pixel writer
 0x001acf4c,WRITE_4PIXELSx2,renderer,RECONSTRUCTED,very-high,Horizontal x2 4-pixel writer

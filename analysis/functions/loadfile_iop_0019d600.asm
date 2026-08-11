@@ -146,4 +146,3 @@
   19d840: 2d 28 00 00  	move	$5, $zero
   19d844: ec ff 00 10  	b	0x19d7f8 <.text+0x9d7f8>
   19d848: 01 00 03 24  	addiu	$3, $zero, 0x1
-

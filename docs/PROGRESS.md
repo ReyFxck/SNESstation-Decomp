@@ -10,10 +10,10 @@ SIF command dispatcher.
 
 ## Current scoreboard
 
-- **390 reconstructed targets**
-- **407 mapped targets**
-- **34.30% reconstructed** on the conservative 1,137-JAL proxy
-- **35.80% mapped** on the same proxy
+- **485 reconstructed targets**
+- **544 mapped targets**
+- **42.66% reconstructed** on the conservative 1,137-JAL proxy
+- **47.85% mapped** on the same proxy
 - **0.00% matching** — deliberately strict
 - renderer draw-family subgrid: **30/30 reconstructed**
 
@@ -108,7 +108,7 @@ byte-identical machine code with relocations/link placement accounted for.
 
 ## Validation
 
-Before packaging Progress 6:
+Before packaging Progress 7:
 
 - every current `src/**/*.c` unit is compiled with
   `-std=c99 -Wall -Wextra -Werror -fsyntax-only`;
@@ -117,11 +117,27 @@ Before packaging Progress 6:
 - focused assembly extracts are stored under `analysis/functions/`, not a full
   target disassembly.
 
+## Progress 7 runtime milestone
+
+The former math frontier is now crossed through Newlib 1.10 `mathfp`, the old
+`libmc` client, GCC 3.2.2-b1 runtime/soft-double helpers, the linked DWARF unwind
+objects, NEW/XPADMAN `libpad`, and the first libsupc++ EH leaves. Exact archive
+member sizes and repeated internal `_Unwind_*` offsets are documented in
+[`RUNTIME_PROGRESS7.md`](RUNTIME_PROGRESS7.md).
+
+## Progress 8 runtime milestone
+
+The target RTTI strings and vtables close the libsupc++ hierarchy from
+`std::type_info @ 0x001a9fa8` through standard exceptions and
+`std::bad_alloc` at `0x001ab3bc`. Small RTTI leaves, destructor families,
+exception allocation/free, catch bookkeeping, EH globals and new-handler state
+are reconstructed. Complex VMI dynamic/upcast walkers stay IDENTIFIED pending a
+complete independent rewrite. See [`RUNTIME_PROGRESS8.md`](RUNTIME_PROGRESS8.md).
+
 ## Next frontier
 
-The recovered late PS2LIB/libkernel support reaches `SifLoadFileInit @
-0x0019fd20`. The next clean unclassified function begins at **`0x0019fddc`** and
-immediately enters a floating-point math corridor. That is the next contiguous
-runtime target; in parallel, higher-value SNES Station-specific work remains in
-frontend/config/input, SjPCM/AmigaMod audio glue, and unresolved Snes9x 1.41
-core structures.
+Progress 8 crosses `0x001a9fa8` and maps the linked `std::type_info` /
+libsupc++ RTTI and exception core through `0x001ab3bc`. The next clean frontier
+is **`0x001ab3c0`**, where EE CP0/cache-maintenance code begins. Matching stays
+0.00% until the historical EE toolchain can be rebuilt and complete functions
+compare byte-for-byte.

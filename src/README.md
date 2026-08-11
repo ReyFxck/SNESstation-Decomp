@@ -70,3 +70,30 @@ Progress 6 adds:
 
 Target-sized RPC structures are defined in `include/ps2_libkernel_recovered.h`.
 See `docs/CDVD_LIBKERNEL_MAP.md`.
+
+
+## Progress 7 runtime recovery
+
+- `ps2/newlib_mathfp_recovered.c` — Newlib 1.10 single-precision trig/classification corridor with target EE leaves preserved;
+- `ps2/libmc_recovered.c` — old memory-card RPC client and async helpers;
+- `ps2/libgcc_runtime_recovered.c` — independently written DI/soft-double runtime models and proven archive boundaries;
+- `ps2/gcc_unwind_pe_recovered.c` — small DWARF encoding/context helpers recovered from the target;
+- `ps2/libpad_recovered.c` — NEW/XPADMAN pad client corridor through `padGetConnection`;
+- `ps2/cpp_runtime_recovered.c` — small delete/terminate/new[] runtime leaves.
+
+See `docs/RUNTIME_PROGRESS7.md`. The next clean runtime frontier is the
+`std::type_info` / RTTI hierarchy at `0x001a9fa8`.
+
+
+## Progress 8 RTTI / exception runtime recovery
+
+- `ps2/libsupcxx_rtti_recovered.c` — independent behavioral models for the
+  `std::type_info` hierarchy, standard exception destructor families, old
+  `__cxa_allocate_exception` emergency pool, catch-state bookkeeping, EH globals,
+  `std::uncaught_exception`, `std::exception::what`, and `std::set_new_handler`.
+- `analysis/functions/libsupcxx_rtti_001a9fa8.asm` — focused target assembly
+  evidence for `0x001a9fa8..0x001ab3bf`.
+
+The complex VMI dynamic/upcast walkers remain mapped but intentionally not
+claimed reconstructed. See `docs/RUNTIME_PROGRESS8.md`. The next clean runtime
+frontier is `0x001ab3c0`.
