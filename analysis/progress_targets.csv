@@ -37,7 +37,7 @@ address,name,area,status,confidence,notes
 0x001056b8,snes_leaf_001056b8,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x001056c0,snes_dispatch_001056c0,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00105718,snes_dispatch_00105718,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
-0x00105750,path_config_block,frontend,PARTIAL,medium-high,Save/config path construction block
+0x00105750,build_sram_path_00105750,frontend,RECONSTRUCTED,very-high,"Progress 14: complete split-path, 0x1b basename truncation, mc0:SNES_EMU/ prefix and .SRM append flow recovered from 0x00105750..0x001057f8"
 0x00105cb8,snes_p11_00105cb8,audio,RECONSTRUCTED,very-high,Audio/config selector maps modes 1/2/3 to 12000/24000/48000 and stores option/argument
 0x00105d30,snes_dispatch_00105d30,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00105d78,snes_dispatch_00105d78,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -66,7 +66,7 @@ address,name,area,status,confidence,notes
 0x0010a768,snes_leaf_0010a768,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a7ac,snes_leaf_0010a7ac,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a7fc,snes_leaf_0010a7fc,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
-0x0010a840,apu_buffer_allocator,audio,IDENTIFIED,high,APU/audio buffer allocation path
+0x0010a840,apu_buffer_allocator,audio,RECONSTRUCTED,very-high,"Progress 14: exact three-allocation order, failure cleanup through 0x0010a8bc and boolean return flow represented by recovered source"
 0x0010a8bc,snes_p11_0010a8bc,frontend,RECONSTRUCTED,high,Frees and clears three target-owned pointer slots in target order
 0x0010b72c,snes_p13_apu_io_write_0010b72c,audio,RECONSTRUCTED,very-high,Progress 13: mirrored APU byte write plus FA/FB/FC timer-target zero=>0x100 handling recovered
 0x0010c300,snes_dispatch_0010c300,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -127,12 +127,12 @@ address,name,area,status,confidence,notes
 0x00140c30,snes_dispatch_00140c30,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00142a78,tile_lookup_table_init,renderer,RECONSTRUCTED,high,Builds odd/even high/low tile lookup tables
 0x0014308c,snes_p11_0014308c,renderer,RECONSTRUCTED,very-high,Builds exact 8x256 16-bit packed lookup table and clears target ready byte
-0x00143780,renderer_4bpp_setup,renderer,IDENTIFIED,medium-high,Renderer state/setup block
+0x00143780,renderer_4bpp_setup,renderer,RECONSTRUCTED,very-high,Progress 15: complete 0x00143780..0x001437a4 leaf recovered; implicit $t4-indexed cache word set to -1 and renderer-ready byte cleared
 0x00145240,renderer_cache_select,renderer,IDENTIFIED,medium-high,Selects tile cache / validity map
 0x00148338,snes_leaf_00148338,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00150c90,snes_leaf_00150c90,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00151074,CMemory_Init,memory,RECONSTRUCTED,high,Core memory allocator/initializer
-0x00151330,per_rom_cleanup,memory,PARTIAL,medium-high,Cleanup path; deliberately not named CMemory::Deinit yet
+0x00151330,per_rom_cleanup,memory,RECONSTRUCTED,high,"Progress 14: complete wrapper flow recovered: free/clear per-ROM buffers via 0x00151360 then call 0x00150f54(memory, 0); historical C++ method name remains unclaimed"
 0x00151360,snes_p11_00151360,memory,RECONSTRUCTED,high,Per-ROM cleanup leaf frees and clears two allocation members
 0x001513bc,CMemory_LoadROM,memory,IDENTIFIED,high,ROM load path proven by failure branch/string
 0x00153354,CMemory_LoadSRAM,memory,RECONSTRUCTED,high,SRAM loading path
@@ -629,7 +629,7 @@ address,name,area,status,confidence,notes
 0x001a2c78,__umoddi3,libgcc,RECONSTRUCTED,very-high,Public unsigned DI remainder wrapper; containing archive object is exactly 0x6c8 bytes
 0x001a2c98,__udivmoddi4_umod_clone,libgcc,RECONSTRUCTED,high,Internal unsigned division core in _umoddi3.o
 0x001a3340,fptodp,libgcc,RECONSTRUCTED,very-high,US_SOFTWARE_GOFAST SF-to-DF wrapper; exact historical object size 0x40
-0x001a3380,_fpadd_parts_d,libgcc,IDENTIFIED,very-high,Internal soft-double add/sub core; _addsub_df.o layout matches GCC 3.2.2-b1
+0x001a3380,_fpadd_parts_d,libgcc,RECONSTRUCTED,very-high,"Progress 15: complete soft-double parts add core recovered including special classes, sticky alignment, signed add/subtract and normalization"
 0x001a35b0,dpadd,libgcc,RECONSTRUCTED,very-high,Soft-double add public behavior represented by libgcc runtime model
 0x001a3610,dpsub,libgcc,RECONSTRUCTED,very-high,Soft-double subtract public behavior represented by libgcc runtime model
 0x001a3680,dpmul,libgcc,RECONSTRUCTED,very-high,Soft-double multiply public behavior represented by libgcc runtime model
@@ -686,7 +686,7 @@ address,name,area,status,confidence,notes
 0x001a81b8,__fpcmp_parts_d,libgcc,RECONSTRUCTED,very-high,Progress 13: DF parts comparison order across NaN/Inf/zero/sign/exponent/fraction recovered
 0x001a82c0,__pack_f,libgcc,RECONSTRUCTED,high,"Progress 13: SF pack behavior modeled from target class branches, exponent limits and rounding corridor"
 0x001a8420,padGetDmaStr,libpad,RECONSTRUCTED,very-high,NEW/XPADMAN double-buffer selector; SyncDCache over 256-byte DMA area and newest frame selection recovered
-0x001a8484,padInit,libpad,PARTIAL,very-high,"NEW/XPADMAN init; bind IDs 0x80000100/101, wait loops, version query, state clear and command 0x10 proven; research model omits exact bind wait timing"
+0x001a8484,padInit,libpad,RECONSTRUCTED,very-high,"Progress 15: complete NEW/XPADMAN init flow recovered; both bind/retry delay corridors, mod-version query, 8 state records and command 0x10 RPC represented"
 0x001a8614,padEnd,libpad,RECONSTRUCTED,very-high,PAD_RPCCMD_END async RPC and initialized-state clear recovered
 0x001a8690,padPortOpen,libpad,RECONSTRUCTED,very-high,"64-byte alignment check, two 128-byte DMA records and OPEN RPC recovered"
 0x001a87b0,padPortClose,libpad,RECONSTRUCTED,very-high,CLOSE RPC and PadState open flag clear recovered

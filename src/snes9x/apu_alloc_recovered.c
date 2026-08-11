@@ -56,6 +56,15 @@ int apu_buffer_allocator_0010a840(void)
     return 1;
 }
 
+/*
+ * Address-stable integration spelling used by main_flow_recovered.c.
+ * It is an aliasing research helper, not a claim about the historical symbol.
+ */
+int apu_buffers_init_0010a840(void)
+{
+    return apu_buffer_allocator_0010a840();
+}
+
 void apu_buffer_cleanup_0010a8bc(void)
 {
     /* Target free/null order is +0x04, +0x20, +0x24. */

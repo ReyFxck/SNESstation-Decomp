@@ -1,0 +1,7 @@
+Progress 14 validation
+======================
+matching=0 reconstructed=799 mapped=827 partial=2 identified=26
+expected proxy: reconstructed=799/1137=70.27%, mapped=827/1137=72.74%
+promoted: 0x00105750, 0x0010a840, 0x00151330
+remaining PARTIAL: main@0x00104f18, padInit@0x001a8484
+host syntax check: PASS (85 recovered C translation units)

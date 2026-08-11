@@ -16,7 +16,7 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 > Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **70.01%** (796 tracked targets)
+- **Reconstructed:** **70.54%** (802 tracked targets)
 - **Mapped / identified:** **72.74%** (827 tracked targets)
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 

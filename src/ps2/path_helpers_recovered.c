@@ -14,7 +14,7 @@ extern void split_path_00105ae8(const char *src,
                                 char *name, char *ext);
 extern const char *g_loaded_rom_path; /* logical source at VA 0x0035b328 */
 
-char *build_sram_path_recovered(void)
+char *build_sram_path_00105750(void)
 {
     char drive[8] = {0};
     char dir[0x400] = {0};
@@ -32,7 +32,7 @@ char *build_sram_path_recovered(void)
     return sram_path_buf;
 }
 
-char *build_state_path_recovered(unsigned slot)
+char *build_state_path_001057fc(unsigned slot)
 {
     char drive[8] = {0};
     char dir[0x400] = {0};
@@ -44,4 +44,15 @@ char *build_state_path_recovered(unsigned slot)
     snprintf(state_path_buf, sizeof(state_path_buf),
              "mc0:SNES_EMU/%s.%03u", shortname_buf, slot);
     return state_path_buf;
+}
+
+/* Compatibility spellings retained for older research callers. */
+char *build_sram_path_recovered(void)
+{
+    return build_sram_path_00105750();
+}
+
+char *build_state_path_recovered(unsigned slot)
+{
+    return build_state_path_001057fc(slot);
 }
