@@ -16,8 +16,8 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 > Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **60.60%** (689 tracked targets)
-- **Mapped / identified:** **65.17%** (741 tracked targets)
+- **Reconstructed:** **65.52%** (745 tracked targets)
+- **Mapped / identified:** **70.27%** (799 tracked targets)
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
 The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
@@ -126,6 +126,12 @@ followed by zero padding and then string/data storage at `0x001b0880`. The
 back to earlier unmapped frontend/Snes9x core regions instead of chasing a
 higher-address frontier.
 
+Progress 11 started that earlier-region pass with 40 short code-referenced
+targets while rejecting 14 scanner/data false positives. Progress 12 continues
+from that vetted base with 20 additional complete targets across Q15 transforms,
+0xe0-stride slot/controller runtime, memory-card/persistence I/O and state-block
+transfer helpers.
+
 This still does **not** make anything MATCHING: the blue count stays at 0 until
 an actual historical-toolchain rebuild compares complete machine code
 byte-for-byte after relocation normalization. See
@@ -227,3 +233,20 @@ Progress 10 reaches **685 / 1,137 reconstructed (60.25%)** and **739 / 1,137 map
 (65.00%)** while keeping matching at **0.00%**. The checkpoint adds compact SjPCM,
 AmigaMod, multitap, FDE-runtime, libc, CMemory metadata, and address-labelled target
 leaf models. See [`docs/PROGRESS10.md`](docs/PROGRESS10.md).
+
+## Progress 11 — earlier-core small-target recovery
+
+Progress 11 reaches **725 / 1,137 reconstructed (63.76%)** and **779 / 1,137 mapped
+(68.51%)**, with matching still at **0.00%**.  Forty code-referenced short targets
+were reconstructed across frontend/RPC/controller glue, Snes9x memory helpers,
+the cheat apply/restore corridor, special-bank lookups, renderer lookup/nibble
+helpers and a CPU-state boundary leaf.  Fourteen aligned-data `jal` scanner hits
+were explicitly rejected rather than counted.  See [`docs/PROGRESS11.md`](docs/PROGRESS11.md).
+
+## Progress 12 — fixed transforms, slot runtime, and state I/O
+
+Progress 12 reaches **745 / 1,137 reconstructed (65.52%)** and **799 / 1,137 mapped
+(70.27%)**, with matching still at **0.00%**. Twenty additional real-code JAL
+targets recover six Q15 transforms, seven slot/controller helpers, memory-card
+and record persistence wrappers, framed output, cdfs path construction and two
+state-transfer leaves. See [`docs/PROGRESS12.md`](docs/PROGRESS12.md).

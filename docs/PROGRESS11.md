@@ -1,92 +1,87 @@
-# Progress 11 — APU allocation and per-ROM cleanup
+# Progress 11 — earlier-core small-target recovery
 
-Progress 11 continues the target-first recovery from the Progress 10 checkpoint
-(`6966ffb`, 60.25% reconstructed / 65.00% mapped).
+Progress 11 moves back into the earlier frontend/Snes9x body now that the
+high-address executable tail is closed.  The checkpoint is deliberately driven
+by target call evidence rather than by percentage: short JAL targets were first
+separated from scanner hits whose only apparent call sites live in post-code
+data.
 
-The policy is unchanged: the SNES Station v0.23 R5900 machine code is
-authoritative. Historical Snes9x/PS2 source can help with nomenclature, but a
-name or implementation is not imported unless the target evidence supports it.
+## Triage
 
-## Reconstructed in this checkpoint
+The focused short-target set contained 65 candidates.  Re-reading each
+candidate against `analysis/jal_candidates.csv` and the executable end at
+`0x001b0880` split them into:
 
-### `0x0010a840` — APU/audio buffer allocator
+- **51 candidates with at least one call site in executable code**;
+- **14 scanner false positives / data-only hits**, not promoted;
+- **40 code-referenced targets reconstructed in this checkpoint**;
+- **11 code-referenced targets deferred** because their control flow or wider
+  state contract still deserves a larger reconstruction.
 
-The target allocates exactly three buffers in this order from the global state
-at EE VA `0x00345498`:
+The 14 rejected targets are:
 
-- state `+0x04` — `0x10000` bytes;
-- state `+0x20` — `0x10000` bytes;
-- state `+0x24` — `0x40000` bytes.
+`0x00116040`, `0x00140010`, `0x0017a398`, `0x00143030`, `0x00141424`,
+`0x00183ba8`, `0x00117044`, `0x00183c00`, `0x0013cbc4`, `0x001413fc`,
+`0x0011d044`, `0x0018543c`, `0x0014203c`, `0x00142020`.
 
-If any allocation is null, the target calls `0x0010a8bc` and returns `0`.
-Otherwise it returns `1`.
+This matters because a raw `jal`-pattern scan can decode aligned data words as
+calls.  Progress accounting therefore does not promote such words merely to
+increase coverage.
 
-Recovered source: `src/snes9x/apu_alloc_recovered.c`.
+## Reconstructed behavior
 
-### `0x0010a8bc` — APU/audio buffer cleanup
+`src/ps2/progress11_frontend_recovered.c` adds compact target models for:
 
-This JAL target frees and then nulls those same fields in exact target order:
-`+0x04`, `+0x20`, `+0x24`.
+- VSync callback teardown and the 640x480 GSLIB clear wrapper;
+- two file open/process/close wrappers;
+- the small RPC command 3/4/5 leaves and two command-1 word RPC copies;
+- audio-rate/default display configuration;
+- two target allocation cleanup leaves;
+- short/float transform glue;
+- controller-axis mixing, table update and neutral-state detection.
 
-The global symbol is intentionally address-labelled in the recovery because no
-historical variable name has been proven.
+`analysis/functions/progress11_short_targets.asm` keeps the focused target-side
+instruction evidence for all 40 promoted entries.  `src/snes9x/progress11_core_recovered.c` adds:
 
-### `0x00151330` — per-ROM cleanup orchestrator
+- little-endian two-byte read/write helpers;
+- two status-bit table selector families (five target copies total);
+- the four-page memory-map initializer;
+- the 75-entry, 0x20-byte cheat record add/apply/restore corridor;
+- D/E/F special-bank pointer/byte lookup helpers;
+- the 13-byte renderer code-stream reader;
+- the exact 8 x 256 packed 16-bit lookup-table generator;
+- transparent-nibble merge logic;
+- a CPU state block-boundary/reset helper preserving the target
+  `0xffffecff` flag mask.
 
-The existing partial target is now represented behaviorally. It performs only
-two calls in the recovered slice:
+Address-based names remain in use where an original source symbol has not been
+proven.  The cheat models preserve the target distinction between a direct map
+write (`Map >= 0x12`) and the fallback byte-write path through explicit host
+callbacks rather than collapsing the two paths.
 
-1. `0x00151360(memory)`;
-2. `0x00150f54(memory, 0)`.
+## Accounting
 
-No historical C++ method name is claimed for either call.
+On the conservative 1,137-target JAL proxy:
 
-Recovered source: `src/snes9x/memory_cleanup_recovered.c`.
+- **725 reconstructed — 63.76%**
+- **779 mapped — 68.51%**
+- **0 matching — 0.00%**
 
-### `0x00151360` — per-ROM temporary-buffer cleanup
-
-The helper uses `memory + 0x8000` as its base in the R5900 code and frees the
-32-bit pointers at effective object offsets `+0xb064` and `+0xb068`, nulling
-each field immediately after `free`.
-
-## Deliberately not promoted
-
-`0x0012a400` remains `IDENTIFIED`.
-
-Its focused evidence file proves the VRAM byte write and invalidation of the
-2bpp/4bpp/8bpp tile-validity maps, but the captured slice ends while the second
-control-flow path is still live and branches back into the parent routine.
-Progress 11 therefore does **not** claim a standalone reconstructed C function
-for that subentry.
-
-This is intentional: coverage must follow complete target evidence, not the
-desire to raise the percentage.
-
-## Expected accounting
-
-Against the existing 1,137 heuristic JAL-target proxy, when applied on top of
-Progress 10:
-
-- Matching: **0 / 1,137 = 0.00%**
-- Reconstructed / matching: **689 / 1,137 = 60.60%**
-- Mapped: **741 / 1,137 = 65.17%**
-
-The two newly tracked addresses (`0x0010a8bc`, `0x00151360`) are actual entries
-in `analysis/jal_candidates.csv`; the other two were already tracked as
-`IDENTIFIED`/`PARTIAL` and are promoted only after their complete target
-behavior was recovered.
+This is +40 reconstructed and +40 mapped targets over Progress 10.
 
 ## Validation
 
-`tools/apply_progress11.py`:
+- all **74** recovered C translation units pass
+  `cc -std=c11 -Wall -Wextra -Werror -fsyntax-only -Iinclude`;
+- the Progress 11 host smoke test covers byte read/write ordering, map-page
+  generation, selector branches, cheat apply/restore, D/E/F bank selection,
+  code-stream state transitions, lookup generation, nibble merge, CPU-state
+  update, RPC packet behavior, display/audio defaults and GSLIB wrapper order;
+- `analysis/progress_targets.csv` contains 779 unique addresses;
+- `analysis/symbols.csv` contains 779 unique addresses;
+- every one of the 40 new rows is present in the JAL-candidate scan and has a
+  first call site below the executable/data boundary `0x001b0880`.
 
-- verifies all four addresses exist in `analysis/jal_candidates.csv`;
-- updates/inserts the four manifest rows without duplicating addresses;
-- regenerates the README/progress SVG through `tools/update_progress.py`;
-- syntax-checks the two new C translation units with
-  `-std=c11 -Wall -Wextra -Werror` when a host C compiler is available;
-- writes `analysis/progress11_validation.txt` with the local results.
-
-`MATCHING` intentionally remains zero. Byte matching still requires a
-historically correct EE compiler/linker reconstruction plus relocation-aware
-comparison against the target ELF.
+Matching remains zero.  A behavioral C model is not upgraded to MATCHING until
+a historical EE toolchain candidate is rebuilt and compared against target
+machine code after relocation handling.

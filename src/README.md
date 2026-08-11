@@ -115,13 +115,16 @@ This closes the former `0x001ab3c0` frontier and connects directly to the
 already reconstructed pixel-writer tail at `0x001acd04`. See
 `docs/CORE_PROGRESS9.md`.
 
-## Progress 11 APU allocation / per-ROM cleanup recovery
+## Progress 12 fixed-transform / slot / state-I/O recovery
 
-- `snes9x/apu_alloc_recovered.c` — exact three-buffer allocation/failure cleanup
-  corridor at `0x0010a840..0x0010a933`;
-- `snes9x/memory_cleanup_recovered.c` — per-ROM cleanup orchestrator and
-  temporary-buffer teardown at `0x00151330..0x001513bb`.
+- `snes9x/progress12_fixed_transform_recovered.c` — six target Q15 3x3 row and
+  transposed transform leaves with per-product arithmetic shifts preserved;
+- `snes9x/progress12_slot_runtime_recovered.c` — seven compact 0xe0-stride
+  slot/controller state, scaling, period and dispatch helpers;
+- `ps2/progress12_io_state_recovered.c` — cdfs path formatting, memory-card
+  probe, record-store load/save, framed output and two state-transfer wrappers;
+- `analysis/functions/progress12_targets.asm` — focused target evidence for all
+  twenty Progress 12 promotions.
 
-The target itself remains authoritative. `0x0012a400` is intentionally left
-identified rather than promoted because its focused assembly capture ends with
-live control flow back into the parent PPU routine. See `docs/PROGRESS11.md`.
+See `docs/PROGRESS12.md`.  These are behavioral reconstructions; matching stays
+at 0.00% until a historical EE toolchain rebuild proves machine-code identity.

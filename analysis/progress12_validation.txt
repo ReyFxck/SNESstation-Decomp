@@ -1,0 +1,20 @@
+SNES Station v0.23 — Progress 12 validation
+===========================================
+Base checkpoint: Progress 11 full tree (725 reconstructed / 779 mapped)
+New reconstructed targets: 20
+Tracked JAL proxy: 1137
+Reconstructed: 745 / 1137 = 65.52%
+Mapped: 799 / 1137 = 70.27%
+Matching: 0 / 1137 = 0.00%
+
+Validation performed:
+- 77 src/**/*.c translation units pass:
+  cc -std=c11 -Wall -Wextra -Werror -fsyntax-only -Iinclude
+- Progress 12 host smoke test: PASS
+- analysis/progress_targets.csv: 799 rows, 799 unique addresses
+- analysis/symbols.csv: 799 rows, 799 unique addresses
+- all 20 Progress 12 target addresses are in analysis/jal_candidates.csv
+- every Progress 12 first_call_site is below executable/data boundary 0x001b0880
+- focused evidence: analysis/functions/progress12_targets.asm
+- matching claims added: 0
+- P12 delta against the full Progress 11 tree passes git diff --check
