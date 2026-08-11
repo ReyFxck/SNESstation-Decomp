@@ -254,15 +254,131 @@ address,name,status,confidence,notes
 0x0019bd98,DmaReset,RECONSTRUCTED,very-high,GSLIB/Duke DMA reset MMIO sequence recovered exactly
 0x0019be20,SendDma02,RECONSTRUCTED,very-high,GIF DMA channel-2 chain submission helper recovered
 0x0019be40,Dma02Wait,RECONSTRUCTED,very-high,Polls CHCR bit 0x100 until GIF DMA channel 2 idle
-0x0019be70,CDVD_Init,IDENTIFIED,high,CDVD RPC initialization
-0x0019cc0c,SifInitRpc,IDENTIFIED,high,PS2 RPC init
-0x0019d600,SifLoadModule,IDENTIFIED,high,IOP module path loader
-0x0019d63c,SifAllocIopHeap,IDENTIFIED,high,IOP heap allocator RPC
-0x0019d6b8,SifFreeIopHeap,IDENTIFIED,high,IOP heap free RPC
-0x0019d740,SifIopReset,IDENTIFIED,high,IOP reset wrapper
-0x0019e388,printf,IDENTIFIED,high,Varargs stdout formatter
-0x0019e3d0,sprintf_like,IDENTIFIED,high,Varargs destination formatter
-0x0019e414,puts_like,IDENTIFIED,high,Writes string bytes to fd 1
+0x0019be70,CDVD_Init,RECONSTRUCTED,very-high,Hiryu/Sjeep libcdvd EE RPC init; target RPC id 0x0b001337 and bind loop recovered
+0x0019bf00,CDVD_DiskReady,RECONSTRUCTED,very-high,RPC command 0x06; mode word and result path recovered
+0x0019bf70,CDVD_FindFile,RECONSTRUCTED,very-high,RPC command 0x01; 1024-byte path request plus 0x90-byte TocEntry recovered
+0x0019c0d0,CDVD_Stop,RECONSTRUCTED,very-high,RPC command 0x04 stop wrapper recovered
+0x0019c128,CDVD_TrayReq,RECONSTRUCTED,very-high,RPC command 0x05; target preserves historical omission of mode store
+0x0019c190,CDVD_getdir,RECONSTRUCTED,very-high,RPC command 0x02 directory request/buffer layout recovered
+0x0019c2ac,CDVD_FlushCache,RECONSTRUCTED,very-high,RPC command 0x07 cache flush wrapper recovered
+0x0019c304,CDVD_GetSize,RECONSTRUCTED,very-high,RPC command 0x08 size query; later public libcdvd revision confirms name
+0x0019c364,memcpy,RECONSTRUCTED,very-high,Target byte-copy implementation recovered
+0x0019c39c,memset,RECONSTRUCTED,very-high,Target byte-fill implementation recovered
+0x0019c3d4,strcat,RECONSTRUCTED,very-high,Target append loop recovered
+0x0019c410,strncmp,RECONSTRUCTED,very-high,Target bounded string compare recovered
+0x0019c458,memcmp,RECONSTRUCTED,very-high,Target memory compare recovered
+0x0019c4a0,memmove,RECONSTRUCTED,very-high,Overlap-safe forward/backward copy; previously used by SRAM path
+0x0019c528,strcpy,RECONSTRUCTED,very-high,Target string copy recovered
+0x0019c550,strncpy,RECONSTRUCTED,very-high,Target bounded string copy/pad loop recovered
+0x0019c5e8,strlen,RECONSTRUCTED,very-high,Target string length leaf recovered
+0x0019c610,strchr,RECONSTRUCTED,very-high,Target character search recovered
+0x0019c648,strcmp,RECONSTRUCTED,very-high,Target string compare recovered
+0x0019c688,SifBindRpc,RECONSTRUCTED,very-high,Old PS2DEV SIF RPC bind path; packet allocation/send/semaphore behavior recovered
+0x0019c7b0,SifCallRpc,RECONSTRUCTED,very-high,Old PS2DEV SIF RPC call path recovered; cache/writeback and NOWAIT modes mapped
+0x0019c960,rpc_packet_free,RECONSTRUCTED,very-high,SIF RPC packet free helper recovered
+0x0019c978,_request_end,RECONSTRUCTED,very-high,RPC completion handler for bind/call responses recovered
+0x0019ca0c,search_svdata,RECONSTRUCTED,very-high,Server-data queue search helper recovered
+0x0019ca54,_request_bind,RECONSTRUCTED,very-high,Inbound bind request handler recovered
+0x0019cb08,_request_call,RECONSTRUCTED,very-high,Inbound call queueing/wakeup handler recovered
+0x0019cba8,_request_rdata,RECONSTRUCTED,very-high,Other-data response handler recovered
+0x0019cc0c,SifInitRpc,RECONSTRUCTED,very-high,SIF RPC command handlers/tables and EE-side handshake recovered
+0x0019cd4c,SifExitRpc,RECONSTRUCTED,very-high,SifExitCmd wrapper plus RPC init-state clear
+0x0019cd70,_rpc_get_packet,RECONSTRUCTED,very-high,64-byte packet allocator and rec_id/rpc_id generation recovered
+0x0019ce2c,_rpc_get_fpacket,RECONSTRUCTED,very-high,Round-robin 64-byte response-packet selector recovered
+0x0019ce60,iWakeupThread,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number -0x34
+0x0019ce70,CreateSema,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x40
+0x0019ce80,DeleteSema,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x41
+0x0019ce90,iSignalSema,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number -0x43
+0x0019cea0,WaitSema,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x44
+0x0019ceb0,FlushCache,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x64
+0x0019cec0,iFlushCache,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number -0x68
+0x0019ced0,SifDmaStat,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x76
+0x0019cee0,SifSetDma,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x77
+0x0019cef0,SifSetReg,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x79
+0x0019cf00,SifGetReg,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x7a
+0x0019cf10,SifWriteBackDCache,RECONSTRUCTED,very-high,64-byte cache-line writeback/invalidate loop with cache op 0x18 recovered
+0x0019cfc0,fioOpen,RECONSTRUCTED,very-high,Old fileIO RPC fno 0; exact 0x110-byte request layout recovered
+0x0019d090,fioClose,RECONSTRUCTED,very-high,Old fileIO RPC fno 1 recovered
+0x0019d120,fioRead,RECONSTRUCTED,very-high,Old fileIO RPC fno 2; exact 0x10-byte request and unaligned read callback recovered
+0x0019d244,fioWrite,RECONSTRUCTED,very-high,Old fileIO RPC fno 3; exact 0x20-byte request and leading unaligned bytes recovered
+0x0019d360,fioLseek,RECONSTRUCTED,very-high,Old fileIO RPC fno 4; exact 0x10-byte request recovered
+0x0019d410,fioMkdir,RECONSTRUCTED,very-high,Old fileIO RPC fno 7; 0x100-byte payload and one-byte-outside terminator quirk preserved
+0x0019d4b0,_fio_read_intr,RECONSTRUCTED,very-high,Unaligned head/tail read-copy callback recovered
+0x0019d534,fioPutc,RECONSTRUCTED,very-high,One-byte wrapper through fioWrite recovered
+0x0019d558,fioGets,RECONSTRUCTED,very-high,Bulk read plus relative seek-back on NUL/newline recovered
+0x0019d600,SifLoadModule,RECONSTRUCTED,very-high,Public path-module wrapper over older five-argument _SifLoadModule
+0x0019d620,SifLoadModuleBuffer,RECONSTRUCTED,very-high,Public buffer-module wrapper over _SifLoadModuleBuffer
+0x0019d63c,SifAllocIopHeap,RECONSTRUCTED,very-high,IOP heap RPC command 1 recovered
+0x0019d6b8,SifFreeIopHeap,RECONSTRUCTED,very-high,IOP heap RPC command 2 recovered
+0x0019d740,SifIopReset,RECONSTRUCTED,very-high,Exact 0x70 reset packet/DMA path recovered; target omits later reboot counter behavior
+0x0019d84c,fmtint,RECONSTRUCTED,very-high,"Callback-driven integer formatter reconstructed from target, including reversed emission, # prefixes, zero/space padding and %.0 zero-value early return"
+0x0019dba8,fmtstr,RECONSTRUCTED,very-high,Callback-driven string formatter reconstructed; preserves target explicit-precision padding quirk using min_width-max_chars
+0x0019dd28,fmtchar,RECONSTRUCTED,very-high,Character formatter reconstructed with target left/right space padding and callback failure convention
+0x0019de10,dopr,RECONSTRUCTED,very-high,"Old PS2LIB callback format parser reconstructed; supports flags,width,precision,h/l and c,d/i,n,o,p,s,u,x/X with target unknown-spec behavior"
+0x0019e274,snprintf_room_check,RECONSTRUCTED,very-high,Exact target callback: tests whether current+count passes reserved end pointer
+0x0019e288,snprintf_putc,RECONSTRUCTED,very-high,"Exact target callback: room-check one byte, store byte, advance current, return 0/1"
+0x0019e2e0,vsnprintf,RECONSTRUCTED,very-high,"Bounded formatter wrapper reconstructed; 0x1c target output state, always writes trailing NUL, returns passed size on formatter overflow"
+0x0019e364,vsprintf,RECONSTRUCTED,very-high,Target wrapper forwards to vsnprintf with fixed size 0x1000; historical libkernel map confirms symbol and order
+0x0019e388,printf,RECONSTRUCTED,very-high,Varargs wrapper reconstructed; forwards saved argument area to vprintf @ 0x0019faa8
+0x0019e3d0,sprintf,RECONSTRUCTED,very-high,Target varargs wrapper calls vsprintf; historical libkernel map confirms exact symbol and order
+0x0019e414,puts_like,RECONSTRUCTED,very-high,"Behavior recovered: measure string, fioWrite(fd=1), ignore write result, return length; not standard puts because no newline is appended"
+0x0019e474,heap_mem_fit,RECONSTRUCTED,very-high,Old 16-byte-header PS2LIB heap gap finder; target uses next header address minus current user-top
+0x0019e4b4,malloc,RECONSTRUCTED,very-high,Old PS2LIB allocator reconstructed with 16-byte alignment/list headers and target no-lock behavior
+0x0019e648,calloc,RECONSTRUCTED,very-high,32-bit count*size wrapper over target malloc followed by zero fill
+0x0019e698,memalign,RECONSTRUCTED,very-high,Old PS2LIB memalign reconstructed; relocates 16-byte heap header and repairs prev/next/head/tail links
+0x0019e784,free,RECONSTRUCTED,very-high,Old PS2LIB free reconstructed including head/tail special cases and ps2_sbrk heap shrink
+0x0019e860,strcasecmp,RECONSTRUCTED,very-high,ASCII case-insensitive compare through target tolower; preserves signed loop loads and unsigned final loads
+0x0019e8e4,strncasecmp,RECONSTRUCTED,very-high,Count-limited ASCII case-insensitive compare reconstructed from target loop
+0x0019e99c,strtok,RECONSTRUCTED,very-high,"Recovered dual-global tokenizer state machine; preserves stale continuation state after an all-delimiter new string and the missing NULL-state guard on strtok(NULL, ...)"
+0x0019eaa4,strrchr,RECONSTRUCTED,very-high,Target repeatedly calls strchr from previous match+1 and returns last match
+0x0019eaf8,strstr,RECONSTRUCTED,very-high,Target handles null haystack/empty needle then scans with strlen(needle)+strncmp
+0x0019eb80,strtol,RECONSTRUCTED,very-high,Recovered sign/base/prefix/endptr parser with signed-32-bit saturation and target errno=34 ERANGE overflow path
+0x0019edac,tolower,RECONSTRUCTED,very-high,ASCII tolower via target isupper helper
+0x0019eddc,toupper,RECONSTRUCTED,very-high,ASCII toupper via target islower helper
+0x0019ee0c,isupper,RECONSTRUCTED,very-high,ASCII A..Z predicate
+0x0019ee20,islower,RECONSTRUCTED,very-high,ASCII a..z predicate
+0x0019ee34,isalpha,RECONSTRUCTED,very-high,Target OR-like composition of islower/isupper
+0x0019ee80,isdigit,RECONSTRUCTED,very-high,ASCII 0..9 predicate
+0x0019ee94,isalnum,RECONSTRUCTED,very-high,Target composition of isalpha/isdigit
+0x0019eee0,iscntrl,RECONSTRUCTED,very-high,Target classifies values below 0x20 or equal 0x7f as control
+0x0019eefc,isgraph,RECONSTRUCTED,very-high,Target returns !iscntrl && !isspace
+0x0019ef3c,isprint,RECONSTRUCTED,very-high,Target returns !iscntrl
+0x0019ef5c,ispunct,RECONSTRUCTED,very-high,"Target returns non-control, non-alnum, non-space"
+0x0019efac,isspace,RECONSTRUCTED,very-high,ASCII tab/newline family 0x09..0x0d plus space
+0x0019efcc,isxdigit,RECONSTRUCTED,very-high,ASCII digit or A-F/a-f predicate
+0x0019f018,DIntr,RECONSTRUCTED,very-high,Recovered direct R5900 DI helper; returns whether IE bit 0x10000 was set and polls until it clears
+0x0019f060,EIntr,RECONSTRUCTED,very-high,Recovered direct R5900 EI helper; returns prior IE-bit state
+0x0019f078,ps2_sbrk,RECONSTRUCTED,very-high,"Recovered 32-bit EE program-break helper: initial break 0x00450c18, conditional DI/EI, EndOfHeap ceiling and (void*)-1 failure"
+0x0019f138,_SifSendCmd,RECONSTRUCTED,very-high,"Recovered 7-argument SIF command DMA builder; packet cap 112 bytes, optional extra DMA/cache flush and interrupt/non-interrupt DMA selection"
+0x0019f264,SifSendCmd,RECONSTRUCTED,very-high,Recovered mode=0 wrapper around _SifSendCmd
+0x0019f2a0,iSifSendCmd,RECONSTRUCTED,very-high,Recovered mode=1 wrapper around _SifSendCmd
+0x0019f2dc,change_addr,RECONSTRUCTED,very-high,Recovered built-in SIF command handler: copies packet payload buffer address into cmd_data.iopbuf
+0x0019f2e8,set_sreg,RECONSTRUCTED,very-high,Recovered built-in SIF command handler: writes packet value into cmd_data.sregs[index]
+0x0019f304,SifInitCmd,RECONSTRUCTED,very-high,"Recovered old PS2LIB SIF CMD init without later reboot-count logic; uncached buffers, handlers, SIF0 DMA and IOP address handshake"
+0x0019f510,SifExitCmd,RECONSTRUCTED,very-high,"Recovered SIF CMD shutdown: DisableDmac, RemoveDmacHandler and init flag clear"
+0x0019f544,SifAddCmdHandler,RECONSTRUCTED,very-high,Recovered system/user command handler table insertion using sign bit of cid
+0x0019f57c,SifGetSreg,RECONSTRUCTED,very-high,Recovered SIF software-register accessor
+0x0019f5a0,AddDmacHandler,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x12"
+0x0019f5b0,RemoveDmacHandler,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x13"
+0x0019f5c0,EndOfHeap,RECONSTRUCTED,very-high,Recovered one-syscall wrapper: EE syscall 0x3e; used as ps2_sbrk heap ceiling
+0x0019f5d0,SifStopDma,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x6b
+0x0019f5e0,iSifSetDma,RECONSTRUCTED,very-high,"One-syscall interrupt-context SIF DMA wrapper, syscall -0x77"
+0x0019f5f0,SifSetDChain,RECONSTRUCTED,very-high,"One-syscall SIF receive-chain wrapper, syscall 0x78"
+0x0019f600,fioInit,RECONSTRUCTED,very-high,Binds fileIO RPC server 0x80000001 and creates completion semaphore
+0x0019f6e8,_fio_intr,RECONSTRUCTED,very-high,FileIO completion callback signals completion semaphore
+0x0019f7e8,_SifLoadModule,RECONSTRUCTED,very-high,Older five-argument 0x200-byte loadfile request path recovered
+0x0019f8f4,_SifLoadModuleBuffer,RECONSTRUCTED,very-high,0x200-byte load-module-buffer RPC command 6 path recovered
+0x0019f9e8,SifInitIopHeap,RECONSTRUCTED,very-high,Binds IOP heap server 0x80000003 and records bound capability
+0x0019faa8,vprintf,RECONSTRUCTED,very-high,"Old PS2LIB vprintf: 0x1000-byte BSS staging buffer, vsnprintf, fioWrite(fd=1), returns format length; target body size 0x58"
+0x0019fb00,EnableDmac,RECONSTRUCTED,very-high,Recovered interrupt-safe DMAC enable wrapper around raw _EnableDmac syscall
+0x0019fb78,DisableDmac,RECONSTRUCTED,very-high,Recovered interrupt-safe DMAC disable wrapper around raw _DisableDmac syscall
+0x0019fbf0,_SifCmdIntHandler,RECONSTRUCTED,very-high,"Recovered SIF0 command interrupt dispatcher: packet copy, iSifSetDChain, system/user table selection and callback dispatch"
+0x0019fcd0,_EnableDmac,RECONSTRUCTED,very-high,Raw EE syscall 0x16 wrapper
+0x0019fce0,_DisableDmac,RECONSTRUCTED,very-high,Raw EE syscall 0x17 wrapper
+0x0019fcf0,SignalSema,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x42"
+0x0019fd00,PollSema,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x45"
+0x0019fd10,iSifSetDChain,RECONSTRUCTED,very-high,"One-syscall interrupt-context SIF receive-chain wrapper, syscall -0x78"
+0x0019fd20,SifLoadFileInit,RECONSTRUCTED,very-high,Binds loadfile RPC server 0x80000006 and records initialization
 0x001a08ec,mcInit,IDENTIFIED,high,Memory-card RPC initialization
 0x001a9e88,operator_new,IDENTIFIED,high,C++ allocation/new-handler loop
 0x001acd04,WRITE_4PIXELS,RECONSTRUCTED,very-high,Normal 4-pixel writer

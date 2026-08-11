@@ -16,6 +16,7 @@
 - [x] main application/core boundary
 - [x] memory-card initialization path
 - [x] SRAM path helpers
+- [x] recover CDVD + old SIF RPC/FileIO/loadfile runtime corridor
 - [ ] reconstruct remaining GUI/frontend functions
 - [ ] map input/configuration structures
 
@@ -32,16 +33,19 @@
 
 - [x] tile lookup tables
 - [x] `ConvertTile`
-- [x] 8-bit normal/clipped/x2 rendering family (major pieces)
+- [x] 8-bit normal/clipped/x2 rendering family
 - [x] `DrawLargePixel`
-- [ ] finish x2x2 pair
-- [ ] 16-bit normal/clipped pair
-- [ ] Add/Sub/Half color-math families
+- [x] x2x2 pair
+- [x] 16-bit normal/clipped pair
+- [x] Add/Sub/Half/fixed-color color-math families
 - [ ] background/object renderer mapping
 - [ ] Mode 7 path
 
 ## Phase 5 — audio / PS2 glue
 
+- [x] recover Hiryu GSLIB `gsDriver` / `gsPipe` / `gsFont` / DMA corridor
+- [x] map and reconstruct CDVD + core PS2LIB client runtime used by startup
+- [x] reconstruct old PS2LIB `vsnprintf.o` formatter core
 - [ ] SjPCM interface
 - [ ] AmigaMod interface
 - [ ] SPU2 buffering/timing
@@ -54,3 +58,6 @@
 - [ ] compile independent recovered objects
 - [ ] compare assembly function-by-function
 - [ ] link progressively larger replacement executable
+
+- [x] reconstruct old SIF command send/init/interrupt-dispatch corridor
+- [ ] classify floating-point runtime beginning at `0x0019fddc`

@@ -11,7 +11,9 @@
 - the embedded baseline is exactly zlib **1.1.3**; Deflate/Inflate, trees,
   checksums and the PS2 `gzio.c` layer are behaviorally reconstructed.
 - the post-zlib graphics corridor is no longer opaque: target evidence proves
-  Hiryu GSLIB `gsDriver`, `gsPipe`, `gsFont`, and `hw.c` through `0x0019be6c`.
+  Hiryu GSLIB `gsDriver`, `gsPipe`, `gsFont`, and `hw.c` through `0x0019be6c`;
+- the following CDVD/SIF RPC/FileIO/loadfile/IOP client corridor is reconstructed
+  through `SifIopReset @ 0x0019d740`, with late-linked helpers at `0x0019f5d0+`.
 
 ## Current binary frontier
 
@@ -20,13 +22,14 @@ Two large contiguous third-party/shared-library corridors are now bounded:
 1. zlib 1.1.3: `0x00190700..0x00198c54`;
 2. Hiryu GSLIB slice: `0x00198c58..0x0019be6c`.
 
-The next known entry is `CDVD_Init @ 0x0019be70`. The most valuable remaining
-work is therefore no longer naming GS packet helpers; it is returning to
-SNES Station-specific code and the remaining system/audio/core boundaries.
+The former CDVD/RPC frontier has been crossed. `CDVD_Init @ 0x0019be70`
+through `SifIopReset @ 0x0019d740` is now separated into historical libcdvd,
+string helpers, SIF RPC, FileIO, loadfile and IOP-heap/control code. The next
+large contiguous runtime frontier is old PS2LIB `vsnprintf.o` at `0x0019d84c`.
 
 Current priorities:
 
-1. map the CDVD/RPC boundary and distinguish reusable library code from Hiryu glue;
+1. reconstruct the old PS2LIB formatter core without confusing it with Newlib's later formatter;
 2. recover SNES Station frontend/config/input paths around the already known GUI;
 3. continue Snes9x 1.41 structure/layout recovery outside the completed draw family;
 4. attack audio/SjPCM/AmigaMod glue and EE/IOP scheduling;

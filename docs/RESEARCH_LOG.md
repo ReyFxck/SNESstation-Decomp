@@ -247,3 +247,81 @@ for every positive argument instead of observing interrupt updates.
 The complete recovered GSLIB slice ends at `0x0019be6c`; `CDVD_Init` begins at
 `0x0019be70`. Matching remains 0.00% because historical source equivalence is
 not a byte-identical target rebuild.
+
+## 2026-08-11 — Progress 6: CDVD and old PS2LIB runtime corridor recovered
+
+The clean boundary after Hiryu GSLIB was crossed at `CDVD_Init @ 0x0019be70`.
+Target-side RPC IDs, commands and buffers identify an eight-function
+Hiryu/Sjeep libcdvd client through `CDVD_GetSize @ 0x0019c304`. The target
+contains the later `GetSize` command 8 while preserving the old `TrayReq` bug:
+its `mode` argument is never copied into the shared request buffer.
+
+The compact linked memory/string block at `0x0019c364..0x0019c687` was
+reconstructed before following the call chain into old SIF RPC. `SifBindRpc @
+0x0019c688` and `SifCallRpc @ 0x0019c7b0` lead into packet allocation, request
+handlers, `SifInitRpc/SifExitRpc`, semaphore syscall leaves, DMA/SIF register
+leaves and the cache writeback helper. The target packet/client ABI is 32-bit;
+a shared recovery header now uses explicit EE address fields where host-native
+pointers would otherwise corrupt offsets on a 64-bit validation machine.
+
+FileIO was then recovered from `fioOpen @ 0x0019cfc0` through `fioGets @
+0x0019d558`, including exact target request sizes: 0x110 open, 0x10 read, 0x20
+write, 0x10 lseek and 0x100 mkdir. The mkdir target forces its terminator one
+byte beyond the transmitted 0x100-byte payload, while `fioGets` bulk-reads then
+seeks backward rather than consuming one byte at a time.
+
+Loadfile/IOP code follows: `SifLoadModule`, `SifLoadModuleBuffer`, IOP heap
+allocate/free and `SifIopReset @ 0x0019d740`. Module RPC requests are 0x200
+bytes. The reset packet is exactly 0x70 bytes with DMA attr 0x44. A later
+PS2SDK source revision increments `_iop_reboot_count` in this function, but the
+SNES Station target does not, so the recovered source keeps the older behavior.
+
+Late-linked helper bodies at `0x0019f5d0..0x0019fd20` resolve `SifStopDma`,
+`fioInit`, `_fio_intr`, `_SifLoadModule`, `_SifLoadModuleBuffer`,
+`SifInitIopHeap`, and `SifLoadFileInit`.
+
+The next large contiguous module begins at `0x0019d84c`. Historical link-map
+geometry and target wrapper boundaries identify it as old PS2LIB
+`vsnprintf.o`, not Newlib `vfprintf`. `vsprintf @ 0x0019e364` and `sprintf @
+0x0019e3d0` are reconstructed as small wrappers; the large formatter core stays
+IDENTIFIED until its internal callbacks/state machine are audited. The
+`0x0019e414` string writer is behaviorally reconstructed but remains named
+`puts_like`, since the target appends no newline and therefore is not standard
+`puts` semantics.
+
+Matching remains 0.00%: archive-member order and object sizes are strong
+lineage/toolchain evidence, not a substitute for a byte-identical rebuild.
+
+## 2026-08-11 — Progress 6 continued: formatter, heap and SIF CMD closed
+
+The initially identified `vsnprintf.o` frontier was audited instruction by
+instruction. `fmtint @ 0x0019d84c`, `fmtstr @ 0x0019dba8`, `fmtchar @
+0x0019dd28`, `dopr @ 0x0019de10`, its two output callbacks, and `vsnprintf @
+0x0019e2e0` are now reconstructed. Target-specific non-C99 behavior is kept,
+including overflow returning the supplied capacity, the unusual precision
+padding paths, and the zero-value/zero-precision integer shortcut. The
+late-linked `vprintf @ 0x0019faa8` has the same 0x58-byte object geometry and
+0x1000-byte scratch-buffer shape seen in the close historical map, but remains
+RECONSTRUCTED rather than MATCHING.
+
+The runtime then resolves an old unlocked PS2 allocator and ASCII libc family:
+`_heap_mem_fit/malloc/calloc/memalign/free`, case-insensitive comparisons,
+`strtok`, `strrchr`, `strstr`, `strtol`, and ctype helpers. `strtok` preserves
+its two-global-state corner cases. `strtol` visibly clamps at 0x7fffffff /
+0x80000000 and writes target errno 34 on overflow.
+
+At `0x0019f018`, direct R5900 `di/ei` helpers lead into `ps2_sbrk @ 0x0019f078`.
+The target initializes the break to 0x00450c18, uses unsigned 32-bit arithmetic,
+checks `EndOfHeap` via syscall 0x3e, and only restores interrupts when they were
+enabled on entry.
+
+Finally, the seven-argument ABI at `0x0019f138` independently identifies
+`_SifSendCmd`. The full old SIF command chain is reconstructed through wrappers,
+`change_addr/set_sreg`, `SifInitCmd/SifExitCmd`, handler registration and
+`_SifCmdIntHandler @ 0x0019fbf0`. Exact target initialization data at 0x00425a88
+confirms the old command-data layout and buffer addresses. Unlike later PS2SDK,
+this target `SifInitCmd` has no reboot-count refresh path.
+
+Progress reaches 390 reconstructed / 407 mapped targets (34.30% / 35.80% on the
+conservative 1,137-JAL proxy). Matching remains 0.00%. The next clean
+unclassified function begins at 0x0019fddc and enters floating-point math code.

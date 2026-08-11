@@ -16,8 +16,8 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 > Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **23.31%** (265 tracked targets)
-- **Mapped / identified:** **25.59%** (291 tracked targets)
+- **Reconstructed:** **34.30%** (390 tracked targets)
+- **Mapped / identified:** **35.80%** (407 tracked targets)
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
 The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
@@ -112,13 +112,21 @@ the tracked 30-function renderer draw family is fully reconstructed, and the
 contiguous embedded zlib 1.1.3 corridor is behaviorally reconstructed through
 `0x00198c54`.
 
-The post-zlib PS2 graphics corridor is now identified from target evidence as
+The post-zlib PS2 graphics corridor is identified from target evidence as
 **Hiryu GSLIB** and behaviorally reconstructed through `0x0019be6c`: `gsDriver`,
 `gsPipe`, `gsFont`, and the low-level vertical-retrace/DMA helpers. The original
 `gsPipe` diagnostic strings occur in the target, and exact object layouts prove
 `sizeof(gsPipe)=0x34` and `sizeof(gsDriver)=0x74`. This also corrects the first
 object allocated by `main`: it is `gsDriver`, not a generic frontend object.
-The next clean boundary is `CDVD_Init @ 0x0019be70`.
+
+The former `CDVD_Init @ 0x0019be70` frontier has now been crossed as well. The
+following runtime corridor is substantially reconstructed as Hiryu/Sjeep
+libcdvd plus old PS2DEV/PS2LIB string, SIF RPC, FileIO, loadfile/IOP control,
+`vsnprintf` formatter, heap/ctype parsing, interrupt/program-break helpers and
+SIF command dispatch. Exact 32-bit EE layouts are modeled explicitly so host
+validation does not change target offsets. Late support reaches
+`SifLoadFileInit @ 0x0019fd20`; the next clean unclassified function begins at
+`0x0019fddc` and enters a floating-point math corridor.
 
 A parallel matching-build track remains open because a close PS2 source tree
 records EE GCC `3.2.2-b1` and R5900 release flags. Larger functions show
@@ -127,7 +135,8 @@ rebuild produces byte-identical machine code.
 
 See [`docs/BOTTLENECKS.md`](docs/BOTTLENECKS.md),
 [`docs/ZLIB_MAP.md`](docs/ZLIB_MAP.md), [`docs/PS2_GS_MAP.md`](docs/PS2_GS_MAP.md),
-and [`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md).
+[`docs/CDVD_LIBKERNEL_MAP.md`](docs/CDVD_LIBKERNEL_MAP.md), and
+[`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md).
 
 ## Repository policy
 

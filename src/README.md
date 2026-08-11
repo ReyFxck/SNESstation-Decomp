@@ -48,3 +48,25 @@ The complete post-zlib graphics slice is now represented by:
 
 The target proves `gsPipe`/`gsDriver` layouts and preserves several historical
 quirks. See `docs/PS2_GS_MAP.md`.
+
+
+## PS2 CDVD / libkernel runtime recovery
+
+Progress 6 adds:
+
+- `ps2/cdvd_rpc_recovered.c` — Hiryu/Sjeep libcdvd EE client;
+- `ps2/libkernel_strings_recovered.c` — compact linked string/memory helpers;
+- `ps2/sifrpc_recovered.c` — old SIF RPC packet/client core;
+- `ps2/libkernel_leaf_recovered.c` — EE syscall/cache leaves;
+- `ps2/fileio_recovered.c` — old FileIO RPC wrappers and callbacks;
+- `ps2/loadfile_iop_recovered.c` — loadfile, IOP heap and reset paths;
+- `ps2/libkernel_client_init_recovered.c` — later-linked FileIO/loadfile/heap bind helpers;
+- `ps2/stdio_wrappers_recovered.c` — old PS2LIB stdio/vprintf wrappers and target output callbacks.
+- `ps2/ps2lib_formatter_recovered.c` — callback-driven `fmtint/fmtstr/fmtchar/dopr/vsnprintf` core.
+- `ps2/libkernel_heap_recovered.c` — old target heap allocator.
+- `ps2/libkernel_heap_runtime_recovered.c` — `DIntr/EIntr`, `ps2_sbrk` and `EndOfHeap`.
+- `ps2/libc_text_recovered.c` — ASCII ctype plus string/token/integer parsing helpers.
+- `ps2/sifcmd_recovered.c` — old SIF command send/init/dispatch corridor.
+
+Target-sized RPC structures are defined in `include/ps2_libkernel_recovered.h`.
+See `docs/CDVD_LIBKERNEL_MAP.md`.
