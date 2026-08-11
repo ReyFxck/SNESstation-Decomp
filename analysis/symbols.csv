@@ -1,19 +1,138 @@
 address,name,status,confidence,notes
 0x00100008,_start,IDENTIFIED,high,Unpacked ELF entry
+0x00101814,snes_leaf_00101814,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00101858,snes_leaf_00101858,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00101860,snes_leaf_00101860,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00101878,snes_leaf_00101878,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00101880,snes_leaf_00101880,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00101888,snes_leaf_00101888,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00101890,snes_dispatch_00101890,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001018e0,snes_dispatch_001018e0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001018fc,snes_leaf_001018fc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00101904,snes_leaf_00101904,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0010190c,snes_leaf_0010190c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00101914,snes_leaf_00101914,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0010191c,snes_leaf_0010191c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001019a0,snes_leaf_001019a0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00102ab0,top_level_gui,IDENTIFIED,high,Top-level ROM selector / GUI entry from main flow
+0x00103c7c,snes_dispatch_00103c7c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00103cb0,snes_leaf_00103cb0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001041c0,snes_leaf_001041c0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0010421c,snes_leaf_0010421c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00104998,mtapInit_00104998,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001049f0,mtapPortOpen_001049f0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00104a54,mtapPortClose_00104a54,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00104bbc,mtapGetConnection_00104bbc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00104e48,snes_leaf_00104e48,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00104e50,snes_leaf_00104e50,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00104e58,mtapChangeSlot_00104e58,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00104e7c,loadModuleBuffer,RECONSTRUCTED,high,IOP module buffer loader
 0x00104f18,main,PARTIAL,high,Boot and top-level application flow substantially mapped
+0x001056b0,snes_leaf_001056b0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001056b8,snes_leaf_001056b8,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001056c0,snes_dispatch_001056c0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00105718,snes_dispatch_00105718,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00105750,path_config_block,PARTIAL,medium-high,Save/config path construction block
+0x00105d30,snes_dispatch_00105d30,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00105d78,snes_dispatch_00105d78,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00105e04,snes_dispatch_00105e04,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00106bcc,SjPCM_Init_00106bcc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00107578,snes_fatal_spin_00107578,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001077f8,SjPCM_Quit_001077f8,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001078f8,SjPCM_Setvol_001078f8,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00107b1c,amigaModInit_00107b1c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00107b7c,amigaModPause_00107b7c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00107c64,amigaModLoad_00107c64,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00107d44,amigaModPlay_00107d44,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00107db4,amigaModSetVolume_00107db4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00107e14,amigaModGetPosition_00107e14,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00107f18,amigaModQuit_00107f18,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001080cc,snes_qsort_001080cc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00108a34,snes_rand_00108a34,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0010a768,snes_leaf_0010a768,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0010a7ac,snes_leaf_0010a7ac,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0010a7fc,snes_leaf_0010a7fc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a840,apu_buffer_allocator,IDENTIFIED,high,APU/audio buffer allocation path
+0x0010c300,snes_dispatch_0010c300,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0010c328,snes_dispatch_0010c328,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0010e33c,snes_leaf_0010e33c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0010e348,snes_leaf_0010e348,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0010e354,snes_leaf_0010e354,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001140e0,snes_leaf_001140e0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001159f4,snes_dispatch_001159f4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00116128,snes_leaf_00116128,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00116174,snes_leaf_00116174,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0011c050,snes_dispatch_0011c050,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012a400,ppu_vram_cache_invalidate,IDENTIFIED,medium-high,VRAM write/cache invalidation path
+0x0012c13c,snes_leaf_0012c13c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012c160,snes_leaf_0012c160,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012de60,snes_leaf_0012de60,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012deb0,snes_leaf_0012deb0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012df50,snes_leaf_0012df50,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012dfb0,snes_leaf_0012dfb0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012dffc,snes_leaf_0012dffc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012e2c4,snes_leaf_0012e2c4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012e2d0,snes_leaf_0012e2d0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012e568,snes_leaf_0012e568,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012e688,snes_dispatch_0012e688,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012e6c4,snes_dispatch_0012e6c4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012e704,snes_dispatch_0012e704,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012e728,snes_dispatch_0012e728,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012fe5c,snes_leaf_0012fe5c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012fe9c,snes_leaf_0012fe9c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012feb4,snes_leaf_0012feb4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012febc,snes_leaf_0012febc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0012fec4,snes_dispatch_0012fec4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0013e014,snes_dispatch_0013e014,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0013e024,snes_dispatch_0013e024,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0013e3a8,snes_dispatch_0013e3a8,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0013fc10,snes_dispatch_0013fc10,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00140040,snes_dispatch_00140040,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0014080c,snes_dispatch_0014080c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00140c30,snes_dispatch_00140c30,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00142a78,tile_lookup_table_init,RECONSTRUCTED,high,Builds odd/even high/low tile lookup tables
 0x00143780,renderer_4bpp_setup,IDENTIFIED,medium-high,Renderer state/setup block
 0x00145240,renderer_cache_select,IDENTIFIED,medium-high,Selects tile cache / validity map
+0x00148338,snes_leaf_00148338,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00150c90,snes_leaf_00150c90,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00151074,CMemory_Init,RECONSTRUCTED,high,Core memory allocator/initializer
 0x00151330,per_rom_cleanup,PARTIAL,medium-high,Cleanup path; deliberately not named CMemory::Deinit yet
 0x001513bc,CMemory_LoadROM,IDENTIFIED,high,ROM load path proven by failure branch/string
 0x00153354,CMemory_LoadSRAM,RECONSTRUCTED,high,SRAM loading path
 0x001534b8,CMemory_SaveSRAM,RECONSTRUCTED,high,SRAM saving path
+0x001535c0,snes_leaf_001535c0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00153608,CMemory_map_WriteProtectROM_00153608,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00156884,snes_leaf_00156884,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001568c4,snes_leaf_001568c4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00156914,snes_leaf_00156914,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00156934,CMemory_StaticRAMSize_00156934,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00156994,CMemory_Size_00156994,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00156c0c,CMemory_MapMode_00156c0c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00158b3c,snes_leaf_00158b3c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00158b5c,snes_leaf_00158b5c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00158fd0,snes_leaf_00158fd0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00158fdc,snes_leaf_00158fdc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00158ff0,snes_dispatch_00158ff0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0015e190,snes_leaf_0015e190,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0016fa7c,snes_dispatch_0016fa7c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0016fc48,snes_dispatch_0016fc48,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0016fc6c,snes_dispatch_0016fc6c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0016fcd4,snes_leaf_0016fcd4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001701fc,snes_leaf_001701fc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00170204,snes_dispatch_00170204,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00171de8,snes_leaf_00171de8,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00173dfc,snes_leaf_00173dfc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00173e4c,snes_leaf_00173e4c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00174204,snes_leaf_00174204,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001742e8,snes_leaf_001742e8,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00174720,snes_leaf_00174720,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00174860,snes_leaf_00174860,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0017487c,snes_leaf_0017487c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00176578,snes_dispatch_00176578,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0017ec24,snes_leaf_0017ec24,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0018339c,snes_leaf_0018339c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00183660,snes_leaf_00183660,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00183678,snes_dispatch_00183678,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00183e04,ConvertTile,RECONSTRUCTED,very-high,2/4/8bpp VRAM-to-64-byte tile converter
 0x0018428c,DrawTile,RECONSTRUCTED,very-high,Classic 8-bit tile renderer
 0x001845a8,DrawClippedTile,RECONSTRUCTED,very-high,Clipped 8-bit tile renderer
@@ -72,6 +191,7 @@ address,name,status,confidence,notes
 0x0018f638,unzGetGlobalInfo,RECONSTRUCTED,very-high,leaf global-info copy; no conventional prologue
 0x0018f654,unzlocal_DosDateToTmuDate,RECONSTRUCTED,very-high,DOS date/time field decoder
 0x0018f6cc,unzlocal_GetCurrentFileInfoInternal,IDENTIFIED,very-high,large central-directory entry parser; exact target layouts pending
+0x0018faa4,snes_dispatch_0018faa4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0018fab4,unzGetCurrentFileInfo,RECONSTRUCTED,very-high,thin wrapper around internal current-file parser
 0x0018faec,unzGoToFirstFile,RECONSTRUCTED,very-high,resets central-dir position and loads first entry
 0x0018fb54,unzGoToNextFile,RECONSTRUCTED,very-high,advances by 46-byte central-dir header plus variable fields
@@ -114,6 +234,7 @@ address,name,status,confidence,notes
 0x0019304c,inflateSyncPoint,RECONSTRUCTED,very-high,thin inflate block sync-point query recovered
 0x00193094,get_crc_table,RECONSTRUCTED,very-high,returns embedded zlib 1.1.3 CRC table at 0x001c8a80; C recovered from target table access/unrolled loop
 0x001930a0,crc32,RECONSTRUCTED,very-high,table-driven zlib 1.1.3 CRC32; target uses 64-bit uLong entries under -mlong64; C recovered from target table access/unrolled loop
+0x00193290,snes_leaf_00193290,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00193298,gz_open,RECONSTRUCTED,very-high,gzio.c internal open; target allocates 0x80-byte gz_stream and parses mode; C recovered with target PS2 I/O divergences preserved
 0x00193564,gzopen,RECONSTRUCTED,very-high,gzio.c path open wrapper; C recovered; calls gz_open with fd=-1
 0x00193580,gzdopen,RECONSTRUCTED,very-high,gzio.c fd wrapper; formats <fd:%d> then calls gz_open; C recovered with target PS2 I/O divergences preserved
@@ -270,6 +391,7 @@ address,name,status,confidence,notes
 0x0019c4a0,memmove,RECONSTRUCTED,very-high,Overlap-safe forward/backward copy; previously used by SRAM path
 0x0019c528,strcpy,RECONSTRUCTED,very-high,Target string copy recovered
 0x0019c550,strncpy,RECONSTRUCTED,very-high,Target bounded string copy/pad loop recovered
+0x0019c5cc,snes_dispatch_0019c5cc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0019c5e8,strlen,RECONSTRUCTED,very-high,Target string length leaf recovered
 0x0019c610,strchr,RECONSTRUCTED,very-high,Target character search recovered
 0x0019c648,strcmp,RECONSTRUCTED,very-high,Target string compare recovered
@@ -421,11 +543,11 @@ address,name,status,confidence,notes
 0x001a2c98,__udivmoddi4_umod_clone,RECONSTRUCTED,high,Internal unsigned division core in _umoddi3.o
 0x001a3340,fptodp,RECONSTRUCTED,very-high,US_SOFTWARE_GOFAST SF-to-DF wrapper; exact historical object size 0x40
 0x001a3380,_fpadd_parts_d,IDENTIFIED,very-high,Internal soft-double add/sub core; _addsub_df.o layout matches GCC 3.2.2-b1
-0x001a35b0,dpadd,PARTIAL,very-high,Soft-double add public wrapper recovered; exact archive offset +0x230
-0x001a3610,dpsub,PARTIAL,very-high,Soft-double subtract public wrapper recovered; exact archive offset +0x290
-0x001a3680,dpmul,PARTIAL,very-high,Soft-double multiply object identified exactly; finite-value research model recovered
-0x001a3950,dpdiv,PARTIAL,very-high,Soft-double divide object identified exactly; finite-value research model recovered
-0x001a3ad8,dpcmp,PARTIAL,very-high,Soft-double compare object identified exactly; public relation semantics mapped
+0x001a35b0,dpadd,RECONSTRUCTED,very-high,Soft-double add public behavior represented by libgcc runtime model
+0x001a3610,dpsub,RECONSTRUCTED,very-high,Soft-double subtract public behavior represented by libgcc runtime model
+0x001a3680,dpmul,RECONSTRUCTED,very-high,Soft-double multiply public behavior represented by libgcc runtime model
+0x001a3950,dpdiv,RECONSTRUCTED,very-high,Soft-double divide public behavior represented by libgcc runtime model
+0x001a3ad8,dpcmp,RECONSTRUCTED,very-high,Soft-double compare public behavior represented by libgcc runtime model
 0x001a3b30,litodp,RECONSTRUCTED,very-high,Signed SI-to-DF goFast conversion; exact 0xc0 object
 0x001a3bf0,dptoli,RECONSTRUCTED,very-high,DF-to-signed-SI goFast conversion; exact 0xa0 object
 0x001a3c90,__make_dp,IDENTIFIED,very-high,DF constructor wrapper; exact 0x30 object and __pack_d call proven
@@ -444,6 +566,7 @@ address,name,status,confidence,notes
 0x001a42b8,execute_stack_op,IDENTIFIED,very-high,DW_OP stack-machine evaluator; large 0x290-byte frame and opcode dispatch mapped
 0x001a4848,execute_cfa_program,IDENTIFIED,very-high,DWARF CFA instruction evaluator aligned to GCC 3.2.2 unwind-dw2.c
 0x001a4ef0,__frame_state_for,IDENTIFIED,very-high,Public symbol at exact +0x1130 historical unwind-dw2.o offset
+0x001a51d0,snes_dispatch_001a51d0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x001a55a8,_Unwind_RaiseException,IDENTIFIED,very-high,Public symbol at exact +0x17e8 historical unwind-dw2.o offset
 0x001a5918,_Unwind_ForcedUnwind,IDENTIFIED,very-high,Public symbol at exact +0x1b58 historical unwind-dw2.o offset
 0x001a5ac0,_Unwind_Resume,IDENTIFIED,very-high,Public symbol at exact +0x1d00 historical unwind-dw2.o offset
@@ -452,15 +575,21 @@ address,name,status,confidence,notes
 0x001a5c98,_Unwind_SetGR,RECONSTRUCTED,very-high,Leaf register-slot store; exact +0x1ed8 historical offset
 0x001a5cb0,_Unwind_GetIP,RECONSTRUCTED,very-high,Leaf context +0x144 load; exact +0x1ef0 historical offset
 0x001a5cb8,_Unwind_SetIP,RECONSTRUCTED,very-high,Leaf context +0x144 store; exact +0x1ef8 historical offset
-0x001a5f30,__register_frame_info_bases,IDENTIFIED,very-high,Exact +0x270 offset inside 0x18c0 unwind-dw2-fde.o
-0x001a5f80,__register_frame_info,IDENTIFIED,very-high,Exact +0x2c0 offset inside unwind-dw2-fde.o
+0x001a5cc0,size_of_encoded_value_fde,RECONSTRUCTED,very-high,DW_EH_PE fixed-size decoder at start of unwind-dw2-fde.o; behavioral model in gcc_fde_runtime_recovered.c
+0x001a5d30,read_uleb128_fde,RECONSTRUCTED,very-high,FDE-object unsigned LEB128 decoder; behavioral model recovered
+0x001a5d70,read_sleb128_fde,RECONSTRUCTED,very-high,FDE-object signed LEB128 decoder; behavioral model recovered
+0x001a5dd0,read_encoded_value_with_base_fde,RECONSTRUCTED,very-high,FDE-object DW_EH_PE decoder; behavioral model recovered
+0x001a5f30,__register_frame_info_bases,RECONSTRUCTED,very-high,FDE registration list insertion behavior modeled from target/object layout
+0x001a5f80,__register_frame_info,RECONSTRUCTED,very-high,FDE registration wrapper behavior modeled
 0x001a5fa0,__register_frame,IDENTIFIED,very-high,Exact +0x2e0 offset inside unwind-dw2-fde.o
-0x001a5ff0,__register_frame_info_table_bases,IDENTIFIED,very-high,Exact +0x330 historical offset
-0x001a6038,__register_frame_info_table,IDENTIFIED,very-high,Exact +0x378 historical offset
+0x001a5ff0,__register_frame_info_table_bases,RECONSTRUCTED,very-high,FDE table registration list insertion behavior modeled
+0x001a6038,__register_frame_info_table,RECONSTRUCTED,very-high,FDE table registration wrapper behavior modeled
 0x001a6058,__register_frame_table,IDENTIFIED,very-high,Exact +0x398 historical offset
-0x001a6090,__deregister_frame_info_bases,IDENTIFIED,very-high,Exact +0x3d0 historical offset
-0x001a6168,__deregister_frame_info,IDENTIFIED,very-high,Exact +0x4a8 historical offset
+0x001a6090,__deregister_frame_info_bases,RECONSTRUCTED,very-high,FDE deregistration list walk/removal behavior modeled
+0x001a6168,__deregister_frame_info,RECONSTRUCTED,very-high,FDE deregistration wrapper behavior modeled
 0x001a6188,__deregister_frame,IDENTIFIED,very-high,Exact +0x4c8 historical offset
+0x001a61c0,fde_base_from_object,RECONSTRUCTED,very-high,Selects text/data base from linked FDE object for relative encodings
+0x001a6240,fde_get_cie_encoding,RECONSTRUCTED,very-high,CIE augmentation parser returning FDE pointer encoding
 0x001a6f30,_Unwind_Find_FDE,IDENTIFIED,very-high,Exact +0x1270 historical offset inside 0x18c0 object
 0x001a7e30,__unpack_f,IDENTIFIED,very-high,Exact 0xe0 _unpack_sf.o object; called by fptodp
 0x001a7f10,__make_fp,IDENTIFIED,very-high,Exact 0x30 _make_sf.o object; called by dptofp

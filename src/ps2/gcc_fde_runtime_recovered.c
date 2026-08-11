@@ -1,0 +1,23 @@
+#include <stddef.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+
+enum { PE_absptr=0x00,PE_uleb128=0x01,PE_udata2=0x02,PE_udata4=0x03,PE_udata8=0x04,PE_sleb128=0x09,PE_sdata2=0x0a,PE_sdata4=0x0b,PE_sdata8=0x0c,PE_pcrel=0x10,PE_textrel=0x20,PE_datarel=0x30,PE_funcrel=0x40,PE_aligned=0x50,PE_indirect=0x80,PE_omit=0xff };
+typedef struct SnesFdeObject{uint32_t pc_begin,tbase,dbase;const uint8_t*fde_begin;uint64_t flags;struct SnesFdeObject*next;}SnesFdeObject;
+static SnesFdeObject*snes_fde_objects,*snes_fde_seen_objects;
+unsigned snes_fde_size_of_encoded_value(uint8_t e){if(e==PE_omit)return 0;switch(e&7u){case PE_absptr:return 4;case PE_udata2:return 2;case PE_udata4:return 4;case PE_udata8:return 8;default:abort();}}
+const uint8_t*snes_fde_read_uleb128(const uint8_t*p,uint64_t*v){uint64_t o=0;unsigned s=0;uint8_t b;do{b=*p++;o|=(uint64_t)(b&0x7f)<<s;s+=7;}while(b&0x80);*v=o;return p;}
+const uint8_t*snes_fde_read_sleb128(const uint8_t*p,int64_t*v){uint64_t o=0;unsigned s=0;uint8_t b;do{b=*p++;o|=(uint64_t)(b&0x7f)<<s;s+=7;}while(b&0x80);if(s<64&&(b&0x40))o|=UINT64_MAX<<s;*v=(int64_t)o;return p;}
+static uint16_t u16(const uint8_t*p){uint16_t v;memcpy(&v,p,2);return v;}static uint32_t u32(const uint8_t*p){uint32_t v;memcpy(&v,p,4);return v;}static uint64_t u64(const uint8_t*p){uint64_t v;memcpy(&v,p,8);return v;}static int16_t s16(const uint8_t*p){int16_t v;memcpy(&v,p,2);return v;}static int32_t s32(const uint8_t*p){int32_t v;memcpy(&v,p,4);return v;}static int64_t s64(const uint8_t*p){int64_t v;memcpy(&v,p,8);return v;}
+typedef uint32_t(*SnesFdeRead32)(uint32_t,void*);
+const uint8_t*snes_fde_read_encoded_value_with_base(uint8_t e,uint32_t base,const uint8_t*p,uint64_t*v,SnesFdeRead32 r,void*o){const uint8_t*st=p;uint64_t out=0;if((e&0x70u)==PE_aligned){uintptr_t q=((uintptr_t)p+3u)&~(uintptr_t)3u;out=u32((const uint8_t*)q);p=(const uint8_t*)(q+4u);}else{switch(e&0x0f){case PE_absptr:out=u32(p);p+=4;break;case PE_uleb128:p=snes_fde_read_uleb128(p,&out);break;case PE_udata2:out=u16(p);p+=2;break;case PE_udata4:out=u32(p);p+=4;break;case PE_udata8:out=u64(p);p+=8;break;case PE_sleb128:{int64_t x;p=snes_fde_read_sleb128(p,&x);out=(uint64_t)x;break;}case PE_sdata2:out=(uint64_t)(int64_t)s16(p);p+=2;break;case PE_sdata4:out=(uint64_t)(int64_t)s32(p);p+=4;break;case PE_sdata8:out=(uint64_t)s64(p);p+=8;break;default:abort();}if(out){if((e&0x70u)==PE_pcrel)out+=(uint32_t)(uintptr_t)st;else out+=base;if((e&PE_indirect)&&r)out=r((uint32_t)out,o);}}*v=out;return p;}
+void snes___register_frame_info_bases(const uint8_t*b,SnesFdeObject*ob,uint32_t t,uint32_t d){uint32_t first;memcpy(&first,b,4);if(!first)return;memset(ob,0,sizeof(*ob));ob->pc_begin=UINT32_MAX;ob->fde_begin=b;ob->flags=UINT64_C(0x7f8);ob->tbase=t;ob->dbase=d;ob->next=snes_fde_objects;snes_fde_objects=ob;}
+void snes___register_frame_info(const uint8_t*b,SnesFdeObject*ob){snes___register_frame_info_bases(b,ob,0,0);}
+void snes___register_frame_info_table_bases(const uint8_t*b,SnesFdeObject*ob,uint32_t t,uint32_t d){memset(ob,0,sizeof(*ob));ob->pc_begin=UINT32_MAX;ob->fde_begin=b;ob->flags=UINT64_C(0x7fa);ob->tbase=t;ob->dbase=d;ob->next=snes_fde_objects;snes_fde_objects=ob;}
+void snes___register_frame_info_table(const uint8_t*b,SnesFdeObject*ob){snes___register_frame_info_table_bases(b,ob,0,0);}
+static SnesFdeObject*remove_list(SnesFdeObject**h,const uint8_t*b){SnesFdeObject**l=h;while(*l){SnesFdeObject*ob=*l;if(ob->fde_begin==b){*l=ob->next;ob->next=NULL;return ob;}l=&ob->next;}return NULL;}
+SnesFdeObject*snes___deregister_frame_info_bases(const uint8_t*b){uint32_t first;SnesFdeObject*ob;memcpy(&first,b,4);if(!first)return NULL;ob=remove_list(&snes_fde_objects,b);if(!ob)ob=remove_list(&snes_fde_seen_objects,b);return ob;}
+SnesFdeObject*snes___deregister_frame_info(const uint8_t*b){return snes___deregister_frame_info_bases(b);}
+uint32_t snes_fde_base_from_object(uint8_t e,const SnesFdeObject*ob){if(e==PE_omit)return 0;switch(e&0x70u){case PE_absptr:case PE_pcrel:case PE_aligned:return 0;case PE_textrel:return ob->tbase;case PE_datarel:return ob->dbase;default:abort();}}
+int snes_fde_get_cie_encoding(const uint8_t*cie){const uint8_t*p=cie+8;const char*aug;uint64_t u;int64_t s;if(*p++!=1)return 0;aug=(const char*)p;while(*p++!=0){}p=snes_fde_read_uleb128(p,&u);p=snes_fde_read_sleb128(p,&s);(void)u;(void)s;++p;if(aug[0]!='z')return PE_absptr;p=snes_fde_read_uleb128(p,&u);++aug;while(*aug){switch(*aug++){case'L':++p;break;case'P':{uint8_t e=*p++;uint64_t x;p=snes_fde_read_encoded_value_with_base(e,0,p,&x,NULL,NULL);break;}case'R':return *p;default:return PE_absptr;}}return PE_absptr;}

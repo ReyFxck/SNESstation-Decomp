@@ -16,8 +16,8 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 > Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **47.93%** (545 tracked targets)
-- **Mapped / identified:** **53.65%** (610 tracked targets)
+- **Reconstructed:** **60.25%** (685 tracked targets)
+- **Mapped / identified:** **65.00%** (739 tracked targets)
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
 The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
@@ -220,3 +220,10 @@ Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) before assigning names to unkno
 ## Legal / preservation note
 
 This project is for preservation, interoperability, research, and documentation. No original SNES Station executable is distributed here. See [`docs/LEGAL.md`](docs/LEGAL.md) for repository policy and provenance notes.
+
+## Progress 10 — 60% reconstruction checkpoint
+
+Progress 10 reaches **685 / 1,137 reconstructed (60.25%)** and **739 / 1,137 mapped
+(65.00%)** while keeping matching at **0.00%**. The checkpoint adds compact SjPCM,
+AmigaMod, multitap, FDE-runtime, libc, CMemory metadata, and address-labelled target
+leaf models. See [`docs/PROGRESS10.md`](docs/PROGRESS10.md).
