@@ -13,11 +13,11 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
   <img src="assets/progress.svg" width="720" alt="SNES Station v0.23 decompilation progress" />
 </p>
 
-> Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
+> **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **85.05%** (967 tracked targets)
-- **Mapped / identified:** **87.25%** (992 tracked targets)
+- **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
+- **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
 The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
@@ -98,7 +98,7 @@ Recovered or strongly identified:
 | Address | Function | State |
 |---|---|---|
 | `0x00151074` | `CMemory::Init` | recovered |
-| `0x001513bc` | `CMemory::LoadROM` | identified / mapped |
+| `0x001513bc` | `CMemory::LoadROM` | reconstructed |
 | `0x00183e04` | `ConvertTile` | recovered |
 | `0x0018428c` | `DrawTile` | recovered |
 | `0x001845a8` | `DrawClippedTile` | recovered |
@@ -137,41 +137,28 @@ of `adler32 @ 0x00198c54`. See [`docs/ZLIB_MAP.md`](docs/ZLIB_MAP.md).
 
 ## Current frontier
 
-The R5900 instruction set is **not** the main problem anymore. All `859/859`
-LLVM `<unknown>` instructions in the selected EE-code range are classified, the
-tracked 30-function renderer draw family is fully reconstructed, and the large
-ZIP/zlib/GSLIB/PS2LIB corridors have been crossed.
+**Progress 17 closes the audited structural target universe at 1,041/1,041
+(100.00%).** The former 1,137-target figure was a raw JAL-pattern proxy. An
+exhaustive classification found 292 post-code data words that merely decode as
+calls and 196 independently mapped real entries with no direct JAL hit:
 
-Progress 9 crosses the former `0x001ab3c0` runtime boundary, reconstructs the
-EE D-cache synchronization leaves, and then closes the Snes9x mapped-memory,
-CPU shutdown, renderer-selection and SPC700/APU access corridor through
-`S9xAPUSetByteZ @ 0x001acbf0`. The target proves the 4 KiB Map/WriteMap layout,
-cycle accounting, SRAM/BWRAM special cases, `WaitAddress` idle optimization,
-and the APU `0xf0..0xff` hardware window.
+```text
+1,137 raw JAL targets - 292 rejected data patterns + 196 non-JAL entries
+= 1,041 validated structural targets
+```
 
-The new corridor ends at `0x001acd00`, immediately before the already recovered
-pixel-writer tail at `0x001acd04`. That existing tail reaches
-`gsDriver_getTexSizeFromInt @ 0x001b0790`, whose return at `0x001b07d0` is
-followed by zero padding and then string/data storage at `0x001b0880`. The
-**contiguous high-address code tail is therefore closed**; the next work moves
-back to earlier unmapped frontend/Snes9x core regions instead of chasing a
-higher-address frontier.
+The closure adds 49 real code-referenced targets and promotes the remaining 25
+identified/partial entries. All 74 complete R5900 decompiles are committed with
+per-function hashes and verbatim warning evidence. Seventeen are warning-free;
+57 contain 65 classified warnings, chiefly absolute-global label overlap and
+compiler-created unreachable blocks. The large snapshot loader at `0x001728d4`
+retains a type-propagation warning and is deliberately recorded at lower
+confidence. See [`docs/PROGRESS17.md`](docs/PROGRESS17.md).
 
-Progress 11 started that earlier-region pass with 40 short code-referenced
-targets while rejecting scanner/data false positives. Progresses 12–15 then
-crossed Q15 transforms, slot/controller runtime, persistence I/O, GCC/C++
-runtime leaves, `padInit`, and the renderer setup leaf. **Progress 16 reaches
-85.05% reconstructed** with 967/1,137 proxy targets. It adds 165 complete
-address-labelled R5900 structural decompiles: 156 warning-free functions and
-nine short functions whose exact warning sets were individually reviewed. The
-49 larger ambiguous candidates were deliberately left out. See
-[`docs/PROGRESS16.md`](docs/PROGRESS16.md).
-
-This still does **not** make anything MATCHING: the blue count stays at 0 until
-an actual historical-toolchain rebuild compares complete machine code
-byte-for-byte after relocation normalization. See
-[`docs/CORE_PROGRESS9.md`](docs/CORE_PROGRESS9.md),
-[`docs/RUNTIME_PROGRESS8.md`](docs/RUNTIME_PROGRESS8.md), and
+The frontier is now source cleanup and proof: replace `DAT_*` labels and
+placeholder types, migrate structural pseudocode into build-ready translation
+units, reproduce the historical EE toolchain, and compare generated machine
+code. **Matching remains 0.00%** until that byte-level work succeeds. See
 [`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md).
 
 ## Repository policy

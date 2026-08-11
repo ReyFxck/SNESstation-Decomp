@@ -1,0 +1,75 @@
+address,source,prior_status,area,first_call_site,call_count,evidence
+0x00100008,mapped-promotion,IDENTIFIED,startup,,0,Unpacked ELF entry
+0x001000e0,untracked-code-jal,UNTRACKED,frontend-core,0x0019c5bc,2,target and first caller both inside confirmed code
+0x00100114,untracked-code-jal,UNTRACKED,frontend-core,0x00105458,1,target and first caller both inside confirmed code
+0x00102ab0,mapped-promotion,IDENTIFIED,frontend,0x001051f8,1,Top-level ROM selector / GUI entry from main flow
+0x00104f18,mapped-promotion,PARTIAL,frontend,0x001000d8,1,Boot and top-level application flow substantially mapped
+0x00105e48,untracked-code-jal,UNTRACKED,frontend-core,0x00152f20,1,target and first caller both inside confirmed code
+0x0010b8a4,untracked-code-jal,UNTRACKED,frontend-core,0x0010d070,1,target and first caller both inside confirmed code
+0x0010bbcc,untracked-code-jal,UNTRACKED,frontend-core,0x0010cc40,3,target and first caller both inside confirmed code
+0x0010becc,untracked-code-jal,UNTRACKED,frontend-core,0x0010cc98,2,target and first caller both inside confirmed code
+0x0010cbb0,untracked-code-jal,UNTRACKED,frontend-core,0x0010cf18,1,target and first caller both inside confirmed code
+0x0010cdcc,untracked-code-jal,UNTRACKED,frontend-core,0x0010d7ac,2,target and first caller both inside confirmed code
+0x0010cfa4,untracked-code-jal,UNTRACKED,frontend-core,0x0010d794,1,target and first caller both inside confirmed code
+0x0010d7dc,untracked-code-jal,UNTRACKED,frontend-core,0x001abae8,3,target and first caller both inside confirmed code
+0x00115a18,untracked-code-jal,UNTRACKED,snes-core-dsp,0x00115bc0,2,target and first caller both inside confirmed code
+0x00129420,untracked-code-jal,UNTRACKED,snes-core-dsp,0x001167bc,15,target and first caller both inside confirmed code
+0x001296c4,untracked-code-jal,UNTRACKED,snes-core-dsp,0x00122ffc,15,target and first caller both inside confirmed code
+0x0012993c,untracked-code-jal,UNTRACKED,snes-core-dsp,0x00122fb4,15,target and first caller both inside confirmed code
+0x00129af4,untracked-code-jal,UNTRACKED,snes-core-dsp,0x0015b3c4,8,target and first caller both inside confirmed code
+0x0012a400,mapped-promotion,IDENTIFIED,ppu,,0,VRAM write/cache invalidation path
+0x0012c558,untracked-code-jal,UNTRACKED,snes-core-dsp,0x0012f0c8,1,target and first caller both inside confirmed code
+0x0012ce18,untracked-code-jal,UNTRACKED,snes-core-dsp,0x0012f420,2,target and first caller both inside confirmed code
+0x0012d05c,untracked-code-jal,UNTRACKED,snes-core-dsp,0x0012f334,1,target and first caller both inside confirmed code
+0x0012dc1c,untracked-code-jal,UNTRACKED,snes-core-dsp,0x0012f244,1,target and first caller both inside confirmed code
+0x0012e0cc,untracked-code-jal,UNTRACKED,snes-core-dsp,0x0012f580,1,target and first caller both inside confirmed code
+0x0012fef0,untracked-code-jal,UNTRACKED,snes-core-dsp,0x001308ac,3,target and first caller both inside confirmed code
+0x00143390,untracked-code-jal,UNTRACKED,renderer,0x00116620,1,target and first caller both inside confirmed code
+0x001434ac,untracked-code-jal,UNTRACKED,renderer,0x00116668,1,target and first caller both inside confirmed code
+0x00145240,mapped-promotion,IDENTIFIED,renderer,,0,Selects tile cache / validity map
+0x00146720,untracked-code-jal,UNTRACKED,renderer,0x0014e68c,1,target and first caller both inside confirmed code
+0x00146e6c,untracked-code-jal,UNTRACKED,renderer,0x0014e660,1,target and first caller both inside confirmed code
+0x00147578,untracked-code-jal,UNTRACKED,renderer,0x0014e62c,1,target and first caller both inside confirmed code
+0x00147c68,untracked-code-jal,UNTRACKED,renderer,0x0014e600,1,target and first caller both inside confirmed code
+0x001493a8,untracked-code-jal,UNTRACKED,renderer,0x0014e69c,1,target and first caller both inside confirmed code
+0x0014a784,untracked-code-jal,UNTRACKED,renderer,0x0014e670,1,target and first caller both inside confirmed code
+0x0014babc,untracked-code-jal,UNTRACKED,renderer,0x0014e63c,1,target and first caller both inside confirmed code
+0x0014ce24,untracked-code-jal,UNTRACKED,renderer,0x0014e610,1,target and first caller both inside confirmed code
+0x0014ec54,untracked-code-jal,UNTRACKED,renderer,0x00129bf4,36,target and first caller both inside confirmed code
+0x0015068c,untracked-code-jal,UNTRACKED,renderer,0x001514c0,1,target and first caller both inside confirmed code
+0x001513bc,mapped-promotion,IDENTIFIED,memory,0x00105364,1,ROM load path proven by failure branch/string
+0x00156a04,untracked-code-jal,UNTRACKED,memory-ppu,0x00152a88,1,target and first caller both inside confirmed code
+0x0015ad6c,untracked-code-jal,UNTRACKED,memory-ppu,0x00172a90,6,target and first caller both inside confirmed code
+0x0016f2dc,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x0015f23c,15,target and first caller both inside confirmed code
+0x0016f580,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x0016a1a8,15,target and first caller both inside confirmed code
+0x0016f7f8,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x0016a164,15,target and first caller both inside confirmed code
+0x00170398,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x00170258,1,target and first caller both inside confirmed code
+0x001728d4,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x0017127c,1,target and first caller both inside confirmed code
+0x00174fe4,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x00175670,4,target and first caller both inside confirmed code
+0x00175300,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x00177a4c,1,target and first caller both inside confirmed code
+0x001806a4,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x001567f8,1,target and first caller both inside confirmed code
+0x001813f0,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x0015c114,4,target and first caller both inside confirmed code
+0x00181bac,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x0015bbf4,1,target and first caller both inside confirmed code
+0x00182638,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x00171370,10,target and first caller both inside confirmed code
+0x001837cc,untracked-code-jal,UNTRACKED,cpu-audio-runtime,0x00183c40,3,target and first caller both inside confirmed code
+0x0018f408,mapped-promotion,IDENTIFIED,unzip,0x001506c4,1,unzip 0.15 archive open/parser; exact target structure layout still pending
+0x0018f6cc,mapped-promotion,IDENTIFIED,unzip,0x0018fad8,3,large central-directory entry parser; exact target layouts pending
+0x0018fcec,mapped-promotion,IDENTIFIED,unzip,0x0018ffac,1,validates local PKZIP header against central-directory metadata
+0x0018ff6c,mapped-promotion,IDENTIFIED,unzip,0x001507c4,2,allocates per-file state and initializes compression-method handler
+0x001900d4,mapped-promotion,IDENTIFIED,unzip,0x00150804,1,dispatches Stored/Shrunk/Reduced/Imploded/Deflated read paths
+0x001a4108,mapped-promotion,IDENTIFIED,unwind,0x001a4df8,1,CIE augmentation parser; eh/z/L/R/P flow aligns with GCC 3.2.2 unwind-dw2.c
+0x001a42b8,mapped-promotion,IDENTIFIED,unwind,0x001a508c,2,DW_OP stack-machine evaluator; large 0x290-byte frame and opcode dispatch mapped
+0x001a4848,mapped-promotion,IDENTIFIED,unwind,0x001a4e28,2,DWARF CFA instruction evaluator aligned to GCC 3.2.2 unwind-dw2.c
+0x001a4ef0,mapped-promotion,IDENTIFIED,unwind,,0,Public symbol at exact +0x1130 historical unwind-dw2.o offset
+0x001a4fe0,untracked-code-jal,UNTRACKED,gcc-runtime,0x001a51e4,2,target and first caller both inside confirmed code
+0x001a55a8,mapped-promotion,IDENTIFIED,unwind,0x001a9e28,2,Public symbol at exact +0x17e8 historical unwind-dw2.o offset
+0x001a5918,mapped-promotion,IDENTIFIED,unwind,,0,Public symbol at exact +0x1b58 historical unwind-dw2.o offset
+0x001a5ac0,mapped-promotion,IDENTIFIED,unwind,0x001005a8,9,Public symbol at exact +0x1d00 historical unwind-dw2.o offset
+0x001a6f30,mapped-promotion,IDENTIFIED,unwind-fde,0x001a4dc8,1,Exact +0x1270 historical offset inside 0x18c0 object
+0x001a70c0,untracked-code-jal,UNTRACKED,gcc-runtime,0x001a6f10,1,target and first caller both inside confirmed code
+0x001a9728,mapped-promotion,IDENTIFIED,cpp-eh,,0,GNU C++ DWARF personality routine; version/actions/LSDA state machine aligned to GCC 3.2.2 source
+0x001a9b88,mapped-promotion,IDENTIFIED,cpp-eh,0x001a9f5c,2,Public unexpected-handler path; begins by backing from unwind header to __cxa_exception and calling __cxa_begin_catch
+0x001aa400,mapped-promotion,IDENTIFIED,cpp-rtti,,0,__vmi_class_type_info public-source search over direct bases
+0x001aa638,mapped-promotion,IDENTIFIED,cpp-rtti,,0,__vmi_class_type_info::__do_dyncast; complex multi-base search mapped but not rewritten
+0x001aabd8,mapped-promotion,IDENTIFIED,cpp-rtti,,0,__vmi_class_type_info protected upcast; multi-base ambiguity/public/virtual path walker
+0x001aae70,mapped-promotion,IDENTIFIED,cpp-rtti,,0,Itanium ABI __dynamic_cast; whole-object RTTI from vtable[-1]/[-2] and __do_dyncast dispatch proven

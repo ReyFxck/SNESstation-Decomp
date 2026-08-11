@@ -52,10 +52,11 @@ A public PS2 SNESticle tree contains release GAS listings for the same shared le
 
 ## Current frontier
 
-The embedded zlib 1.1.3 corridor is now behaviorally reconstructed through its
-final `adler32` return at `0x00198c54`. The active binary frontier has moved to
-the PS2 GS/video block beginning at `0x00198c58`. EE GCC 3.2.2-b1 remains a
-strong comparison candidate, not a proven exact compiler.
+Progress 17 closes the audited structural universe at 1,041/1,041 entries. The
+active frontier is no longer discovery of scanner targets: it is replacing
+address-labelled pseudocode with typed build-ready source and reproducing the
+historical EE toolchain for byte comparisons. EE GCC 3.2.2-b1 remains a strong
+comparison candidate, not a proven exact compiler; matching remains 0.00%.
 
 ## Progress 3 — renderer completion, legacy ZIP, unzip API, zlib fingerprint
 
@@ -432,3 +433,26 @@ tail now reaches its return at `0x001b07d0`. Zero padding follows to
 
 Progress reaches 545 reconstructed / 610 mapped targets (47.93% / 53.65% on the
 conservative 1,137-JAL proxy). Matching remains 0.00%.
+
+## 2026-08-11 — Progress 17: audited structural universe closed
+
+The remaining raw scanner space was classified instead of being promoted
+blindly. Of the 341 raw JAL targets absent after Progress 16, 49 have both a
+target and caller in the confirmed code range; 258 point outside code and 34
+exist only as JAL-shaped words in post-code data. The latter 292 are committed
+to a rejection manifest with their exact evidence.
+
+The final denominator also includes 196 independently mapped real entries that
+the direct-JAL scan cannot discover. This replaces the old raw proxy with the
+audited equation `1,137 - 292 + 196 = 1,041`.
+
+All 49 new code targets and the remaining 25 identified/partial targets were
+decompiled with the Emotion Engine R5900 processor. Every output completed and
+is pinned by hash. Seventeen functions are warning-free; 57 retain 65 verbatim,
+classified warnings. `snapshot_Unfreeze @ 0x001728d4` keeps the sole
+type-propagation warning and lower confidence rather than hiding unresolved
+types.
+
+Both manifests now contain 1,041 reconstructed entries, so audited structural
+coverage is 100.00%. Matching remains 0.00%; the next frontier is typed,
+build-ready source and historical-toolchain comparison.

@@ -96,7 +96,7 @@ recovery deterministic:
 | [Ghidra Emotion Engine: Reloaded](https://github.com/chaoticgd/ghidra-emotionengine-reloaded) | `2.1.10` |
 | Ghidra language | `r5900:LE:32:default` |
 | LLVM objdump used for the generic pass | `20` |
-| Progress generator | repository `tools/update_progress.py`, fixed denominator `1,137` |
+| Progress generator | repository `tools/update_progress.py`; audited universe `1,041` (`1,137` raw JAL targets − `292` data patterns + `196` non-JAL entries) |
 
 Primary historical references are the official [Snes9x source archive
 index](https://www.lysator.liu.se/snes9x/), the preserved [SNES Station v0.23
