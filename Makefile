@@ -13,9 +13,13 @@ MATCH_DIR := $(BUILD_DIR)/matching
 MATHFP_OBJECT := $(MATCH_DIR)/mathfp/newlib_mathfp_recovered.o
 MATHFP_REPORT := $(MATCH_DIR)/mathfp/report.md
 MATHFP_MANIFEST := analysis/matching/mathfp.csv
+GET_TREE_OBJECT := $(MATCH_DIR)/get_tree/get_tree.o
+GET_TREE_REPORT := $(MATCH_DIR)/get_tree/report.md
+GET_TREE_MANIFEST := analysis/matching/get_tree.csv
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 
 SOURCE_C := $(shell find src -type f -name '*.c' | LC_ALL=C sort)
+MATCHING_C := $(shell find matching/candidates -type f -name '*.c' | LC_ALL=C sort)
 
 EE_COMMON_FLAGS := \
 	-G0 -O2 -EL -pipe -Wall -Werror -Wa,-al \
@@ -37,7 +41,8 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 
 .PHONY: help audit-source audit-source-check host-syntax test-tools check \
 	reference verify-reference fetch-newlib toolchain-info check-ee-compiler \
-	match-mathfp match-mathfp-strict elf-status elf clean-matching
+	match-get-tree match-get-tree-strict match-mathfp match-mathfp-strict \
+	elf-status elf clean-matching
 
 help:
 	@echo "SNES Station v0.23 preservation workflow"
@@ -46,6 +51,7 @@ help:
 	@echo "  make reference      unpack and verify your original/SNES_EMU.ELF"
 	@echo "  make fetch-newlib   fetch verified Newlib 1.10.0 mathfp source"
 	@echo "  make toolchain-info show the candidate historical EE compiler contract"
+	@echo "  make match-get-tree run the smallest compiler-fingerprint experiment"
 	@echo "  make match-mathfp   compile and compare the seven-function math corridor"
 	@echo "  make elf-status     show why a complete replacement ELF is not ready"
 	@echo
@@ -60,7 +66,7 @@ audit-source-check:
 host-syntax:
 	@set -eu; \
 	count=0; \
-	for source in $(SOURCE_C); do \
+	for source in $(SOURCE_C) $(MATCHING_C); do \
 		$(HOST_CC) -std=c11 -Wall -Wextra -fsyntax-only -Iinclude "$$source"; \
 		count=$$((count + 1)); \
 	done; \
@@ -93,6 +99,7 @@ check-ee-compiler:
 	@command -v "$(EE_CC)" >/dev/null 2>&1 || { \
 		echo "Missing EE compiler: $(EE_CC)" >&2; \
 		echo "Install the historical ee-gcc 3.2.2-b1 candidate or run:" >&2; \
+		echo "  make match-get-tree EE_CC=/absolute/path/to/ee-gcc" >&2; \
 		echo "  make match-mathfp EE_CC=/absolute/path/to/ee-gcc" >&2; \
 		exit 2; \
 	}
@@ -100,6 +107,28 @@ check-ee-compiler:
 $(MATHFP_OBJECT): src/ps2/newlib_mathfp_recovered.c $(MATHFP_MANIFEST) | check-ee-compiler
 	@mkdir -p "$(dir $@)"
 	$(EE_CC) $(EE_CFLAGS) -c $< -o $@
+
+$(GET_TREE_OBJECT): matching/candidates/get_tree.c $(GET_TREE_MANIFEST) | check-ee-compiler
+	@mkdir -p "$(dir $@)"
+	$(EE_CC) $(EE_CFLAGS) -c $< -o $@
+
+match-get-tree: verify-reference $(GET_TREE_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(REFERENCE_RAW)" \
+		--base-address 0x00100000 \
+		--object "$(GET_TREE_OBJECT)" \
+		--manifest "$(GET_TREE_MANIFEST)" \
+		--report "$(GET_TREE_REPORT)"
+	@echo "Inspect $(GET_TREE_REPORT); no manifest status was changed automatically."
+
+match-get-tree-strict: verify-reference $(GET_TREE_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(REFERENCE_RAW)" \
+		--base-address 0x00100000 \
+		--object "$(GET_TREE_OBJECT)" \
+		--manifest "$(GET_TREE_MANIFEST)" \
+		--report "$(GET_TREE_REPORT)" \
+		--require-all-matching
 
 match-mathfp: verify-reference $(MATHFP_OBJECT)
 	$(PYTHON) tools/compare_elf_functions.py \

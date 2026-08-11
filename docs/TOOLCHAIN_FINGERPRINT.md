@@ -48,6 +48,12 @@ the same 96-byte frame, followed by the same high-level register/data flow.
 `unReduce` also has the same 176-byte frame and begins with the same first
 machine word as the release listing.
 
+The complete `get_tree` streams are not identical: the SNESticle listing is
+`0xd0` bytes, while the SNES Station target range is `0xd4` bytes and uses a
+different saved-register assignment plus one extra global-address reload.
+This is useful negative evidence, not a MATCHING result. The isolated candidate
+and reproducible comparator are exposed through `make match-get-tree`.
+
 That makes the old EE GCC 3.2.2-b1 environment a strong reproduction target.
 It does **not** justify a MATCHING status yet because:
 

@@ -196,6 +196,7 @@ with a historical EE compiler candidate:
 ```bash
 make fetch-newlib
 make toolchain-info
+make match-get-tree EE_CC=/absolute/path/to/ee-gcc
 make match-mathfp EE_CC=/absolute/path/to/ee-gcc
 ```
 

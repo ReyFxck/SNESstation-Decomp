@@ -98,12 +98,15 @@ Use the candidate compiler like this:
 
 ```bash
 make toolchain-info
+make match-get-tree EE_CC=/absolute/path/to/ee-gcc
 make match-mathfp EE_CC=/absolute/path/to/ee-gcc
 ```
 
-The report is written to `build/matching/mathfp/report.md`. A strict CI-style
-run is available as `make match-mathfp-strict`; it exits unsuccessfully until
-all seven rows really match.
+The isolated historical-source candidate for `get_tree` lives at
+`matching/candidates/get_tree.c`; its report is written to
+`build/matching/get_tree/report.md`. The math report is written to
+`build/matching/mathfp/report.md`. Strict CI-style variants append `-strict`
+and exit unsuccessfully until every requested row really matches.
 
 `get_tree` at `0x0018c124` is still the simplest first compiler fingerprint
 because a historical SNESticle assembly listing exists for it. The math
