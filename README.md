@@ -16,8 +16,8 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 > Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **14.51%** (165 tracked targets)
-- **Mapped / identified:** **19.26%** (219 tracked targets)
+- **Reconstructed:** **23.31%** (265 tracked targets)
+- **Mapped / identified:** **25.59%** (291 tracked targets)
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
 The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
@@ -109,16 +109,16 @@ of `adler32 @ 0x00198c54`. See [`docs/ZLIB_MAP.md`](docs/ZLIB_MAP.md).
 The R5900 instruction set is **not** the main problem anymore. All `859/859`
 LLVM `<unknown>` instructions in the selected EE-code range are classified,
 the tracked 30-function renderer draw family is fully reconstructed, and the
-embedded zlib 1.1.3 corridor is mapped through `0x00198c54`. Its Deflate,
-Inflate, Huffman, checksum and utility core is behaviorally reconstructed; the
-24-function `gzio.c` subrange remains identified rather than reconstructed.
+contiguous embedded zlib 1.1.3 corridor is behaviorally reconstructed through
+`0x00198c54`.
 
-The active frontier is now **PS2 GS/video setup beginning at `0x00198c58`**.
-The first pass has already isolated duplicated constructor-like entry points, a
-large graphics initialization wrapper at `0x00198d78`, and privileged GS
-register programming around `0x00199070`. Historical shared PS2 graphics source
-is being used as structural validation only; class/function names remain
-conservative until target signatures are proven.
+The post-zlib PS2 graphics corridor is now identified from target evidence as
+**Hiryu GSLIB** and behaviorally reconstructed through `0x0019be6c`: `gsDriver`,
+`gsPipe`, `gsFont`, and the low-level vertical-retrace/DMA helpers. The original
+`gsPipe` diagnostic strings occur in the target, and exact object layouts prove
+`sizeof(gsPipe)=0x34` and `sizeof(gsDriver)=0x74`. This also corrects the first
+object allocated by `main`: it is `gsDriver`, not a generic frontend object.
+The next clean boundary is `CDVD_Init @ 0x0019be70`.
 
 A parallel matching-build track remains open because a close PS2 source tree
 records EE GCC `3.2.2-b1` and R5900 release flags. Larger functions show

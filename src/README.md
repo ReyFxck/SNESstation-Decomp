@@ -31,5 +31,20 @@ boundaries themselves are high-confidence recoveries.
 - `zlib/infblock_*`, `infcodes_recovered.c`, `inffast_recovered.c`, `inftrees_recovered.c`, `infutil_recovered.c` — DEFLATE decoder core
 - `zlib/trees_recovered.c` — complete Deflate Huffman-output writer
 - `zlib/crc32_recovered.c` / `zutil_adler_recovered.c` — checksums and zutil tail
+- `zlib/gzio_recovered.c` — complete PS2-adapted gzip I/O layer, including target quirks
 
-The remaining zlib-specific source cleanup is the mapped `gzio.c` file-I/O block at `0x00193298..0x00194627`.
+The contiguous embedded zlib 1.1.3 corridor is now behaviorally reconstructed; byte matching remains a separate toolchain task.
+
+
+## PS2 Hiryu GSLIB recovery
+
+The complete post-zlib graphics slice is now represented by:
+
+- `ps2/gsdriver_recovered.c` — older GSLIB `gsDriver`, display/buffer management and VSync callback wrappers;
+- `ps2/gspipe_recovered.c` — `gsPipe` GIF/DMA buffering, GS state, textures and primitives;
+- `ps2/gsfont_recovered.c` — BFNT upload and text rendering;
+- `ps2/gslib_hw_recovered.c` — vertical-retrace and DMA MMIO helpers;
+- `ps2/gs_fifo_recovered.c` — compact canonical helper views used during analysis.
+
+The target proves `gsPipe`/`gsDriver` layouts and preserves several historical
+quirks. See `docs/PS2_GS_MAP.md`.

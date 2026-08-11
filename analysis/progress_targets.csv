@@ -114,30 +114,30 @@ address,name,area,status,confidence,notes
 0x0019304c,inflateSyncPoint,zlib,RECONSTRUCTED,very-high,thin inflate block sync-point query recovered
 0x00193094,get_crc_table,zlib,RECONSTRUCTED,very-high,returns embedded zlib 1.1.3 CRC table at 0x001c8a80; C recovered from target table access/unrolled loop
 0x001930a0,crc32,zlib,RECONSTRUCTED,very-high,table-driven zlib 1.1.3 CRC32; target uses 64-bit uLong entries under -mlong64; C recovered from target table access/unrolled loop
-0x00193298,gz_open,zlib,IDENTIFIED,very-high,gzio.c internal open; target allocates 0x80-byte gz_stream and parses mode
-0x00193564,gzopen,zlib,IDENTIFIED,very-high,gzio.c path open wrapper; calls gz_open with fd=-1
-0x00193580,gzdopen,zlib,IDENTIFIED,very-high,gzio.c fd wrapper; formats <fd:%d> then calls gz_open
-0x001935d8,gzsetparams,zlib,IDENTIFIED,very-high,gzio.c compression parameter update; write-mode check and deflateParams path proven
-0x00193674,get_byte,zlib,IDENTIFIED,very-high,gzio.c buffered byte reader; input refill and EOF path proven
-0x0019371c,check_header,zlib,IDENTIFIED,very-high,gzio.c gzip header parser; magic/flags/optional fields flow mapped
-0x00193914,destroy,zlib,IDENTIFIED,very-high,gzio.c cleanup routine; read/write state teardown and file close mapped
-0x00193a34,gzread,zlib,IDENTIFIED,very-high,"gzio.c reader; transparent path, inflate path, CRC and concatenated gzip handling mapped"
-0x00193cd8,gzgetc,zlib,IDENTIFIED,very-high,gzio.c one-byte read wrapper; direct call to gzread proven
-0x00193d0c,gzgets,zlib,IDENTIFIED,very-high,gzio.c line reader; bytewise gzread loop mapped
-0x00193dbc,gzwrite,zlib,IDENTIFIED,very-high,gzio.c writer; deflate loop and CRC update mapped
-0x00193e8c,gzprintf,zlib,IDENTIFIED,very-high,gzio.c formatted writer; 0x1070 frame exposes 4096-byte format buffer
-0x00193f08,gzputc,zlib,IDENTIFIED,very-high,gzio.c one-byte write wrapper; direct gzwrite call proven
-0x00193f44,gzputs,zlib,IDENTIFIED,very-high,gzio.c string write wrapper; strlen + gzwrite flow proven
-0x00193f88,do_flush,zlib,IDENTIFIED,very-high,gzio.c internal deflate/output flush loop mapped
-0x001940ac,gzflush,zlib,IDENTIFIED,very-high,gzio.c public flush wrapper; calls do_flush
-0x001940ec,gzseek,zlib,IDENTIFIED,very-high,gzio.c uncompressed seek implementation mapped
-0x001942d4,gzrewind,zlib,IDENTIFIED,very-high,gzio.c read-stream rewind/reset path mapped
-0x00194378,gztell,zlib,IDENTIFIED,very-high,"gzio.c tell wrapper; calls gzseek(file,0,SEEK_CUR)"
-0x00194398,gzeof,zlib,IDENTIFIED,very-high,gzio.c EOF leaf; mode check and z_eof return proven
-0x001943c0,putLong,zlib,IDENTIFIED,very-high,gzio.c four-byte little-endian output helper mapped
-0x0019441c,getLong,zlib,IDENTIFIED,very-high,gzio.c four-byte little-endian input helper mapped
-0x00194498,gzclose,zlib,IDENTIFIED,very-high,gzio.c close path; finish flush trailer and destroy flow mapped
-0x0019450c,gzerror,zlib,IDENTIFIED,very-high,gzio.c error-string builder; z_err/errno/path concatenation flow mapped
+0x00193298,gz_open,zlib,RECONSTRUCTED,very-high,gzio.c internal open; target allocates 0x80-byte gz_stream and parses mode; C recovered with target PS2 I/O divergences preserved
+0x00193564,gzopen,zlib,RECONSTRUCTED,very-high,gzio.c path open wrapper; C recovered; calls gz_open with fd=-1
+0x00193580,gzdopen,zlib,RECONSTRUCTED,very-high,gzio.c fd wrapper; formats <fd:%d> then calls gz_open; C recovered with target PS2 I/O divergences preserved
+0x001935d8,gzsetparams,zlib,RECONSTRUCTED,very-high,gzio.c compression parameter update; write-mode check and deflateParams path proven; C recovered with target PS2 I/O divergences preserved
+0x00193674,get_byte,zlib,RECONSTRUCTED,very-high,gzio.c buffered byte reader; input refill and EOF path proven; C recovered with target PS2 I/O divergences preserved
+0x0019371c,check_header,zlib,RECONSTRUCTED,very-high,gzio.c gzip header parser; magic/flags/optional fields flow reconstructed; C recovered with target PS2 I/O divergences preserved
+0x00193914,destroy,zlib,RECONSTRUCTED,very-high,gzio.c cleanup routine; read/write state teardown and file close reconstructed; C recovered with target PS2 I/O divergences preserved
+0x00193a34,gzread,zlib,RECONSTRUCTED,very-high,"gzio.c reader; transparent path, inflate path, CRC and concatenated gzip handling reconstructed; C recovered with target PS2 I/O divergences preserved"
+0x00193cd8,gzgetc,zlib,RECONSTRUCTED,very-high,gzio.c one-byte read wrapper; direct call to gzread proven; C recovered with target PS2 I/O divergences preserved
+0x00193d0c,gzgets,zlib,RECONSTRUCTED,very-high,gzio.c line reader; bytewise gzread loop reconstructed; C recovered with target PS2 I/O divergences preserved
+0x00193dbc,gzwrite,zlib,RECONSTRUCTED,very-high,gzio.c writer; deflate loop and CRC update reconstructed; C recovered with target PS2 I/O divergences preserved
+0x00193e8c,gzprintf,zlib,RECONSTRUCTED,very-high,gzio.c formatted writer; 0x1070 frame exposes 4096-byte format buffer; C recovered with target PS2 I/O divergences preserved
+0x00193f08,gzputc,zlib,RECONSTRUCTED,very-high,gzio.c one-byte write wrapper; direct gzwrite call proven; C recovered with target PS2 I/O divergences preserved
+0x00193f44,gzputs,zlib,RECONSTRUCTED,very-high,gzio.c string write wrapper; strlen + gzwrite flow proven; C recovered with target PS2 I/O divergences preserved
+0x00193f88,do_flush,zlib,RECONSTRUCTED,very-high,gzio.c internal deflate/output flush loop reconstructed; C recovered with target PS2 I/O divergences preserved
+0x001940ac,gzflush,zlib,RECONSTRUCTED,very-high,gzio.c public flush wrapper; calls do_flush; C recovered with target PS2 I/O divergences preserved
+0x001940ec,gzseek,zlib,RECONSTRUCTED,very-high,gzio.c uncompressed seek implementation reconstructed; C recovered with target PS2 I/O divergences preserved
+0x001942d4,gzrewind,zlib,RECONSTRUCTED,very-high,gzio.c read-stream rewind/reset path reconstructed; C recovered with target PS2 I/O divergences preserved
+0x00194378,gztell,zlib,RECONSTRUCTED,very-high,"gzio.c tell wrapper; calls gzseek(file,0,SEEK_CUR); C recovered with target PS2 I/O divergences preserved"
+0x00194398,gzeof,zlib,RECONSTRUCTED,very-high,gzio.c EOF leaf; mode check and z_eof return proven; C recovered with target PS2 I/O divergences preserved
+0x001943c0,putLong,zlib,RECONSTRUCTED,very-high,gzio.c four-byte little-endian output helper reconstructed; C recovered with target PS2 I/O divergences preserved
+0x0019441c,getLong,zlib,RECONSTRUCTED,very-high,gzio.c four-byte little-endian input helper reconstructed; C recovered with target PS2 I/O divergences preserved
+0x00194498,gzclose,zlib,RECONSTRUCTED,very-high,gzio.c close path; finish flush trailer and destroy flow reconstructed; C recovered with target PS2 I/O divergences preserved
+0x0019450c,gzerror,zlib,RECONSTRUCTED,very-high,gzio.c error-string builder; z_err/path fallback flow reconstructed; C recovered with target PS2 I/O divergences preserved
 0x00194628,inflate_blocks_reset,zlib,RECONSTRUCTED,very-high,zlib 1.1.3 block reset; target frees tree/code substate by mode
 0x001946e8,inflate_blocks_new,zlib,RECONSTRUCTED,very-high,"allocates 0x48-byte block state, 1440 hufts and sliding window"
 0x001947d0,inflate_blocks,zlib,RECONSTRUCTED,very-high,full ten-state DEFLATE block decoder recovered
@@ -179,10 +179,81 @@ address,name,area,status,confidence,notes
 0x00198a84,zcalloc,zlib,RECONSTRUCTED,very-high,zlib allocation wrapper; ignores opaque and forwards items/size to allocator
 0x00198aa4,zcfree,zlib,RECONSTRUCTED,very-high,zlib free wrapper; ignores opaque and forwards pointer to free
 0x00198ac0,adler32,zlib,RECONSTRUCTED,very-high,Adler-32 recovered; BASE=65521 NMAX=5552 and 16-byte unrolled accumulation proven in target
-0x00198c58,graphics_wrapper_entry_A,ps2gs,IDENTIFIED,high,near-duplicate graphics wrapper; calls 0x00199590 then 0x00198d78 with default 320x240 display setup
-0x00198cc8,graphics_wrapper_entry_B,ps2gs,IDENTIFIED,high,near-duplicate graphics wrapper; same call/default pattern as 0x00198c58
-0x00198d78,graphics_display_init,ps2gs,PARTIAL,high,stores display parameters; resets GS CSR at 0x12001000 and enters CRT/privileged-register setup
-0x00199070,gs_privileged_display_program,ps2gs,PARTIAL,high,packs width/height/display offsets and writes a 64-bit privileged display value to 0x12000080
+0x00198c58,gsDriver_ctor_A,gslib,RECONSTRUCTED,very-high,Hiryu GSLIB gsDriver constructor entry; target alloc/calls prove embedded 0x74-byte object
+0x00198cc8,gsDriver_ctor_B,gslib,RECONSTRUCTED,very-high,Second constructor entry used by main; return ignored and allocated this pointer preserved
+0x00198d38,gsDriver_dtor_A,gslib,RECONSTRUCTED,very-high,gsDriver destructor entry; destroys embedded gsPipe
+0x00198d58,gsDriver_dtor_B,gslib,RECONSTRUCTED,very-high,Duplicate destructor entry for old GCC C++ ABI
+0x00198d78,gsDriver_setDisplayMode,gslib,RECONSTRUCTED,very-high,Older 10-argument GSLIB display-mode routine recovered; width truncation and buffer-count quirks preserved
+0x00199070,gsDriver_setDisplayPosition,gslib,RECONSTRUCTED,very-high,Stores frame X/Y and programs GS DISPLAY1
+0x001990f8,gsDriver_clearScreen,gslib,RECONSTRUCTED,very-high,"GSLIB clearScreen using drawPipe Z-test, RectFlat, Flush and swapBuffers"
+0x00199160,InitGraphField,gslib,RECONSTRUCTED,very-high,GSLIB CRT syscall helper; syscall #2 with field mode 0
+0x00199178,gsDriver_getFrameBufferBase,gslib,RECONSTRUCTED,very-high,Clamps framebuffer index and returns m_FrameSize * index
+0x00199198,gsDriver_getTextureBufferBase,gslib,RECONSTRUCTED,very-high,Returns m_TextureBufferBase at +0x70
+0x001991a0,gsDriver_getCurrentDisplayBuffer,gslib,RECONSTRUCTED,very-high,Returns current display buffer index
+0x001991a8,gsDriver_getCurrentDrawBuffer,gslib,RECONSTRUCTED,very-high,Returns current draw buffer index
+0x001991b0,gsDriver_swapBuffers,gslib,RECONSTRUCTED,very-high,DrawBufferComplete -> DisplayNextFrame -> setNextDrawBuffer
+0x001991e8,gsDriver_isDrawBufferAvailable,gslib,RECONSTRUCTED,very-high,Boolean test of m_FreeBuffersAvailable
+0x001991f8,gsDriver_isDisplayBufferAvailable,gslib,RECONSTRUCTED,very-high,Boolean test of m_CompleteBuffersAvailable
+0x00199208,gsDriver_setNextDrawBuffer,gslib,RECONSTRUCTED,very-high,Rotates draw buffer modulo count and consumes one free buffer
+0x00199268,gsDriver_DrawBufferComplete,gslib,RECONSTRUCTED,very-high,Increments complete-buffer count while below num_buffers-1
+0x00199290,gsDriver_DisplayNextFrame,gslib,RECONSTRUCTED,very-high,Rotates display buffer and transfers one complete buffer back to free pool
+0x001992f8,gsDriver_setDisplayBuffer,gslib,RECONSTRUCTED,very-high,"Packs/writes GS DISPFB1 from framebuffer base, width and PSM"
+0x00199360,gsDriver_setDrawBuffer,gslib,RECONSTRUCTED,very-high,Flush -> setDrawFrame -> Flush through embedded drawPipe
+0x001993c8,gsDriver_AddVSyncCallback,gslib,RECONSTRUCTED,very-high,AddIntcHandler/EnableIntc wrapper for VSYNC cause 2
+0x00199420,gsDriver_RemoveVSyncCallback,gslib,RECONSTRUCTED,very-high,RemoveIntcHandler wrapper for VSYNC cause 2
+0x00199440,gsDriver_EnableVSyncCallbacks,gslib,RECONSTRUCTED,very-high,EnableIntc wrapper for VSYNC cause 2
+0x00199460,gsDriver_DisableVSyncCallbacks,gslib,RECONSTRUCTED,very-high,DisableIntc wrapper for VSYNC cause 2
+0x00199480,gsPipe_ctor_A,gslib,RECONSTRUCTED,very-high,Hiryu GSLIB gsPipe constructor; target diagnostic strings and exact 0x34-byte layout proven
+0x00199590,gsPipe_ctor_B,gslib,RECONSTRUCTED,very-high,Duplicate gsPipe constructor entry used by gsDriver
+0x001996a0,gsPipe_dtor_A,gslib,RECONSTRUCTED,very-high,gsPipe destructor frees m_Buffer
+0x001996d0,gsPipe_dtor_B,gslib,RECONSTRUCTED,very-high,Duplicate gsPipe destructor entry
+0x00199700,gsPipe_copy_ctor_A,gslib,RECONSTRUCTED,very-high,Copy constructor entry forwarding to target assignment operator
+0x00199720,gsPipe_copy_ctor_B,gslib,RECONSTRUCTED,very-high,Duplicate copy constructor entry
+0x00199740,gsPipe_operator_assign,gslib,RECONSTRUCTED,very-high,Copies historical subset of fields/buffer; target preserves omitted ZTest/Filter fields
+0x00199830,gsPipe_getPipeSize,gslib,RECONSTRUCTED,very-high,Leaf accessor returning m_MemSize
+0x00199838,gsPipe_InitPipe,gslib,RECONSTRUCTED,very-high,Writes DMA END tag 0x70000000 and zero
+0x00199848,gsPipe_ReInit,gslib,RECONSTRUCTED,very-high,"Re-applies Z test, alpha, origin then Flush"
+0x00199898,gsPipe_getBytesLeft,gslib,RECONSTRUCTED,very-high,Returns current pipe end minus current GIF tag pointer
+0x001998b8,gsPipe_FlushCheck,gslib,RECONSTRUCTED,very-high,Flushes when fewer than 0x90 bytes remain; GSPIPE_MINSPACE=18
+0x001998f8,gsPipe_Flush,gslib,RECONSTRUCTED,very-high,DMA wait/cache flush/chain send then swaps double-buffered pipe
+0x00199970,gsPipe_FlushInt,gslib,RECONSTRUCTED,very-high,Interrupt-safe Flush variant using iFlushCache
+0x001999e8,gsPipe_setZBuffer,gslib,RECONSTRUCTED,very-high,Emits ZBUF_1 A+D packet and updates local/global state
+0x00199aa8,gsPipe_setZTestEnable,gslib,RECONSTRUCTED,very-high,Emits TEST_1 packet with GSLIB Z-buffer gate logic
+0x00199b80,gsPipe_setAlphaEnable,gslib,RECONSTRUCTED,very-high,Emits ALPHA_1/PABE and updates alpha state
+0x00199c58,gsPipe_setDither,gslib,RECONSTRUCTED,very-high,Emits DTHE A+D packet
+0x00199cd0,gsPipe_setColClamp,gslib,RECONSTRUCTED,very-high,Emits COLCLAMP A+D packet
+0x00199d48,gsPipe_setPrModeCont,gslib,RECONSTRUCTED,very-high,Emits PRMODECONT A+D packet
+0x00199dc0,gsPipe_setDrawFrame,gslib,RECONSTRUCTED,very-high,Emits FRAME_1 packet from base/width/PSM/mask
+0x00199e58,gsPipe_setOrigin,gslib,RECONSTRUCTED,very-high,Updates local/global origin and emits XYOFFSET_1
+0x00199ef8,gsPipe_setScissorRect,gslib,RECONSTRUCTED,very-high,Emits SCISSOR_1 packet
+0x00199f88,gsPipe_TextureUpload,gslib,RECONSTRUCTED,very-high,RDRAM->VRAM IMAGE transfer chain with 0x7ff0-qword chunks recovered
+0x0019a240,gsPipe_TextureDownload,gslib,RECONSTRUCTED,very-high,VRAM->RDRAM transfer setup/chain recovered from target and historical GSLIB
+0x0019a500,gsPipe_TextureFlush,gslib,RECONSTRUCTED,very-high,Writes historical 0xBAD TEXFLUSH value then Flush; target quirk proven
+0x0019a580,gsPipe_setFilterMethod,gslib,RECONSTRUCTED,very-high,Leaf filter-state setter at object +0x30
+0x0019a588,gsPipe_TextureSet,gslib,RECONSTRUCTED,very-high,Texture state packet recovered; target preserves historical 2^texsize XOR bug
+0x0019a748,gsPipe_Line,gslib,RECONSTRUCTED,very-high,Line primitive packet recovered
+0x0019a838,gsPipe_TriangleLine,gslib,RECONSTRUCTED,very-high,Triangle outline/line-strip packet recovered
+0x0019a9c0,gsPipe_TriangleFlat,gslib,RECONSTRUCTED,very-high,Flat triangle packet recovered
+0x0019aae8,gsPipe_TriangleGouraud,gslib,RECONSTRUCTED,very-high,Gouraud triangle packet recovered
+0x0019ac40,gsPipe_TriangleTexture,gslib,RECONSTRUCTED,very-high,Textured triangle packet recovered
+0x0019adf8,gsPipe_RectFlat,gslib,RECONSTRUCTED,very-high,Flat rectangle/triangle-strip packet recovered
+0x0019af08,gsPipe_RectLine,gslib,RECONSTRUCTED,very-high,Rectangle outline packet recovered
+0x0019b028,gsPipe_RectTexture,gslib,RECONSTRUCTED,very-high,Textured sprite rectangle packet recovered
+0x0019b170,gsPipe_RectGouraud,gslib,RECONSTRUCTED,very-high,Gouraud rectangle packet recovered
+0x0019b2c8,gsPipe_Point,gslib,RECONSTRUCTED,very-high,Point primitive packet recovered; confirms older GSLIB revision
+0x0019b3a8,gsPipe_TriStripGouraud,gslib,RECONSTRUCTED,very-high,Four-vertex Gouraud triangle-strip packet recovered
+0x0019b568,gsPipe_TriStripGouraudTexture,gslib,RECONSTRUCTED,very-high,Four-vertex textured Gouraud strip packet recovered; clean end of gsPipe corridor
+0x0019b7f0,gsFont_uploadFont,gslib,RECONSTRUCTED,very-high,GSLIB gsFont uploadFont; copies BFNT metrics and uploads PixelData through gsPipe
+0x0019b948,gsFont_Print,gslib,RECONSTRUCTED,very-high,GSLIB multi-line aligned Print; sets texture and delegates line measurement/rendering
+0x0019bad0,gsFont_GetCurrLineLength,gslib,RECONSTRUCTED,very-high,Line-width/character-count scanner with control-character handling recovered
+0x0019bb68,gsFont_PrintLine,gslib,RECONSTRUCTED,very-high,Glyph renderer with bold/underline toggles and RectTexture/RectFlat calls
+0x0019bd38,VRstart_handler,gslib,RECONSTRUCTED,very-high,GSLIB hw.c vertical-retrace handler increments VRcount
+0x0019bd50,WaitForNextVRstart,gslib,RECONSTRUCTED,very-high,Target compiler bug preserved: nonvolatile VRcount turns positive wait into infinite register-only loop
+0x0019bd78,TestVRstart,gslib,RECONSTRUCTED,very-high,Leaf VRcount accessor
+0x0019bd88,ClearVRcount,gslib,RECONSTRUCTED,very-high,Leaf VRcount clear
+0x0019bd98,DmaReset,gslib,RECONSTRUCTED,very-high,GSLIB/Duke DMA reset MMIO sequence recovered exactly
+0x0019be20,SendDma02,gslib,RECONSTRUCTED,very-high,GIF DMA channel-2 chain submission helper recovered
+0x0019be40,Dma02Wait,gslib,RECONSTRUCTED,very-high,Polls CHCR bit 0x100 until GIF DMA channel 2 idle
 0x0019be70,CDVD_Init,ps2,IDENTIFIED,high,CDVD RPC initialization
 0x0019cc0c,SifInitRpc,ps2,IDENTIFIED,high,PS2 RPC init
 0x0019d600,SifLoadModule,ps2,IDENTIFIED,high,IOP module path loader
@@ -218,3 +289,4 @@ address,name,area,status,confidence,notes
 0x001b008c,WRITE_4PIXELS16_FLIPPED_ADDF1_2,renderer,RECONSTRUCTED,very-high,Flipped fixed-colour half-ADD selector writer
 0x001b02cc,WRITE_4PIXELS16_SUBF1_2,renderer,RECONSTRUCTED,very-high,Normal fixed-colour half-SUB selector writer
 0x001b052c,WRITE_4PIXELS16_FLIPPED_SUBF1_2,renderer,RECONSTRUCTED,very-high,Flipped fixed-colour half-SUB selector writer
+0x001b0790,gsDriver_getTexSizeFromInt,gslib,RECONSTRUCTED,very-high,Older GSLIB texture-size helper; target loop over powers 1024..1 recovered

@@ -10,9 +10,11 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#include "../../include/gslib_recovered.h"
+
 extern void *operator_new_u32(unsigned size);          /* 0x001a9e88 */
-extern void *sub_00198cc8(void *obj);                  /* constructor-like */
-extern void  sub_001990f8(void *obj);                  /* renderer init-like */
+extern void gsDriver_ctor_00198cc8(gsDriverRecovered *obj); /* 0x00198cc8 */
+extern void gsDriver_clearScreen_001990f8(gsDriverRecovered *obj); /* 0x001990f8 */
 
 extern int SifIopReset(const char *arg, int mode);     /* 0x0019d740 */
 extern void SifInitRpc(int mode);                      /* 0x0019cc0c */
@@ -33,7 +35,7 @@ extern const unsigned char embedded_sjpcm_irx[];       /* VA 0x001f4100 */
 extern const unsigned int  embedded_sjpcm_irx_size;    /* VA 0x001f60c8 = 0x1fc5 */
 
 /* Original global at VA 0x001baf08 (name not recovered yet). */
-static void *g_sub_00198cc8_object;
+static gsDriverRecovered *g_gs_driver;
 
 /* Original global VA 0x001eba80; purpose still unknown. */
 static uint32_t g_unknown_magic;
@@ -46,12 +48,17 @@ static uint32_t g_unknown_magic;
 int main_bootstrap_recovered(int argc, char **argv)
 {
     (void)argv;
-    void *obj;
+    gsDriverRecovered *obj;
     (void)argc;
 
-    obj = operator_new_u32(0x74);
-    g_sub_00198cc8_object = sub_00198cc8(obj);
-    sub_001990f8(g_sub_00198cc8_object);
+    /* The target literally allocates 0x74 bytes. That is now proven to be
+       sizeof(gsDriver) for this embedded Hiryu GSLIB revision. The old GCC
+       constructor return value is ignored; main preserves the allocation in
+       $17 and stores that pointer globally after the call. */
+    obj = (gsDriverRecovered *)operator_new_u32(0x74);
+    gsDriver_ctor_00198cc8(obj);
+    g_gs_driver = obj;
+    gsDriver_clearScreen_001990f8(g_gs_driver);
 
     SifIopReset("rom0:UDNL rom0:EELOADCNF", 0);
     SifInitRpc(0);

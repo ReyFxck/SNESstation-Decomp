@@ -1,114 +1,87 @@
-# Progress 4 summary
+# Progress 5 summary
 
-> Live scoreboard: [`PROGRESS.generated.md`](PROGRESS.generated.md). Update `analysis/progress_targets.csv` and run `python3 tools/update_progress.py` to refresh the README percentages and the generated SVG progress panel.
+> Live scoreboard: [`PROGRESS.generated.md`](PROGRESS.generated.md). Update `analysis/progress_targets.csv` and run `python3 tools/update_progress.py` to refresh the README percentages and generated SVG panel.
 
-Progress 4 closes the main zlib 1.1.3 Deflate/Inflate core, maps the previously
-unnamed gzip I/O corridor, adds an evidence-based Petari-style progress graphic,
-and moves active binary analysis into the PS2 GS/video subsystem.
+Progress 5 closes the PS2 graphics-library corridor immediately after zlib,
+recovers the complete PS2-adapted gzip I/O layer that was mapped in the prior
+pass, and corrects the startup object identity in `main`.
 
 ## Current scoreboard
 
-- **165 reconstructed targets**
-- **219 mapped targets**
-- **14.51% reconstructed** on the conservative 1,137-JAL proxy
-- **19.26% mapped** on the same proxy
-- **0.00% matching** (kept deliberately strict)
+- **265 reconstructed targets**
+- **291 mapped targets**
+- **23.31% reconstructed** on the conservative 1,137-JAL proxy
+- **25.59% mapped** on the same proxy
+- **0.00% matching** — deliberately strict
 - renderer draw-family subgrid: **30/30 reconstructed**
 
 The project-wide visual summary is generated as [`assets/progress.svg`](../assets/progress.svg).
-It uses 200 cells as a quantized view of the same proxy; it is a visualization,
-not a replacement for the underlying per-address status CSV.
 
-## Renderer milestone remains closed
+## zlib / gzip milestone
 
-All 30 tracked draw-family entry points from `0x0018428c` through
-`0x0018bac0` have behavior-oriented C reconstructions, including 8/16-bit,
-clipped, x2/x2x2, large-pixel, Add/Sub/Half/fixed-colour paths and their
-normal/flipped writers.
+The embedded zlib 1.1.3 corridor is behaviorally reconstructed from
+`compress2 @ 0x00190700` through the final return of `adler32 @ 0x00198c54`.
+This includes the PS2-adapted 24-function `gzio.c` layer and its target-specific
+quirks rather than only the generic upstream behavior.
 
-## Legacy ZIP / unzip milestone
+## Hiryu GSLIB milestone
 
-The old archive path is now well bounded:
+The next contiguous corridor, `0x00198c58..0x0019be6c`, is now identified and
+behaviorally reconstructed as **Hiryu's GSLIB**:
 
-- Implode/Explode recovered;
-- Reduce recovered;
-- Shrink recovered, including internal `partial_clear` boundary handling;
-- unzip 0.15-style API mapped through `0x00190628`.
+- `gsDriver` including the older 10-argument display-mode interface;
+- `gsPipe` constructors, copy/assignment, double-buffered GIF/DMA pipe,
+  GS state setters, texture transfer/setup and all primitive emitters;
+- `gsFont` upload, line measurement, aligned multi-line printing and glyph draw;
+- GSLIB `hw.c` vertical-retrace and DMA helpers.
 
-This work also established an important boundary rule: real direct-call targets
-can exist without a conventional stack-frame prologue.
+Target evidence proves `sizeof(gsPipe) == 0x34` and `sizeof(gsDriver) == 0x74`.
+The latter corrects an earlier research assumption: the `0x74` object allocated
+by `main` and constructed at `0x00198cc8` is `gsDriver`, not a generic frontend
+object. `0x001990f8` is `gsDriver::clearScreen`.
 
-## zlib 1.1.3 core milestone
+Several historical quirks are preserved because they are visible in the target:
 
-The target itself identifies the embedded library as **zlib 1.1.3**. Progress 4
-recovers the main compression/decompression machinery rather than merely naming
-it from upstream source.
+- old `width & 0xFFC0` display-width truncation;
+- `num_bufs - 2` free-buffer underflow possibility;
+- `gsPipe::operator=` omits ZTest/Filter state;
+- `TextureFlush` sends `0xBAD`;
+- `TextureSet` uses C XOR from historical `2^texsize` text;
+- optimized `WaitForNextVRstart` can spin forever because `VRcount` was not volatile.
 
-Behaviorally reconstructed target code now includes:
+See [`PS2_GS_MAP.md`](PS2_GS_MAP.md).
 
-- `compress2`, `compress`, `uncompress`;
-- Deflate initialization/state management;
-- `deflate`, `longest_match`, `fill_window`;
-- stored/fast/slow Deflate engines;
-- Inflate interface and 14-state stream machine;
-- block decoder, slow codes decoder and fast path;
-- dynamic/fixed Huffman tree construction and circular output flush;
-- complete `trees.c` Huffman-output side through `copy_block`;
-- CRC32, Adler32, `zlibVersion`, `zError`, `zcalloc`, and `zcfree`.
+## Main-flow correction
 
-The target `deflate_state` allocation is independently accounted for through
-**0x16d8 bytes**, including the dynamic trees, heap, literal/distance buffers,
-64-bit length fields and bit buffer. See [`ZLIB_MAP.md`](ZLIB_MAP.md).
+At `main @ 0x00104f18` the program:
 
-### gzip I/O gap
+1. allocates literal `0x74` bytes;
+2. preserves that allocation in `$17`;
+3. calls `gsDriver` constructor entry `0x00198cc8` with it;
+4. ignores the constructor return value;
+5. stores the `$17` pointer in the global;
+6. calls `gsDriver::clearScreen @ 0x001990f8`.
 
-The interval `0x00193298..0x00194627` is now mapped to the 24-function zlib
-1.1.3 `gzio.c` API (`gz_open`, `gzread`, `gzwrite`, `gzseek`, `gzclose`, etc.).
-Those functions are intentionally still marked **IDENTIFIED**, not
-RECONSTRUCTED. Evidence includes the `0x80`-byte gzip stream object, `0x4000`
-I/O buffers, gzip header handling, and the large local format buffer in
-`gzprintf`.
-
-Therefore the zlib corridor is **fully mapped at the module level but not yet
-fully reconstructed**.
-
-## PS2 GS/video frontier
-
-`adler32` returns at `0x00198c54`. The next function at `0x00198c58` is already
-PS2 graphics code.
-
-The first audited GS pass now tracks:
-
-| Address | Provisional name | State |
-|---|---|---|
-| `0x00198c58` | `graphics_wrapper_entry_A` | identified |
-| `0x00198cc8` | `graphics_wrapper_entry_B` | identified |
-| `0x00198d78` | `graphics_display_init` | partial |
-| `0x00199070` | `gs_privileged_display_program` | partial |
-
-The two wrapper entries are near duplicates and both call `0x00199590` before
-entering `0x00198d78` with the same default 320x240 setup. The larger routine
-resets GS CSR at `0x12001000`; `0x00199070` writes a packed 64-bit display value
-to privileged GS register address `0x12000080`.
-
-Historical shared PS2 `gs.c` code is useful structural validation, but no class
-name has been assigned and no historical function name is treated as proven
-unless the target signature agrees. See [`PS2_GS_MAP.md`](PS2_GS_MAP.md).
+`src/app/main_bootstrap.c` now mirrors that ABI/data flow.
 
 ## Matching/toolchain status
 
-A close historical PS2 build records EE GCC `3.2.2-b1` plus R5900 release
-flags. It remains a strong compiler-family fingerprint, not a proven exact
-compiler. Larger functions such as `deflateInit2_` show different register
-allocation even when structure is very similar.
-
-**Matching remains 0.00%.** A function becomes matching only after an actual
-candidate-toolchain rebuild compares byte-for-byte with the target.
+The historical GSLIB and close PS2 GCC `3.2.2-b1` listings are powerful source
+and compiler-family fingerprints, but larger target functions still show
+register-allocation differences. No function is promoted to MATCHING without a
+candidate rebuild that compares byte-for-byte.
 
 ## Validation
 
-- all **34** current `src/**/*.c` translation units pass host C99 syntax checks
-  with `-Wall -Wextra -Werror`;
-- all **13** `src/zlib/*.c` units also compile to objects and combine with
-  `ld -r` into one relocatable research object without duplicate definitions;
-- `git diff --check` is clean.
+- all current `src/**/*.c` files pass host `-Wall -Wextra -Werror` syntax checks;
+- recovered zlib units remain independently compile/link checkable;
+- generated progress data and SVG come solely from `analysis/progress_targets.csv`;
+- focused GSLIB assembly extracts are included instead of a full program dump.
+
+## Next frontier
+
+The recovered GSLIB slice ends cleanly at `0x0019be6c`. The next known function
+is `CDVD_Init @ 0x0019be70`, followed by the CDVD/RPC/runtime region. In parallel,
+remaining SNES Station-specific frontend, audio, core/PPU and matching-toolchain
+work continue to be higher-value targets than re-identifying already recovered
+third-party library code.

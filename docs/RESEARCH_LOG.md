@@ -154,3 +154,96 @@ privileged GS display register address `0x12000080`.
 Historical shared PS2 `gs.c` contains the same classes of low-level operations
 (GS reset, CRT setup, display-register packing), so it is retained as
 structural validation only. The wrapper/class identity remains unresolved.
+
+## 2026-08-10 — gzip I/O gap closed and zlib boundary finalized
+
+A consistency audit caught that the earlier “zlib corridor closed” wording was
+premature: the `gzio.c` interval at `0x00193298..0x00194627` was mapped but had
+not yet been converted to C. All 24 entry points are now behaviorally
+reconstructed and validated with the rest of `src/zlib/`.
+
+The target contains PS2-specific deviations from generic zlib 1.1.3 that are
+now preserved explicitly. `gzdopen` builds `"<fd:%d>"`, while `gz_open` ignores
+its fd parameter and opens that text as a path; the integer file field starts
+at zero; `gzflush` lacks the generic-source `fflush`; `gzerror` falls back to
+the zlib error table for `Z_ERRNO`; and the emitted gzip header uses OS byte 3.
+
+With that correction, the embedded zlib 1.1.3 corridor is behaviorally
+reconstructed from `compress2` at `0x00190700` through the final `adler32`
+return at `0x00198c54`. The next active module remains PS2 GS/video code at
+`0x00198c58`.
+
+
+## 2026-08-10 — first GS display/buffer cluster reconstructed
+
+Recovered the first self-contained post-zlib PS2 graphics cluster at
+`0x00199070..0x001993c0` without assigning an unproven class name.
+`0x00199070` reproduces the target DISPLAY1 geometry arithmetic and writes the
+privileged register at `0x12000080`; `0x001992f8` writes DISPFB1 at
+`0x12000070` from a clamped framebuffer index, width/64 and PSM.
+
+The object fields at `+0x50/+0x54/+0x58/+0x5c/+0x60/+0x64` now form a coherent
+display/draw buffer rotation model: current display index, current draw index,
+buffer count, pending draw transitions, pending display transitions, and
+per-buffer stride. Small helpers from `0x00199178` through `0x00199290` were
+reconstructed around that model, and `0x00199360` preserves the target
+flush/select/draw-frame/flush call sequence.
+
+The historical shared `gs.c` DISPLAY1/DISPFB formulas validate the operation
+class after target-side identification, but the SNES Station wrapper/object
+layout remains authoritative.
+
+
+## 2026-08-10 — GS GIF FIFO and FRAME_1 writer recovered
+
+The draw-buffer helper chain was followed through `0x00199838..0x001998f8` and
+`0x00199dc0`. The target uses a double-buffered GIF/DMA list: `0x001998f8` waits
+for GIF DMA completion, invokes `FlushCache(0)`, submits the active chain,
+switches to the other half of the allocation, writes a DMA END tag, and resets
+the packet pointers. `0x00199898` computes remaining bytes and `0x001998b8`
+forces a flush below a `0x90`-byte reserve.
+
+`0x00199dc0` is now reconstructed as the GS FRAME_1 A+D packet writer. Its
+packed value contains framebuffer base (`address >> 13`), width (`width/64`),
+PSM, and FBMSK, followed by register selector `0x4c`. This removes the last
+opaque helper from the first recovered draw-buffer path.
+
+## 2026-08-10 — Progress 5: Hiryu GSLIB corridor recovered
+
+Target-first analysis resolved the entire post-zlib graphics block. The binary
+itself contains the original `gsPipe` allocation/alignment diagnostics, after
+which historical GSLIB by Hiryu validates the class/method names. The target
+object layout is exact: `gsPipe` is 0x34 bytes and the embedded-pipe `gsDriver`
+is 0x74 bytes.
+
+This corrects an earlier project inference. The `0x74` allocation at the start
+of `main`, constructed through `0x00198cc8`, is `gsDriver`; `0x001990f8` is
+`gsDriver::clearScreen`. Main preserves the allocator result in `$17`, ignores
+the constructor return value, and stores that original pointer globally.
+
+The target uses an older `gsDriver::setDisplayMode` signature with explicit
+x/y position and TV mode. It also preserves old behavior absent or commented in
+later mirrors: width truncation with `& 0xFFC0`, possible `num_bufs-2` free-count
+underflow, and no initialization of the complete-buffer counter in that method.
+
+`gsPipe` is reconstructed from both target packet behavior and historical
+lineage. Distinctive target-visible quirks include the assignment operator not
+copying ZTest/Filter state, `TextureFlush` writing `0xBAD`, and `TextureSet`
+using literal XOR for historical `2^texwidth` / `2^texheight` expressions.
+The method order and clean boundary continue through all line/triangle/
+rectangle/point/triangle-strip primitive emitters to `0x0019b7ec`.
+
+The following block is `gsFont`: `uploadFont @ 0x0019b7f0`, `Print @
+0x0019b948`, `GetCurrLineLength @ 0x0019bad0`, and `PrintLine @ 0x0019bb68`.
+Its target layout puts Bold/Underline at +0x30/+0x31 and the 256-byte glyph
+width table at +0x32.
+
+Finally, `0x0019bd38..0x0019be6c` matches GSLIB `hw.c`: vertical-retrace
+helpers, `DmaReset`, `SendDma02`, and `Dma02Wait`. A compiler-visible bug is
+preserved: because historical `VRcount` was not volatile, optimized
+`WaitForNextVRstart` sets it to zero and becomes an infinite register-only loop
+for every positive argument instead of observing interrupt updates.
+
+The complete recovered GSLIB slice ends at `0x0019be6c`; `CDVD_Init` begins at
+`0x0019be70`. Matching remains 0.00% because historical source equivalence is
+not a byte-identical target rebuild.

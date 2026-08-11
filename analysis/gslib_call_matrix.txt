@@ -1,0 +1,24 @@
+SNES Station v0.23 — recovered Hiryu GSLIB corridor
+
+198c58..19947f  gsDriver
+  ctor -> gsPipe ctor -> old setDisplayMode
+  clearScreen -> drawPipe RectFlat/Flush -> swapBuffers
+  setDrawBuffer -> gsPipe Flush/setDrawFrame/Flush
+
+199480..19b7ef  gsPipe
+  ctor/copy/state -> double-buffered GIF/DMA pipe
+  Flush/FlushInt -> Dma02Wait + cache flush + SendDma02
+  TextureUpload/Download -> GS transfer registers + IMAGE DMA chains
+  TextureSet -> TEXCLUT/TEXFLUSH/TEXA/TEX1/TEX0/CLAMP/ALPHA/PABE
+  primitives -> GIF packed Line/Triangle/Rectangle/Point/TriStrip packets
+
+19b7f0..19bd37  gsFont
+  uploadFont -> gsPipe::TextureUpload
+  Print -> TextureSet -> GetCurrLineLength -> PrintLine
+  PrintLine -> RectTexture; underline -> RectFlat
+
+19bd38..19be6f  hw.c
+  VRstart_handler / WaitForNextVRstart / TestVRstart / ClearVRcount
+  DmaReset / SendDma02 / Dma02Wait
+
+19be70           CDVD_Init — clean next-module boundary
