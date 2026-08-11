@@ -17,6 +17,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
+PSEUDOCODE_MANIFESTS = (
+    ROOT / "analysis" / "progress16_recovered_targets.csv",
+    ROOT / "analysis" / "progress17_recovered_targets.csv",
+)
 OUT = ROOT / "docs" / "PROGRESS.generated.md"
 SVG_OUT = ROOT / "assets" / "progress.svg"
 RAW_JAL_TARGETS = 1137
@@ -87,16 +91,22 @@ def _quantized_progress_cells(counts: dict[str, int]) -> list[str]:
     return cells[:SVG_CELLS]
 
 
-def _write_svg(status_counts: dict[str, int]) -> None:
+def _write_svg(
+    status_counts: dict[str, int],
+    source_model_count: int,
+    pseudocode_only_count: int,
+) -> None:
     cells = _quantized_progress_cells(status_counts)
     matching = status_counts.get("MATCHING", 0)
     reconstructed = matching + status_counts.get("RECONSTRUCTED", 0)
     mapped = sum(status_counts.values())
 
-    width, height = 720, 450
+    width, height = 720, 525
     left, top = 42, 105
     cell, gap = 28, 4
     grid_w = SVG_COLS * cell + (SVG_COLS - 1) * gap
+    source_model_width = round(grid_w * source_model_count / VALIDATED_TARGETS)
+    pseudocode_width = grid_w - source_model_width
 
     rects = []
     for i, status in enumerate(cells):
@@ -126,17 +136,22 @@ def _write_svg(status_counts: dict[str, int]) -> None:
 
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">
 <title id="title">SNES Station v0.23 decompilation progress</title>
-<desc id="desc">{pct(reconstructed, VALIDATED_TARGETS):.2f}% reconstructed and {pct(mapped, VALIDATED_TARGETS):.2f}% mapped in the audited 1,041-entry structural target universe.</desc>
+<desc id="desc">{pct(reconstructed, VALIDATED_TARGETS):.2f}% structurally reconstructed, {source_model_count} entries at a behavioral source-model checkpoint, {pseudocode_only_count} entries represented only as structural pseudocode, and {pct(matching, VALIDATED_TARGETS):.2f}% machine-code matching.</desc>
 <style>
   .title {{ font: 700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill: #c9d1d9; }}
   .sub {{ font: 600 13px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill: #8b949e; }}
   .legend {{ font: 11px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill: #8b949e; }}
+  .source {{ font: 600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill: #c9d1d9; }}
 </style>
 <rect width="100%" height="100%" rx="12" fill="#0d1117"/>
 <text x="30" y="28" class="title">SNES Station v0.23 — decompilation progress</text>
 <text x="30" y="48" class="sub">{pct(reconstructed, VALIDATED_TARGETS):.2f}% reconstructed · {pct(mapped, VALIDATED_TARGETS):.2f}% mapped · {pct(matching, VALIDATED_TARGETS):.2f}% matching</text>
 {''.join(legends)}
 {''.join(rects)}
+<text x="42" y="450" class="source">Source-form checkpoint (not build readiness)</text>
+<rect x="42" y="462" width="{source_model_width}" height="16" rx="4" fill="#238636"/>
+<rect x="{42 + source_model_width}" y="462" width="{pseudocode_width}" height="16" rx="4" fill="#d29922"/>
+<text x="42" y="498" class="legend">{source_model_count} behavioral/source-model · {pseudocode_only_count} structural pseudocode only · complete ELF: no</text>
 </svg>'''
     SVG_OUT.write_text(svg, encoding="utf-8")
 
@@ -158,6 +173,16 @@ def main() -> None:
     reconstructed = [r for r in rows if r["status"] in {"RECONSTRUCTED", "MATCHING"}]
     mapped = [r for r in rows if r["status"] != "UNKNOWN"]
     matching = [r for r in rows if r["status"] == "MATCHING"]
+    pseudocode_addresses: set[str] = set()
+    for pseudocode_manifest in PSEUDOCODE_MANIFESTS:
+        with pseudocode_manifest.open(encoding="utf-8", newline="") as stream:
+            pseudocode_addresses.update(
+                row["address"].lower() for row in csv.DictReader(stream)
+            )
+    pseudocode_only = [
+        row for row in rows if row["address"].lower() in pseudocode_addresses
+    ]
+    source_model_count = len(rows) - len(pseudocode_only)
 
     draw = [
         r for r in rows
@@ -172,7 +197,7 @@ def main() -> None:
     blocks = [STATUS_ICON[r["status"]] for r in draw]
     grid_lines = ["".join(blocks[i:i+15]) for i in range(0, len(blocks), 15)]
 
-    _write_svg(status_counts)
+    _write_svg(status_counts, source_model_count, len(pseudocode_only))
 
     text = f"""# Generated progress snapshot
 
@@ -193,6 +218,16 @@ The rejected patterns and their reasons are recorded in [`analysis/progress17_re
 | Mapped (identified + partial + reconstructed) | {len(mapped):,} | **{pct(len(mapped), VALIDATED_TARGETS):.2f}%** |
 
 The README graphic is generated to [`assets/progress.svg`](../assets/progress.svg). Its 200 cells are a largest-remainder visualization of this same {VALIDATED_TARGETS:,}-entry universe.
+
+## Source-form checkpoint
+
+Structural coverage is not the same as build readiness. Of the {VALIDATED_TARGETS:,}
+validated entries, **{source_model_count:,}** belong to the pre-Progress-16
+behavioral/source-model checkpoint and **{len(pseudocode_only):,}** are currently
+committed only as address-labelled Progress-16/17 structural pseudocode. Neither
+category is a byte-matching claim. See
+[`docs/SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) for
+the generated invariant audit and remaining ELF gates.
 
 ## Renderer draw-family map
 
@@ -233,9 +268,11 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 - **Matching:** {pct(len(matching), VALIDATED_TARGETS):.2f}%
 - **Reconstructed:** **{pct(len(reconstructed), VALIDATED_TARGETS):.2f}%** ({len(reconstructed):,}/{VALIDATED_TARGETS:,} validated targets)
 - **Mapped / identified:** **{pct(len(mapped), VALIDATED_TARGETS):.2f}%** ({len(mapped):,}/{VALIDATED_TARGETS:,} validated targets)
+- **Source-form checkpoint:** **{source_model_count:,} behavioral/source-model + {len(pseudocode_only):,} structural-pseudocode-only**
+- **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**
 
-The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
+The renderer-specific grid lives in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md); the build/matching audit lives in [`docs/SOURCE_COMPLETENESS.generated.md`](docs/SOURCE_COMPLETENESS.generated.md).
 {end}"""
     if start in readme_text and end in readme_text:
         before = readme_text.split(start, 1)[0]

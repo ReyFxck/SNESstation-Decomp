@@ -49,7 +49,7 @@ matching attempt from silently substituting a modern library.
 | linked `libgcc` / unwind runtime | GCC `3.2.2-b1` layout fingerprint | `_udivdi3`, `_umoddi3`, `unwind-dw2`, FDE and soft-float object sizes plus public offsets agree | Stronger than the global compiler claim; still mark functions `RECONSTRUCTED`, not `MATCHING`. |
 | linked `libsupc++` / C++ EH | GCC 3.2.2-era ABI/runtime family | RTTI vtables, EH globals, personality and exception-object layout | Use the historical Itanium ABI implementation; modern libstdc++ is structurally different. |
 | EE libc / allocator / stdio | old PS2LIB/Newlib-era snapshot; exact bundle unknown | Recovered `malloc`, formatter, string/ctype and syscall behavior matches the early PS2DEV corridor, but no global libc version string exists | Treat each archive family separately; the `mathfp` fingerprint below does not prove that every libc object came from Newlib 1.10.0. |
-| Newlib `mathfp` | `1.10.0` source fingerprint | Polynomial tables, function ordering and EE-specific leaf substitutions | Strong fingerprint, not an embedded version string. Preserve `-mlong64` quirks. |
+| Newlib `mathfp` | `1.10.0` source fingerprint | Polynomial tables, function ordering and EE-specific leaf substitutions; official archive hash pinned below | Strong fingerprint, not an embedded version string. Preserve `-mlong64` quirks and compare the target's hardware `sqrtf`/`fabsf` leaves instead of assuming generic upstream bodies. |
 | executable packer | SJCRUNCH2 container; packer revision unknown | Deterministic 13-block layout at file offset `0x2f00`; unpacker-stub string `Jul 12 2002` | Pin the packed ELF hash. The date identifies the stub build, not an asserted SJCRUNCH semantic version. |
 | LZO decompressor used by SJCRUNCH2 | exact LZO revision unknown | Container/block behavior and successful `lzo1x_decompress` reproduction | Host `liblzo2` is an analysis dependency only and does not prove the historical LZO release. |
 | IOP-module compiler | GCC 2-family, exact release unknown | `gcc2_compiled.` / `__gnu_compiled_c` symbols in intact embedded IRXs | Preserve each IRX blob by hash until its original toolchain is independently recovered. |
@@ -80,6 +80,7 @@ SJCRUNCH row, which belongs to the packed ELF stub.
 | Embedded SjPCM 2.0 IRX | 8,133 bytes (`0x1fc5`) | `0x0f4100` | `690d69decfd2abaed46a06c402be0b835d3329bb49a1012ecc29a7a4a9ad579f` |
 | Embedded AmigaMod IRX | 20,061 bytes (`0x4e5d`) | `0x0f6140` | `25d8b8b8e0a9ec1a28ff944eb2a21f53b87125d4f7f74ddb5f93d4621005a3e3` |
 | Historical Snes9x 1.41 source archive used for validation | 1,012,496 bytes | — | `f24e5761fd91078c124241e8631370a6bd182b8dde9661d24e9761898d1838f3` |
+| Official Newlib 1.10.0 source archive | downloaded by `tools/fetch_upstream.py` | — | `69b62ad4c746a9acaf4f898772549f6da49f228f83a95efce7e88ae1d88c5a84` |
 
 The IRX blobs and original ELF are deliberately not distributed by this
 repository. Their hashes, sizes and unpacked-image offsets are sufficient to
@@ -102,3 +103,6 @@ Primary historical references are the official [Snes9x source archive
 index](https://www.lysator.liu.se/snes9x/), the preserved [SNES Station v0.23
 release](https://archive.org/details/snes_0_2_3_20040124), and the public
 [SNESticle PS2 source/build tree](https://github.com/iaddis/SNESticle).
+The exact Makefile used for the neighboring toolchain fingerprint is pinned to
+SNESticle commit
+[`9590ebf3bf768424ebd6cb018f322e724a7aade3`](https://github.com/iaddis/SNESticle/blob/9590ebf3bf768424ebd6cb018f322e724a7aade3/SNESticle/Project/ps2/Makefile).

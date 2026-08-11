@@ -18,9 +18,11 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 - **Matching:** 0.00%
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
+- **Source-form checkpoint:** **802 behavioral/source-model + 239 structural-pseudocode-only**
+- **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
-The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
+The renderer-specific grid lives in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md); the build/matching audit lives in [`docs/SOURCE_COMPLETENESS.generated.md`](docs/SOURCE_COMPLETENESS.generated.md).
 <!-- DECOMP_PROGRESS_END -->
 
 ## Target binary
@@ -159,7 +161,48 @@ The frontier is now source cleanup and proof: replace `DAT_*` labels and
 placeholder types, migrate structural pseudocode into build-ready translation
 units, reproduce the historical EE toolchain, and compare generated machine
 code. **Matching remains 0.00%** until that byte-level work succeeds. See
-[`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md).
+[`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md) and the
+step-by-step [`docs/MATCHING_WORKFLOW.md`](docs/MATCHING_WORKFLOW.md).
+
+## Verify the checkpoint and start matching
+
+The root Makefile separates structural coverage, source readiness, function
+matching, whole-program linking and final packing instead of folding them into
+one misleading percentage:
+
+```bash
+make check
+make elf-status
+```
+
+The generated source audit currently classifies **802** entries in the earlier
+behavioral/source-model checkpoint and **239** entries as Progress-16/17
+structural pseudocode that still needs build-ready migration. The repository has
+**88 independently syntax-checked C translation units**, but no complete linked
+replacement ELF and no function promoted to `MATCHING` yet. See
+[`docs/SOURCE_COMPLETENESS.generated.md`](docs/SOURCE_COMPLETENESS.generated.md).
+
+With a legally obtained reference ELF, reproduce and verify the exact analysis
+image:
+
+```bash
+make reference
+```
+
+For the first pinned library experiment, fetch the SHA-256-verified official
+Newlib 1.10.0 source and compare the recovered seven-function `mathfp` corridor
+with a historical EE compiler candidate:
+
+```bash
+make fetch-newlib
+make toolchain-info
+make match-mathfp EE_CC=/absolute/path/to/ee-gcc
+```
+
+The public SNESticle Makefile supplies strong GCC 3.2.2-b1 flag and neighboring
+link-family evidence. It does **not** prove SNES Station's exact linker script,
+archive revisions or library order, so `make elf` deliberately remains blocked
+until those facts and the remaining source migrations are recovered.
 
 ## Repository policy
 
@@ -174,7 +217,7 @@ original/SNES_EMU.ELF
 Then run:
 
 ```bash
-./tools/analyze.sh
+bash tools/analyze.sh
 ```
 
 Generated binary/disassembly files are ignored by Git.
@@ -185,7 +228,7 @@ The analysis pipeline is designed to work on a Debian environment such as DroidS
 
 ```bash
 apt update
-apt install -y python3 binutils liblzo2-2
+apt install -y python3 binutils liblzo2-2 make gcc
 ```
 
 When `liblzo2` is installed outside the system loader path, point the unpacker
@@ -219,9 +262,11 @@ Historical third-party SNES Station patches, including the 2006 Mega Man extensi
 
 ```text
 SNESStation-Decomp/
+├── Makefile             reproducible audit/matching entry points
 ├── src/                 reconstructed C/C++
 ├── include/             recovered declarations / symbols
-├── analysis/functions/  focused per-function assembly extracts
+├── analysis/functions/  focused per-function assembly/pseudocode evidence
+├── analysis/matching/   machine-readable function comparison corridors
 ├── analysis/            maps, xrefs and machine-readable analysis
 ├── docs/                findings, progress and research notes
 ├── tools/               unpacking/disassembly/analysis scripts

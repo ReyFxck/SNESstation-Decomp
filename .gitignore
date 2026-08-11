@@ -8,8 +8,7 @@ reference/embedded_irx/
 # Full/generated disassembly and analysis output
 asm/full.asm
 asm/full_r5900_annotated.asm
-notes/strings.txt
-notes/*.log
+notes/
 
 # Ghidra projects
 *.gpr

@@ -18,8 +18,16 @@ Do not name a function solely because it resembles a function in Snes9x.
 
 - `TODO` — boundary or purpose not sufficiently recovered.
 - `IDENTIFIED` — purpose/name proven, C/C++ not complete.
-- `EQUIVALENT` — reconstructed behavior is supported, assembly differs or matching has not been established.
-- `MATCHING` — generated machine code matches the reference under the documented toolchain/flags.
+- `RECONSTRUCTED` — structural/behavioral source evidence is committed, but compiler matching has not been established.
+- `MATCHING` — generated machine code matches the reference after relocation normalization under a pinned toolchain, flags and source revision.
+
+## Matching evidence
+
+Before promoting a row to `MATCHING`, record the compiler binary/version, all
+flags, candidate source revision, object hash, target range and the generated
+comparison report. `tools/compare_elf_functions.py` masks relocation sites only
+and never changes manifest status automatically. The first reproducible
+library corridor is described in `docs/MATCHING_WORKFLOW.md`.
 
 ## Binary policy
 
@@ -43,6 +51,10 @@ When a function changes state, update `analysis/progress_targets.csv` and run:
 
 ```bash
 python3 tools/update_progress.py
+make audit-source
+make check
 ```
 
-The script regenerates `docs/PROGRESS.generated.md` and the progress section in the root README. Do not hand-edit the generated scoreboard.
+The generators refresh `docs/PROGRESS.generated.md`,
+`docs/SOURCE_COMPLETENESS.generated.md`, `analysis/source_readiness.csv`, the
+progress SVG and the root README scoreboard. Do not hand-edit generated files.

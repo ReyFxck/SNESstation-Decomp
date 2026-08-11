@@ -5,13 +5,15 @@ IN="$ROOT/original/SNES_EMU.ELF"
 RAW="$ROOT/build/SNES_EMU.unpacked.bin"
 WRAP="$ROOT/build/SNES_EMU.analysis.elf"
 
+mkdir -p "$ROOT/build" "$ROOT/notes" "$ROOT/asm"
+
 if [[ ! -f "$IN" ]]; then
   echo "Missing $IN" >&2
   exit 1
 fi
 
 sha256sum "$IN" | tee "$ROOT/notes/SHA256SUMS.txt"
-file "$IN" | tee "$ROOT/notes/file.txt"
+file -L "$IN" | tee "$ROOT/notes/file.txt"
 readelf -h "$IN" > "$ROOT/notes/elf_header.txt"
 readelf -S "$IN" > "$ROOT/notes/elf_sections.txt"
 readelf -l "$IN" > "$ROOT/notes/elf_segments.txt"

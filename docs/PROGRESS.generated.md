@@ -18,6 +18,16 @@ The rejected patterns and their reasons are recorded in [`analysis/progress17_re
 
 The README graphic is generated to [`assets/progress.svg`](../assets/progress.svg). Its 200 cells are a largest-remainder visualization of this same 1,041-entry universe.
 
+## Source-form checkpoint
+
+Structural coverage is not the same as build readiness. Of the 1,041
+validated entries, **802** belong to the pre-Progress-16
+behavioral/source-model checkpoint and **239** are currently
+committed only as address-labelled Progress-16/17 structural pseudocode. Neither
+category is a byte-matching claim. See
+[`docs/SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) for
+the generated invariant audit and remaining ELF gates.
+
 ## Renderer draw-family map
 
 This grid is exact for the **30 macro-expanded draw-family entry points from `0x0018428c` through `0x0018bac0`** currently tracked in `docs/RENDERER_MAP.md`.
