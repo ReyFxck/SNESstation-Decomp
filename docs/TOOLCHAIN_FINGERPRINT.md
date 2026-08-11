@@ -62,6 +62,21 @@ It does **not** justify a MATCHING status yet because:
 3. global structure addresses/layouts differ between programs;
 4. a full function byte comparison has not yet been produced.
 
+## First pinned public build recipe
+
+The earliest retained commit in the official PS2DEV toolchain Git history is
+`16a47184b3a5fdf4aea45fcc8fee082d3c4d4183` (31 December 2004). It pins
+binutils 2.14, GCC 3.2.2 and Newlib 1.10.0 plus PS2 patches and the original
+two-stage `--target=ee` build order. `make fetch-ee-toolchain-recipe` fetches
+and hash-verifies that immutable recipe without installing it.
+
+This produces a testable candidate, not an identity proof. Its GCC patch says
+`BETA 3 Release 3.2.2-20040214-1`, which postdates the 24 January 2004 SNES
+Station target. The SNESticle `3.2.2-b1` name is an external installation label
+while generated objects identify themselves only as GCC 3.2.2. See
+[`HISTORICAL_EE_TOOLCHAIN.md`](HISTORICAL_EE_TOOLCHAIN.md) for the exact commit,
+file hashes, chronology and ARM64 constraint.
+
 The first matching experiment should use `get_tree`: it is small, mostly
 self-contained, and has a historical PS2 compiler listing for comparison.
 

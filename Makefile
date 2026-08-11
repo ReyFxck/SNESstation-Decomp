@@ -40,7 +40,8 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 .DEFAULT_GOAL := help
 
 .PHONY: help audit-source audit-source-check host-syntax test-tools check \
-	reference verify-reference fetch-newlib toolchain-info check-ee-compiler \
+	reference verify-reference fetch-newlib fetch-ee-toolchain-recipe \
+	toolchain-info toolchain-probe check-ee-compiler \
 	match-get-tree match-get-tree-strict match-mathfp match-mathfp-strict \
 	elf-status elf clean-matching
 
@@ -50,7 +51,9 @@ help:
 	@echo "  make check          audit manifests, parse all C units, test comparator"
 	@echo "  make reference      unpack and verify your original/SNES_EMU.ELF"
 	@echo "  make fetch-newlib   fetch verified Newlib 1.10.0 mathfp source"
+	@echo "  make fetch-ee-toolchain-recipe  fetch the pinned 2004 PS2DEV recipe"
 	@echo "  make toolchain-info show the candidate historical EE compiler contract"
+	@echo "  make toolchain-probe test EE_CC version, target, flags and ELF output"
 	@echo "  make match-get-tree run the smallest compiler-fingerprint experiment"
 	@echo "  make match-mathfp   compile and compare the seven-function math corridor"
 	@echo "  make elf-status     show why a complete replacement ELF is not ready"
@@ -88,12 +91,18 @@ verify-reference:
 fetch-newlib:
 	$(PYTHON) tools/fetch_upstream.py
 
+fetch-ee-toolchain-recipe:
+	$(PYTHON) tools/fetch_ee_toolchain_recipe.py
+
 toolchain-info:
 	@echo "Candidate EE compiler: GCC $(EE_GCC_VERSION)"
 	@echo "EE_CC=$(EE_CC)"
 	@echo "EE_CFLAGS=$(EE_CFLAGS)"
 	@echo "SNESticle-only linker reference: $(SNESTICLE_REFERENCE_LDFLAGS)"
 	@echo "SNESticle-only library reference: $(SNESTICLE_REFERENCE_LIBS)"
+
+toolchain-probe:
+	$(PYTHON) tools/probe_ee_toolchain.py --compiler "$(EE_CC)"
 
 check-ee-compiler:
 	@command -v "$(EE_CC)" >/dev/null 2>&1 || { \

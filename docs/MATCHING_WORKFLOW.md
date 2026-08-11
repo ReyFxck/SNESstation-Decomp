@@ -97,10 +97,18 @@ full `elf` recipe.
 Use the candidate compiler like this:
 
 ```bash
+make fetch-ee-toolchain-recipe
 make toolchain-info
+make toolchain-probe EE_CC=/absolute/path/to/ee-gcc
 make match-get-tree EE_CC=/absolute/path/to/ee-gcc
 make match-mathfp EE_CC=/absolute/path/to/ee-gcc
 ```
+
+The fetch step pins and verifies the surviving 2004 PS2DEV recipe only; it does
+not install or build the compiler. The probe then rejects a wrong base version,
+target tuple, unsupported R5900 flags or wrong ELF class/endianness before a
+target comparison is attempted. See
+[`HISTORICAL_EE_TOOLCHAIN.md`](HISTORICAL_EE_TOOLCHAIN.md).
 
 The isolated historical-source candidate for `get_tree` lives at
 `matching/candidates/get_tree.c`; its report is written to

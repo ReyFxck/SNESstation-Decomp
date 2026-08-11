@@ -67,7 +67,8 @@ recorded in [`docs/DEPENDENCY_VERSIONS.md`](docs/DEPENDENCY_VERSIONS.md).
 | Hiryu `gsLib` | unversioned early snapshot | binary-specific class/method/layout fingerprint |
 | EE `libcdvd` client | early Hiryu/Sjeep family | paired RPC implementation; exact source revision unknown |
 | Newlib `mathfp` | `1.10.0` | strong constants/function-order fingerprint |
-| EE GCC application compiler | `3.2.2-b1` candidate | strong code/object-layout fingerprint; not globally proven |
+| EE GCC application compiler | GCC `3.2.2`; external `3.2.2-b1` candidate label | strong code/object-layout fingerprint; exact PS2 patch level not proven |
+| First source-available EE recipe | binutils `2.14`, GCC `3.2.2`, Newlib `1.10.0` | official PS2DEV root commit pinned and hash-verified; its BETA 3 GCC patch postdates this target |
 | EE binutils assembler/linker | exact release unknown | link layout recorded; tool revision still unproven |
 | linked `libgcc` / unwind / `libsupc++` | GCC `3.2.2-b1` / 3.2.2-era family | archive sizes and public offsets strongly fingerprinted |
 | EE libc / allocator / stdio | old PS2LIB/Newlib-era snapshot | target behavior recovered; bundle revision unknown |
@@ -195,7 +196,9 @@ with a historical EE compiler candidate:
 
 ```bash
 make fetch-newlib
+make fetch-ee-toolchain-recipe
 make toolchain-info
+make toolchain-probe EE_CC=/absolute/path/to/ee-gcc
 make match-get-tree EE_CC=/absolute/path/to/ee-gcc
 make match-mathfp EE_CC=/absolute/path/to/ee-gcc
 ```
@@ -204,6 +207,8 @@ The public SNESticle Makefile supplies strong GCC 3.2.2-b1 flag and neighboring
 link-family evidence. It does **not** prove SNES Station's exact linker script,
 archive revisions or library order, so `make elf` deliberately remains blocked
 until those facts and the remaining source migrations are recovered.
+The pinned recipe, exact file hashes, date conflict and ARM64 limitation are
+documented in [`docs/HISTORICAL_EE_TOOLCHAIN.md`](docs/HISTORICAL_EE_TOOLCHAIN.md).
 
 ## Repository policy
 

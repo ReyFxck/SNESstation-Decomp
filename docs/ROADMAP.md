@@ -60,6 +60,7 @@
 ## Phase 6 — matching / rebuild
 
 - [x] fingerprint historical GCC/binutils/PS2SDK runtime family
+- [x] pin and verify the first public GCC 3.2.2/binutils 2.14/Newlib 1.10.0 recipe
 - [ ] establish matching build environment
 - [ ] compile independent recovered objects
 - [ ] compare assembly function-by-function

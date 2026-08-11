@@ -44,8 +44,8 @@ matching attempt from silently substituting a modern library.
 
 | Component | Version / revision | Evidence | Matching implication |
 |---|---|---|---|
-| EE GCC application compiler | `3.2.2-b1` is the strongest candidate | Shared PS2 release listings, R5900 code shape and many exact archive-member sizes | Candidate only until a reproducible compile compares bytes. Test compiler patch level and flags per translation unit. |
-| EE binutils assembler/linker | exact release unknown | Target section placement and archive/member order are mapped, but carry no unique version signature | Do not infer binutils from GCC's version. Linker and assembler revisions must be tested independently. |
+| EE GCC application compiler | GCC `3.2.2`; external `3.2.2-b1` build label is the strongest candidate | Shared PS2 release listings, R5900 code shape and many exact archive-member sizes; `.ident` exposes only `3.2.2` | Candidate only until a reproducible compile compares bytes. The first pinned public recipe uses a later BETA 3 patch, so test patch level and flags per translation unit. |
+| EE binutils assembler/linker | exact target release unknown; first public recipe candidate is `2.14` | Target section placement and archive/member order are mapped, but carry no unique version signature; PS2DEV commit `16a4718` pins 2.14 | Do not infer binutils from GCC's version. Test the pinned candidate independently. |
 | linked `libgcc` / unwind runtime | GCC `3.2.2-b1` layout fingerprint | `_udivdi3`, `_umoddi3`, `unwind-dw2`, FDE and soft-float object sizes plus public offsets agree | Stronger than the global compiler claim; still mark functions `RECONSTRUCTED`, not `MATCHING`. |
 | linked `libsupc++` / C++ EH | GCC 3.2.2-era ABI/runtime family | RTTI vtables, EH globals, personality and exception-object layout | Use the historical Itanium ABI implementation; modern libstdc++ is structurally different. |
 | EE libc / allocator / stdio | old PS2LIB/Newlib-era snapshot; exact bundle unknown | Recovered `malloc`, formatter, string/ctype and syscall behavior matches the early PS2DEV corridor, but no global libc version string exists | Treat each archive family separately; the `mathfp` fingerprint below does not prove that every libc object came from Newlib 1.10.0. |
@@ -53,6 +53,10 @@ matching attempt from silently substituting a modern library.
 | executable packer | SJCRUNCH2 container; packer revision unknown | Deterministic 13-block layout at file offset `0x2f00`; unpacker-stub string `Jul 12 2002` | Pin the packed ELF hash. The date identifies the stub build, not an asserted SJCRUNCH semantic version. |
 | LZO decompressor used by SJCRUNCH2 | exact LZO revision unknown | Container/block behavior and successful `lzo1x_decompress` reproduction | Host `liblzo2` is an analysis dependency only and does not prove the historical LZO release. |
 | IOP-module compiler | GCC 2-family, exact release unknown | `gcc2_compiled.` / `__gnu_compiled_c` symbols in intact embedded IRXs | Preserve each IRX blob by hash until its original toolchain is independently recovered. |
+
+The first source-available toolchain candidate, its patch hashes and the reason
+it is not yet exact are recorded in
+[`HISTORICAL_EE_TOOLCHAIN.md`](HISTORICAL_EE_TOOLCHAIN.md).
 
 ## Version-bearing target strings
 
