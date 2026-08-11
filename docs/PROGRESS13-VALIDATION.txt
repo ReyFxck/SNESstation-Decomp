@@ -1,0 +1,36 @@
+SNES Station v0.23 — Progress 13 validation
+Date: 2026-08-11
+
+Coverage proxy:
+  JAL denominator: 1137
+  RECONSTRUCTED: 796 (70.01%)
+  IDENTIFIED: 27
+  PARTIAL: 4
+  MAPPED TOTAL: 827 (72.74%)
+  MATCHING: 0 (0.00%)
+
+Static source validation:
+  83 src/**/*.c translation units
+  cc -std=c11 -Wall -Wextra -Werror -fsyntax-only -Iinclude
+  Result: PASS
+
+Host behavior validation:
+  Progress 13 original smoke: PASS
+  SF/DF finite randomized roundtrip: PASS
+  Progress 13 additional smoke: PASS
+  __floatdidf 500,000 randomized int64 inputs: PASS
+
+Manifest validation:
+  analysis/progress_targets.csv: 827 unique addresses
+  analysis/symbols.csv: 827 unique addresses
+  status totals identical in both manifests
+  21 second-pass newly mapped targets found in analysis/jal_candidates.csv
+  every first call site is below 0x001b0880
+
+Evidence:
+  analysis/functions/progress13_targets.asm contains focused complete target
+  excerpts for Progress 13 reconstructed/promoted functions.
+
+Matching policy:
+  No MATCHING promotions. Historical-source similarity is not byte-identical
+  machine-code proof.

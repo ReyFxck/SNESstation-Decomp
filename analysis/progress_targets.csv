@@ -14,6 +14,7 @@ address,name,area,status,confidence,notes
 0x0010190c,snes_leaf_0010190c,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00101914,snes_leaf_00101914,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010191c,snes_leaf_0010191c,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00101924,snes_p13_path_wrapper_00101924,frontend,RECONSTRUCTED,high,Progress 13: complete four-scratch seed + path-format wrapper stack flow recovered; original helper names remain unproven
 0x001019a0,snes_leaf_001019a0,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00101b04,snes_p11_00101b04,gslib,RECONSTRUCTED,very-high,640x480 black rect clear with alpha disable/enable and pipe flush
 0x00102ab0,top_level_gui,frontend,IDENTIFIED,high,Top-level ROM selector / GUI entry from main flow
@@ -61,11 +62,13 @@ address,name,area,status,confidence,notes
 0x00108a34,snes_rand_00108a34,libc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00108bfc,snes_p11_00108bfc,ps2-rpc,RECONSTRUCTED,high,RPC command 1 word request wrapper; returns second receive word or -1 when uninitialized
 0x00108ce4,snes_p11_00108ce4,ps2-rpc,RECONSTRUCTED,high,Second client copy of RPC command 1 word request wrapper
+0x0010a18c,snes_p13_color_blend_0010a18c,renderer,RECONSTRUCTED,very-high,Progress 13: packed two-mask 5-bit weighted blend and equal-color fast path reconstructed
 0x0010a768,snes_leaf_0010a768,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a7ac,snes_leaf_0010a7ac,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a7fc,snes_leaf_0010a7fc,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a840,apu_buffer_allocator,audio,IDENTIFIED,high,APU/audio buffer allocation path
 0x0010a8bc,snes_p11_0010a8bc,frontend,RECONSTRUCTED,high,Frees and clears three target-owned pointer slots in target order
+0x0010b72c,snes_p13_apu_io_write_0010b72c,audio,RECONSTRUCTED,very-high,Progress 13: mirrored APU byte write plus FA/FB/FC timer-target zero=>0x100 handling recovered
 0x0010c300,snes_dispatch_0010c300,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010c328,snes_dispatch_0010c328,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010e33c,snes_leaf_0010e33c,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -83,6 +86,7 @@ address,name,area,status,confidence,notes
 0x0011c050,snes_dispatch_0011c050,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x001291e4,snes_p11_001291e4,snes9x-core,RECONSTRUCTED,high,One of three identical status-bit table-base selectors for 0x00336xxx tables
 0x0012a400,ppu_vram_cache_invalidate,ppu,IDENTIFIED,medium-high,VRAM write/cache invalidation path
+0x0012b9a4,snes_p13_record_ram_init_0012b9a4,core,RECONSTRUCTED,very-high,Progress 13: eight 0x16-byte record defaults and 0x4300..0x437f RAM sentinel pattern reconstructed
 0x0012c13c,snes_leaf_0012c13c,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012c160,snes_leaf_0012c160,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012c2a4,snes_p11_0012c2a4,frontend,RECONSTRUCTED,high,Signed-short global pair wrapper forwards two output pointers to transform helper
@@ -101,6 +105,7 @@ address,name,area,status,confidence,notes
 0x0012e2c4,snes_leaf_0012e2c4,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012e2d0,snes_leaf_0012e2d0,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012e2e0,snes_p11_0012e2e0,renderer,RECONSTRUCTED,very-high,Transparent-nibble merge copies source half while preserving keyed old nibbles
+0x0012e374,snes_p13_bitplane_transpose_0012e374,ppu,RECONSTRUCTED,very-high,Progress 13: complete 32-byte to four bit-plane byte transpose recovered from target shifts/masks
 0x0012e568,snes_leaf_0012e568,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012e688,snes_dispatch_0012e688,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012e6c4,snes_dispatch_0012e6c4,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -111,6 +116,7 @@ address,name,area,status,confidence,notes
 0x0012feb4,snes_leaf_0012feb4,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012febc,snes_leaf_0012febc,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012fec4,snes_dispatch_0012fec4,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001308f8,snes_p13_gate_predicate_001308f8,core,RECONSTRUCTED,high,Progress 13: complete predicate control flow over window/mode and two status-bit gates recovered
 0x00130c78,snes_p11_00130c78,snes9x-core,RECONSTRUCTED,very-high,CPU state block-boundary reset/update leaf; masks flags with 0xffffecff
 0x0013e014,snes_dispatch_0013e014,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0013e024,snes_dispatch_0013e024,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -133,20 +139,32 @@ address,name,area,status,confidence,notes
 0x001534b8,CMemory_SaveSRAM,memory,RECONSTRUCTED,high,SRAM saving path
 0x001535c0,snes_leaf_001535c0,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00153608,CMemory_map_WriteProtectROM_00153608,snes9x-memory,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00153674,snes_p13_frontend_table_init_00153674,frontend,RECONSTRUCTED,high,"Progress 13: complete optional 15x8 table initialization, 16-entry base bank and final callback reconstructed"
+0x00153780,snes_p13_frontend_bank_init_00153780,frontend,RECONSTRUCTED,high,Progress 13: complete two 16-entry pointer/flag bank initialization including external 0x8000 lanes recovered
 0x00156884,snes_leaf_00156884,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x001568c4,snes_leaf_001568c4,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00156914,snes_leaf_00156914,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00156934,CMemory_StaticRAMSize_00156934,snes9x-memory,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00156994,CMemory_Size_00156994,snes9x-memory,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00156c0c,CMemory_MapMode_00156c0c,snes9x-memory,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00158974,snes_p13_header_validate_00158974,frontend,RECONSTRUCTED,very-high,Progress 13: complete structured byte/bit validation and subordinate multibyte-validator result convention recovered
+0x00158a58,snes_p13_multibyte_validate_00158a58,frontend,RECONSTRUCTED,very-high,Progress 13: complete 16-byte bounded multibyte validator state/count behavior reconstructed
 0x00158b3c,snes_leaf_00158b3c,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00158b5c,snes_leaf_00158b5c,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00158fd0,snes_leaf_00158fd0,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00158fdc,snes_leaf_00158fdc,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00158ff0,snes_dispatch_00158ff0,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001591a8,snes_p13_palette_expand_001591a8,ppu,RECONSTRUCTED,high,Progress 13: 256-entry 15-bit component lookup expansion and selected 32-byte bank recovered
+0x0015cdf8,snes_p13_stage_advance_0015cdf8,frontend,RECONSTRUCTED,very-high,Progress 13: seven-state jump-table progression including intentional fallthrough conditions reconstructed
+0x0015d8ec,snes_p13_ppu_reset_0015d8ec,ppu,RECONSTRUCTED,very-high,Progress 13: complete PPU/reset defaults and 0x2200..0x23ff RAM clear/default bytes recovered
+0x0015d9ac,snes_p13_ppu_frontend_reset_0015d9ac,ppu,RECONSTRUCTED,high,"Progress 13: register defaults, map-state reset/select, mode bits, refresh and RAM mode clear reconstructed"
+0x0015db74,snes_p13_ppu_frontend_reload_0015db74,ppu,RECONSTRUCTED,high,"Progress 13: map reload/select, PPU mode bits, window size, runtime bank and active flags reconstructed"
 0x0015de14,snes_p11_0015de14,snes9x-core,RECONSTRUCTED,very-high,Little-endian 16-bit read from two byte reads; first byte updates shadow
 0x0015e034,snes_p11_0015e034,snes9x-core,RECONSTRUCTED,very-high,Little-endian 16-bit write split into two byte writes
+0x0015e07c,snes_p13_set_map_cursor_0015e07c,memory,RECONSTRUCTED,very-high,Progress 13: complete 12-way Snes9x map selector plus direct-pointer path and +0x20/+0x24 cursor writes reconstructed
 0x0015e190,snes_leaf_0015e190,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0015e198,snes_p13_map_window_0015e198,memory,RECONSTRUCTED,high,Progress 13: mirrored pointer-map fill loops and selector/region address arithmetic recovered
+0x0015f030,snes_p13_ppu_shift_window_0015f030,ppu,RECONSTRUCTED,very-high,"Progress 13: complete variable-bit 32-bit read window, output bytes and optional source/phase advance reconstructed"
 0x0015f15c,snes_p11_0015f15c,snes9x-core,RECONSTRUCTED,high,First identical status-bit table-base selector for 0x003f5xxx tables
 0x0016f0a0,snes_p11_0016f0a0,snes9x-core,RECONSTRUCTED,high,Second identical status-bit table-base selector for 0x003f5xxx tables
 0x0016f9b0,snes_p11_0016f9b0,memory-map,RECONSTRUCTED,very-high,Fills 256-entry map page in 16-entry runs from data-base/page/group addressing
@@ -157,6 +175,7 @@ address,name,area,status,confidence,notes
 0x0016fc48,snes_dispatch_0016fc48,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0016fc6c,snes_dispatch_0016fc6c,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0016fcd4,snes_leaf_0016fcd4,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0016fd08,snes_p13_rotate_pair_0016fd08,frontend,RECONSTRUCTED,very-high,Progress 13: signed-angle sin/cos pair transform with target pi/32768 scale and doubled outputs recovered
 0x001701fc,snes_leaf_001701fc,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00170204,snes_dispatch_00170204,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0017022c,snes_p11_0017022c,frontend,RECONSTRUCTED,high,Mode-1 open/process/close wrapper returning success only for process result 1
@@ -167,10 +186,12 @@ address,name,area,status,confidence,notes
 0x00173c24,snes_p11_00173c24,snes9x-core,RECONSTRUCTED,high,Third identical status-bit table-base selector for 0x00336xxx tables
 0x00173dfc,snes_leaf_00173dfc,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00173e4c,snes_leaf_00173e4c,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x00173e6c,snes_p13_config_slot_00173e6c,runtime,RECONSTRUCTED,high,Progress 13: 0xe0-slot value/mode handling and 64-bit period calculation through target table/factor reconstructed
 0x00173f24,snes_p12_00173f24,slot-runtime,RECONSTRUCTED,high,0xe0-stride slot wrapper forwarding remaining arguments to target configure helper
 0x00173f50,snes_p12_00173f50,slot-runtime,RECONSTRUCTED,very-high,Raw-axis/magnitude update plus target truncating divide-by-128 slot scaling
 0x00173ff0,snes_p11_00173ff0,input,RECONSTRUCTED,very-high,Controller-axis mix/center leaf; writes selected and opposite channel state
 0x0017409c,snes_p11_0017409c,input,RECONSTRUCTED,very-high,Controller-axis mix leaf with selector xor-1 slot pairing
+0x00174120,snes_p13_controller_mask_00174120,input,RECONSTRUCTED,high,"Progress 13: requested-mask gate, clear-on-first-enable and eight +0xd0 callback selections reconstructed"
 0x00174204,snes_leaf_00174204,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0017422c,snes_p12_0017422c,slot-runtime,RECONSTRUCTED,high,"Mode/rate timing-period derivation, optional doubling, phase remainder and config callback"
 0x001742b4,snes_p11_001742b4,input,RECONSTRUCTED,high,Masks stored value to 8 bits and dispatches current mode low nibble
@@ -186,10 +207,16 @@ address,name,area,status,confidence,notes
 0x00176578,snes_dispatch_00176578,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0017ec24,snes_leaf_0017ec24,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0018255c,snes_p11_0018255c,memory-map,RECONSTRUCTED,very-high,Special D/E/F-bank byte fetch using 20-bit address mask and global base offset
+0x001825e4,snes_p13_days_in_month_001825e4,runtime,RECONSTRUCTED,very-high,Progress 13: exact month jump table and target four-year February rule reconstructed
 0x00182910,snes_p11_00182910,memory-map,RECONSTRUCTED,very-high,Special D/E/F-bank base-pointer resolver using 0x000f0000 address mask
+0x001832a4,snes_p13_runtime_block_init_001832a4,runtime,RECONSTRUCTED,very-high,Progress 13: fixed state-byte defaults and 64 KiB tail clear recovered
 0x0018339c,snes_leaf_0018339c,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001833a4,snes_p13_write_record_001833a4,frontend,RECONSTRUCTED,very-high,"Progress 13: fixed-path open, exact 24 one-byte writes, close and success/failure convention reconstructed"
+0x001834f0,snes_p13_read_record_001834f0,frontend,RECONSTRUCTED,very-high,"Progress 13: fixed-path open, exact 24 one-byte reads/reassembly, close and result convention reconstructed"
 0x00183660,snes_leaf_00183660,address-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00183678,snes_dispatch_00183678,dispatch-leaf,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x001836d0,snes_p13_weekday_001836d0,runtime,RECONSTRUCTED,very-high,"Progress 13: decimal date fields, target month-offset table, leap adjustment and unsigned modulo-7 calculation reconstructed"
+0x00183778,snes_p13_days_in_month_00183778,runtime,RECONSTRUCTED,very-high,Progress 13: duplicate month-length helper independently confirmed with identical jump-table behavior
 0x00183bdc,snes_p11_00183bdc,renderer,RECONSTRUCTED,very-high,"13-byte code-stream reader with blocked, refill and 0x0f sentinel paths"
 0x00183c58,snes_p12_00183c58,state-transfer,RECONSTRUCTED,very-high,Enabled template-to-backing segmented copy with selector-derived clamped offset and pre-refresh
 0x00183d40,snes_p12_00183d40,state-transfer,RECONSTRUCTED,very-high,Inverse backing-to-template segmented copy with selector-derived clamped offset and post-refresh
@@ -610,7 +637,7 @@ address,name,area,status,confidence,notes
 0x001a3ad8,dpcmp,libgcc,RECONSTRUCTED,very-high,Soft-double compare public behavior represented by libgcc runtime model
 0x001a3b30,litodp,libgcc,RECONSTRUCTED,very-high,Signed SI-to-DF goFast conversion; exact 0xc0 object
 0x001a3bf0,dptoli,libgcc,RECONSTRUCTED,very-high,DF-to-signed-SI goFast conversion; exact 0xa0 object
-0x001a3c90,__make_dp,libgcc,IDENTIFIED,very-high,DF constructor wrapper; exact 0x30 object and __pack_d call proven
+0x001a3c90,__make_dp,libgcc,RECONSTRUCTED,very-high,Progress 13: exact 0x30 DF parts constructor and __pack_d call rewritten as independent C model
 0x001a3cc0,dptofp,libgcc,RECONSTRUCTED,very-high,DF-to-SF goFast conversion; exact 0x58 object
 0x001a3d18,dptoul,libgcc,RECONSTRUCTED,very-high,DF-to-unsigned-SI goFast conversion; assembly class/sign/exponent flow proven
 0x001a3dc0,size_of_encoded_value,unwind,RECONSTRUCTED,very-high,DW_EH_PE fixed-size helper; also exact start of 0x1f00 unwind-dw2.o
@@ -630,7 +657,7 @@ address,name,area,status,confidence,notes
 0x001a55a8,_Unwind_RaiseException,unwind,IDENTIFIED,very-high,Public symbol at exact +0x17e8 historical unwind-dw2.o offset
 0x001a5918,_Unwind_ForcedUnwind,unwind,IDENTIFIED,very-high,Public symbol at exact +0x1b58 historical unwind-dw2.o offset
 0x001a5ac0,_Unwind_Resume,unwind,IDENTIFIED,very-high,Public symbol at exact +0x1d00 historical unwind-dw2.o offset
-0x001a5c58,_Unwind_DeleteException,unwind,IDENTIFIED,very-high,Public cleanup entry at exact +0x1e98 historical offset
+0x001a5c58,_Unwind_DeleteException,unwind,RECONSTRUCTED,very-high,Progress 13: exact cleanup callback at unwind-exception +8 and reason-code 1 recovered from full target flow
 0x001a5c80,_Unwind_GetGR,unwind,RECONSTRUCTED,very-high,Leaf register-slot dereference; exact +0x1ec0 historical offset
 0x001a5c98,_Unwind_SetGR,unwind,RECONSTRUCTED,very-high,Leaf register-slot store; exact +0x1ed8 historical offset
 0x001a5cb0,_Unwind_GetIP,unwind,RECONSTRUCTED,very-high,Leaf context +0x144 load; exact +0x1ef0 historical offset
@@ -641,22 +668,23 @@ address,name,area,status,confidence,notes
 0x001a5dd0,read_encoded_value_with_base_fde,unwind-fde,RECONSTRUCTED,very-high,FDE-object DW_EH_PE decoder; behavioral model recovered
 0x001a5f30,__register_frame_info_bases,unwind-fde,RECONSTRUCTED,very-high,FDE registration list insertion behavior modeled from target/object layout
 0x001a5f80,__register_frame_info,unwind-fde,RECONSTRUCTED,very-high,FDE registration wrapper behavior modeled
-0x001a5fa0,__register_frame,unwind-fde,IDENTIFIED,very-high,Exact +0x2e0 offset inside unwind-dw2-fde.o
+0x001a5fa0,__register_frame,unwind-fde,RECONSTRUCTED,very-high,"Progress 13: zero-FDE guard, 0x20 target object allocation and register_frame_info delegation recovered"
 0x001a5ff0,__register_frame_info_table_bases,unwind-fde,RECONSTRUCTED,very-high,FDE table registration list insertion behavior modeled
 0x001a6038,__register_frame_info_table,unwind-fde,RECONSTRUCTED,very-high,FDE table registration wrapper behavior modeled
-0x001a6058,__register_frame_table,unwind-fde,IDENTIFIED,very-high,Exact +0x398 historical offset
+0x001a6058,__register_frame_table,unwind-fde,RECONSTRUCTED,very-high,Progress 13: 0x20 target object allocation plus register_frame_info_table delegation recovered
 0x001a6090,__deregister_frame_info_bases,unwind-fde,RECONSTRUCTED,very-high,FDE deregistration list walk/removal behavior modeled
 0x001a6168,__deregister_frame_info,unwind-fde,RECONSTRUCTED,very-high,FDE deregistration wrapper behavior modeled
-0x001a6188,__deregister_frame,unwind-fde,IDENTIFIED,very-high,Exact +0x4c8 historical offset
+0x001a6188,__deregister_frame,unwind-fde,RECONSTRUCTED,very-high,"Progress 13: zero-FDE guard, deregister_frame_info and object free wrapper recovered"
 0x001a61c0,fde_base_from_object,unwind-fde,RECONSTRUCTED,very-high,Selects text/data base from linked FDE object for relative encodings
 0x001a6240,fde_get_cie_encoding,unwind-fde,RECONSTRUCTED,very-high,CIE augmentation parser returning FDE pointer encoding
 0x001a6f30,_Unwind_Find_FDE,unwind-fde,IDENTIFIED,very-high,Exact +0x1270 historical offset inside 0x18c0 object
-0x001a7e30,__unpack_f,libgcc,IDENTIFIED,very-high,Exact 0xe0 _unpack_sf.o object; called by fptodp
-0x001a7f10,__make_fp,libgcc,IDENTIFIED,very-high,Exact 0x30 _make_sf.o object; called by dptofp
-0x001a7f40,__pack_d,libgcc,IDENTIFIED,very-high,Exact 0x190 _pack_df.o object; called by __make_dp
-0x001a80d0,__unpack_d,libgcc,IDENTIFIED,very-high,Exact 0xe8 _unpack_df.o object; shared by DF conversions
-0x001a81b8,__fpcmp_parts_d,libgcc,IDENTIFIED,very-high,Exact 0x108 _fpcmp_parts_df.o object; called by dpcmp
-0x001a82c0,__pack_f,libgcc,IDENTIFIED,very-high,Exact 0x160 _pack_sf.o object; target ends exactly at libpad boundary 0x001a8420
+0x001a7580,__floatdidf,libgcc,RECONSTRUCTED,very-high,Progress 13: signed DI to double conversion reconstructed as high*2^32 plus unsigned-corrected low word
+0x001a7e30,__unpack_f,libgcc,RECONSTRUCTED,very-high,Progress 13: SF IEEE class/sign/exponent/fraction unpack including subnormal normalization recovered
+0x001a7f10,__make_fp,libgcc,RECONSTRUCTED,very-high,Progress 13: SF parts constructor wrapper and __pack_f call recovered
+0x001a7f40,__pack_d,libgcc,RECONSTRUCTED,high,"Progress 13: DF pack behavior modeled from target class branches, exponent limits and rounding corridor"
+0x001a80d0,__unpack_d,libgcc,RECONSTRUCTED,very-high,Progress 13: DF IEEE class/sign/exponent/fraction unpack including subnormal normalization recovered
+0x001a81b8,__fpcmp_parts_d,libgcc,RECONSTRUCTED,very-high,Progress 13: DF parts comparison order across NaN/Inf/zero/sign/exponent/fraction recovered
+0x001a82c0,__pack_f,libgcc,RECONSTRUCTED,high,"Progress 13: SF pack behavior modeled from target class branches, exponent limits and rounding corridor"
 0x001a8420,padGetDmaStr,libpad,RECONSTRUCTED,very-high,NEW/XPADMAN double-buffer selector; SyncDCache over 256-byte DMA area and newest frame selection recovered
 0x001a8484,padInit,libpad,PARTIAL,very-high,"NEW/XPADMAN init; bind IDs 0x80000100/101, wait loops, version query, state clear and command 0x10 proven; research model omits exact bind wait timing"
 0x001a8614,padEnd,libpad,RECONSTRUCTED,very-high,PAD_RPCCMD_END async RPC and initialized-state clear recovered
@@ -689,22 +717,22 @@ address,name,area,status,confidence,notes
 0x001a9268,read_uleb128_eh_personality,cpp-eh,RECONSTRUCTED,very-high,Second unsigned LEB128 reader copy in eh_personality.o
 0x001a92a8,read_sleb128_eh_personality,cpp-eh,RECONSTRUCTED,very-high,Second signed LEB128 reader copy in eh_personality.o
 0x001a9308,read_encoded_value_with_base_eh_personality,cpp-eh,RECONSTRUCTED,very-high,Second DW_EH_PE decoder copy in eh_personality.o
-0x001a9488,parse_lsda_header,cpp-eh,IDENTIFIED,very-high,C++ LSDA header parser; LPStart/TType/call-site layout matches GCC 3.2.2 eh_personality.cc
-0x001a9588,get_ttype_entry,cpp-eh,IDENTIFIED,very-high,Type-table entry decoder using size_of_encoded_value and encoded pointer reader
-0x001a95f8,get_adjusted_ptr,cpp-eh,IDENTIFIED,very-high,RTTI pointer adjustment and __do_catch dispatch match GCC 3.2.2 personality
-0x001a9698,check_exception_spec,cpp-eh,IDENTIFIED,very-high,Exception-spec type-list walk; get_ttype_entry/get_adjusted_ptr loop proven
+0x001a9488,parse_lsda_header,cpp-eh,RECONSTRUCTED,very-high,Progress 13: full LPStart/TType/call-site LSDA header parse and pointer advancement reconstructed
+0x001a9588,get_ttype_entry,cpp-eh,RECONSTRUCTED,very-high,Progress 13: encoded type-table stride/base decode reconstructed from complete target flow
+0x001a95f8,get_adjusted_ptr,cpp-eh,RECONSTRUCTED,very-high,Progress 13: pointer-type dereference and RTTI __do_catch adjustment/storeback reconstructed
+0x001a9698,check_exception_spec,cpp-eh,RECONSTRUCTED,very-high,Progress 13: exception-spec ULEB type-list walk and adjusted-catch test reconstructed
 0x001a9728,__gxx_personality_v0,cpp-eh,IDENTIFIED,very-high,GNU C++ DWARF personality routine; version/actions/LSDA state machine aligned to GCC 3.2.2 source
 0x001a9b88,__cxa_call_unexpected,cpp-eh,IDENTIFIED,very-high,Public unexpected-handler path; begins by backing from unwind header to __cxa_exception and calling __cxa_begin_catch
-0x001a9ca8,__terminate,cpp-eh,IDENTIFIED,very-high,__cxxabiv1::__terminate handler call plus abort/catch path; matches GCC 3.2.2 eh_terminate.cc
+0x001a9ca8,__terminate,cpp-eh,RECONSTRUCTED,high,Progress 13: terminate handler dispatch plus abort fallback represented by host callbacks
 0x001a9cf0,std_terminate,cpp-eh,RECONSTRUCTED,very-high,Loads installed terminate handler and forwards to __terminate
 0x001a9d08,__unexpected,cpp-eh,RECONSTRUCTED,very-high,Calls supplied unexpected handler then std::terminate
 0x001a9d20,std_unexpected,cpp-eh,RECONSTRUCTED,very-high,Loads installed unexpected handler and forwards to __unexpected
 0x001a9d38,std_set_terminate,cpp-eh,RECONSTRUCTED,very-high,Exact handler-slot swap leaf
 0x001a9d48,std_set_unexpected,cpp-eh,RECONSTRUCTED,very-high,Exact handler-slot swap leaf
-0x001a9d58,__gxx_exception_cleanup,cpp-eh,IDENTIFIED,very-high,"Cleanup callback: foreign-catch reason check, exception destructor and __cxa_free_exception flow match eh_throw.cc"
-0x001a9db8,__cxa_throw,cpp-eh,IDENTIFIED,very-high,"Builds __cxa_exception header, GNUCC++ class, increments uncaught count and calls _Unwind_RaiseException"
-0x001a9e40,__cxa_rethrow,cpp-eh,IDENTIFIED,very-high,"Negates handlerCount on active caught exception, raises unwind again, then terminate fallback"
-0x001a9e88,operator_new,cpp,IDENTIFIED,high,C++ allocation/new-handler loop
+0x001a9d58,__gxx_exception_cleanup,cpp-eh,RECONSTRUCTED,high,"Progress 13: reason check, destructor dispatch, free-exception and terminate path recovered"
+0x001a9db8,__cxa_throw,cpp-eh,RECONSTRUCTED,high,"Progress 13: __cxa header initialization, GNUCC++ class, uncaught increment and raise sequence modeled"
+0x001a9e40,__cxa_rethrow,cpp-eh,RECONSTRUCTED,high,"Progress 13: caught-exception lookup, handlerCount negation, re-raise and terminate fallback modeled"
+0x001a9e88,operator_new,cpp,RECONSTRUCTED,very-high,"Progress 13: zero-size normalization, malloc/new-handler retry loop and bad_alloc fallback recovered"
 0x001a9f68,operator_new_array,cpp-runtime,RECONSTRUCTED,very-high,Itanium array-new forwarding wrapper to operator new @ 0x001a9e88
 0x001a9fa8,std_type_info_destructor_D2,cpp-rtti,RECONSTRUCTED,very-high,std::type_info base destructor; stores vptr 0x00426d08
 0x001a9fb8,std_type_info_destructor_D1,cpp-rtti,RECONSTRUCTED,very-high,std::type_info complete destructor; same vptr-store leaf
@@ -731,10 +759,10 @@ address,name,area,status,confidence,notes
 0x001aa2c8,class_type_info_do_catch,cpp-rtti,RECONSTRUCTED,very-high,__class_type_info::__do_catch; name fast path plus recursive RTTI dispatch
 0x001aa320,class_type_info_do_upcast_wrapper,cpp-rtti,RECONSTRUCTED,very-high,public two-argument __do_upcast wrapper; requires contained-public flags 0x6
 0x001aa390,class_type_info_do_find_public_src,cpp-rtti,RECONSTRUCTED,very-high,base find-public-source leaf returns 6 on same object and 1 otherwise
-0x001aa3a8,si_class_type_info_do_find_public_src,cpp-rtti,IDENTIFIED,very-high,__si_class_type_info virtual slot +0x20; recurses into sole base
+0x001aa3a8,si_class_type_info_do_find_public_src,cpp-rtti,RECONSTRUCTED,very-high,Progress 13: single-base public-source recursion and direct public-contained mask recovered
 0x001aa400,vmi_class_type_info_do_find_public_src,cpp-rtti,IDENTIFIED,very-high,__vmi_class_type_info public-source search over direct bases
-0x001aa548,class_type_info_do_dyncast,cpp-rtti,IDENTIFIED,very-high,__class_type_info::__do_dyncast; result-field writes and name tests mapped
-0x001aa590,si_class_type_info_do_dyncast,cpp-rtti,IDENTIFIED,very-high,__si_class_type_info::__do_dyncast; sole-base recursion mapped
+0x001aa548,class_type_info_do_dyncast,cpp-rtti,RECONSTRUCTED,very-high,Progress 13: base class_type_info dyncast result writes and name tests recovered
+0x001aa590,si_class_type_info_do_dyncast,cpp-rtti,RECONSTRUCTED,very-high,"Progress 13: single-inheritance dyncast direct match, src2dst relation and base recursion recovered"
 0x001aa638,vmi_class_type_info_do_dyncast,cpp-rtti,IDENTIFIED,very-high,__vmi_class_type_info::__do_dyncast; complex multi-base search mapped but not rewritten
 0x001aab20,class_type_info_do_upcast,cpp-rtti,RECONSTRUCTED,very-high,"protected three-argument __do_upcast; identical name sets result {obj,6,*,8}"
 0x001aab58,si_class_type_info_do_upcast,cpp-rtti,RECONSTRUCTED,very-high,__si_class_type_info protected upcast; self fast path then sole-base recursion

@@ -574,3 +574,95 @@ SnesNewHandler snes_set_new_handler(SnesNewHandler *slot,
     *slot = replacement;
     return old;
 }
+
+/* Progress 13: the small single-inheritance/public-source RTTI walkers. */
+typedef struct {
+    SnesTypeInfo32 base;
+    SnesAddr32 base_type; /* +0x08 */
+} SnesSiClassTypeInfo32;
+
+typedef struct {
+    SnesAddr32 dst_ptr; /* +0x00 */
+    int32_t whole2dst;  /* +0x04 */
+    int32_t whole2src;  /* +0x08 */
+    int32_t dst2src;    /* +0x0c */
+} SnesDyncastResult32;
+
+typedef unsigned (*SnesFindPublicSrcDispatch)(
+    SnesAddr32 base_type, int32_t src2dst, SnesAddr32 object,
+    const SnesTypeInfo32 *src_type, SnesAddr32 src_ptr, void *opaque);
+
+typedef int (*SnesDyncastDispatch)(
+    SnesAddr32 base_type, int32_t src2dst, int32_t access_path,
+    const SnesTypeInfo32 *dst_type, SnesAddr32 object,
+    const SnesTypeInfo32 *src_type, SnesAddr32 src_ptr,
+    SnesDyncastResult32 *result, void *opaque);
+
+/*
+ * 0x001aa3a8 -- __si_class_type_info::__do_find_public_src.
+ * The sole base is recursively queried unless the current object is exactly
+ * src_ptr and this type name is already src_type, in which case the target
+ * returns the public-contained mask 6 immediately.
+ */
+unsigned snes_si_class_type_info_find_public_src(
+    const SnesSiClassTypeInfo32 *self, int32_t src2dst, SnesAddr32 object,
+    const SnesTypeInfo32 *src_type, SnesAddr32 src_ptr,
+    SnesFindPublicSrcDispatch recurse, void *opaque)
+{
+    if (src_ptr == object && self->base.name == src_type->name)
+        return 6u;
+    if (recurse == NULL)
+        return 1u;
+    return recurse(self->base_type, src2dst, object, src_type, src_ptr, opaque);
+}
+
+/* 0x001aa548 -- __class_type_info::__do_dyncast. */
+int snes_class_type_info_do_dyncast(
+    const SnesTypeInfo32 *self, int32_t src2dst, int32_t access_path,
+    const SnesTypeInfo32 *dst_type, SnesAddr32 object,
+    const SnesTypeInfo32 *src_type, SnesAddr32 src_ptr,
+    SnesDyncastResult32 *result)
+{
+    (void)src2dst;
+
+    if (object == src_ptr && self->name == src_type->name) {
+        result->whole2src = access_path;
+        return 0;
+    }
+
+    if (self->name == dst_type->name) {
+        result->dst_ptr = object;
+        result->whole2dst = access_path;
+        result->dst2src = 1;
+    }
+    return 0;
+}
+
+/* 0x001aa590 -- __si_class_type_info::__do_dyncast. */
+int snes_si_class_type_info_do_dyncast(
+    const SnesSiClassTypeInfo32 *self, int32_t src2dst, int32_t access_path,
+    const SnesTypeInfo32 *dst_type, SnesAddr32 object,
+    const SnesTypeInfo32 *src_type, SnesAddr32 src_ptr,
+    SnesDyncastResult32 *result, SnesDyncastDispatch recurse, void *opaque)
+{
+    if (self->base.name == dst_type->name) {
+        result->whole2dst = access_path;
+        result->dst_ptr = object;
+
+        if (src2dst >= 0)
+            result->dst2src = (object + (SnesAddr32)src2dst == src_ptr) ? 6 : 1;
+        else if (src2dst == -2)
+            result->dst2src = 1;
+        return 0;
+    }
+
+    if (object == src_ptr && self->base.name == src_type->name) {
+        result->whole2src = access_path;
+        return 0;
+    }
+
+    if (recurse == NULL)
+        return 0;
+    return recurse(self->base_type, src2dst, access_path, dst_type, object,
+                   src_type, src_ptr, result, opaque);
+}

@@ -21,3 +21,53 @@ SnesFdeObject*snes___deregister_frame_info_bases(const uint8_t*b){uint32_t first
 SnesFdeObject*snes___deregister_frame_info(const uint8_t*b){return snes___deregister_frame_info_bases(b);}
 uint32_t snes_fde_base_from_object(uint8_t e,const SnesFdeObject*ob){if(e==PE_omit)return 0;switch(e&0x70u){case PE_absptr:case PE_pcrel:case PE_aligned:return 0;case PE_textrel:return ob->tbase;case PE_datarel:return ob->dbase;default:abort();}}
 int snes_fde_get_cie_encoding(const uint8_t*cie){const uint8_t*p=cie+8;const char*aug;uint64_t u;int64_t s;if(*p++!=1)return 0;aug=(const char*)p;while(*p++!=0){}p=snes_fde_read_uleb128(p,&u);p=snes_fde_read_sleb128(p,&s);(void)u;(void)s;++p;if(aug[0]!='z')return PE_absptr;p=snes_fde_read_uleb128(p,&u);++aug;while(*aug){switch(*aug++){case'L':++p;break;case'P':{uint8_t e=*p++;uint64_t x;p=snes_fde_read_encoded_value_with_base(e,0,p,&x,NULL,NULL);break;}case'R':return *p;default:return PE_absptr;}}return PE_absptr;}
+
+/*
+ * Progress 13 public ownership wrappers.  The target allocates exactly 0x20 target bytes
+ * for each registration object (the host model uses sizeof(SnesFdeObject) because
+ * native pointers widen the research-only structure), then delegates to the already recovered
+ * frame-info routines above.  A failed allocation would be dereferenced by the
+ * original code; abort() is the deterministic host-model equivalent here.
+ */
+static SnesFdeObject *snes_fde_alloc_object(void)
+{
+    SnesFdeObject *ob = (SnesFdeObject *)malloc(sizeof(SnesFdeObject));
+    if (ob == NULL)
+        abort();
+    return ob;
+}
+
+/* 0x001a5fa0 -- __register_frame. */
+void snes___register_frame(const uint8_t *begin)
+{
+    uint32_t first;
+    SnesFdeObject *ob;
+
+    memcpy(&first, begin, sizeof(first));
+    if (first == 0)
+        return;
+
+    ob = snes_fde_alloc_object();
+    snes___register_frame_info(begin, ob);
+}
+
+/* 0x001a6058 -- __register_frame_table. */
+void snes___register_frame_table(const uint8_t *begin)
+{
+    SnesFdeObject *ob = snes_fde_alloc_object();
+    snes___register_frame_info_table(begin, ob);
+}
+
+/* 0x001a6188 -- __deregister_frame. */
+void snes___deregister_frame(const uint8_t *begin)
+{
+    uint32_t first;
+    SnesFdeObject *ob;
+
+    memcpy(&first, begin, sizeof(first));
+    if (first == 0)
+        return;
+
+    ob = snes___deregister_frame_info(begin);
+    free(ob);
+}

@@ -16,8 +16,8 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 > Percentages are evidence-based proxies, not a claim that the complete ELF has exactly 1,137 functions. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the measurement rules.
 
 - **Matching:** 0.00%
-- **Reconstructed:** **65.52%** (745 tracked targets)
-- **Mapped / identified:** **70.27%** (799 tracked targets)
+- **Reconstructed:** **70.01%** (796 tracked targets)
+- **Mapped / identified:** **72.74%** (827 tracked targets)
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
 The renderer-specific 30-function grid and status legend live in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md).
@@ -127,10 +127,12 @@ back to earlier unmapped frontend/Snes9x core regions instead of chasing a
 higher-address frontier.
 
 Progress 11 started that earlier-region pass with 40 short code-referenced
-targets while rejecting 14 scanner/data false positives. Progress 12 continues
-from that vetted base with 20 additional complete targets across Q15 transforms,
-0xe0-stride slot/controller runtime, memory-card/persistence I/O and state-block
-transfer helpers.
+targets while rejecting scanner/data false positives. Progress 12 continued
+from that vetted base across Q15 transforms, slot/controller runtime,
+memory-card/persistence I/O and state-block transfer helpers. **Progress 13 now
+crosses 70% reconstructed** with 796/1,137 proxy targets, adding independently
+modeled GCC soft-float/C++ EH leaves plus target-specific frontend, PPU/map,
+controller, persistence and date helpers. See [`docs/PROGRESS13.md`](docs/PROGRESS13.md).
 
 This still does **not** make anything MATCHING: the blue count stays at 0 until
 an actual historical-toolchain rebuild compares complete machine code
