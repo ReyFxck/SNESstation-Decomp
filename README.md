@@ -66,10 +66,10 @@ recorded in [`docs/DEPENDENCY_VERSIONS.md`](docs/DEPENDENCY_VERSIONS.md).
 | AmigaMod IOP module | version unknown; `Vzzrzzn` build | exact embedded blob hash; no version string |
 | Hiryu `gsLib` | unversioned early snapshot | binary-specific class/method/layout fingerprint |
 | EE `libcdvd` client | early Hiryu/Sjeep family | paired RPC implementation; exact source revision unknown |
-| Newlib `mathfp` | `1.10.0` | strong constants/function-order fingerprint; two EE leaves byte-matching |
+| Newlib `mathfp` | `1.10.0` | official-source fingerprint; selected seven-function EE corridor byte-matching |
 | EE GCC application compiler | GCC `3.2.2`; external `3.2.2-b1` candidate label | strong code/object-layout fingerprint; exact PS2 patch level not proven |
 | First source-available EE recipe | binutils `2.14`, GCC `3.2.2`, Newlib `1.10.0` | official PS2DEV root commit pinned and hash-verified; its BETA 3 GCC patch postdates this target |
-| Reproducible compiler stage one | binutils `2.14` + GCC `3.2.2` C-only | archive/patch hashes pinned; x86_64 passes, AArch64 configure/build path fixed and proxy-tested; native ARM64 completion pending |
+| Reproducible compiler stage one | binutils `2.14` + GCC `3.2.2` C-only | archive/patch hashes pinned; x86_64 passes; native AArch64 artifact probes and reproduces `mathfp` on DroidSpaces |
 | EE binutils assembler/linker | exact release unknown | link layout recorded; tool revision still unproven |
 | linked `libgcc` / unwind / `libsupc++` | GCC `3.2.2-b1` / 3.2.2-era family | archive sizes and public offsets strongly fingerprinted |
 | EE libc / allocator / stdio | old PS2LIB/Newlib-era snapshot | target behavior recovered; bundle revision unknown |
@@ -182,7 +182,8 @@ behavioral/source-model checkpoint and **239** entries as Progress-16/17
 structural pseudocode that still needs build-ready migration. The repository has
 **88 recovered C translation units plus three isolated matching-candidate units**
 (91 independently syntax-checked units in total), but no complete linked
-replacement ELF. The first two functions are now promoted to `MATCHING`. See
+replacement ELF. The seven-function `mathfp` corridor is now promoted to
+`MATCHING`. See
 [`docs/SOURCE_COMPLETENESS.generated.md`](docs/SOURCE_COMPLETENESS.generated.md).
 
 With a legally obtained reference ELF, reproduce and verify the exact analysis
@@ -216,7 +217,7 @@ The isolated bootstrap builds no Newlib, C++, PS2SDK or final ELF. Its pinned
 archives, exact hashes, modern-host compatibility scope, date conflict and
 ARM64 validation status are documented in
 [`docs/HISTORICAL_EE_TOOLCHAIN.md`](docs/HISTORICAL_EE_TOOLCHAIN.md).
-The current math result and the remaining compiler/source gaps are recorded in
+The complete seven-function math result and its compiler/source caveats are recorded in
 [`docs/MATCHING_PHASE4_MATHFP.md`](docs/MATCHING_PHASE4_MATHFP.md).
 
 ## Repository policy

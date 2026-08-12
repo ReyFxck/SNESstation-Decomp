@@ -11,7 +11,7 @@ measurable claims.
 |---|---:|---|
 | Structural coverage | **1,041/1,041** | Every validated entry has committed control-flow/behavior evidence. |
 | Build-ready source | **Incomplete** | Typed C/C++, declarations, globals and translation-unit ownership compile together for the EE. |
-| Function matching | **2/1,041** | A candidate object reproduces every non-relocation byte for a target function. |
+| Function matching | **7/1,041** | A candidate object reproduces every non-relocation byte for a target function. |
 | Replacement ELF | **Not available** | All objects, historical archives, linker script/order and binary layout reproduce the unpacked target. |
 
 The generated [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md)
@@ -53,18 +53,23 @@ The target corridor at `0x0019fddc..0x001a073f` preserves the Newlib 1.10.0
 | `0x0019fddc..0x001a0023` | `cosf` | `sf_cos.c` + inlined `sf_sine.c` |
 | `0x001a0024..0x001a0253` | `sinf` | `sf_sin.c` + inlined `sf_sine.c` |
 | `0x001a0254..0x001a045b` | `tanf` | `sf_tan.c` coefficients and reduction flow |
-| `0x001a045c..0x001a069f` | `atanf` | wrapper plus the non-`atan2` path of `sf_atangent.c` |
+| `0x001a045c..0x001a0693` | `atanf` | wrapper plus the non-`atan2` path of `sf_atangent.c` |
 | `0x001a06a0..0x001a06a7` | `sqrtf` | target-specific EE `sqrt.s` leaf; byte-matching |
 | `0x001a06b0..0x001a06b7` | `fabsf` | target-specific EE `abs.s` leaf; byte-matching |
 | `0x001a06c0..0x001a073f` | `numtestf` | Newlib structure plus observed old `-mlong64` behavior |
 
 The generic Newlib `sqrtf` and `fabsf` bodies are **not** copied blindly: the
 target replaces them with Emotion Engine hardware instructions. Their actual
-code ranges are eight bytes each; the following eight-byte gaps are alignment,
-not function bodies. Both leaves now match the committed target listing byte
-for byte. The target also exposes an old-ABI/prototype mismatch in `numtestf`;
-the matching experiment preserves it with two translation units while the
-portable behavior remains in `src/ps2/newlib_mathfp_recovered.c`.
+code ranges are eight bytes each; the following gaps are alignment, not
+function bodies. The same boundary correction excludes 12 padding bytes after
+`atanf`. All seven rows now match the committed target listing byte for byte.
+
+The target also exposes an old-ABI/prototype mismatch in `numtestf`; the four
+callers promote the argument while the callee reads a float from `$f12`. The
+readable C model preserves that behavior. Since the surviving BETA 3 backend
+does not reproduce the leaf's older instruction selection, the formal matcher
+uses a clearly labeled assembly reconstruction for `numtestf`; it is not
+presented as Hiryu's original source.
 
 The official source archive is intentionally fetched rather than vendored:
 
@@ -121,8 +126,9 @@ The isolated historical-source candidate for `get_tree` lives at
 `matching/candidates/get_tree.c`; its report is written to
 `build/matching/get_tree/report.md`. The local math-listing evidence is written
 to `analysis/matching/mathfp-listing-report.md`, while the formal reference-ELF
-report remains under `build/matching/mathfp/report.md`. Strict CI-style variants append `-strict`
-and exit unsuccessfully until every requested row really matches.
+report remains under `build/matching/mathfp/report.md`. The local math strict
+check now passes all seven rows. Other strict variants still fail whenever any
+requested row remains non-matching.
 
 `get_tree` at `0x0018c124` is still the simplest first compiler fingerprint
 because a historical SNESticle assembly listing exists for it. The math

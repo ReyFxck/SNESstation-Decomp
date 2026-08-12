@@ -14,7 +14,7 @@ EE_STAGE1_CC := $(EE_STAGE1_WORK_DIR)/prefix/bin/ee-gcc
 EE_BOOTSTRAP_JOBS_ARG := $(if $(strip $(EE_BUILD_JOBS)),--jobs "$(EE_BUILD_JOBS)",)
 MATCH_DIR := $(BUILD_DIR)/matching
 MATHFP_SOURCE := matching/candidates/mathfp.c
-MATHFP_NUMTEST_SOURCE := matching/candidates/mathfp_numtest.c
+MATHFP_NUMTEST_SOURCE := matching/candidates/mathfp_numtest.S
 MATHFP_CORE_OBJECT := $(MATCH_DIR)/mathfp/mathfp_core.o
 MATHFP_NUMTEST_OBJECT := $(MATCH_DIR)/mathfp/mathfp_numtest.o
 MATHFP_OBJECT := $(MATCH_DIR)/mathfp/mathfp.o
@@ -40,9 +40,10 @@ EE_COMMON_FLAGS := \
 EE_DEFINES := -DPS2_EE -D_EE -DLSB_FIRST -DALIGN_DWORD -DCODE_PLATFORM=3
 EE_CFLAGS ?= $(EE_COMMON_FLAGS) $(EE_DEFINES) -Iinclude
 EE_CXXFLAGS ?= $(EE_CFLAGS) -fno-exceptions -fno-common -fno-rtti
-# The target mathfp corridor uses the normal 64-bit double ABI.  Keeping this
-# override local avoids disturbing the -fshort-double application objects.
-MATHFP_EE_CFLAGS := $(filter-out -fshort-double,$(EE_CFLAGS))
+# The target mathfp corridor uses the normal 64-bit double ABI and does not
+# carry GCC's optional jump-target padding.  Keeping both differences local
+# reproduces sinf/tanf without disturbing the application-object contract.
+MATHFP_EE_CFLAGS := $(filter-out -fshort-double,$(EE_CFLAGS)) -fno-align-jumps
 
 # Historical SNESticle reference only. SNES Station's linker script, archive
 # revisions and exact library order are still evidence gates, so `make elf`

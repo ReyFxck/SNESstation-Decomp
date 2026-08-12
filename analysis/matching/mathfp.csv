@@ -2,7 +2,7 @@ address,end,name,object_symbol,source
 0x0019fddc,0x001a0024,cosf,cosf_candidate,matching/candidates/mathfp.c
 0x001a0024,0x001a0254,sinf,sinf_candidate,matching/candidates/mathfp.c
 0x001a0254,0x001a045c,tanf,tanf_candidate,matching/candidates/mathfp.c
-0x001a045c,0x001a06a0,atanf,atanf_candidate,matching/candidates/mathfp.c
+0x001a045c,0x001a0694,atanf,atanf_candidate,matching/candidates/mathfp.c
 0x001a06a0,0x001a06a8,sqrtf,sqrtf_candidate,matching/candidates/mathfp.c
 0x001a06b0,0x001a06b8,fabsf,fabsf_candidate,matching/candidates/mathfp.c
-0x001a06c0,0x001a0740,numtestf,numtestf_candidate,matching/candidates/mathfp_numtest.c
+0x001a06c0,0x001a0740,numtestf,numtestf_candidate,matching/candidates/mathfp_numtest.S

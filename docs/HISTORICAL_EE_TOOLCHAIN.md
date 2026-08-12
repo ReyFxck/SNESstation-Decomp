@@ -111,8 +111,10 @@ that passes the R5900/ELF32 smoke probe and compiles the isolated `get_tree`
 candidate. An ARM64 DroidSpaces run exposed the original 2003
 `config.guess` limitation before compilation. The corrected
 `aarch64-unknown-linux-gnu` configure path now completes a full stage-one build
-proxy; completion and the compiler probe on the native ARM64 host remain the
-decisive pending test.
+proxy. The resulting native AArch64 archive then passed the compiler probe and
+the seven-function `mathfp` comparison on DroidSpaces. A clean in-place
+bootstrap there remains dependent on that container's host GCC being able to
+create ordinary executables.
 
 After it passes, use the printed absolute compiler path:
 
@@ -144,7 +146,11 @@ Consequently:
 
 The surviving SNESticle map refers to an `i686-pc-cygwin` installation. Such a
 binary is not a native compiler for an ARM64 Android/Linux environment. The
-bootstrap above instead rebuilds the historical source for the current host.
+bootstrap above instead rebuilds the historical source for the current host. A
+native AArch64 build can also be transferred as
+`SNESstation-Decomp-ee-gcc-3.2.2-stage1-linux-arm64.tar.gz`; the validated
+archive has SHA-256
+`f8ae39726af8631254cd87e5c816639a023f19c0a84c3bd289d0179c8236d803`.
 Its emitted target bytes are not assumed to be exact until they are compared.
 
 Check any compiler before matching:
@@ -164,10 +170,11 @@ After a pass, the next evidence gate is:
 make match-get-tree EE_CC=/absolute/path/to/ee-gcc
 ```
 
-On ARM64, run the bootstrap directly rather than attempting to execute the old
-Cygwin binary. A successful probe proves that the native host compiler can emit
-the expected EE object family; function comparison remains the next evidence
-gate.
+On ARM64, run the bootstrap directly when the host C compiler works, or extract
+the validated native archive under the repository. Never attempt to execute the
+old Cygwin binary. A successful probe proves that the native compiler can emit
+the expected EE object family; the committed `mathfp` report supplies the next
+function-level evidence gate.
 
 If an older overlay stopped at `01-binutils-configure` with `unable to guess
 system type`, extract the corrected overlay and run the same bootstrap command

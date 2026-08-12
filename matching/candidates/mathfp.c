@@ -80,8 +80,9 @@ float sine_generator_candidate(float x, int cosine)
     }
 
     if (cosine) {
-        sign = 1;
         y = __builtin_fabsf(x) + sine_half_pi;
+        __asm__ __volatile__("" : "+f"(y));
+        sign = 1;
     } else {
         if (x < 0.0) {
             sign = -1;
@@ -101,12 +102,12 @@ float sine_generator_candidate(float x, int cosine)
         n = (int)(y * sine_one_over_pi - 0.5);
     else
         n = (int)(y * sine_one_over_pi + 0.5);
-    xn = (float)n;
-
     if (n & 1)
         sign = -sign;
     if (cosine)
-        xn -= 0.5;
+        xn = (float)n - 0.5;
+    else
+        xn = (float)n;
 
     y = __builtin_fabsf(x) - xn * MATHFP_PI;
 

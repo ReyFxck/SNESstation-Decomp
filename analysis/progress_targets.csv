@@ -785,13 +785,13 @@ address,name,area,status,confidence,notes
 0x0019fd00,PollSema,libkernel,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x45"
 0x0019fd10,iSifSetDChain,libkernel,RECONSTRUCTED,very-high,"One-syscall interrupt-context SIF receive-chain wrapper, syscall -0x78"
 0x0019fd20,SifLoadFileInit,loadfile,RECONSTRUCTED,very-high,Binds loadfile RPC server 0x80000006 and records initialization
-0x0019fddc,cosf,mathfp,RECONSTRUCTED,very-high,Newlib 1.10 mathfp sine generator inlined with cosine mode; target constants and control flow proven
-0x001a0024,sinf,mathfp,RECONSTRUCTED,very-high,Newlib 1.10 mathfp sine generator inlined with sine mode; target constants and control flow proven
-0x001a0254,tanf,mathfp,RECONSTRUCTED,very-high,Newlib 1.10 mathfp tangent; 2/pi and rational coefficients match target exactly
-0x001a045c,atanf,mathfp,RECONSTRUCTED,very-high,Newlib 1.10 atanf with non-atan2 atangentf path inlined; ROOT3/table/polynomial proven
+0x0019fddc,cosf,mathfp,MATCHING,very-high,Byte-exact 584-byte Newlib 1.10 mathfp cosine candidate; 25 relocation words normalized; GCC 3.2.2 with -fno-align-jumps
+0x001a0024,sinf,mathfp,MATCHING,very-high,Byte-exact 560-byte Newlib 1.10 mathfp sine candidate; 24 relocation words normalized; GCC 3.2.2 with -fno-align-jumps
+0x001a0254,tanf,mathfp,MATCHING,very-high,Byte-exact 520-byte Newlib 1.10 mathfp tangent candidate; 29 relocation words normalized; GCC 3.2.2 with -fno-align-jumps
+0x001a045c,atanf,mathfp,MATCHING,very-high,Byte-exact 568-byte Newlib 1.10 mathfp arctangent candidate; 26 relocation words normalized; trailing 12-byte alignment gap excluded
 0x001a06a0,sqrtf,mathfp,MATCHING,very-high,Byte-exact 8-byte EE leaf reproduced by the pinned GCC 3.2.2 stage-one candidate; jr ra with hardware sqrt.s in the delay slot; zero relocations
 0x001a06b0,fabsf,mathfp,MATCHING,very-high,Byte-exact 8-byte EE leaf reproduced by the pinned GCC 3.2.2 stage-one candidate; jr ra with abs.s in the delay slot; zero relocations
-0x001a06c0,numtestf,mathfp,RECONSTRUCTED,very-high,Newlib mathfp classifier with target -mlong64 sign-extension quirk preserved; positive NaN/Inf fall through as NUM
+0x001a06c0,numtestf,mathfp,MATCHING,very-high,Byte-exact 128-byte EE assembly reconstruction with zero relocations; readable Newlib C model retained; not claimed as original C
 0x001a0740,mcGetInfoApdx,libmc,RECONSTRUCTED,very-high,Old libmc completion callback; uncached endParameter type/free/format copy proven
 0x001a07c8,mcReadFixAlign,libmc,RECONSTRUCTED,very-high,Old libmc read alignment callback; MC/XMC second-fragment offsets proven
 0x001a0870,mcStoreDir,libmc,RECONSTRUCTED,very-high,Old libmc chdir callback; target 1024-byte fallback quirk preserved

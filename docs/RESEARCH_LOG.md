@@ -456,3 +456,25 @@ types.
 Both manifests now contain 1,041 reconstructed entries, so audited structural
 coverage is 100.00%. Matching remains 0.00%; the next frontier is typed,
 build-ready source and historical-toolchain comparison.
+
+## 2026-08-12 — Matching Phase 4: seven-function mathfp corridor closed
+
+The official Newlib 1.10.0 `mathfp` sources and the pinned EE GCC 3.2.2 stage
+one now reproduce the selected corridor at `0x0019fddc..0x001a073f`. Removing
+optional jump-target padding with `-fno-align-jumps` closes `sinf` and `tanf`.
+Preserving the historical expression order then closes `cosf`; `atanf` also
+matches once its trailing 12-byte alignment gap is excluded from the function
+range. The hardware `sqrt.s` and `abs.s` leaves remain exact.
+
+The target `numtestf` carries an older instruction-selection shape that the
+surviving BETA 3 backend does not emit from the readable C model. A separately
+labeled EE assembly reconstruction records those 128 observed bytes exactly;
+it is not presented as the original C source.
+
+The reconstructed listing image SHA-256 is
+`97ff4a34df3cc4fbf1dde4cca78f2ac148ad6d44a83280fa25615b0ff0ea365f`.
+The combined relocatable candidate SHA-256 is
+`344f30408a38b75090a14aa8cd6004bdca611c2e0baea41603f5e240015a826c`.
+All seven rows pass relocation-normalized comparison, raising the repository's
+strict function-matching count to 7/1,041. This does not close the remaining
+typed-source, archive-order, linker-script or replacement-ELF gates.
