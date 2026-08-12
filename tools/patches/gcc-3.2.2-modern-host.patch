@@ -1,0 +1,25 @@
+diff --git a/include/obstack.h b/include/obstack.h
+--- a/include/obstack.h
++++ b/include/obstack.h
+@@ -423,7 +423,8 @@
+ ({ struct obstack *__o = (OBSTACK);					\
+    if (__o->next_free + sizeof (void *) > __o->chunk_limit)		\
+      _obstack_newchunk (__o, sizeof (void *));				\
+-   *((void **)__o->next_free)++ = ((void *)datum);			\
++   *((void **)__o->next_free) = ((void *)datum);			\
++   __o->next_free += sizeof (void *);				\
+    (void) 0; })
+ 
+ # define obstack_int_grow(OBSTACK,datum)				\
+diff --git a/gcc/collect2.c b/gcc/collect2.c
+--- a/gcc/collect2.c
++++ b/gcc/collect2.c
+@@ -1587,7 +1587,7 @@ collect_execute (prog, argv, redir)
+   if (redir)
+     {
+       /* Open response file.  */
+-      redir_handle = open (redir, O_WRONLY | O_TRUNC | O_CREAT);
++      redir_handle = open (redir, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+ 
+       /* Duplicate the stdout and stderr file handles
+ 	 so they can be restored later.  */

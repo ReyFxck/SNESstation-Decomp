@@ -11,7 +11,7 @@ measurable claims.
 |---|---:|---|
 | Structural coverage | **1,041/1,041** | Every validated entry has committed control-flow/behavior evidence. |
 | Build-ready source | **Incomplete** | Typed C/C++, declarations, globals and translation-unit ownership compile together for the EE. |
-| Function matching | **0/1,041** | A candidate object reproduces every non-relocation byte for a target function. |
+| Function matching | **2/1,041** | A candidate object reproduces every non-relocation byte for a target function. |
 | Replacement ELF | **Not available** | All objects, historical archives, linker script/order and binary layout reproduce the unpacked target. |
 
 The generated [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md)
@@ -54,15 +54,17 @@ The target corridor at `0x0019fddc..0x001a073f` preserves the Newlib 1.10.0
 | `0x001a0024..0x001a0253` | `sinf` | `sf_sin.c` + inlined `sf_sine.c` |
 | `0x001a0254..0x001a045b` | `tanf` | `sf_tan.c` coefficients and reduction flow |
 | `0x001a045c..0x001a069f` | `atanf` | wrapper plus the non-`atan2` path of `sf_atangent.c` |
-| `0x001a06a0..0x001a06af` | `sqrtf` | target-specific EE `sqrt.s` leaf |
-| `0x001a06b0..0x001a06bf` | `fabsf` | target-specific EE `abs.s` leaf |
+| `0x001a06a0..0x001a06a7` | `sqrtf` | target-specific EE `sqrt.s` leaf; byte-matching |
+| `0x001a06b0..0x001a06b7` | `fabsf` | target-specific EE `abs.s` leaf; byte-matching |
 | `0x001a06c0..0x001a073f` | `numtestf` | Newlib structure plus observed old `-mlong64` behavior |
 
 The generic Newlib `sqrtf` and `fabsf` bodies are **not** copied blindly: the
-target replaces them with Emotion Engine hardware instructions. The target
-also exposes an old-ABI quirk in `numtestf`. These differences are modeled in
-`src/ps2/newlib_mathfp_recovered.c` and remain unproven until compiled output is
-compared.
+target replaces them with Emotion Engine hardware instructions. Their actual
+code ranges are eight bytes each; the following eight-byte gaps are alignment,
+not function bodies. Both leaves now match the committed target listing byte
+for byte. The target also exposes an old-ABI/prototype mismatch in `numtestf`;
+the matching experiment preserves it with two translation units while the
+portable behavior remains in `src/ps2/newlib_mathfp_recovered.c`.
 
 The official source archive is intentionally fetched rather than vendored:
 
@@ -98,22 +100,28 @@ Use the candidate compiler like this:
 
 ```bash
 make fetch-ee-toolchain-recipe
+make bootstrap-ee-stage1
 make toolchain-info
-make toolchain-probe EE_CC=/absolute/path/to/ee-gcc
-make match-get-tree EE_CC=/absolute/path/to/ee-gcc
-make match-mathfp EE_CC=/absolute/path/to/ee-gcc
+EE_CC="$PWD/build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
+make toolchain-probe EE_CC="$EE_CC"
+make match-get-tree EE_CC="$EE_CC"
+make match-mathfp-listing EE_CC="$EE_CC"
+make match-mathfp EE_CC="$EE_CC"
 ```
 
-The fetch step pins and verifies the surviving 2004 PS2DEV recipe only; it does
-not install or build the compiler. The probe then rejects a wrong base version,
-target tuple, unsupported R5900 flags or wrong ELF class/endianness before a
-target comparison is attempted. See
+The fetch step pins and verifies the surviving 2004 PS2DEV recipe. The isolated
+bootstrap then downloads hash-pinned GNU sources and builds EE binutils plus a
+C-only GCC stage one under ignored `build/`; it does not install system files or
+build Newlib, C++, PS2SDK or the final program. The probe rejects a wrong base
+version, target tuple, unsupported R5900 flags or wrong ELF class/endianness
+before a target comparison is attempted. See
 [`HISTORICAL_EE_TOOLCHAIN.md`](HISTORICAL_EE_TOOLCHAIN.md).
 
 The isolated historical-source candidate for `get_tree` lives at
 `matching/candidates/get_tree.c`; its report is written to
-`build/matching/get_tree/report.md`. The math report is written to
-`build/matching/mathfp/report.md`. Strict CI-style variants append `-strict`
+`build/matching/get_tree/report.md`. The local math-listing evidence is written
+to `analysis/matching/mathfp-listing-report.md`, while the formal reference-ELF
+report remains under `build/matching/mathfp/report.md`. Strict CI-style variants append `-strict`
 and exit unsuccessfully until every requested row really matches.
 
 `get_tree` at `0x0018c124` is still the simplest first compiler fingerprint

@@ -1,0 +1,2 @@
+# Patch payloads keep historical upstream whitespace so they apply byte-for-byte.
+tools/patches/*.patch whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab

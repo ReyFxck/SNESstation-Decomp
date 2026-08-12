@@ -9,10 +9,20 @@ EE_CC ?= ee-gcc
 EE_GCC_VERSION ?= 3.2.2-b1
 
 BUILD_DIR := build
+EE_STAGE1_WORK_DIR ?= $(abspath $(BUILD_DIR)/toolchains/ee-gcc-3.2.2-stage1)
+EE_STAGE1_CC := $(EE_STAGE1_WORK_DIR)/prefix/bin/ee-gcc
+EE_BOOTSTRAP_JOBS_ARG := $(if $(strip $(EE_BUILD_JOBS)),--jobs "$(EE_BUILD_JOBS)",)
 MATCH_DIR := $(BUILD_DIR)/matching
-MATHFP_OBJECT := $(MATCH_DIR)/mathfp/newlib_mathfp_recovered.o
+MATHFP_SOURCE := matching/candidates/mathfp.c
+MATHFP_NUMTEST_SOURCE := matching/candidates/mathfp_numtest.c
+MATHFP_CORE_OBJECT := $(MATCH_DIR)/mathfp/mathfp_core.o
+MATHFP_NUMTEST_OBJECT := $(MATCH_DIR)/mathfp/mathfp_numtest.o
+MATHFP_OBJECT := $(MATCH_DIR)/mathfp/mathfp.o
 MATHFP_REPORT := $(MATCH_DIR)/mathfp/report.md
 MATHFP_MANIFEST := analysis/matching/mathfp.csv
+MATHFP_LISTING := analysis/functions/math_frontier_0019fddc.asm
+MATHFP_LISTING_RAW := $(MATCH_DIR)/mathfp/listing.bin
+MATHFP_LISTING_REPORT := analysis/matching/mathfp-listing-report.md
 GET_TREE_OBJECT := $(MATCH_DIR)/get_tree/get_tree.o
 GET_TREE_REPORT := $(MATCH_DIR)/get_tree/report.md
 GET_TREE_MANIFEST := analysis/matching/get_tree.csv
@@ -30,6 +40,9 @@ EE_COMMON_FLAGS := \
 EE_DEFINES := -DPS2_EE -D_EE -DLSB_FIRST -DALIGN_DWORD -DCODE_PLATFORM=3
 EE_CFLAGS ?= $(EE_COMMON_FLAGS) $(EE_DEFINES) -Iinclude
 EE_CXXFLAGS ?= $(EE_CFLAGS) -fno-exceptions -fno-common -fno-rtti
+# The target mathfp corridor uses the normal 64-bit double ABI.  Keeping this
+# override local avoids disturbing the -fshort-double application objects.
+MATHFP_EE_CFLAGS := $(filter-out -fshort-double,$(EE_CFLAGS))
 
 # Historical SNESticle reference only. SNES Station's linker script, archive
 # revisions and exact library order are still evidence gates, so `make elf`
@@ -41,8 +54,10 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 
 .PHONY: help audit-source audit-source-check host-syntax test-tools check \
 	reference verify-reference fetch-newlib fetch-ee-toolchain-recipe \
+	bootstrap-ee-stage1 \
 	toolchain-info toolchain-probe check-ee-compiler \
 	match-get-tree match-get-tree-strict match-mathfp match-mathfp-strict \
+	match-mathfp-listing match-mathfp-listing-strict \
 	elf-status elf clean-matching
 
 help:
@@ -52,13 +67,15 @@ help:
 	@echo "  make reference      unpack and verify your original/SNES_EMU.ELF"
 	@echo "  make fetch-newlib   fetch verified Newlib 1.10.0 mathfp source"
 	@echo "  make fetch-ee-toolchain-recipe  fetch the pinned 2004 PS2DEV recipe"
+	@echo "  make bootstrap-ee-stage1  build isolated binutils 2.14 + EE GCC 3.2.2"
 	@echo "  make toolchain-info show the candidate historical EE compiler contract"
 	@echo "  make toolchain-probe test EE_CC version, target, flags and ELF output"
 	@echo "  make match-get-tree run the smallest compiler-fingerprint experiment"
 	@echo "  make match-mathfp   compile and compare the seven-function math corridor"
+	@echo "  make match-mathfp-listing  compare math against the committed disassembly"
 	@echo "  make elf-status     show why a complete replacement ELF is not ready"
 	@echo
-	@echo "For matching, install the historical compiler or pass EE_CC=/path/to/ee-gcc."
+	@echo "For matching, run make bootstrap-ee-stage1 or pass EE_CC=/path/to/ee-gcc."
 
 audit-source:
 	$(PYTHON) tools/audit_source_completeness.py
@@ -94,10 +111,16 @@ fetch-newlib:
 fetch-ee-toolchain-recipe:
 	$(PYTHON) tools/fetch_ee_toolchain_recipe.py
 
+bootstrap-ee-stage1:
+	$(PYTHON) tools/bootstrap_ee_gcc_stage1.py \
+		--work-dir "$(EE_STAGE1_WORK_DIR)" $(EE_BOOTSTRAP_JOBS_ARG)
+
 toolchain-info:
 	@echo "Candidate EE compiler: GCC $(EE_GCC_VERSION)"
 	@echo "EE_CC=$(EE_CC)"
+	@echo "Bootstrapped stage-one path: $(EE_STAGE1_CC)"
 	@echo "EE_CFLAGS=$(EE_CFLAGS)"
+	@echo "MATHFP_EE_CFLAGS=$(MATHFP_EE_CFLAGS)"
 	@echo "SNESticle-only linker reference: $(SNESTICLE_REFERENCE_LDFLAGS)"
 	@echo "SNESticle-only library reference: $(SNESTICLE_REFERENCE_LIBS)"
 
@@ -107,15 +130,32 @@ toolchain-probe:
 check-ee-compiler:
 	@command -v "$(EE_CC)" >/dev/null 2>&1 || { \
 		echo "Missing EE compiler: $(EE_CC)" >&2; \
-		echo "Install the historical ee-gcc 3.2.2-b1 candidate or run:" >&2; \
+		echo "Build the isolated stage-one candidate with:" >&2; \
+		echo "  make bootstrap-ee-stage1" >&2; \
+		echo "Then select it explicitly with:" >&2; \
+		echo "  EE_CC=$(EE_STAGE1_CC)" >&2; \
 		echo "  make match-get-tree EE_CC=/absolute/path/to/ee-gcc" >&2; \
 		echo "  make match-mathfp EE_CC=/absolute/path/to/ee-gcc" >&2; \
 		exit 2; \
 	}
 
-$(MATHFP_OBJECT): src/ps2/newlib_mathfp_recovered.c $(MATHFP_MANIFEST) | check-ee-compiler
+$(MATHFP_CORE_OBJECT): $(MATHFP_SOURCE) $(MATHFP_MANIFEST) | check-ee-compiler
 	@mkdir -p "$(dir $@)"
-	$(EE_CC) $(EE_CFLAGS) -c $< -o $@
+	$(EE_CC) $(MATHFP_EE_CFLAGS) -c $< -o $@
+
+$(MATHFP_NUMTEST_OBJECT): $(MATHFP_NUMTEST_SOURCE) $(MATHFP_MANIFEST) | check-ee-compiler
+	@mkdir -p "$(dir $@)"
+	$(EE_CC) $(MATHFP_EE_CFLAGS) -c $< -o $@
+
+$(MATHFP_OBJECT): $(MATHFP_CORE_OBJECT) $(MATHFP_NUMTEST_OBJECT)
+	$(EE_CC) -nostdlib -Wl,-r -o $@ $^
+
+$(MATHFP_LISTING_RAW): $(MATHFP_LISTING) tools/objdump_listing_to_binary.py
+	$(PYTHON) tools/objdump_listing_to_binary.py \
+		--input "$<" \
+		--output "$@" \
+		--base-address 0x0019fddc \
+		--end-address 0x001a0740
 
 $(GET_TREE_OBJECT): matching/candidates/get_tree.c $(GET_TREE_MANIFEST) | check-ee-compiler
 	@mkdir -p "$(dir $@)"
@@ -155,6 +195,26 @@ match-mathfp-strict: verify-reference $(MATHFP_OBJECT)
 		--object "$(MATHFP_OBJECT)" \
 		--manifest "$(MATHFP_MANIFEST)" \
 		--report "$(MATHFP_REPORT)" \
+		--require-all-matching
+
+# This is a convenient local diagnostic against exact bytes already committed
+# in the analysis listing.  The ELF-backed targets above remain the formal gate.
+match-mathfp-listing: $(MATHFP_LISTING_RAW) $(MATHFP_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(MATHFP_LISTING_RAW)" \
+		--base-address 0x0019fddc \
+		--object "$(MATHFP_OBJECT)" \
+		--manifest "$(MATHFP_MANIFEST)" \
+		--report "$(MATHFP_LISTING_REPORT)"
+	@echo "Inspect $(MATHFP_LISTING_REPORT); the original ELF is still the formal gate."
+
+match-mathfp-listing-strict: $(MATHFP_LISTING_RAW) $(MATHFP_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(MATHFP_LISTING_RAW)" \
+		--base-address 0x0019fddc \
+		--object "$(MATHFP_OBJECT)" \
+		--manifest "$(MATHFP_MANIFEST)" \
+		--report "$(MATHFP_LISTING_REPORT)" \
 		--require-all-matching
 
 elf-status: audit-source-check

@@ -789,8 +789,8 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001a0024,sinf,mathfp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c,UNPROVEN
 0x001a0254,tanf,mathfp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c,UNPROVEN
 0x001a045c,atanf,mathfp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c,UNPROVEN
-0x001a06a0,sqrtf,mathfp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c,UNPROVEN
-0x001a06b0,fabsf,mathfp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c,UNPROVEN
+0x001a06a0,sqrtf,mathfp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c,MATCHING
+0x001a06b0,fabsf,mathfp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c,MATCHING
 0x001a06c0,numtestf,mathfp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c,UNPROVEN
 0x001a0740,mcGetInfoApdx,libmc,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libmc_recovered.c,UNPROVEN
 0x001a07c8,mcReadFixAlign,libmc,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libmc_recovered.c,UNPROVEN

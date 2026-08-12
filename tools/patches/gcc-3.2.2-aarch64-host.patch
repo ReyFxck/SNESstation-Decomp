@@ -1,0 +1,16 @@
+--- a/gcc/config.gcc
++++ b/gcc/config.gcc
+@@ -465,6 +465,13 @@ case $machine in
+ 	then tmake_file=$cpu_type/t-$rest
+ 	fi
+ 	;;
++aarch64-*-linux*)
++	# GCC 3.2.2 predates AArch64 as a code-generation target, but a
++	# native AArch64 system can still host this MIPS cross-compiler.
++	if test "x$machine" = "x$target"; then
++		echo "AArch64 is supported only as a build/host for this bootstrap" 1>&2; exit 1
++	fi
++	;;
+ 1750a-*-*)
+ 	# 1750a is only supported as a target.
+ 	case "$build,$host" in 1750a*,* | *,1750a* )

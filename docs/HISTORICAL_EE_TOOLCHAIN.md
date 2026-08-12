@@ -48,6 +48,83 @@ make fetch-ee-toolchain-recipe
 The command writes under ignored `build/upstream/`, checks the commit and all
 five hashes, and does not install anything or download compiler binaries.
 
+## Reproducible stage-one bootstrap
+
+The repository can now build the smallest useful compiler layer locally:
+
+```bash
+make bootstrap-ee-stage1
+```
+
+This downloads and verifies the two upstream GNU release archives, applies the
+pinned PS2DEV patches, builds only EE binutils and the C-only GCC stage one,
+then runs the compiler contract probe.
+
+| Archive | SHA-256 |
+|---|---|
+| `binutils-2.14.tar.gz` | `ba91202a1aefca79f5eeb534e6c4235c874b220a2975725296712e42e6b91df1` |
+| `gcc-3.2.2.tar.gz` | `a0a626b10be8f793349a5309dd054a224c00772c83207d0354499c17e8deb187` |
+
+Everything is written below the ignored directory
+`build/toolchains/ee-gcc-3.2.2-stage1/`; the command does not use `sudo`, copy
+files into `/usr`, or alter the login environment. Downloads, source trees,
+logs and completed-step stamps are retained so an interrupted phone build can
+resume. The validated x86_64 tree occupied 486 MiB; allow about 600 MiB and keep
+at least 1 GiB free while building. Override conservative parallelism when
+needed with, for example, `make bootstrap-ee-stage1 EE_BUILD_JOBS=2`.
+
+On Debian/Ubuntu the host prerequisites are:
+
+```bash
+apt install git patch make gcc binutils python3
+```
+
+Four host compatibility changes are deliberately separated from the historical
+PS2 backend patch:
+
+- the old host-side tools are compiled with `_FORTIFY_SOURCE` disabled because
+  binutils 2.14 intentionally formats fixed-width archive fields across
+  adjacent structure members, which Ubuntu's modern fortified `sprintf`
+  rejects at runtime;
+- GCC receives the two small `obstack.h` and `collect2.c` fixes preserved in a
+  later PS2DEV patch. They repair modern host-C compilation and the required
+  `open(..., O_CREAT, mode)` call; neither changes R5900 code generation.
+- the 2003 GNU `config.guess` and `config.sub` scripts receive only the missing
+  AArch64 Linux recognition needed to identify a modern ARM64 host;
+- GCC 3.2.2's `config.gcc` accepts AArch64 as a build/host system while still
+  rejecting it as a code-generation target. The compiler target remains the
+  historical `mips64r5900el-scei-elf` EE backend.
+
+The tracked compatibility patch SHA-256 values are:
+
+| Patch | SHA-256 |
+|---|---|
+| `gcc-3.2.2-modern-host.patch` | `8e799725842a266d8bce883791c7cbf044a9e0753779102ce5d29852496ec8fe` |
+| `gnu-config-aarch64.patch` | `9b083b0d9d3cb7cdb2b394e4ff2535877202dad5c81da9dc1fe24a59185682f6` |
+| `gcc-3.2.2-aarch64-host.patch` | `4ce10fbb0a1545ff8ba57b6f101d9640c559f497bb2a4c5e858f4c1a3c71ab11` |
+
+The exact commands, host identity, archive hashes, patch hash and resulting
+host-specific compiler hash are saved in
+`build/toolchains/ee-gcc-3.2.2-stage1/bootstrap-manifest.json`. The complete
+bootstrap passed on an x86_64 Ubuntu host with GCC 13 and produced an `ee-gcc`
+that passes the R5900/ELF32 smoke probe and compiles the isolated `get_tree`
+candidate. An ARM64 DroidSpaces run exposed the original 2003
+`config.guess` limitation before compilation. The corrected
+`aarch64-unknown-linux-gnu` configure path now completes a full stage-one build
+proxy; completion and the compiler probe on the native ARM64 host remain the
+decisive pending test.
+
+After it passes, use the printed absolute compiler path:
+
+```bash
+EE_CC="$PWD/build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
+make match-get-tree EE_CC="$EE_CC"
+```
+
+This is a **compile-only matching toolchain**. It does not yet build Newlib,
+C++, PS2SDK, the historical application archives, a replacement ELF or the
+SJCRUNCH2 container.
+
 ## The chronology warning
 
 The SNES Station reference identifies itself as `0.23 WIP`, 24 January 2004.
@@ -67,9 +144,8 @@ Consequently:
 
 The surviving SNESticle map refers to an `i686-pc-cygwin` installation. Such a
 binary is not a native compiler for an ARM64 Android/Linux environment. The
-safe route is to rebuild the historical source for the current host or use a
-deliberately pinned emulated build environment; neither route is assumed to be
-bit-stable until its output is compared.
+bootstrap above instead rebuilds the historical source for the current host.
+Its emitted target bytes are not assumed to be exact until they are compared.
 
 Check any compiler before matching:
 
@@ -88,12 +164,22 @@ After a pass, the next evidence gate is:
 make match-get-tree EE_CC=/absolute/path/to/ee-gcc
 ```
 
-Building this candidate reproducibly on a modern ARM64 host is the next phase;
-the historical script itself is evidence, not a safe modern installer.
+On ARM64, run the bootstrap directly rather than attempting to execute the old
+Cygwin binary. A successful probe proves that the native host compiler can emit
+the expected EE object family; function comparison remains the next evidence
+gate.
+
+If an older overlay stopped at `01-binutils-configure` with `unable to guess
+system type`, extract the corrected overlay and run the same bootstrap command
+again. Downloads and extracted sources under `build/` are retained, the new
+patches are applied once, and the failed configure step is retried; deleting
+the build directory is not required.
 
 ## Primary historical evidence
 
 - [PS2DEV toolchain root commit](https://github.com/ps2dev/ps2toolchain/tree/16a47184b3a5fdf4aea45fcc8fee082d3c4d4183)
 - [GCC 3.2.2 PS2 patch at that commit](https://github.com/ps2dev/ps2toolchain/blob/16a47184b3a5fdf4aea45fcc8fee082d3c4d4183/gcc-3.2.2.patch)
+- [GNU binutils 2.14 release archive](https://ftp.gnu.org/gnu/binutils/binutils-2.14.tar.gz)
+- [GNU GCC 3.2.2 release archive](https://ftp.gnu.org/gnu/gcc/gcc-3.2.2/gcc-3.2.2.tar.gz)
 - [SNESticle PS2 Makefile](https://github.com/iaddis/SNESticle/blob/9590ebf3bf768424ebd6cb018f322e724a7aade3/SNESticle/Project/ps2/Makefile)
 - [SNESticle link map carrying the Cygwin installation path](https://github.com/iaddis/SNESticle/blob/9590ebf3bf768424ebd6cb018f322e724a7aade3/SNESticle/Project/ps2/release_EE3.2.2-b1/SNESticle.map)

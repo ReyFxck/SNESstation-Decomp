@@ -789,8 +789,8 @@ address,name,status,confidence,notes
 0x001a0024,sinf,RECONSTRUCTED,very-high,Newlib 1.10 mathfp sine generator inlined with sine mode; target constants and control flow proven
 0x001a0254,tanf,RECONSTRUCTED,very-high,Newlib 1.10 mathfp tangent; 2/pi and rational coefficients match target exactly
 0x001a045c,atanf,RECONSTRUCTED,very-high,Newlib 1.10 atanf with non-atan2 atangentf path inlined; ROOT3/table/polynomial proven
-0x001a06a0,sqrtf,RECONSTRUCTED,very-high,Target EE leaf is jr ra with hardware sqrt.s in delay slot; preserves target override rather than generic Newlib C
-0x001a06b0,fabsf,RECONSTRUCTED,very-high,Target EE leaf is jr ra with abs.s in delay slot
+0x001a06a0,sqrtf,MATCHING,very-high,Byte-exact 8-byte EE leaf reproduced by the pinned GCC 3.2.2 stage-one candidate; jr ra with hardware sqrt.s in the delay slot; zero relocations
+0x001a06b0,fabsf,MATCHING,very-high,Byte-exact 8-byte EE leaf reproduced by the pinned GCC 3.2.2 stage-one candidate; jr ra with abs.s in the delay slot; zero relocations
 0x001a06c0,numtestf,RECONSTRUCTED,very-high,Newlib mathfp classifier with target -mlong64 sign-extension quirk preserved; positive NaN/Inf fall through as NUM
 0x001a0740,mcGetInfoApdx,RECONSTRUCTED,very-high,Old libmc completion callback; uncached endParameter type/free/format copy proven
 0x001a07c8,mcReadFixAlign,RECONSTRUCTED,very-high,Old libmc read alignment callback; MC/XMC second-fragment offsets proven

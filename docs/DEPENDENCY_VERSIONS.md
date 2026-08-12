@@ -45,6 +45,7 @@ matching attempt from silently substituting a modern library.
 | Component | Version / revision | Evidence | Matching implication |
 |---|---|---|---|
 | EE GCC application compiler | GCC `3.2.2`; external `3.2.2-b1` build label is the strongest candidate | Shared PS2 release listings, R5900 code shape and many exact archive-member sizes; `.ident` exposes only `3.2.2` | Candidate only until a reproducible compile compares bytes. The first pinned public recipe uses a later BETA 3 patch, so test patch level and flags per translation unit. |
+| Reproducible EE compiler stage one | binutils `2.14` + GCC `3.2.2` C-only, PS2DEV commit `16a4718` patches | Both GNU archives and every recipe file are SHA-256 pinned; native x86_64 build passes the R5900/ELF32 probe; the corrected AArch64 configure identity completes a full build proxy | Supplies a compile-only comparison candidate. Completion and probing on a native ARM64 host, exact `-b1` patch identity, Newlib/C++, SDK archives and final linking remain separate gates. |
 | EE binutils assembler/linker | exact target release unknown; first public recipe candidate is `2.14` | Target section placement and archive/member order are mapped, but carry no unique version signature; PS2DEV commit `16a4718` pins 2.14 | Do not infer binutils from GCC's version. Test the pinned candidate independently. |
 | linked `libgcc` / unwind runtime | GCC `3.2.2-b1` layout fingerprint | `_udivdi3`, `_umoddi3`, `unwind-dw2`, FDE and soft-float object sizes plus public offsets agree | Stronger than the global compiler claim; still mark functions `RECONSTRUCTED`, not `MATCHING`. |
 | linked `libsupc++` / C++ EH | GCC 3.2.2-era ABI/runtime family | RTTI vtables, EH globals, personality and exception-object layout | Use the historical Itanium ABI implementation; modern libstdc++ is structurally different. |
@@ -85,6 +86,8 @@ SJCRUNCH row, which belongs to the packed ELF stub.
 | Embedded AmigaMod IRX | 20,061 bytes (`0x4e5d`) | `0x0f6140` | `25d8b8b8e0a9ec1a28ff944eb2a21f53b87125d4f7f74ddb5f93d4621005a3e3` |
 | Historical Snes9x 1.41 source archive used for validation | 1,012,496 bytes | — | `f24e5761fd91078c124241e8631370a6bd182b8dde9661d24e9761898d1838f3` |
 | Official Newlib 1.10.0 source archive | downloaded by `tools/fetch_upstream.py` | — | `69b62ad4c746a9acaf4f898772549f6da49f228f83a95efce7e88ae1d88c5a84` |
+| Official GNU binutils 2.14 source archive | 14,269,432 bytes | — | `ba91202a1aefca79f5eeb534e6c4235c874b220a2975725296712e42e6b91df1` |
+| Official GNU GCC 3.2.2 source archive | 26,664,960 bytes | — | `a0a626b10be8f793349a5309dd054a224c00772c83207d0354499c17e8deb187` |
 
 The IRX blobs and original ELF are deliberately not distributed by this
 repository. Their hashes, sizes and unpacked-image offsets are sufficient to

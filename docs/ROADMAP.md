@@ -61,9 +61,12 @@
 
 - [x] fingerprint historical GCC/binutils/PS2SDK runtime family
 - [x] pin and verify the first public GCC 3.2.2/binutils 2.14/Newlib 1.10.0 recipe
+- [x] build and probe the pinned compile-only stage one on modern x86_64
+- [ ] validate the same native bootstrap and first comparison on ARM64
 - [ ] establish matching build environment
-- [ ] compile independent recovered objects
-- [ ] compare assembly function-by-function
+- [x] compile the first independent `mathfp` matching objects
+- [x] begin function comparison; `sqrtf` and `fabsf` are byte-exact
+- [ ] compare the remaining functions assembly-by-assembly
 - [ ] link progressively larger replacement executable
 
 - [x] reconstruct old SIF command send/init/interrupt-dispatch corridor
