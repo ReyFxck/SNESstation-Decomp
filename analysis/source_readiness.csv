@@ -373,11 +373,11 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001742f8,snes_p12_001742f8,slot-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress12_slot_runtime_recovered.c,UNPROVEN
 0x00174350,snes_p16_00174350,cpu-audio-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x001744d0,snes_p11_001744d0,input,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c,UNPROVEN
-0x00174564,snes_p16_00174564,cpu-audio-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x00174564,snes_p16_00174564,cpu-audio-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress23_audio_helpers_recovered.c,UNPROVEN
 0x00174618,snes_p12_00174618,slot-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress12_slot_runtime_recovered.c,UNPROVEN
 0x001746a4,snes_p12_001746a4,slot-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress12_slot_runtime_recovered.c,UNPROVEN
 0x00174720,snes_leaf_00174720,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
-0x00174728,snes_p16_00174728,cpu-audio-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x00174728,snes_p16_00174728,cpu-audio-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress23_audio_helpers_recovered.c,UNPROVEN
 0x00174830,snes_p12_00174830,slot-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress12_slot_runtime_recovered.c,UNPROVEN
 0x00174860,snes_leaf_00174860,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
 0x0017487c,snes_leaf_0017487c,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
@@ -389,8 +389,8 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00176578,snes_dispatch_00176578,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
 0x00176594,snes_p16_00176594,cpu-audio-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x00177a84,snes_p16_00177a84,cpu-audio-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
-0x00177cec,snes_p16_00177cec,cpu-audio-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
-0x00177db0,snes_p16_00177db0,cpu-audio-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x00177cec,snes_p16_00177cec,cpu-audio-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress23_audio_helpers_recovered.c,UNPROVEN
+0x00177db0,snes_p16_00177db0,cpu-audio-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress23_audio_helpers_recovered.c,UNPROVEN
 0x00177e6c,snes_p16_00177e6c,cpu-audio-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x0017ec24,snes_leaf_0017ec24,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
 0x001806a4,snes_p17_001806a4,cpu-audio-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P17,no,,UNPROVEN

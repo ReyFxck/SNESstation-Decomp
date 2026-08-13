@@ -9,4 +9,8 @@ address,source_file,evidence,notes
 0x00105ae8,src/ps2/path_helpers_recovered.c,analysis/functions/path_config_00105750.asm,Progress 19 typed PS2 device-aware _splitpath recovered from target calls
 0x00106c08,src/ps2/progress21_small_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 21 typed memory-card save-state slot parser migrated from committed R5900 decompile
 0x0015d334,src/ps2/progress22_more_small_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 22 typed PPU conditional timing helper migrated from committed R5900 decompile
+0x00174564,src/ps2/progress23_audio_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 23 typed slot configure wrapper migrated from committed R5900 decompile
+0x00174728,src/ps2/progress23_audio_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 23 typed slot rate recomputation helper migrated from committed R5900 decompile
+0x00177cec,src/ps2/progress23_audio_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 23 typed audio runtime initialization wrapper migrated from committed R5900 decompile
+0x00177db0,src/ps2/progress23_audio_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 23 typed per-slot mode transition helper migrated from committed R5900 decompile
 0x001a7638,src/ps2/progress21_small_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 21 typed signed DI remainder wrapper migrated from committed R5900 decompile
