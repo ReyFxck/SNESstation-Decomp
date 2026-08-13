@@ -22,15 +22,15 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0010191c,snes_leaf_0010191c,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
 0x00101924,snes_p13_path_wrapper_00101924,frontend,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress13_frontend_more_recovered.c,UNPROVEN
 0x001019a0,snes_leaf_001019a0,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
-0x001019a8,snes_p16_001019a8,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x001019a8,snes_p16_001019a8,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x00101b04,snes_p11_00101b04,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c,UNPROVEN
-0x00101b64,snes_p16_00101b64,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
-0x00101e8c,snes_p16_00101e8c,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c,UNPROVEN
+0x00101b64,snes_p16_00101b64,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
+0x00101e8c,snes_p16_00101e8c,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x00101ef0,snes_p16_00101ef0,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/app/main_flow_recovered.c,UNPROVEN
 0x001029c4,snes_p16_001029c4,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x00102ab0,top_level_gui,frontend,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P17,yes,src/app/main_flow_recovered.c,UNPROVEN
 0x00103314,snes_p16_00103314,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
-0x00103b34,snes_p16_00103b34,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x00103b34,snes_p16_00103b34,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x00103c7c,snes_dispatch_00103c7c,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
 0x00103cb0,snes_leaf_00103cb0,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
 0x00103cd4,snes_p16_00103cd4,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress21_small_helpers_recovered.c,UNPROVEN
@@ -38,7 +38,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00103dd4,snes_p16_00103dd4,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x001041c0,snes_leaf_001041c0,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
 0x0010421c,snes_leaf_0010421c,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
-0x00104234,snes_p16_00104234,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x00104234,snes_p16_00104234,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x00104358,snes_p11_00104358,frontend,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c,UNPROVEN
 0x00104418,snes_p16_00104418,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x00104998,mtapInit_00104998,multitap,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libmtap_recovered.c,UNPROVEN
@@ -135,7 +135,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00115a18,snes_p17_00115a18,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P17,no,,UNPROVEN
 0x00115b58,snes_p16_00115b58,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x00115db0,snes_p16_00115db0,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
-0x00116128,snes_leaf_00116128,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
+0x00116128,snes_leaf_00116128,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x00116174,snes_leaf_00116174,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
 0x001161a8,snes_p16_001161a8,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x0011c050,snes_dispatch_0011c050,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
@@ -205,7 +205,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001305a0,snes_p16_001305a0,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x001306f8,snes_p16_001306f8,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x001308f8,snes_p13_gate_predicate_001308f8,core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress13_core_helpers_recovered.c,UNPROVEN
-0x001309c4,snes_p16_001309c4,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x001309c4,snes_p16_001309c4,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x00130c78,snes_p11_00130c78,snes9x-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress11_core_recovered.c,UNPROVEN
 0x0013e014,snes_dispatch_0013e014,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
 0x0013e024,snes_dispatch_0013e024,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
@@ -304,7 +304,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0015cdf8,snes_p13_stage_advance_0015cdf8,frontend,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress13_runtime_more_recovered.c,UNPROVEN
 0x0015cea4,snes_p16_0015cea4,memory-ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x0015d0bc,snes_p16_0015d0bc,memory-ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
-0x0015d334,snes_p16_0015d334,memory-ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x0015d334,snes_p16_0015d334,memory-ppu,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x0015d3ec,snes_p16_0015d3ec,memory-ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x0015d6d8,snes_p16_0015d6d8,memory-ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x0015d8ec,snes_p13_ppu_reset_0015d8ec,ppu,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress13_core_helpers_recovered.c,UNPROVEN
@@ -585,7 +585,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00198aa4,zcfree,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/deflate_state_recovered.c;src/zlib/inflate_state_recovered.c;src/zlib/zutil_adler_recovered.c,UNPROVEN
 0x00198ac0,adler32,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/zutil_adler_recovered.c,UNPROVEN
 0x00198c58,gsDriver_ctor_A,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c,UNPROVEN
-0x00198cc8,gsDriver_ctor_B,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_bootstrap.c;src/ps2/gsdriver_recovered.c,UNPROVEN
+0x00198cc8,gsDriver_ctor_B,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_bootstrap.c;src/ps2/gsdriver_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x00198d38,gsDriver_dtor_A,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c,UNPROVEN
 0x00198d58,gsDriver_dtor_B,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c,UNPROVEN
 0x00198d78,gsDriver_setDisplayMode,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c,UNPROVEN
@@ -630,7 +630,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00199d48,gsPipe_setPrModeCont,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c;src/ps2/gspipe_recovered.c,UNPROVEN
 0x00199dc0,gsPipe_setDrawFrame,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gs_fifo_recovered.c;src/ps2/gsdriver_recovered.c,UNPROVEN
 0x00199e58,gsPipe_setOrigin,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c;src/ps2/gspipe_recovered.c,UNPROVEN
-0x00199ef8,gsPipe_setScissorRect,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c;src/ps2/gspipe_recovered.c,UNPROVEN
+0x00199ef8,gsPipe_setScissorRect,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c;src/ps2/gspipe_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x00199f88,gsPipe_TextureUpload,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsfont_recovered.c;src/ps2/gspipe_recovered.c,UNPROVEN
 0x0019a240,gsPipe_TextureDownload,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gspipe_recovered.c,UNPROVEN
 0x0019a500,gsPipe_TextureFlush,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gspipe_recovered.c,UNPROVEN
@@ -649,7 +649,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019b3a8,gsPipe_TriStripGouraud,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gspipe_recovered.c,UNPROVEN
 0x0019b568,gsPipe_TriStripGouraudTexture,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gspipe_recovered.c,UNPROVEN
 0x0019b7f0,gsFont_uploadFont,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsfont_recovered.c,UNPROVEN
-0x0019b948,gsFont_Print,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsfont_recovered.c,UNPROVEN
+0x0019b948,gsFont_Print,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsfont_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x0019bad0,gsFont_GetCurrLineLength,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsfont_recovered.c,UNPROVEN
 0x0019bb68,gsFont_PrintLine,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsfont_recovered.c,UNPROVEN
 0x0019bd38,VRstart_handler,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gslib_hw_recovered.c,UNPROVEN
@@ -662,7 +662,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019be70,CDVD_Init,cdvd,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_bootstrap.c;src/ps2/cdvd_rpc_recovered.c,UNPROVEN
 0x0019bf00,CDVD_DiskReady,cdvd,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/cdvd_rpc_recovered.c,UNPROVEN
 0x0019bf70,CDVD_FindFile,cdvd,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/cdvd_rpc_recovered.c,UNPROVEN
-0x0019c0d0,CDVD_Stop,cdvd,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/cdvd_rpc_recovered.c,UNPROVEN
+0x0019c0d0,CDVD_Stop,cdvd,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/cdvd_rpc_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x0019c128,CDVD_TrayReq,cdvd,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/cdvd_rpc_recovered.c,UNPROVEN
 0x0019c190,CDVD_getdir,cdvd,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/cdvd_rpc_recovered.c,UNPROVEN
 0x0019c2ac,CDVD_FlushCache,cdvd,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/cdvd_rpc_recovered.c,UNPROVEN
@@ -703,11 +703,11 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019cef0,SifSetReg,libkernel,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c;src/ps2/loadfile_iop_recovered.c;src/ps2/sifrpc_recovered.c,UNPROVEN
 0x0019cf00,SifGetReg,libkernel,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c;src/ps2/loadfile_iop_recovered.c;src/ps2/sifrpc_recovered.c,UNPROVEN
 0x0019cf10,SifWriteBackDCache,libkernel,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/libkernel_leaf_recovered.c;src/ps2/libmc_recovered.c;src/ps2/loadfile_iop_recovered.c;src/ps2/sifrpc_recovered.c,UNPROVEN
-0x0019cfc0,fioOpen,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
-0x0019d090,fioClose,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
-0x0019d120,fioRead,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
+0x0019cfc0,fioOpen,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
+0x0019d090,fioClose,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
+0x0019d120,fioRead,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
 0x0019d244,fioWrite,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/stdio_wrappers_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
-0x0019d360,fioLseek,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
+0x0019d360,fioLseek,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
 0x0019d410,fioMkdir,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c,UNPROVEN
 0x0019d4b0,_fio_read_intr,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c,UNPROVEN
 0x0019d534,fioPutc,fileio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
@@ -731,7 +731,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019e474,heap_mem_fit,libkernel,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_heap_recovered.c,UNPROVEN
 0x0019e4b4,malloc,libkernel,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_heap_recovered.c,UNPROVEN
 0x0019e648,calloc,libkernel,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_heap_recovered.c,UNPROVEN
-0x0019e698,memalign,libkernel,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gspipe_recovered.c;src/ps2/libkernel_heap_recovered.c,UNPROVEN
+0x0019e698,memalign,libkernel,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gspipe_recovered.c;src/ps2/libkernel_heap_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x0019e784,free,libkernel,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gspipe_recovered.c;src/ps2/libkernel_heap_recovered.c,UNPROVEN
 0x0019e860,strcasecmp,libc,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libc_text_recovered.c,UNPROVEN
 0x0019e8e4,strncasecmp,libc,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libc_text_recovered.c,UNPROVEN
@@ -946,7 +946,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001a9d58,__gxx_exception_cleanup,cpp-eh,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress13_cpp_eh_recovered.c,UNPROVEN
 0x001a9db8,__cxa_throw,cpp-eh,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress13_cpp_eh_recovered.c,UNPROVEN
 0x001a9e40,__cxa_rethrow,cpp-eh,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress13_cpp_eh_recovered.c,UNPROVEN
-0x001a9e88,operator_new,cpp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_bootstrap.c;src/ps2/progress13_cpp_eh_recovered.c,UNPROVEN
+0x001a9e88,operator_new,cpp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_bootstrap.c;src/ps2/progress13_cpp_eh_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x001a9f68,operator_new_array,cpp-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/cpp_runtime_recovered.c,UNPROVEN
 0x001a9fa8,std_type_info_destructor_D2,cpp-rtti,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libsupcxx_rtti_recovered.c,UNPROVEN
 0x001a9fb8,std_type_info_destructor_D1,cpp-rtti,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libsupcxx_rtti_recovered.c,UNPROVEN
