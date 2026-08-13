@@ -1,0 +1,2 @@
+address,end,name,object_symbol,source
+0x001057fc,0x00105898,snes_p16_001057fc,build_state_path_candidate,matching/candidates/path_state.c
