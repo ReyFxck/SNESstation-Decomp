@@ -79,3 +79,193 @@ char *build_state_path_recovered(int slot)
 {
     return build_state_path_001057fc(slot);
 }
+
+/*
+ * PS2 device-aware _makepath recovered from the frontend path corridor.
+ * Unlike the desktop Snes9x helper, drive is a complete device token such as
+ * "mc0" or "cdfs", not a single drive letter.
+ */
+void _makepath(char *path, const char *drive, const char *dir,
+               const char *name, const char *ext)
+{
+    if (drive != NULL && *drive != '\0') {
+        size_t drive_len;
+
+        strcpy(path, drive);
+        drive_len = strlen(drive);
+        path[drive_len] = ':';
+        path[drive_len + 1] = '\0';
+    } else {
+        *path = '\0';
+    }
+
+    if (dir != NULL && *dir != '\0') {
+        strcat(path, dir);
+        if (strlen(dir) != 1 || *dir != '/')
+            strcat(path, "/");
+    }
+
+    strcat(path, name);
+
+    if (ext != NULL && *ext != '\0') {
+        strcat(path, ".");
+        strcat(path, ext);
+    }
+}
+
+/*
+ * PS2 device-aware _splitpath recovered from the same corridor.
+ * Observed callers use a device prefix ("device:path").  The no-colon branch
+ * below is a safe source-level fallback; all target-observed device paths take
+ * the colon branch.
+ */
+void _splitpath(const char *path, char *drive, char *dir,
+                char *name, char *ext)
+{
+    char scratch[0x400];
+    char *colon;
+    char *tail;
+    char *slash;
+    char *dot;
+
+    strcpy(scratch, path);
+    colon = strchr(scratch, ':');
+    if (colon != NULL) {
+        *colon = '\0';
+        strcpy(drive, scratch);
+        tail = colon + 1;
+    } else {
+        *drive = '\0';
+        tail = scratch;
+    }
+
+    slash = strrchr(tail, '/');
+    if (slash == NULL)
+        slash = strrchr(tail, '/'); /* duplicate lookup exists in the target */
+
+    dot = strrchr(tail, '.');
+    if (dot != NULL && slash != NULL && dot < slash)
+        dot = NULL;
+
+    if (slash != NULL) {
+        if (*drive != '\0' && *tail != '/') {
+            strcpy(dir, "/");
+            strcat(dir, tail);
+            dir[(size_t)(slash - tail) + 1] = '\0';
+        } else {
+            strcpy(dir, tail);
+            if (slash != tail)
+                dir[slash - tail] = '\0';
+            else
+                dir[1] = '\0';
+        }
+
+        strcpy(name, slash + 1);
+        if (dot != NULL) {
+            name[dot - slash - 1] = '\0';
+            strcpy(ext, dot + 1);
+        } else {
+            *ext = '\0';
+        }
+    } else {
+        if (*drive != '\0')
+            strcpy(dir, "/");
+        else
+            *dir = '\0';
+
+        strcpy(name, tail);
+        if (dot != NULL) {
+            name[dot - tail] = '\0';
+            strcpy(ext, dot + 1);
+        } else {
+            *ext = '\0';
+        }
+    }
+}
+
+/* Keep the address-labelled spelling used by the already-recovered callers. */
+void split_path_00105ae8(const char *src,
+                         char *drive, char *dir,
+                         char *name, char *ext)
+{
+    _splitpath(src, drive, dir, name, ext);
+}
+
+/* Snes9x 1.x uses 200 for AUTO_FRAMERATE. */
+#define SNES_AUTO_FRAMERATE 200u
+
+/*
+ * Narrow view of the target IPPU object used by the adjacent frontend frame
+ * sync callback.  Final project-wide type ownership remains a later gate.
+ */
+typedef struct S9xFrameSyncIPPUView {
+    uint8_t  reserved_00[6];
+    uint8_t  RenderThisFrame;
+    uint8_t  reserved_07[13];
+    uint32_t SkippedFrames;
+    uint32_t FrameSkip;
+} S9xFrameSyncIPPUView;
+
+/* Logical bindings for fixed globals used by the original callback. */
+extern uint32_t Settings_SkipFrames;
+extern int32_t  Memory_ROMFramesPerSecond;
+extern S9xFrameSyncIPPUView IPPU_FrameSync;
+
+extern int64_t  S9xSync_PeriodCounter;
+extern uint32_t S9xSync_PeriodPrevious;
+extern uint32_t S9xSync_PeriodValue;
+extern uint32_t S9xSync_AutoFrameLatch;
+
+extern uint8_t  S9xSync_AudioActive;
+extern uint32_t S9xSync_AudioArg0;
+extern uint32_t S9xSync_AudioArg1;
+
+/* Address-bound helpers remain opaque until their owning modules are typed. */
+extern void S9xSync_AudioStep(uintptr_t state, uint32_t arg);
+extern void S9xSync_SetVolume(uintptr_t state, uintptr_t work,
+                             uint32_t arg, uint32_t immediate);
+
+/*
+ * Strong semantic identification as S9xSyncSpeed from the Snes9x callback
+ * contract: SkipFrames/AUTO_FRAMERATE drives IPPU.RenderThisFrame and
+ * IPPU.SkippedFrames.  This is build-ready behavioral source, not yet a
+ * machine-code matching claim.
+ */
+void S9xSyncSpeed(void)
+{
+    uint32_t previous = S9xSync_PeriodValue;
+
+    if (Settings_SkipFrames == SNES_AUTO_FRAMERATE) {
+        if (S9xSync_AutoFrameLatch == 1) {
+            S9xSync_AutoFrameLatch = 0;
+            IPPU_FrameSync.RenderThisFrame = 0;
+            IPPU_FrameSync.SkippedFrames++;
+        } else {
+            IPPU_FrameSync.RenderThisFrame = 1;
+            IPPU_FrameSync.SkippedFrames = 0;
+        }
+    } else {
+        if (S9xSync_PeriodCounter >= (int64_t)Memory_ROMFramesPerSecond) {
+            S9xSync_PeriodCounter = 0;
+            S9xSync_PeriodValue = 0;
+            S9xSync_PeriodPrevious = previous;
+        }
+
+        IPPU_FrameSync.FrameSkip++;
+        if (IPPU_FrameSync.FrameSkip < Settings_SkipFrames) {
+            IPPU_FrameSync.RenderThisFrame = 0;
+            IPPU_FrameSync.SkippedFrames++;
+        } else {
+            IPPU_FrameSync.SkippedFrames = 0;
+            IPPU_FrameSync.RenderThisFrame = 1;
+            IPPU_FrameSync.FrameSkip = 0;
+        }
+    }
+
+    if (S9xSync_AudioActive == 1) {
+        S9xSync_AudioStep((uintptr_t)0x001eab80u, S9xSync_AudioArg0);
+        S9xSync_SetVolume((uintptr_t)0x001bbd80u,
+                          (uintptr_t)0x001d3480u,
+                          S9xSync_AudioArg1, 1);
+    }
+}
