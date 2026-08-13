@@ -25,7 +25,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001019a8,snes_p16_001019a8,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x00101b04,snes_p11_00101b04,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c,UNPROVEN
 0x00101b64,snes_p16_00101b64,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
-0x00101e8c,snes_p16_00101e8c,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x00101e8c,snes_p16_00101e8c,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c,UNPROVEN
 0x00101ef0,snes_p16_00101ef0,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/app/main_flow_recovered.c,UNPROVEN
 0x001029c4,snes_p16_001029c4,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x00102ab0,top_level_gui,frontend,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P17,yes,src/app/main_flow_recovered.c,UNPROVEN
@@ -55,10 +55,10 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001056c0,snes_dispatch_001056c0,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
 0x00105718,snes_dispatch_00105718,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
 0x00105750,build_sram_path_00105750,frontend,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_flow_recovered.c;src/ps2/path_helpers_recovered.c,UNPROVEN
-0x001057fc,snes_p16_001057fc,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/ps2/path_helpers_recovered.c,UNPROVEN
-0x00105898,snes_p16_00105898,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
-0x001059cc,snes_p16_001059cc,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
-0x00105ae8,snes_p16_00105ae8,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/ps2/path_helpers_recovered.c,UNPROVEN
+0x001057fc,snes_p16_001057fc,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/path_helpers_recovered.c,UNPROVEN
+0x00105898,snes_p16_00105898,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/path_helpers_recovered.c,UNPROVEN
+0x001059cc,snes_p16_001059cc,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/path_helpers_recovered.c,UNPROVEN
+0x00105ae8,snes_p16_00105ae8,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/path_helpers_recovered.c,UNPROVEN
 0x00105cb8,snes_p11_00105cb8,audio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c,UNPROVEN
 0x00105d30,snes_dispatch_00105d30,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
 0x00105d78,snes_dispatch_00105d78,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_flow_recovered.c;src/ps2/small_dispatch_recovered.c,UNPROVEN
@@ -596,7 +596,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00199198,gsDriver_getTextureBufferBase,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c,UNPROVEN
 0x001991a0,gsDriver_getCurrentDisplayBuffer,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c,UNPROVEN
 0x001991a8,gsDriver_getCurrentDrawBuffer,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c,UNPROVEN
-0x001991b0,gsDriver_swapBuffers,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c,UNPROVEN
+0x001991b0,gsDriver_swapBuffers,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c;src/ps2/progress11_frontend_recovered.c,UNPROVEN
 0x001991e8,gsDriver_isDrawBufferAvailable,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c,UNPROVEN
 0x001991f8,gsDriver_isDisplayBufferAvailable,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c,UNPROVEN
 0x00199208,gsDriver_setNextDrawBuffer,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gsdriver_recovered.c,UNPROVEN

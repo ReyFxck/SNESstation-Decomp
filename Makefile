@@ -220,7 +220,7 @@ match-mathfp-listing-strict: $(MATHFP_LISTING_RAW) $(MATHFP_OBJECT)
 
 elf-status: audit-source-check
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
-	@echo "  - 239 validated entries remain structural pseudocode, not build-ready source"
+	@echo "  - validated Progress-16/17 entries still remain structural pseudocode; see the generated source audit"
 	@echo "  - global ownership/types and translation-unit boundaries are not frozen"
 	@echo "  - exact EE archives, linker script, object order and library order are unproven"
 	@echo "  - SJCRUNCH2 repacking is not reproduced"

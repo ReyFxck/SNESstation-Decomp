@@ -17,6 +17,7 @@ P16_TARGETS = ROOT / "analysis" / "progress16_recovered_targets.csv"
 P17_TARGETS = ROOT / "analysis" / "progress17_recovered_targets.csv"
 P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.c.txt"
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
+PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 CSV_OUT = ROOT / "analysis" / "source_readiness.csv"
 DOC_OUT = ROOT / "docs" / "SOURCE_COMPLETENESS.generated.md"
 
@@ -117,6 +118,7 @@ def render_doc(
     behavioral: int,
     p16_count: int,
     p17_count: int,
+    promoted: int,
     explicit: int,
     translation_units: int,
     matching: int,
@@ -137,8 +139,9 @@ replacement program. These are deliberately separate measurements.
 | Measurement | Result | What it proves |
 |---|---:|---|
 | Audited structural entries | **{total:,}/{total:,} ({pct(total)})** | Every validated entry has a committed structural representation. |
-| Behavioral/source-model checkpoint | **{behavioral:,}/{total:,} ({pct(behavioral)})** | Pre-Progress-16 reconstruction exists; this is not automatically compiler-ready or exact. |
-| Structural pseudocode only | **{pseudo:,}/{total:,} ({pct(pseudo)})** | These entries still require typed, build-ready C/C++ migration: {p16_count} from Progress 16 and {p17_count} from Progress 17. |
+| Behavioral/source-model checkpoint | **{behavioral:,}/{total:,} ({pct(behavioral)})** | Typed behavioral/source-model reconstruction exists; this is not automatically compiler-ready or exact. |
+| Structural pseudocode only | **{pseudo:,}/{total:,} ({pct(pseudo)})** | These entries still require typed, build-ready C/C++ migration: {p16_count} remaining from Progress 16 and {p17_count} remaining from Progress 17. |
+| Typed promotions from P16/P17 snapshots | **{promoted:,}** | Historical pseudocode evidence is retained while newer typed source overrides the readiness classification. |
 | Explicit address trace in `src/` | **{explicit:,}/{total:,} ({pct(explicit)})** | A conservative text-level traceability check; corridor files may cover additional entries without repeating every address. |
 | C translation units tracked | **{translation_units} files** | `make host-syntax` parses each independently on the host. That check does not prove EE linking or target behavior. |
 | Relocation-normalized machine-code matches | **{matching:,}/{total:,} ({pct(matching)})** | No function is promoted to `MATCHING` without generated-object evidence. |
@@ -149,8 +152,12 @@ replacement program. These are deliberately separate measurements.
 - `analysis/progress_targets.csv` and `analysis/symbols.csv` contain the same
   {total:,} addresses, names, statuses, confidence values and notes.
 - All {total:,} manifest rows are structurally reconstructed.
-- The {p16_count} Progress-16 and {p17_count} Progress-17 manifest sets exactly match the
+- The historical {EXPECTED_P16_PSEUDOCODE} Progress-16 and {EXPECTED_P17_PSEUDOCODE} Progress-17 manifest sets exactly match the
   address markers in their committed pseudocode snapshots.
+- `analysis/source_promotions.csv` contains {promoted} typed promotion(s); every
+  promoted address belongs to a historical pseudocode checkpoint and names an
+  existing source/evidence file. The source file must explicitly carry the
+  promoted address token.
 - No address occurs in both pseudocode checkpoints.
 
 The machine-readable row-by-row classification is
@@ -221,15 +228,40 @@ def main() -> None:
     if p17 != pseudocode_markers(P17_PSEUDOCODE):
         fail("Progress-17 CSV and pseudocode address markers differ")
 
+    promotion_rows = unique_by_address(read_csv(PROMOTIONS), "source promotion")
+    promoted = set(promotion_rows)
+    historical_pseudocode = p16 | p17
+    if not promoted <= historical_pseudocode:
+        fail("source promotion contains an address outside the historical pseudocode checkpoints")
+    for address, row in promotion_rows.items():
+        source_rel = row.get("source_file", "").strip()
+        evidence_rel = row.get("evidence", "").strip()
+        if not source_rel:
+            fail(f"source promotion {address} has no source_file")
+        if not evidence_rel:
+            fail(f"source promotion {address} has no evidence")
+        source_path = ROOT / source_rel
+        evidence_path = ROOT / evidence_rel
+        if not source_path.is_file():
+            fail(f"source promotion {address} references missing source {source_rel}")
+        if not evidence_path.is_file():
+            fail(f"source promotion {address} references missing evidence {evidence_rel}")
+        source_text = source_path.read_text(encoding="utf-8", errors="replace").lower()
+        if address[2:] not in source_text:
+            fail(f"source promotion {address} is not explicitly traced in {source_rel}")
+
+    p16_remaining = p16 - promoted
+    p17_remaining = p17 - promoted
     references, translation_units = explicit_source_references(set(targets))
-    behavioral = len(target_rows) - len(p16) - len(p17)
+    behavioral = len(target_rows) - len(p16_remaining) - len(p17_remaining)
     matching = statuses.get("MATCHING", 0)
-    csv_text = render_csv(target_rows, p16, p17, references)
+    csv_text = render_csv(target_rows, p16_remaining, p17_remaining, references)
     doc_text = render_doc(
         len(target_rows),
         behavioral,
-        len(p16),
-        len(p17),
+        len(p16_remaining),
+        len(p17_remaining),
+        len(promoted),
         len(references),
         translation_units,
         matching,
@@ -240,7 +272,8 @@ def main() -> None:
     action = "verified" if args.check else "wrote"
     print(
         f"{action} source audit: structural={len(target_rows)}/{len(target_rows)} "
-        f"behavioral_source_model={behavioral} pseudocode_only={len(p16) + len(p17)} "
+        f"behavioral_source_model={behavioral} "
+        f"pseudocode_only={len(p16_remaining) + len(p17_remaining)} promoted={len(promoted)} "
         f"explicit_src_trace={len(references)} matching={matching} translation_units={translation_units}"
     )
 

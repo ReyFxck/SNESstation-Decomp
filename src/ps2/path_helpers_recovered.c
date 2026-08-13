@@ -81,7 +81,7 @@ char *build_state_path_recovered(int slot)
 }
 
 /*
- * PS2 device-aware _makepath recovered from the frontend path corridor.
+ * 0x001059cc: PS2 device-aware _makepath recovered from the frontend path corridor.
  * Unlike the desktop Snes9x helper, drive is a complete device token such as
  * "mc0" or "cdfs", not a single drive letter.
  */
@@ -114,7 +114,7 @@ void _makepath(char *path, const char *drive, const char *dir,
 }
 
 /*
- * PS2 device-aware _splitpath recovered from the same corridor.
+ * 0x00105ae8: PS2 device-aware _splitpath recovered from the same corridor.
  * Observed callers use a device prefix ("device:path").  The no-colon branch
  * below is a safe source-level fallback; all target-observed device paths take
  * the colon branch.
@@ -226,7 +226,7 @@ extern void S9xSync_SetVolume(uintptr_t state, uintptr_t work,
                              uint32_t arg, uint32_t immediate);
 
 /*
- * Strong semantic identification as S9xSyncSpeed from the Snes9x callback
+ * 0x00105898: strong semantic identification as S9xSyncSpeed from the Snes9x callback
  * contract: SkipFrames/AUTO_FRAMERATE drives IPPU.RenderThisFrame and
  * IPPU.SkippedFrames.  This is build-ready behavioral source, not yet a
  * machine-code matching claim.
