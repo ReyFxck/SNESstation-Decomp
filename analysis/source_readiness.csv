@@ -33,7 +33,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00103b34,snes_p16_00103b34,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x00103c7c,snes_dispatch_00103c7c,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
 0x00103cb0,snes_leaf_00103cb0,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
-0x00103cd4,snes_p16_00103cd4,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x00103cd4,snes_p16_00103cd4,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress21_small_helpers_recovered.c,UNPROVEN
 0x00103d90,snes_p12_00103d90,frontend-path,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress12_io_state_recovered.c,UNPROVEN
 0x00103dd4,snes_p16_00103dd4,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x001041c0,snes_leaf_001041c0,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
@@ -70,7 +70,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00106824,snes_p12_00106824,memory-card,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_flow_recovered.c;src/ps2/progress12_io_state_recovered.c,UNPROVEN
 0x0010689c,snes_p16_0010689c,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/app/main_flow_recovered.c,UNPROVEN
 0x00106bcc,SjPCM_Init_00106bcc,audio-rpc,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/audio_rpc_recovered.c,UNPROVEN
-0x00106c08,snes_p16_00106c08,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x00106c08,snes_p16_00106c08,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress21_small_helpers_recovered.c,UNPROVEN
 0x00106ca0,snes_p16_00106ca0,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x00107358,snes_p16_00107358,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x00107578,snes_fatal_spin_00107578,libc,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libc_misc_recovered.c,UNPROVEN
@@ -891,8 +891,8 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001a70c0,snes_p17_001a70c0,gcc-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P17,no,,UNPROVEN
 0x001a7438,snes_p16_001a7438,gcc-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x001a7580,__floatdidf,libgcc,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress13_runtime_more_recovered.c,UNPROVEN
-0x001a7638,snes_p16_001a7638,gcc-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
-0x001a7788,snes_p16_001a7788,gcc-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x001a7638,snes_p16_001a7638,gcc-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress21_small_helpers_recovered.c,UNPROVEN
+0x001a7788,snes_p16_001a7788,gcc-runtime,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/ps2/progress21_small_helpers_recovered.c,UNPROVEN
 0x001a7e30,__unpack_f,libgcc,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress13_libgcc_softfloat_recovered.c,UNPROVEN
 0x001a7f10,__make_fp,libgcc,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress13_libgcc_softfloat_recovered.c,UNPROVEN
 0x001a7f40,__pack_d,libgcc,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress13_libgcc_softfloat_recovered.c,UNPROVEN
