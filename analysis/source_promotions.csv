@@ -13,9 +13,24 @@ address,source_file,evidence,notes
 0x0010a264,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed packed blend helper migrated from committed R5900 decompile
 0x0010b7f8,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed selected runtime register read helper migrated from committed R5900 decompile
 0x00115b58,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed core reset sequencing helper migrated from committed R5900 decompile
+0x00129250,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed ADC/BCD accumulator helper migrated from committed R5900 decompile
 0x0012b3e8,src/ps2/progress25_small_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 25 typed eight-channel reset helper migrated from committed R5900 decompile
+0x0012c02c,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed 2048-entry DSP waveform LUT builder migrated from committed R5900 decompile
+0x0012c188,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed fixed-point reciprocal normalization helper migrated from committed R5900 decompile
+0x0012c2dc,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed fixed-point sine-table interpolator migrated from committed R5900 decompile
+0x0012c398,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed fixed-point cosine-table interpolator migrated from committed R5900 decompile
+0x0012d334,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed fixed-point matrix builder A migrated from committed R5900 decompile
+0x0012d4ac,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed fixed-point matrix builder B migrated from committed R5900 decompile
+0x0012d624,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed fixed-point matrix builder C migrated from committed R5900 decompile
+0x0012e5b8,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed packed-nibble resampler migrated from committed R5900 decompile
+0x001305a0,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed accelerator state pack/status helper migrated from committed R5900 decompile
+0x001306f8,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed accelerator initialization/map builder migrated from committed R5900 decompile
+0x001309c4,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed accelerator dispatch wrapper migrated from committed R5900 decompile
 0x0015cce4,src/ps2/progress25_small_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 25 typed PPU bounds and status helper migrated from committed R5900 decompile
 0x0015d334,src/ps2/progress22_more_small_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 22 typed PPU conditional timing helper migrated from committed R5900 decompile
+0x0015e298,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed PPU register read helper migrated from committed R5900 decompile
+0x0015ecec,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed 8-plane tile conversion helper migrated from committed R5900 decompile
+0x0015eeac,src/ps2/progress26_dsp_runtime_batch_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 26 typed PPU block-transfer helper migrated from committed R5900 decompile
 0x0016ded4,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed CPU stack/status push helper migrated from committed R5900 decompile
 0x00174564,src/ps2/progress23_audio_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 23 typed slot configure wrapper migrated from committed R5900 decompile
 0x00174728,src/ps2/progress23_audio_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 23 typed slot rate recomputation helper migrated from committed R5900 decompile
