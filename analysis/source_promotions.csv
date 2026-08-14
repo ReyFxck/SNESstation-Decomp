@@ -8,7 +8,11 @@ address,source_file,evidence,notes
 0x001059cc,src/ps2/path_helpers_recovered.c,analysis/functions/path_config_00105750.asm,Progress 19 typed PS2 device-aware _makepath recovered from target calls
 0x00105ae8,src/ps2/path_helpers_recovered.c,analysis/functions/path_config_00105750.asm,Progress 19 typed PS2 device-aware _splitpath recovered from target calls
 0x00106c08,src/ps2/progress21_small_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 21 typed memory-card save-state slot parser migrated from committed R5900 decompile
+0x0010a264,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed packed blend helper migrated from committed R5900 decompile
+0x0010b7f8,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed selected runtime register read helper migrated from committed R5900 decompile
+0x00115b58,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed core reset sequencing helper migrated from committed R5900 decompile
 0x0015d334,src/ps2/progress22_more_small_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 22 typed PPU conditional timing helper migrated from committed R5900 decompile
+0x0016ded4,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed CPU stack/status push helper migrated from committed R5900 decompile
 0x00174564,src/ps2/progress23_audio_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 23 typed slot configure wrapper migrated from committed R5900 decompile
 0x00174728,src/ps2/progress23_audio_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 23 typed slot rate recomputation helper migrated from committed R5900 decompile
 0x00177cec,src/ps2/progress23_audio_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 23 typed audio runtime initialization wrapper migrated from committed R5900 decompile
