@@ -1,0 +1,8 @@
+address,end,name,object_symbol,source
+0x0019bd38,0x0019bd4c,VRstart_handler,VRstart_handler_0019bd38,src/ps2/gslib_hw_recovered.c
+0x0019bd50,0x0019bd74,WaitForNextVRstart,WaitForNextVRstart_0019bd50,src/ps2/gslib_hw_recovered.c
+0x0019bd78,0x0019bd84,TestVRstart,TestVRstart_0019bd78,src/ps2/gslib_hw_recovered.c
+0x0019bd88,0x0019bd94,ClearVRcount,ClearVRcount_0019bd88,src/ps2/gslib_hw_recovered.c
+0x0019bd98,0x0019be1c,DmaReset,DmaReset_0019bd98,src/ps2/gslib_hw_recovered.c
+0x0019be20,0x0019be40,SendDma02,SendDma02_0019be20,src/ps2/gslib_hw_recovered.c
+0x0019be40,0x0019be70,Dma02Wait,Dma02Wait_0019be40,src/ps2/gslib_hw_recovered.c

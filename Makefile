@@ -5,7 +5,7 @@
 
 PYTHON ?= python3
 HOST_CC ?= cc
-EE_CC ?= ee-gcc
+EE_CC ?= $(if $(wildcard build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc),$(abspath build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc),ee-gcc)
 EE_GCC_VERSION ?= 3.2.2-b1
 
 BUILD_DIR := build
@@ -34,6 +34,13 @@ LIBGCC_UNWIND_REPORT := $(MATCH_DIR)/libgcc_unwind/report.md
 LIBGCC_FRONTIER_LISTING := analysis/functions/libgcc_frontier_001a1b00.asm
 LIBGCC_FRONTIER_RAW := $(MATCH_DIR)/libgcc_unwind/listing.bin
 LIBGCC_UNWIND_LISTING_REPORT := analysis/matching/libgcc-unwind-leaves-listing-report.md
+GSLIB_HW_SOURCE := src/ps2/gslib_hw_recovered.c
+GSLIB_HW_OBJECT := $(MATCH_DIR)/gslib_hw/gslib_hw.o
+GSLIB_HW_EE_CFLAGS = $(EE_CFLAGS) -Imatching/ee_abi_compat
+GSLIB_HW_MANIFEST := analysis/matching/gslib_hw_listing.csv
+GSLIB_HW_LISTING := analysis/functions/gslib_hw_0019bd38.asm
+GSLIB_HW_LISTING_RAW := $(MATCH_DIR)/gslib_hw/listing.bin
+GSLIB_HW_LISTING_REPORT := analysis/matching/gslib-hw-listing-report.md
 EE_SOURCE_SCAN_DIR := $(BUILD_DIR)/ee-source-scan
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 
@@ -79,6 +86,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	match-mathfp-listing match-mathfp-listing-strict \
 	match-libgcc-unwind match-libgcc-unwind-strict \
 	match-libgcc-unwind-listing match-libgcc-unwind-listing-strict \
+	match-gslib-hw-listing match-gslib-hw-listing-strict \
 	elf-status elf clean-matching
 
 help:
@@ -97,6 +105,7 @@ help:
 	@echo "  make match-mathfp   compile and compare the seven-function math corridor"
 	@echo "  make match-mathfp-listing  compare math against the committed disassembly"
 	@echo "  make match-libgcc-unwind-listing  probe 7 committed GCC unwind helpers locally"
+	@echo "  make match-gslib-hw-listing  probe 7 recovered GSLIB hw helpers locally"
 	@echo "  make elf-status     show why a complete replacement ELF is not ready"
 	@echo
 	@echo "For matching, run make bootstrap-ee-stage1 or pass EE_CC=/path/to/ee-gcc."
@@ -215,6 +224,17 @@ $(LIBGCC_FRONTIER_RAW): $(LIBGCC_FRONTIER_LISTING) tools/objdump_listing_to_bina
 		--base-address 0x001a1b00 \
 		--end-address 0x001a4100
 
+$(GSLIB_HW_OBJECT): $(GSLIB_HW_SOURCE) $(GSLIB_HW_MANIFEST) matching/ee_abi_compat/stdint.h | check-ee-compiler
+	@mkdir -p "$(dir $@)"
+	$(EE_CC) $(GSLIB_HW_EE_CFLAGS) -c $< -o $@
+
+$(GSLIB_HW_LISTING_RAW): $(GSLIB_HW_LISTING) tools/objdump_listing_to_binary.py Makefile
+	$(PYTHON) tools/objdump_listing_to_binary.py \
+		--input "$<" \
+		--output "$@" \
+		--base-address 0x0019bd38 \
+		--end-address 0x0019be70
+
 $(GET_TREE_OBJECT): matching/candidates/get_tree.c $(GET_TREE_MANIFEST) | check-ee-compiler
 	@mkdir -p "$(dir $@)"
 	$(EE_CC) $(EE_CFLAGS) -c $< -o $@
@@ -311,6 +331,25 @@ match-libgcc-unwind-listing-strict: $(LIBGCC_FRONTIER_RAW) $(LIBGCC_UNWIND_OBJEC
 		--object "$(LIBGCC_UNWIND_OBJECT)" \
 		--manifest "$(LIBGCC_UNWIND_LISTING_MANIFEST)" \
 		--report "$(LIBGCC_UNWIND_LISTING_REPORT)" \
+		--require-all-matching
+
+match-gslib-hw-listing: $(GSLIB_HW_LISTING_RAW) $(GSLIB_HW_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(GSLIB_HW_LISTING_RAW)" \
+		--base-address 0x0019bd38 \
+		--object "$(GSLIB_HW_OBJECT)" \
+		--manifest "$(GSLIB_HW_MANIFEST)" \
+		--report "$(GSLIB_HW_LISTING_REPORT)"
+	$(PYTHON) tools/summarize_matching_report.py "$(GSLIB_HW_LISTING_REPORT)"
+	@echo "Local GSLIB hw listing probe complete; original ELF remains the formal gate."
+
+match-gslib-hw-listing-strict: $(GSLIB_HW_LISTING_RAW) $(GSLIB_HW_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(GSLIB_HW_LISTING_RAW)" \
+		--base-address 0x0019bd38 \
+		--object "$(GSLIB_HW_OBJECT)" \
+		--manifest "$(GSLIB_HW_MANIFEST)" \
+		--report "$(GSLIB_HW_LISTING_REPORT)" \
 		--require-all-matching
 
 elf-status: audit-source-check

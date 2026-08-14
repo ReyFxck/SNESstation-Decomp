@@ -1,88 +1,101 @@
 /*
- * Recovered low-level Hiryu GSLIB hw.c tail embedded in SNES Station v0.23.
+ * Historical GSLIB hw.c corridor recovered for SNES Station v0.23.
  * Target corridor: 0x0019bd38..0x0019be6c.
  *
- * This deliberately models target machine behaviour. In particular,
- * WaitForNextVRstart was optimized into an infinite loop for every positive
- * argument because the historical VRcount global was not volatile; the EE
- * compiler therefore did not observe the interrupt handler as a writer.
+ * Historical evidence: ps2homebrew/gslib source/hw.c
+ * commit d9e623a351627e53420f44b00d494346cee5d5a2.
+ *
+ * Preserve historical source idioms: the DMA helpers were GNU basic inline
+ * assembly, not C volatile-MMIO wrappers.
  */
-#include <stdint.h>
-#include <stddef.h>
 
-static uint32_t VRcount_recovered;
+static unsigned int VRcount_recovered = 0;
 
 /* 0x0019bd38 */
 void VRstart_handler_0019bd38(void)
 {
-    ++VRcount_recovered;
+    VRcount_recovered++;
+    return;
 }
 
-/* 0x0019bd50 -- preserve optimized target bug, not source intent. */
+/* 0x0019bd50 */
 void WaitForNextVRstart_0019bd50(int numvrs)
 {
     VRcount_recovered = 0;
-    if (numvrs > 0) {
-        for (;;) {
-            /* target 0x19bd60/0x19bd64: NOP + unconditional-in-practice loop */
-        }
-    }
+
+    while (VRcount_recovered < numvrs)
+        ;
+
+    return;
 }
 
 /* 0x0019bd78 */
 int TestVRstart_0019bd78(void)
 {
-    return (int)VRcount_recovered;
+    return VRcount_recovered;
 }
 
 /* 0x0019bd88 */
 void ClearVRcount_0019bd88(void)
 {
     VRcount_recovered = 0;
+    return;
 }
 
-static inline void mmio32_store(uintptr_t address, uint32_t value)
-{
-    *(volatile uint32_t *)address = value;
-}
-
-static inline uint32_t mmio32_load(uintptr_t address)
-{
-    return *(volatile uint32_t *)address;
-}
-
-/* 0x0019bd98 -- Duke-style PS2 DMA reset copied into early GSLIB. */
+/* 0x0019bd98 */
 void DmaReset_0019bd98(void)
 {
-    mmio32_store(0x1000a080u, 0);
-    mmio32_store(0x1000a000u, 0);
-    mmio32_store(0x1000a030u, 0);
-    mmio32_store(0x1000a010u, 0);
-    mmio32_store(0x1000a050u, 0);
-    mmio32_store(0x1000a040u, 0);
+    __asm__("\tsw  $0, 0x1000a080");
+    __asm__("\tsw  $0, 0x1000a000");
+    __asm__("\tsw  $0, 0x1000a030");
+    __asm__("\tsw  $0, 0x1000a010");
+    __asm__("\tsw  $0, 0x1000a050");
+    __asm__("\tsw  $0, 0x1000a040");
+    __asm__("\tli  $2, 0xff1f");
+    __asm__("\tsw  $2, 0x1000e010");
+    __asm__("\tsw  $0, 0x1000e000");
+    __asm__("\tsw  $0, 0x1000e020");
+    __asm__("\tsw  $0, 0x1000e030");
+    __asm__("\tsw  $0, 0x1000e050");
+    __asm__("\tsw  $0, 0x1000e040");
+    __asm__("\tlw  $2, 0x1000e000");
+    __asm__("\tori $3,$2,1");
+    __asm__("\tnop");
+    __asm__("\tsw  $3, 0x1000e000");
+    __asm__("\tnop");
 
-    mmio32_store(0x1000e010u, 0xff1fu);
-    mmio32_store(0x1000e000u, 0);
-    mmio32_store(0x1000e020u, 0);
-    mmio32_store(0x1000e030u, 0);
-    mmio32_store(0x1000e050u, 0);
-    mmio32_store(0x1000e040u, 0);
-    mmio32_store(0x1000e000u, mmio32_load(0x1000e000u) | 1u);
+    return;
 }
 
 /* 0x0019be20 */
-void SendDma02_0019be20(const void *dma_tag)
+void SendDma02_0019be20(void *DmaTag)
 {
-    const uintptr_t ch2 = 0x1000a000u;
-    mmio32_store(ch2 + 0x30u, (uint32_t)(uintptr_t)dma_tag);
-    mmio32_store(ch2 + 0x20u, 0);
-    mmio32_store(ch2 + 0x00u, mmio32_load(ch2) | 0x105u);
+    __asm__("\tli $3, 0x1000a000");
+
+    __asm__("\tsw $4, 0x0030($3)");
+    __asm__("\tsw $0, 0x0020($3)");
+    __asm__("\tlw $2, 0x0000($3)");
+    __asm__("\tori $2, 0x0105");
+    __asm__("\tsw $2, 0x0000($3)");
+
+    return;
 }
 
 /* 0x0019be40 */
 void Dma02Wait_0019be40(void)
 {
-    while (mmio32_load(0x1000a000u) & 0x100u) {
-        /* spin */
-    }
+    __asm__("\taddiu $29, -4");
+    __asm__("\tsw $8, 0($29)");
+
+    __asm__("Dma02Wait.poll:");
+    __asm__("\tlw $8, 0x1000a000");
+    __asm__("\tnop");
+    __asm__("\tandi $8, $8, 0x0100");
+    __asm__("\tbnez $8, Dma02Wait.poll");
+    __asm__("\tnop");
+
+    __asm__("\tlw $8, 0($29)");
+    __asm__("\taddiu $29, 4");
+
+    return;
 }
