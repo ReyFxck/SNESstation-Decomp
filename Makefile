@@ -29,6 +29,7 @@ GET_TREE_MANIFEST := analysis/matching/get_tree.csv
 LIBGCC_UNWIND_SOURCE := matching/candidates/libgcc_unwind_leaves.c
 LIBGCC_UNWIND_OBJECT := $(MATCH_DIR)/libgcc_unwind/libgcc_unwind_leaves.o
 LIBGCC_UNWIND_MANIFEST := analysis/matching/libgcc_unwind_leaves.csv
+LIBGCC_UNWIND_LISTING_MANIFEST := analysis/matching/libgcc_unwind_listing.csv
 LIBGCC_UNWIND_REPORT := $(MATCH_DIR)/libgcc_unwind/report.md
 LIBGCC_FRONTIER_LISTING := analysis/functions/libgcc_frontier_001a1b00.asm
 LIBGCC_FRONTIER_RAW := $(MATCH_DIR)/libgcc_unwind/listing.bin
@@ -50,7 +51,12 @@ EE_CFLAGS ?= $(EE_COMMON_FLAGS) $(EE_DEFINES) -Iinclude
 EE_CXXFLAGS ?= $(EE_CFLAGS) -fno-exceptions -fno-common -fno-rtti
 # The source scan is diagnostic: warnings must not hide the first real EE
 # compatibility failure, and assembler listings are irrelevant to -fsyntax-only.
-EE_SOURCE_SCAN_FLAGS := $(filter-out -Werror -Wa,-al,$(EE_CFLAGS))
+# Do not put -Wa,-al directly inside a make function: its comma is parsed as
+# a function-argument separator. Strip it with an explicit comma variable.
+comma := ,
+EE_SOURCE_SCAN_FLAGS := $(filter-out -Werror,$(EE_CFLAGS))
+EE_SOURCE_SCAN_FLAGS := $(subst -Wa$(comma)-al,,$(EE_SOURCE_SCAN_FLAGS))
+EE_SOURCE_SCAN_FLAGS += -Iinclude/ee_stage1_compat -w
 # The target mathfp corridor uses the normal 64-bit double ABI and does not
 # carry GCC's optional jump-target padding.  Keeping both differences local
 # reproduces sinf/tanf without disturbing the application-object contract.
@@ -68,7 +74,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	reference verify-reference fetch-newlib fetch-ee-toolchain-recipe \
 	bootstrap-ee-stage1 \
 	toolchain-info toolchain-probe check-ee-compiler \
-	ee-source-scan ee-source-scan-strict \
+	ee-source-scan ee-source-scan-strict historical-ee-gate \
 	match-get-tree match-get-tree-strict match-mathfp match-mathfp-strict \
 	match-mathfp-listing match-mathfp-listing-strict \
 	match-libgcc-unwind match-libgcc-unwind-strict \
@@ -86,10 +92,11 @@ help:
 	@echo "  make toolchain-info show the candidate historical EE compiler contract"
 	@echo "  make toolchain-probe test EE_CC version, target, flags and ELF output"
 	@echo "  make ee-source-scan  baseline every C TU against the historical EE front end"
+	@echo "  make historical-ee-gate  strict 101/101 EE scan + strict 7/7 unwind listing gate"
 	@echo "  make match-get-tree run the smallest compiler-fingerprint experiment"
 	@echo "  make match-mathfp   compile and compare the seven-function math corridor"
 	@echo "  make match-mathfp-listing  compare math against the committed disassembly"
-	@echo "  make match-libgcc-unwind-listing  probe 12 GCC unwind helpers locally"
+	@echo "  make match-libgcc-unwind-listing  probe 7 committed GCC unwind helpers locally"
 	@echo "  make elf-status     show why a complete replacement ELF is not ready"
 	@echo
 	@echo "For matching, run make bootstrap-ee-stage1 or pass EE_CC=/path/to/ee-gcc."
@@ -174,6 +181,11 @@ ee-source-scan-strict: check-ee-compiler
 		--strict \
 		src matching/candidates
 
+# Local historical EE regression gate. The original ELF remains the formal byte gate.
+historical-ee-gate: check match-libgcc-unwind-listing-strict ee-source-scan-strict
+	@echo "historical EE gate: OK (repository checks + 7/7 unwind + 101/101 C TUs)"
+
+
 $(MATHFP_CORE_OBJECT): $(MATHFP_SOURCE) $(MATHFP_MANIFEST) | check-ee-compiler
 	@mkdir -p "$(dir $@)"
 	$(EE_CC) $(MATHFP_EE_CFLAGS) -c $< -o $@
@@ -196,12 +208,12 @@ $(LIBGCC_UNWIND_OBJECT): $(LIBGCC_UNWIND_SOURCE) $(LIBGCC_UNWIND_MANIFEST) | che
 	@mkdir -p "$(dir $@)"
 	$(EE_CC) $(EE_CFLAGS) -c $< -o $@
 
-$(LIBGCC_FRONTIER_RAW): $(LIBGCC_FRONTIER_LISTING) tools/objdump_listing_to_binary.py
+$(LIBGCC_FRONTIER_RAW): $(LIBGCC_FRONTIER_LISTING) tools/objdump_listing_to_binary.py Makefile
 	$(PYTHON) tools/objdump_listing_to_binary.py \
 		--input "$<" \
 		--output "$@" \
 		--base-address 0x001a1b00 \
-		--end-address 0x001a5cc0
+		--end-address 0x001a4100
 
 $(GET_TREE_OBJECT): matching/candidates/get_tree.c $(GET_TREE_MANIFEST) | check-ee-compiler
 	@mkdir -p "$(dir $@)"
@@ -287,7 +299,7 @@ match-libgcc-unwind-listing: $(LIBGCC_FRONTIER_RAW) $(LIBGCC_UNWIND_OBJECT)
 		--target "$(LIBGCC_FRONTIER_RAW)" \
 		--base-address 0x001a1b00 \
 		--object "$(LIBGCC_UNWIND_OBJECT)" \
-		--manifest "$(LIBGCC_UNWIND_MANIFEST)" \
+		--manifest "$(LIBGCC_UNWIND_LISTING_MANIFEST)" \
 		--report "$(LIBGCC_UNWIND_LISTING_REPORT)"
 	$(PYTHON) tools/summarize_matching_report.py "$(LIBGCC_UNWIND_LISTING_REPORT)"
 	@echo "Local listing probe complete; original ELF remains the formal gate."
@@ -297,7 +309,7 @@ match-libgcc-unwind-listing-strict: $(LIBGCC_FRONTIER_RAW) $(LIBGCC_UNWIND_OBJEC
 		--target "$(LIBGCC_FRONTIER_RAW)" \
 		--base-address 0x001a1b00 \
 		--object "$(LIBGCC_UNWIND_OBJECT)" \
-		--manifest "$(LIBGCC_UNWIND_MANIFEST)" \
+		--manifest "$(LIBGCC_UNWIND_LISTING_MANIFEST)" \
 		--report "$(LIBGCC_UNWIND_LISTING_REPORT)" \
 		--require-all-matching
 

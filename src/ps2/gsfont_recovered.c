@@ -24,10 +24,12 @@ static gsPipeRecovered *font_pipe(const gsFontRecovered *self)
 uint32_t gsDriver_getTexSizeFromInt_001b0790(int texsize)
 {
     int power = 0x400;
+    int index;
+
     if (texsize == 0)
         return 0;
 
-    for (int index = 10; index >= 0; --index) {
+    for (index = 10; index >= 0; --index) {
         if (texsize == power || texsize > (power >> 1))
             return (uint32_t)index;
         power >>= 1;
@@ -102,8 +104,9 @@ void gsFont_PrintLine_0019bb68(gsFontRecovered *self, int x, int y, int z,
 {
     gsPipeRecovered *pipe = font_pipe(self);
     uint32_t col = (uint32_t)colour;
+    int i;
 
-    for (int i = 0; i < length; ++i) {
+    for (i = 0; i < length; ++i) {
         const uint8_t ch = (uint8_t)text[i];
         switch (ch) {
         case '\n':

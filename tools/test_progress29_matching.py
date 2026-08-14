@@ -40,6 +40,26 @@ class Progress29Tests(unittest.TestCase):
         for left, right in zip(ranges, ranges[1:]):
             self.assertLessEqual(left[1], right[0])
 
+    def test_listing_manifest_only_uses_committed_listing_bytes(self):
+        full_path = ROOT / "analysis" / "matching" / "libgcc_unwind_leaves.csv"
+        listing_path = ROOT / "analysis" / "matching" / "libgcc_unwind_listing.csv"
+        with full_path.open(encoding="utf-8") as stream:
+            full_rows = list(csv.DictReader(stream))
+        with listing_path.open(encoding="utf-8") as stream:
+            listing_rows = list(csv.DictReader(stream))
+
+        self.assertEqual(len(full_rows), 12)
+        self.assertEqual(len(listing_rows), 7)
+        full_keys = {(row["address"], row["object_symbol"]) for row in full_rows}
+        for row in listing_rows:
+            self.assertIn((row["address"], row["object_symbol"]), full_keys)
+            self.assertLessEqual(int(row["end"], 0), 0x001A4100)
+
+    def test_source_scan_flags_do_not_split_on_wa_comma(self):
+        makefile = (ROOT / "Makefile").read_text(encoding="utf-8")
+        self.assertNotIn("filter-out -Werror -Wa,-al", makefile)
+        self.assertIn("subst -Wa$(comma)-al", makefile)
+
     def test_scan_classifier(self):
         module = load_module(ROOT / "tools" / "scan_ee_translation_units.py", "p29scan")
         self.assertEqual(module.classify(0, ""), "PASS")

@@ -44,10 +44,24 @@ def discover_sources(paths: list[Path]) -> list[Path]:
 
 def first_diagnostic(text: str) -> str:
     lines = [line.strip() for line in text.splitlines() if line.strip()]
-    priorities = ("fatal error:", "error:", "warning:")
+    priorities = (
+        "fatal error:",
+        "error:",
+        "parse error",
+        "syntax error",
+        "undeclared",
+        "conflicting types",
+        "invalid type",
+        "invalid operands",
+        "invalid use",
+        "not supported",
+        "no such file or directory",
+        "warning:",
+    )
+    lowered = [line.lower() for line in lines]
     for needle in priorities:
-        for line in lines:
-            if needle in line:
+        for line, lower in zip(lines, lowered):
+            if needle in lower:
                 return line[:1000]
     return lines[0][:1000] if lines else ""
 
@@ -58,9 +72,7 @@ def classify(returncode: int, output: str) -> str:
     lower = output.lower()
     if "internal compiler error" in lower or "segmentation fault" in lower:
         return "COMPILER_CRASH"
-    if "no such file or directory" in lower and (
-        "fatal error:" in lower or "cannot find" in lower
-    ):
+    if "no such file or directory" in lower:
         return "MISSING_HEADER"
     return "EE_C_ERROR"
 

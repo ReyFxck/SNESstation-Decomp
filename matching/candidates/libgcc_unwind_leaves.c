@@ -15,6 +15,8 @@ typedef signed int p29_s32;
 typedef unsigned int p29_u32;
 typedef signed long long p29_s64;
 typedef unsigned long long p29_u64;
+typedef unsigned p29_unwind_word __attribute__((__mode__(__word__)));
+typedef signed p29_unwind_sword __attribute__((__mode__(__word__)));
 #if defined(__SIZEOF_POINTER__) && __SIZEOF_POINTER__ == 8
 typedef unsigned long p29_uptr;
 #else
@@ -65,18 +67,18 @@ unsigned int unwind_size_of_encoded_value_candidate(p29_u8 encoding)
     if (encoding == P29_DW_EH_PE_OMIT)
         return 0;
 
-    switch (encoding & 7u) {
+    switch (encoding & 7) {
     case P29_DW_EH_PE_ABSPTR:
-        return 4;
+        return sizeof(void *);
     case P29_DW_EH_PE_UDATA2:
         return 2;
     case P29_DW_EH_PE_UDATA4:
         return 4;
     case P29_DW_EH_PE_UDATA8:
         return 8;
-    default:
-        abort();
     }
+
+    abort();
 }
 
 /* 0x001a3e30: base selector. Calls deliberately remain external-looking. */
@@ -85,7 +87,7 @@ p29_u32 unwind_base_of_encoded_value_candidate(p29_u8 encoding, const void *cont
     if (encoding == P29_DW_EH_PE_OMIT)
         return 0;
 
-    switch (encoding & 0x70u) {
+    switch (encoding & 0x70) {
     case P29_DW_EH_PE_ABSPTR:
     case P29_DW_EH_PE_PCREL:
     case P29_DW_EH_PE_ALIGNED:
@@ -96,49 +98,49 @@ p29_u32 unwind_base_of_encoded_value_candidate(p29_u8 encoding, const void *cont
         return unwind_get_data_rel_base_candidate(context);
     case P29_DW_EH_PE_FUNCREL:
         return unwind_get_region_start_candidate(context);
-    default:
-        abort();
     }
+
+    abort();
 }
 
 /* 0x001a3ee8 */
-const p29_u8 *unwind_read_uleb128_candidate(const p29_u8 *p, p29_u64 *value)
+const p29_u8 *unwind_read_uleb128_candidate(const p29_u8 *p, p29_unwind_word *value)
 {
     unsigned int shift;
-    p29_u64 result;
     p29_u8 byte;
+    p29_unwind_word result;
 
     shift = 0;
     result = 0;
     do {
         byte = *p++;
-        result |= (p29_u64)(byte & 0x7fu) << shift;
+        result |= (byte & 0x7f) << shift;
         shift += 7;
-    } while ((byte & 0x80u) != 0);
+    } while (byte & 0x80u);
 
     *value = result;
     return p;
 }
 
 /* 0x001a3f28 */
-const p29_u8 *unwind_read_sleb128_candidate(const p29_u8 *p, p29_s64 *value)
+const p29_u8 *unwind_read_sleb128_candidate(const p29_u8 *p, p29_unwind_sword *value)
 {
     unsigned int shift;
-    p29_u64 result;
     p29_u8 byte;
+    p29_unwind_word result;
 
     shift = 0;
     result = 0;
     do {
         byte = *p++;
-        result |= (p29_u64)(byte & 0x7fu) << shift;
+        result |= (byte & 0x7f) << shift;
         shift += 7;
-    } while ((byte & 0x80u) != 0);
+    } while (byte & 0x80u);
 
-    if (shift < 64u && (byte & 0x40u) != 0)
-        result |= (~(p29_u64)0) << shift;
+    if (shift < 8 * sizeof(result) && (byte & 0x40u) != 0)
+        result |= -(((p29_unwind_word)1L) << shift);
 
-    *value = (p29_s64)result;
+    *value = (p29_unwind_sword)result;
     return p;
 }
 
