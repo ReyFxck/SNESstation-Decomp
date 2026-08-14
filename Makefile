@@ -26,6 +26,14 @@ MATHFP_LISTING_REPORT := analysis/matching/mathfp-listing-report.md
 GET_TREE_OBJECT := $(MATCH_DIR)/get_tree/get_tree.o
 GET_TREE_REPORT := $(MATCH_DIR)/get_tree/report.md
 GET_TREE_MANIFEST := analysis/matching/get_tree.csv
+LIBGCC_UNWIND_SOURCE := matching/candidates/libgcc_unwind_leaves.c
+LIBGCC_UNWIND_OBJECT := $(MATCH_DIR)/libgcc_unwind/libgcc_unwind_leaves.o
+LIBGCC_UNWIND_MANIFEST := analysis/matching/libgcc_unwind_leaves.csv
+LIBGCC_UNWIND_REPORT := $(MATCH_DIR)/libgcc_unwind/report.md
+LIBGCC_FRONTIER_LISTING := analysis/functions/libgcc_frontier_001a1b00.asm
+LIBGCC_FRONTIER_RAW := $(MATCH_DIR)/libgcc_unwind/listing.bin
+LIBGCC_UNWIND_LISTING_REPORT := analysis/matching/libgcc-unwind-leaves-listing-report.md
+EE_SOURCE_SCAN_DIR := $(BUILD_DIR)/ee-source-scan
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 
 SOURCE_C := $(shell find src -type f -name '*.c' | LC_ALL=C sort)
@@ -40,6 +48,9 @@ EE_COMMON_FLAGS := \
 EE_DEFINES := -DPS2_EE -D_EE -DLSB_FIRST -DALIGN_DWORD -DCODE_PLATFORM=3
 EE_CFLAGS ?= $(EE_COMMON_FLAGS) $(EE_DEFINES) -Iinclude
 EE_CXXFLAGS ?= $(EE_CFLAGS) -fno-exceptions -fno-common -fno-rtti
+# The source scan is diagnostic: warnings must not hide the first real EE
+# compatibility failure, and assembler listings are irrelevant to -fsyntax-only.
+EE_SOURCE_SCAN_FLAGS := $(filter-out -Werror -Wa,-al,$(EE_CFLAGS))
 # The target mathfp corridor uses the normal 64-bit double ABI and does not
 # carry GCC's optional jump-target padding.  Keeping both differences local
 # reproduces sinf/tanf without disturbing the application-object contract.
@@ -57,8 +68,11 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	reference verify-reference fetch-newlib fetch-ee-toolchain-recipe \
 	bootstrap-ee-stage1 \
 	toolchain-info toolchain-probe check-ee-compiler \
+	ee-source-scan ee-source-scan-strict \
 	match-get-tree match-get-tree-strict match-mathfp match-mathfp-strict \
 	match-mathfp-listing match-mathfp-listing-strict \
+	match-libgcc-unwind match-libgcc-unwind-strict \
+	match-libgcc-unwind-listing match-libgcc-unwind-listing-strict \
 	elf-status elf clean-matching
 
 help:
@@ -71,9 +85,11 @@ help:
 	@echo "  make bootstrap-ee-stage1  build isolated binutils 2.14 + EE GCC 3.2.2"
 	@echo "  make toolchain-info show the candidate historical EE compiler contract"
 	@echo "  make toolchain-probe test EE_CC version, target, flags and ELF output"
+	@echo "  make ee-source-scan  baseline every C TU against the historical EE front end"
 	@echo "  make match-get-tree run the smallest compiler-fingerprint experiment"
 	@echo "  make match-mathfp   compile and compare the seven-function math corridor"
 	@echo "  make match-mathfp-listing  compare math against the committed disassembly"
+	@echo "  make match-libgcc-unwind-listing  probe 12 GCC unwind helpers locally"
 	@echo "  make elf-status     show why a complete replacement ELF is not ready"
 	@echo
 	@echo "For matching, run make bootstrap-ee-stage1 or pass EE_CC=/path/to/ee-gcc."
@@ -140,6 +156,24 @@ check-ee-compiler:
 		exit 2; \
 	}
 
+
+ee-source-scan: check-ee-compiler
+	$(PYTHON) tools/scan_ee_translation_units.py \
+		--compiler "$(EE_CC)" \
+		--flags '$(EE_SOURCE_SCAN_FLAGS)' \
+		--output-dir "$(EE_SOURCE_SCAN_DIR)" \
+		--jobs "$${EE_SCAN_JOBS:-2}" \
+		src matching/candidates
+
+ee-source-scan-strict: check-ee-compiler
+	$(PYTHON) tools/scan_ee_translation_units.py \
+		--compiler "$(EE_CC)" \
+		--flags '$(EE_SOURCE_SCAN_FLAGS)' \
+		--output-dir "$(EE_SOURCE_SCAN_DIR)" \
+		--jobs "$${EE_SCAN_JOBS:-2}" \
+		--strict \
+		src matching/candidates
+
 $(MATHFP_CORE_OBJECT): $(MATHFP_SOURCE) $(MATHFP_MANIFEST) | check-ee-compiler
 	@mkdir -p "$(dir $@)"
 	$(EE_CC) $(MATHFP_EE_CFLAGS) -c $< -o $@
@@ -157,6 +191,17 @@ $(MATHFP_LISTING_RAW): $(MATHFP_LISTING) tools/objdump_listing_to_binary.py
 		--output "$@" \
 		--base-address 0x0019fddc \
 		--end-address 0x001a0740
+
+$(LIBGCC_UNWIND_OBJECT): $(LIBGCC_UNWIND_SOURCE) $(LIBGCC_UNWIND_MANIFEST) | check-ee-compiler
+	@mkdir -p "$(dir $@)"
+	$(EE_CC) $(EE_CFLAGS) -c $< -o $@
+
+$(LIBGCC_FRONTIER_RAW): $(LIBGCC_FRONTIER_LISTING) tools/objdump_listing_to_binary.py
+	$(PYTHON) tools/objdump_listing_to_binary.py \
+		--input "$<" \
+		--output "$@" \
+		--base-address 0x001a1b00 \
+		--end-address 0x001a5cc0
 
 $(GET_TREE_OBJECT): matching/candidates/get_tree.c $(GET_TREE_MANIFEST) | check-ee-compiler
 	@mkdir -p "$(dir $@)"
@@ -218,9 +263,47 @@ match-mathfp-listing-strict: $(MATHFP_LISTING_RAW) $(MATHFP_OBJECT)
 		--report "$(MATHFP_LISTING_REPORT)" \
 		--require-all-matching
 
+match-libgcc-unwind: verify-reference $(LIBGCC_UNWIND_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(REFERENCE_RAW)" \
+		--base-address 0x00100000 \
+		--object "$(LIBGCC_UNWIND_OBJECT)" \
+		--manifest "$(LIBGCC_UNWIND_MANIFEST)" \
+		--report "$(LIBGCC_UNWIND_REPORT)"
+	$(PYTHON) tools/summarize_matching_report.py "$(LIBGCC_UNWIND_REPORT)"
+	@echo "Formal reference-ELF comparison complete; no progress status was changed automatically."
+
+match-libgcc-unwind-strict: verify-reference $(LIBGCC_UNWIND_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(REFERENCE_RAW)" \
+		--base-address 0x00100000 \
+		--object "$(LIBGCC_UNWIND_OBJECT)" \
+		--manifest "$(LIBGCC_UNWIND_MANIFEST)" \
+		--report "$(LIBGCC_UNWIND_REPORT)" \
+		--require-all-matching
+
+match-libgcc-unwind-listing: $(LIBGCC_FRONTIER_RAW) $(LIBGCC_UNWIND_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(LIBGCC_FRONTIER_RAW)" \
+		--base-address 0x001a1b00 \
+		--object "$(LIBGCC_UNWIND_OBJECT)" \
+		--manifest "$(LIBGCC_UNWIND_MANIFEST)" \
+		--report "$(LIBGCC_UNWIND_LISTING_REPORT)"
+	$(PYTHON) tools/summarize_matching_report.py "$(LIBGCC_UNWIND_LISTING_REPORT)"
+	@echo "Local listing probe complete; original ELF remains the formal gate."
+
+match-libgcc-unwind-listing-strict: $(LIBGCC_FRONTIER_RAW) $(LIBGCC_UNWIND_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(LIBGCC_FRONTIER_RAW)" \
+		--base-address 0x001a1b00 \
+		--object "$(LIBGCC_UNWIND_OBJECT)" \
+		--manifest "$(LIBGCC_UNWIND_MANIFEST)" \
+		--report "$(LIBGCC_UNWIND_LISTING_REPORT)" \
+		--require-all-matching
+
 elf-status: audit-source-check
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
-	@echo "  - validated Progress-16/17 entries still remain structural pseudocode; see the generated source audit"
+	@echo "  - source-model coverage is closed, but EE build-ready types/ownership are not yet frozen"
 	@echo "  - global ownership/types and translation-unit boundaries are not frozen"
 	@echo "  - exact EE archives, linker script, object order and library order are unproven"
 	@echo "  - SJCRUNCH2 repacking is not reproduced"
