@@ -9,11 +9,11 @@ replacement program. These are deliberately separate measurements.
 | Measurement | Result | What it proves |
 |---|---:|---|
 | Audited structural entries | **1,041/1,041 (100.00%)** | Every validated entry has a committed structural representation. |
-| Behavioral/source-model checkpoint | **855/1,041 (82.13%)** | Typed behavioral/source-model reconstruction exists; this is not automatically compiler-ready or exact. |
-| Structural pseudocode only | **186/1,041 (17.87%)** | These entries still require typed, build-ready C/C++ migration: 112 remaining from Progress 16 and 74 remaining from Progress 17. |
-| Typed promotions from P16/P17 snapshots | **53** | Historical pseudocode evidence is retained while newer typed source overrides the readiness classification. |
-| Explicit address trace in `src/` | **838/1,041 (80.50%)** | A conservative text-level traceability check; corridor files may cover additional entries without repeating every address. |
-| C translation units tracked | **95 files** | `make host-syntax` parses each independently on the host. That check does not prove EE linking or target behavior. |
+| Behavioral/source-model checkpoint | **1,041/1,041 (100.00%)** | Typed behavioral/source-model reconstruction exists; this is not automatically compiler-ready or exact. |
+| Structural pseudocode only | **0/1,041 (0.00%)** | These entries still require typed, build-ready C/C++ migration: 0 remaining from Progress 16 and 0 remaining from Progress 17. |
+| Typed promotions from P16/P17 snapshots | **239** | Historical pseudocode evidence is retained while newer typed source overrides the readiness classification. |
+| Explicit address trace in `src/` | **1,021/1,041 (98.08%)** | A conservative text-level traceability check; corridor files may cover additional entries without repeating every address. |
+| C translation units tracked | **96 files** | `make host-syntax` parses each independently on the host. That check does not prove EE linking or target behavior. |
 | Relocation-normalized machine-code matches | **7/1,041 (0.67%)** | No function is promoted to `MATCHING` without generated-object evidence. |
 | Complete replacement ELF | **No** | Startup ownership, globals/types, object boundaries, linker script/order, historical archives and packing still need proof. |
 
@@ -24,7 +24,7 @@ replacement program. These are deliberately separate measurements.
 - All 1,041 manifest rows are structurally reconstructed.
 - The historical 165 Progress-16 and 74 Progress-17 manifest sets exactly match the
   address markers in their committed pseudocode snapshots.
-- `analysis/source_promotions.csv` contains 53 typed promotion(s); every
+- `analysis/source_promotions.csv` contains 239 typed promotion(s); every
   promoted address belongs to a historical pseudocode checkpoint and names an
   existing source/evidence file. The source file must explicitly carry the
   promoted address token.
