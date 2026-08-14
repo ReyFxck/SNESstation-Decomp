@@ -22,9 +22,9 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0010191c,snes_leaf_0010191c,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
 0x00101924,snes_p13_path_wrapper_00101924,frontend,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress13_frontend_more_recovered.c,UNPROVEN
 0x001019a0,snes_leaf_001019a0,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,UNPROVEN
-0x001019a8,snes_p16_001019a8,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
+0x001019a8,snes_p16_001019a8,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress25_small_core_helpers_recovered.c,UNPROVEN
 0x00101b04,snes_p11_00101b04,gslib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c,UNPROVEN
-0x00101b64,snes_p16_00101b64,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
+0x00101b64,snes_p16_00101b64,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress25_small_core_helpers_recovered.c,UNPROVEN
 0x00101e8c,snes_p16_00101e8c,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c,UNPROVEN
 0x00101ef0,snes_p16_00101ef0,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/app/main_flow_recovered.c,UNPROVEN
 0x001029c4,snes_p16_001029c4,frontend-core,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
@@ -148,7 +148,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0012993c,snes_p17_0012993c,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P17,no,,UNPROVEN
 0x00129af4,snes_p17_00129af4,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P17,no,,UNPROVEN
 0x0012a400,ppu_vram_cache_invalidate,ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P17,no,,UNPROVEN
-0x0012b3e8,snes_p16_0012b3e8,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x0012b3e8,snes_p16_0012b3e8,snes-core-dsp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress25_small_core_helpers_recovered.c,UNPROVEN
 0x0012b498,snes_p16_0012b498,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x0012b9a4,snes_p13_record_ram_init_0012b9a4,core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/snes9x/progress13_runtime_more_recovered.c,UNPROVEN
 0x0012ba5c,snes_p16_0012ba5c,snes-core-dsp,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
@@ -300,7 +300,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0015c124,snes_p16_0015c124,memory-ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,yes,src/ps2/progress24_core_helpers_recovered.c,UNPROVEN
 0x0015c624,snes_p16_0015c624,memory-ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x0015cae0,snes_p16_0015cae0,memory-ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
-0x0015cce4,snes_p16_0015cce4,memory-ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
+0x0015cce4,snes_p16_0015cce4,memory-ppu,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress25_small_core_helpers_recovered.c,UNPROVEN
 0x0015cdf8,snes_p13_stage_advance_0015cdf8,frontend,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress13_runtime_more_recovered.c,UNPROVEN
 0x0015cea4,snes_p16_0015cea4,memory-ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN
 0x0015d0bc,snes_p16_0015d0bc,memory-ppu,RECONSTRUCTED,STRUCTURAL_PSEUDOCODE_P16,no,,UNPROVEN

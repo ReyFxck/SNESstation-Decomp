@@ -1,4 +1,6 @@
 address,source_file,evidence,notes
+0x001019a8,src/ps2/progress25_small_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 25 typed GS asset upload helper migrated from committed R5900 decompile
+0x00101b64,src/ps2/progress25_small_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 25 typed GS panel composition helper migrated from committed R5900 decompile
 0x00101e8c,src/ps2/progress11_frontend_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 20 typed GS flush VSINT wait and swap helper migrated from committed R5900 decompile
 0x00103b34,src/ps2/progress22_more_small_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 22 typed frontend message-slide helper migrated from committed R5900 decompile
 0x00103cd4,src/ps2/progress21_small_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 21 typed browser TOC display-name helper migrated from committed R5900 decompile
@@ -11,6 +13,8 @@ address,source_file,evidence,notes
 0x0010a264,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed packed blend helper migrated from committed R5900 decompile
 0x0010b7f8,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed selected runtime register read helper migrated from committed R5900 decompile
 0x00115b58,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed core reset sequencing helper migrated from committed R5900 decompile
+0x0012b3e8,src/ps2/progress25_small_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 25 typed eight-channel reset helper migrated from committed R5900 decompile
+0x0015cce4,src/ps2/progress25_small_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 25 typed PPU bounds and status helper migrated from committed R5900 decompile
 0x0015d334,src/ps2/progress22_more_small_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 22 typed PPU conditional timing helper migrated from committed R5900 decompile
 0x0016ded4,src/ps2/progress24_core_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 24 typed CPU stack/status push helper migrated from committed R5900 decompile
 0x00174564,src/ps2/progress23_audio_helpers_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 23 typed slot configure wrapper migrated from committed R5900 decompile
