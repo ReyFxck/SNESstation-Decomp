@@ -1,0 +1,9 @@
+address,end,name,object_symbol,source
+0x0019be70,0x0019bf00,CDVD_Init,CDVD_Init,matching/candidates/cdvd_rpc.c
+0x0019bf00,0x0019bf70,CDVD_DiskReady,CDVD_DiskReady,matching/candidates/cdvd_rpc.c
+0x0019bf70,0x0019c0d0,CDVD_FindFile,CDVD_FindFile,matching/candidates/cdvd_rpc.c
+0x0019c0d0,0x0019c128,CDVD_Stop,CDVD_Stop,matching/candidates/cdvd_rpc.c
+0x0019c128,0x0019c190,CDVD_TrayReq,CDVD_TrayReq,matching/candidates/cdvd_rpc.c
+0x0019c190,0x0019c2ac,CDVD_getdir,CDVD_getdir,matching/candidates/cdvd_rpc.c
+0x0019c2ac,0x0019c304,CDVD_FlushCache,CDVD_FlushCache,matching/candidates/cdvd_rpc.c
+0x0019c304,0x0019c364,CDVD_GetSize,CDVD_GetSize,matching/candidates/cdvd_rpc.c

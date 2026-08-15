@@ -3,3 +3,4 @@ tools/patches/*.patch whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
 third_party/toolchain/archive/*.tar.gz binary
 third_party/toolchain/newlib-1.10.0/*.tar.gz binary
 third_party/historical_refs/**/*.o binary
+analysis/matching/cdvd_rpc_target.bin binary

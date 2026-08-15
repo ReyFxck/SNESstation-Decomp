@@ -1,14 +1,14 @@
 # Historical progress scripts
 
-These scripts are archived for reproducibility. Their presence does **not**
-mean every experiment is a matching claim.
+All Progress 30-46 scripts from the 2026-08-14 recovered checkpoint are
+preserved here.
 
-| Script | Status | Purpose |
-|---|---|---|
-| `progress42-apply.sh` | MATCHED | Historical GSLIB hardware corridor; 7/7 strict |
-| `progress43-apply.sh` | WIP | First historical CDVD RPC candidate |
-| `progress44-apply.sh` | WIP | CDVD compiler-profile matrix |
-| `progress45-apply.sh` | WIP | CDVD exact historical source/header + codegen matrix |
-| `progress46-apply.sh` | WIP | Python 3.13 loader fix for the CDVD scorer |
+Archival presence is **not** a matching claim.
 
-Only a successful byte comparator + strict gate promotes code to MATCHED.
+- Progress 42: closed GSLIB hardware 7/7 strict checkpoint.
+- Progress 43-46: CDVD WIP/compiler-fingerprint experiments.
+- Progress 30-41: earlier development scripts preserved for reproducibility;
+  individual scripts are not automatically strict byte-match claims.
+
+Current authoritative matching status:
+`docs/MATCHED_CHECKPOINT.md`.
