@@ -8,21 +8,21 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class Progress41GSLIBSourceShapeTests(unittest.TestCase):
-    def test_wait_uses_unsigned_counter_comparison(self):
+    def test_wait_preserves_historical_parameter_and_unsigned_counter(self):
         text = (ROOT / "src/ps2/gslib_hw_recovered.c").read_text(encoding="utf-8")
+        self.assertIn("static unsigned int VRcount_recovered = 0;", text)
         self.assertIn(
-            "void WaitForNextVRstart_0019bd50(unsigned int numvrs)",
+            "void WaitForNextVRstart_0019bd50(int numvrs)",
             text,
         )
         self.assertIn("while (VRcount_recovered < numvrs)", text)
 
-    def test_dma_reset_uses_direct_mmio_lvalues(self):
+    def test_dma_reset_preserves_historical_basic_inline_assembly(self):
         text = (ROOT / "src/ps2/gslib_hw_recovered.c").read_text(encoding="utf-8")
-        self.assertIn("GSLIB_HW32(0x1000a080u) = 0;", text)
-        self.assertIn(
-            "GSLIB_HW32(0x1000e000u) = GSLIB_HW32(0x1000e000u) | 1u;",
-            text,
-        )
+        self.assertIn(r'__asm__("\tsw  $0, 0x1000a080");', text)
+        self.assertIn(r'__asm__("\tori $3,$2,1");', text)
+        self.assertIn(r'__asm__("\tsw  $3, 0x1000e000");', text)
+        self.assertNotIn("GSLIB_HW32(", text)
 
     def test_manifest_excludes_alignment_padding(self):
         with (ROOT / "analysis/matching/gslib_hw_listing.csv").open(

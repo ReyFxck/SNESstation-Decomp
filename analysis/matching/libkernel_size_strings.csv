@@ -1,0 +1,5 @@
+address,end,name,object_symbol,source
+0x0019c364,0x0019c39c,memcpy,memcpy_candidate,matching/candidates/libkernel_size_strings.S
+0x0019c39c,0x0019c3d4,memset,memset_candidate,matching/candidates/libkernel_size_strings.S
+0x0019c550,0x0019c5a4,strncpy,strncpy_candidate,matching/candidates/libkernel_size_strings.S
+0x0019c5e8,0x0019c610,strlen,strlen_candidate,matching/candidates/libkernel_size_strings.S

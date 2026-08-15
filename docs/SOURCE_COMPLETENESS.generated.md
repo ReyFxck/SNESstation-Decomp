@@ -13,8 +13,8 @@ replacement program. These are deliberately separate measurements.
 | Structural pseudocode only | **0/1,041 (0.00%)** | These entries still require typed, build-ready C/C++ migration: 0 remaining from Progress 16 and 0 remaining from Progress 17. |
 | Typed promotions from P16/P17 snapshots | **239** | Historical pseudocode evidence is retained while newer typed source overrides the readiness classification. |
 | Explicit address trace in `src/` | **1,021/1,041 (98.08%)** | A conservative text-level traceability check; corridor files may cover additional entries without repeating every address. |
-| C translation units tracked | **96 files** | `make host-syntax` parses each independently on the host. That check does not prove EE linking or target behavior. |
-| Relocation-normalized machine-code matches | **7/1,041 (0.67%)** | No function is promoted to `MATCHING` without generated-object evidence. |
+| C translation units tracked | **97 files** | `make host-syntax` parses each independently on the host. That check does not prove EE linking or target behavior. |
+| Relocation-normalized machine-code matches | **54/1,041 (5.19%)** | No function is promoted to `MATCHING` without generated-object evidence. |
 | Complete replacement ELF | **No** | Startup ownership, globals/types, object boundaries, linker script/order, historical archives and packing still need proof. |
 
 ## Invariants checked

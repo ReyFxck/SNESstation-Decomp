@@ -17,10 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
-PSEUDOCODE_MANIFESTS = (
-    ROOT / "analysis" / "progress16_recovered_targets.csv",
-    ROOT / "analysis" / "progress17_recovered_targets.csv",
-)
+SOURCE_READINESS = ROOT / "analysis" / "source_readiness.csv"
 OUT = ROOT / "docs" / "PROGRESS.generated.md"
 SVG_OUT = ROOT / "assets" / "progress.svg"
 RAW_JAL_TARGETS = 1137
@@ -173,16 +170,15 @@ def main() -> None:
     reconstructed = [r for r in rows if r["status"] in {"RECONSTRUCTED", "MATCHING"}]
     mapped = [r for r in rows if r["status"] != "UNKNOWN"]
     matching = [r for r in rows if r["status"] == "MATCHING"]
-    pseudocode_addresses: set[str] = set()
-    for pseudocode_manifest in PSEUDOCODE_MANIFESTS:
-        with pseudocode_manifest.open(encoding="utf-8", newline="") as stream:
-            pseudocode_addresses.update(
-                row["address"].lower() for row in csv.DictReader(stream)
-            )
-    pseudocode_only = [
-        row for row in rows if row["address"].lower() in pseudocode_addresses
-    ]
-    source_model_count = len(rows) - len(pseudocode_only)
+    readiness = list(csv.DictReader(SOURCE_READINESS.open(encoding="utf-8")))
+    readiness_by_address = {row["address"].lower(): row for row in readiness}
+    manifest_addresses = {row["address"].lower() for row in rows}
+    if set(readiness_by_address) != manifest_addresses:
+        raise SystemExit("analysis/source_readiness.csv is stale; run tools/audit_source_completeness.py first")
+    source_model_count = sum(
+        row["source_form"] == "BEHAVIORAL_SOURCE_MODEL" for row in readiness
+    )
+    pseudocode_only_count = len(readiness) - source_model_count
 
     draw = [
         r for r in rows
@@ -197,7 +193,7 @@ def main() -> None:
     blocks = [STATUS_ICON[r["status"]] for r in draw]
     grid_lines = ["".join(blocks[i:i+15]) for i in range(0, len(blocks), 15)]
 
-    _write_svg(status_counts, source_model_count, len(pseudocode_only))
+    _write_svg(status_counts, source_model_count, pseudocode_only_count)
 
     text = f"""# Generated progress snapshot
 
@@ -222,9 +218,9 @@ The README graphic is generated to [`assets/progress.svg`](../assets/progress.sv
 ## Source-form checkpoint
 
 Structural coverage is not the same as build readiness. Of the {VALIDATED_TARGETS:,}
-validated entries, **{source_model_count:,}** belong to the pre-Progress-16
-behavioral/source-model checkpoint and **{len(pseudocode_only):,}** are currently
-committed only as address-labelled Progress-16/17 structural pseudocode. Neither
+validated entries, **{source_model_count:,}** currently have a behavioral/source-model representation
+and **{pseudocode_only_count:,}** are currently represented only as structural
+pseudocode after applying typed source promotions. Neither
 category is a byte-matching claim. See
 [`docs/SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) for
 the generated invariant audit and remaining ELF gates.
@@ -268,7 +264,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 - **Matching:** {pct(len(matching), VALIDATED_TARGETS):.2f}%
 - **Reconstructed:** **{pct(len(reconstructed), VALIDATED_TARGETS):.2f}%** ({len(reconstructed):,}/{VALIDATED_TARGETS:,} validated targets)
 - **Mapped / identified:** **{pct(len(mapped), VALIDATED_TARGETS):.2f}%** ({len(mapped):,}/{VALIDATED_TARGETS:,} validated targets)
-- **Source-form checkpoint:** **{source_model_count:,} behavioral/source-model + {len(pseudocode_only):,} structural-pseudocode-only**
+- **Source-form checkpoint:** **{source_model_count:,} behavioral/source-model + {pseudocode_only_count:,} structural-pseudocode-only**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**
 

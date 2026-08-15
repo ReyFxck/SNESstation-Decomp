@@ -12,7 +12,7 @@ The rejected patterns and their reasons are recorded in [`analysis/progress17_re
 
 | Metric | Count | Validated universe |
 |---|---:|---:|
-| Matching | 0 | **0.00%** |
+| Matching | 54 | **5.19%** |
 | Reconstructed / matching | 1,041 | **100.00%** |
 | Mapped (identified + partial + reconstructed) | 1,041 | **100.00%** |
 
@@ -21,9 +21,9 @@ The README graphic is generated to [`assets/progress.svg`](../assets/progress.sv
 ## Source-form checkpoint
 
 Structural coverage is not the same as build readiness. Of the 1,041
-validated entries, **802** belong to the pre-Progress-16
-behavioral/source-model checkpoint and **239** are currently
-committed only as address-labelled Progress-16/17 structural pseudocode. Neither
+validated entries, **1,041** currently have a behavioral/source-model representation
+and **0** are currently represented only as structural
+pseudocode after applying typed source promotions. Neither
 category is a byte-matching claim. See
 [`docs/SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) for
 the generated invariant audit and remaining ELF gates.

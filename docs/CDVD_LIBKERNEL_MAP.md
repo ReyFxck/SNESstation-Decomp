@@ -6,7 +6,7 @@ behind it. Target behavior and target addresses remain authoritative; historical
 sources and the close SNESticle link map are used only after the binary has
 established boundaries, RPC IDs, packet sizes, calls, and constants.
 
-None of this corridor is claimed **MATCHING** yet.
+Most of this corridor remains reconstructed rather than matching. Progress 52 closes a strict historical libkernel/libc leaf batch; see `docs/PROGRESS52_LIBKERNEL_BATCH_MATCH.md`.
 
 ## Hard boundaries
 
@@ -102,6 +102,8 @@ initialize the later-source `option` field. The reconstruction preserves the
 actual target writes.
 
 ## Leaf libkernel helpers
+
+Progress 51 proves 16/16 old EE leaf functions plus 4/4 historical `kernel.S` size paths (`memcpy`, `memset`, `strncpy`, `strlen`) against committed target bytes.
 
 Recovered syscall/cache leaves include:
 

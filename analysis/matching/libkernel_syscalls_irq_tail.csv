@@ -1,0 +1,6 @@
+address,end,name,object_symbol,source
+0x0019fcd0,0x0019fce0,_EnableDmac,_EnableDmac_candidate,matching/candidates/libkernel_syscall_wrappers.S
+0x0019fce0,0x0019fcf0,_DisableDmac,_DisableDmac_candidate,matching/candidates/libkernel_syscall_wrappers.S
+0x0019fcf0,0x0019fd00,SignalSema,SignalSema_candidate,matching/candidates/libkernel_syscall_wrappers.S
+0x0019fd00,0x0019fd10,PollSema,PollSema_candidate,matching/candidates/libkernel_syscall_wrappers.S
+0x0019fd10,0x0019fd20,iSifSetDChain,iSifSetDChain_candidate,matching/candidates/libkernel_syscall_wrappers.S

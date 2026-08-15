@@ -15,10 +15,10 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 
 > **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
 
-- **Matching:** 0.00%
+- **Matching:** 5.19%
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
-- **Source-form checkpoint:** **802 behavioral/source-model + 239 structural-pseudocode-only**
+- **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 

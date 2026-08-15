@@ -212,8 +212,15 @@ unsigned int CDVD_GetSize_0019c304(void)
      * unsigned return type.  Preserve it: the target inactive path likewise
      * leaves $v0 unspecified.
      */
-    if (!cdvd_inited_recovered)
+    if (!cdvd_inited_recovered) {
+#ifdef SNESSTATION_HOST_SYNTAX
+        /* Syntax-only host build: modern GCC rejects the historical bare return. */
+        return 0;
+#else
+        /* Historical EE path: preserve the original undefined $v0 return value. */
         return;
+#endif
+    }
 
     SifCallRpc(&cd0_recovered, CDVD_GETSIZE, 0,
                (void *)(&sbuff_recovered[0]), 0,

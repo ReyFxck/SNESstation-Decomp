@@ -92,6 +92,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	match-libgcc-unwind match-libgcc-unwind-strict \
 	match-libgcc-unwind-listing match-libgcc-unwind-listing-strict \
 	match-gslib-hw-listing match-gslib-hw-listing-strict \
+	match-libkernel-leaves-listing-strict match-libkernel-size-strings-listing-strict match-libkernel-libc-strings-listing-strict \
 	elf-status elf clean-matching
 
 help:
@@ -112,6 +113,9 @@ help:
 	@echo "  make match-mathfp-listing  compare math against the committed disassembly"
 	@echo "  make match-libgcc-unwind-listing  probe 7 committed GCC unwind helpers locally"
 	@echo "  make match-gslib-hw-listing  probe 7 recovered GSLIB hw helpers locally"
+	@echo "  make match-libkernel-leaves-listing-strict  strict 21/21 old EE libkernel leaf gate"
+	@echo "  make match-libkernel-size-strings-listing-strict  strict 4/4 old EE size-string gate"
+	@echo "  make match-libkernel-libc-strings-listing-strict  strict 7/7 old EE libc assembly gate"
 	@echo "  make elf-status     show why a complete replacement ELF is not ready"
 	@echo
 	@echo "For matching, run make bootstrap-ee-stage1 or pass EE_CC=/path/to/ee-gcc."
@@ -126,7 +130,7 @@ host-syntax:
 	@set -eu; \
 	count=0; \
 	for source in $(SOURCE_C) $(MATCHING_C); do \
-		$(HOST_CC) -std=c11 -Wall -Wextra -fsyntax-only -Iinclude "$$source"; \
+		$(HOST_CC) -std=c11 -Wall -Wextra -fno-builtin -DSNESSTATION_HOST_SYNTAX=1 -fsyntax-only -Iinclude -iquote matching/ee_abi_compat "$$source"; \
 		count=$$((count + 1)); \
 	done; \
 	echo "host syntax: OK ($$count independent C translation units)"
@@ -387,6 +391,15 @@ match-gslib-hw-listing-strict: $(GSLIB_HW_LISTING_RAW) $(GSLIB_HW_OBJECT)
 		--manifest "$(GSLIB_HW_MANIFEST)" \
 		--report "$(GSLIB_HW_LISTING_REPORT)" \
 		--require-all-matching
+
+match-libkernel-leaves-listing-strict:
+	bash tools/run-libkernel-leaves-match.sh
+
+match-libkernel-size-strings-listing-strict:
+	bash tools/run-libkernel-size-strings-match.sh
+
+match-libkernel-libc-strings-listing-strict:
+	bash tools/run-libkernel-libc-strings-match.sh
 
 elf-status: audit-source-check
 	@echo "Complete replacement ELF: BLOCKED (honest status)"

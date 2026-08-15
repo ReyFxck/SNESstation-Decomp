@@ -446,7 +446,7 @@ address,name,status,confidence,notes
 0x0018adb8,DrawLargePixel16Add1_2,RECONSTRUCTED,very-high,Large/mosaic 16-bit half-add renderer; C recovered
 0x0018b43c,DrawLargePixel16Sub,RECONSTRUCTED,very-high,Large/mosaic 16-bit subtract renderer; C recovered
 0x0018bac0,DrawLargePixel16Sub1_2,RECONSTRUCTED,very-high,Large/mosaic 16-bit half-sub renderer; C recovered
-0x0018c124,get_tree,RECONSTRUCTED,very-high,PKZIP Implode tree-length reader; nibble run format proven
+0x0018c124,get_tree,MATCHING,very-high,PKZIP Implode tree-length reader; nibble run format proven
 0x0018c1f8,explode_lit8,RECONSTRUCTED,very-high,Implode decoder: coded literals + 8K distance; generic C recovery
 0x0018c834,explode_lit4,RECONSTRUCTED,very-high,Implode decoder: coded literals + 4K distance; generic C recovery
 0x0018ce70,explode_nolit8,RECONSTRUCTED,very-high,Implode decoder: raw literals + 8K distance; generic C recovery
@@ -652,13 +652,13 @@ address,name,status,confidence,notes
 0x0019b948,gsFont_Print,RECONSTRUCTED,very-high,GSLIB multi-line aligned Print; sets texture and delegates line measurement/rendering
 0x0019bad0,gsFont_GetCurrLineLength,RECONSTRUCTED,very-high,Line-width/character-count scanner with control-character handling recovered
 0x0019bb68,gsFont_PrintLine,RECONSTRUCTED,very-high,Glyph renderer with bold/underline toggles and RectTexture/RectFlat calls
-0x0019bd38,VRstart_handler,RECONSTRUCTED,very-high,GSLIB hw.c vertical-retrace handler increments VRcount
-0x0019bd50,WaitForNextVRstart,RECONSTRUCTED,very-high,Target compiler bug preserved: nonvolatile VRcount turns positive wait into infinite register-only loop
-0x0019bd78,TestVRstart,RECONSTRUCTED,very-high,Leaf VRcount accessor
-0x0019bd88,ClearVRcount,RECONSTRUCTED,very-high,Leaf VRcount clear
-0x0019bd98,DmaReset,RECONSTRUCTED,very-high,GSLIB/Duke DMA reset MMIO sequence recovered exactly
-0x0019be20,SendDma02,RECONSTRUCTED,very-high,GIF DMA channel-2 chain submission helper recovered
-0x0019be40,Dma02Wait,RECONSTRUCTED,very-high,Polls CHCR bit 0x100 until GIF DMA channel 2 idle
+0x0019bd38,VRstart_handler,MATCHING,very-high,GSLIB hw.c vertical-retrace handler increments VRcount
+0x0019bd50,WaitForNextVRstart,MATCHING,very-high,Target compiler bug preserved: nonvolatile VRcount turns positive wait into infinite register-only loop
+0x0019bd78,TestVRstart,MATCHING,very-high,Leaf VRcount accessor
+0x0019bd88,ClearVRcount,MATCHING,very-high,Leaf VRcount clear
+0x0019bd98,DmaReset,MATCHING,very-high,GSLIB/Duke DMA reset MMIO sequence recovered exactly
+0x0019be20,SendDma02,MATCHING,very-high,GIF DMA channel-2 chain submission helper recovered
+0x0019be40,Dma02Wait,MATCHING,very-high,Polls CHCR bit 0x100 until GIF DMA channel 2 idle
 0x0019be70,CDVD_Init,RECONSTRUCTED,very-high,Hiryu/Sjeep libcdvd EE RPC init; target RPC id 0x0b001337 and bind loop recovered
 0x0019bf00,CDVD_DiskReady,RECONSTRUCTED,very-high,RPC command 0x06; mode word and result path recovered
 0x0019bf70,CDVD_FindFile,RECONSTRUCTED,very-high,RPC command 0x01; 1024-byte path request plus 0x90-byte TocEntry recovered
@@ -667,18 +667,18 @@ address,name,status,confidence,notes
 0x0019c190,CDVD_getdir,RECONSTRUCTED,very-high,RPC command 0x02 directory request/buffer layout recovered
 0x0019c2ac,CDVD_FlushCache,RECONSTRUCTED,very-high,RPC command 0x07 cache flush wrapper recovered
 0x0019c304,CDVD_GetSize,RECONSTRUCTED,very-high,RPC command 0x08 size query; later public libcdvd revision confirms name
-0x0019c364,memcpy,RECONSTRUCTED,very-high,Target byte-copy implementation recovered
-0x0019c39c,memset,RECONSTRUCTED,very-high,Target byte-fill implementation recovered
-0x0019c3d4,strcat,RECONSTRUCTED,very-high,Target append loop recovered
-0x0019c410,strncmp,RECONSTRUCTED,very-high,Target bounded string compare recovered
-0x0019c458,memcmp,RECONSTRUCTED,very-high,Target memory compare recovered
-0x0019c4a0,memmove,RECONSTRUCTED,very-high,Overlap-safe forward/backward copy; previously used by SRAM path
-0x0019c528,strcpy,RECONSTRUCTED,very-high,Target string copy recovered
-0x0019c550,strncpy,RECONSTRUCTED,very-high,Target bounded string copy/pad loop recovered
+0x0019c364,memcpy,MATCHING,very-high,Target byte-copy implementation recovered
+0x0019c39c,memset,MATCHING,very-high,Target byte-fill implementation recovered
+0x0019c3d4,strcat,MATCHING,very-high,Target append loop recovered
+0x0019c410,strncmp,MATCHING,very-high,Target bounded string compare recovered
+0x0019c458,memcmp,MATCHING,very-high,Target memory compare recovered
+0x0019c4a0,memmove,MATCHING,very-high,Overlap-safe forward/backward copy; previously used by SRAM path
+0x0019c528,strcpy,MATCHING,very-high,Target string copy recovered
+0x0019c550,strncpy,MATCHING,very-high,Target bounded string copy/pad loop recovered
 0x0019c5cc,snes_dispatch_0019c5cc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
-0x0019c5e8,strlen,RECONSTRUCTED,very-high,Target string length leaf recovered
-0x0019c610,strchr,RECONSTRUCTED,very-high,Target character search recovered
-0x0019c648,strcmp,RECONSTRUCTED,very-high,Target string compare recovered
+0x0019c5e8,strlen,MATCHING,very-high,Target string length leaf recovered
+0x0019c610,strchr,MATCHING,very-high,Target character search recovered
+0x0019c648,strcmp,MATCHING,very-high,Target string compare recovered
 0x0019c688,SifBindRpc,RECONSTRUCTED,very-high,Old PS2DEV SIF RPC bind path; packet allocation/send/semaphore behavior recovered
 0x0019c7b0,SifCallRpc,RECONSTRUCTED,very-high,Old PS2DEV SIF RPC call path recovered; cache/writeback and NOWAIT modes mapped
 0x0019c960,rpc_packet_free,RECONSTRUCTED,very-high,SIF RPC packet free helper recovered
@@ -691,17 +691,17 @@ address,name,status,confidence,notes
 0x0019cd4c,SifExitRpc,RECONSTRUCTED,very-high,SifExitCmd wrapper plus RPC init-state clear
 0x0019cd70,_rpc_get_packet,RECONSTRUCTED,very-high,64-byte packet allocator and rec_id/rpc_id generation recovered
 0x0019ce2c,_rpc_get_fpacket,RECONSTRUCTED,very-high,Round-robin 64-byte response-packet selector recovered
-0x0019ce60,iWakeupThread,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number -0x34
-0x0019ce70,CreateSema,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x40
-0x0019ce80,DeleteSema,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x41
-0x0019ce90,iSignalSema,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number -0x43
-0x0019cea0,WaitSema,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x44
-0x0019ceb0,FlushCache,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x64
-0x0019cec0,iFlushCache,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number -0x68
-0x0019ced0,SifDmaStat,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x76
-0x0019cee0,SifSetDma,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x77
-0x0019cef0,SifSetReg,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x79
-0x0019cf00,SifGetReg,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x7a
+0x0019ce60,iWakeupThread,MATCHING,very-high,Leaf syscall wrapper; target syscall number -0x34
+0x0019ce70,CreateSema,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x40
+0x0019ce80,DeleteSema,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x41
+0x0019ce90,iSignalSema,MATCHING,very-high,Leaf syscall wrapper; target syscall number -0x43
+0x0019cea0,WaitSema,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x44
+0x0019ceb0,FlushCache,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x64
+0x0019cec0,iFlushCache,MATCHING,very-high,Leaf syscall wrapper; target syscall number -0x68
+0x0019ced0,SifDmaStat,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x76
+0x0019cee0,SifSetDma,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x77
+0x0019cef0,SifSetReg,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x79
+0x0019cf00,SifGetReg,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x7a
 0x0019cf10,SifWriteBackDCache,RECONSTRUCTED,very-high,64-byte cache-line writeback/invalidate loop with cache op 0x18 recovered
 0x0019cfc0,fioOpen,RECONSTRUCTED,very-high,Old fileIO RPC fno 0; exact 0x110-byte request layout recovered
 0x0019d090,fioClose,RECONSTRUCTED,very-high,Old fileIO RPC fno 1 recovered
@@ -752,8 +752,8 @@ address,name,status,confidence,notes
 0x0019ef5c,ispunct,RECONSTRUCTED,very-high,"Target returns non-control, non-alnum, non-space"
 0x0019efac,isspace,RECONSTRUCTED,very-high,ASCII tab/newline family 0x09..0x0d plus space
 0x0019efcc,isxdigit,RECONSTRUCTED,very-high,ASCII digit or A-F/a-f predicate
-0x0019f018,DIntr,RECONSTRUCTED,very-high,Recovered direct R5900 DI helper; returns whether IE bit 0x10000 was set and polls until it clears
-0x0019f060,EIntr,RECONSTRUCTED,very-high,Recovered direct R5900 EI helper; returns prior IE-bit state
+0x0019f018,DIntr,MATCHING,very-high,Recovered direct R5900 DI helper; returns whether IE bit 0x10000 was set and polls until it clears
+0x0019f060,EIntr,MATCHING,very-high,Recovered direct R5900 EI helper; returns prior IE-bit state
 0x0019f078,ps2_sbrk,RECONSTRUCTED,very-high,"Recovered 32-bit EE program-break helper: initial break 0x00450c18, conditional DI/EI, EndOfHeap ceiling and (void*)-1 failure"
 0x0019f138,_SifSendCmd,RECONSTRUCTED,very-high,"Recovered 7-argument SIF command DMA builder; packet cap 112 bytes, optional extra DMA/cache flush and interrupt/non-interrupt DMA selection"
 0x0019f264,SifSendCmd,RECONSTRUCTED,very-high,Recovered mode=0 wrapper around _SifSendCmd
@@ -767,9 +767,9 @@ address,name,status,confidence,notes
 0x0019f5a0,AddDmacHandler,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x12"
 0x0019f5b0,RemoveDmacHandler,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x13"
 0x0019f5c0,EndOfHeap,RECONSTRUCTED,very-high,Recovered one-syscall wrapper: EE syscall 0x3e; used as ps2_sbrk heap ceiling
-0x0019f5d0,SifStopDma,RECONSTRUCTED,very-high,Leaf syscall wrapper; target syscall number 0x6b
-0x0019f5e0,iSifSetDma,RECONSTRUCTED,very-high,"One-syscall interrupt-context SIF DMA wrapper, syscall -0x77"
-0x0019f5f0,SifSetDChain,RECONSTRUCTED,very-high,"One-syscall SIF receive-chain wrapper, syscall 0x78"
+0x0019f5d0,SifStopDma,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x6b
+0x0019f5e0,iSifSetDma,MATCHING,very-high,"One-syscall interrupt-context SIF DMA wrapper, syscall -0x77"
+0x0019f5f0,SifSetDChain,MATCHING,very-high,"One-syscall SIF receive-chain wrapper, syscall 0x78"
 0x0019f600,fioInit,RECONSTRUCTED,very-high,Binds fileIO RPC server 0x80000001 and creates completion semaphore
 0x0019f6e8,_fio_intr,RECONSTRUCTED,very-high,FileIO completion callback signals completion semaphore
 0x0019f7e8,_SifLoadModule,RECONSTRUCTED,very-high,Older five-argument 0x200-byte loadfile request path recovered
@@ -779,11 +779,11 @@ address,name,status,confidence,notes
 0x0019fb00,EnableDmac,RECONSTRUCTED,very-high,Recovered interrupt-safe DMAC enable wrapper around raw _EnableDmac syscall
 0x0019fb78,DisableDmac,RECONSTRUCTED,very-high,Recovered interrupt-safe DMAC disable wrapper around raw _DisableDmac syscall
 0x0019fbf0,_SifCmdIntHandler,RECONSTRUCTED,very-high,"Recovered SIF0 command interrupt dispatcher: packet copy, iSifSetDChain, system/user table selection and callback dispatch"
-0x0019fcd0,_EnableDmac,RECONSTRUCTED,very-high,Raw EE syscall 0x16 wrapper
-0x0019fce0,_DisableDmac,RECONSTRUCTED,very-high,Raw EE syscall 0x17 wrapper
-0x0019fcf0,SignalSema,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x42"
-0x0019fd00,PollSema,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x45"
-0x0019fd10,iSifSetDChain,RECONSTRUCTED,very-high,"One-syscall interrupt-context SIF receive-chain wrapper, syscall -0x78"
+0x0019fcd0,_EnableDmac,MATCHING,very-high,Raw EE syscall 0x16 wrapper
+0x0019fce0,_DisableDmac,MATCHING,very-high,Raw EE syscall 0x17 wrapper
+0x0019fcf0,SignalSema,MATCHING,very-high,"One-syscall wrapper, EE syscall 0x42"
+0x0019fd00,PollSema,MATCHING,very-high,"One-syscall wrapper, EE syscall 0x45"
+0x0019fd10,iSifSetDChain,MATCHING,very-high,"One-syscall interrupt-context SIF receive-chain wrapper, syscall -0x78"
 0x0019fd20,SifLoadFileInit,RECONSTRUCTED,very-high,Binds loadfile RPC server 0x80000006 and records initialization
 0x0019fddc,cosf,MATCHING,very-high,Byte-exact 584-byte Newlib 1.10 mathfp cosine candidate; 25 relocation words normalized; GCC 3.2.2 with -fno-align-jumps
 0x001a0024,sinf,MATCHING,very-high,Byte-exact 560-byte Newlib 1.10 mathfp sine candidate; 24 relocation words normalized; GCC 3.2.2 with -fno-align-jumps
@@ -839,14 +839,14 @@ address,name,status,confidence,notes
 0x001a3c90,__make_dp,RECONSTRUCTED,very-high,Progress 13: exact 0x30 DF parts constructor and __pack_d call rewritten as independent C model
 0x001a3cc0,dptofp,RECONSTRUCTED,very-high,DF-to-SF goFast conversion; exact 0x58 object
 0x001a3d18,dptoul,RECONSTRUCTED,very-high,DF-to-unsigned-SI goFast conversion; assembly class/sign/exponent flow proven
-0x001a3dc0,size_of_encoded_value,RECONSTRUCTED,very-high,DW_EH_PE fixed-size helper; also exact start of 0x1f00 unwind-dw2.o
-0x001a3e30,base_of_encoded_value,RECONSTRUCTED,very-high,DW_EH_PE base selector; calls target Text/Data/Region accessors
-0x001a3ee8,read_uleb128,RECONSTRUCTED,very-high,DWARF unsigned LEB128 reader recovered
-0x001a3f28,read_sleb128,RECONSTRUCTED,very-high,DWARF signed LEB128 reader recovered including sign extension
+0x001a3dc0,size_of_encoded_value,MATCHING,very-high,DW_EH_PE fixed-size helper; also exact start of 0x1f00 unwind-dw2.o
+0x001a3e30,base_of_encoded_value,MATCHING,very-high,DW_EH_PE base selector; calls target Text/Data/Region accessors
+0x001a3ee8,read_uleb128,MATCHING,very-high,DWARF unsigned LEB128 reader recovered
+0x001a3f28,read_sleb128,MATCHING,very-high,DWARF signed LEB128 reader recovered including sign extension
 0x001a3f88,read_encoded_value_with_base,RECONSTRUCTED,very-high,DW_EH_PE decoder recovered; aligned/relative/indirect formats mapped
-0x001a40e8,_Unwind_GetLanguageSpecificData,RECONSTRUCTED,very-high,Exact unwind-dw2.o +0x328 offset; context +0x148
-0x001a40f0,_Unwind_GetRegionStart,RECONSTRUCTED,very-high,Exact unwind-dw2.o +0x330 offset; context +0x154
-0x001a40f8,_Unwind_GetDataRelBase,RECONSTRUCTED,very-high,Exact unwind-dw2.o +0x338 offset; context +0x150
+0x001a40e8,_Unwind_GetLanguageSpecificData,MATCHING,very-high,Exact unwind-dw2.o +0x328 offset; context +0x148
+0x001a40f0,_Unwind_GetRegionStart,MATCHING,very-high,Exact unwind-dw2.o +0x330 offset; context +0x154
+0x001a40f8,_Unwind_GetDataRelBase,MATCHING,very-high,Exact unwind-dw2.o +0x338 offset; context +0x150
 0x001a4100,_Unwind_GetTextRelBase,RECONSTRUCTED,very-high,Exact unwind-dw2.o +0x340 offset; context +0x14c
 0x001a4108,extract_cie_info,RECONSTRUCTED,medium-high,"Progress 17: complete R5900 structural decompile; existing binary-derived mapped name retained; 78 pseudocode lines, sha256 8edd6d2933a40aeb; no Ghidra warnings; source=mapped-promotion; prior mapping evidence: CIE augmentation parser; eh/z/L/R/P flow aligns with GCC 3.2.2 unwind-dw2.c"
 0x001a42b8,execute_stack_op,RECONSTRUCTED,medium,"Progress 17: complete R5900 structural decompile; pinned warnings: nonreturn-annotation; existing binary-derived mapped name retained; 431 pseudocode lines, sha256 e0219b8a9a2a7240; 1 pinned Ghidra warning(s): nonreturn-annotation; source=mapped-promotion; prior mapping evidence: DW_OP stack-machine evaluator; large 0x290-byte frame and opcode dispatch mapped"

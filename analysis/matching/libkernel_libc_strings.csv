@@ -1,0 +1,8 @@
+address,end,name,object_symbol,source
+0x0019c3d4,0x0019c40c,strcat,strcat_candidate,matching/candidates/libkernel_libc_strings.S
+0x0019c410,0x0019c458,strncmp,strncmp_candidate,matching/candidates/libkernel_libc_strings.S
+0x0019c458,0x0019c4a0,memcmp,memcmp_candidate,matching/candidates/libkernel_libc_strings.S
+0x0019c4a0,0x0019c528,memmove,memmove_candidate,matching/candidates/libkernel_libc_strings.S
+0x0019c528,0x0019c550,strcpy,strcpy_candidate,matching/candidates/libkernel_libc_strings.S
+0x0019c610,0x0019c648,strchr,strchr_candidate,matching/candidates/libkernel_libc_strings.S
+0x0019c648,0x0019c688,strcmp,strcmp_candidate,matching/candidates/libkernel_libc_strings.S

@@ -119,7 +119,11 @@ void CDVD_FlushCache()
 
 unsigned int CDVD_GetSize()
 {
+#ifdef SNESSTATION_HOST_SYNTAX
+    if(!cdvd_inited) return 0;
+#else
     if(!cdvd_inited) return;
+#endif
 
     SifCallRpc(&cd0,CDVD_GETSIZE,0,(void*)(&sbuff[0]),0,(void*)(&sbuff[0]),4,0,0);
 

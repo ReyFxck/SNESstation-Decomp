@@ -46,12 +46,13 @@ class Progress43HistoricalCdvdTests(unittest.TestCase):
         self.assertEqual("0x0019be70", rows[0]["address"])
         self.assertEqual("0x0019c364", rows[-1]["end"])
 
-    def test_runner_forces_fresh_candidate(self):
+    def test_runner_forces_fresh_profile_candidates_and_keeps_strict_gate(self):
         text = (ROOT / "tools/run-cdvd-frontier.sh").read_text(encoding="utf-8")
-        self.assertIn('rm -f "$OBJ"', text)
+        self.assertIn('rm -f "$BUILD"/shape-*.o', text)
+        self.assertIn('local obj="$BUILD/shape-${name}.o"', text)
         self.assertIn("--require-all-matching", text)
-        self.assertNotIn("-ffreestanding", text)
-        self.assertNotIn("-fno-builtin", text)
+        self.assertIn("try_profile snesticle-freestanding", text)
+        self.assertIn("-ffreestanding -fno-builtin", text)
 
 
 if __name__ == "__main__":

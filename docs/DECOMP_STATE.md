@@ -14,17 +14,24 @@ Unpacked image SHA-256:
 
 ## Closed local listing gates
 
-- Newlib mathfp corridor: 7/7 relocation-normalized matches.
-- libgcc unwind compact gate: 7/7 relocation-normalized matches.
-- GSLIB hardware corridor: 7/7 relocation-normalized matches; strict gate OK.
-- Legacy ZIP `get_tree`: 1/1 relocation-normalized match; strict gate OK.
+- Newlib mathfp: 7/7.
+- libgcc unwind compact gate: 7/7.
+- GSLIB hardware: 7/7 strict.
+- Legacy ZIP `get_tree`: 1/1 strict.
+- Old EE libkernel syscall leaves: 19/19 strict.
+- Old EE libkernel DIntr/EIntr: 2/2 strict.
+- Old EE libkernel size-optimized strings: 4/4 strict.
+- Old EE libc assembly strings/memory: 7/7 strict.
 
-Total closed committed-listing matches: **22 functions**.
+Total closed committed-listing matches: **54 functions**.
 
-The `get_tree` readable K&R C matches the historical SNESticle source shape,
-but the surviving SNESticle EE3.2.2-b1 listing is 208 bytes versus the target's
-212 bytes. The formal matching candidate is therefore a clearly labelled
-assembly reconstruction; it is not claimed as Hiryu's original source.
+Progress 52 promotes those proven rows in the authoritative progress
+manifests and regenerates the README/SVG. Matching is **54/1041 = 5.19%**;
+structural/source-model coverage remains 100% and is not conflated with matching.
+
+The syscall leaves preserve the historical `kernel.S` source form. DIntr/EIntr
+retain readable historical-source behavior while using a clearly labelled exact
+assembly reconstruction for the strict target gate.
 
 These are function/listing claims, not a claim that the complete ELF links
 byte-identically yet.
@@ -46,9 +53,10 @@ The historical source/layout is structurally strong, but the corridor is not
 yet an 8/8 byte match. Do not mark it MATCHING.
 
 Important references:
-- SNESticle commit 9590ebf3bf768424ebd6cb018f322e724a7aade3:
-  old libcdvd source plus EE3.2.2-b1 listing/object.
-- PGEN commit f722681391fb6a1cc64a1260027a33862685e585:
+- SNESticle commit `9590ebf3bf768424ebd6cb018f322e724a7aade3`:
+  old libcdvd source plus EE3.2.2-b1 listing/object and neighboring libkernel
+  archive-member evidence.
+- PGEN commit `f722681391fb6a1cc64a1260027a33862685e585`:
   same historical libcdvd family with CDVD_GetSize / command 0x08.
 
 ## Compiler state
@@ -59,19 +67,12 @@ Already reproducible from repository source:
 - stage-one C compiler
 
 Archived fingerprint candidates:
-- ee-gcc3.2-030210-beta2.tar.gz
-- ee-gcc3.2-030926.tar.gz
+- `ee-gcc3.2-030210-beta2.tar.gz`
+- `ee-gcc3.2-030926.tar.gz`
 
 The 030926 compiler remains the strongest pre-target fingerprint candidate for
-C codegen differences such as `get_tree` and the remaining CDVD register
-allocation/scheduling differences, but it must be validated by byte comparisons.
-
-## C library
-
-Pinned:
-- Newlib 1.10.0 official source archive
-- PS2DEV newlib-1.10.0 patch from immutable ps2toolchain commit
-  16a47184b3a5fdf4aea45fcc8fee082d3c4d4183e
+remaining C codegen differences such as CDVD register allocation/scheduling.
+Bytes decide.
 
 ## Still not globally pinned
 
@@ -84,11 +85,7 @@ Pinned:
 
 Do not silently substitute modern PS2SDK for those unknowns.
 
-## Preserved matching checkpoint and scripts
-
-The repository also stores:
-- `docs/MATCHED_CHECKPOINT.md` — the 22 closed committed-listing matches.
-- `tools/history/progress/` — archived historical matching/fingerprint scripts.
+## Preserved matching checkpoint
 
 Current authoritative matching status:
-`docs/MATCHED_CHECKPOINT.md`.
+`docs/MATCHED_CHECKPOINT.md` — **54 closed committed-listing matches**.
