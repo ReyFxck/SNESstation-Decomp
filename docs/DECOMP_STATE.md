@@ -1,6 +1,6 @@
 # SNESstation-Decomp state
 
-Last methodology checkpoint: 2026-08-14.
+Last methodology checkpoint: 2026-08-15.
 
 ## Target
 
@@ -17,6 +17,14 @@ Unpacked image SHA-256:
 - Newlib mathfp corridor: 7/7 relocation-normalized matches.
 - libgcc unwind compact gate: 7/7 relocation-normalized matches.
 - GSLIB hardware corridor: 7/7 relocation-normalized matches; strict gate OK.
+- Legacy ZIP `get_tree`: 1/1 relocation-normalized match; strict gate OK.
+
+Total closed committed-listing matches: **22 functions**.
+
+The `get_tree` readable K&R C matches the historical SNESticle source shape,
+but the surviving SNESticle EE3.2.2-b1 listing is 208 bytes versus the target's
+212 bytes. The formal matching candidate is therefore a clearly labelled
+assembly reconstruction; it is not claimed as Hiryu's original source.
 
 These are function/listing claims, not a claim that the complete ELF links
 byte-identically yet.
@@ -54,9 +62,9 @@ Archived fingerprint candidates:
 - ee-gcc3.2-030210-beta2.tar.gz
 - ee-gcc3.2-030926.tar.gz
 
-The 030926 compiler is the strongest pre-target fingerprint candidate for the
-remaining CDVD register-allocation/scheduling differences, but it must be
-validated by byte comparisons.
+The 030926 compiler remains the strongest pre-target fingerprint candidate for
+C codegen differences such as `get_tree` and the remaining CDVD register
+allocation/scheduling differences, but it must be validated by byte comparisons.
 
 ## C library
 
@@ -79,9 +87,8 @@ Do not silently substitute modern PS2SDK for those unknowns.
 ## Preserved matching checkpoint and scripts
 
 The repository also stores:
-- `docs/MATCHED_CHECKPOINT.md` — the 21 closed committed-listing matches.
-- `tools/history/progress/` — archived Progress 42-46 scripts.
+- `docs/MATCHED_CHECKPOINT.md` — the 22 closed committed-listing matches.
+- `tools/history/progress/` — archived historical matching/fingerprint scripts.
 
-Script status is explicit in `tools/history/progress/README.md`:
-Progress 42 is the closed GSLIB gate; Progress 43-46 remain CDVD WIP/fingerprint
-experiments and must never be counted as matching progress.
+Current authoritative matching status:
+`docs/MATCHED_CHECKPOINT.md`.

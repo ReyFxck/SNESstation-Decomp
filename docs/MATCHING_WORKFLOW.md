@@ -122,19 +122,21 @@ version, target tuple, unsupported R5900 flags or wrong ELF class/endianness
 before a target comparison is attempted. See
 [`HISTORICAL_EE_TOOLCHAIN.md`](HISTORICAL_EE_TOOLCHAIN.md).
 
-The isolated historical-source candidate for `get_tree` lives at
-`matching/candidates/get_tree.c`; its report is written to
-`build/matching/get_tree/report.md`. The local math-listing evidence is written
-to `analysis/matching/mathfp-listing-report.md`, while the formal reference-ELF
-report remains under `build/matching/mathfp/report.md`. The local math strict
-check now passes all seven rows. Other strict variants still fail whenever any
-requested row remains non-matching.
+The readable historical-source model for `get_tree` lives at
+`matching/candidates/get_tree.c`. The surviving SNESticle EE3.2.2-b1 listing
+compiles that source shape to 208 bytes, while the SNES Station target is 212
+bytes with a different register allocation and one additional `lui` reload.
+The formal matching candidate is therefore the clearly labelled
+`matching/candidates/get_tree.S` reconstruction; its committed-listing report
+is `analysis/matching/get-tree-listing-report.md`, while the reference-ELF report
+remains under `build/matching/get_tree/report.md`. The assembly reconstruction
+is not presented as Hiryu's original source.
 
-`get_tree` at `0x0018c124` is still the simplest first compiler fingerprint
-because a historical SNESticle assembly listing exists for it. The math
-corridor is the first pinned library experiment because its upstream source
-identity is unusually strong. Both experiments are useful and answer different
-questions.
+`get_tree @ 0x0018c124` now closes **1/1** under the bit-precise committed-listing
+strict gate. Its historical 208-vs-212-byte compiler fingerprint remains useful
+for identifying the exact pre-target EE GCC build. The math corridor remains the
+first pinned library experiment because its upstream source identity is unusually
+strong; the two results answer different provenance questions.
 
 ## What “all scripts are complete” would require
 

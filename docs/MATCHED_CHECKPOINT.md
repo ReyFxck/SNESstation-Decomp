@@ -1,8 +1,8 @@
 # Matched source checkpoint
 
-Checkpoint date: 2026-08-14.
+Checkpoint date: 2026-08-15.
 
-## Closed committed-listing gates: 21 functions
+## Closed committed-listing gates: 22 functions
 
 ### Newlib mathfp — 7/7
 
@@ -42,6 +42,19 @@ Evidence:
 
 Evidence:
 `analysis/matching/gslib-hw-listing-report.md`
+
+### Legacy ZIP `get_tree` — 1/1 strict
+
+- `0x0018c124` `get_tree`
+
+Evidence:
+`analysis/matching/get-tree-listing-report.md`
+
+The readable K&R C is preserved in `matching/candidates/get_tree.c`. The formal
+matcher uses the clearly labelled `matching/candidates/get_tree.S` reconstruction
+because the surviving SNESticle EE3.2.2-b1 listing emits a 208-byte function
+while the SNES Station target is 212 bytes. The assembly is not presented as
+Hiryu's original source.
 
 ## Important scope
 

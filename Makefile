@@ -23,9 +23,13 @@ MATHFP_MANIFEST := analysis/matching/mathfp.csv
 MATHFP_LISTING := analysis/functions/math_frontier_0019fddc.asm
 MATHFP_LISTING_RAW := $(MATCH_DIR)/mathfp/listing.bin
 MATHFP_LISTING_REPORT := analysis/matching/mathfp-listing-report.md
+GET_TREE_SOURCE := matching/candidates/get_tree.S
 GET_TREE_OBJECT := $(MATCH_DIR)/get_tree/get_tree.o
 GET_TREE_REPORT := $(MATCH_DIR)/get_tree/report.md
 GET_TREE_MANIFEST := analysis/matching/get_tree.csv
+GET_TREE_LISTING := analysis/functions/unzip_explode_0018c124.asm
+GET_TREE_LISTING_RAW := $(MATCH_DIR)/get_tree/listing.bin
+GET_TREE_LISTING_REPORT := analysis/matching/get-tree-listing-report.md
 LIBGCC_UNWIND_SOURCE := matching/candidates/libgcc_unwind_leaves.c
 LIBGCC_UNWIND_OBJECT := $(MATCH_DIR)/libgcc_unwind/libgcc_unwind_leaves.o
 LIBGCC_UNWIND_MANIFEST := analysis/matching/libgcc_unwind_leaves.csv
@@ -82,7 +86,8 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	bootstrap-ee-stage1 \
 	toolchain-info toolchain-probe check-ee-compiler \
 	ee-source-scan ee-source-scan-strict historical-ee-gate \
-	match-get-tree match-get-tree-strict match-mathfp match-mathfp-strict \
+	match-get-tree match-get-tree-strict match-get-tree-listing match-get-tree-listing-strict \
+	match-mathfp match-mathfp-strict \
 	match-mathfp-listing match-mathfp-listing-strict \
 	match-libgcc-unwind match-libgcc-unwind-strict \
 	match-libgcc-unwind-listing match-libgcc-unwind-listing-strict \
@@ -101,7 +106,8 @@ help:
 	@echo "  make toolchain-probe test EE_CC version, target, flags and ELF output"
 	@echo "  make ee-source-scan  baseline every C TU against the historical EE front end"
 	@echo "  make historical-ee-gate  strict 101/101 EE scan + strict 7/7 unwind listing gate"
-	@echo "  make match-get-tree run the smallest compiler-fingerprint experiment"
+	@echo "  make match-get-tree  formal reference-ELF gate for byte-exact get_tree"
+	@echo "  make match-get-tree-listing  strict local get_tree gate against committed bytes"
 	@echo "  make match-mathfp   compile and compare the seven-function math corridor"
 	@echo "  make match-mathfp-listing  compare math against the committed disassembly"
 	@echo "  make match-libgcc-unwind-listing  probe 7 committed GCC unwind helpers locally"
@@ -235,7 +241,15 @@ $(GSLIB_HW_LISTING_RAW): $(GSLIB_HW_LISTING) tools/objdump_listing_to_binary.py 
 		--base-address 0x0019bd38 \
 		--end-address 0x0019be70
 
-$(GET_TREE_OBJECT): matching/candidates/get_tree.c $(GET_TREE_MANIFEST) | check-ee-compiler
+$(GET_TREE_LISTING_RAW): $(GET_TREE_LISTING) tools/objdump_listing_to_binary.py Makefile
+	@mkdir -p "$(dir $@)"
+	$(PYTHON) tools/objdump_listing_to_binary.py \
+		--input "$<" \
+		--output "$@" \
+		--base-address 0x0018c124 \
+		--end-address 0x0018c1f8
+
+$(GET_TREE_OBJECT): $(GET_TREE_SOURCE) $(GET_TREE_MANIFEST) | check-ee-compiler
 	@mkdir -p "$(dir $@)"
 	$(EE_CC) $(EE_CFLAGS) -c $< -o $@
 
@@ -255,6 +269,28 @@ match-get-tree-strict: verify-reference $(GET_TREE_OBJECT)
 		--object "$(GET_TREE_OBJECT)" \
 		--manifest "$(GET_TREE_MANIFEST)" \
 		--report "$(GET_TREE_REPORT)" \
+		--require-all-matching
+
+
+# Local strict gate against exact bytes already committed in the target listing.
+# The reference-ELF targets above remain the formal original-binary gate.
+match-get-tree-listing: $(GET_TREE_LISTING_RAW) $(GET_TREE_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(GET_TREE_LISTING_RAW)" \
+		--base-address 0x0018c124 \
+		--object "$(GET_TREE_OBJECT)" \
+		--manifest "$(GET_TREE_MANIFEST)" \
+		--report "$(GET_TREE_LISTING_REPORT)"
+	$(PYTHON) tools/summarize_matching_report.py "$(GET_TREE_LISTING_REPORT)"
+	@echo "Local get_tree listing probe complete; original ELF remains the formal gate."
+
+match-get-tree-listing-strict: $(GET_TREE_LISTING_RAW) $(GET_TREE_OBJECT)
+	$(PYTHON) tools/compare_elf_functions.py \
+		--target "$(GET_TREE_LISTING_RAW)" \
+		--base-address 0x0018c124 \
+		--object "$(GET_TREE_OBJECT)" \
+		--manifest "$(GET_TREE_MANIFEST)" \
+		--report "$(GET_TREE_LISTING_REPORT)" \
 		--require-all-matching
 
 match-mathfp: verify-reference $(MATHFP_OBJECT)

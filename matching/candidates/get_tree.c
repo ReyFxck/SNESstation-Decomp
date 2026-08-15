@@ -1,13 +1,20 @@
 /*
- * First compiler-fingerprint candidate for get_tree @ 0x0018c124.
+ * Historical-source model for get_tree @ 0x0018c124.
  *
  * This deliberately preserves the 1992 K&R definition and expression order
- * found in iaddis/SNESticle commit 9590ebf, path
- * Gep/Source/common/unzip/explode.c.  That source is paired with a release
- * EE GCC 3.2.2-b1 GAS listing.  The function is renamed only so this isolated
- * experiment cannot collide with the behavioral reconstruction.
+ * found in iaddis/SNESticle commit
+ * 9590ebf3bf768424ebd6cb018f322e724a7aade3, path
+ * Gep/Source/common/unzip/explode.c.
  *
- * It is a matching candidate, not a MATCHING claim.
+ * The paired surviving SNESticle release_EE3.2.2-b1/explode.lst proves that
+ * this historical C shape compiles to a 208-byte get_tree with that compiler
+ * build.  SNES Station's target is 212 bytes and uses a different register
+ * allocation / bytebuf-base lifetime.  Do not deform this C to compensate for
+ * the compiler fingerprint: matching/candidates/get_tree.S records the exact
+ * target instructions for the formal matcher.
+ *
+ * This C file remains the readable provenance/source model; the .S file is a
+ * clearly labelled matching reconstruction, not Hiryu's claimed original asm.
  */
 
 typedef unsigned short get_tree_uword;
