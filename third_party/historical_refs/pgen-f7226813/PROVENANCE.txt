@@ -1,0 +1,4 @@
+repository=https://github.com/ps2homebrew/pgen
+commit=f722681391fb6a1cc64a1260027a33862685e585
+role=historical libcdvd revision preserving CDVD_GetSize / command 0x08
+status=REFERENCE, not proof that SNES Station used this exact PGEN source revision

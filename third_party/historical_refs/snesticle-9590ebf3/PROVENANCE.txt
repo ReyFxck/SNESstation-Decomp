@@ -1,0 +1,4 @@
+repository=https://github.com/iaddis/SNESticle
+commit=9590ebf3bf768424ebd6cb018f322e724a7aade3
+role=historical reference for the old EE libcdvd family and EE3.2.2-b1 listing/object
+status=REFERENCE, not proof that SNES Station used this exact libcdvd revision

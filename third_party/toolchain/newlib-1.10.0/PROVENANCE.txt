@@ -1,0 +1,8 @@
+newlib_source=newlib-1.10.0.tar.gz
+source_origin=https://sourceware.org/pub/newlib/newlib-1.10.0.tar.gz
+source_sha256=69b62ad4c746a9acaf4f898772549f6da49f228f83a95efce7e88ae1d88c5a84
+
+ps2_patch=newlib-1.10.0-ps2dev-16a47184.patch
+patch_origin=https://github.com/ps2dev/ps2toolchain
+patch_commit=16a47184b3a5fdf4aea45fcc8fee082d3c4d4183e
+patch_sha256=618634ff422e17aa517445308a2acbf8bfba95f8fee8b0bd5cbc123a0d69db38
