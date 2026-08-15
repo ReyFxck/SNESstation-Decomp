@@ -1,0 +1,12 @@
+address,end,name,object_symbol,source
+0x001a90f8,0x001a9118,operator_delete,operator_delete,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001a9118,0x001a9134,operator_delete_array,operator_delete_array,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001a9138,0x001a91ac,size_of_encoded_value_eh_personality,p53_size_encoded,GCC 3.2.2/SNESticle libsupc++/EH
+0x001a9268,0x001a92a4,read_uleb128_eh_personality,p53_read_uleb,GCC 3.2.2/SNESticle libsupc++/EH
+0x001a92a8,0x001a9308,read_sleb128_eh_personality,p53_read_sleb,GCC 3.2.2/SNESticle libsupc++/EH
+0x001a9ca8,0x001a9ccc,cpp_terminate_helper,p53_terminate_helper,GCC 3.2.2/SNESticle libsupc++/EH
+0x001a9cf0,0x001a9d08,std_terminate,p53_std_terminate,GCC 3.2.2/SNESticle libsupc++/EH
+0x001a9d08,0x001a9d20,cpp_unexpected_helper,p53_unexpected_helper,GCC 3.2.2/SNESticle libsupc++/EH
+0x001a9d20,0x001a9d38,std_unexpected,p53_std_unexpected,GCC 3.2.2/SNESticle libsupc++/EH
+0x001a9d38,0x001a9d48,std_set_terminate,p53_set_terminate,GCC 3.2.2/SNESticle libsupc++/EH
+0x001a9d48,0x001a9d58,std_set_unexpected,p53_set_unexpected,GCC 3.2.2/SNESticle libsupc++/EH

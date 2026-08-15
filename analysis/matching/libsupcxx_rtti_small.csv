@@ -1,0 +1,38 @@
+address,end,name,object_symbol,source
+0x001a9fa8,0x001a9fb8,std_type_info_destructor_D2,p53_type_info_D2,GCC 3.2.2/SNESticle libsupc++
+0x001a9fb8,0x001a9fc8,std_type_info_destructor_D1,p53_type_info_D1,GCC 3.2.2/SNESticle libsupc++
+0x001a9fc8,0x001a9fec,std_type_info_destructor_D0,p53_type_info_D0,GCC 3.2.2/SNESticle libsupc++
+0x001a9ff0,0x001aa014,std_bad_cast_destructor_D2,p53_bad_cast_D2,GCC 3.2.2/SNESticle libsupc++
+0x001aa018,0x001aa03c,std_bad_cast_destructor_D1,p53_bad_cast_D1,GCC 3.2.2/SNESticle libsupc++
+0x001aa040,0x001aa078,std_bad_cast_destructor_D0,p53_bad_cast_D0,GCC 3.2.2/SNESticle libsupc++
+0x001aa078,0x001aa09c,std_bad_typeid_destructor_D2,p53_bad_typeid_D2,GCC 3.2.2/SNESticle libsupc++
+0x001aa0a0,0x001aa0c4,std_bad_typeid_destructor_D1,p53_bad_typeid_D1,GCC 3.2.2/SNESticle libsupc++
+0x001aa0c8,0x001aa100,std_bad_typeid_destructor_D0,p53_bad_typeid_D0,GCC 3.2.2/SNESticle libsupc++
+0x001aa100,0x001aa108,std_type_info_is_pointer_p,std_type_info_is_pointer_p,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001aa108,0x001aa110,std_type_info_is_function_p,std_type_info_is_function_p,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001aa110,0x001aa124,std_type_info_do_catch,std_type_info_do_catch,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001aa128,0x001aa130,std_type_info_do_upcast,std_type_info_do_upcast,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001aa130,0x001aa154,std_class_type_info_destructor_D2,p53_class_type_info_D2,GCC 3.2.2/SNESticle libsupc++
+0x001aa158,0x001aa17c,std_class_type_info_destructor_D1,p53_class_type_info_D1,GCC 3.2.2/SNESticle libsupc++
+0x001aa180,0x001aa1b8,std_class_type_info_destructor_D0,p53_class_type_info_D0,GCC 3.2.2/SNESticle libsupc++
+0x001aa1b8,0x001aa1dc,std_si_class_type_info_destructor_D2,p53_si_class_type_info_D2,GCC 3.2.2/SNESticle libsupc++
+0x001aa1e0,0x001aa204,std_si_class_type_info_destructor_D1,p53_si_class_type_info_D1,GCC 3.2.2/SNESticle libsupc++
+0x001aa208,0x001aa240,std_si_class_type_info_destructor_D0,p53_si_class_type_info_D0,GCC 3.2.2/SNESticle libsupc++
+0x001aa240,0x001aa264,std_vmi_class_type_info_destructor_D2,p53_vmi_class_type_info_D2,GCC 3.2.2/SNESticle libsupc++
+0x001aa268,0x001aa28c,std_vmi_class_type_info_destructor_D1,p53_vmi_class_type_info_D1,GCC 3.2.2/SNESticle libsupc++
+0x001aa290,0x001aa2c8,std_vmi_class_type_info_destructor_D0,p53_vmi_class_type_info_D0,GCC 3.2.2/SNESticle libsupc++
+0x001aa390,0x001aa3a4,class_type_info_find_public_src,class_type_info_find_public_src,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001ab200,0x001ab224,std_uncaught_exception,std_uncaught_exception,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001ab228,0x001ab238,std_exception_destructor_D2,p53_exception_D2,GCC 3.2.2/SNESticle libsupc++
+0x001ab238,0x001ab248,std_exception_destructor_D1,p53_exception_D1,GCC 3.2.2/SNESticle libsupc++
+0x001ab248,0x001ab26c,std_exception_destructor_D0,p53_exception_D0,GCC 3.2.2/SNESticle libsupc++
+0x001ab270,0x001ab294,std_bad_exception_destructor_D2,p53_bad_exception_D2,GCC 3.2.2/SNESticle libsupc++
+0x001ab298,0x001ab2bc,std_bad_exception_destructor_D1,p53_bad_exception_D1,GCC 3.2.2/SNESticle libsupc++
+0x001ab2c0,0x001ab2f8,std_bad_exception_destructor_D0,p53_bad_exception_D0,GCC 3.2.2/SNESticle libsupc++
+0x001ab2f8,0x001ab308,std_exception_what,std_exception_what,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001ab308,0x001ab314,cxa_get_globals_fast,cxa_get_globals_fast,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001ab318,0x001ab324,cxa_get_globals,cxa_get_globals,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001ab328,0x001ab338,std_set_new_handler,std_set_new_handler,historical GCC 3.2.2 libsupc++/EH runtime reconstruction
+0x001ab338,0x001ab35c,std_bad_alloc_destructor_D2,p53_bad_alloc_D2,GCC 3.2.2/SNESticle libsupc++
+0x001ab360,0x001ab384,std_bad_alloc_destructor_D1,p53_bad_alloc_D1,GCC 3.2.2/SNESticle libsupc++
+0x001ab388,0x001ab3c0,std_bad_alloc_destructor_D0,p53_bad_alloc_D0,GCC 3.2.2/SNESticle libsupc++

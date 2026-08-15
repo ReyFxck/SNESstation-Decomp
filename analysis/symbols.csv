@@ -924,12 +924,12 @@ address,name,status,confidence,notes
 0x001a8f08,padSetActAlign,RECONSTRUCTED,very-high,Command 0x08 with six actuator bytes; BUSY request update recovered
 0x001a8fe4,padSetActDirect,RECONSTRUCTED,very-high,Command 0x07 with six actuator bytes
 0x001a9080,padGetConnection,RECONSTRUCTED,very-high,NEW_PADMAN command 0x11 connection query
-0x001a90f8,operator_delete,RECONSTRUCTED,very-high,Itanium ABI _ZdlPv; null check then free @ 0x0019e784
-0x001a9118,operator_delete_array,RECONSTRUCTED,very-high,Itanium ABI _ZdaPv; exact forwarding wrapper to operator delete
-0x001a9138,size_of_encoded_value_eh_personality,RECONSTRUCTED,very-high,Second inlined unwind-pe fixed-size decoder copy in eh_personality.o
+0x001a90f8,operator_delete,MATCHING,very-high,Itanium ABI _ZdlPv; null check then free @ 0x0019e784; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001a9118,operator_delete_array,MATCHING,very-high,Itanium ABI _ZdaPv; exact forwarding wrapper to operator delete; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001a9138,size_of_encoded_value_eh_personality,MATCHING,very-high,Second inlined unwind-pe fixed-size decoder copy in eh_personality.o; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
 0x001a91b0,base_of_encoded_value_eh_personality,RECONSTRUCTED,very-high,Second unwind-pe base selector; calls shared target Unwind base accessors
-0x001a9268,read_uleb128_eh_personality,RECONSTRUCTED,very-high,Second unsigned LEB128 reader copy in eh_personality.o
-0x001a92a8,read_sleb128_eh_personality,RECONSTRUCTED,very-high,Second signed LEB128 reader copy in eh_personality.o
+0x001a9268,read_uleb128_eh_personality,MATCHING,very-high,Second unsigned LEB128 reader copy in eh_personality.o; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001a92a8,read_sleb128_eh_personality,MATCHING,very-high,Second signed LEB128 reader copy in eh_personality.o; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
 0x001a9308,read_encoded_value_with_base_eh_personality,RECONSTRUCTED,very-high,Second DW_EH_PE decoder copy in eh_personality.o
 0x001a9488,parse_lsda_header,RECONSTRUCTED,very-high,Progress 13: full LPStart/TType/call-site LSDA header parse and pointer advancement reconstructed
 0x001a9588,get_ttype_entry,RECONSTRUCTED,very-high,Progress 13: encoded type-table stride/base decode reconstructed from complete target flow
@@ -937,42 +937,42 @@ address,name,status,confidence,notes
 0x001a9698,check_exception_spec,RECONSTRUCTED,very-high,Progress 13: exception-spec ULEB type-list walk and adjusted-catch test reconstructed
 0x001a9728,__gxx_personality_v0,RECONSTRUCTED,medium,"Progress 17: complete R5900 structural decompile; pinned warnings: nonreturn-annotation; existing binary-derived mapped name retained; 174 pseudocode lines, sha256 36953ecd2fd17584; 1 pinned Ghidra warning(s): nonreturn-annotation; source=mapped-promotion; prior mapping evidence: GNU C++ DWARF personality routine; version/actions/LSDA state machine aligned to GCC 3.2.2 source"
 0x001a9b88,__cxa_call_unexpected,RECONSTRUCTED,medium,"Progress 17: complete R5900 structural decompile; pinned warnings: nonreturn-annotation; existing binary-derived mapped name retained; 43 pseudocode lines, sha256 e78c6e6bcc86c3bd; 1 pinned Ghidra warning(s): nonreturn-annotation; source=mapped-promotion; prior mapping evidence: Public unexpected-handler path; begins by backing from unwind header to __cxa_exception and calling __cxa_begin_catch"
-0x001a9ca8,__terminate,RECONSTRUCTED,high,Progress 13: terminate handler dispatch plus abort fallback represented by host callbacks
-0x001a9cf0,std_terminate,RECONSTRUCTED,very-high,Loads installed terminate handler and forwards to __terminate
-0x001a9d08,__unexpected,RECONSTRUCTED,very-high,Calls supplied unexpected handler then std::terminate
-0x001a9d20,std_unexpected,RECONSTRUCTED,very-high,Loads installed unexpected handler and forwards to __unexpected
-0x001a9d38,std_set_terminate,RECONSTRUCTED,very-high,Exact handler-slot swap leaf
-0x001a9d48,std_set_unexpected,RECONSTRUCTED,very-high,Exact handler-slot swap leaf
+0x001a9ca8,__terminate,MATCHING,high,Progress 13: terminate handler dispatch plus abort fallback represented by host callbacks; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=cpp_terminate_helper
+0x001a9cf0,std_terminate,MATCHING,very-high,Loads installed terminate handler and forwards to __terminate; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001a9d08,__unexpected,MATCHING,very-high,Calls supplied unexpected handler then std::terminate; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=cpp_unexpected_helper
+0x001a9d20,std_unexpected,MATCHING,very-high,Loads installed unexpected handler and forwards to __unexpected; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001a9d38,std_set_terminate,MATCHING,very-high,Exact handler-slot swap leaf; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001a9d48,std_set_unexpected,MATCHING,very-high,Exact handler-slot swap leaf; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
 0x001a9d58,__gxx_exception_cleanup,RECONSTRUCTED,high,"Progress 13: reason check, destructor dispatch, free-exception and terminate path recovered"
 0x001a9db8,__cxa_throw,RECONSTRUCTED,high,"Progress 13: __cxa header initialization, GNUCC++ class, uncaught increment and raise sequence modeled"
 0x001a9e40,__cxa_rethrow,RECONSTRUCTED,high,"Progress 13: caught-exception lookup, handlerCount negation, re-raise and terminate fallback modeled"
 0x001a9e88,operator_new,RECONSTRUCTED,very-high,"Progress 13: zero-size normalization, malloc/new-handler retry loop and bad_alloc fallback recovered"
 0x001a9f68,operator_new_array,RECONSTRUCTED,very-high,Itanium array-new forwarding wrapper to operator new @ 0x001a9e88
-0x001a9fa8,std_type_info_destructor_D2,RECONSTRUCTED,very-high,std::type_info base destructor; stores vptr 0x00426d08
-0x001a9fb8,std_type_info_destructor_D1,RECONSTRUCTED,very-high,std::type_info complete destructor; same vptr-store leaf
-0x001a9fc8,std_type_info_destructor_D0,RECONSTRUCTED,very-high,std::type_info deleting destructor; vptr store then operator delete
-0x001a9ff0,std_bad_cast_destructor_D2,RECONSTRUCTED,very-high,std::bad_cast base destructor; chains std::exception
-0x001aa018,std_bad_cast_destructor_D1,RECONSTRUCTED,very-high,std::bad_cast complete destructor
-0x001aa040,std_bad_cast_destructor_D0,RECONSTRUCTED,very-high,std::bad_cast deleting destructor
-0x001aa078,std_bad_typeid_destructor_D2,RECONSTRUCTED,very-high,std::bad_typeid base destructor; chains std::exception
-0x001aa0a0,std_bad_typeid_destructor_D1,RECONSTRUCTED,very-high,std::bad_typeid complete destructor
-0x001aa0c8,std_bad_typeid_destructor_D0,RECONSTRUCTED,very-high,std::bad_typeid deleting destructor
-0x001aa100,std_type_info_is_pointer_p,RECONSTRUCTED,very-high,std::type_info::__is_pointer_p leaf returns false
-0x001aa108,std_type_info_is_function_p,RECONSTRUCTED,very-high,std::type_info::__is_function_p leaf returns false
-0x001aa110,std_type_info_do_catch,RECONSTRUCTED,very-high,std::type_info::__do_catch compares the two name pointers
-0x001aa128,std_type_info_do_upcast,RECONSTRUCTED,very-high,base std::type_info::__do_upcast leaf returns false
-0x001aa130,class_type_info_destructor_D2,RECONSTRUCTED,very-high,__class_type_info D2; vptr then std::type_info destructor
-0x001aa158,class_type_info_destructor_D1,RECONSTRUCTED,very-high,__class_type_info D1
-0x001aa180,class_type_info_destructor_D0,RECONSTRUCTED,very-high,__class_type_info D0; chains base and operator delete
-0x001aa1b8,si_class_type_info_destructor_D2,RECONSTRUCTED,very-high,__si_class_type_info D2
-0x001aa1e0,si_class_type_info_destructor_D1,RECONSTRUCTED,very-high,__si_class_type_info D1
-0x001aa208,si_class_type_info_destructor_D0,RECONSTRUCTED,very-high,__si_class_type_info D0
-0x001aa240,vmi_class_type_info_destructor_D2,RECONSTRUCTED,very-high,__vmi_class_type_info D2
-0x001aa268,vmi_class_type_info_destructor_D1,RECONSTRUCTED,very-high,__vmi_class_type_info D1
-0x001aa290,vmi_class_type_info_destructor_D0,RECONSTRUCTED,very-high,__vmi_class_type_info D0
+0x001a9fa8,std_type_info_destructor_D2,MATCHING,very-high,std::type_info base destructor; stores vptr 0x00426d08; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001a9fb8,std_type_info_destructor_D1,MATCHING,very-high,std::type_info complete destructor; same vptr-store leaf; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001a9fc8,std_type_info_destructor_D0,MATCHING,very-high,std::type_info deleting destructor; vptr store then operator delete; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001a9ff0,std_bad_cast_destructor_D2,MATCHING,very-high,std::bad_cast base destructor; chains std::exception; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001aa018,std_bad_cast_destructor_D1,MATCHING,very-high,std::bad_cast complete destructor; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001aa040,std_bad_cast_destructor_D0,MATCHING,very-high,std::bad_cast deleting destructor; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001aa078,std_bad_typeid_destructor_D2,MATCHING,very-high,std::bad_typeid base destructor; chains std::exception; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001aa0a0,std_bad_typeid_destructor_D1,MATCHING,very-high,std::bad_typeid complete destructor; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001aa0c8,std_bad_typeid_destructor_D0,MATCHING,very-high,std::bad_typeid deleting destructor; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001aa100,std_type_info_is_pointer_p,MATCHING,very-high,std::type_info::__is_pointer_p leaf returns false; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001aa108,std_type_info_is_function_p,MATCHING,very-high,std::type_info::__is_function_p leaf returns false; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001aa110,std_type_info_do_catch,MATCHING,very-high,std::type_info::__do_catch compares the two name pointers; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001aa128,std_type_info_do_upcast,MATCHING,very-high,base std::type_info::__do_upcast leaf returns false; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001aa130,class_type_info_destructor_D2,MATCHING,very-high,__class_type_info D2; vptr then std::type_info destructor; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=std_class_type_info_destructor_D2
+0x001aa158,class_type_info_destructor_D1,MATCHING,very-high,__class_type_info D1; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=std_class_type_info_destructor_D1
+0x001aa180,class_type_info_destructor_D0,MATCHING,very-high,__class_type_info D0; chains base and operator delete; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=std_class_type_info_destructor_D0
+0x001aa1b8,si_class_type_info_destructor_D2,MATCHING,very-high,__si_class_type_info D2; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=std_si_class_type_info_destructor_D2
+0x001aa1e0,si_class_type_info_destructor_D1,MATCHING,very-high,__si_class_type_info D1; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=std_si_class_type_info_destructor_D1
+0x001aa208,si_class_type_info_destructor_D0,MATCHING,very-high,__si_class_type_info D0; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=std_si_class_type_info_destructor_D0
+0x001aa240,vmi_class_type_info_destructor_D2,MATCHING,very-high,__vmi_class_type_info D2; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=std_vmi_class_type_info_destructor_D2
+0x001aa268,vmi_class_type_info_destructor_D1,MATCHING,very-high,__vmi_class_type_info D1; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=std_vmi_class_type_info_destructor_D1
+0x001aa290,vmi_class_type_info_destructor_D0,MATCHING,very-high,__vmi_class_type_info D0; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=std_vmi_class_type_info_destructor_D0
 0x001aa2c8,class_type_info_do_catch,RECONSTRUCTED,very-high,__class_type_info::__do_catch; name fast path plus recursive RTTI dispatch
 0x001aa320,class_type_info_do_upcast_wrapper,RECONSTRUCTED,very-high,public two-argument __do_upcast wrapper; requires contained-public flags 0x6
-0x001aa390,class_type_info_do_find_public_src,RECONSTRUCTED,very-high,base find-public-source leaf returns 6 on same object and 1 otherwise
+0x001aa390,class_type_info_do_find_public_src,MATCHING,very-high,base find-public-source leaf returns 6 on same object and 1 otherwise; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=class_type_info_find_public_src
 0x001aa3a8,si_class_type_info_do_find_public_src,RECONSTRUCTED,very-high,Progress 13: single-base public-source recursion and direct public-contained mask recovered
 0x001aa400,vmi_class_type_info_do_find_public_src,RECONSTRUCTED,medium-high,"Progress 17: complete R5900 structural decompile; existing binary-derived mapped name retained; 41 pseudocode lines, sha256 98d6357eff3071f6; no Ghidra warnings; source=mapped-promotion; prior mapping evidence: __vmi_class_type_info public-source search over direct bases"
 0x001aa548,class_type_info_do_dyncast,RECONSTRUCTED,very-high,Progress 13: base class_type_info dyncast result writes and name tests recovered
@@ -986,20 +986,20 @@ address,name,status,confidence,notes
 0x001ab080,__cxa_free_exception,RECONSTRUCTED,very-high,frees normal allocation or clears emergency-slot bit
 0x001ab0f0,__cxa_begin_catch,RECONSTRUCTED,very-high,updates handlerCount/caught chain and decrements uncaughtExceptions
 0x001ab158,__cxa_end_catch,RECONSTRUCTED,very-high,end-catch/rethrow handler-count state machine and unwind-delete path recovered
-0x001ab200,std_uncaught_exception,RECONSTRUCTED,very-high,std::uncaught_exception() returns __cxa_get_globals()->uncaughtExceptions != 0
-0x001ab228,std_exception_destructor_D2,RECONSTRUCTED,very-high,std::exception D2 vptr-store leaf
-0x001ab238,std_exception_destructor_D1,RECONSTRUCTED,very-high,std::exception D1 vptr-store leaf
-0x001ab248,std_exception_destructor_D0,RECONSTRUCTED,very-high,std::exception D0 vptr store then operator delete
-0x001ab270,std_bad_exception_destructor_D2,RECONSTRUCTED,very-high,std::bad_exception D2; chains std::exception
-0x001ab298,std_bad_exception_destructor_D1,RECONSTRUCTED,very-high,std::bad_exception D1
-0x001ab2c0,std_bad_exception_destructor_D0,RECONSTRUCTED,very-high,std::bad_exception D0
-0x001ab2f8,std_exception_what,RECONSTRUCTED,very-high,shared what() body resolves dynamic type_info through vtable[-1] and returns its name
-0x001ab308,__cxa_get_globals_fast,RECONSTRUCTED,very-high,single static EH-globals pointer leaf at 0x004481d0
-0x001ab318,__cxa_get_globals,RECONSTRUCTED,very-high,same static EH-globals pointer in this single-thread runtime
-0x001ab328,std_set_new_handler,RECONSTRUCTED,very-high,std::set_new_handler swaps global handler slot at 0x00426b1c
-0x001ab338,std_bad_alloc_destructor_D2,RECONSTRUCTED,very-high,std::bad_alloc D2; chains std::exception
-0x001ab360,std_bad_alloc_destructor_D1,RECONSTRUCTED,very-high,std::bad_alloc D1
-0x001ab388,std_bad_alloc_destructor_D0,RECONSTRUCTED,very-high,std::bad_alloc D0; chains base and operator delete
+0x001ab200,std_uncaught_exception,MATCHING,very-high,std::uncaught_exception() returns __cxa_get_globals()->uncaughtExceptions != 0; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001ab228,std_exception_destructor_D2,MATCHING,very-high,std::exception D2 vptr-store leaf; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001ab238,std_exception_destructor_D1,MATCHING,very-high,std::exception D1 vptr-store leaf; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001ab248,std_exception_destructor_D0,MATCHING,very-high,std::exception D0 vptr store then operator delete; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001ab270,std_bad_exception_destructor_D2,MATCHING,very-high,std::bad_exception D2; chains std::exception; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001ab298,std_bad_exception_destructor_D1,MATCHING,very-high,std::bad_exception D1; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001ab2c0,std_bad_exception_destructor_D0,MATCHING,very-high,std::bad_exception D0; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001ab2f8,std_exception_what,MATCHING,very-high,shared what() body resolves dynamic type_info through vtable[-1] and returns its name; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001ab308,__cxa_get_globals_fast,MATCHING,very-high,single static EH-globals pointer leaf at 0x004481d0; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=cxa_get_globals_fast
+0x001ab318,__cxa_get_globals,MATCHING,very-high,same static EH-globals pointer in this single-thread runtime; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH; matcher symbol=cxa_get_globals
+0x001ab328,std_set_new_handler,MATCHING,very-high,std::set_new_handler swaps global handler slot at 0x00426b1c; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001ab338,std_bad_alloc_destructor_D2,MATCHING,very-high,std::bad_alloc D2; chains std::exception; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001ab360,std_bad_alloc_destructor_D1,MATCHING,very-high,std::bad_alloc D1; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
+0x001ab388,std_bad_alloc_destructor_D0,MATCHING,very-high,std::bad_alloc D0; chains base and operator delete; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
 0x001ab3c0,SyncDCache,RECONSTRUCTED,very-high,EE public D-cache range synchronizer; CP0 status plus conditional DIntr/EIntr and 64-byte alignment proven
 0x001ab440,iSyncDCache,RECONSTRUCTED,very-high,R5900 two-way D-cache tag walk over 0x1000 index span; cache 0x10/0x14 and CP0 TagLo flow proven
 0x001ab4e8,S9xGetMemPointer,RECONSTRUCTED,very-high,Snes9x 4-KiB map pointer helper; target jump table and special-map pointer cases reconstructed

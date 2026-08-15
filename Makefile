@@ -93,6 +93,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	match-libgcc-unwind-listing match-libgcc-unwind-listing-strict \
 	match-gslib-hw-listing match-gslib-hw-listing-strict \
 	match-libkernel-leaves-listing-strict match-libkernel-size-strings-listing-strict match-libkernel-libc-strings-listing-strict \
+	match-cpp-runtime-small-listing-strict \
 	elf-status elf clean-matching
 
 help:
@@ -116,6 +117,7 @@ help:
 	@echo "  make match-libkernel-leaves-listing-strict  strict 21/21 old EE libkernel leaf gate"
 	@echo "  make match-libkernel-size-strings-listing-strict  strict 4/4 old EE size-string gate"
 	@echo "  make match-libkernel-libc-strings-listing-strict  strict 7/7 old EE libc assembly gate"
+	@echo "  make match-cpp-runtime-small-listing-strict  strict 48/48 GCC/libsupc++ runtime gate"
 	@echo "  make elf-status     show why a complete replacement ELF is not ready"
 	@echo
 	@echo "For matching, run make bootstrap-ee-stage1 or pass EE_CC=/path/to/ee-gcc."
@@ -400,6 +402,11 @@ match-libkernel-size-strings-listing-strict:
 
 match-libkernel-libc-strings-listing-strict:
 	bash tools/run-libkernel-libc-strings-match.sh
+
+
+# Progress 53: strict GCC/libsupc++ small-runtime gate (11 EH + 37 RTTI).
+match-cpp-runtime-small-listing-strict:
+	bash tools/run-cpp-runtime-small-match.sh
 
 elf-status: audit-source-check
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
