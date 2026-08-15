@@ -1,0 +1,17 @@
+address	name	group	macro	profile	object_symbol	object_size	boundary
+0x0019ca54	_request_bind	kernel-sifrpc	SifRpcMain	hist-os	_request_bind	180	exact-next-boundary
+0x0019cba8	_request_rdata	kernel-sifrpc	SifRpcMain	hist-o2	_request_rdata	100	exact-next-boundary
+0x0019cd70	_rpc_get_packet	kernel-sifrpc	_rpc_get_packet	hist-os	_rpc_get_packet	188	exact-next-boundary
+0x0019e860	strcasecmp	libc-string	strcasecmp	hist-os	strcasecmp	132	exact-next-boundary
+0x0019ee0c	isupper	libc-string	isupper	hist-o2	isupper	20	exact-next-boundary
+0x0019ee20	islower	libc-string	islower	hist-o2	islower	20	exact-next-boundary
+0x0019ee34	isalpha	libc-string	isalpha	hist-os	isalpha	76	exact-next-boundary
+0x0019ee80	isdigit	libc-string	isdigit	hist-o2	isdigit	20	exact-next-boundary
+0x0019ee94	isalnum	libc-string	isalnum	hist-os	isalnum	76	exact-next-boundary
+0x0019eee0	iscntrl	libc-string	iscntrl	hist-o2	iscntrl	28	exact-next-boundary
+0x0019f138	_SifSendCmd	kernel-sifcmd	sif_cmd_send	hist-os	_SifSendCmd	300	exact-next-boundary
+0x0019f2e8	set_sreg	kernel-sifcmd	sif_cmd_main	hist-os	set_sreg	28	exact-next-boundary
+0x0019f544	SifAddCmdHandler	kernel-sifcmd	sif_cmd_addhandler	hist-o2	SifAddCmdHandler	56	exact-next-boundary
+0x0019fb00	EnableDmac	kernel-glue	EnableDmac	hist-o2	EnableDmac	120	exact-next-boundary
+0x0019fbf0	_SifCmdIntHandler	kernel-sifcmd	_sif_cmd_int_handler	hist-os	_SifCmdIntHandler	224	exact-next-boundary
+0x001a1af4	SifCheckStatRpc	kernel-sifrpc	SifCheckStatRpc	hist-os	SifCheckStatRpc	44	exact-next-boundary

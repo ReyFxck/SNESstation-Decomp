@@ -55,7 +55,7 @@ address,name,status,confidence,notes
 0x001056c0,snes_dispatch_001056c0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00105718,snes_dispatch_00105718,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00105750,build_sram_path_00105750,RECONSTRUCTED,very-high,"Progress 14: complete split-path, 0x1b basename truncation, mc0:SNES_EMU/ prefix and .SRM append flow recovered from 0x00105750..0x001057f8"
-0x001057fc,snes_p16_001057fc,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 9 pseudocode lines, sha256 c62f6a52245b9ed8; address label retained because the historical symbol is unproven"
+0x001057fc,snes_p16_001057fc,MATCHING,medium-high,"Progress 16: complete R5900 structural decompile; 9 pseudocode lines, sha256 c62f6a52245b9ed8; address label retained because the historical symbol is unproven; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=build_state_path_001057fc"
 0x00105898,snes_p16_00105898,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 41 pseudocode lines, sha256 c61fd3e24cfc975b; address label retained because the historical symbol is unproven"
 0x001059cc,snes_p16_001059cc,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 32 pseudocode lines, sha256 ba47edbbb6bf417e; address label retained because the historical symbol is unproven"
 0x00105ae8,snes_p16_00105ae8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 82 pseudocode lines, sha256 641e82e45b797602; address label retained because the historical symbol is unproven"
@@ -97,7 +97,7 @@ address,name,status,confidence,notes
 0x0010a7ac,snes_leaf_0010a7ac,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a7fc,snes_leaf_0010a7fc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0010a840,apu_buffer_allocator,RECONSTRUCTED,very-high,"Progress 14: exact three-allocation order, failure cleanup through 0x0010a8bc and boolean return flow represented by recovered source"
-0x0010a8bc,snes_p11_0010a8bc,RECONSTRUCTED,high,Frees and clears three target-owned pointer slots in target order
+0x0010a8bc,snes_p11_0010a8bc,MATCHING,high,Frees and clears three target-owned pointer slots in target order; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=apu_buffer_cleanup_0010a8bc
 0x0010a934,snes_p16_0010a934,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 229 pseudocode lines, sha256 21a894d2fd3929cf; address label retained because the historical symbol is unproven"
 0x0010ad48,snes_p16_0010ad48,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 280 pseudocode lines, sha256 7c61dcf9f28d5fe2; address label retained because the historical symbol is unproven"
 0x0010b370,snes_p16_0010b370,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 68 pseudocode lines, sha256 89cb54ea995f3456; address label retained because the historical symbol is unproven"
@@ -250,7 +250,7 @@ address,name,status,confidence,notes
 0x00150e18,CMemory_ScoreLoROM,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 44 pseudocode lines, sha256 f51f51a4af1017af; name validated against Snes9x 1.41 source order and target behavior"
 0x00150f54,CMemory_Safe,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 40 pseudocode lines, sha256 32138679b25cb215; name validated against Snes9x 1.41 source order and target behavior"
 0x00151074,CMemory_Init,RECONSTRUCTED,high,Core memory allocator/initializer
-0x00151330,per_rom_cleanup,RECONSTRUCTED,high,"Progress 14: complete wrapper flow recovered: free/clear per-ROM buffers via 0x00151360 then call 0x00150f54(memory, 0); historical C++ method name remains unclaimed"
+0x00151330,per_rom_cleanup,MATCHING,high,"Progress 14: complete wrapper flow recovered: free/clear per-ROM buffers via 0x00151360 then call 0x00150f54(memory, 0); historical C++ method name remains unclaimed; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=rom_cleanup_00151330"
 0x00151360,snes_p11_00151360,RECONSTRUCTED,high,Per-ROM cleanup leaf frees and clears two allocation members
 0x001513bc,CMemory_LoadROM,RECONSTRUCTED,medium-high,"Progress 17: complete R5900 structural decompile; existing binary-derived mapped name retained; 453 pseudocode lines, sha256 e2d693155d9bad1c; no Ghidra warnings; source=mapped-promotion; prior mapping evidence: ROM load path proven by failure branch/string"
 0x001520b8,snes_p16_001520b8,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 77 pseudocode lines, sha256 c2558d68e194c04b; address label retained because the historical symbol is unproven"
@@ -403,7 +403,7 @@ address,name,status,confidence,notes
 0x00182910,snes_p11_00182910,RECONSTRUCTED,very-high,Special D/E/F-bank base-pointer resolver using 0x000f0000 address mask
 0x00182984,snes_p16_00182984,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 57 pseudocode lines, sha256 0ae5c2e361f3fdca; address label retained because the historical symbol is unproven"
 0x001832a4,snes_p13_runtime_block_init_001832a4,RECONSTRUCTED,very-high,Progress 13: fixed state-byte defaults and 64 KiB tail clear recovered
-0x0018339c,snes_leaf_0018339c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
+0x0018339c,snes_leaf_0018339c,MATCHING,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=snes_leaf_0018339c
 0x001833a4,snes_p13_write_record_001833a4,RECONSTRUCTED,very-high,"Progress 13: fixed-path open, exact 24 one-byte writes, close and success/failure convention reconstructed"
 0x001834f0,snes_p13_read_record_001834f0,RECONSTRUCTED,very-high,"Progress 13: fixed-path open, exact 24 one-byte reads/reassembly, close and result convention reconstructed"
 0x00183660,snes_leaf_00183660,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -454,7 +454,7 @@ address,name,status,confidence,notes
 0x0018d918,explode,RECONSTRUCTED,very-high,PKZIP method-6 dispatcher/tree builder; four-way flags proven
 0x0018dc60,ReadByte,RECONSTRUCTED,very-high,Compressed-input refill and byte reader
 0x0018dd6c,huft_build,RECONSTRUCTED,very-high,Classic linked-allocation canonical Huffman table builder
-0x0018e2e0,huft_free,RECONSTRUCTED,very-high,Frees linked huft allocation chain through dummy predecessor entry
+0x0018e2e0,huft_free,MATCHING,very-high,Frees linked huft allocation chain through dummy predecessor entry; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=huft_free_recovered
 0x0018e318,flush,RECONSTRUCTED,very-high,Flush slide buffer + CRC/output accounting
 0x0018e3ac,flush_stack,RECONSTRUCTED,very-high,Flush Shrink stack + CRC/output accounting
 0x0018e440,FillBitBuffer,RECONSTRUCTED,very-high,Shared legacy-ZIP bit-buffer refill helper
@@ -467,12 +467,12 @@ address,name,status,confidence,notes
 0x0018f070,unzlocal_getShort,RECONSTRUCTED,very-high,little-endian 16-bit reader; behavior recovered
 0x0018f0ec,unzlocal_getLong,RECONSTRUCTED,very-high,little-endian 32-bit reader under -mlong64 ABI; behavior recovered
 0x0018f1b8,strcmpcasenosensitive_internal,RECONSTRUCTED,very-high,ASCII case-insensitive filename compare
-0x0018f240,unzStringFileNameCompare,RECONSTRUCTED,very-high,case-sensitivity dispatcher; target entry begins before stack adjustment
+0x0018f240,unzStringFileNameCompare,MATCHING,very-high,case-sensitivity dispatcher; target entry begins before stack adjustment; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=unzStringFileNameCompare_recovered
 0x0018f27c,unzlocal_SearchCentralDir,RECONSTRUCTED,very-high,searches backwards for PKZIP end-of-central-directory signature
 0x0018f408,unzOpen,RECONSTRUCTED,medium-high,"Progress 17: complete R5900 structural decompile; existing binary-derived mapped name retained; 105 pseudocode lines, sha256 ad3dce85cb403804; no Ghidra warnings; source=mapped-promotion; prior mapping evidence: unzip 0.15 archive open/parser; exact target structure layout still pending"
 0x0018f5e0,unzClose,RECONSTRUCTED,very-high,closes active file then archive handle and frees state
-0x0018f638,unzGetGlobalInfo,RECONSTRUCTED,very-high,leaf global-info copy; no conventional prologue
-0x0018f654,unzlocal_DosDateToTmuDate,RECONSTRUCTED,very-high,DOS date/time field decoder
+0x0018f638,unzGetGlobalInfo,MATCHING,very-high,leaf global-info copy; no conventional prologue; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=unzGetGlobalInfo_recovered
+0x0018f654,unzlocal_DosDateToTmuDate,MATCHING,very-high,DOS date/time field decoder; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=unzlocal_DosDateToTmuDate_recovered
 0x0018f6cc,unzlocal_GetCurrentFileInfoInternal,RECONSTRUCTED,medium-high,"Progress 17: complete R5900 structural decompile; existing binary-derived mapped name retained; 218 pseudocode lines, sha256 a2bae5edf1fc1a13; no Ghidra warnings; source=mapped-promotion; prior mapping evidence: large central-directory entry parser; exact target layouts pending"
 0x0018faa4,snes_dispatch_0018faa4,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0018fab4,unzGetCurrentFileInfo,RECONSTRUCTED,very-high,thin wrapper around internal current-file parser
@@ -488,9 +488,9 @@ address,name,status,confidence,notes
 0x00190578,unzCloseCurrentFile,RECONSTRUCTED,very-high,"CRC check, inflate teardown and per-file cleanup"
 0x00190628,unzGetGlobalComment,RECONSTRUCTED,very-high,reads archive global comment from EOCD+22
 0x00190700,compress2,RECONSTRUCTED,very-high,zlib 1.1.3 memory-buffer compressor; target embeds version 1.1.3
-0x001907cc,compress,RECONSTRUCTED,very-high,thin compress2 wrapper using default compression level -1
+0x001907cc,compress,MATCHING,very-high,thin compress2 wrapper using default compression level -1; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=compress_recovered
 0x001907e8,uncompress,RECONSTRUCTED,very-high,zlib 1.1.3 whole-buffer decompressor
-0x001908bc,deflateInit_,RECONSTRUCTED,very-high,thin wrapper supplying method=8 window=15 memLevel=8 strategy=0
+0x001908bc,deflateInit_,MATCHING,very-high,thin wrapper supplying method=8 window=15 memLevel=8 strategy=0; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=deflateInit__recovered
 0x001908ec,deflateInit2_,RECONSTRUCTED,very-high,zlib 1.1.3 state allocator/initializer; target state size 0x16d8 and allocation flow recovered
 0x00190bb4,deflateSetDictionary,RECONSTRUCTED,very-high,preset dictionary setup and hash insertion recovered
 0x00190d10,deflateReset,RECONSTRUCTED,very-high,stream/state reset plus tree/LZ init recovered
@@ -519,36 +519,36 @@ address,name,status,confidence,notes
 0x001930a0,crc32,RECONSTRUCTED,very-high,table-driven zlib 1.1.3 CRC32; target uses 64-bit uLong entries under -mlong64; C recovered from target table access/unrolled loop
 0x00193290,snes_leaf_00193290,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00193298,gz_open,RECONSTRUCTED,very-high,gzio.c internal open; target allocates 0x80-byte gz_stream and parses mode; C recovered with target PS2 I/O divergences preserved
-0x00193564,gzopen,RECONSTRUCTED,very-high,gzio.c path open wrapper; C recovered; calls gz_open with fd=-1
-0x00193580,gzdopen,RECONSTRUCTED,very-high,gzio.c fd wrapper; formats <fd:%d> then calls gz_open; C recovered with target PS2 I/O divergences preserved
-0x001935d8,gzsetparams,RECONSTRUCTED,very-high,gzio.c compression parameter update; write-mode check and deflateParams path proven; C recovered with target PS2 I/O divergences preserved
+0x00193564,gzopen,MATCHING,very-high,gzio.c path open wrapper; C recovered; calls gz_open with fd=-1; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gzopen_00193564
+0x00193580,gzdopen,MATCHING,very-high,gzio.c fd wrapper; formats <fd:%d> then calls gz_open; C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gzdopen_00193580
+0x001935d8,gzsetparams,MATCHING,very-high,gzio.c compression parameter update; write-mode check and deflateParams path proven; C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2-no-align-jumps; object=gzsetparams_001935d8
 0x00193674,get_byte,RECONSTRUCTED,very-high,gzio.c buffered byte reader; input refill and EOF path proven; C recovered with target PS2 I/O divergences preserved
-0x0019371c,check_header,RECONSTRUCTED,very-high,gzio.c gzip header parser; magic/flags/optional fields flow reconstructed; C recovered with target PS2 I/O divergences preserved
+0x0019371c,check_header,MATCHING,very-high,gzio.c gzip header parser; magic/flags/optional fields flow reconstructed; C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=check_header_0019371c
 0x00193914,destroy,RECONSTRUCTED,very-high,gzio.c cleanup routine; read/write state teardown and file close reconstructed; C recovered with target PS2 I/O divergences preserved
 0x00193a34,gzread,RECONSTRUCTED,very-high,"gzio.c reader; transparent path, inflate path, CRC and concatenated gzip handling reconstructed; C recovered with target PS2 I/O divergences preserved"
-0x00193cd8,gzgetc,RECONSTRUCTED,very-high,gzio.c one-byte read wrapper; direct call to gzread proven; C recovered with target PS2 I/O divergences preserved
-0x00193d0c,gzgets,RECONSTRUCTED,very-high,gzio.c line reader; bytewise gzread loop reconstructed; C recovered with target PS2 I/O divergences preserved
-0x00193dbc,gzwrite,RECONSTRUCTED,very-high,gzio.c writer; deflate loop and CRC update reconstructed; C recovered with target PS2 I/O divergences preserved
+0x00193cd8,gzgetc,MATCHING,very-high,gzio.c one-byte read wrapper; direct call to gzread proven; C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gzgetc_00193cd8
+0x00193d0c,gzgets,MATCHING,very-high,gzio.c line reader; bytewise gzread loop reconstructed; C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=gzgets_00193d0c
+0x00193dbc,gzwrite,MATCHING,very-high,gzio.c writer; deflate loop and CRC update reconstructed; C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=gzwrite_00193dbc
 0x00193e8c,gzprintf,RECONSTRUCTED,very-high,gzio.c formatted writer; 0x1070 frame exposes 4096-byte format buffer; C recovered with target PS2 I/O divergences preserved
-0x00193f08,gzputc,RECONSTRUCTED,very-high,gzio.c one-byte write wrapper; direct gzwrite call proven; C recovered with target PS2 I/O divergences preserved
+0x00193f08,gzputc,MATCHING,very-high,gzio.c one-byte write wrapper; direct gzwrite call proven; C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gzputc_00193f08
 0x00193f44,gzputs,RECONSTRUCTED,very-high,gzio.c string write wrapper; strlen + gzwrite flow proven; C recovered with target PS2 I/O divergences preserved
 0x00193f88,do_flush,RECONSTRUCTED,very-high,gzio.c internal deflate/output flush loop reconstructed; C recovered with target PS2 I/O divergences preserved
-0x001940ac,gzflush,RECONSTRUCTED,very-high,gzio.c public flush wrapper; calls do_flush; C recovered with target PS2 I/O divergences preserved
+0x001940ac,gzflush,MATCHING,very-high,gzio.c public flush wrapper; calls do_flush; C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gzflush_001940ac
 0x001940ec,gzseek,RECONSTRUCTED,very-high,gzio.c uncompressed seek implementation reconstructed; C recovered with target PS2 I/O divergences preserved
 0x001942d4,gzrewind,RECONSTRUCTED,very-high,gzio.c read-stream rewind/reset path reconstructed; C recovered with target PS2 I/O divergences preserved
-0x00194378,gztell,RECONSTRUCTED,very-high,"gzio.c tell wrapper; calls gzseek(file,0,SEEK_CUR); C recovered with target PS2 I/O divergences preserved"
-0x00194398,gzeof,RECONSTRUCTED,very-high,gzio.c EOF leaf; mode check and z_eof return proven; C recovered with target PS2 I/O divergences preserved
-0x001943c0,putLong,RECONSTRUCTED,very-high,gzio.c four-byte little-endian output helper reconstructed; C recovered with target PS2 I/O divergences preserved
+0x00194378,gztell,MATCHING,very-high,"gzio.c tell wrapper; calls gzseek(file,0,SEEK_CUR); C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gztell_00194378"
+0x00194398,gzeof,MATCHING,very-high,gzio.c EOF leaf; mode check and z_eof return proven; C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gzeof_00194398
+0x001943c0,putLong,MATCHING,very-high,gzio.c four-byte little-endian output helper reconstructed; C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=putLong_001943c0
 0x0019441c,getLong,RECONSTRUCTED,very-high,gzio.c four-byte little-endian input helper reconstructed; C recovered with target PS2 I/O divergences preserved
-0x00194498,gzclose,RECONSTRUCTED,very-high,gzio.c close path; finish flush trailer and destroy flow reconstructed; C recovered with target PS2 I/O divergences preserved
+0x00194498,gzclose,MATCHING,very-high,gzio.c close path; finish flush trailer and destroy flow reconstructed; C recovered with target PS2 I/O divergences preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2-no-align-jumps; object=gzclose_00194498
 0x0019450c,gzerror,RECONSTRUCTED,very-high,gzio.c error-string builder; z_err/path fallback flow reconstructed; C recovered with target PS2 I/O divergences preserved
 0x00194628,inflate_blocks_reset,RECONSTRUCTED,very-high,zlib 1.1.3 block reset; target frees tree/code substate by mode
 0x001946e8,inflate_blocks_new,RECONSTRUCTED,very-high,"allocates 0x48-byte block state, 1440 hufts and sliding window"
 0x001947d0,inflate_blocks,RECONSTRUCTED,very-high,full ten-state DEFLATE block decoder recovered
 0x00195280,inflate_blocks_free,RECONSTRUCTED,very-high,block decoder teardown recovered
 0x001952e8,inflate_set_dictionary,RECONSTRUCTED,very-high,copies preset dictionary into inflate window
-0x0019532c,inflate_blocks_sync_point,RECONSTRUCTED,very-high,leaf sync-point test; true in LENS mode
-0x0019533c,inflate_codes_new,RECONSTRUCTED,very-high,allocates 0x1c-byte literal/length-distance decoder state
+0x0019532c,inflate_blocks_sync_point,MATCHING,very-high,leaf sync-point test; true in LENS mode; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=inflate_blocks_sync_point_recovered
+0x0019533c,inflate_codes_new,MATCHING,very-high,allocates 0x1c-byte literal/length-distance decoder state; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o3; object=inflate_codes_new_recovered
 0x001953ac,inflate_codes,RECONSTRUCTED,very-high,ten-state literal/length/distance decoder recovered
 0x00195b10,inflate_codes_free,RECONSTRUCTED,very-high,leaf decoder-state free wrapper
 0x00195b3c,snes_p16_00195b3c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 195 pseudocode lines, sha256 705478c5a2e3a924; address label retained because the historical symbol is unproven"
@@ -558,8 +558,8 @@ address,name,status,confidence,notes
 0x001965d4,inflate_trees_dynamic,RECONSTRUCTED,very-high,dynamic literal/length and distance trees recovered
 0x001967b0,inflate_trees_fixed,RECONSTRUCTED,very-high,leaf fixed-tree selector; target tables at 0x00424870/0x00425870
 0x001967e8,inflate_flush,RECONSTRUCTED,very-high,circular-window output flush and checksum update recovered
-0x00196980,tr_static_init,RECONSTRUCTED,very-high,empty leaf under target STDC/prebuilt-tree configuration
-0x00196988,_tr_init,RECONSTRUCTED,very-high,trees.c deflate Huffman-state initializer recovered; exact target field offsets proven
+0x00196980,tr_static_init,MATCHING,very-high,empty leaf under target STDC/prebuilt-tree configuration; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=tr_static_init
+0x00196988,_tr_init,MATCHING,very-high,trees.c deflate Huffman-state initializer recovered; exact target field offsets proven; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=_tr_init_recovered
 0x00196a00,init_block,RECONSTRUCTED,very-high,trees.c dynamic-tree frequency reset recovered in C
 0x00196a94,pqdownheap,RECONSTRUCTED,very-high,trees.c heap repair helper recovered; target leaf boundary proven
 0x00196b98,gen_bitlen,RECONSTRUCTED,very-high,trees.c optimal bit-length generator recovered; 0xc0 target frame and 64-bit accounting proven
@@ -582,26 +582,26 @@ address,name,status,confidence,notes
 0x00198a58,zlibVersion,RECONSTRUCTED,very-high,zutil.c version accessor; target returns embedded 1.1.3 string
 0x00198a64,zError,RECONSTRUCTED,very-high,zutil.c error-string lookup recovered; target uses 2-err table index
 0x00198a84,zcalloc,RECONSTRUCTED,very-high,zlib allocation wrapper; ignores opaque and forwards items/size to allocator
-0x00198aa4,zcfree,RECONSTRUCTED,very-high,zlib free wrapper; ignores opaque and forwards pointer to free
+0x00198aa4,zcfree,MATCHING,very-high,zlib free wrapper; ignores opaque and forwards pointer to free; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=zcfree_00198aa4
 0x00198ac0,adler32,RECONSTRUCTED,very-high,Adler-32 recovered; BASE=65521 NMAX=5552 and 16-byte unrolled accumulation proven in target
 0x00198c58,gsDriver_ctor_A,RECONSTRUCTED,very-high,Hiryu GSLIB gsDriver constructor entry; target alloc/calls prove embedded 0x74-byte object
 0x00198cc8,gsDriver_ctor_B,RECONSTRUCTED,very-high,Second constructor entry used by main; return ignored and allocated this pointer preserved
-0x00198d38,gsDriver_dtor_A,RECONSTRUCTED,very-high,gsDriver destructor entry; destroys embedded gsPipe
-0x00198d58,gsDriver_dtor_B,RECONSTRUCTED,very-high,Duplicate destructor entry for old GCC C++ ABI
+0x00198d38,gsDriver_dtor_A,MATCHING,very-high,gsDriver destructor entry; destroys embedded gsPipe; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_dtor_00198d38
+0x00198d58,gsDriver_dtor_B,MATCHING,very-high,Duplicate destructor entry for old GCC C++ ABI; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_dtor_00198d58
 0x00198d78,gsDriver_setDisplayMode,RECONSTRUCTED,very-high,Older 10-argument GSLIB display-mode routine recovered; width truncation and buffer-count quirks preserved
 0x00199070,gsDriver_setDisplayPosition,RECONSTRUCTED,very-high,Stores frame X/Y and programs GS DISPLAY1
-0x001990f8,gsDriver_clearScreen,RECONSTRUCTED,very-high,"GSLIB clearScreen using drawPipe Z-test, RectFlat, Flush and swapBuffers"
+0x001990f8,gsDriver_clearScreen,MATCHING,very-high,"GSLIB clearScreen using drawPipe Z-test, RectFlat, Flush and swapBuffers; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_clearScreen_001990f8"
 0x00199160,InitGraphField,RECONSTRUCTED,very-high,GSLIB CRT syscall helper; syscall #2 with field mode 0
-0x00199178,gsDriver_getFrameBufferBase,RECONSTRUCTED,very-high,Clamps framebuffer index and returns m_FrameSize * index
-0x00199198,gsDriver_getTextureBufferBase,RECONSTRUCTED,very-high,Returns m_TextureBufferBase at +0x70
-0x001991a0,gsDriver_getCurrentDisplayBuffer,RECONSTRUCTED,very-high,Returns current display buffer index
-0x001991a8,gsDriver_getCurrentDrawBuffer,RECONSTRUCTED,very-high,Returns current draw buffer index
-0x001991b0,gsDriver_swapBuffers,RECONSTRUCTED,very-high,DrawBufferComplete -> DisplayNextFrame -> setNextDrawBuffer
-0x001991e8,gsDriver_isDrawBufferAvailable,RECONSTRUCTED,very-high,Boolean test of m_FreeBuffersAvailable
-0x001991f8,gsDriver_isDisplayBufferAvailable,RECONSTRUCTED,very-high,Boolean test of m_CompleteBuffersAvailable
-0x00199208,gsDriver_setNextDrawBuffer,RECONSTRUCTED,very-high,Rotates draw buffer modulo count and consumes one free buffer
+0x00199178,gsDriver_getFrameBufferBase,MATCHING,very-high,Clamps framebuffer index and returns m_FrameSize * index; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_getFrameBufferBase_00199178
+0x00199198,gsDriver_getTextureBufferBase,MATCHING,very-high,Returns m_TextureBufferBase at +0x70; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_getTextureBufferBase_00199198
+0x001991a0,gsDriver_getCurrentDisplayBuffer,MATCHING,very-high,Returns current display buffer index; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_getCurrentDisplayBuffer_001991a0
+0x001991a8,gsDriver_getCurrentDrawBuffer,MATCHING,very-high,Returns current draw buffer index; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_getCurrentDrawBuffer_001991a8
+0x001991b0,gsDriver_swapBuffers,MATCHING,very-high,DrawBufferComplete -> DisplayNextFrame -> setNextDrawBuffer; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_swapBuffers_001991b0
+0x001991e8,gsDriver_isDrawBufferAvailable,MATCHING,very-high,Boolean test of m_FreeBuffersAvailable; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_isDrawBufferAvailable_001991e8
+0x001991f8,gsDriver_isDisplayBufferAvailable,MATCHING,very-high,Boolean test of m_CompleteBuffersAvailable; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_isDisplayBufferAvailable_001991f8
+0x00199208,gsDriver_setNextDrawBuffer,MATCHING,very-high,Rotates draw buffer modulo count and consumes one free buffer; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_setNextDrawBuffer_00199208
 0x00199268,gsDriver_DrawBufferComplete,RECONSTRUCTED,very-high,Increments complete-buffer count while below num_buffers-1
-0x00199290,gsDriver_DisplayNextFrame,RECONSTRUCTED,very-high,Rotates display buffer and transfers one complete buffer back to free pool
+0x00199290,gsDriver_DisplayNextFrame,MATCHING,very-high,Rotates display buffer and transfers one complete buffer back to free pool; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsDriver_DisplayNextFrame_00199290
 0x001992f8,gsDriver_setDisplayBuffer,RECONSTRUCTED,very-high,"Packs/writes GS DISPFB1 from framebuffer base, width and PSM"
 0x00199360,gsDriver_setDrawBuffer,RECONSTRUCTED,very-high,Flush -> setDrawFrame -> Flush through embedded drawPipe
 0x001993c8,gsDriver_AddVSyncCallback,RECONSTRUCTED,very-high,AddIntcHandler/EnableIntc wrapper for VSYNC cause 2
@@ -612,14 +612,14 @@ address,name,status,confidence,notes
 0x00199590,gsPipe_ctor_B,RECONSTRUCTED,very-high,Duplicate gsPipe constructor entry used by gsDriver
 0x001996a0,gsPipe_dtor_A,RECONSTRUCTED,very-high,gsPipe destructor frees m_Buffer
 0x001996d0,gsPipe_dtor_B,RECONSTRUCTED,very-high,Duplicate gsPipe destructor entry
-0x00199700,gsPipe_copy_ctor_A,RECONSTRUCTED,very-high,Copy constructor entry forwarding to target assignment operator
-0x00199720,gsPipe_copy_ctor_B,RECONSTRUCTED,very-high,Duplicate copy constructor entry
+0x00199700,gsPipe_copy_ctor_A,MATCHING,very-high,Copy constructor entry forwarding to target assignment operator; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsPipe_copy_ctor_00199700
+0x00199720,gsPipe_copy_ctor_B,MATCHING,very-high,Duplicate copy constructor entry; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsPipe_copy_ctor_00199720
 0x00199740,gsPipe_operator_assign,RECONSTRUCTED,very-high,Copies historical subset of fields/buffer; target preserves omitted ZTest/Filter fields
-0x00199830,gsPipe_getPipeSize,RECONSTRUCTED,very-high,Leaf accessor returning m_MemSize
+0x00199830,gsPipe_getPipeSize,MATCHING,very-high,Leaf accessor returning m_MemSize; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsPipe_getPipeSize_00199830
 0x00199838,gsPipe_InitPipe,RECONSTRUCTED,very-high,Writes DMA END tag 0x70000000 and zero
-0x00199848,gsPipe_ReInit,RECONSTRUCTED,very-high,"Re-applies Z test, alpha, origin then Flush"
-0x00199898,gsPipe_getBytesLeft,RECONSTRUCTED,very-high,Returns current pipe end minus current GIF tag pointer
-0x001998b8,gsPipe_FlushCheck,RECONSTRUCTED,very-high,Flushes when fewer than 0x90 bytes remain; GSPIPE_MINSPACE=18
+0x00199848,gsPipe_ReInit,MATCHING,very-high,"Re-applies Z test, alpha, origin then Flush; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsPipe_ReInit_00199848"
+0x00199898,gsPipe_getBytesLeft,MATCHING,very-high,Returns current pipe end minus current GIF tag pointer; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsPipe_getBytesLeft_00199898
+0x001998b8,gsPipe_FlushCheck,MATCHING,very-high,Flushes when fewer than 0x90 bytes remain; GSPIPE_MINSPACE=18; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsPipe_FlushCheck_001998b8
 0x001998f8,gsPipe_Flush,RECONSTRUCTED,very-high,DMA wait/cache flush/chain send then swaps double-buffered pipe
 0x00199970,gsPipe_FlushInt,RECONSTRUCTED,very-high,Interrupt-safe Flush variant using iFlushCache
 0x001999e8,gsPipe_setZBuffer,RECONSTRUCTED,very-high,Emits ZBUF_1 A+D packet and updates local/global state
@@ -634,7 +634,7 @@ address,name,status,confidence,notes
 0x00199f88,gsPipe_TextureUpload,RECONSTRUCTED,very-high,RDRAM->VRAM IMAGE transfer chain with 0x7ff0-qword chunks recovered
 0x0019a240,gsPipe_TextureDownload,RECONSTRUCTED,very-high,VRAM->RDRAM transfer setup/chain recovered from target and historical GSLIB
 0x0019a500,gsPipe_TextureFlush,RECONSTRUCTED,very-high,Writes historical 0xBAD TEXFLUSH value then Flush; target quirk proven
-0x0019a580,gsPipe_setFilterMethod,RECONSTRUCTED,very-high,Leaf filter-state setter at object +0x30
+0x0019a580,gsPipe_setFilterMethod,MATCHING,very-high,Leaf filter-state setter at object +0x30; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=gsPipe_setFilterMethod_0019a580
 0x0019a588,gsPipe_TextureSet,RECONSTRUCTED,very-high,Texture state packet recovered; target preserves historical 2^texsize XOR bug
 0x0019a748,gsPipe_Line,RECONSTRUCTED,very-high,Line primitive packet recovered
 0x0019a838,gsPipe_TriangleLine,RECONSTRUCTED,very-high,Triangle outline/line-strip packet recovered
@@ -660,13 +660,13 @@ address,name,status,confidence,notes
 0x0019be20,SendDma02,MATCHING,very-high,GIF DMA channel-2 chain submission helper recovered
 0x0019be40,Dma02Wait,MATCHING,very-high,Polls CHCR bit 0x100 until GIF DMA channel 2 idle
 0x0019be70,CDVD_Init,RECONSTRUCTED,very-high,Hiryu/Sjeep libcdvd EE RPC init; target RPC id 0x0b001337 and bind loop recovered
-0x0019bf00,CDVD_DiskReady,RECONSTRUCTED,very-high,RPC command 0x06; mode word and result path recovered
+0x0019bf00,CDVD_DiskReady,MATCHING,very-high,RPC command 0x06; mode word and result path recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=CDVD_DiskReady
 0x0019bf70,CDVD_FindFile,RECONSTRUCTED,very-high,RPC command 0x01; 1024-byte path request plus 0x90-byte TocEntry recovered
-0x0019c0d0,CDVD_Stop,RECONSTRUCTED,very-high,RPC command 0x04 stop wrapper recovered
-0x0019c128,CDVD_TrayReq,RECONSTRUCTED,very-high,RPC command 0x05; target preserves historical omission of mode store
-0x0019c190,CDVD_getdir,RECONSTRUCTED,very-high,RPC command 0x02 directory request/buffer layout recovered
-0x0019c2ac,CDVD_FlushCache,RECONSTRUCTED,very-high,RPC command 0x07 cache flush wrapper recovered
-0x0019c304,CDVD_GetSize,RECONSTRUCTED,very-high,RPC command 0x08 size query; later public libcdvd revision confirms name
+0x0019c0d0,CDVD_Stop,MATCHING,very-high,RPC command 0x04 stop wrapper recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=CDVD_Stop
+0x0019c128,CDVD_TrayReq,MATCHING,very-high,RPC command 0x05; target preserves historical omission of mode store; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=CDVD_TrayReq
+0x0019c190,CDVD_getdir,MATCHING,very-high,RPC command 0x02 directory request/buffer layout recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=CDVD_getdir
+0x0019c2ac,CDVD_FlushCache,MATCHING,very-high,RPC command 0x07 cache flush wrapper recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=CDVD_FlushCache
+0x0019c304,CDVD_GetSize,MATCHING,very-high,RPC command 0x08 size query; later public libcdvd revision confirms name; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=CDVD_GetSize
 0x0019c364,memcpy,MATCHING,very-high,Target byte-copy implementation recovered
 0x0019c39c,memset,MATCHING,very-high,Target byte-fill implementation recovered
 0x0019c3d4,strcat,MATCHING,very-high,Target append loop recovered
@@ -679,18 +679,18 @@ address,name,status,confidence,notes
 0x0019c5e8,strlen,MATCHING,very-high,Target string length leaf recovered
 0x0019c610,strchr,MATCHING,very-high,Target character search recovered
 0x0019c648,strcmp,MATCHING,very-high,Target string compare recovered
-0x0019c688,SifBindRpc,RECONSTRUCTED,very-high,Old PS2DEV SIF RPC bind path; packet allocation/send/semaphore behavior recovered
-0x0019c7b0,SifCallRpc,RECONSTRUCTED,very-high,Old PS2DEV SIF RPC call path recovered; cache/writeback and NOWAIT modes mapped
-0x0019c960,rpc_packet_free,RECONSTRUCTED,very-high,SIF RPC packet free helper recovered
-0x0019c978,_request_end,RECONSTRUCTED,very-high,RPC completion handler for bind/call responses recovered
-0x0019ca0c,search_svdata,RECONSTRUCTED,very-high,Server-data queue search helper recovered
-0x0019ca54,_request_bind,RECONSTRUCTED,very-high,Inbound bind request handler recovered
-0x0019cb08,_request_call,RECONSTRUCTED,very-high,Inbound call queueing/wakeup handler recovered
-0x0019cba8,_request_rdata,RECONSTRUCTED,very-high,Other-data response handler recovered
+0x0019c688,SifBindRpc,MATCHING,very-high,Old PS2DEV SIF RPC bind path; packet allocation/send/semaphore behavior recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=SifBindRpc_0019c688
+0x0019c7b0,SifCallRpc,MATCHING,very-high,Old PS2DEV SIF RPC call path recovered; cache/writeback and NOWAIT modes mapped; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=SifCallRpc_0019c7b0
+0x0019c960,rpc_packet_free,MATCHING,very-high,SIF RPC packet free helper recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=rpc_packet_free_0019c960
+0x0019c978,_request_end,MATCHING,very-high,RPC completion handler for bind/call responses recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=request_end_0019c978
+0x0019ca0c,search_svdata,MATCHING,very-high,Server-data queue search helper recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=search_svdata_0019ca0c
+0x0019ca54,_request_bind,MATCHING,very-high,Inbound bind request handler recovered; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=_request_bind
+0x0019cb08,_request_call,MATCHING,very-high,Inbound call queueing/wakeup handler recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=request_call_0019cb08
+0x0019cba8,_request_rdata,MATCHING,very-high,Other-data response handler recovered; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-o2; object=_request_rdata
 0x0019cc0c,SifInitRpc,RECONSTRUCTED,very-high,SIF RPC command handlers/tables and EE-side handshake recovered
-0x0019cd4c,SifExitRpc,RECONSTRUCTED,very-high,SifExitCmd wrapper plus RPC init-state clear
-0x0019cd70,_rpc_get_packet,RECONSTRUCTED,very-high,64-byte packet allocator and rec_id/rpc_id generation recovered
-0x0019ce2c,_rpc_get_fpacket,RECONSTRUCTED,very-high,Round-robin 64-byte response-packet selector recovered
+0x0019cd4c,SifExitRpc,MATCHING,very-high,SifExitCmd wrapper plus RPC init-state clear; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=SifExitRpc_0019cd4c
+0x0019cd70,_rpc_get_packet,MATCHING,very-high,64-byte packet allocator and rec_id/rpc_id generation recovered; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=_rpc_get_packet
+0x0019ce2c,_rpc_get_fpacket,MATCHING,very-high,Round-robin 64-byte response-packet selector recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=rpc_get_fpacket_0019ce2c
 0x0019ce60,iWakeupThread,MATCHING,very-high,Leaf syscall wrapper; target syscall number -0x34
 0x0019ce70,CreateSema,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x40
 0x0019ce80,DeleteSema,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x41
@@ -703,17 +703,17 @@ address,name,status,confidence,notes
 0x0019cef0,SifSetReg,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x79
 0x0019cf00,SifGetReg,MATCHING,very-high,Leaf syscall wrapper; target syscall number 0x7a
 0x0019cf10,SifWriteBackDCache,RECONSTRUCTED,very-high,64-byte cache-line writeback/invalidate loop with cache op 0x18 recovered
-0x0019cfc0,fioOpen,RECONSTRUCTED,very-high,Old fileIO RPC fno 0; exact 0x110-byte request layout recovered
-0x0019d090,fioClose,RECONSTRUCTED,very-high,Old fileIO RPC fno 1 recovered
-0x0019d120,fioRead,RECONSTRUCTED,very-high,Old fileIO RPC fno 2; exact 0x10-byte request and unaligned read callback recovered
+0x0019cfc0,fioOpen,MATCHING,very-high,Old fileIO RPC fno 0; exact 0x110-byte request layout recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=fioOpen_0019cfc0
+0x0019d090,fioClose,MATCHING,very-high,Old fileIO RPC fno 1 recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=fioClose_0019d090
+0x0019d120,fioRead,MATCHING,very-high,Old fileIO RPC fno 2; exact 0x10-byte request and unaligned read callback recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=fioRead_0019d120
 0x0019d244,fioWrite,RECONSTRUCTED,very-high,Old fileIO RPC fno 3; exact 0x20-byte request and leading unaligned bytes recovered
-0x0019d360,fioLseek,RECONSTRUCTED,very-high,Old fileIO RPC fno 4; exact 0x10-byte request recovered
+0x0019d360,fioLseek,MATCHING,very-high,Old fileIO RPC fno 4; exact 0x10-byte request recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=fioLseek_0019d360
 0x0019d410,fioMkdir,RECONSTRUCTED,very-high,Old fileIO RPC fno 7; 0x100-byte payload and one-byte-outside terminator quirk preserved
 0x0019d4b0,_fio_read_intr,RECONSTRUCTED,very-high,Unaligned head/tail read-copy callback recovered
-0x0019d534,fioPutc,RECONSTRUCTED,very-high,One-byte wrapper through fioWrite recovered
+0x0019d534,fioPutc,MATCHING,very-high,One-byte wrapper through fioWrite recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=fioPutc_0019d534
 0x0019d558,fioGets,RECONSTRUCTED,very-high,Bulk read plus relative seek-back on NUL/newline recovered
-0x0019d600,SifLoadModule,RECONSTRUCTED,very-high,Public path-module wrapper over older five-argument _SifLoadModule
-0x0019d620,SifLoadModuleBuffer,RECONSTRUCTED,very-high,Public buffer-module wrapper over _SifLoadModuleBuffer
+0x0019d600,SifLoadModule,MATCHING,very-high,Public path-module wrapper over older five-argument _SifLoadModule; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=SifLoadModule_0019d600
+0x0019d620,SifLoadModuleBuffer,MATCHING,very-high,Public buffer-module wrapper over _SifLoadModuleBuffer; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=SifLoadModuleBuffer_0019d620
 0x0019d63c,SifAllocIopHeap,RECONSTRUCTED,very-high,IOP heap RPC command 1 recovered
 0x0019d6b8,SifFreeIopHeap,RECONSTRUCTED,very-high,IOP heap RPC command 2 recovered
 0x0019d740,SifIopReset,RECONSTRUCTED,very-high,Exact 0x70 reset packet/DMA path recovered; target omits later reboot counter behavior
@@ -721,7 +721,7 @@ address,name,status,confidence,notes
 0x0019dba8,fmtstr,RECONSTRUCTED,very-high,Callback-driven string formatter reconstructed; preserves target explicit-precision padding quirk using min_width-max_chars
 0x0019dd28,fmtchar,RECONSTRUCTED,very-high,Character formatter reconstructed with target left/right space padding and callback failure convention
 0x0019de10,dopr,RECONSTRUCTED,very-high,"Old PS2LIB callback format parser reconstructed; supports flags,width,precision,h/l and c,d/i,n,o,p,s,u,x/X with target unknown-spec behavior"
-0x0019e274,snprintf_room_check,RECONSTRUCTED,very-high,Exact target callback: tests whether current+count passes reserved end pointer
+0x0019e274,snprintf_room_check,MATCHING,very-high,Exact target callback: tests whether current+count passes reserved end pointer; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=ps2lib_snprintf_room_0019e274
 0x0019e288,snprintf_putc,RECONSTRUCTED,very-high,"Exact target callback: room-check one byte, store byte, advance current, return 0/1"
 0x0019e2e0,vsnprintf,RECONSTRUCTED,very-high,"Bounded formatter wrapper reconstructed; 0x1c target output state, always writes trailing NUL, returns passed size on formatter overflow"
 0x0019e364,vsprintf,RECONSTRUCTED,very-high,Target wrapper forwards to vsnprintf with fixed size 0x1000; historical libkernel map confirms symbol and order
@@ -733,36 +733,36 @@ address,name,status,confidence,notes
 0x0019e648,calloc,RECONSTRUCTED,very-high,32-bit count*size wrapper over target malloc followed by zero fill
 0x0019e698,memalign,RECONSTRUCTED,very-high,Old PS2LIB memalign reconstructed; relocates 16-byte heap header and repairs prev/next/head/tail links
 0x0019e784,free,RECONSTRUCTED,very-high,Old PS2LIB free reconstructed including head/tail special cases and ps2_sbrk heap shrink
-0x0019e860,strcasecmp,RECONSTRUCTED,very-high,ASCII case-insensitive compare through target tolower; preserves signed loop loads and unsigned final loads
+0x0019e860,strcasecmp,MATCHING,very-high,ASCII case-insensitive compare through target tolower; preserves signed loop loads and unsigned final loads; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=strcasecmp
 0x0019e8e4,strncasecmp,RECONSTRUCTED,very-high,Count-limited ASCII case-insensitive compare reconstructed from target loop
 0x0019e99c,strtok,RECONSTRUCTED,very-high,"Recovered dual-global tokenizer state machine; preserves stale continuation state after an all-delimiter new string and the missing NULL-state guard on strtok(NULL, ...)"
-0x0019eaa4,strrchr,RECONSTRUCTED,very-high,Target repeatedly calls strchr from previous match+1 and returns last match
+0x0019eaa4,strrchr,MATCHING,very-high,Target repeatedly calls strchr from previous match+1 and returns last match; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=strrchr_0019eaa4
 0x0019eaf8,strstr,RECONSTRUCTED,very-high,Target handles null haystack/empty needle then scans with strlen(needle)+strncmp
 0x0019eb80,strtol,RECONSTRUCTED,very-high,Recovered sign/base/prefix/endptr parser with signed-32-bit saturation and target errno=34 ERANGE overflow path
-0x0019edac,tolower,RECONSTRUCTED,very-high,ASCII tolower via target isupper helper
-0x0019eddc,toupper,RECONSTRUCTED,very-high,ASCII toupper via target islower helper
-0x0019ee0c,isupper,RECONSTRUCTED,very-high,ASCII A..Z predicate
-0x0019ee20,islower,RECONSTRUCTED,very-high,ASCII a..z predicate
-0x0019ee34,isalpha,RECONSTRUCTED,very-high,Target OR-like composition of islower/isupper
-0x0019ee80,isdigit,RECONSTRUCTED,very-high,ASCII 0..9 predicate
-0x0019ee94,isalnum,RECONSTRUCTED,very-high,Target composition of isalpha/isdigit
-0x0019eee0,iscntrl,RECONSTRUCTED,very-high,Target classifies values below 0x20 or equal 0x7f as control
-0x0019eefc,isgraph,RECONSTRUCTED,very-high,Target returns !iscntrl && !isspace
-0x0019ef3c,isprint,RECONSTRUCTED,very-high,Target returns !iscntrl
-0x0019ef5c,ispunct,RECONSTRUCTED,very-high,"Target returns non-control, non-alnum, non-space"
-0x0019efac,isspace,RECONSTRUCTED,very-high,ASCII tab/newline family 0x09..0x0d plus space
+0x0019edac,tolower,MATCHING,very-high,ASCII tolower via target isupper helper; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=tolower_0019edac
+0x0019eddc,toupper,MATCHING,very-high,ASCII toupper via target islower helper; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=toupper_0019eddc
+0x0019ee0c,isupper,MATCHING,very-high,ASCII A..Z predicate; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-o2; object=isupper
+0x0019ee20,islower,MATCHING,very-high,ASCII a..z predicate; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-o2; object=islower
+0x0019ee34,isalpha,MATCHING,very-high,Target OR-like composition of islower/isupper; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=isalpha
+0x0019ee80,isdigit,MATCHING,very-high,ASCII 0..9 predicate; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-o2; object=isdigit
+0x0019ee94,isalnum,MATCHING,very-high,Target composition of isalpha/isdigit; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=isalnum
+0x0019eee0,iscntrl,MATCHING,very-high,Target classifies values below 0x20 or equal 0x7f as control; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-o2; object=iscntrl
+0x0019eefc,isgraph,MATCHING,very-high,Target returns !iscntrl && !isspace; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=isgraph_0019eefc
+0x0019ef3c,isprint,MATCHING,very-high,Target returns !iscntrl; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=isprint_0019ef3c
+0x0019ef5c,ispunct,MATCHING,very-high,"Target returns non-control, non-alnum, non-space; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=ispunct_0019ef5c"
+0x0019efac,isspace,MATCHING,very-high,ASCII tab/newline family 0x09..0x0d plus space; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=isspace_0019efac
 0x0019efcc,isxdigit,RECONSTRUCTED,very-high,ASCII digit or A-F/a-f predicate
 0x0019f018,DIntr,MATCHING,very-high,Recovered direct R5900 DI helper; returns whether IE bit 0x10000 was set and polls until it clears
 0x0019f060,EIntr,MATCHING,very-high,Recovered direct R5900 EI helper; returns prior IE-bit state
 0x0019f078,ps2_sbrk,RECONSTRUCTED,very-high,"Recovered 32-bit EE program-break helper: initial break 0x00450c18, conditional DI/EI, EndOfHeap ceiling and (void*)-1 failure"
-0x0019f138,_SifSendCmd,RECONSTRUCTED,very-high,"Recovered 7-argument SIF command DMA builder; packet cap 112 bytes, optional extra DMA/cache flush and interrupt/non-interrupt DMA selection"
-0x0019f264,SifSendCmd,RECONSTRUCTED,very-high,Recovered mode=0 wrapper around _SifSendCmd
-0x0019f2a0,iSifSendCmd,RECONSTRUCTED,very-high,Recovered mode=1 wrapper around _SifSendCmd
-0x0019f2dc,change_addr,RECONSTRUCTED,very-high,Recovered built-in SIF command handler: copies packet payload buffer address into cmd_data.iopbuf
-0x0019f2e8,set_sreg,RECONSTRUCTED,very-high,Recovered built-in SIF command handler: writes packet value into cmd_data.sregs[index]
+0x0019f138,_SifSendCmd,MATCHING,very-high,"Recovered 7-argument SIF command DMA builder; packet cap 112 bytes, optional extra DMA/cache flush and interrupt/non-interrupt DMA selection; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=_SifSendCmd"
+0x0019f264,SifSendCmd,MATCHING,very-high,Recovered mode=0 wrapper around _SifSendCmd; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=SifSendCmd_0019f264
+0x0019f2a0,iSifSendCmd,MATCHING,very-high,Recovered mode=1 wrapper around _SifSendCmd; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=iSifSendCmd_0019f2a0
+0x0019f2dc,change_addr,MATCHING,very-high,Recovered built-in SIF command handler: copies packet payload buffer address into cmd_data.iopbuf; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=change_addr_0019f2dc
+0x0019f2e8,set_sreg,MATCHING,very-high,Recovered built-in SIF command handler: writes packet value into cmd_data.sregs[index]; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=set_sreg
 0x0019f304,SifInitCmd,RECONSTRUCTED,very-high,"Recovered old PS2LIB SIF CMD init without later reboot-count logic; uncached buffers, handlers, SIF0 DMA and IOP address handshake"
-0x0019f510,SifExitCmd,RECONSTRUCTED,very-high,"Recovered SIF CMD shutdown: DisableDmac, RemoveDmacHandler and init flag clear"
-0x0019f544,SifAddCmdHandler,RECONSTRUCTED,very-high,Recovered system/user command handler table insertion using sign bit of cid
+0x0019f510,SifExitCmd,MATCHING,very-high,"Recovered SIF CMD shutdown: DisableDmac, RemoveDmacHandler and init flag clear; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=SifExitCmd_0019f510"
+0x0019f544,SifAddCmdHandler,MATCHING,very-high,Recovered system/user command handler table insertion using sign bit of cid; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-o2; object=SifAddCmdHandler
 0x0019f57c,SifGetSreg,RECONSTRUCTED,very-high,Recovered SIF software-register accessor
 0x0019f5a0,AddDmacHandler,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x12"
 0x0019f5b0,RemoveDmacHandler,RECONSTRUCTED,very-high,"One-syscall wrapper, EE syscall 0x13"
@@ -775,10 +775,10 @@ address,name,status,confidence,notes
 0x0019f7e8,_SifLoadModule,RECONSTRUCTED,very-high,Older five-argument 0x200-byte loadfile request path recovered
 0x0019f8f4,_SifLoadModuleBuffer,RECONSTRUCTED,very-high,0x200-byte load-module-buffer RPC command 6 path recovered
 0x0019f9e8,SifInitIopHeap,RECONSTRUCTED,very-high,Binds IOP heap server 0x80000003 and records bound capability
-0x0019faa8,vprintf,RECONSTRUCTED,very-high,"Old PS2LIB vprintf: 0x1000-byte BSS staging buffer, vsnprintf, fioWrite(fd=1), returns format length; target body size 0x58"
-0x0019fb00,EnableDmac,RECONSTRUCTED,very-high,Recovered interrupt-safe DMAC enable wrapper around raw _EnableDmac syscall
+0x0019faa8,vprintf,MATCHING,very-high,"Old PS2LIB vprintf: 0x1000-byte BSS staging buffer, vsnprintf, fioWrite(fd=1), returns format length; target body size 0x58; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=vprintf_recovered"
+0x0019fb00,EnableDmac,MATCHING,very-high,Recovered interrupt-safe DMAC enable wrapper around raw _EnableDmac syscall; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-o2; object=EnableDmac
 0x0019fb78,DisableDmac,RECONSTRUCTED,very-high,Recovered interrupt-safe DMAC disable wrapper around raw _DisableDmac syscall
-0x0019fbf0,_SifCmdIntHandler,RECONSTRUCTED,very-high,"Recovered SIF0 command interrupt dispatcher: packet copy, iSifSetDChain, system/user table selection and callback dispatch"
+0x0019fbf0,_SifCmdIntHandler,MATCHING,very-high,"Recovered SIF0 command interrupt dispatcher: packet copy, iSifSetDChain, system/user table selection and callback dispatch; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=_SifCmdIntHandler"
 0x0019fcd0,_EnableDmac,MATCHING,very-high,Raw EE syscall 0x16 wrapper
 0x0019fce0,_DisableDmac,MATCHING,very-high,Raw EE syscall 0x17 wrapper
 0x0019fcf0,SignalSema,MATCHING,very-high,"One-syscall wrapper, EE syscall 0x42"
@@ -803,7 +803,7 @@ address,name,status,confidence,notes
 0x001a0df0,mcRead,RECONSTRUCTED,very-high,Asynchronous read with cache writeback and mcReadFixAlign callback
 0x001a0ee8,mcWrite,RECONSTRUCTED,very-high,Asynchronous write; target 16-byte prefix/alignment staging preserved
 0x001a1020,mcFlush,RECONSTRUCTED,very-high,Asynchronous memory-card flush wrapper
-0x001a10d0,mcMkDir,RECONSTRUCTED,very-high,Historical mcMkDir wrapper over mcOpen(mode 0x40); command remap preserved
+0x001a10d0,mcMkDir,MATCHING,very-high,Historical mcMkDir wrapper over mcOpen(mode 0x40); command remap preserved; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=mcMkDir_001a10d0
 0x001a10fc,mcChdir,RECONSTRUCTED,very-high,Asynchronous chdir with curDir cache and mcStoreDir callback
 0x001a1204,mcGetDir,RECONSTRUCTED,very-high,Directory enumeration RPC wrapper and table cache writeback
 0x001a130c,mcSetFileInfo,RECONSTRUCTED,very-high,File-info staging/copy and set-info RPC wrapper
@@ -815,7 +815,7 @@ address,name,status,confidence,notes
 0x001a18c0,mcChangeThreadPriority,RECONSTRUCTED,very-high,XMC priority RPC; historical target quirk leaves level argument unused
 0x001a1974,mcSync,RECONSTRUCTED,very-high,Wait/poll async command completion via SifCheckStatRpc; 100000-iteration spin preserved
 0x001a1a54,strcpy_sjis,RECONSTRUCTED,very-high,ASCII-to-two-byte SJIS helper used by memory-card icon metadata
-0x001a1af4,SifCheckStatRpc,RECONSTRUCTED,very-high,Leaf RPC busy-state check pulled by libmc; packet id/status-bit logic proven
+0x001a1af4,SifCheckStatRpc,MATCHING,very-high,Leaf RPC busy-state check pulled by libmc; packet id/status-bit logic proven; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=SifCheckStatRpc
 0x001a1b20,__muldi3,RECONSTRUCTED,very-high,GCC 3.2.2-b1 DI multiply; target object span and arithmetic recovered
 0x001a1b98,__floatdisf,RECONSTRUCTED,very-high,GCC DI-to-SF helper; caller ABI and conversion flow recovered
 0x001a1c98,__fixunsdfdi,RECONSTRUCTED,very-high,Raw DFmode to unsigned DI conversion; high-word split algorithm recovered

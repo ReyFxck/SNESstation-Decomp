@@ -1,35 +1,30 @@
-# Progress 53 — 102 MATCHED
-
-Apply over clean main at the closed 54-MATCH checkpoint:
+# Progress 54 — 200 MATCHED
 
 ```bash
 cd ~/SNESstation-Decomp
 git status
 git pull --ff-only origin main
-rm -rf /tmp/SNESstation-Decomp-Progress53
-unzip -q /storage/emulated/0/Download/SNESstation-Decomp-Progress53.zip -d /tmp
-bash /tmp/SNESstation-Decomp-Progress53/apply-progress53.sh "$PWD"
+rm -rf /tmp/SNESstation-Decomp-Progress54
+unzip -q /storage/emulated/0/Download/SNESstation-Decomp-Progress54.zip -d /tmp
+bash /tmp/SNESstation-Decomp-Progress54/apply-progress54.sh "$PWD"
 ```
 
-Expected strict result:
-
+Expected:
 ```text
-matching summary: 11/11
-matching summary: 37/37
-cpp runtime strict gate: OK (48/48)
-Progress 53: OK
-matching checkpoint: 102/1041 (9.80%)
+Progress 54: OK
+new strict batch: 98/98
+previous 102 strict gates: regression-checked
+matching checkpoint: 200/1041 (19.21%)
 ```
 
-Commit/push only after the script prints `Progress 53: OK`:
-
+Then:
 ```bash
-cd ~/SNESstation-Decomp
 git diff --check
 git status
 git diff --stat
 git add -A
 git diff --cached --check
-git commit -m "Match GCC libsupc++ runtime batch"
+git diff --cached --stat
+git commit -m "Match historical library and runtime batch to 200"
 git push origin main
 ```

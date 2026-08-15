@@ -2,7 +2,7 @@
 
 Checkpoint date: 2026-08-15.
 
-## Closed committed-listing gates: 102 functions
+## Closed committed-listing gates: 200 functions
 
 ### Newlib mathfp — 7/7
 
@@ -183,6 +183,115 @@ isolated matching. Existing project symbol names remain canonical where they
 differ from matcher aliases. Historical lineage is GCC 3.2.2-era
 libgcc/libsupc++, with the surviving SNESticle EE3.2.2-b1 release as
 independent PS2 runtime-family evidence.
+
+### Progress 54 historical/library recovered-source batch — 98/98 strict
+
+- Broad recovered-source/compiler screen: **82/82**.
+- Historical PS2DEV per-object source-shape recovery: **16/16**.
+
+Functions:
+- `0x001057fc` `snes_p16_001057fc`
+- `0x0010a8bc` `snes_p11_0010a8bc`
+- `0x00151330` `per_rom_cleanup`
+- `0x0018339c` `snes_leaf_0018339c`
+- `0x0018e2e0` `huft_free`
+- `0x0018f240` `unzStringFileNameCompare`
+- `0x0018f638` `unzGetGlobalInfo`
+- `0x0018f654` `unzlocal_DosDateToTmuDate`
+- `0x001907cc` `compress`
+- `0x001908bc` `deflateInit_`
+- `0x00193564` `gzopen`
+- `0x00193580` `gzdopen`
+- `0x001935d8` `gzsetparams`
+- `0x0019371c` `check_header`
+- `0x00193cd8` `gzgetc`
+- `0x00193d0c` `gzgets`
+- `0x00193dbc` `gzwrite`
+- `0x00193f08` `gzputc`
+- `0x001940ac` `gzflush`
+- `0x00194378` `gztell`
+- `0x00194398` `gzeof`
+- `0x001943c0` `putLong`
+- `0x00194498` `gzclose`
+- `0x0019532c` `inflate_blocks_sync_point`
+- `0x0019533c` `inflate_codes_new`
+- `0x00196980` `tr_static_init`
+- `0x00196988` `_tr_init`
+- `0x00198aa4` `zcfree`
+- `0x00198d38` `gsDriver_dtor_A`
+- `0x00198d58` `gsDriver_dtor_B`
+- `0x001990f8` `gsDriver_clearScreen`
+- `0x00199178` `gsDriver_getFrameBufferBase`
+- `0x00199198` `gsDriver_getTextureBufferBase`
+- `0x001991a0` `gsDriver_getCurrentDisplayBuffer`
+- `0x001991a8` `gsDriver_getCurrentDrawBuffer`
+- `0x001991b0` `gsDriver_swapBuffers`
+- `0x001991e8` `gsDriver_isDrawBufferAvailable`
+- `0x001991f8` `gsDriver_isDisplayBufferAvailable`
+- `0x00199208` `gsDriver_setNextDrawBuffer`
+- `0x00199290` `gsDriver_DisplayNextFrame`
+- `0x00199700` `gsPipe_copy_ctor_A`
+- `0x00199720` `gsPipe_copy_ctor_B`
+- `0x00199830` `gsPipe_getPipeSize`
+- `0x00199848` `gsPipe_ReInit`
+- `0x00199898` `gsPipe_getBytesLeft`
+- `0x001998b8` `gsPipe_FlushCheck`
+- `0x0019a580` `gsPipe_setFilterMethod`
+- `0x0019bf00` `CDVD_DiskReady`
+- `0x0019c0d0` `CDVD_Stop`
+- `0x0019c128` `CDVD_TrayReq`
+- `0x0019c190` `CDVD_getdir`
+- `0x0019c2ac` `CDVD_FlushCache`
+- `0x0019c304` `CDVD_GetSize`
+- `0x0019c688` `SifBindRpc`
+- `0x0019c7b0` `SifCallRpc`
+- `0x0019c960` `rpc_packet_free`
+- `0x0019c978` `_request_end`
+- `0x0019ca0c` `search_svdata`
+- `0x0019ca54` `_request_bind`
+- `0x0019cb08` `_request_call`
+- `0x0019cba8` `_request_rdata`
+- `0x0019cd4c` `SifExitRpc`
+- `0x0019cd70` `_rpc_get_packet`
+- `0x0019ce2c` `_rpc_get_fpacket`
+- `0x0019cfc0` `fioOpen`
+- `0x0019d090` `fioClose`
+- `0x0019d120` `fioRead`
+- `0x0019d360` `fioLseek`
+- `0x0019d534` `fioPutc`
+- `0x0019d600` `SifLoadModule`
+- `0x0019d620` `SifLoadModuleBuffer`
+- `0x0019e274` `snprintf_room_check`
+- `0x0019e860` `strcasecmp`
+- `0x0019eaa4` `strrchr`
+- `0x0019edac` `tolower`
+- `0x0019eddc` `toupper`
+- `0x0019ee0c` `isupper`
+- `0x0019ee20` `islower`
+- `0x0019ee34` `isalpha`
+- `0x0019ee80` `isdigit`
+- `0x0019ee94` `isalnum`
+- `0x0019eee0` `iscntrl`
+- `0x0019eefc` `isgraph`
+- `0x0019ef3c` `isprint`
+- `0x0019ef5c` `ispunct`
+- `0x0019efac` `isspace`
+- `0x0019f138` `_SifSendCmd`
+- `0x0019f264` `SifSendCmd`
+- `0x0019f2a0` `iSifSendCmd`
+- `0x0019f2dc` `change_addr`
+- `0x0019f2e8` `set_sreg`
+- `0x0019f510` `SifExitCmd`
+- `0x0019f544` `SifAddCmdHandler`
+- `0x0019faa8` `vprintf`
+- `0x0019fb00` `EnableDmac`
+- `0x0019fbf0` `_SifCmdIntHandler`
+- `0x001a10d0` `mcMkDir`
+- `0x001a1af4` `SifCheckStatRpc`
+
+Evidence: `analysis/matching/progress54-validated-98.tsv` and the two frozen probe TSVs.
+All rows were revalidated with the repository comparator before promotion.
+The original unpacked ELF remains the stronger formal full-target gate.
 
 ## Important scope
 
