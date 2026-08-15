@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare target functions with compiled ELF symbols, masking relocations only."""
+"""Compare target functions with compiled ELF symbols, normalizing relocation-controlled bits only."""
 from __future__ import annotations
 
 import argparse
@@ -16,6 +16,39 @@ SHT_REL = 9
 SHT_DYNSYM = 11
 SHN_UNDEF = 0
 ET_REL = 1
+EM_MIPS = 8
+
+# ELF32 MIPS relocation numbers from include/elf/mips.h.  The masks mirror
+# BFD's dst_mask for the classic ABI relocations used by the PS2 EE toolchain.
+R_MIPS_NONE = 0
+R_MIPS_16 = 1
+R_MIPS_32 = 2
+R_MIPS_REL32 = 3
+R_MIPS_26 = 4
+R_MIPS_HI16 = 5
+R_MIPS_LO16 = 6
+R_MIPS_GPREL16 = 7
+R_MIPS_LITERAL = 8
+R_MIPS_GOT16 = 9
+R_MIPS_PC16 = 10
+R_MIPS_CALL16 = 11
+R_MIPS_GPREL32 = 12
+
+MIPS32_RELOCATION_MASKS: dict[int, int] = {
+    R_MIPS_NONE: 0x00000000,
+    R_MIPS_16: 0x0000FFFF,
+    R_MIPS_32: 0xFFFFFFFF,
+    R_MIPS_REL32: 0xFFFFFFFF,
+    R_MIPS_26: 0x03FFFFFF,
+    R_MIPS_HI16: 0x0000FFFF,
+    R_MIPS_LO16: 0x0000FFFF,
+    R_MIPS_GPREL16: 0x0000FFFF,
+    R_MIPS_LITERAL: 0x0000FFFF,
+    R_MIPS_GOT16: 0x0000FFFF,
+    R_MIPS_PC16: 0x0000FFFF,
+    R_MIPS_CALL16: 0x0000FFFF,
+    R_MIPS_GPREL32: 0xFFFFFFFF,
+}
 
 
 @dataclass(frozen=True)
@@ -41,6 +74,15 @@ class Symbol:
 
 
 @dataclass(frozen=True)
+class RelocationMask:
+    start: int
+    end: int
+    relocation_type: int
+    mask_bytes: bytes
+    known: bool
+
+
+@dataclass(frozen=True)
 class Comparison:
     symbol: str
     expected_size: int
@@ -50,6 +92,7 @@ class Comparison:
     normalized_equal: bool
     differing_bytes: int
     first_differences: tuple[int, ...]
+    unknown_relocation_types: tuple[int, ...] = ()
 
     @property
     def matching(self) -> bool:
@@ -177,8 +220,8 @@ class ELFFile:
         start = section.offset + relative
         return self.data[start:start + size]
 
-    def relocation_ranges(self, symbol: Symbol, width: int) -> tuple[tuple[int, int], ...]:
-        ranges: set[tuple[int, int]] = set()
+    def relocation_masks(self, symbol: Symbol, width: int) -> tuple[RelocationMask, ...]:
+        masks: list[RelocationMask] = []
         for section in self.sections:
             if section.type not in (SHT_REL, SHT_RELA) or section.info != symbol.section_index:
                 continue
@@ -188,14 +231,52 @@ class ELFFile:
             for index in range(count):
                 offset = section.offset + index * section.entry_size
                 if self.elf_class == 1:
-                    relocation_offset = struct.unpack_from(self.endian + "I", self.data, offset)[0]
+                    relocation_offset, relocation_info = struct.unpack_from(
+                        self.endian + "II", self.data, offset
+                    )
+                    relocation_type = relocation_info & 0xFF
                 else:
-                    relocation_offset = struct.unpack_from(self.endian + "Q", self.data, offset)[0]
+                    relocation_offset, relocation_info = struct.unpack_from(
+                        self.endian + "QQ", self.data, offset
+                    )
+                    relocation_type = relocation_info & 0xFFFFFFFF
+
                 relative = relocation_offset - symbol.value
                 symbol_size = symbol.size
-                if 0 <= relative < symbol_size:
-                    ranges.add((relative, min(relative + width, symbol_size)))
-        return tuple(sorted(ranges))
+                if not (0 <= relative < symbol_size):
+                    continue
+
+                if self.machine == EM_MIPS:
+                    if self.elf_class != 1:
+                        raise ValueError(
+                            f"{self.path}: MIPS64 relocation normalization is unsupported; refusing broad masking"
+                        )
+                    bit_mask = MIPS32_RELOCATION_MASKS.get(relocation_type, 0)
+                    field_width = 4
+                    byte_order = "little" if self.endian == "<" else "big"
+                    mask_bytes = bit_mask.to_bytes(field_width, byteorder=byte_order)
+                    known = relocation_type in MIPS32_RELOCATION_MASKS
+                else:
+                    field_width = width
+                    mask_bytes = b"\xff" * field_width
+                    known = True
+
+                end = min(relative + field_width, symbol_size)
+                masks.append(
+                    RelocationMask(
+                        start=relative,
+                        end=end,
+                        relocation_type=relocation_type,
+                        mask_bytes=mask_bytes[: end - relative],
+                        known=known,
+                    )
+                )
+        return tuple(sorted(masks, key=lambda item: (item.start, item.end, item.relocation_type)))
+
+    def relocation_ranges(self, symbol: Symbol, width: int) -> tuple[tuple[int, int], ...]:
+        # Backward-compatible view used by reports/tests.  A MIPS range now
+        # means "instruction containing a relocation", not "all bytes ignored".
+        return tuple(sorted({(item.start, item.end) for item in self.relocation_masks(symbol, width)}))
 
 
 def compare_function(
@@ -211,18 +292,26 @@ def compare_function(
     symbol = elf.find_symbol(symbol_name)
     candidate = elf.symbol_bytes(symbol, expected_size)
     expected = target[target_offset:target_offset + expected_size]
-    ranges = elf.relocation_ranges(symbol, relocation_width)
-    masked: set[int] = set()
-    for start, end in ranges:
-        masked.update(range(start, end))
+    relocations = elf.relocation_masks(symbol, relocation_width)
+    ranges = tuple(sorted({(item.start, item.end) for item in relocations}))
 
     overlap = min(len(expected), len(candidate))
+    ignored_bits = bytearray(overlap)
+    for relocation in relocations:
+        for index, mask in enumerate(relocation.mask_bytes):
+            absolute = relocation.start + index
+            if absolute < overlap:
+                ignored_bits[absolute] |= mask
+
     differences = [
         index
         for index in range(overlap)
-        if index not in masked and expected[index] != candidate[index]
+        if ((expected[index] ^ candidate[index]) & (~ignored_bits[index] & 0xFF)) != 0
     ]
     normalized_equal = not differences and len(expected) == len(candidate)
+    unknown_types = tuple(
+        sorted({item.relocation_type for item in relocations if not item.known})
+    )
     return Comparison(
         symbol=symbol_name,
         expected_size=len(expected),
@@ -232,6 +321,7 @@ def compare_function(
         normalized_equal=normalized_equal,
         differing_bytes=len(differences) + abs(len(expected) - len(candidate)),
         first_differences=tuple(differences[:8]),
+        unknown_relocation_types=unknown_types,
     )
 
 
@@ -246,7 +336,7 @@ def render_report(
     lines = [
         "# ELF function comparison report",
         "",
-        "> Generated by `tools/compare_elf_functions.py`. Relocation bytes are masked on both sides; all other bytes must agree.",
+        "> Generated by `tools/compare_elf_functions.py`. Only relocation-controlled bits are normalized on ELF32 MIPS; opcode/register bits still must agree. Unknown MIPS relocation types are fail-closed and mask no bits. Other architectures retain the legacy byte-width normalization.",
         "",
         f"- Target image: `{target_path}`",
         f"- Target SHA-256: `{hashlib.sha256(target_path.read_bytes()).hexdigest()}`",
@@ -267,6 +357,9 @@ def render_report(
             continue
         status = "MATCHING" if result.matching else "DIFF"
         first = ", ".join(f"+0x{offset:x}" for offset in result.first_differences) or "—"
+        if result.unknown_relocation_types:
+            unknown = ", ".join(str(value) for value in result.unknown_relocation_types)
+            first = f"{first}; unmasked unknown MIPS reloc type(s): {unknown}"
         lines.append(
             f"| `{row['address']}` | `{row['name']}` | `{row['object_symbol']}` | "
             f"{result.expected_size} / {result.candidate_size} | {len(result.relocation_ranges)} | "
@@ -291,7 +384,12 @@ def main() -> None:
     parser.add_argument("--object", required=True, type=Path, help="compiled relocatable ELF object")
     parser.add_argument("--manifest", required=True, type=Path)
     parser.add_argument("--report", required=True, type=Path)
-    parser.add_argument("--relocation-width", type=int, default=4)
+    parser.add_argument(
+        "--relocation-width",
+        type=int,
+        default=4,
+        help="legacy byte width for non-MIPS relocations (ELF32 MIPS uses relocation-type bit masks)",
+    )
     parser.add_argument("--require-all-matching", action="store_true")
     args = parser.parse_args()
 
