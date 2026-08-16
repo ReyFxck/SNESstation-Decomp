@@ -2,7 +2,7 @@
 
 Checkpoint date: 2026-08-15.
 
-## Closed committed-listing gates: 200 functions
+## Closed committed-listing gates: 307 functions
 
 ### Newlib mathfp — 7/7
 
@@ -293,6 +293,13 @@ Evidence: `analysis/matching/progress54-validated-98.tsv` and the two frozen pro
 All rows were revalidated with the repository comparator before promotion.
 The original unpacked ELF remains the stronger formal full-target gate.
 
+### Progress 55 broad historical/runtime sweep — 107/107 strict
+
+- Baseline: **200/1041**.
+- New unique strict functions: **107/107**.
+- Checkpoint: **307/1041 (29.49%)**.
+- Frozen union: `analysis/matching/progress55-validated-107.tsv`.
+- Detailed provenance: `docs/PROGRESS55_307_MATCH.md`.
 ## Important scope
 
 These are **relocation-normalized committed-listing matches**. They are strong

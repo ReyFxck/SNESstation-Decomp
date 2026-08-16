@@ -23,10 +23,10 @@ Unpacked image SHA-256:
 - Old EE libkernel size-optimized strings: 4/4 strict.
 - Old EE libc assembly strings/memory: 7/7 strict.
 
-Total closed committed-listing matches: **200 functions**.
+Total closed committed-listing matches: **307 functions**.
 
 Progress 52 promotes those proven rows in the authoritative progress
-manifests and regenerates the README/SVG. Matching is **200/1041 = 19.21%**;
+manifests and regenerates the README/SVG. Matching is **307/1041 = 29.49%**;
 structural/source-model coverage remains 100% and is not conflated with matching.
 
 The syscall leaves preserve the historical `kernel.S` source form. DIntr/EIntr
@@ -35,6 +35,8 @@ assembly reconstruction for the strict target gate.
 
 These are function/listing claims, not a claim that the complete ELF links
 byte-identically yet.
+
+Progress 55 adds 107 unique strict historical/runtime matches to the Progress 54 baseline, bringing the authoritative function-level checkpoint to **307/1041 (29.49%)**.
 
 Progress 53 closed the GCC/libsupc++ runtime batch at 102 matches. Progress 54 closes an additional 98-function historical/library recovered-source batch, bringing the authoritative checkpoint to **200/1041 (19.21%)**.
 
@@ -90,4 +92,4 @@ Do not silently substitute modern PS2SDK for those unknowns.
 ## Preserved matching checkpoint
 
 Current authoritative matching status:
-`docs/MATCHED_CHECKPOINT.md` — **200 closed committed-listing matches**.
+`docs/MATCHED_CHECKPOINT.md` — **307 closed committed-listing matches**.
