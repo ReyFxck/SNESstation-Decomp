@@ -44,7 +44,7 @@ typedef struct SnesPadData {
     uint16_t modeTable[4];
     uint32_t frame;
     uint32_t unknown92;
-    uint32_t length;
+    int32_t length;
     uint8_t modeOk;
     uint8_t modeCurId;
     uint8_t unknown102;
@@ -74,7 +74,7 @@ typedef void (*SnesPadSyncDCache)(void *start, void *end, void *opaque);
 typedef struct SnesPadRuntime {
     int initialised;
     uint8_t buffer[128];
-    SnesPadState state[2][8];
+    SnesPadState state[8][2]; /* target lineage: slot-major [slot][port] */
     SnesPadRpcCall rpc_call;
     SnesPadRpcBind rpc_bind;
     SnesPadSyncDCache sync_dcache;
@@ -96,7 +96,7 @@ static void store32(uint8_t *p, uint32_t v)
 /* 0x001a8420 */
 static SnesPadData *padGetDmaStr(SnesPadRuntime *rt, int port, int slot)
 {
-    SnesPadData *pdata = rt->state[port][slot].padData;
+    SnesPadData *pdata = rt->state[slot][port].padData;
     if (rt->sync_dcache != NULL)
         rt->sync_dcache(pdata, (uint8_t *)pdata + 256, rt->opaque);
     return pdata[0].frame < pdata[1].frame ? &pdata[1] : &pdata[0];
@@ -126,11 +126,11 @@ int snes_padInit(SnesPadRuntime *rt, int ignored)
         return -3;
 
     for (i = 0; i < 8; ++i) {
-        memset(&rt->state[0][i], 0, sizeof(rt->state[0][i]));
-        memset(&rt->state[1][i], 0, sizeof(rt->state[1][i]));
-        rt->state[0][i].slot = i;
-        rt->state[1][i].slot = i;
-        rt->state[1][i].port = 1;
+        memset(&rt->state[i][0], 0, sizeof(rt->state[i][0]));
+        memset(&rt->state[i][1], 0, sizeof(rt->state[i][1]));
+        rt->state[i][0].slot = i;
+        rt->state[i][1].slot = i;
+        rt->state[i][1].port = 1;
     }
 
     /* The NEW_PADMAN target then issues the module/version/init path through RPC. */
@@ -177,11 +177,11 @@ int snes_padPortOpen(SnesPadRuntime *rt, int port, int slot, void *padArea)
     if (rpc(rt, 0) < 0)
         return 0;
 
-    rt->state[port][slot].open = 1;
-    rt->state[port][slot].port = (uint32_t)port;
-    rt->state[port][slot].slot = (uint32_t)slot;
-    rt->state[port][slot].padData = dma;
-    rt->state[port][slot].padBuf = (uint8_t *)(uintptr_t)load32(rt->buffer + 20);
+    rt->state[slot][port].open = 1;
+    rt->state[slot][port].port = (uint32_t)port;
+    rt->state[slot][port].slot = (uint32_t)slot;
+    rt->state[slot][port].padData = dma;
+    rt->state[slot][port].padBuf = (uint8_t *)(uintptr_t)load32(rt->buffer + 20);
     return (int32_t)load32(rt->buffer + 12);
 }
 
@@ -196,7 +196,7 @@ int snes_padPortClose(SnesPadRuntime *rt, int port, int slot)
     call_result = rpc(rt, 0);
     if (call_result < 0)
         return call_result;
-    rt->state[port][slot].open = 0;
+    rt->state[slot][port].open = 0;
     return (int32_t)load32(rt->buffer + 12);
 }
 
@@ -296,7 +296,9 @@ int snes_padInfoMode(SnesPadRuntime *rt, int port, int slot, int infoMode, int i
             return 0;
         if (index == -1)
             return p->nrOfModes;
-        return (unsigned)index < p->nrOfModes ? p->modeTable[index] : 0;
+        if (p->nrOfModes < index)
+            return p->modeTable[index];
+        return 0;
     default:
         return 0;
     }

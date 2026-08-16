@@ -93,7 +93,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	match-libgcc-unwind-listing match-libgcc-unwind-listing-strict \
 	match-gslib-hw-listing match-gslib-hw-listing-strict \
 	match-libkernel-leaves-listing-strict match-libkernel-size-strings-listing-strict match-libkernel-libc-strings-listing-strict \
-	match-cpp-runtime-small-listing-strict \
+	match-cpp-runtime-small-listing-strict match-cdvd-rpc-exact-listing-strict \
 	elf-status elf clean-matching
 
 help:
@@ -118,6 +118,7 @@ help:
 	@echo "  make match-libkernel-size-strings-listing-strict  strict 4/4 old EE size-string gate"
 	@echo "  make match-libkernel-libc-strings-listing-strict  strict 7/7 old EE libc assembly gate"
 	@echo "  make match-cpp-runtime-small-listing-strict  strict 48/48 GCC/libsupc++ runtime gate"
+	@echo "  make match-cdvd-rpc-exact-listing-strict  strict 2/2 remaining CDVD exact gate"
 	@echo "  make elf-status     show why a complete replacement ELF is not ready"
 	@echo
 	@echo "For matching, run make bootstrap-ee-stage1 or pass EE_CC=/path/to/ee-gcc."
@@ -205,6 +206,9 @@ ee-source-scan-strict: check-ee-compiler
 # Local historical EE regression gate. The original ELF remains the formal byte gate.
 historical-ee-gate: check match-libgcc-unwind-listing-strict ee-source-scan-strict
 	@echo "historical EE gate: OK (repository checks + 7/7 unwind + 101/101 C TUs)"
+
+match-cdvd-rpc-exact-listing-strict: check-ee-compiler
+	EE_CC="$(EE_CC)" bash tools/run-cdvd-rpc-exact-match.sh
 
 
 $(MATHFP_CORE_OBJECT): $(MATHFP_SOURCE) $(MATHFP_MANIFEST) | check-ee-compiler

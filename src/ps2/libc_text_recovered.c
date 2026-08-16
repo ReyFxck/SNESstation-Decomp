@@ -127,7 +127,7 @@ int strcasecmp_0019e860(const char *left, const char *right)
 }
 
 /* Target: 0x0019e8e4. */
-int strncasecmp_0019e8e4(const char *left, const char *right, size_t count)
+int strncasecmp_0019e8e4(const char *left, const char *right, unsigned int count)
 {
     const signed char *a = (const signed char *)left;
     const signed char *b = (const signed char *)right;

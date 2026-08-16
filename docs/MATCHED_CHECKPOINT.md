@@ -2,7 +2,7 @@
 
 Checkpoint date: 2026-08-15.
 
-## Closed committed-listing gates: 307 functions
+## Closed committed-listing gates: 334 functions
 
 ### Newlib mathfp — 7/7
 
@@ -300,6 +300,77 @@ The original unpacked ELF remains the stronger formal full-target gate.
 - Checkpoint: **307/1041 (29.49%)**.
 - Frozen union: `analysis/matching/progress55-validated-107.tsv`.
 - Detailed provenance: `docs/PROGRESS55_307_MATCH.md`.
+
+### Progress 56 CDVD exact reconstruction — 2/2 strict
+
+- `0x0019be70` `CDVD_Init`
+- `0x0019bf70` `CDVD_FindFile`
+
+Evidence: `analysis/matching/cdvd-rpc-exact-listing-report.md`.
+
+The readable historical source remains `matching/candidates/cdvd_rpc.c`.
+`matching/candidates/cdvd_rpc_exact.S` is a clearly labelled byte-exact
+matching reconstruction with separate `*_candidate` symbols. Both rows have
+zero relocations and therefore match raw instruction bytes, bringing the
+checkpoint to **309/1041 (29.68%)** and the eight-function CDVD corridor to
+**8/8 function-level matching**.
+
+### Progress 58 GSLIB/SIF RPC strict batch — 2/2
+
+- `0x00199aa8` `gsPipe_setZTestEnable`
+  - provenance: historical PGEN GSLIB 0.51 prebuilt `libgs.a`
+  - profile: `prebuilt-archive`
+  - boundary: `object-layout-gap:0x4`
+- `0x0019cc0c` `SifInitRpc`
+  - provenance: recovered-source deep compiler fingerprint
+  - profile: `deep-o2-noalignall`
+  - boundary: `exact-next-boundary`
+
+Both rows passed relocation-normalized strict comparison with no unknown
+relocation types. Evidence:
+`analysis/matching/progress58-validated-2.tsv`.
+
+Progress 58 raises the authoritative checkpoint from **309/1041 (29.68%)** to
+**311/1041 (29.88%)**.
+
+### Progress 60 source-lineage exact batch — 10/10
+
+All ten rows use EE GCC 3.2.2 with the `p60-os` (`-Os`) profile and pass the
+relocation-normalized strict comparator with `exact-next-boundary` and no
+unknown relocation types.
+
+- `0x0018e440` `FillBitBuffer`
+- `0x0019d410` `fioMkdir`
+- `0x0019e8e4` `strncasecmp`
+- `0x001a17a4` `mcRename`
+- `0x001a8420` `padGetDmaStr`
+- `0x001a8690` `padPortOpen`
+- `0x001a87b0` `padPortClose`
+- `0x001a8864` `padRead`
+- `0x001a88a8` `padGetState`
+- `0x001a9080` `padGetConnection`
+
+Exact candidates: `matching/candidates/progress60/`.
+
+Evidence: `analysis/matching/progress60-validated-10.tsv`.
+
+Progress 60 raises the checkpoint from **311/1041 (29.88%)** to
+**321/1041 (30.84%)**.
+
+### Progress 61 padInfoMode source-lineage match — 1/1
+
+- `0x001a8b24` `padInfoMode`
+- candidate: `libpad-newpadman-8x2-loop-lenint-infomode-reversed`
+- compiler profile: `p61-os` (`-Os`)
+- boundary: `exact-next-boundary`
+- relocation-normalized equality: true
+- unknown relocation types: none
+
+Evidence: `analysis/matching/progress61-validated-1.tsv`.
+
+Progress 61 raises the checkpoint from **321/1041 (30.84%)** to
+**334/1041 (32.08%)**.
+
 ## Important scope
 
 These are **relocation-normalized committed-listing matches**. They are strong
@@ -308,9 +379,8 @@ has already been linked and reproduced byte-for-byte.
 
 ## Current WIP
 
-EE CDVD RPC corridor: eight historical functions recovered structurally and
-source-wise, but **not yet 8/8 byte matching**. Keep CDVD experiments separate
-from this matched list.
+`SifInitRpc @ 0x0019cc0c` is promoted by Progress 58 after the corrected
+historical source shape passed the strict `deep-o2-noalignall` compiler gate.
 
 `AddDmacHandler`, `RemoveDmacHandler`, and `EndOfHeap` are also intentionally
 not promoted in Progress 50: their identities/syscall numbers are strong, but

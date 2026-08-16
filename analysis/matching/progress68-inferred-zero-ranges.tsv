@@ -1,0 +1,5 @@
+start	end_exclusive	bytes	source
+0x001a84d4	0x001a84e8	20	analysis/functions/libpad_001a8420.asm
+0x001a84f0	0x001a84fc	12	analysis/functions/libpad_001a8420.asm
+0x001a8534	0x001a8548	20	analysis/functions/libpad_001a8420.asm
+0x001a8550	0x001a855c	12	analysis/functions/libpad_001a8420.asm

@@ -1,0 +1,4 @@
+repository=https://github.com/ps2dev/ps2sdk.git
+commit=01d625018c3fde3044292446c910b8ea508adfdc
+path=ee/rpc/memorycard/src/libmc.c
+sha256=b915d37eb9624421d41236331beea6935afa3530c05922ee8c129d22b55dff6a

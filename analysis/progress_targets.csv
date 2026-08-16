@@ -457,7 +457,7 @@ address,name,area,status,confidence,notes
 0x0018e2e0,huft_free,unzip,MATCHING,very-high,Frees linked huft allocation chain through dummy predecessor entry; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=huft_free_recovered
 0x0018e318,flush,unzip,RECONSTRUCTED,very-high,Flush slide buffer + CRC/output accounting
 0x0018e3ac,flush_stack,unzip,RECONSTRUCTED,very-high,Flush Shrink stack + CRC/output accounting
-0x0018e440,FillBitBuffer,unzip,RECONSTRUCTED,very-high,Shared legacy-ZIP bit-buffer refill helper
+0x0018e440,FillBitBuffer,unzip,MATCHING,very-high,Shared legacy-ZIP bit-buffer refill helper; Progress 60: strict source-lineage MATCH; candidate=FillBitBuffer-bits-left-signed; profile=p60-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress60-validated-10.tsv
 0x0018e4c0,unReduce,unzip,RECONSTRUCTED,very-high,Legacy ZIP Reduce state machine and copy expansion
 0x0018e92c,LoadFollowers,unzip,RECONSTRUCTED,very-high,Loads 256 probabilistic follower tables
 0x0018ea58,snes_p16_0018ea58,legacy-zip-zlib,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 125 pseudocode lines, sha256 ab9d9b5aaea0ab3c; address label retained because the historical symbol is unproven"
@@ -623,7 +623,7 @@ address,name,area,status,confidence,notes
 0x001998f8,gsPipe_Flush,gslib,MATCHING,very-high,DMA wait/cache flush/chain send then swaps double-buffered pipe; Progress 55: strict committed-listing MATCH; evidence=screen300c
 0x00199970,gsPipe_FlushInt,gslib,MATCHING,very-high,Interrupt-safe Flush variant using iFlushCache; Progress 55: strict committed-listing MATCH; evidence=screen300c
 0x001999e8,gsPipe_setZBuffer,gslib,MATCHING,very-high,Emits ZBUF_1 A+D packet and updates local/global state; Progress 55: strict committed-listing MATCH; evidence=screen300c
-0x00199aa8,gsPipe_setZTestEnable,gslib,RECONSTRUCTED,very-high,Emits TEST_1 packet with GSLIB Z-buffer gate logic
+0x00199aa8,gsPipe_setZTestEnable,gslib,MATCHING,very-high,Emits TEST_1 packet with GSLIB Z-buffer gate logic; Progress 58: strict historical PGEN GSLIB 0.51 prebuilt-archive MATCH; source=lib/gslib051/lib/libgs.a; object=gsPipe.o; object_symbol=_ZN6gsPipe14setZTestEnableEi; boundary=object-layout-gap:0x4; normalized_equal=True
 0x00199b80,gsPipe_setAlphaEnable,gslib,RECONSTRUCTED,very-high,Emits ALPHA_1/PABE and updates alpha state
 0x00199c58,gsPipe_setDither,gslib,MATCHING,very-high,Emits DTHE A+D packet; Progress 55: strict committed-listing MATCH; evidence=screen300c
 0x00199cd0,gsPipe_setColClamp,gslib,MATCHING,very-high,Emits COLCLAMP A+D packet; Progress 55: strict committed-listing MATCH; evidence=screen300c
@@ -659,9 +659,9 @@ address,name,area,status,confidence,notes
 0x0019bd98,DmaReset,gslib,MATCHING,very-high,GSLIB/Duke DMA reset MMIO sequence recovered exactly
 0x0019be20,SendDma02,gslib,MATCHING,very-high,GIF DMA channel-2 chain submission helper recovered
 0x0019be40,Dma02Wait,gslib,MATCHING,very-high,Polls CHCR bit 0x100 until GIF DMA channel 2 idle
-0x0019be70,CDVD_Init,cdvd,RECONSTRUCTED,very-high,Hiryu/Sjeep libcdvd EE RPC init; target RPC id 0x0b001337 and bind loop recovered
+0x0019be70,CDVD_Init,cdvd,MATCHING,very-high,Hiryu/Sjeep libcdvd EE RPC init; target RPC id 0x0b001337 and bind loop recovered; Progress 56: strict exact-assembly committed-listing MATCH; gate=cdvd-rpc-exact; object=CDVD_Init_candidate; raw-byte-equal=144/144; relocations=0
 0x0019bf00,CDVD_DiskReady,cdvd,MATCHING,very-high,RPC command 0x06; mode word and result path recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=CDVD_DiskReady
-0x0019bf70,CDVD_FindFile,cdvd,RECONSTRUCTED,very-high,RPC command 0x01; 1024-byte path request plus 0x90-byte TocEntry recovered
+0x0019bf70,CDVD_FindFile,cdvd,MATCHING,very-high,RPC command 0x01; 1024-byte path request plus 0x90-byte TocEntry recovered; Progress 56: strict exact-assembly committed-listing MATCH; gate=cdvd-rpc-exact; object=CDVD_FindFile_candidate; raw-byte-equal=352/352; relocations=0
 0x0019c0d0,CDVD_Stop,cdvd,MATCHING,very-high,RPC command 0x04 stop wrapper recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=CDVD_Stop
 0x0019c128,CDVD_TrayReq,cdvd,MATCHING,very-high,RPC command 0x05; target preserves historical omission of mode store; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=CDVD_TrayReq
 0x0019c190,CDVD_getdir,cdvd,MATCHING,very-high,RPC command 0x02 directory request/buffer layout recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=CDVD_getdir
@@ -687,7 +687,7 @@ address,name,area,status,confidence,notes
 0x0019ca54,_request_bind,sifrpc,MATCHING,very-high,Inbound bind request handler recovered; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=_request_bind
 0x0019cb08,_request_call,sifrpc,MATCHING,very-high,Inbound call queueing/wakeup handler recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=request_call_0019cb08
 0x0019cba8,_request_rdata,sifrpc,MATCHING,very-high,Other-data response handler recovered; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-o2; object=_request_rdata
-0x0019cc0c,SifInitRpc,sifrpc,RECONSTRUCTED,very-high,SIF RPC command handlers/tables and EE-side handshake recovered
+0x0019cc0c,SifInitRpc,sifrpc,MATCHING,very-high,SIF RPC command handlers/tables and EE-side handshake recovered; Progress 58: strict recovered-source compiler MATCH; gate=progress58-hunt350; profile=deep-o2-noalignall; boundary=exact-next-boundary; normalized_equal=True; historical pkt_table_recovered handshake source shape retained
 0x0019cd4c,SifExitRpc,sifrpc,MATCHING,very-high,SifExitCmd wrapper plus RPC init-state clear; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=SifExitRpc_0019cd4c
 0x0019cd70,_rpc_get_packet,sifrpc,MATCHING,very-high,64-byte packet allocator and rec_id/rpc_id generation recovered; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=_rpc_get_packet
 0x0019ce2c,_rpc_get_fpacket,sifrpc,MATCHING,very-high,Round-robin 64-byte response-packet selector recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=rpc_get_fpacket_0019ce2c
@@ -708,7 +708,7 @@ address,name,area,status,confidence,notes
 0x0019d120,fioRead,fileio,MATCHING,very-high,Old fileIO RPC fno 2; exact 0x10-byte request and unaligned read callback recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=fioRead_0019d120
 0x0019d244,fioWrite,fileio,RECONSTRUCTED,very-high,Old fileIO RPC fno 3; exact 0x20-byte request and leading unaligned bytes recovered
 0x0019d360,fioLseek,fileio,MATCHING,very-high,Old fileIO RPC fno 4; exact 0x10-byte request recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-os; object=fioLseek_0019d360
-0x0019d410,fioMkdir,fileio,RECONSTRUCTED,very-high,Old fileIO RPC fno 7; 0x100-byte payload and one-byte-outside terminator quirk preserved
+0x0019d410,fioMkdir,fileio,MATCHING,very-high,Old fileIO RPC fno 7; 0x100-byte payload and one-byte-outside terminator quirk preserved; Progress 60: strict source-lineage MATCH; candidate=fioMkdir-path256; profile=p60-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress60-validated-10.tsv
 0x0019d4b0,_fio_read_intr,fileio,RECONSTRUCTED,very-high,Unaligned head/tail read-copy callback recovered
 0x0019d534,fioPutc,fileio,MATCHING,very-high,One-byte wrapper through fioWrite recovered; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=fioPutc_0019d534
 0x0019d558,fioGets,fileio,RECONSTRUCTED,very-high,Bulk read plus relative seek-back on NUL/newline recovered
@@ -734,7 +734,7 @@ address,name,area,status,confidence,notes
 0x0019e698,memalign,libkernel,RECONSTRUCTED,very-high,Old PS2LIB memalign reconstructed; relocates 16-byte heap header and repairs prev/next/head/tail links
 0x0019e784,free,libkernel,RECONSTRUCTED,very-high,Old PS2LIB free reconstructed including head/tail special cases and ps2_sbrk heap shrink
 0x0019e860,strcasecmp,libc,MATCHING,very-high,ASCII case-insensitive compare through target tolower; preserves signed loop loads and unsigned final loads; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=strcasecmp
-0x0019e8e4,strncasecmp,libc,RECONSTRUCTED,very-high,Count-limited ASCII case-insensitive compare reconstructed from target loop
+0x0019e8e4,strncasecmp,libc,MATCHING,very-high,Count-limited ASCII case-insensitive compare reconstructed from target loop; Progress 60: strict source-lineage MATCH; candidate=strncasecmp-n-unsigned-int; profile=p60-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress60-validated-10.tsv
 0x0019e99c,strtok,libc,RECONSTRUCTED,very-high,"Recovered dual-global tokenizer state machine; preserves stale continuation state after an all-delimiter new string and the missing NULL-state guard on strtok(NULL, ...)"
 0x0019eaa4,strrchr,libc,MATCHING,very-high,Target repeatedly calls strchr from previous match+1 and returns last match; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=strrchr_0019eaa4
 0x0019eaf8,strstr,libc,RECONSTRUCTED,very-high,Target handles null haystack/empty needle then scans with strlen(needle)+strncmp
@@ -807,14 +807,14 @@ address,name,area,status,confidence,notes
 0x001a10fc,mcChdir,libmc,MATCHING,very-high,Asynchronous chdir with curDir cache and mcStoreDir callback; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
 0x001a1204,mcGetDir,libmc,MATCHING,very-high,Directory enumeration RPC wrapper and table cache writeback; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
 0x001a130c,mcSetFileInfo,libmc,RECONSTRUCTED,very-high,File-info staging/copy and set-info RPC wrapper
-0x001a147c,mcDelete,libmc,RECONSTRUCTED,very-high,Asynchronous memory-card delete wrapper
-0x001a1554,mcFormat,libmc,RECONSTRUCTED,very-high,Asynchronous memory-card format wrapper
-0x001a1610,mcUnformat,libmc,RECONSTRUCTED,very-high,Asynchronous memory-card unformat wrapper
-0x001a16cc,mcGetEntSpace,libmc,RECONSTRUCTED,very-high,XMC-only entry-space query
-0x001a17a4,mcRename,libmc,RECONSTRUCTED,very-high,Rename via SET_INFO flag 0x10 and staged 31-byte name
-0x001a18c0,mcChangeThreadPriority,libmc,RECONSTRUCTED,very-high,XMC priority RPC; historical target quirk leaves level argument unused
+0x001a147c,mcDelete,libmc,MATCHING,very-high,Asynchronous memory-card delete wrapper; Progress 65: exact ps2lib-era source strict MATCH; source=ps2dev/ps2sdk@01d625018c3fde3044292446c910b8ea508adfdc:ee/rpc/memorycard/src/libmc.c; profile=p65-os; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; no unknown relocations; evidence=analysis/matching/progress65-validated-6.tsv
+0x001a1554,mcFormat,libmc,MATCHING,very-high,Asynchronous memory-card format wrapper; Progress 65: exact ps2lib-era source strict MATCH; source=ps2dev/ps2sdk@01d625018c3fde3044292446c910b8ea508adfdc:ee/rpc/memorycard/src/libmc.c; profile=p65-os; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; no unknown relocations; evidence=analysis/matching/progress65-validated-6.tsv
+0x001a1610,mcUnformat,libmc,MATCHING,very-high,Asynchronous memory-card unformat wrapper; Progress 65: exact ps2lib-era source strict MATCH; source=ps2dev/ps2sdk@01d625018c3fde3044292446c910b8ea508adfdc:ee/rpc/memorycard/src/libmc.c; profile=p65-os; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; no unknown relocations; evidence=analysis/matching/progress65-validated-6.tsv
+0x001a16cc,mcGetEntSpace,libmc,MATCHING,very-high,XMC-only entry-space query; Progress 65: exact ps2lib-era source strict MATCH; source=ps2dev/ps2sdk@01d625018c3fde3044292446c910b8ea508adfdc:ee/rpc/memorycard/src/libmc.c; profile=p65-os; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; no unknown relocations; evidence=analysis/matching/progress65-validated-6.tsv
+0x001a17a4,mcRename,libmc,MATCHING,very-high,Rename via SET_INFO flag 0x10 and staged 31-byte name; Progress 60: strict source-lineage MATCH; candidate=libmc-rename-copy32-getent-rpc; profile=p60-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress60-validated-10.tsv
+0x001a18c0,mcChangeThreadPriority,libmc,MATCHING,very-high,XMC priority RPC; historical target quirk leaves level argument unused; Progress 65: exact ps2lib-era source strict MATCH; source=ps2dev/ps2sdk@01d625018c3fde3044292446c910b8ea508adfdc:ee/rpc/memorycard/src/libmc.c; profile=p65-os; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; no unknown relocations; evidence=analysis/matching/progress65-validated-6.tsv
 0x001a1974,mcSync,libmc,RECONSTRUCTED,very-high,Wait/poll async command completion via SifCheckStatRpc; 100000-iteration spin preserved
-0x001a1a54,strcpy_sjis,libmc,RECONSTRUCTED,very-high,ASCII-to-two-byte SJIS helper used by memory-card icon metadata
+0x001a1a54,strcpy_sjis,libmc,MATCHING,very-high,ASCII-to-two-byte SJIS helper used by memory-card icon metadata; Progress 65: exact ps2lib-era source strict MATCH; source=ps2dev/ps2sdk@01d625018c3fde3044292446c910b8ea508adfdc:ee/rpc/memorycard/src/libmc.c; profile=p65-os; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; no unknown relocations; evidence=analysis/matching/progress65-validated-6.tsv
 0x001a1af4,SifCheckStatRpc,sifrpc,MATCHING,very-high,Leaf RPC busy-state check pulled by libmc; packet id/status-bit logic proven; Progress 54: strict committed-listing MATCH; gate=historical-per-object; profile=hist-os; object=SifCheckStatRpc
 0x001a1b20,__muldi3,libgcc,MATCHING,very-high,GCC 3.2.2-b1 DI multiply; target object span and arithmetic recovered; Progress 55: strict committed-listing MATCH; evidence=screen300b;sweep3
 0x001a1b98,__floatdisf,libgcc,RECONSTRUCTED,very-high,GCC DI-to-SF helper; caller ABI and conversion flow recovered
@@ -899,21 +899,21 @@ address,name,area,status,confidence,notes
 0x001a80d0,__unpack_d,libgcc,RECONSTRUCTED,very-high,Progress 13: DF IEEE class/sign/exponent/fraction unpack including subnormal normalization recovered
 0x001a81b8,__fpcmp_parts_d,libgcc,MATCHING,very-high,Progress 13: DF parts comparison order across NaN/Inf/zero/sign/exponent/fraction recovered; Progress 55: strict committed-listing MATCH; evidence=screen300b;sweep3
 0x001a82c0,__pack_f,libgcc,RECONSTRUCTED,high,"Progress 13: SF pack behavior modeled from target class branches, exponent limits and rounding corridor"
-0x001a8420,padGetDmaStr,libpad,RECONSTRUCTED,very-high,NEW/XPADMAN double-buffer selector; SyncDCache over 256-byte DMA area and newest frame selection recovered
-0x001a8484,padInit,libpad,RECONSTRUCTED,very-high,"Progress 15: complete NEW/XPADMAN init flow recovered; both bind/retry delay corridors, mod-version query, 8 state records and command 0x10 RPC represented"
+0x001a8420,padGetDmaStr,libpad,MATCHING,very-high,NEW/XPADMAN double-buffer selector; SyncDCache over 256-byte DMA area and newest frame selection recovered; Progress 60: strict source-lineage MATCH; candidate=libpad-newpadman-8x2; profile=p60-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress60-validated-10.tsv
+0x001a8484,padInit,libpad,MATCHING,very-high,"Progress 15: complete NEW/XPADMAN init flow recovered; both bind/retry delay corridors, mod-version query, 8 state records and command 0x10 RPC represented; Progress 68: exact ps2lib-era NEW_PADMAN strict MATCH; source=ps2dev/ps2sdk@01d625018c3fde3044292446c910b8ea508adfdc:ee/rpc/pad/src/libpad.c; profile=p68-os; detail=ps2lib-2004-newpadman; size=400; differing_bytes=0; normalized_equal=True; boundary=exact-next-boundary; no unknown relocations; 64 objdump-ellipsis bytes reconstructed as four bracketed zero-word runs and independently verified zero in the candidate object; evidence=analysis/matching/progress68-validated-1.tsv"
 0x001a8614,padEnd,libpad,MATCHING,very-high,PAD_RPCCMD_END async RPC and initialized-state clear recovered; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
-0x001a8690,padPortOpen,libpad,RECONSTRUCTED,very-high,"64-byte alignment check, two 128-byte DMA records and OPEN RPC recovered"
-0x001a87b0,padPortClose,libpad,RECONSTRUCTED,very-high,CLOSE RPC and PadState open flag clear recovered
-0x001a8864,padRead,libpad,RECONSTRUCTED,very-high,Newest DMA record copied by target length
-0x001a88a8,padGetState,libpad,RECONSTRUCTED,very-high,STABLE plus BUSY request maps to EXECCMD exactly as NEW_PADMAN libpad
+0x001a8690,padPortOpen,libpad,MATCHING,very-high,"64-byte alignment check, two 128-byte DMA records and OPEN RPC recovered; Progress 60: strict source-lineage MATCH; candidate=libpad-newpadman-8x2; profile=p60-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress60-validated-10.tsv"
+0x001a87b0,padPortClose,libpad,MATCHING,very-high,CLOSE RPC and PadState open flag clear recovered; Progress 60: strict source-lineage MATCH; candidate=libpad-newpadman-8x2; profile=p60-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress60-validated-10.tsv
+0x001a8864,padRead,libpad,MATCHING,very-high,Newest DMA record copied by target length; Progress 60: strict source-lineage MATCH; candidate=libpad-newpadman-8x2-loop-lenint; profile=p60-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress60-validated-10.tsv
+0x001a88a8,padGetState,libpad,MATCHING,very-high,STABLE plus BUSY request maps to EXECCMD exactly as NEW_PADMAN libpad; Progress 60: strict source-lineage MATCH; candidate=libpad-newpadman; profile=p60-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress60-validated-10.tsv
 0x001a8918,padGetReqState,libpad,MATCHING,very-high,DMA reqState leaf; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
-0x001a8938,padSetReqState,libpad,RECONSTRUCTED,very-high,DMA reqState store leaf; returns 1
-0x001a896c,padStateInt2String,libpad,RECONSTRUCTED,very-high,Eight-entry historical pad-state string table selector
-0x001a89ac,padReqStateInt2String,libpad,RECONSTRUCTED,very-high,Request-state string table selector
+0x001a8938,padSetReqState,libpad,MATCHING,very-high,DMA reqState store leaf; returns 1; Progress 67: strict historical libpad object-layout MATCH; profile=p63-os; detail=libpad-newpadman; differing_bytes=0; normalized_equal=True; no unknown relocations; boundary=object-layout-exact-next; evidence=analysis/matching/progress67-validated-5.tsv
+0x001a8964,padStateInt2String,libpad,MATCHING,very-high,Eight-entry historical pad-state string table selector; Progress 67 boundary correction: manifest start corrected from 0x001a896c to 0x001a8964 using dominant historical libpad object load base 0x001a83e0 anchored by 18 already-MATCHING symbols; Progress 67: strict historical libpad object-layout MATCH; profile=p63-os; detail=libpad-newpadman; differing_bytes=0; normalized_equal=True; no unknown relocations; boundary=object-layout-exact-next; evidence=analysis/matching/progress67-validated-5.tsv
+0x001a89a4,padReqStateInt2String,libpad,MATCHING,very-high,Request-state string table selector; Progress 67 boundary correction: manifest start corrected from 0x001a89ac to 0x001a89a4 using dominant historical libpad object load base 0x001a83e0 anchored by 18 already-MATCHING symbols; Progress 67: strict historical libpad object-layout MATCH; profile=p63-os; detail=libpad-newpadman; differing_bytes=0; normalized_equal=True; no unknown relocations; boundary=object-layout-exact-next; evidence=analysis/matching/progress67-validated-5.tsv
 0x001a89e4,padGetPortMax,libpad,MATCHING,very-high,NEW_PADMAN command 0x0c RPC wrapper; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
 0x001a8a4c,padGetSlotMax,libpad,MATCHING,very-high,NEW_PADMAN command 0x0d RPC wrapper; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
 0x001a8abc,padGetModVersion,libpad,MATCHING,very-high,NEW_PADMAN command 0x12 RPC wrapper; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
-0x001a8b24,padInfoMode,libpad,RECONSTRUCTED,very-high,NEW_PADMAN shared-DMA mode query switch recovered
+0x001a8b24,padInfoMode,libpad,MATCHING,very-high,NEW_PADMAN shared-DMA mode query switch recovered; Progress 61: strict source-lineage MATCH; candidate=libpad-newpadman-8x2-loop-lenint-infomode-reversed; profile=p61-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress61-validated-1.tsv
 0x001a8c20,padSetMainMode,libpad,MATCHING,very-high,Command 0x06; marks request BUSY on accepted mode change; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
 0x001a8ce0,padInfoPressMode,libpad,MATCHING,very-high,Pressure support test against button mask 0x3ffff; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
 0x001a8d0c,padEnterPressMode,libpad,MATCHING,very-high,"Tiny padSetButtonInfo(...,0xfff) wrapper; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1"
@@ -921,9 +921,9 @@ address,name,area,status,confidence,notes
 0x001a8d44,padGetButtonMask,libpad,MATCHING,very-high,NEW_PADMAN command 0x09 RPC wrapper; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
 0x001a8dbc,padSetButtonInfo,libpad,MATCHING,very-high,NEW_PADMAN command 0x0a; BUSY request update recovered; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
 0x001a8e74,padInfoAct,libpad,MATCHING,very-high,NEW_PADMAN actuator metadata read directly from DMA record; Progress 55: strict committed-listing MATCH; evidence=screen300;sweep1
-0x001a8f08,padSetActAlign,libpad,RECONSTRUCTED,very-high,Command 0x08 with six actuator bytes; BUSY request update recovered
-0x001a8fe4,padSetActDirect,libpad,RECONSTRUCTED,very-high,Command 0x07 with six actuator bytes
-0x001a9080,padGetConnection,libpad,RECONSTRUCTED,very-high,NEW_PADMAN command 0x11 connection query
+0x001a8f08,padSetActAlign,libpad,MATCHING,very-high,Command 0x08 with six actuator bytes; BUSY request update recovered; Progress 67: strict historical libpad object-layout MATCH; profile=p63-os; detail=libpad-newpadman; differing_bytes=0; normalized_equal=True; no unknown relocations; boundary=object-layout-exact-next; evidence=analysis/matching/progress67-validated-5.tsv
+0x001a8fe0,padSetActDirect,libpad,MATCHING,very-high,Command 0x07 with six actuator bytes; Progress 67 boundary correction: manifest start corrected from 0x001a8fe4 to 0x001a8fe0 using dominant historical libpad object load base 0x001a83e0 anchored by 18 already-MATCHING symbols; Progress 67: strict historical libpad object-layout MATCH; profile=p63-os; detail=libpad-newpadman; differing_bytes=0; normalized_equal=True; no unknown relocations; boundary=object-layout-exact-next; evidence=analysis/matching/progress67-validated-5.tsv
+0x001a9080,padGetConnection,libpad,MATCHING,very-high,NEW_PADMAN command 0x11 connection query; Progress 60: strict source-lineage MATCH; candidate=libpad-newpadman; profile=p60-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress60-validated-10.tsv
 0x001a90f8,operator_delete,cpp-runtime,MATCHING,very-high,Itanium ABI _ZdlPv; null check then free @ 0x0019e784; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
 0x001a9118,operator_delete_array,cpp-runtime,MATCHING,very-high,Itanium ABI _ZdaPv; exact forwarding wrapper to operator delete; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH
 0x001a9138,size_of_encoded_value_eh_personality,cpp-eh,MATCHING,very-high,Second inlined unwind-pe fixed-size decoder copy in eh_personality.o; Progress 53: strict GCC/libsupc++ runtime committed-listing MATCH

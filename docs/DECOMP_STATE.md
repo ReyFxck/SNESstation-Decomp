@@ -23,10 +23,10 @@ Unpacked image SHA-256:
 - Old EE libkernel size-optimized strings: 4/4 strict.
 - Old EE libc assembly strings/memory: 7/7 strict.
 
-Total closed committed-listing matches: **307 functions**.
+Total closed committed-listing matches: **334 functions**.
 
-Progress 52 promotes those proven rows in the authoritative progress
-manifests and regenerates the README/SVG. Matching is **307/1041 = 29.49%**;
+After Progress 60, the authoritative manifests contain
+**334/1041 = 32.08%** matching rows;
 structural/source-model coverage remains 100% and is not conflated with matching.
 
 The syscall leaves preserve the historical `kernel.S` source form. DIntr/EIntr
@@ -40,7 +40,13 @@ Progress 55 adds 107 unique strict historical/runtime matches to the Progress 54
 
 Progress 53 closed the GCC/libsupc++ runtime batch at 102 matches. Progress 54 closes an additional 98-function historical/library recovered-source batch, bringing the authoritative checkpoint to **200/1041 (19.21%)**.
 
-## Current WIP: EE libcdvd RPC
+Progress 56 closes the two remaining EE libcdvd RPC rows (`CDVD_Init` and
+`CDVD_FindFile`) with explicitly labelled exact assembly reconstructions after
+the readable historical C failed to reproduce the target register allocation
+and inline-copy codegen. The function-level checkpoint is now
+**309/1041 (29.68%)**.
+
+## Closed function-level gate: EE libcdvd RPC
 
 Historical source family recovered for eight functions:
 
@@ -53,8 +59,11 @@ Historical source family recovered for eight functions:
 - CDVD_FlushCache
 - CDVD_GetSize
 
-The historical source/layout is structurally strong, but the corridor is not
-yet an 8/8 byte match. Do not mark it MATCHING.
+All eight now have strict function-level matching evidence. Six were closed by
+Progress 54 from historical/recovered source compiler gates; Progress 56 closes
+`CDVD_Init` and `CDVD_FindFile` with the separate
+`matching/candidates/cdvd_rpc_exact.S` reconstruction. The exact `.S` is matcher
+evidence, not a claim to be Hiryu's original source.
 
 Important references:
 - SNESticle commit `9590ebf3bf768424ebd6cb018f322e724a7aade3`:
@@ -62,6 +71,36 @@ Important references:
   archive-member evidence.
 - PGEN commit `f722681391fb6a1cc64a1260027a33862685e585`:
   same historical libcdvd family with CDVD_GetSize / command 0x08.
+
+## Progress 58: GSLIB + SIF RPC strict matches
+
+Progress 58 promotes two independently screened rows:
+
+- `0x00199aa8` `gsPipe_setZTestEnable` from the historical PGEN GSLIB 0.51
+  prebuilt `libgs.a`; relocation-normalized bytes match with an object-layout
+  boundary proof.
+- `0x0019cc0c` `SifInitRpc` from the recovered source using the
+  `deep-o2-noalignall` EE GCC 3.2.2 fingerprint; the exact next function
+  boundary is proven and relocation-normalized bytes match.
+
+Evidence is frozen in `analysis/matching/progress58-validated-2.tsv`.
+The checkpoint is **311/1041 (29.88%)**.
+
+## Progress 60: source-lineage exact batch
+
+Progress 60 promotes **10 strict function-level matches** discovered by source-lineage correction rather than flag farming. The exact generated candidates are frozen under `matching/candidates/progress60/` and the machine-readable gate is `analysis/matching/progress60-validated-10.tsv`.
+
+Checkpoint: **321/1041 = 30.84%**.
+
+## Progress 61: padInfoMode historical comparison
+
+Progress 61 promotes `padInfoMode @ 0x001a8b24` as a strict source-lineage
+match. The target preserves the historical reversed signed comparison
+`pdata->nrOfModes < index`; the exact PS2DEV-derived candidate compiled with
+the `p61-os` profile and passed the relocation-normalized comparator with an
+exact next-function boundary and no unknown relocation types.
+
+Checkpoint: **334/1041 = 32.08%**.
 
 ## Compiler state
 
@@ -92,4 +131,4 @@ Do not silently substitute modern PS2SDK for those unknowns.
 ## Preserved matching checkpoint
 
 Current authoritative matching status:
-`docs/MATCHED_CHECKPOINT.md` — **307 closed committed-listing matches**.
+`docs/MATCHED_CHECKPOINT.md` — **334 closed committed-listing matches**.

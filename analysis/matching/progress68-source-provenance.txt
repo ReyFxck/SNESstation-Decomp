@@ -1,0 +1,4 @@
+repository=https://github.com/ps2dev/ps2sdk.git
+commit=01d625018c3fde3044292446c910b8ea508adfdc
+path=ee/rpc/pad/src/libpad.c
+sha256=4d714966fd10ffee85f0511305aa289152096bd782fa8d54c42dbc1471c44971

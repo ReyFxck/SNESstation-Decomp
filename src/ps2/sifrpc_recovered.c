@@ -391,7 +391,7 @@ void SifInitRpc_0019cc0c(int mode)
 
     if (SifGetReg(0x80000002u) != 0)
         return;
-    cmdp = (uint32_t *)(void *)(sif_rpc_data_recovered.pkt_table + 64);
+    cmdp = (uint32_t *)(void *)(pkt_table_recovered + 64);
     cmdp[3] = 1;
     (void)SifSendCmd(0x80000002u, cmdp, 16, NULL, NULL, 0);
     while (SifGetSreg(0) == 0) {

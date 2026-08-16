@@ -39,7 +39,7 @@ static const uint16_t mask_bits_recovered[17] = {
 static unsigned g_hufts_recovered;
 static uint16_t g_bytebuf_recovered;
 uint64_t g_legacy_zip_bitbuf;
-unsigned g_legacy_zip_bits_left;
+int g_legacy_zip_bits_left;
 uint8_t g_legacy_zip_zipeof;
 
 /* Target VA 0x0018dc60. */

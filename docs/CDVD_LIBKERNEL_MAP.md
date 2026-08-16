@@ -6,7 +6,12 @@ behind it. Target behavior and target addresses remain authoritative; historical
 sources and the close SNESticle link map are used only after the binary has
 established boundaries, RPC IDs, packet sizes, calls, and constants.
 
-Most of this corridor remains reconstructed rather than matching. Progress 52 closes a strict historical libkernel/libc leaf batch; see `docs/PROGRESS52_LIBKERNEL_BATCH_MATCH.md`.
+The broader corridor remains a mix of reconstructed and matching code.
+Progress 56 closes the EE libcdvd client at 8/8 function-level matching:
+six historical/recovered-source compiler matches from Progress 54 plus exact,
+clearly labelled matcher reconstructions for `CDVD_Init` and `CDVD_FindFile`.
+Progress 52 closes a strict historical libkernel/libc leaf batch; see
+`docs/PROGRESS52_LIBKERNEL_BATCH_MATCH.md`.
 
 ## Hard boundaries
 
@@ -50,6 +55,11 @@ source intentionally keeps it rather than correcting the API.
 `CDVD_GetSize` is present in the target even though an older seven-function
 snapshot does not expose it; later public libcdvd revisions provide command 8
 with the same return convention.
+
+Progress 56 evidence is recorded in
+`analysis/matching/cdvd-rpc-exact-listing-report.md` and
+`docs/PROGRESS56_CDVD_EXACT_MATCH.md`. The exact assembly candidate is matching
+evidence only; the readable C remains the historical source model.
 
 ## String / memory helpers
 

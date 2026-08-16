@@ -69,7 +69,7 @@ typedef struct {
 } fio_lseek_arg_recovered;
 
 typedef union {
-    char path[257]; /* target writes a terminator one byte beyond RPC payload */
+    char path[256]; /* target frame is 0x100 bytes; path[0x100] is the historical one-byte OOB terminator */
     int32_t result;
 } fio_mkdir_local_recovered;
 

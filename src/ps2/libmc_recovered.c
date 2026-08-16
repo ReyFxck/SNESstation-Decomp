@@ -494,10 +494,10 @@ int mcRename_001a17a4(int port, int slot, const char *old_name, const char *new_
     g_name_param.table = ee_addr32(&g_file_info);
     strncpy(g_name_param.name, old_name, 1023);
     g_name_param.name[1023] = '\0';
-    strncpy((char *)g_file_info.name, new_name, 31);
+    strncpy((char *)g_file_info.name, new_name, 32);
     g_file_info.name[31] = '\0';
     FlushCache_0019ceb0(0);
-    return mc_call_name(MC_RPCCMD_SET_INFO, MC_FUNC_RENAME, NULL, NULL);
+    return mc_call_name(MC_RPCCMD_GET_ENT, MC_FUNC_RENAME, NULL, NULL);
 }
 
 int mcChangeThreadPriority_001a18c0(int level)

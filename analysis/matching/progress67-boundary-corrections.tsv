@@ -1,0 +1,4 @@
+name	old_address	new_address	delta	object_size	load_base	proof
+padStateInt2String	0x001a896c	0x001a8964	-8	64	0x001a83e0	progress67-validated-5.tsv;object-layout-exact-next
+padReqStateInt2String	0x001a89ac	0x001a89a4	-8	64	0x001a83e0	progress67-validated-5.tsv;object-layout-exact-next
+padSetActDirect	0x001a8fe4	0x001a8fe0	-4	160	0x001a83e0	progress67-validated-5.tsv;object-layout-exact-next
