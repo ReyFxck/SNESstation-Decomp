@@ -23,10 +23,10 @@ Unpacked image SHA-256:
 - Old EE libkernel size-optimized strings: 4/4 strict.
 - Old EE libc assembly strings/memory: 7/7 strict.
 
-Total closed committed-listing matches: **356 functions**.
+Total closed committed-listing matches: **357 functions**.
 
 After Progress 60, the authoritative manifests contain
-**356/1041 = 34.20%** matching rows;
+**357/1041 = 34.29%** matching rows;
 structural/source-model coverage remains 100% and is not conflated with matching.
 
 The syscall leaves preserve the historical `kernel.S` source form. DIntr/EIntr
@@ -100,7 +100,7 @@ match. The target preserves the historical reversed signed comparison
 the `p61-os` profile and passed the relocation-normalized comparator with an
 exact next-function boundary and no unknown relocation types.
 
-Checkpoint: **356/1041 = 34.20%**.
+Checkpoint: **357/1041 = 34.29%**.
 
 ## Compiler state
 

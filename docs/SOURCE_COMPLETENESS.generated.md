@@ -14,7 +14,7 @@ replacement program. These are deliberately separate measurements.
 | Typed promotions from P16/P17 snapshots | **239** | Historical pseudocode evidence is retained while newer typed source overrides the readiness classification. |
 | Explicit address trace in `src/` | **1,018/1,041 (97.79%)** | A conservative text-level traceability check; corridor files may cover additional entries without repeating every address. |
 | C translation units tracked | **97 files** | `make host-syntax` parses each independently on the host. That check does not prove EE linking or target behavior. |
-| Relocation-normalized machine-code matches | **356/1,041 (34.20%)** | No function is promoted to `MATCHING` without generated-object evidence. |
+| Relocation-normalized machine-code matches | **357/1,041 (34.29%)** | No function is promoted to `MATCHING` without generated-object evidence. |
 | Complete replacement ELF | **No** | Startup ownership, globals/types, object boundaries, linker script/order, historical archives and packing still need proof. |
 
 ## Invariants checked

@@ -204,7 +204,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00130134,snes_p16_00130134,snes-core-dsp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
 0x001305a0,snes_p16_001305a0,snes-core-dsp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress26_dsp_runtime_batch_recovered.c,UNPROVEN
 0x001306f8,snes_p16_001306f8,snes-core-dsp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress26_dsp_runtime_batch_recovered.c,UNPROVEN
-0x001308f8,snes_p13_gate_predicate_001308f8,core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress13_core_helpers_recovered.c,UNPROVEN
+0x001308f8,snes_p13_gate_predicate_001308f8,core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress13_core_helpers_recovered.c,MATCHING
 0x001309c4,snes_p16_001309c4,snes-core-dsp,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress26_dsp_runtime_batch_recovered.c,UNPROVEN
 0x00130c78,snes_p11_00130c78,snes9x-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress11_core_recovered.c,UNPROVEN
 0x0013e014,snes_dispatch_0013e014,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
