@@ -1,0 +1,3 @@
+source_key	historical_symbol	address_count	address	target_name	assessment	evidence
+https://www.lysator.liu.se/snes9x/1.41/snes9x-1.41-src.tar.gz|profile=unzip-os-short	_Z15S9xSA1FixCyclesv	2	0x001291e4	snes_p11_001291e4	machine-code-match-valid; historical-identity-not-unique	/root/SNESstation-Decomp/analysis/matching/hunt400-validated-19.tsv
+https://www.lysator.liu.se/snes9x/1.41/snes9x-1.41-src.tar.gz|profile=unzip-os-short	_Z15S9xSA1FixCyclesv	2	0x0016f0a0	snes_p11_0016f0a0	machine-code-match-valid; historical-identity-not-unique	/root/SNESstation-Decomp/analysis/matching/hunt400-validated-19.tsv

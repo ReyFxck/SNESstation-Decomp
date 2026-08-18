@@ -2,7 +2,7 @@
 
 Checkpoint date: 2026-08-15.
 
-## Closed committed-listing gates: 376 functions
+## Closed committed-listing gates: 440 functions
 
 ### Newlib mathfp — 7/7
 
@@ -369,7 +369,7 @@ Progress 60 raises the checkpoint from **311/1041 (29.88%)** to
 Evidence: `analysis/matching/progress61-validated-1.tsv`.
 
 Progress 61 raises the checkpoint from **321/1041 (30.84%)** to
-**376/1041 (36.12%)**.
+**440/1041 (42.27%)**.
 
 ## Important scope
 
