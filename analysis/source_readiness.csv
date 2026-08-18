@@ -544,9 +544,9 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019450c,gzerror,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00194628,inflate_blocks_reset,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infblock_frontend_recovered.c,MATCHING
 0x001946e8,inflate_blocks_new,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infblock_frontend_recovered.c,MATCHING
-0x001947d0,inflate_blocks,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infblock_engine_recovered.c;src/zlib/infblock_frontend_recovered.c,UNPROVEN
+0x001947d0,inflate_blocks,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infblock_engine_recovered.c;src/zlib/infblock_frontend_recovered.c,MATCHING
 0x00195280,inflate_blocks_free,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infblock_frontend_recovered.c,MATCHING
-0x001952e8,inflate_set_dictionary,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infblock_frontend_recovered.c,UNPROVEN
+0x001952e8,inflate_set_dictionary,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infblock_frontend_recovered.c,MATCHING
 0x0019532c,inflate_blocks_sync_point,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infblock_frontend_recovered.c,MATCHING
 0x0019533c,inflate_codes_new,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infcodes_recovered.c,MATCHING
 0x001953ac,inflate_codes,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infcodes_recovered.c,MATCHING
@@ -557,7 +557,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001964d4,inflate_trees_bits,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/inftrees_recovered.c,MATCHING
 0x001965d4,inflate_trees_dynamic,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/inftrees_recovered.c,MATCHING
 0x001967b0,inflate_trees_fixed,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/inftrees_recovered.c,MATCHING
-0x001967e8,inflate_flush,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infutil_recovered.c,UNPROVEN
+0x001967e8,inflate_flush,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infutil_recovered.c,MATCHING
 0x00196980,tr_static_init,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/trees_recovered.c,MATCHING
 0x00196988,_tr_init,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/trees_recovered.c,MATCHING
 0x00196a00,init_block,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/trees_recovered.c,UNPROVEN
