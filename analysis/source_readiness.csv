@@ -1003,12 +1003,12 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001ab3c0,SyncDCache,ps2,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ee_cache_recovered.c,MATCHING
 0x001ab440,iSyncDCache,ps2,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ee_cache_recovered.c,UNPROVEN
 0x001ab4e8,S9xGetMemPointer,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
-0x001ab63c,S9xGetByte,memory,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,UNPROVEN
-0x001ab900,S9xSetByte,memory,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,UNPROVEN
+0x001ab63c,S9xGetByte,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
+0x001ab900,S9xSetByte,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
 0x001abc28,S9xGetWord,memory,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,UNPROVEN
-0x001ac024,S9xSetPCBase,memory,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,UNPROVEN
+0x001ac024,S9xSetPCBase,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
 0x001ac190,S9xSetWord,memory,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/getset_recovered.c,UNPROVEN
-0x001ac604,CPUShutdown,memory,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/cpu_shutdown_renderer_select_recovered.c,UNPROVEN
+0x001ac604,CPUShutdown,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/cpu_shutdown_renderer_select_recovered.c,MATCHING
 0x001ac734,GetBasePointer,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
 0x001ac838,SelectTileRenderer,renderer,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/cpu_shutdown_renderer_select_recovered.c,UNPROVEN
 0x001ac994,S9xAPUGetByte,audio,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/apumem_recovered.c,UNPROVEN
