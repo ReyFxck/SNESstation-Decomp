@@ -2,7 +2,7 @@
 
 Checkpoint date: 2026-08-15.
 
-## Closed committed-listing gates: 440 functions
+## Closed committed-listing gates: 457 functions
 
 ### Newlib mathfp — 7/7
 

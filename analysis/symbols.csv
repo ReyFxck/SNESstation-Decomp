@@ -158,7 +158,7 @@ address,name,status,confidence,notes
 0x0012c13c,snes_leaf_0012c13c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012c160,snes_leaf_0012c160,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012c188,snes_p16_0012c188,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 50 pseudocode lines, sha256 67e4b57835da245e; address label retained because the historical symbol is unproven"
-0x0012c2a4,snes_p11_0012c2a4,RECONSTRUCTED,high,Signed-short global pair wrapper forwards two output pointers to transform helper
+0x0012c2a4,snes_p11_0012c2a4,MATCHING,high,Signed-short global pair wrapper forwards two output pointers to transform helper; HUNT500 V10 strict historical-source/object proof
 0x0012c2dc,snes_p16_0012c2dc,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 30 pseudocode lines, sha256 9853428ee8d8ae6d; address label retained because the historical symbol is unproven"
 0x0012c398,snes_p16_0012c398,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 27 pseudocode lines, sha256 591eafd4ce4a3624; address label retained because the historical symbol is unproven"
 0x0012c444,snes_p16_0012c444,RECONSTRUCTED,medium,"Progress 16: complete short R5900 decompile; absolute-global label overlap reviewed; 14 pseudocode lines, sha256 bdecfdb2aaad2126; address label retained because the historical symbol is unproven"
@@ -177,7 +177,7 @@ address,name,status,confidence,notes
 0x0012da9c,snes_p12_0012da9c,MATCHING,very-high,Complete Q15 transposed 3x3 transform leaf; second target matrix/vector set; HUNT400 strict MATCH; provenance=snes9x-1.42-official-lysator-source; profile=anonymous-strict-fingerprint; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; unknown_relocations=none; evidence=analysis/matching/hunt400-v9-validated-64.tsv
 0x0012db5c,snes_p12_0012db5c,MATCHING,very-high,Complete Q15 transposed 3x3 transform leaf; third target matrix/vector set; HUNT400 strict MATCH; provenance=snes9x-1.42-official-lysator-source; profile=anonymous-strict-fingerprint; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; unknown_relocations=none; evidence=analysis/matching/hunt400-v9-validated-64.tsv
 0x0012dc1c,snes_p17_0012dc1c,RECONSTRUCTED,medium,"Progress 17: complete R5900 structural decompile; pinned warnings: global-label-overlap; address label retained because the historical symbol is unproven; 54 pseudocode lines, sha256 746b04796efba99b; 1 pinned Ghidra warning(s): global-label-overlap; source=untracked-code-jal"
-0x0012dde0,snes_p11_0012dde0,RECONSTRUCTED,high,Short-to-float transform wrapper with target-style float-to-word rounding on output
+0x0012dde0,snes_p11_0012dde0,MATCHING,high,Short-to-float transform wrapper with target-style float-to-word rounding on output; HUNT500 V10 strict historical-source/object proof
 0x0012de60,snes_leaf_0012de60,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012deb0,snes_leaf_0012deb0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0012df50,snes_leaf_0012df50,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
@@ -260,7 +260,7 @@ address,name,status,confidence,notes
 0x001535c0,snes_leaf_001535c0,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00153608,CMemory_map_WriteProtectROM_00153608,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00153674,snes_p13_frontend_table_init_00153674,RECONSTRUCTED,high,"Progress 13: complete optional 15x8 table initialization, 16-entry base bank and final callback reconstructed"
-0x00153780,snes_p13_frontend_bank_init_00153780,RECONSTRUCTED,high,Progress 13: complete two 16-entry pointer/flag bank initialization including external 0x8000 lanes recovered
+0x00153780,snes_p13_frontend_bank_init_00153780,MATCHING,high,Progress 13: complete two 16-entry pointer/flag bank initialization including external 0x8000 lanes recovered; HUNT500 V10 strict historical-source/object proof
 0x001538b0,CMemory_LoROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 215 pseudocode lines, sha256 799957acac451fe1; name validated against Snes9x 1.41 source order and target behavior"
 0x00153da4,CMemory_BSLoROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 164 pseudocode lines, sha256 79f04f1a9dc5944b; name validated against Snes9x 1.41 source order and target behavior"
 0x001541e0,CMemory_HiROMMap,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 150 pseudocode lines, sha256 269a2e22fcdae5ec; name validated against Snes9x 1.41 source order and target behavior"
@@ -283,8 +283,8 @@ address,name,status,confidence,notes
 0x00156c0c,CMemory_MapMode_00156c0c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00156c60,CMemory_ApplyROMFixes,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 539 pseudocode lines, sha256 11da7935b8f97782; name validated against Snes9x 1.41 source order and target behavior"
 0x001584d0,CMemory_CheckForIPSPatch,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 167 pseudocode lines, sha256 af80fdafccdc0ae9; name validated against Snes9x 1.41 source order and target behavior"
-0x00158974,snes_p13_header_validate_00158974,RECONSTRUCTED,very-high,Progress 13: complete structured byte/bit validation and subordinate multibyte-validator result convention recovered
-0x00158a58,snes_p13_multibyte_validate_00158a58,RECONSTRUCTED,very-high,Progress 13: complete 16-byte bounded multibyte validator state/count behavior reconstructed
+0x00158974,snes_p13_header_validate_00158974,MATCHING,high,Progress 13: complete structured byte/bit validation and subordinate multibyte-validator result convention recovered; HUNT500 V10 strict historical-source/object proof
+0x00158a58,snes_p13_multibyte_validate_00158a58,MATCHING,high,Progress 13: complete 16-byte bounded multibyte validator state/count behavior reconstructed; HUNT500 V10 strict historical-source/object proof
 0x00158b3c,snes_leaf_00158b3c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00158b5c,snes_leaf_00158b5c,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00158b74,snes_p16_00158b74,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 138 pseudocode lines, sha256 f81af16e7b6240ce; address label retained because the historical symbol is unproven"
@@ -301,7 +301,7 @@ address,name,status,confidence,notes
 0x0015c624,snes_p16_0015c624,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 199 pseudocode lines, sha256 fa487280626b8f97; address label retained because the historical symbol is unproven"
 0x0015cae0,snes_p16_0015cae0,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 75 pseudocode lines, sha256 faeaf318d49d159f; address label retained because the historical symbol is unproven"
 0x0015cce4,snes_p16_0015cce4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 36 pseudocode lines, sha256 3b6ebefc6c9ee335; address label retained because the historical symbol is unproven"
-0x0015cdf8,snes_p13_stage_advance_0015cdf8,RECONSTRUCTED,very-high,Progress 13: seven-state jump-table progression including intentional fallthrough conditions reconstructed
+0x0015cdf8,snes_p13_stage_advance_0015cdf8,MATCHING,high,Progress 13: seven-state jump-table progression including intentional fallthrough conditions reconstructed; HUNT500 V10 strict historical-source/object proof
 0x0015cea4,snes_p16_0015cea4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 79 pseudocode lines, sha256 705761cfea477142; address label retained because the historical symbol is unproven"
 0x0015d0bc,snes_p16_0015d0bc,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 76 pseudocode lines, sha256 a2d7620e73f82082; address label retained because the historical symbol is unproven"
 0x0015d334,snes_p16_0015d334,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 20 pseudocode lines, sha256 7aca40fc180be9a3; address label retained because the historical symbol is unproven"
@@ -342,7 +342,7 @@ address,name,status,confidence,notes
 0x0016fd08,snes_p13_rotate_pair_0016fd08,RECONSTRUCTED,very-high,Progress 13: signed-angle sin/cos pair transform with target pi/32768 scale and doubled outputs recovered
 0x001701fc,snes_leaf_001701fc,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x00170204,snes_dispatch_00170204,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
-0x0017022c,snes_p11_0017022c,RECONSTRUCTED,high,Mode-1 open/process/close wrapper returning success only for process result 1
+0x0017022c,snes_p11_0017022c,MATCHING,high,Mode-1 open/process/close wrapper returning success only for process result 1; HUNT500 V10 strict historical-source/object proof
 0x0017028c,snes_p16_0017028c,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 46 pseudocode lines, sha256 ef0f48319b0aeb9f; address label retained because the historical symbol is unproven"
 0x00170398,snapshot_Freeze,RECONSTRUCTED,medium,"Progress 17: complete R5900 structural decompile; pinned warnings: unreachable-block, global-label-overlap; name validated against Snes9x 1.41 source order and target behavior; 435 pseudocode lines, sha256 3e78053a892fcc27; 4 pinned Ghidra warning(s): unreachable-block | global-label-overlap; source=untracked-code-jal"
 0x00171160,snes_p11_00171160,RECONSTRUCTED,high,Second identical status-bit table-base selector for 0x00336xxx tables
@@ -365,7 +365,7 @@ address,name,status,confidence,notes
 0x00173f50,snes_p12_00173f50,MATCHING,very-high,Raw-axis/magnitude update plus target truncating divide-by-128 slot scaling; HUNT400 strict MATCH; provenance=snes9x-1.42-official-lysator-source; profile=anonymous-strict-fingerprint; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; unknown_relocations=none; evidence=analysis/matching/hunt400-v9-validated-64.tsv
 0x00173ff0,snes_p11_00173ff0,MATCHING,very-high,Controller-axis mix/center leaf; writes selected and opposite channel state; HUNT400 strict MATCH; provenance=snes9x-1.42-official-lysator-source; profile=anchored-object-layout; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; unknown_relocations=none; evidence=analysis/matching/hunt400-v9-validated-64.tsv
 0x0017409c,snes_p11_0017409c,MATCHING,very-high,Controller-axis mix leaf with selector xor-1 slot pairing; HUNT400 strict MATCH; provenance=snes9x-1.42-official-lysator-source; profile=anchored-object-layout; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; unknown_relocations=none; evidence=analysis/matching/hunt400-v9-validated-64.tsv
-0x00174120,snes_p13_controller_mask_00174120,RECONSTRUCTED,high,"Progress 13: requested-mask gate, clear-on-first-enable and eight +0xd0 callback selections reconstructed"
+0x00174120,snes_p13_controller_mask_00174120,MATCHING,high,"Progress 13: requested-mask gate, clear-on-first-enable and eight +0xd0 callback selections reconstructed; HUNT500 V10 strict historical-source/object proof"
 0x00174204,snes_leaf_00174204,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
 0x0017422c,snes_p12_0017422c,MATCHING,high,"Mode/rate timing-period derivation, optional doubling, phase remainder and config callback; HUNT400 strict MATCH; provenance=snes9x-1.42-official-lysator-source; profile=anonymous-strict-fingerprint; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; unknown_relocations=none; evidence=analysis/matching/hunt400-v9-validated-64.tsv"
 0x001742b4,snes_p11_001742b4,MATCHING,high,Masks stored value to 8 bits and dispatches current mode low nibble; HUNT400 strict MATCH; provenance=snes9x-1.42-official-lysator-source; profile=anchored-object-layout; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; unknown_relocations=none; evidence=analysis/matching/hunt400-v9-validated-64.tsv
@@ -402,13 +402,13 @@ address,name,status,confidence,notes
 0x00182638,snes_p17_00182638,RECONSTRUCTED,medium,"Progress 17: complete R5900 structural decompile; pinned warnings: unreachable-block, global-label-overlap; address label retained because the historical symbol is unproven; 87 pseudocode lines, sha256 0f2ce2c9c0340736; 2 pinned Ghidra warning(s): unreachable-block | global-label-overlap; source=untracked-code-jal"
 0x00182910,snes_p11_00182910,MATCHING,very-high,Special D/E/F-bank base-pointer resolver using 0x000f0000 address mask; HUNT400 strict MATCH; provenance=snes9x-1.41-pinned-source-v8; profile=anonymous-strict-fingerprint; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; unknown_relocations=none; evidence=analysis/matching/hunt400-validated-19.tsv
 0x00182984,snes_p16_00182984,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 57 pseudocode lines, sha256 0ae5c2e361f3fdca; address label retained because the historical symbol is unproven"
-0x001832a4,snes_p13_runtime_block_init_001832a4,RECONSTRUCTED,very-high,Progress 13: fixed state-byte defaults and 64 KiB tail clear recovered
+0x001832a4,snes_p13_runtime_block_init_001832a4,MATCHING,high,Progress 13: fixed state-byte defaults and 64 KiB tail clear recovered; HUNT500 V10 strict historical-source/object proof
 0x0018339c,snes_leaf_0018339c,MATCHING,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=snes_leaf_0018339c
 0x001833a4,snes_p13_write_record_001833a4,RECONSTRUCTED,very-high,"Progress 13: fixed-path open, exact 24 one-byte writes, close and success/failure convention reconstructed"
 0x001834f0,snes_p13_read_record_001834f0,RECONSTRUCTED,very-high,"Progress 13: fixed-path open, exact 24 one-byte reads/reassembly, close and result convention reconstructed"
 0x00183660,snes_leaf_00183660,MATCHING,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven; HUNT400 strict MATCH; provenance=snes9x-1.41-pinned-source-v8; profile=anonymous-strict-fingerprint; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; unknown_relocations=none; evidence=analysis/matching/hunt400-validated-19.tsv
 0x00183678,snes_dispatch_00183678,RECONSTRUCTED,high,Behavioral source recovered directly from target assembly; address-based name retained where historical symbol is unproven
-0x001836d0,snes_p13_weekday_001836d0,RECONSTRUCTED,very-high,"Progress 13: decimal date fields, target month-offset table, leap adjustment and unsigned modulo-7 calculation reconstructed"
+0x001836d0,snes_p13_weekday_001836d0,MATCHING,high,"Progress 13: decimal date fields, target month-offset table, leap adjustment and unsigned modulo-7 calculation reconstructed; HUNT500 V10 strict historical-source/object proof"
 0x00183778,snes_p13_days_in_month_00183778,RECONSTRUCTED,very-high,Progress 13: duplicate month-length helper independently confirmed with identical jump-table behavior
 0x001837cc,snes_p17_001837cc,RECONSTRUCTED,medium,"Progress 17: complete R5900 structural decompile; pinned warnings: unreachable-block; address label retained because the historical symbol is unproven; 86 pseudocode lines, sha256 ded9ad8842e919f0; 2 pinned Ghidra warning(s): unreachable-block; source=untracked-code-jal"
 0x00183aa4,snes_p16_00183aa4,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 51 pseudocode lines, sha256 70f07e5b493aefd6; address label retained because the historical symbol is unproven"
@@ -447,18 +447,18 @@ address,name,status,confidence,notes
 0x0018b43c,DrawLargePixel16Sub,RECONSTRUCTED,very-high,Large/mosaic 16-bit subtract renderer; C recovered
 0x0018bac0,DrawLargePixel16Sub1_2,RECONSTRUCTED,very-high,Large/mosaic 16-bit half-sub renderer; C recovered
 0x0018c124,get_tree,MATCHING,very-high,PKZIP Implode tree-length reader; nibble run format proven
-0x0018c1f8,explode_lit8,RECONSTRUCTED,very-high,Implode decoder: coded literals + 8K distance; generic C recovery
-0x0018c834,explode_lit4,RECONSTRUCTED,very-high,Implode decoder: coded literals + 4K distance; generic C recovery
-0x0018ce70,explode_nolit8,RECONSTRUCTED,very-high,Implode decoder: raw literals + 8K distance; generic C recovery
-0x0018d3c4,explode_nolit4,RECONSTRUCTED,very-high,Implode decoder: raw literals + 4K distance; generic C recovery
+0x0018c1f8,explode_lit8,MATCHING,high,Implode decoder: coded literals + 8K distance; generic C recovery; HUNT500 V10 strict historical-source/object proof
+0x0018c834,explode_lit4,MATCHING,high,Implode decoder: coded literals + 4K distance; generic C recovery; HUNT500 V10 strict historical-source/object proof
+0x0018ce70,explode_nolit8,MATCHING,high,Implode decoder: raw literals + 8K distance; generic C recovery; HUNT500 V10 strict historical-source/object proof
+0x0018d3c4,explode_nolit4,MATCHING,high,Implode decoder: raw literals + 4K distance; generic C recovery; HUNT500 V10 strict historical-source/object proof
 0x0018d918,explode,MATCHING,very-high,PKZIP method-6 dispatcher/tree builder; four-way flags proven; HUNT400 strict MATCH; provenance=snes9x-1.41-pinned-source; profile=name-strict; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; unknown_relocations=none; evidence=analysis/matching/hunt400-validated-4.tsv
 0x0018dc60,ReadByte,RECONSTRUCTED,very-high,Compressed-input refill and byte reader
 0x0018dd6c,huft_build,RECONSTRUCTED,very-high,Classic linked-allocation canonical Huffman table builder
 0x0018e2e0,huft_free,MATCHING,very-high,Frees linked huft allocation chain through dummy predecessor entry; Progress 54: strict committed-listing MATCH; gate=screen2; profile=sdk-o2; object=huft_free_recovered
-0x0018e318,flush,RECONSTRUCTED,very-high,Flush slide buffer + CRC/output accounting
-0x0018e3ac,flush_stack,RECONSTRUCTED,very-high,Flush Shrink stack + CRC/output accounting
+0x0018e318,flush,MATCHING,high,Flush slide buffer + CRC/output accounting; HUNT500 V10 strict historical-source/object proof
+0x0018e3ac,flush_stack,MATCHING,high,Flush Shrink stack + CRC/output accounting; HUNT500 V10 strict historical-source/object proof
 0x0018e440,FillBitBuffer,MATCHING,very-high,Shared legacy-ZIP bit-buffer refill helper; Progress 60: strict source-lineage MATCH; candidate=FillBitBuffer-bits-left-signed; profile=p60-os; boundary=exact-next-boundary; normalized_equal=True; evidence=analysis/matching/progress60-validated-10.tsv
-0x0018e4c0,unReduce,RECONSTRUCTED,very-high,Legacy ZIP Reduce state machine and copy expansion
+0x0018e4c0,unReduce,MATCHING,high,Legacy ZIP Reduce state machine and copy expansion; HUNT500 V10 strict historical-source/object proof
 0x0018e92c,LoadFollowers,MATCHING,very-high,Loads 256 probabilistic follower tables; HUNT400 strict MATCH; provenance=snes9x-1.41-pinned-source; profile=name-strict; boundary=exact-next-boundary; differing_bytes=0; normalized_equal=True; unknown_relocations=none; evidence=analysis/matching/hunt400-validated-4.tsv
 0x0018ea58,snes_p16_0018ea58,RECONSTRUCTED,medium-high,"Progress 16: complete R5900 structural decompile; 125 pseudocode lines, sha256 ab9d9b5aaea0ab3c; address label retained because the historical symbol is unproven"
 0x0018ea64,unShrink,RECONSTRUCTED,very-high,Legacy ZIP Shrink LZW decoder with partial clearing
