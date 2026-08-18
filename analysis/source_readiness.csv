@@ -529,9 +529,9 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00193cd8,gzgetc,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00193d0c,gzgets,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00193dbc,gzwrite,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/zlib/gzio_recovered.c,MATCHING
-0x00193e8c,gzprintf,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
+0x00193e8c,gzprintf,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00193f08,gzputc,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
-0x00193f44,gzputs,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
+0x00193f44,gzputs,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00193f88,do_flush,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
 0x001940ac,gzflush,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x001940ec,gzseek,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
@@ -541,7 +541,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001943c0,putLong,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x0019441c,getLong,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00194498,gzclose,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/zlib/gzio_recovered.c,MATCHING
-0x0019450c,gzerror,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
+0x0019450c,gzerror,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00194628,inflate_blocks_reset,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infblock_frontend_recovered.c,MATCHING
 0x001946e8,inflate_blocks_new,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infblock_frontend_recovered.c,MATCHING
 0x001947d0,inflate_blocks,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/infblock_engine_recovered.c;src/zlib/infblock_frontend_recovered.c,UNPROVEN
