@@ -524,7 +524,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001935d8,gzsetparams,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00193674,get_byte,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
 0x0019371c,check_header,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
-0x00193914,destroy,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
+0x00193914,destroy,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00193a34,gzread,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
 0x00193cd8,gzgetc,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00193d0c,gzgets,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
@@ -532,7 +532,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00193e8c,gzprintf,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00193f08,gzputc,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00193f44,gzputs,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
-0x00193f88,do_flush,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
+0x00193f88,do_flush,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x001940ac,gzflush,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x001940ec,gzseek,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
 0x001942d4,gzrewind,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
