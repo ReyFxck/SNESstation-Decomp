@@ -535,7 +535,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00193f88,do_flush,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x001940ac,gzflush,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x001940ec,gzseek,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
-0x001942d4,gzrewind,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
+0x001942d4,gzrewind,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00194378,gztell,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00194398,gzeof,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x001943c0,putLong,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
