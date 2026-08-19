@@ -522,7 +522,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00193564,gzopen,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/zlib/gzio_recovered.c,MATCHING
 0x00193580,gzdopen,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x001935d8,gzsetparams,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
-0x00193674,get_byte,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,UNPROVEN
+0x00193674,get_byte,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x0019371c,check_header,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00193914,destroy,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/gzio_recovered.c,MATCHING
 0x00193a34,gzread,zlib,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/zlib/gzio_recovered.c,UNPROVEN
