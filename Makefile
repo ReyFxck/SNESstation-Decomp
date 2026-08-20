@@ -231,6 +231,12 @@ hunt1041-v51-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
 		--cxx "$(EE_STAGE1_CXX)"
 	@echo "HUNT1041 V51 evidence: OK (16 formal-ELF exact matches)"
 
+hunt1041-v52-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
+	$(PYTHON) tools/research/hunt1041_v52_closure.py \
+		--cc "$(EE_STAGE1_CC)" \
+		--cxx "$(EE_STAGE1_CXX)"
+	@echo "HUNT1041 V52 evidence: OK (17 formal-ELF exact matches)"
+
 toolchain-info:
 	@echo "Candidate EE compiler: GCC $(EE_GCC_VERSION)"
 	@echo "EE_CC=$(EE_CC)"

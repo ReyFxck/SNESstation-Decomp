@@ -1,9 +1,11 @@
 # Bottleneck watch — SNES Station v0.23 WIP
 
-The V51 formal checkpoint is **961/1041 exact function matches (92.32%)**,
-leaving 80 entries. The recovered PS2 `Settings` layout closed six former
-near-matches, and the `amigaModInit`/`amigaModLoad`, DSP1, SDD1 and small
-frontend source variants are now byte-proven.
+The V52 formal checkpoint is **978/1041 exact function matches (93.95%)**,
+leaving 63 entries. V52 closes 17 former near-matches by recovering the PS2
+32-bit libc ABI, zlib stream profile, direct `fio*` SRAM path and a small set of
+target-visible Snes9x source deltas. The remaining set is concentrated in 34
+frontend-core and 12 CPU/audio-runtime entries; every entry still has a source
+model, but only exact machine-code evidence counts as matching.
 
 ## Bottlenecks that did not become walls
 

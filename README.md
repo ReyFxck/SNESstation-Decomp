@@ -15,7 +15,7 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 
 > **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
 
-- **Matching:** 92.32%
+- **Matching:** 93.95%
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
@@ -175,9 +175,10 @@ retains a type-propagation warning and is deliberately recorded at lower
 confidence. See [`docs/PROGRESS17.md`](docs/PROGRESS17.md).
 
 The frontier is now compiler proof and whole-program recovery. All audited
-entries have a source model, and **961/1041 (92.32%)** have strict byte-level
-matching evidence. The source/layout V51 closure is documented in
-[`docs/HUNT1041_V51.md`](docs/HUNT1041_V51.md), the formal-ELF V49 closure in
+entries have a source model, and **978/1041 (93.95%)** have strict byte-level
+matching evidence. The ABI/source V52 closure is documented in
+[`docs/HUNT1041_V52.md`](docs/HUNT1041_V52.md), the preceding source/layout V51
+closure in [`docs/HUNT1041_V51.md`](docs/HUNT1041_V51.md), the formal-ELF V49 closure in
 [`docs/HUNT1041_V49.md`](docs/HUNT1041_V49.md), and the V48 closure in
 [`docs/HUNT1041_V48.md`](docs/HUNT1041_V48.md), and the preceding V47 closure in
 [`docs/HUNT1000PLUS_V47.md`](docs/HUNT1000PLUS_V47.md). The cached
@@ -200,7 +201,7 @@ make elf-status
 
 The generated source audit currently classifies all **1,041** entries as having
 a behavioral/source model and none as structural-pseudocode-only. The repository
-checks **104 independent C translation units** (97 under `src/` plus seven matching
+checks **107 independent C translation units** (97 under `src/` plus ten matching
 candidates), but has no complete linked replacement ELF. Matching is promoted
 only from immutable, hash-gated evidence. See
 [`docs/SOURCE_COMPLETENESS.generated.md`](docs/SOURCE_COMPLETENESS.generated.md).
