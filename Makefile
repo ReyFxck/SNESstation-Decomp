@@ -85,6 +85,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	reference verify-reference fetch-newlib fetch-ee-toolchain-recipe \
 	bootstrap-ee-stage1 \
 	toolchain-info toolchain-probe check-ee-compiler \
+	match-miner match-miner-full \
 	ee-source-scan ee-source-scan-strict historical-ee-gate \
 	match-get-tree match-get-tree-strict match-get-tree-listing match-get-tree-listing-strict \
 	match-mathfp match-mathfp-strict \
@@ -107,6 +108,8 @@ help:
 	@echo "  make toolchain-info show the candidate historical EE compiler contract"
 	@echo "  make toolchain-probe test EE_CC version, target, flags and ELF output"
 	@echo "  make ee-source-scan  baseline every C TU against the historical EE front end"
+	@echo "  make match-miner     cached three-profile strict scan for new address-labelled matches"
+	@echo "  make match-miner-full  cached 16-profile scan (use only after source/toolchain changes)"
 	@echo "  make historical-ee-gate  strict 101/101 EE scan + strict 7/7 unwind listing gate"
 	@echo "  make match-get-tree  formal reference-ELF gate for byte-exact get_tree"
 	@echo "  make match-get-tree-listing  strict local get_tree gate against committed bytes"
@@ -184,6 +187,17 @@ check-ee-compiler:
 		echo "  make match-mathfp EE_CC=/absolute/path/to/ee-gcc" >&2; \
 		exit 2; \
 	}
+
+match-miner: reference check-ee-compiler
+	$(PYTHON) tools/run_match_miner.py \
+		--compiler "$(EE_CC)" \
+		--jobs "$${MATCH_MINER_JOBS:-8}"
+
+match-miner-full: reference check-ee-compiler
+	$(PYTHON) tools/run_match_miner.py \
+		--compiler "$(EE_CC)" \
+		--jobs "$${MATCH_MINER_JOBS:-8}" \
+		--full
 
 
 ee-source-scan: check-ee-compiler

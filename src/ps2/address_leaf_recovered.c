@@ -26,17 +26,21 @@ int snes_leaf_00104e48(void) { return 0; }
 int snes_leaf_00104e50(void) { return 0; }
 int snes_leaf_001056b8(void) { return 1; }
 int snes_leaf_001701fc(void) { return 0x81; }
-int snes_leaf_00193290(int32_t value) { return value < 0; }
+int snes_leaf_00193290(int32_t value) { if (value < 0) return 1; return 0; }
 
-typedef struct SnesLeafObject3 { uint32_t word0, word1, word2; } SnesLeafObject3;
-void snes_leaf_0010421c(SnesLeafObject3 *obj) { obj->word1=0; obj->word2=0; obj->word0=UINT32_C(0x00426c28); }
-uint32_t snes_leaf_0010e33c(void) { return UINT32_C(0x001b1b98); }
-uint32_t snes_leaf_0010e348(void) { return UINT32_C(0x001b1be0); }
-uint32_t snes_leaf_0010e354(void) { return UINT32_C(0x001b1c00); }
+typedef struct SnesLeafObject3 { int32_t word0, word1, word2; } SnesLeafObject3;
+extern char snes_vtable_00426c28[];
+extern char snes_data_001b0000[];
+void snes_leaf_0010421c(SnesLeafObject3 *obj) { obj->word1=0; obj->word2=0; obj->word0=(int32_t)(intptr_t)snes_vtable_00426c28; }
+int32_t snes_leaf_0010e33c(void) { return (int32_t)(intptr_t)(snes_data_001b0000 + 0x1b98); }
+int32_t snes_leaf_0010e348(void) { return (int32_t)(intptr_t)(snes_data_001b0000 + 0x1be0); }
+int32_t snes_leaf_0010e354(void) { return (int32_t)(intptr_t)(snes_data_001b0000 + 0x1c00); }
 int snes_leaf_00158b3c(uint32_t value) { if ((value&0x80u)==0) return 0; return ((value-0x20u)&0x40u)!=0; }
-uint8_t snes_leaf_00158b5c(const uint8_t *base, uint32_t address) { return base[address&0x1fffu]; }
-uint32_t snes_leaf_00158fd0(uint32_t base) { return base; }
-uint32_t snes_leaf_00158fdc(uint32_t base, uint32_t offset) { return base+(offset&0xffffu); }
+extern uint8_t *snes_ram_003f4be8;
+extern uint32_t snes_state_0035e2c4;
+uint8_t snes_leaf_00158b5c(uint32_t address) { return snes_ram_003f4be8[address&0x1fffu]; }
+uint32_t snes_leaf_00158fd0(void) { return snes_state_0035e2c4; }
+uint32_t snes_leaf_00158fdc(uint32_t offset) { return snes_state_0035e2c4+(offset&0xffffu); }
 uint32_t snes_leaf_00171de8(uint32_t value,uint32_t mode){ if(mode==2)return value<<1; if(mode==3)return value<<2; return value; }
 int32_t snes_leaf_00174204(int32_t value,int32_t *target){ if(value>=128)value=127; else if(value< -128)value=-128; *target=value; return value; }
 uint32_t snes_leaf_001742e8(uint32_t value,uint32_t *target){ value&=0xfeu; *target=value; return value; }

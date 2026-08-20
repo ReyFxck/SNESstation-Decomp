@@ -25,7 +25,10 @@ fi
 if [[ ! -f "$STAMP" || "$(cat "$STAMP" 2>/dev/null || true)" != "$EXPECTED_SHA256" ]]; then
     rm -rf "$WORK"
     mkdir -p "$WORK"
-    tar -xzf "$ARCHIVE" -C "$WORK"
+    # Historical bundles retain the uploader's numeric UID/GID.  Restoring
+    # those owners fails in rootless/containerized environments (including
+    # DroidSpaces), even though the archive contents are otherwise usable.
+    tar --no-same-owner -xzf "$ARCHIVE" -C "$WORK"
     printf '%s\n' "$EXPECTED_SHA256" > "$STAMP"
 fi
 

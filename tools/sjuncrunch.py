@@ -27,16 +27,179 @@ def load_lzo():
         except OSError:
             pass
     if lib is None:
-        raise SystemExit(
-            "liblzo2 runtime not found (Debian: apt install liblzo2-2; "
-            "or set SNESSTATION_LZO_LIBRARY to its full path)"
-        )
+        return None
     fn = lib.lzo1x_decompress
     fn.argtypes = [ctypes.c_void_p, ctypes.c_size_t,
                    ctypes.c_void_p, ctypes.POINTER(ctypes.c_size_t),
                    ctypes.c_void_p]
     fn.restype = ctypes.c_int
     return fn
+
+
+class LZOError(ValueError):
+    """Malformed or unsupported LZO1X block."""
+
+
+def lzo1x_decompress_python(data: bytes, expected_size: int) -> bytes:
+    """Decode an LZO1X block without a system liblzo dependency.
+
+    SJCRUNCH2 stores independent LZO1X blocks.  Keeping this small safe decoder
+    in-tree makes reference extraction work in rootless Android/container
+    environments where ``liblzo2.so`` is commonly unavailable.
+    """
+    if not data:
+        raise LZOError("empty LZO1X block")
+    if expected_size < 0:
+        raise LZOError("negative output size")
+
+    source_size = len(data)
+    ip = 0
+    output = bytearray()
+
+    def read_byte() -> int:
+        nonlocal ip
+        if ip >= source_size:
+            raise LZOError("LZO1X input overrun")
+        value = data[ip]
+        ip += 1
+        return value
+
+    def copy_literals(count: int) -> None:
+        nonlocal ip
+        if count < 0 or ip + count > source_size:
+            raise LZOError("LZO1X literal input overrun")
+        if len(output) + count > expected_size:
+            raise LZOError("LZO1X literal output overrun")
+        output.extend(data[ip:ip + count])
+        ip += count
+
+    def copy_match(position: int, count: int) -> None:
+        if position < 0 or position >= len(output):
+            raise LZOError("LZO1X look-behind overrun")
+        if count < 0 or len(output) + count > expected_size:
+            raise LZOError("LZO1X match output overrun")
+        # Bytewise copying is intentional: LZO matches may overlap.
+        for _ in range(count):
+            output.append(output[position])
+            position += 1
+
+    def extended_length(initial: int, base: int) -> int:
+        value = initial
+        if value:
+            return value
+        while True:
+            byte = read_byte()
+            if byte:
+                return value + base + byte
+            value += 255
+
+    state = "outer"
+    t = 0
+    first = data[0]
+    if first > 17:
+        ip = 1
+        t = first - 17
+        if t < 4:
+            state = "match_next"
+        else:
+            copy_literals(t)
+            state = "first_literal_run"
+
+    while True:
+        if state == "outer":
+            t = read_byte()
+            if t >= 16:
+                state = "match"
+                continue
+            t = extended_length(t, 15)
+            copy_literals(t + 3)
+            state = "first_literal_run"
+            continue
+
+        if state == "first_literal_run":
+            t = read_byte()
+            if t >= 16:
+                state = "match"
+                continue
+            position = len(output) - (1 + 0x0800)
+            position -= t >> 2
+            position -= read_byte() << 2
+            copy_match(position, 3)
+            state = "match_done"
+            continue
+
+        if state == "match":
+            if t >= 64:
+                position = len(output) - 1
+                position -= (t >> 2) & 7
+                position -= read_byte() << 3
+                length = (t >> 5) - 1
+                copy_match(position, length + 2)
+            elif t >= 32:
+                length = extended_length(t & 31, 31)
+                first_offset = read_byte()
+                second_offset = read_byte()
+                position = len(output) - 1
+                position -= (first_offset >> 2) + (second_offset << 6)
+                copy_match(position, length + 2)
+            elif t >= 16:
+                position = len(output) - ((t & 8) << 11)
+                length = extended_length(t & 7, 7)
+                first_offset = read_byte()
+                second_offset = read_byte()
+                position -= (first_offset >> 2) + (second_offset << 6)
+                if position == len(output):
+                    if length != 1:
+                        raise LZOError("invalid LZO1X end marker")
+                    if ip != source_size:
+                        raise LZOError("LZO1X input not fully consumed")
+                    if len(output) != expected_size:
+                        raise LZOError(
+                            f"LZO1X size mismatch: expected {expected_size}, "
+                            f"got {len(output)}"
+                        )
+                    return bytes(output)
+                position -= 0x4000
+                copy_match(position, length + 2)
+            else:
+                position = len(output) - 1
+                position -= t >> 2
+                position -= read_byte() << 2
+                copy_match(position, 2)
+            state = "match_done"
+            continue
+
+        if state == "match_done":
+            if ip < 2:
+                raise LZOError("invalid LZO1X match state")
+            t = data[ip - 2] & 3
+            state = "outer" if t == 0 else "match_next"
+            continue
+
+        if state == "match_next":
+            copy_literals(t)
+            t = read_byte()
+            state = "match"
+            continue
+
+        raise AssertionError(f"unknown LZO1X decoder state: {state}")
+
+
+def decompress_block(comp: bytes, expected_size: int, native_lzo) -> bytes:
+    if native_lzo is None:
+        return lzo1x_decompress_python(comp, expected_size)
+    csize = len(comp)
+    srcbuf = (ctypes.c_ubyte * csize).from_buffer_copy(comp)
+    dstbuf = (ctypes.c_ubyte * expected_size)()
+    outlen = ctypes.c_size_t(expected_size)
+    rv = native_lzo(srcbuf, csize, dstbuf, ctypes.byref(outlen), None)
+    if rv != 0:
+        raise LZOError(f"native LZO error {rv}")
+    if outlen.value != expected_size:
+        raise LZOError(
+            f"native LZO size mismatch: expected {expected_size}, got {outlen.value}"
+        )
+    return bytes(dstbuf)
 
 
 def unpack(src: Path, dst: Path):
@@ -47,11 +210,15 @@ def unpack(src: Path, dst: Path):
     off = HEADER_OFF
     entry, num_sections = struct.unpack_from("<II", data, off)
     off += 8
+    if num_sections == 0 or num_sections > 64:
+        raise SystemExit(f"invalid SJCRUNCH2 section count: {num_sections}")
     lzo = load_lzo()
     output = bytearray()
     sections = []
 
     for section_index in range(num_sections):
+        if off + 20 > len(data):
+            raise SystemExit("truncated section header")
         compressed_size, original_size, zero_size, vaddr, file_size = \
             struct.unpack_from("<IIIII", data, off)
         off += 20
@@ -64,6 +231,10 @@ def unpack(src: Path, dst: Path):
                 raise SystemExit("truncated block header")
             usize, csize = struct.unpack_from("<II", data, off)
             off += 8
+            if usize == 0 or csize == 0:
+                raise SystemExit("invalid zero-sized compressed block")
+            if usize > original_size - total:
+                raise SystemExit("compressed block overruns declared section size")
             comp = data[off:off+csize]
             off += csize
             if len(comp) != csize:
@@ -72,15 +243,10 @@ def unpack(src: Path, dst: Path):
             if usize == csize:
                 chunk = comp
             else:
-                srcbuf = (ctypes.c_ubyte * csize).from_buffer_copy(comp)
-                dstbuf = (ctypes.c_ubyte * usize)()
-                outlen = ctypes.c_size_t(usize)
-                rv = lzo(srcbuf, csize, dstbuf, ctypes.byref(outlen), None)
-                if rv != 0:
-                    raise SystemExit(f"LZO error {rv} in block {blocks}")
-                if outlen.value != usize:
-                    raise SystemExit(f"size mismatch: expected {usize}, got {outlen.value}")
-                chunk = bytes(dstbuf)
+                try:
+                    chunk = decompress_block(comp, usize, lzo)
+                except LZOError as exc:
+                    raise SystemExit(f"LZO error in block {blocks}: {exc}") from exc
 
             section_out[total:total+usize] = chunk
             total += usize
@@ -99,6 +265,7 @@ def unpack(src: Path, dst: Path):
 
     dst.write_bytes(output)
     print(f"entry=0x{entry:08x}")
+    print(f"decompressor={'native-liblzo2' if lzo is not None else 'python-lzo1x'}")
     print(f"sections={num_sections}")
     for s in sections:
         print(f"section[{s['index']}]: vaddr=0x{s['virtual_address']:08x} size={s['original_size']} blocks={s['blocks']} bss={s['zero_byte_size']}")

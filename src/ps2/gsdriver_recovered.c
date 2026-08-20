@@ -174,7 +174,19 @@ void gsDriver_clearScreen_001990f8(gsDriverRecovered *self)
 /* 0x00199160 is the old InitGraphField helper: syscall #2, field mode a2=0. */
 int gsDriver_InitGraphField_00199160(int interlace, int mode)
 {
+#if defined(SNESSTATION_HOST_SYNTAX)
     return ps2_bios_syscall_2_recovered(interlace, mode, 0);
+#else
+    register int result __asm__("$2");
+    __asm__ volatile(
+        "ori $6,$0,0\n\t"
+        "addiu $3,$0,2\n\t"
+        "syscall"
+        : "=r"(result)
+        : "r"(interlace), "r"(mode)
+        : "$3", "$6", "memory");
+    return result;
+#endif
 }
 
 uint32_t gsDriver_getFrameBufferBase_00199178(const gsDriverRecovered *self,

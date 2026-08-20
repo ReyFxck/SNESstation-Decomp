@@ -15,7 +15,7 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 
 > **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
 
-- **Matching:** 66.76%
+- **Matching:** 69.64%
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
@@ -159,12 +159,13 @@ compiler-created unreachable blocks. The large snapshot loader at `0x001728d4`
 retains a type-propagation warning and is deliberately recorded at lower
 confidence. See [`docs/PROGRESS17.md`](docs/PROGRESS17.md).
 
-The frontier is now source cleanup and proof: replace `DAT_*` labels and
-placeholder types, migrate structural pseudocode into build-ready translation
-units, reproduce the historical EE toolchain, and compare generated machine
-code. **Matching remains 0.00%** until that byte-level work succeeds. See
-[`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md) and the
-step-by-step [`docs/MATCHING_WORKFLOW.md`](docs/MATCHING_WORKFLOW.md).
+The frontier is now compiler proof and whole-program recovery. All audited
+entries have a source model, and **725/1041 (69.64%)** have strict byte-level
+matching evidence. The cached address-anchored workflow is documented in
+[`docs/MATCH_MINER.md`](docs/MATCH_MINER.md); historical toolchain evidence and
+the manual foundation remain in
+[`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md) and
+[`docs/MATCHING_WORKFLOW.md`](docs/MATCHING_WORKFLOW.md).
 
 ## Verify the checkpoint and start matching
 
@@ -177,13 +178,11 @@ make check
 make elf-status
 ```
 
-The generated source audit currently classifies **802** entries in the earlier
-behavioral/source-model checkpoint and **239** entries as Progress-16/17
-structural pseudocode that still needs build-ready migration. The repository has
-**88 recovered C translation units plus three isolated matching-candidate units**
-(91 independently syntax-checked units in total), but no complete linked
-replacement ELF. The seven-function `mathfp` corridor is now promoted to
-`MATCHING`. See
+The generated source audit currently classifies all **1,041** entries as having
+a behavioral/source model and none as structural-pseudocode-only. The repository
+checks **103 independent C translation units** (97 under `src/` plus six matching
+candidates), but has no complete linked replacement ELF. Matching is promoted
+only from immutable, hash-gated evidence. See
 [`docs/SOURCE_COMPLETENESS.generated.md`](docs/SOURCE_COMPLETENESS.generated.md).
 
 With a legally obtained reference ELF, reproduce and verify the exact analysis
@@ -191,6 +190,17 @@ image:
 
 ```bash
 make reference
+```
+
+Run the cached strict miner with the pinned compiler. The three-profile default
+is the best observed cost/discovery point; reserve the full matrix for meaningful
+source or toolchain changes:
+
+```bash
+make bootstrap-ee-stage1
+EE_CC="$PWD/build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
+make match-miner EE_CC="$EE_CC" MATCH_MINER_JOBS=8
+# make match-miner-full EE_CC="$EE_CC" MATCH_MINER_JOBS=8
 ```
 
 For the first pinned library experiment, fetch the SHA-256-verified official
@@ -222,9 +232,8 @@ The complete seven-function math result and its compiler/source caveats are reco
 
 ## Repository policy
 
-This repository intentionally does **not** contain the original SNES Station ELF, unpacked executable image, embedded IRX binaries, or a full program disassembly.
-
-To reproduce the analysis, provide your own legally obtained reference binary at:
+This reproducibility checkpoint includes the packed, user-supplied SNES Station
+reference at:
 
 ```text
 original/SNES_EMU.ELF
@@ -236,7 +245,9 @@ Then run:
 bash tools/analyze.sh
 ```
 
-Generated binary/disassembly files are ignored by Git.
+`make reference` accepts only the documented SHA-256. The unpacked executable,
+embedded IRX extraction, and generated disassembly remain ignored by Git. Publish
+the packed ELF only when you have the necessary redistribution rights.
 
 ## DroidSpaces / Debian setup
 
@@ -286,7 +297,7 @@ SNESStation-Decomp/
 ├── analysis/            maps, xrefs and machine-readable analysis
 ├── docs/                findings, progress and research notes
 ├── tools/               unpacking/disassembly/analysis scripts
-├── original/            user-supplied reference ELF goes here (ignored)
+├── original/            hash-gated packed reference ELF
 └── reference/           notes about historical comparison material
 ```
 
@@ -311,7 +322,9 @@ Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) before assigning names to unkno
 
 ## Legal / preservation note
 
-This project is for preservation, interoperability, research, and documentation. No original SNES Station executable is distributed here. See [`docs/LEGAL.md`](docs/LEGAL.md) for repository policy and provenance notes.
+This project is for preservation, interoperability, research, and documentation.
+The packed reference in this checkpoint remains subject to its original rights;
+see [`docs/LEGAL.md`](docs/LEGAL.md) for repository policy and provenance notes.
 
 ## Progress 10 — 60% reconstruction checkpoint
 
