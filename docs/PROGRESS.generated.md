@@ -12,7 +12,7 @@ The rejected patterns and their reasons are recorded in [`analysis/progress17_re
 
 | Metric | Count | Validated universe |
 |---|---:|---:|
-| Matching | 821 | **78.87%** |
+| Matching | 900 | **86.46%** |
 | Reconstructed / matching | 1,041 | **100.00%** |
 | Mapped (identified + partial + reconstructed) | 1,041 | **100.00%** |
 
@@ -37,7 +37,7 @@ This grid is exact for the **30 macro-expanded draw-family entry points from `0x
 
 ```text
 🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦
-🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟩🟩🟩🟩
+🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦
 ```
 
 Legend: 🟩 reconstructed · 🟨 identified · 🟧 partial · ⬜ unknown · 🟦 matching
