@@ -211,23 +211,23 @@ extern gsDriverRecovered *g_frontend_driver_001bb2c0;
 
 /*
  * 0x00101e8c: flush the current GS pipe, clear/wait the GS CSR VSINT bit,
- * then swap the driver buffers. Migrated from the committed Progress-16
- * R5900 decompile; no machine-code matching claim is made here.
+ * then swap the driver buffers.  The explicit nop preserves the EE-side GS
+ * CSR read delay present in the original frontend.
  */
 void snes_p20_00101e8c(void)
 {
-    gsDriverRecovered *driver = g_frontend_driver_001bb2c0;
     uint64_t csr;
 
-    gsPipe_Flush_001998f8(&driver->drawPipe);
+    gsPipe_Flush_001998f8(&g_frontend_driver_001bb2c0->drawPipe);
 
-    csr = *P20_GS_CSR;
-    *P20_GS_CSR = csr & UINT64_C(8);
+    *P20_GS_CSR = *P20_GS_CSR & UINT64_C(8);
     do {
         csr = *P20_GS_CSR;
-    } while ((csr & UINT64_C(8)) == 0);
+        csr &= UINT64_C(8);
+        __asm__ volatile ("nop");
+    } while (csr == 0);
 
-    gsDriver_swapBuffers_001991b0(driver);
+    gsDriver_swapBuffers_001991b0(g_frontend_driver_001bb2c0);
 }
 
 typedef struct P11AudioConfig {

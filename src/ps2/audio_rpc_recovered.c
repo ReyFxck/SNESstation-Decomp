@@ -4,7 +4,18 @@
 typedef int(*RpcFn)(int cmd,const void*send,unsigned ss,void*recv,unsigned rs,void*opaque);
 typedef struct{RpcFn call;void*opaque;}AudioRpc;
 static int call(AudioRpc*r,int c,const void*s,unsigned ss,void*d,unsigned ds){return r&&r->call?r->call(c,s,ss,d,ds,r->opaque):-1;}
-/* 0x00106bcc */ int SjPCM_Init_00106bcc(AudioRpc*r){return call(r,0,NULL,0,NULL,0);}
+extern char *strrchr(const char *text, int needle);
+extern int strcasecmp(const char *left, const char *right);
+
+/* 0x00106bcc: recognize an SRAM file extension; this is not SjPCM_Init. */
+int is_sram_extension_00106bcc(const char *path)
+{
+    char *extension = strrchr(path, '.');
+
+    if (extension == NULL)
+        return 0;
+    return strcasecmp(extension + 1, "srm") == 0;
+}
 /* 0x001077f8 */ int SjPCM_Quit_001077f8(AudioRpc*r){return call(r,1,NULL,0,NULL,0);}
 /* 0x001078f8 */ int SjPCM_Setvol_001078f8(AudioRpc*r,uint32_t v){return call(r,2,&v,4,NULL,0);}
 /* 0x00107b1c */ int amigaModInit_00107b1c(AudioRpc*r,uint32_t mode){return call(r,0,&mode,4,NULL,0);}

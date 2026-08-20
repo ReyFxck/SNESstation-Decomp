@@ -15,7 +15,7 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 
 > **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
 
-- **Matching:** 88.86%
+- **Matching:** 90.78%
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
@@ -160,10 +160,11 @@ retains a type-propagation warning and is deliberately recorded at lower
 confidence. See [`docs/PROGRESS17.md`](docs/PROGRESS17.md).
 
 The frontier is now compiler proof and whole-program recovery. All audited
-entries have a source model, and **925/1041 (88.86%)** have strict byte-level
-matching evidence. The V48 closure is documented in
-[`docs/HUNT1041_V48.md`](docs/HUNT1041_V48.md), the preceding V47 closure in
-[`docs/HUNT1000PLUS_V47.md`](docs/HUNT1000PLUS_V47.md), and the cached
+entries have a source model, and **945/1041 (90.78%)** have strict byte-level
+matching evidence. The formal-ELF V49 closure is documented in
+[`docs/HUNT1041_V49.md`](docs/HUNT1041_V49.md), the V48 closure in
+[`docs/HUNT1041_V48.md`](docs/HUNT1041_V48.md), and the preceding V47 closure in
+[`docs/HUNT1000PLUS_V47.md`](docs/HUNT1000PLUS_V47.md). The cached
 address-anchored workflow is documented in
 [`docs/MATCH_MINER.md`](docs/MATCH_MINER.md); historical toolchain evidence and
 the manual foundation remain in

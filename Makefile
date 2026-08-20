@@ -87,7 +87,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	reference verify-reference fetch-newlib fetch-ee-toolchain-recipe \
 	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
-	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence \
+	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
 	match-miner match-miner-full \
 	ee-source-scan ee-source-scan-strict historical-ee-gate \
@@ -114,6 +114,7 @@ help:
 	@echo "  make hunt1000plus-v46-evidence  reproduce the next 42 strict source/archive matches"
 	@echo "  make hunt1000plus-v47-evidence  reproduce the next 79 strict source/profile matches"
 	@echo "  make hunt1041-v48-evidence  reproduce the next 25 strict source/profile matches"
+	@echo "  make hunt1041-v49-evidence  reproduce 20 formal-ELF symbol/range matches"
 	@echo "  make toolchain-info show the candidate historical EE compiler contract"
 	@echo "  make toolchain-probe test EE_CC version, target, flags and ELF output"
 	@echo "  make ee-source-scan  baseline every C TU against the historical EE front end"
@@ -210,6 +211,12 @@ hunt1041-v48-evidence: bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
 	@echo "HUNT1041 V48 evidence: OK (25 strict matches)"
+
+hunt1041-v49-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
+	$(PYTHON) tools/research/hunt1041_v49_closure.py \
+		--cc "$(EE_STAGE1_CC)" \
+		--cxx "$(EE_STAGE1_CXX)"
+	@echo "HUNT1041 V49 evidence: OK (20 formal-ELF strict matches)"
 
 toolchain-info:
 	@echo "Candidate EE compiler: GCC $(EE_GCC_VERSION)"

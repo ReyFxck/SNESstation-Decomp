@@ -8,4 +8,15 @@ static int mt(MtapRpc*r,int c,uint32_t a,uint32_t b,uint32_t*out){uint32_t s[2]=
 /* 0x001049f0 */ int mtapPortOpen_001049f0(MtapRpc*r,int port){return mt(r,1,(uint32_t)port,0,NULL);}
 /* 0x00104a54 */ int mtapPortClose_00104a54(MtapRpc*r,int port){return mt(r,2,(uint32_t)port,0,NULL);}
 /* 0x00104bbc */ int mtapGetConnection_00104bbc(MtapRpc*r,int port){return mt(r,3,(uint32_t)port,0,NULL);}
-/* 0x00104e58 */ int mtapChangeSlot_00104e58(MtapRpc*r,int port,int slot){return mt(r,4,(uint32_t)port,(uint32_t)slot,NULL);}
+extern unsigned char g_memory_state_001c3ab0[];
+extern void per_rom_cleanup_00151330(void *memory);
+extern void apu_buffer_cleanup_0010a8bc(void);
+extern void exit_wrapper_0019c5cc(int status) __attribute__((noreturn));
+
+/* 0x00104e58: frontend shutdown path; this is not an mtap RPC leaf. */
+void frontend_shutdown_00104e58(void)
+{
+    per_rom_cleanup_00151330(g_memory_state_001c3ab0);
+    apu_buffer_cleanup_0010a8bc();
+    exit_wrapper_0019c5cc(1);
+}
