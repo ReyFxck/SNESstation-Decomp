@@ -4,7 +4,7 @@ This map covers the binary resources explicitly consumed by the SNES Station
 v0.23 boot, frontend, audio and Memory Card paths. It deliberately does not
 classify ordinary Snes9x lookup tables as artwork or media. Finding an asset
 does not add a function match: the audited matching checkpoint remains
-945/1,041 until new machine-code evidence is promoted.
+961/1,041 after the V51 machine-code evidence promotion.
 
 The complete hashes and decoded-text hashes are recorded in
 [`analysis/embedded_assets.csv`](../analysis/embedded_assets.csv). The ranges

@@ -3,7 +3,11 @@
 #include <stdio.h>
 #include <string.h>
 typedef void(*VF)(void*);typedef int(*IF)(void*);
-int snes_dispatch_00101890(const char*p,unsigned w,int*out,int(*fn)(const char*,const char*,void*),void*o){int h=fn?fn(p,w?"rb":"wb",o):0;*out=h;return h!=0;}
+extern void *gzopen(const char *, const char *);
+int snes_dispatch_00101890(const char*p,uint8_t read,void**out){
+    if(read)return (*out=gzopen(p,"rb"))!=NULL;
+    return (*out=gzopen(p,"wb"))!=NULL;
+}
 void snes_dispatch_001018e0(int h,void(*fn)(int,void*),void*o){if(fn)fn(h,o);}
 int snes_dispatch_00103c7c(const char*p,void*b,int(*fn)(const char*,const char*,unsigned,void*,unsigned,const char*,void*),void*o){return fn?fn(p,".ZIP .SMC .SFC .SWC .FIG .058 .BIN",3,b,0xfa0u,p,o):0;}
 int snes_dispatch_001056c0(VF fn,void*o){if(fn)fn(o);return 1;}

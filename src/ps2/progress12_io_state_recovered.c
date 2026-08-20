@@ -68,74 +68,63 @@ int snes_p12_00106824(P12McProbeState *state, P12McInitCallback init_fn,
     return type == 2;
 }
 
-typedef int (*P12OpenCallback)(const char *path, int flags, void *opaque);
-typedef int (*P12ReadCallback)(int fd, void *data, size_t size, void *opaque);
-typedef int (*P12FileWriteCallback)(int fd, const void *data, size_t size,
-                                    void *opaque);
-typedef int (*P12CloseCallback)(int fd, void *opaque);
-typedef void (*P12Sort8Callback)(void *records, uint32_t count, void *opaque);
-
-typedef struct P12RecordStore {
-    uint8_t *records;
-    uint32_t current;
+typedef struct P12MemorySdd1View {
+    uint8_t reserved_0000[0xb070];
     uint32_t saved;
-} P12RecordStore;
+    uint32_t current;
+    uint8_t records[0x10000];
+} P12MemorySdd1View;
+
+extern P12MemorySdd1View g_p12_memory;
+extern const char g_p12_sdd1_dat_extension[];
+extern char *snes_p12_get_filename(const char *extension);
+extern int snes_p12_compare_sdd1_entries(const void *left, const void *right);
+extern void snes_p12_qsort(void *base, uint32_t count, uint32_t width,
+                           int (*compare)(const void *, const void *));
+extern int snes_p12_fio_open(const char *path, int flags);
+extern int snes_p12_fio_read(int fd, void *data, int bytes);
+extern int snes_p12_fio_write(int fd, const void *data, int bytes);
+extern int snes_p12_fio_close(int fd);
 
 /*
  * 0x0016fbb4: open/read up to 0x10000 bytes, mirror the returned value into
  * both target counters, then close.  The target intentionally stores the raw
  * fioRead result; this model does not reinterpret it as a record count.
  */
-void snes_p12_0016fbb4(P12RecordStore *store, const char *path,
-                       P12OpenCallback open_fn, P12ReadCallback read_fn,
-                       P12CloseCallback close_fn, void *opaque)
+void snes_p12_0016fbb4(void)
 {
     int fd;
 
-    store->current = 0u;
-    store->saved = 0u;
-    if (open_fn == NULL)
-        return;
-    fd = open_fn(path, 1, opaque);
-    if (fd < 0)
-        return;
-    if (read_fn != NULL) {
-        int result = read_fn(fd, store->records, 0x10000u, opaque);
-        if (result != -1) {
-            store->current = (uint32_t)result;
-            store->saved = (uint32_t)result;
-        }
+    fd = snes_p12_fio_open(snes_p12_get_filename(g_p12_sdd1_dat_extension), 1);
+    g_p12_memory.current = g_p12_memory.saved = 0;
+    if (fd >= 0) {
+        int result = snes_p12_fio_read(fd, g_p12_memory.records, 0x10000);
+        if (result != -1)
+            g_p12_memory.current = g_p12_memory.saved = (uint32_t)result;
+        (void)snes_p12_fio_close(fd);
     }
-    if (close_fn != NULL)
-        (void)close_fn(fd, opaque);
 }
 
 /*
  * 0x0016fb04: if the two counters differ, sort 8-byte entries, recreate the
  * .dat file, write current*8 bytes, close, then mirror current into saved.
  */
-void snes_p12_0016fb04(P12RecordStore *store, const char *path,
-                       P12Sort8Callback sort_fn, P12OpenCallback open_fn,
-                       P12FileWriteCallback write_fn,
-                       P12CloseCallback close_fn, void *opaque)
+void snes_p12_0016fb04(void)
 {
     int fd;
 
-    if (store->current == store->saved)
-        return;
-    if (sort_fn != NULL)
-        sort_fn(store->records, store->current, opaque);
-    if (open_fn != NULL) {
-        fd = open_fn(path, 0x202, opaque);
+    if (g_p12_memory.current != g_p12_memory.saved) {
+        snes_p12_qsort(g_p12_memory.records, g_p12_memory.current, 8,
+                       snes_p12_compare_sdd1_entries);
+        fd = snes_p12_fio_open(
+            snes_p12_get_filename(g_p12_sdd1_dat_extension), 0x202);
         if (fd >= 0) {
-            if (write_fn != NULL)
-                (void)write_fn(fd, store->records,
-                               (size_t)(uint32_t)(store->current << 3), opaque);
-            if (close_fn != NULL)
-                (void)close_fn(fd, opaque);
+            (void)snes_p12_fio_write(fd, g_p12_memory.records,
+                                     (int)(g_p12_memory.current << 3));
+            (void)snes_p12_fio_close(fd);
         }
+        g_p12_memory.saved = g_p12_memory.current;
     }
-    store->saved = store->current;
 }
 
 typedef struct P12TransferBlock {

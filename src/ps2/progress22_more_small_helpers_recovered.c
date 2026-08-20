@@ -112,35 +112,29 @@ int snes_p22_00104234(P22FileBufferTarget *state, const char *path)
 
 /* --- 0x0015d334: small conditional PPU timing/update helper. --- */
 extern uint8_t *g_fillram_0034e2c4;
-extern uint8_t g_flag_00345540;
-extern uint8_t g_flag_0034560b;
-extern uint8_t g_flag_0034560a;
-extern void sub_001309c4(uint64_t value);
+/* Shared frontend/PPU state anchored at 0x003454e0. */
+extern uint8_t g_state_003454e0[];
+extern int sub_001309c4(uint32_t value);
 extern void sub_00116128(int value);
-
-static uint16_t p22_read_le16(const uint8_t *p)
-{
-    return (uint16_t)((uint16_t)p[0] | ((uint16_t)p[1] << 8));
-}
 
 void snes_p22_0015d334(void)
 {
-    uint8_t *fillram = g_fillram_0034e2c4;
-    uint64_t value;
+    uint8_t *fillram;
+    int status;
 
-    if (g_flag_00345540 == 0 ||
-        (fillram[0x3030] & 0x20u) == 0 ||
-        (fillram[0x303a] & 0x18u) != 0x18u)
-        return;
+    if (g_state_003454e0[0x60] != 0) {
+        fillram = g_fillram_0034e2c4;
+        if ((fillram[0x3030] & 0x20u) != 0 &&
+            (fillram[0x303a] & 0x18u) == 0x18u) {
+            if (!g_state_003454e0[0x12b] || g_state_003454e0[0x12a])
+                (void)sub_001309c4(~0u);
+            else
+                (void)sub_001309c4((fillram[0x3039] & 1u) ? 700u : 350u);
 
-    value = UINT64_MAX;
-    if (g_flag_0034560b != 0 && g_flag_0034560a == 0) {
-        value = 700u;
-        if ((fillram[0x3039] & 1u) == 0)
-            value = 0x15eu;
+            status = g_fillram_0034e2c4[0x3030] |
+                     (g_fillram_0034e2c4[0x3031] << 8);
+            if ((status & 0x8020) == 0x8000)
+                sub_00116128(4);
+        }
     }
-
-    sub_001309c4(value);
-    if ((p22_read_le16(fillram + 0x3030) & 0x8020u) == 0x8000u)
-        sub_00116128(4);
 }

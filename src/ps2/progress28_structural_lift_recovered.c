@@ -1684,7 +1684,7 @@ void snes_p28_00129af4();
 void snes_p28_0012a400();
 uint snes_p28_0012b498();
 void snes_p28_0012ba5c();
-float snes_p28_0012bf5c();
+float snes_p28_0012bf5c(float);
 void snes_p28_0012c444();
 void snes_p28_0012c4a8();
 void snes_p28_0012c558();
@@ -8887,28 +8887,12 @@ uint param_1;
 }
 
 /* ===== 0x0012bf5c | P16 | snes_p16_0012bf5c | snes-core-dsp ===== */
-float snes_p28_0012bf5c(param_1)
-float param_1;
+float snes_p28_0012bf5c(float x)
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  undefined4 uVar4;
-  
-  if ((1.0 <= param_1) || (param_1 <= 1.0)) {
-    uVar1 = FUN_001a3340();
-    uVar2 = FUN_001a3340(param_1);
-    uVar3 = FUN_001a3680(uVar2,DAT_001b20b8);
-    uVar2 = FUN_001a3680(uVar3,uVar2);
-    uVar2 = FUN_001a35b0(uVar2,0x3ff0000000000000);
-    uVar1 = FUN_001a3950(uVar1,uVar2);
-  }
-  else {
-    uVar4 = snes_p28_0012bf5c(1.0 / param_1);
-    uVar1 = FUN_001a3340(uVar4);
-    uVar1 = FUN_001a3610(DAT_001b20c0,uVar1);
-  }
-  return (float)FUN_001a3cc0(uVar1);
+  if ((x >= 1.0f) || (x <= 1.0f))
+    return (float)(x / (1.0 + 0.28 * x * x));
+  return (float)(3.1415926535897932384626433832795 / 2.0 -
+                 snes_p28_0012bf5c(1.0f / x));
 }
 
 /* ===== 0x0012c444 | P16 | snes_p16_0012c444 | snes-core-dsp ===== */

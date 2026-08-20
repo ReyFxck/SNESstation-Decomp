@@ -18,27 +18,21 @@
  * name begins four bytes later at -0x84.  Rebase that evidence to a compact
  * entry view instead of pretending the final global owner is already known.
  */
-typedef struct P21TocEntryView {
-    uint8_t flags;          /* +0x00 */
-    uint8_t reserved_01[3]; /* +0x01 */
-    char name[0x80];        /* +0x04 */
-    uint8_t reserved_84[0x0c];
-} P21TocEntryView;
-
-_Static_assert(sizeof(P21TocEntryView) == 0x90, "Progress 21 TOC entry size");
-
-/* Logical rebased view of the target entry list; final ownership is pending. */
-extern const P21TocEntryView *g_p21_toc_entries;
+/* The target stores a pointer at 0x00427010, eight bytes past the logical
+ * start of the first 0x90-byte entry. */
+extern const uint8_t *g_p21_toc_anchor_00427010;
 
 void snes_p21_00103cd4(int index, char *output)
 {
-    const P21TocEntryView *entry = &g_p21_toc_entries[index];
+    int offset = index * 0x90;
     char *match;
 
-    strncpy(output, entry->name, 0x80);
+    strncpy(output,
+            (const char *)g_p21_toc_anchor_00427010 + offset - 0x84,
+            0x80);
     output[0x80] = '\0';
 
-    if ((entry->flags & 2u) == 0u) {
+    if ((g_p21_toc_anchor_00427010[offset - 0x88] & 2u) == 0u) {
         match = strrchr(output, '.');
         if (match != NULL)
             *match = '\0';
@@ -63,19 +57,19 @@ extern const char g_p21_state_extension_prefix_001b1348[2];
 int snes_p21_00106c08(const char *path)
 {
     const char *dot;
+    const char *extension;
 
     if (path == NULL)
         return 0;
-
     dot = strrchr(path, '.');
     if (dot == NULL)
         return 0;
-    if (memcmp(dot + 1, g_p21_state_extension_prefix_001b1348, 2) != 0)
-        return 0;
-    if (!isdigit((unsigned char)dot[3]))
-        return 0;
-
-    return (int)strtol(dot + 3, NULL, 10);
+    extension = dot + 1;
+    if (memcmp(extension, g_p21_state_extension_prefix_001b1348, 2) == 0) {
+        if (isdigit(extension[2]))
+            return (int)strtol(dot + 3, NULL, 10);
+    }
+    return 0;
 }
 
 /*

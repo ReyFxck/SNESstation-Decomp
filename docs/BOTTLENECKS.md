@@ -1,5 +1,10 @@
 # Bottleneck watch — SNES Station v0.23 WIP
 
+The V51 formal checkpoint is **961/1041 exact function matches (92.32%)**,
+leaving 80 entries. The recovered PS2 `Settings` layout closed six former
+near-matches, and the `amigaModInit`/`amigaModLoad`, DSP1, SDD1 and small
+frontend source variants are now byte-proven.
+
 ## Bottlenecks that did not become walls
 
 - PS2 startup/RPC wrappers are structurally visible.
@@ -45,8 +50,9 @@ Current priorities:
    mapped-memory core;
 3. finish independent source models for the already-mapped complex
    `__vmi_class_type_info` dynamic/upcast walkers;
-4. attack SjPCM/AmigaMod audio glue and EE/IOP scheduling;
-5. reproduce the historical compiler/runtime and begin real byte comparisons.
+4. finish the still-large audio runtime and snapshot corridors;
+5. reproduce the final historical link order after the remaining function
+   source shapes are closed.
 
 ## Parallel bottleneck: true matching builds
 
