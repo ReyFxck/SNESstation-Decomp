@@ -15,7 +15,7 @@ The goal is not to make a new SNES emulator by replacing everything with modern 
 
 > **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
 
-- **Matching:** 74.83%
+- **Matching:** 78.87%
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
@@ -160,8 +160,10 @@ retains a type-propagation warning and is deliberately recorded at lower
 confidence. See [`docs/PROGRESS17.md`](docs/PROGRESS17.md).
 
 The frontier is now compiler proof and whole-program recovery. All audited
-entries have a source model, and **725/1041 (69.64%)** have strict byte-level
-matching evidence. The cached address-anchored workflow is documented in
+entries have a source model, and **821/1041 (78.87%)** have strict byte-level
+matching evidence. The V46 official-source/archive closure is documented in
+[`docs/HUNT1000PLUS_V46.md`](docs/HUNT1000PLUS_V46.md), and the cached
+address-anchored workflow is documented in
 [`docs/MATCH_MINER.md`](docs/MATCH_MINER.md); historical toolchain evidence and
 the manual foundation remain in
 [`docs/TOOLCHAIN_FINGERPRINT.md`](docs/TOOLCHAIN_FINGERPRINT.md) and

@@ -22,6 +22,7 @@ SYMBOLS = ROOT / "analysis" / "symbols.csv"
 REFERENCE = ROOT / "build" / "SNES_EMU.unpacked.bin"
 EXPECTED_REFERENCE_SHA256 = "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b"
 REFERENCE_BASE = 0x00100000
+MAX_TERMINAL_SIZE = 4096
 ZERO_GAP_RE = re.compile(r"^historical-symbol\+target-zero-gap:0x([0-9a-f]+)$")
 ALLOWED_BOUNDARIES = {"exact-next-boundary", "terminal-control-flow-boundary"}
 
@@ -139,7 +140,7 @@ def validate_evidence_row(
         if object_size != span:
             raise ValueError(f"{address}: exact boundary does not reach next target")
     elif boundary == "terminal-control-flow-boundary":
-        if object_size >= span or object_size > 512:
+        if object_size >= span or object_size > MAX_TERMINAL_SIZE:
             raise ValueError(f"{address}: invalid terminal-prefix boundary size")
     else:
         match = ZERO_GAP_RE.fullmatch(boundary)

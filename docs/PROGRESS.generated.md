@@ -12,7 +12,7 @@ The rejected patterns and their reasons are recorded in [`analysis/progress17_re
 
 | Metric | Count | Validated universe |
 |---|---:|---:|
-| Matching | 779 | **74.83%** |
+| Matching | 821 | **78.87%** |
 | Reconstructed / matching | 1,041 | **100.00%** |
 | Mapped (identified + partial + reconstructed) | 1,041 | **100.00%** |
 

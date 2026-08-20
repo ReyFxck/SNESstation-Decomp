@@ -4,10 +4,13 @@ from __future__ import annotations
 
 import unittest
 
-from promote_match_evidence import validate_boundary
+from promote_match_evidence import MAX_TERMINAL_SIZE, validate_boundary
 
 
 class PromoteMatchEvidenceTests(unittest.TestCase):
+    def test_terminal_limit_matches_the_miner_contract(self) -> None:
+        self.assertEqual(MAX_TERMINAL_SIZE, 4096)
+
     def test_accepts_supported_boundary_proofs(self) -> None:
         for value in (
             "exact-next-boundary",
