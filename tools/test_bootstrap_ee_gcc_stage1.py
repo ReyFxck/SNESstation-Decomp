@@ -14,6 +14,7 @@ from bootstrap_ee_gcc_stage1 import (
     AARCH64_GCC_HOST_PATCH,
     ARCHIVES,
     BuildFailure,
+    CXX_MODERN_HOST_PATCH,
     apply_patch_once,
     safe_archive_path,
     safe_extract_archive,
@@ -151,6 +152,32 @@ esac
             self.assertIn("aarch64-*-linux*)", config)
             self.assertIn("supported only as a build/host", config)
             self.assertTrue((root / ".host-stamp").is_file())
+
+    def test_cxx_patch_restores_modern_host_lvalue_compatibility(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="snesstation-bootstrap-test-") as name:
+            root = Path(name)
+            source = root / "gcc" / "cp"
+            source.mkdir(parents=True)
+            (source / "decl.c").write_text(
+                """
+/* The binding level currently in effect.  */
+
+#define current_binding_level\t\t\t\\
+  (cfun && cp_function_chain->bindings\t\t\\
+   ? cp_function_chain->bindings\t\t\\
+   : scope_chain->bindings)
+
+/* The binding level of the current class, if any.  */
+""",
+                encoding="utf-8",
+            )
+
+            with redirect_stdout(io.StringIO()):
+                apply_patch_once(root, CXX_MODERN_HOST_PATCH, ".cxx-host-stamp")
+
+            text = (source / "decl.c").read_text(encoding="utf-8")
+            self.assertIn("? &cp_function_chain->bindings", text)
+            self.assertIn(": &scope_chain->bindings))", text)
 
 
 if __name__ == "__main__":

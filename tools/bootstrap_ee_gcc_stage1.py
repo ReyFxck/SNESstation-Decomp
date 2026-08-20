@@ -30,6 +30,9 @@ AARCH64_CONFIG_PATCH = ROOT / "tools" / "patches" / "gnu-config-aarch64.patch"
 AARCH64_GCC_HOST_PATCH = (
     ROOT / "tools" / "patches" / "gcc-3.2.2-aarch64-host.patch"
 )
+CXX_MODERN_HOST_PATCH = (
+    ROOT / "tools" / "patches" / "gcc-3.2.2-cxx-modern-host.patch"
+)
 HOST_CFLAGS = "-O2 -g -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0"
 MINIMUM_FREE_BYTES = 650 * 1024 * 1024
 
@@ -409,6 +412,11 @@ def prepare_sources(work_dir: Path, recipe: Path) -> dict[str, Path]:
         AARCH64_GCC_HOST_PATCH,
         ".snesstation-aarch64-gcc-host-patch",
     )
+    apply_patch_once(
+        result["gcc-3.2.2"],
+        CXX_MODERN_HOST_PATCH,
+        ".snesstation-cxx-modern-host-patch",
+    )
     return result
 
 
@@ -423,7 +431,9 @@ def clean_host_environment() -> dict[str, str]:
     return environment
 
 
-def build_stage_one(work_dir: Path, sources: dict[str, Path], jobs: int) -> Path:
+def build_stage_one(
+    work_dir: Path, sources: dict[str, Path], jobs: int, languages: str
+) -> Path:
     build_root = work_dir / "build"
     prefix = work_dir / "prefix"
     stamps = work_dir / "stamps"
@@ -482,7 +492,7 @@ def build_stage_one(work_dir: Path, sources: dict[str, Path], jobs: int) -> Path
             str(sources["gcc-3.2.2"] / "configure"),
             f"--prefix={prefix}",
             "--target=ee",
-            "--enable-languages=c",
+            f"--enable-languages={languages}",
             "--with-newlib",
             "--without-headers",
         ],
@@ -491,9 +501,13 @@ def build_stage_one(work_dir: Path, sources: dict[str, Path], jobs: int) -> Path
         stamps,
         logs,
     )
+    # GCC 3.2.2's C++ generator graph has an old parallel-build race: a
+    # freshly linked genrecog can be consumed before its executable mode is
+    # visible.  Keep binutils parallel, but serialize the C++ GCC stage.
+    gcc_jobs = 1 if "c++" in languages else jobs
     run_stamped_step(
         "05-gcc-build",
-        ["make", f"-j{jobs}", "all-gcc"],
+        ["make", f"-j{gcc_jobs}", "all-gcc"],
         gcc_build,
         target_environment,
         stamps,
@@ -521,9 +535,15 @@ def command_first_line(command: list[str]) -> str:
     return result.stdout.strip().splitlines()[0] if result.stdout.strip() else "unknown"
 
 
-def verify_and_record(work_dir: Path, compiler: Path, jobs: int) -> None:
+def verify_and_record(
+    work_dir: Path, compiler: Path, jobs: int, languages: str
+) -> None:
     if not compiler.is_file() or not os.access(compiler, os.X_OK):
         raise BuildFailure(f"stage-one compiler was not installed: {compiler}")
+    if "c++" in languages:
+        cxx = compiler.with_name("ee-g++")
+        if not cxx.is_file() or not os.access(cxx, os.X_OK):
+            raise BuildFailure(f"stage-one C++ compiler was not installed: {cxx}")
     probe = subprocess.run(
         [
             sys.executable,
@@ -539,7 +559,11 @@ def verify_and_record(work_dir: Path, compiler: Path, jobs: int) -> None:
 
     manifest = {
         "schema": 1,
-        "scope": "binutils EE plus GCC C stage one; no Newlib, C++, PS2SDK or final ELF",
+        "scope": (
+            f"binutils EE plus GCC {languages} stage one; "
+            "no Newlib, PS2SDK or final ELF"
+        ),
+        "languages": languages,
         "recipe_commit": COMMIT,
         "archives": [
             {"name": archive.name, "url": archive.url, "sha256": archive.sha256}
@@ -548,10 +572,12 @@ def verify_and_record(work_dir: Path, compiler: Path, jobs: int) -> None:
         "modern_host_patch_sha256": sha256_file(MODERN_GCC_PATCH),
         "aarch64_config_patch_sha256": sha256_file(AARCH64_CONFIG_PATCH),
         "aarch64_gcc_host_patch_sha256": sha256_file(AARCH64_GCC_HOST_PATCH),
+        "cxx_modern_host_patch_sha256": sha256_file(CXX_MODERN_HOST_PATCH),
         "host_cflags": HOST_CFLAGS,
         "host_architecture": platform.machine() or "unknown",
         "host_gcc": command_first_line(["gcc", "--version"]),
         "jobs": jobs,
+        "gcc_build_jobs": 1 if "c++" in languages else jobs,
         "compiler": str(compiler),
         "compiler_sha256": sha256_file(compiler),
         "compiler_banner": command_first_line([str(compiler), "--version"]),
@@ -569,6 +595,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--work-dir", type=Path, default=DEFAULT_WORK_DIR)
     parser.add_argument("--jobs", type=int, default=default_jobs)
+    parser.add_argument(
+        "--languages",
+        choices=("c", "c,c++"),
+        default="c",
+        help="front ends to build; C remains the fast default",
+    )
     args = parser.parse_args()
     if args.jobs < 1 or args.jobs > 64:
         parser.error("--jobs must be between 1 and 64")
@@ -585,16 +617,16 @@ def main() -> None:
         verify_checkout(RECIPE_DIR)
         print(f"recipe: verified PS2DEV {COMMIT}")
         sources = prepare_sources(work_dir, RECIPE_DIR)
-        compiler = build_stage_one(work_dir, sources, args.jobs)
-        verify_and_record(work_dir, compiler, args.jobs)
+        compiler = build_stage_one(work_dir, sources, args.jobs, args.languages)
+        verify_and_record(work_dir, compiler, args.jobs, args.languages)
     except BuildFailure as exc:
         print(f"bootstrap: FAIL -- {exc}", file=sys.stderr)
         raise SystemExit(1) from exc
 
     print("bootstrap: PASS -- historical EE GCC stage one is usable")
     print(
-        "scope: compile-only matching; Newlib, C++, PS2SDK and final linking "
-        "are not built"
+        f"scope: compile-only {args.languages} matching; Newlib, PS2SDK and "
+        "final linking are not built"
     )
     print(f"EE_CC={compiler}")
     print(f"manifest={work_dir / 'bootstrap-manifest.json'}")

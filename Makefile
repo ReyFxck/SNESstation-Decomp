@@ -11,6 +11,8 @@ EE_GCC_VERSION ?= 3.2.2-b1
 BUILD_DIR := build
 EE_STAGE1_WORK_DIR ?= $(abspath $(BUILD_DIR)/toolchains/ee-gcc-3.2.2-stage1)
 EE_STAGE1_CC := $(EE_STAGE1_WORK_DIR)/prefix/bin/ee-gcc
+EE_CXX_STAGE1_WORK_DIR ?= $(abspath $(BUILD_DIR)/toolchains/ee-gcc-3.2.2-cxx-stage1)
+EE_STAGE1_CXX := $(EE_CXX_STAGE1_WORK_DIR)/prefix/bin/ee-g++
 EE_BOOTSTRAP_JOBS_ARG := $(if $(strip $(EE_BUILD_JOBS)),--jobs "$(EE_BUILD_JOBS)",)
 MATCH_DIR := $(BUILD_DIR)/matching
 MATHFP_SOURCE := matching/candidates/mathfp.c
@@ -83,7 +85,8 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 
 .PHONY: help audit-source audit-source-check host-syntax test-tools check \
 	reference verify-reference fetch-newlib fetch-ee-toolchain-recipe \
-	bootstrap-ee-stage1 \
+	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
+	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
 	match-miner match-miner-full \
 	ee-source-scan ee-source-scan-strict historical-ee-gate \
@@ -105,6 +108,8 @@ help:
 	@echo "  make fetch-newlib   fetch verified Newlib 1.10.0 mathfp source"
 	@echo "  make fetch-ee-toolchain-recipe  fetch the pinned 2004 PS2DEV recipe"
 	@echo "  make bootstrap-ee-stage1  build isolated binutils 2.14 + EE GCC 3.2.2"
+	@echo "  make bootstrap-ee-cxx-stage1  build the isolated C/C++ runtime-matching front ends"
+	@echo "  make hunt1000plus-v45-evidence  reproduce the 50 runtime + 4 historical strict matches"
 	@echo "  make toolchain-info show the candidate historical EE compiler contract"
 	@echo "  make toolchain-probe test EE_CC version, target, flags and ELF output"
 	@echo "  make ee-source-scan  baseline every C TU against the historical EE front end"
@@ -163,6 +168,25 @@ fetch-ee-toolchain-recipe:
 bootstrap-ee-stage1:
 	$(PYTHON) tools/bootstrap_ee_gcc_stage1.py \
 		--work-dir "$(EE_STAGE1_WORK_DIR)" $(EE_BOOTSTRAP_JOBS_ARG)
+
+bootstrap-ee-cxx-stage1:
+	$(PYTHON) tools/bootstrap_ee_gcc_stage1.py \
+		--work-dir "$(EE_CXX_STAGE1_WORK_DIR)" \
+		--languages c,c++ $(EE_BOOTSTRAP_JOBS_ARG)
+
+hunt1000plus-v45-runtime: reference fetch-newlib bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
+	$(PYTHON) tools/research/hunt1000plus_v45_runtime.py \
+		--libgcc "$(EE_STAGE1_WORK_DIR)/prefix/lib/gcc-lib/ee/3.2.2/libgcc.a" \
+		--cxx "$(EE_STAGE1_CXX)" \
+		--assembler-prefix "$(EE_STAGE1_WORK_DIR)/prefix/ee/bin" \
+		--gcc-source "$(EE_STAGE1_WORK_DIR)/source/gcc-3.2.2"
+
+hunt1000plus-v45-historical: reference bootstrap-ee-stage1
+	$(PYTHON) tools/research/hunt1000plus_v45_historical.py \
+		--compiler "$(EE_STAGE1_CC)"
+
+hunt1000plus-v45-evidence: hunt1000plus-v45-runtime hunt1000plus-v45-historical
+	@echo "HUNT1000+ V45 evidence: OK (50 runtime + 4 historical strict matches)"
 
 toolchain-info:
 	@echo "Candidate EE compiler: GCC $(EE_GCC_VERSION)"
