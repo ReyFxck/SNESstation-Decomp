@@ -14,7 +14,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00101880,snes_leaf_00101880,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
 0x00101888,snes_leaf_00101888,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
 0x00101890,snes_dispatch_00101890,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
-0x001018e0,snes_dispatch_001018e0,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
+0x001018e0,snes_dispatch_001018e0,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,MATCHING
 0x001018fc,snes_leaf_001018fc,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
 0x00101904,snes_leaf_00101904,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
 0x0010190c,snes_leaf_0010190c,address-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
@@ -386,7 +386,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00174fe4,snes_p17_00174fe4,cpu-audio-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
 0x00175300,snes_p17_00175300,cpu-audio-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
 0x00175cb4,snes_p16_00175cb4,cpu-audio-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
-0x00176578,snes_dispatch_00176578,dispatch-leaf,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,UNPROVEN
+0x00176578,snes_dispatch_00176578,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,MATCHING
 0x00176594,snes_p16_00176594,cpu-audio-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
 0x00177a84,snes_p16_00177a84,cpu-audio-runtime,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
 0x00177cec,snes_p16_00177cec,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress23_audio_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
