@@ -220,20 +220,19 @@ int fioPutc_0019d534(int fd, int c)
 int fioGets_0019d558(int fd, char *buffer, int n)
 {
     int read = fioRead_0019d120(fd, buffer, n);
-    int i = 0;
-    int limit = read - 1;
-    while (i < limit) {
-        if (buffer[i] == '\0') {
+    int i;
+
+    for (i = 0; i < (read - 1); ++i) {
+        switch (buffer[i]) {
+        case '\n':
             (void)fioLseek_0019d360(fd, i - read, 1);
-            return i;
-        }
-        if (buffer[i] == '\n') {
             ++i;
-            (void)fioLseek_0019d360(fd, i - read, 1);
             buffer[i] = '\0';
             return i;
+        case '\0':
+            (void)fioLseek_0019d360(fd, i - read, 1);
+            return i;
         }
-        ++i;
     }
     return i;
 }

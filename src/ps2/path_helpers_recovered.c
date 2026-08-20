@@ -3,6 +3,9 @@
 #include <string.h>
 #include <stdio.h>
 
+/* The target's pre-C99 PS2 headers declared strlen with an int result. */
+extern int target_strlen_int(const char *text) __asm__("strlen");
+
 /*
  * The original image keeps two independent scratch/path work areas:
  *
@@ -14,7 +17,7 @@
  * These C objects preserve the observed separation/size relationships without
  * claiming final linker ownership or exact absolute placement.
  */
-static char sram_path_buf[0x400];
+static char sram_path_buf[0x400] __attribute__((aligned(8)));
 static char sram_shortname_buf[0x20];
 static char sram_drive_buf[8];
 static char sram_dir_buf[0x400];
@@ -27,6 +30,9 @@ static char state_drive_buf[8];
 static char state_dir_buf[0x400];
 static char state_basename_buf[0x400];
 static char state_ext_buf[0x400];
+
+static const char sram_path_prefix[] __attribute__((aligned(8))) =
+    "mc0:SNES_EMU/";
 
 extern void split_path_00105ae8(const char *src,
                                 char *drive, char *dir,
@@ -43,7 +49,8 @@ char *build_sram_path_00105750(void)
     strncpy(sram_shortname_buf, sram_basename_buf, 0x1b);
 
     /* The prefix copy is inlined in the linked target, then two strcat calls. */
-    strcpy(sram_path_buf, "mc0:SNES_EMU/");
+    __builtin_memcpy(sram_path_buf, sram_path_prefix,
+                     sizeof(sram_path_prefix));
     strcat(sram_path_buf, sram_shortname_buf);
     strcat(sram_path_buf, ".SRM");
     return sram_path_buf;
@@ -89,10 +96,10 @@ void _makepath(char *path, const char *drive, const char *dir,
                const char *name, const char *ext)
 {
     if (drive != NULL && *drive != '\0') {
-        size_t drive_len;
+        int drive_len;
 
         strcpy(path, drive);
-        drive_len = strlen(drive);
+        drive_len = target_strlen_int(drive);
         path[drive_len] = ':';
         path[drive_len + 1] = '\0';
     } else {
@@ -101,7 +108,7 @@ void _makepath(char *path, const char *drive, const char *dir,
 
     if (dir != NULL && *dir != '\0') {
         strcat(path, dir);
-        if (strlen(dir) != 1 || *dir != '/')
+        if (target_strlen_int(dir) != 1 || *dir != '/')
             strcat(path, "/");
     }
 

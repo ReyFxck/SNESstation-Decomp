@@ -8,7 +8,7 @@
  * Target corridor:
  *   0x001a0740 mcGetInfoApdx
  *   0x001a07c8 mcReadFixAlign
- *   0x001a0870 mcStoreDir
+ *   0x001a086c mcStoreDir
  *   0x001a08ec mcInit
  *   0x001a0a68 mcGetInfo
  *   0x001a0ba0 mcOpen
@@ -230,8 +230,8 @@ void mcReadFixAlign_001a07c8(void *data_raw)
         dest[i] = src[i];
 }
 
-/* Target: 0x001a0870.  The odd >=1024 fallback is intentionally retained. */
-void mcStoreDir_001a0870(void *arg)
+/* Target: 0x001a086c.  The odd >=1024 fallback is intentionally retained. */
+void mcStoreDir_001a086c(void *arg)
 {
     char *current = (char *)uncached_ptr(g_cur_dir);
     int len = (int)strlen(current);
@@ -405,7 +405,7 @@ int mcChdir_001a10fc(int port, int slot, const char *new_dir, char *current_dir)
     g_name_param.name[1023] = '\0';
     SifWriteBackDCache_0019cf10(g_cur_dir, 1024);
     return mc_call_name(MC_RPCCMD_CH_DIR, MC_FUNC_CH_DIR,
-                        mcStoreDir_001a0870, current_dir);
+                        mcStoreDir_001a086c, current_dir);
 }
 
 int mcGetDir_001a1204(int port, int slot, const char *name,

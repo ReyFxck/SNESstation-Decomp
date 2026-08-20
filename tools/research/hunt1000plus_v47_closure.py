@@ -176,7 +176,7 @@ CANDIDATES = (
     Candidate(0x0019F8F4, "_SifLoadModuleBuffer", "kernel:load-buffer", "_SifLoadModuleBuffer", 244, EXACT, "ps2sdk-a80df908"),
     Candidate(0x0019F9E8, "SifInitIopHeap", "kernel:iop-init", "SifInitIopHeap", 192, EXACT, "ps2sdk-a80df908"),
     Candidate(0x0019FD20, "SifLoadFileInit", "kernel:load-init", "SifLoadFileInit", 188, EXACT, "ps2sdk-a80df908"),
-    Candidate(0x001A07C8, "mcReadFixAlign", "rpc:libmc", "mcReadFixAlign", 164, TERMINAL, "ps2sdk-694100b"),
+    Candidate(0x001A07C8, "mcReadFixAlign", "rpc:libmc", "mcReadFixAlign", 164, EXACT, "ps2sdk-694100b"),
     Candidate(0x001A130C, "mcSetFileInfo", "rpc:libmc", "mcSetFileInfo", 368, EXACT, "ps2sdk-694100b"),
 
     # RGB555 tile template instantiations.
