@@ -13,7 +13,7 @@ extern void load_config_00106054(void);
 extern int  sub_00106824(void);
 extern void sub_001060dc(void);
 extern void sub_00101ef0(void);
-extern void sub_00105d78(void);
+extern void restart_embedded_mod_00105d78(void);
 extern int  memory_card_setup_0010689c(void);
 extern void top_level_gui_00102ab0(char *selected_rom);
 extern int  CMemory_Init_recovered(void *memory);
@@ -29,7 +29,12 @@ extern void   *g_Memory;                      /* logical VA 0x0035e2b0 */
 extern int     g_memory_card_available;
 extern char    g_selected_rom_path[];         /* EE VA 0x00428180 */
 
-/* Encoded tables seen at 0x002ec200 and 0x002ebc30. */
+extern uint32_t embedded_disclaimer_xor[];     /* EE VA 0x002ec200 */
+extern int      embedded_disclaimer_bytes;    /* EE VA 0x002ec53c = 0x33a */
+extern uint32_t embedded_credits_xor[];        /* EE VA 0x002ebc30 */
+extern int      embedded_credits_bytes;       /* EE VA 0x002ec1f4 = 0x5c1 */
+
+/* The target intentionally leaves a one- or two-byte tail outside the loop. */
 static void xor_words(uint32_t *p, int byte_count)
 {
     int words = byte_count / 4;
@@ -45,17 +50,17 @@ void main_after_cdvd_recovered(void)
 
     memset(g_Settings_blob, 0, 0x148);
 
-    /* Two embedded tables/assets are decoded in-place exactly once.
-       Their lengths are stored beside the arrays; names remain unknown. */
-    /* xor_words(table_A, table_A_bytes); */
-    /* xor_words(table_B, table_B_bytes); */
+    /* Exact main() order at 0x001050b4 and 0x00105104. */
+    xor_words(embedded_disclaimer_xor, embedded_disclaimer_bytes);
+    xor_words(embedded_credits_xor, embedded_credits_bytes);
 
     load_config_00106054();
     if (sub_00106824())
         sub_001060dc();
 
     sub_00101ef0();
-    sub_00105d78();
+    /* Restarts the embedded ProTracker module "can't stop coming" by Azazel. */
+    restart_embedded_mod_00105d78();
     g_memory_card_available = memory_card_setup_0010689c();
 
 rom_selector:
@@ -85,6 +90,6 @@ rom_selector:
        It is intentionally left address-labelled for the next milestone. */
 
     rom_cleanup_00151330(g_Memory);
-    sub_00105d78();
+    restart_embedded_mod_00105d78();
     goto rom_selector;
 }

@@ -17,7 +17,7 @@
 
 typedef struct P25Asset {
     const void *data;
-    uint32_t aux;
+    uint32_t aux; /* IIF/BFNT texture width at header +0x04 */
 } P25Asset;
 
 typedef struct P25GsHooks {
@@ -50,10 +50,10 @@ typedef struct P25GsState {
     void *driver;              /* logical target DAT_001bb2c0 */
     uintptr_t font_owner_word; /* logical target DAT_001bb748 */
 
-    P25Asset texture_310;
-    P25Asset texture_314;
-    P25Asset texture_318;
-    P25Asset font_31c;
+    P25Asset background_iif;   /* pointer word 0x001bb310 -> 0x001fafd0 */
+    P25Asset logo_iif;         /* pointer word 0x001bb314 -> 0x00290ff0 */
+    P25Asset panel_corner_iif; /* pointer word 0x001bb318 -> 0x002ab1e0 */
+    P25Asset font_bfnt;        /* pointer word 0x001bb31c -> 0x002abb00 */
     P25GsHooks hooks;
 } P25GsState;
 
@@ -71,32 +71,32 @@ void snes_p25_001019a8(P25GsState *state)
     base = state->hooks.get_texture_base(state->hooks.opaque, state->driver);
     state->hooks.texture_upload(state->hooks.opaque, state->driver,
                                 base, 0x280, 0, 0, 2,
-                                state->texture_310.data,
-                                state->texture_310.aux);
+                                state->background_iif.data,
+                                state->background_iif.aux);
     state->hooks.texture_flush(state->hooks.opaque, state->driver);
     state->hooks.pipe_flush(state->hooks.opaque, state->driver);
 
     base = state->hooks.get_texture_base(state->hooks.opaque, state->driver);
     state->hooks.texture_upload(state->hooks.opaque, state->driver,
                                 base + 0x0a0000, 0x180, 0, 0, 0,
-                                state->texture_314.data,
-                                state->texture_314.aux);
+                                state->logo_iif.data,
+                                state->logo_iif.aux);
     state->hooks.texture_flush(state->hooks.opaque, state->driver);
     state->hooks.pipe_flush(state->hooks.opaque, state->driver);
 
     base = state->hooks.get_texture_base(state->hooks.opaque, state->driver);
     state->hooks.texture_upload(state->hooks.opaque, state->driver,
                                 base + 0x0c4000, 0x20, 0, 0, 0,
-                                state->texture_318.data,
-                                state->texture_318.aux);
+                                state->panel_corner_iif.data,
+                                state->panel_corner_iif.aux);
     state->hooks.texture_flush(state->hooks.opaque, state->driver);
     state->hooks.pipe_flush(state->hooks.opaque, state->driver);
 
     state->font_owner_word = (uintptr_t)state->driver;
     base = state->hooks.get_texture_base(state->hooks.opaque, state->driver);
     state->hooks.font_upload(state->hooks.opaque, state->driver,
-                             &state->font_31c, base + 0x0c5000,
-                             state->font_31c.aux, 0, 0);
+                             &state->font_bfnt, base + 0x0c5000,
+                             state->font_bfnt.aux, 0, 0);
 }
 
 /*

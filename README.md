@@ -95,6 +95,21 @@ the joypad library by `pukko`; neither credit exposes a unique source revision.
 - GUI → ROM selection → core initialization → ROM load → SRAM load → emulation → cleanup → GUI loop
 - PS2 memory-card save-path helpers
 
+### Embedded resources
+
+The original-binary resource map is now structurally closed for the boot,
+frontend, audio and Memory Card paths: three IRXs, three `IIF1` textures, one
+`BFNT` font, two XOR-obfuscated text pages, Azazel's ProTracker module and the
+PS2 3D save icon. Exact ranges and hashes are in
+[`docs/EMBEDDED_ASSETS.md`](docs/EMBEDDED_ASSETS.md).
+
+With a legally obtained `original/SNES_EMU.ELF`, reproduce the private files
+and PNG previews without adding them to Git:
+
+```bash
+make extract-assets
+```
+
 ### Snes9x / renderer side
 
 Recovered or strongly identified:

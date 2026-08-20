@@ -49,6 +49,7 @@ GSLIB_HW_LISTING_RAW := $(MATCH_DIR)/gslib_hw/listing.bin
 GSLIB_HW_LISTING_REPORT := analysis/matching/gslib-hw-listing-report.md
 EE_SOURCE_SCAN_DIR := $(BUILD_DIR)/ee-source-scan
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
+ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 
 SOURCE_C := $(shell find src -type f -name '*.c' | LC_ALL=C sort)
 MATCHING_C := $(shell find matching/candidates -type f -name '*.c' | LC_ALL=C sort)
@@ -84,7 +85,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 .DEFAULT_GOAL := help
 
 .PHONY: help audit-source audit-source-check host-syntax test-tools check \
-	reference verify-reference fetch-newlib fetch-ee-toolchain-recipe \
+	reference verify-reference extract-assets fetch-newlib fetch-ee-toolchain-recipe \
 	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence \
@@ -106,6 +107,7 @@ help:
 	@echo
 	@echo "  make check          audit manifests, parse all C units, test comparator"
 	@echo "  make reference      unpack and verify your original/SNES_EMU.ELF"
+	@echo "  make extract-assets verify and privately extract embedded media under build/"
 	@echo "  make fetch-newlib   fetch verified Newlib 1.10.0 mathfp source"
 	@echo "  make fetch-ee-toolchain-recipe  fetch the pinned 2004 PS2DEV recipe"
 	@echo "  make bootstrap-ee-stage1  build isolated binutils 2.14 + EE GCC 3.2.2"
@@ -163,6 +165,10 @@ reference:
 
 verify-reference:
 	$(PYTHON) tools/verify_reference.py
+
+extract-assets: reference
+	$(PYTHON) tools/extract_embedded_assets.py \
+		--input "$(REFERENCE_RAW)" --output "$(ASSET_OUTPUT)"
 
 fetch-newlib:
 	$(PYTHON) tools/fetch_upstream.py

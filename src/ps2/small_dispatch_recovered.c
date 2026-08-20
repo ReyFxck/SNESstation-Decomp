@@ -9,6 +9,8 @@ int snes_dispatch_00103c7c(const char*p,void*b,int(*fn)(const char*,const char*,
 int snes_dispatch_001056c0(VF fn,void*o){if(fn)fn(o);return 1;}
 char*snes_dispatch_00105718(char*b,size_t n){if(n)snprintf(b,n,"%s","cdrom0:\\ROMS\\SNAP");return b;}
 void snes_dispatch_00105d30(unsigned m,void*mem,void*(*pf)(void*),void(*lf)(void*,void*,void*),void*o){if(m==1&&pf&&lf)lf(mem,pf(o),o);}
+/* `mod` is the ProTracker M.K. asset at 0x002ec540. Its exact logical size is
+ * 0x3640c; the target updates the adjacent size word to aligned 0x36410. */
 void snes_dispatch_00105d78(uint32_t*n,void(*v)(uint32_t,void*),VF q,void(*mi)(uint32_t,void*),void(*mp)(uint32_t,void*),void(*ml)(const void*,uint32_t,void*),const void*mod,void(*play)(uint32_t,void*),void(*vol)(uint32_t,void*),void*o){uint32_t x=*n;if(v)v(0,o);if(q)q(o);x=(x+15u)&~15u;*n=x;if(mi)mi(0,o);if(mp)mp(0,o);if(ml)ml(mod,x,o);if(play)play(1,o);if(vol)vol(0x3fffu,o);}
 void snes_dispatch_00105e04(void(*mv)(uint32_t,void*),VF mq,void(*si)(uint32_t,void*),void(*sv)(uint32_t,void*),void*o){if(mv)mv(0,o);if(mq)mq(o);if(si)si(0,o);if(sv)sv(0x3fffu,o);}
 void snes_dispatch_0010c300(uint8_t*b){memset(b,0,0x2000u);}uint8_t snes_dispatch_0010c328(const uint8_t*b,uint16_t off){return b[(uint16_t)(off-0x6000u)];}
