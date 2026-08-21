@@ -1,0 +1,7 @@
+address	recovered_identity	bytes	target_span_sha256	recovered_exact_match_fact	recovery_detail
+0x00129af4	S9xDoDMA (partition 1/2)	2316	a9ae7335a957dc56292cd234e7c49a9cc432b6f6e4c4f300225f30b4476b27a9	yes	historical S9xDoDMA symbol; audited target boundary splits one contiguous historical function
+0x0012a400	S9xDoDMA (partition 2/2)	4072	dd2102d989e6c94134d3272194d288cf3aa85ba2af8e5e336119fafec36f768e	yes	continuation of the same historical S9xDoDMA symbol; direct control flow crosses the audited boundary
+0x0015068c	LoadZip	1168	0c72ce1d917bf10a3774a151a293153c39ba5fefbb3b73cac0693e707ff8226c	yes	historical Snes9x ZIP loader; unzip call corridor matches target behavior
+0x00158b74	SetOBC1	1116	71cfce00cddb6a7597b1b81210ba754ce65f94e6442eb30959becaeba8932b24	yes	PS2 source/profile adjustment for unaligned 16-bit access; target uses lwl/lwr sequence
+0x00181bac	S9xSetSPC7110	2480	b0e0b1b5782b26b6ad8962e30a58704ab2eee75bfe0145ec6f938384166b108a	yes	old SPC7110 register-write implementation; PS2 time(NULL) path recovered as zero
+0x00182638	S9xUpdateRTC	728	5cadf3ebda02080fc9f54580fb56d2ceb5dd60d8ae09633be82cc9a6bbd7ca59	yes	old SPC7110 RTC update; PS2 time(NULL) path recovered as zero
