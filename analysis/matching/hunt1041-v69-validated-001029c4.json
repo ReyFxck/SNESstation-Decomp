@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "milestone": "HUNT1041 V69/V70 promotion",
+  "target": "0x001029c4",
+  "target_name": "snes_p16_001029c4",
+  "target_size": 236,
+  "target_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
+  "source": "src/ps2/progress28_structural_lift_recovered.c",
+  "validated_variant": "direct_expr",
+  "profile": "os",
+  "compiler": "EE GCC 3.2.2 stage1",
+  "object": "build/matching/hunt1041-v69-regalloc/objects/direct_expr/os.o",
+  "object_sha256": "d602d25633d574650f7794fc4de7c1bf104ed48653fb8364a9ec07ef9716abf3",
+  "boundary": "exact-next-boundary",
+  "differing_bytes": 0,
+  "raw_equal": false,
+  "normalized_equal": true,
+  "unknown_relocations": [],
+  "strict_hit_count_in_v69": 7,
+  "working_checkpoint_before": 984,
+  "working_checkpoint_after": 985,
+  "note": "The six V53 target-side recoveries remain separate from the strict MATCHING manifest count."
+}

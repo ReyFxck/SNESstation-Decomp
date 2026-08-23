@@ -1,0 +1,2 @@
+address	name	area	provenance	source	profile	object	object_symbol	object_size	boundary	target_sha256	differing_bytes	raw_equal	normalized_equal	unknown_relocations	object_sha256	result
+0x001029c4	snes_p16_001029c4	frontend-core	snesstation-v0.23-recovered	src/ps2/progress28_structural_lift_recovered.c	os	build/matching/hunt1041-v69-regalloc/objects/direct_expr/os.o	snes_p28_001029c4	236	exact-next-boundary	739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b	0	False	True		d602d25633d574650f7794fc4de7c1bf104ed48653fb8364a9ec07ef9716abf3	MATCHING

@@ -1405,7 +1405,7 @@ extern uintptr_t PTR_LAB_00411010;
 extern const char *PTR_s_________________00344d30;
 extern volatile uint64_t REG_GS_CSR;
 extern uint64_t _DAT_001baf10;
-extern uint64_t _DAT_001bb340;
+extern uint16_t _DAT_001bb340;
 extern uint64_t _DAT_00335938;
 extern uint64_t _DAT_0033593a;
 extern uint64_t _DAT_00335946;
@@ -2761,28 +2761,29 @@ void snes_p28_00101ef0()
 /* ===== 0x001029c4 | P16 | snes_p16_001029c4 | frontend-core ===== */
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
+extern unsigned char V68_DAT_001bb748 __asm__("DAT_001bb748");
+extern unsigned char V68_DAT_001b0a58 __asm__("DAT_001b0a58");
 void snes_p28_001029c4()
 {
-  ulong uVar1;
-  long lVar2;
-  undefined auStack_30 [3];
-  byte local_2d;
-  
+  unsigned long csr;
+  long state;
+  unsigned char status[32];
+
   FUN_00101b64();
-  FUN_0019b948(0x1bb748,0,0x280,0xdc,4,0x80ffffff,2,0x1b0a58);
+  FUN_0019b948((void *)&V68_DAT_001bb748,0,0x280,0xdc,4,0x80ffffffUL,2,(void *)&V68_DAT_001b0a58);
   FUN_00101e8c();
   FUN_0019c2ac();
   _DAT_001bb340 = 0x2f;
-  while ((lVar2 = FUN_001a88a8(0,0), lVar2 != 6 ||
-         (FUN_001a8864(0,0,auStack_30), (~local_2d & 0x40) == 0))) {
-    uVar1 = REG_GS_CSR;
-    REG_GS_CSR = uVar1 & 8;
+
+  while ((state = FUN_001a88a8(0,0), state != 6 ||
+         (FUN_001a8864(0,0,status), ((~(((unsigned int)status[2] << 8) | (unsigned int)status[3])) & 0x40) == 0))) {
+    *(volatile unsigned long *)0x12001000UL =
+        *(volatile unsigned long *)0x12001000UL & 8UL;
     do {
-      uVar1 = REG_GS_CSR;
-    } while ((uVar1 & 8) == 0);
+    } while ((*(volatile unsigned long *)0x12001000UL & 8UL) == 0);
   }
-  return;
 }
+
 
 /* ===== 0x00102ab0 | P17 | top_level_gui | frontend ===== */
 /* WARNING: Removing unreachable block (ram,0x00102bd0) */
