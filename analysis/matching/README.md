@@ -16,5 +16,10 @@ The V53 target spans are paired with the completed compiler-side proof in
 `hunt1041-v72-validated-v53-6.tsv`; the frozen span file is retained as the
 recovery record rather than rewritten after promotion.
 
+V73's two strict PS2-I/O source variants are frozen in
+`hunt1041-v73-validated-2.tsv`. The parallel 40-entry ownership queue is
+`hunt1041-v73-frontend-map-40.tsv`; it is planning data and does not itself
+promote any row.
+
 Unreferenced parameter sweeps and screening results belong under
 `analysis/archive/experiments/`, not beside authoritative evidence.

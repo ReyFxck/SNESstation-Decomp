@@ -2,15 +2,19 @@
 
 The live counts are generated in
 [`status/PROJECT_STATUS.generated.md`](status/PROJECT_STATUS.generated.md).
-The formal manifest currently has 985 strict matches. The six recovered V53
-results have regenerated compiler-side evidence and are formally promoted.
+The formal manifest currently has 987 strict matches. V73 added strict
+compiler-side evidence for two historical PS2-I/O variants and froze the
+40-entry frontend ownership queue.
 
 ## Function frontier
 
-- Close the remaining 56 function-frontier entries with exact boundaries and
+- Close the remaining 54 function-frontier entries with exact boundaries and
   immutable evidence.
 - Prefer source-lineage and ABI corrections over unbounded compiler-flag
   farming.
+- Work the remaining frontier as two coordinated tracks: 14 historical
+  source-delta entries and the 40 entries in
+  [`../analysis/matching/hunt1041-v73-frontend-map-40.tsv`](../analysis/matching/hunt1041-v73-frontend-map-40.tsv).
 
 ## Build-ready source
 

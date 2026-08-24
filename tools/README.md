@@ -16,3 +16,7 @@ Maintained entry points live directly under `tools/` and are exercised by
 
 New reusable logic should include tests named `test_*.py`. New one-off scripts
 should be moved to `tools/history/` once their evidence is frozen.
+
+The completed V73 PS2-I/O source-variant proof remains reproducible through
+`make hunt1041-v73-evidence`; its runner is archived under `history/research/`
+because the accepted evidence set is immutable.

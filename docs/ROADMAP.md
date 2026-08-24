@@ -5,9 +5,11 @@
 - [x] Freeze the packed and unpacked target hashes.
 - [x] Audit the 1,041-entry structural universe.
 - [x] Provide a behavioral/source model for every audited entry.
-- [x] Promote 985 entries with strict compiler/object evidence.
+- [x] Promote 987 entries with strict compiler/object evidence.
 - [x] Regenerate and promote the six recovered V53 results.
-- [ ] Close the remaining 56 working-frontier entries.
+- [x] Prove the V73 `S9xLoadCheatFile` and `S9xSPCDump` PS2-I/O variants.
+- [x] Partition the 40-entry frontend-facing queue into five working objects.
+- [ ] Close the remaining 54 working-frontier entries.
 
 ## 2. Build-ready source ownership
 

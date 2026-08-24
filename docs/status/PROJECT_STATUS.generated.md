@@ -4,15 +4,16 @@
 
 | Checkpoint | Count | Meaning |
 |---|---:|---|
-| Formal `MATCHING` manifest | **985/1,041 (94.62%)** | Promoted rows with immutable compiler/object evidence. |
-| Recovered exact results still pending promotion | **0** | All six recovered V53 results were regenerated and promoted by V72. |
-| Working checkpoint | **985/1,041 (94.62%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
-| Working frontier | **56** | Audited entries not yet formally matched or covered by recovered evidence. |
+| Formal `MATCHING` manifest | **987/1,041 (94.81%)** | Promoted rows with immutable compiler/object evidence. |
+| Recovered exact results still pending promotion | **0** | All recovered V53 results are formal; V73 added two independently reproduced PS2-I/O matches. |
+| Working checkpoint | **987/1,041 (94.81%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
+| Working frontier | **54** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
-The six V53 recoveries are now formal `MATCHING` rows. Their regenerated
-compiler objects, exact partitions, relocation checks and immutable hashes are
-documented in [`V72_V53_PROMOTED.md`](V72_V53_PROMOTED.md).
+The six V53 recoveries remain formal `MATCHING` rows. V73 additionally proves
+`S9xLoadCheatFile` and `S9xSPCDump`, and partitions the 40-entry frontend queue.
+The current batch is documented in
+[`V73_HISTORICAL_IO_AND_FRONTEND_MAP.md`](V73_HISTORICAL_IO_AND_FRONTEND_MAP.md).
 
 ## Final proof gates
 

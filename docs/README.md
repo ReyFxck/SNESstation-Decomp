@@ -10,6 +10,7 @@ They are evidence of how conclusions were reached, not the current scoreboard.
 - [`PROGRESS.generated.md`](PROGRESS.generated.md) — structural and matching metrics.
 - [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) — source-model audit and build-readiness invariants.
 - [`status/V72_V53_PROMOTED.md`](status/V72_V53_PROMOTED.md) — regenerated proof and formal promotion of the six V53 recoveries.
+- [`status/V73_HISTORICAL_IO_AND_FRONTEND_MAP.md`](status/V73_HISTORICAL_IO_AND_FRONTEND_MAP.md) — two strict PS2-I/O promotions and the 40-entry frontend ownership queue.
 - [`BOTTLENECKS.md`](BOTTLENECKS.md) — current technical blockers.
 - [`ROADMAP.md`](ROADMAP.md) — work remaining after structural closure.
 
