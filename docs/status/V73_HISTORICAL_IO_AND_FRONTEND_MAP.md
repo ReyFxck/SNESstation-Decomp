@@ -6,6 +6,10 @@ checkpoint from **985/1041** to **987/1041** and leaving **54** audited entries.
 The translation-unit track classified all **40** remaining frontend-facing
 entries into five bounded work packets.
 
+> This is a frozen V73 checkpoint. V74 promotes the two SPC7110 rows and
+> corrects the provisional multitap/APU packet labels in the complete
+> [`V74_SPC7110_RTC_AND_FRONTIER_MAP.md`](V74_SPC7110_RTC_AND_FRONTIER_MAP.md).
+
 ## Two new strict matches
 
 | Address | Historical identity | Bytes | Boundary | Proven target delta |

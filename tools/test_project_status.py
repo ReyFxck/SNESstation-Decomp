@@ -16,11 +16,11 @@ class ProjectStatusTests(unittest.TestCase):
     def test_checkpoint_accounting_is_disjoint_and_complete(self) -> None:
         status = load_status(ROOT)
         self.assertEqual(status.total, 1041)
-        self.assertEqual(status.formal_matching, 987)
-        self.assertEqual(status.reconstructed_unproven, 54)
+        self.assertEqual(status.formal_matching, 989)
+        self.assertEqual(status.reconstructed_unproven, 52)
         self.assertEqual(status.recovered_pending, 0)
-        self.assertEqual(status.working_checkpoint, 987)
-        self.assertEqual(status.working_remaining, 54)
+        self.assertEqual(status.working_checkpoint, 989)
+        self.assertEqual(status.working_remaining, 52)
         self.assertEqual(
             status.formal_matching + status.recovered_pending + status.working_remaining,
             status.total,

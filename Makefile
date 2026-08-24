@@ -84,13 +84,13 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 
 .DEFAULT_GOAL := help
 
-.PHONY: help help-legacy status docs check-generated check-links \
+.PHONY: help help-legacy status docs frontier-map check-generated check-links \
 	reproduce-status reproduce-check reproduce \
 	audit-source audit-source-check host-syntax test-tools check \
 	reference verify-reference extract-assets fetch-newlib fetch-ee-toolchain-recipe \
 	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
-	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence \
+	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
 	match-miner match-miner-full \
 	ee-source-scan ee-source-scan-strict historical-ee-gate \
@@ -126,6 +126,7 @@ help-legacy:
 	@echo "  make hunt1000plus-v45-evidence ... hunt1041-v52-evidence"
 	@echo "  make hunt1041-v72-evidence  reproduce the six promoted V53 proofs"
 	@echo "  make hunt1041-v73-evidence  reproduce the two PS2-I/O historical proofs"
+	@echo "  make hunt1041-v74-evidence  reproduce the two SPC7110 RTC proofs"
 	@echo "  make match-miner-full"
 	@echo "  make historical-ee-gate"
 	@echo "  make match-get-tree-listing-strict"
@@ -142,10 +143,15 @@ status:
 	$(PYTHON) tools/project_status.py
 
 docs: audit-source
+	$(PYTHON) tools/update_frontier_map.py
 	$(PYTHON) tools/update_progress.py
 
 check-generated: audit-source-check
+	$(PYTHON) tools/update_frontier_map.py --check
 	$(PYTHON) tools/update_progress.py --check
+
+frontier-map:
+	$(PYTHON) tools/update_frontier_map.py
 
 check-links:
 	$(PYTHON) tools/check_links.py
@@ -272,6 +278,11 @@ hunt1041-v73-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v73_historical_io.py \
 		--cxx "$(EE_STAGE1_CXX)"
 	@echo "HUNT1041 V73 evidence: OK (2 formal-ELF PS2-I/O matches)"
+
+hunt1041-v74-evidence: reference bootstrap-ee-cxx-stage1
+	$(PYTHON) tools/history/research/hunt1041_v74_spc7110_rtc.py \
+		--cxx "$(EE_STAGE1_CXX)"
+	@echo "HUNT1041 V74 evidence: OK (2 formal-ELF SPC7110 RTC matches)"
 
 toolchain-info:
 	@echo "Candidate EE compiler: GCC $(EE_GCC_VERSION)"

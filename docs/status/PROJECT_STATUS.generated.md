@@ -4,16 +4,17 @@
 
 | Checkpoint | Count | Meaning |
 |---|---:|---|
-| Formal `MATCHING` manifest | **987/1,041 (94.81%)** | Promoted rows with immutable compiler/object evidence. |
-| Recovered exact results still pending promotion | **0** | All recovered V53 results are formal; V73 added two independently reproduced PS2-I/O matches. |
-| Working checkpoint | **987/1,041 (94.81%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
-| Working frontier | **54** | Audited entries not yet formally matched or covered by recovered evidence. |
+| Formal `MATCHING` manifest | **989/1,041 (95.00%)** | Promoted rows with immutable compiler/object evidence. |
+| Recovered exact results still pending promotion | **0** | All recovered V53 results are formal; V74 added two independently reproduced SPC7110 RTC matches. |
+| Working checkpoint | **989/1,041 (95.00%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
+| Working frontier | **52** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
-The six V53 recoveries remain formal `MATCHING` rows. V73 additionally proves
-`S9xLoadCheatFile` and `S9xSPCDump`, and partitions the 40-entry frontend queue.
+The six V53 recoveries and the two V73 PS2-I/O proofs remain formal `MATCHING`
+rows. V74 additionally proves `S9xSaveSPC7110RTC` and `S9xLoadSPC7110RTC`,
+then replaces the partial frontend queue with a complete 52-entry frontier map.
 The current batch is documented in
-[`V73_HISTORICAL_IO_AND_FRONTEND_MAP.md`](V73_HISTORICAL_IO_AND_FRONTEND_MAP.md).
+[`V74_SPC7110_RTC_AND_FRONTIER_MAP.md`](V74_SPC7110_RTC_AND_FRONTIER_MAP.md).
 
 ## Final proof gates
 

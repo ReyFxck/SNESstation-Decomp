@@ -6,6 +6,8 @@ Maintained entry points live directly under `tools/` and are exercised by
 - `project_status.py` — reports formal and any recovered-but-unpromoted checkpoints.
 - `update_progress.py` / `audit_source_completeness.py` — generate and verify
   project state.
+- `update_frontier_map.py` — generate and verify the complete V74 52-entry
+  two-track work queue.
 - `compare_elf_functions.py` / `promote_match_evidence.py` — strict comparison
   and promotion support.
 - `run_match_miner.py` — cached compiler-profile search.
@@ -20,3 +22,6 @@ should be moved to `tools/history/` once their evidence is frozen.
 The completed V73 PS2-I/O source-variant proof remains reproducible through
 `make hunt1041-v73-evidence`; its runner is archived under `history/research/`
 because the accepted evidence set is immutable.
+
+The completed V74 SPC7110 RTC proof follows the same policy through
+`make hunt1041-v74-evidence`; its runner is archived beside the V73 runner.

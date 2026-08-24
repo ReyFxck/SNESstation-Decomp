@@ -2,19 +2,19 @@
 
 The live counts are generated in
 [`status/PROJECT_STATUS.generated.md`](status/PROJECT_STATUS.generated.md).
-The formal manifest currently has 987 strict matches. V73 added strict
-compiler-side evidence for two historical PS2-I/O variants and froze the
-40-entry frontend ownership queue.
+The formal manifest currently has 989 strict matches. V74 added strict
+compiler-side evidence for both SPC7110 RTC record functions and generated a
+complete map for the 52-entry frontier.
 
 ## Function frontier
 
-- Close the remaining 54 function-frontier entries with exact boundaries and
+- Close the remaining 52 function-frontier entries with exact boundaries and
   immutable evidence.
 - Prefer source-lineage and ABI corrections over unbounded compiler-flag
   farming.
-- Work the remaining frontier as two coordinated tracks: 14 historical
-  source-delta entries and the 40 entries in
-  [`../analysis/matching/hunt1041-v73-frontend-map-40.tsv`](../analysis/matching/hunt1041-v73-frontend-map-40.tsv).
+- Work the remaining frontier as two coordinated 26-entry tracks: frontend
+  ownership and historical-source deltas. The exact address-level queue is
+  [`../analysis/matching/hunt1041-v74-frontier-map-52.tsv`](../analysis/matching/hunt1041-v74-frontier-map-52.tsv).
 
 ## Build-ready source
 

@@ -19,10 +19,10 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 
 > **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
 
-- **Matching:** 94.81%
-- **Formal checkpoint:** **987/1,041** strict promoted matches
+- **Matching:** 95.00%
+- **Formal checkpoint:** **989/1,041** strict promoted matches
 - **Recovered pending:** **0** (the V53 recovery set is fully formal)
-- **Working checkpoint:** **987/1,041** with **54** entries remaining
+- **Working checkpoint:** **989/1,041** with **52** entries remaining
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
@@ -34,9 +34,9 @@ The renderer-specific grid lives in [`docs/PROGRESS.generated.md`](docs/PROGRESS
 
 The formal count and the working checkpoint are intentionally separate. A row
 becomes formal `MATCHING` only after its compiler object, function boundary,
-relocations and target bytes are reproducibly verified. V73 applies that gate
-to two PS2-I/O source variants and tracks the 40-entry frontend queue without
-counting the ownership map as matching evidence.
+relocations and target bytes are reproducibly verified. V74 applies that gate
+to both SPC7110 RTC record functions and tracks every one of the 52 remaining
+entries without counting the ownership map as matching evidence.
 
 ## One-command reproduction goal
 
