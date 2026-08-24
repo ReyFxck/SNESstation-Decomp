@@ -1,0 +1,2 @@
+address	name	area	archive	archive_sha256	member	object	object_symbol	object_size	boundary	result	differing_bytes	raw_equal	normalized_equal	unknown_relocations
+0x001a1db8	__divdi3	libgcc	build/toolchains/ee-gcc-3.2.2-stage1/prefix/lib/gcc-lib/ee/3.2.2/libgcc.a	ffc4e705eb7350dd3eda6439185c7f2c50b94c7d00ee6005143a752afd5c6761	_divdi3.o	build/matching/progress55-300plus-sweep8-archive-miner/members/a000__m0039___divdi3.o	__divdi3	332	object-layout-gap:0x4	MATCH	0	False	True	

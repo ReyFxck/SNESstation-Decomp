@@ -1,0 +1,12 @@
+SNES Station v0.23 WIP — Progress 3 validation
+
+- All recovered C translation units pass:
+  cc -std=c99 -Wall -Wextra -Werror -fsyntax-only
+- R5900 unknown-instruction annotator remains 859/859 classified in the selected EE code range.
+- Renderer draw-family tracked entry points: 30/30 RECONSTRUCTED.
+- Legacy ZIP methods mapped/reconstructed through partial_clear at 0x0018eeb4.
+- unzip 0.15-style API mapped through unzGetGlobalComment at 0x00190628.
+- Embedded zlib baseline pinned by target string to zlib 1.1.3.
+- zlib memory-buffer wrappers recovered through deflateInit_ at 0x001908bc.
+- Active binary frontier: deflateInit2_ at 0x001908ec.
+- Matching remains 0 by policy until reproducible compiler output is compared byte-for-byte.

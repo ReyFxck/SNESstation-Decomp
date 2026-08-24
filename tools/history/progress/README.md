@@ -11,4 +11,5 @@ Archival presence is **not** a matching claim.
   individual scripts are not automatically strict byte-match claims.
 
 Current authoritative matching status:
-`docs/MATCHED_CHECKPOINT.md`.
+`docs/status/PROJECT_STATUS.generated.md`. The former matched-checkpoint report
+is archived at `docs/archive/legacy/MATCHED_CHECKPOINT.md`.

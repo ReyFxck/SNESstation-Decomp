@@ -1,0 +1,15 @@
+Progress 17 validation
+======================
+matching=0 reconstructed=1041/1041 mapped=1041/1041
+validated-universe arithmetic: 1137 raw JAL - 292 rejected + 196 non-JAL = 1041 validated
+structural closure targets: 74
+new code JAL targets: 49
+mapped targets promoted: 25
+warning-free decompiles: 17
+warning-bearing decompiles: 57
+pinned warning occurrences: 65
+warning taxonomy: global-label-overlap=40, intentional-infinite-loop=1, nonreturn-annotation=8, stack-pointer=1, type-propagation=1, unreachable-block=14
+areas: cpp-eh=2, cpp-rtti=4, cpu-audio-runtime=12, frontend=2, frontend-core=10, gcc-runtime=2, memory=1, memory-ppu=2, ppu=1, renderer=13, snes-core-dsp=11, startup=1, unwind=7, unwind-fde=1, unzip=5
+processor: Ghidra 10.4 + ghidra-emotionengine-reloaded 2.1.10, r5900:LE:32:default
+matching remains zero; 100% is audited structural coverage, not a byte match
+host syntax check: PASS (88 recovered C translation units)

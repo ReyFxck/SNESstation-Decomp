@@ -1,0 +1,25 @@
+# Analysis data and evidence
+
+The root of this directory contains current machine-readable project state.
+The most important files are:
+
+| File | Role |
+|---|---|
+| `progress_targets.csv` | Authoritative 1,041-entry formal status manifest |
+| `symbols.csv` | Mirrored symbol/status manifest checked row-for-row |
+| `source_promotions.csv` | Typed-source overrides for historical pseudocode |
+| `source_readiness.csv` | Generated source-form and matching audit |
+| `progress16_recovered_targets.csv` | Frozen Progress-16 structural universe |
+| `progress17_recovered_targets.csv` | Frozen Progress-17 structural universe |
+| `progress17_rejected_jal_candidates.csv` | Rejected data words from the raw JAL scan |
+
+Subdirectories:
+
+- `functions/` — committed assembly and structural snapshots anchored by address.
+- `matching/` — immutable strict comparison evidence and small gate manifests.
+- `archive/` — historical validation logs and exploratory sweeps no longer used
+  as live inputs.
+
+Do not promote a row by editing only one CSV. Use the evidence promotion tools
+and run `make check`; the audit requires `progress_targets.csv` and
+`symbols.csv` to agree exactly.

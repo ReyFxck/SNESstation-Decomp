@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "tools" / "research"))
+sys.path.insert(0, str(ROOT / "tools" / "history" / "research"))
 
 from hunt1041_v48_closure import (  # noqa: E402
     BOUNDED_ZERO_GAPS,

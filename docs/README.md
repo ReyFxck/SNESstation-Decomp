@@ -1,0 +1,45 @@
+# Documentation index
+
+The maintained documentation is organized by purpose. Numbered Progress and
+HUNT reports are historical checkpoints and live under [`archive/`](archive/).
+They are evidence of how conclusions were reached, not the current scoreboard.
+
+## Current status
+
+- [`status/PROJECT_STATUS.generated.md`](status/PROJECT_STATUS.generated.md) — formal, recovered-pending and working checkpoints.
+- [`PROGRESS.generated.md`](PROGRESS.generated.md) — structural and matching metrics.
+- [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) — source-model audit and build-readiness invariants.
+- [`status/V53_RECOVERED_PENDING.md`](status/V53_RECOVERED_PENDING.md) — six recovered exact results awaiting promotion evidence.
+- [`BOTTLENECKS.md`](BOTTLENECKS.md) — current technical blockers.
+- [`ROADMAP.md`](ROADMAP.md) — work remaining after structural closure.
+
+The generated files above are refreshed with `make docs` and checked by
+`make check`. `analysis/progress_targets.csv` remains the authoritative formal
+matching manifest.
+
+## Reproduction and matching
+
+- [`REPRODUCTION.md`](REPRODUCTION.md) — proof ladder for the eventual byte-identical ELF.
+- [`MATCHING_WORKFLOW.md`](MATCHING_WORKFLOW.md) — evidence requirements for promotion.
+- [`MATCH_MINER.md`](MATCH_MINER.md) — cached address-anchored compiler search.
+- [`DECOMP_PLAYBOOK.md`](DECOMP_PLAYBOOK.md) — disciplined reverse-engineering workflow.
+- [`HISTORICAL_EE_TOOLCHAIN.md`](HISTORICAL_EE_TOOLCHAIN.md) — reproducible GCC/binutils candidate.
+- [`TOOLCHAIN_FINGERPRINT.md`](TOOLCHAIN_FINGERPRINT.md) — evidence and remaining compiler unknowns.
+- [`CONTRIBUTING.md`](../CONTRIBUTING.md) — contribution rules.
+
+## Target and subsystem references
+
+- [`DEPENDENCY_VERSIONS.md`](DEPENDENCY_VERSIONS.md) — exact, candidate and unknown dependency revisions.
+- [`MAIN_FLOW.md`](MAIN_FLOW.md) — application boot and emulation flow.
+- [`RENDERER_MAP.md`](RENDERER_MAP.md), [`PS2_GS_MAP.md`](PS2_GS_MAP.md) — renderer and GS mapping.
+- [`ZLIB_MAP.md`](ZLIB_MAP.md), [`UNZIP_MAP.md`](UNZIP_MAP.md) — compressed-data corridors.
+- [`CDVD_LIBKERNEL_MAP.md`](CDVD_LIBKERNEL_MAP.md), [`CDVD_RPC_STATUS.md`](CDVD_RPC_STATUS.md) — old PS2 runtime corridor.
+- [`EMBEDDED_ASSETS.md`](EMBEDDED_ASSETS.md) — private asset ranges and extraction hashes.
+- [`LEGAL.md`](LEGAL.md) — distribution and provenance policy.
+
+## Archive policy
+
+Historical reports, package-recovery notes and one-off root notes are retained
+under [`archive/`](archive/) so evidence is not lost. New status claims must not
+be added there; update the manifests and regenerate the maintained status
+instead.

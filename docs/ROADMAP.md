@@ -1,75 +1,44 @@
-# Roadmap
+# Roadmap from structural closure to exact reproduction
 
-## Phase 1 — analysis foundation
+## 1. Formal function closure
 
-- [x] freeze target hash
-- [x] SJCRUNCH unpacking
-- [x] analysis ELF wrapper
-- [x] string/xref and call scanners
-- [x] classify R5900 instructions missed by generic LLVM disassembly
-- [x] independent symbol map
+- [x] Freeze the packed and unpacked target hashes.
+- [x] Audit the 1,041-entry structural universe.
+- [x] Provide a behavioral/source model for every audited entry.
+- [x] Promote 979 entries with strict compiler/object evidence.
+- [ ] Regenerate and promote the six recovered V53 results.
+- [ ] Close the remaining 56 working-frontier entries.
 
-## Phase 2 — frontend / boot
+## 2. Build-ready source ownership
 
-- [x] startup and IOP reset path
-- [x] module-buffer loader
-- [x] main application/core boundary
-- [x] memory-card initialization path
-- [x] SRAM path helpers
-- [x] recover CDVD + old SIF RPC/FileIO/loadfile runtime corridor
-- [ ] reconstruct remaining GUI/frontend functions
-- [x] recover linked NEW/XPADMAN libpad client
-- [ ] map application input/configuration structures
+- [ ] Freeze translation-unit boundaries and symbol visibility.
+- [ ] Replace provisional-width types with proven EE ABI types.
+- [ ] Assign globals, BSS, constructors, vtables and static data to exact
+  objects.
+- [ ] Split the large structural-lift source only when traceability and matching
+  checks remain exact.
+- [ ] Produce a complete historical-compiler object set.
 
-## Phase 3 — Snes9x core mapping
+## 3. Link identity
 
-- [x] `CMemory::Init`
-- [x] identify `CMemory::LoadROM`
-- [x] SRAM load/save path
-- [ ] reconstruct ROM loader in smaller verified units
-- [x] reconstruct mapped-memory get/set and PC-base access corridor
-- [x] recover CPU shutdown / APU catch-up helper
-- [x] reconstruct SPC700/APU byte and direct-page access leaves
-- [ ] map remaining CPU/PPU/APU global structure layouts
-- [ ] map save-state serialization
+- [ ] Identify exact old runtime/library revisions and archive members.
+- [ ] Recover the application linker script and section alignment.
+- [ ] Recover object order and library order.
+- [ ] Reproduce relocations, string pooling and final unpacked data layout.
+- [ ] Match the unpacked image SHA-256.
 
-## Phase 4 — renderer
+## 4. Packed ELF identity
 
-- [x] tile lookup tables
-- [x] `ConvertTile`
-- [x] 8-bit normal/clipped/x2 rendering family
-- [x] `DrawLargePixel`
-- [x] x2x2 pair
-- [x] 16-bit normal/clipped pair
-- [x] Add/Sub/Half/fixed-color color-math families
-- [x] recover target tile-renderer selector and function-pointer wiring
-- [ ] background/object renderer mapping
-- [ ] Mode 7 path
+- [ ] Identify the exact SJCRUNCH2 and LZO revisions/options.
+- [ ] Reproduce the loader stub and packed entry layout.
+- [ ] Match the packed ELF SHA-256.
+- [ ] Make `make reproduce` complete successfully from a clean checkout plus the
+  private reference ELF.
 
-## Phase 5 — audio / PS2 glue
+## Continuous safeguards
 
-- [x] recover Hiryu GSLIB `gsDriver` / `gsPipe` / `gsFont` / DMA corridor
-- [x] map and reconstruct CDVD + core PS2LIB client runtime used by startup
-- [x] reconstruct old PS2LIB `vsnprintf.o` formatter core
-- [ ] SjPCM interface
-- [ ] AmigaMod interface
-- [ ] SPU2 buffering/timing
-- [x] recover EE D-cache range synchronization leaves
-- [ ] EE/IOP scheduling assumptions
-
-## Phase 6 — matching / rebuild
-
-- [x] fingerprint historical GCC/binutils/PS2SDK runtime family
-- [x] pin and verify the first public GCC 3.2.2/binutils 2.14/Newlib 1.10.0 recipe
-- [x] build and probe the pinned compile-only stage one on modern x86_64
-- [x] validate the ARM64 stage-one artifact and first comparison on DroidSpaces
-- [ ] establish matching build environment
-- [x] compile the first independent `mathfp` matching objects
-- [x] close the seven-function `mathfp` corridor byte-for-byte
-- [ ] link progressively larger replacement executable
-
-- [x] reconstruct old SIF command send/init/interrupt-dispatch corridor
-- [x] classify/reconstruct floating-point runtime beginning at `0x0019fddc`
-- [x] map GCC 3.2.2-b1 libgcc/unwind object corridor
-- [x] map/reconstruct libsupc++ RTTI and exception core through `0x001ab3bc`
-- [ ] reconstruct complex `__vmi_class_type_info` dynamic/upcast walkers
+- [x] Manifest/source audit in `make check`.
+- [x] Generated-status freshness gate.
+- [x] Documentation-link gate.
+- [x] Stable one-command reproduction interface.
+- [x] Run the repository-only checks in GitHub Actions on every change.

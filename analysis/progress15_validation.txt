@@ -1,8 +1,0 @@
-Progress 15 validation
-======================
-matching=0 reconstructed=802 mapped=827 partial=1 identified=24
-expected proxy: reconstructed=802/1137=70.54%, mapped=827/1137=72.74%
-promoted: 0x00143780, 0x001a3380, 0x001a8484
-remaining PARTIAL: main@0x00104f18
-host syntax check: PASS (88 recovered C translation units)
-Progress 15 smoke: PASS

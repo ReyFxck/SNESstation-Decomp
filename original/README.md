@@ -13,3 +13,13 @@ Expected SHA-256 for the currently selected v0.23 WIP target:
 ```
 
 The executable is intentionally not distributed by this repository.
+
+After placing the private file, run:
+
+```bash
+make reference
+```
+
+The unpacked image and all extracted assets are written under ignored `build/`
+storage. The public repository tracks only fingerprints and deterministic
+verification logic.

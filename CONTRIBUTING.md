@@ -50,11 +50,11 @@ Third-party patches and later modified builds can be valuable validation materia
 When a function changes state, update `analysis/progress_targets.csv` and run:
 
 ```bash
-python3 tools/update_progress.py
-make audit-source
+make docs
 make check
 ```
 
-The generators refresh `docs/PROGRESS.generated.md`,
+The generators refresh `docs/status/PROJECT_STATUS.generated.md`,
+`docs/PROGRESS.generated.md`,
 `docs/SOURCE_COMPLETENESS.generated.md`, `analysis/source_readiness.csv`, the
 progress SVG and the root README scoreboard. Do not hand-edit generated files.

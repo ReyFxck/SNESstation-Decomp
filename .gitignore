@@ -5,6 +5,11 @@ original/*.bin
 build/
 reference/embedded_irx/
 
+# Official source archives are downloaded and SHA-verified into build/.
+third_party/toolchain/binutils-2.14.tar.gz
+third_party/toolchain/gcc-3.2.2.tar.gz
+third_party/toolchain/newlib-1.10.0/newlib-1.10.0.tar.gz
+
 # Full/generated disassembly and analysis output
 asm/full.asm
 asm/full_r5900_annotated.asm

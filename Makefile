@@ -84,11 +84,13 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 
 .DEFAULT_GOAL := help
 
-.PHONY: help audit-source audit-source-check host-syntax test-tools check \
+.PHONY: help help-legacy status docs check-generated check-links \
+	reproduce-status reproduce-check reproduce \
+	audit-source audit-source-check host-syntax test-tools check \
 	reference verify-reference extract-assets fetch-newlib fetch-ee-toolchain-recipe \
 	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
-	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence \
+	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
 	match-miner match-miner-full \
 	ee-source-scan ee-source-scan-strict historical-ee-gate \
@@ -105,39 +107,55 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 help:
 	@echo "SNES Station v0.23 preservation workflow"
 	@echo
-	@echo "  make check          audit manifests, parse all C units, test comparator"
-	@echo "  make reference      unpack and verify your original/SNES_EMU.ELF"
-	@echo "  make extract-assets verify and privately extract embedded media under build/"
-	@echo "  make fetch-newlib   fetch verified Newlib 1.10.0 mathfp source"
-	@echo "  make fetch-ee-toolchain-recipe  fetch the pinned 2004 PS2DEV recipe"
+	@echo "  make status          show formal, pending and working checkpoints"
+	@echo "  make check           run manifests, generated docs, links, syntax and tests"
+	@echo "  make docs            regenerate all maintained status files"
+	@echo "  make reference       unpack and verify original/SNES_EMU.ELF privately"
+	@echo "  make reproduce-check verify every implemented whole-program gate"
+	@echo "  make reproduce       run the stable full pipeline (final link still blocked)"
 	@echo "  make bootstrap-ee-stage1  build isolated binutils 2.14 + EE GCC 3.2.2"
-	@echo "  make bootstrap-ee-cxx-stage1  build the isolated C/C++ runtime-matching front ends"
-	@echo "  make hunt1000plus-v45-evidence  reproduce the 50 runtime + 4 historical strict matches"
-	@echo "  make hunt1000plus-v46-evidence  reproduce the next 42 strict source/archive matches"
-	@echo "  make hunt1000plus-v47-evidence  reproduce the next 79 strict source/profile matches"
-	@echo "  make hunt1041-v48-evidence  reproduce the next 25 strict source/profile matches"
-	@echo "  make hunt1041-v49-evidence  reproduce 20 formal-ELF symbol/range matches"
-	@echo "  make hunt1041-v51-evidence  reproduce 16 formal-ELF exact matches"
-	@echo "  make toolchain-info show the candidate historical EE compiler contract"
-	@echo "  make toolchain-probe test EE_CC version, target, flags and ELF output"
-	@echo "  make ee-source-scan  baseline every C TU against the historical EE front end"
-	@echo "  make match-miner     cached three-profile strict scan for new address-labelled matches"
-	@echo "  make match-miner-full  cached 16-profile scan (use only after source/toolchain changes)"
-	@echo "  make historical-ee-gate  strict 101/101 EE scan + strict 7/7 unwind listing gate"
-	@echo "  make match-get-tree  formal reference-ELF gate for byte-exact get_tree"
-	@echo "  make match-get-tree-listing  strict local get_tree gate against committed bytes"
-	@echo "  make match-mathfp   compile and compare the seven-function math corridor"
-	@echo "  make match-mathfp-listing  compare math against the committed disassembly"
-	@echo "  make match-libgcc-unwind-listing  probe 7 committed GCC unwind helpers locally"
-	@echo "  make match-gslib-hw-listing  probe 7 recovered GSLIB hw helpers locally"
-	@echo "  make match-libkernel-leaves-listing-strict  strict 21/21 old EE libkernel leaf gate"
-	@echo "  make match-libkernel-size-strings-listing-strict  strict 4/4 old EE size-string gate"
-	@echo "  make match-libkernel-libc-strings-listing-strict  strict 7/7 old EE libc assembly gate"
-	@echo "  make match-cpp-runtime-small-listing-strict  strict 48/48 GCC/libsupc++ runtime gate"
-	@echo "  make match-cdvd-rpc-exact-listing-strict  strict 2/2 remaining CDVD exact gate"
-	@echo "  make elf-status     show why a complete replacement ELF is not ready"
+	@echo "  make match-miner     run the cached three-profile strict match search"
+	@echo "  make elf-status      show remaining exact-ELF blockers"
+	@echo "  make help-legacy     list frozen historical evidence runners"
 	@echo
 	@echo "For matching, run make bootstrap-ee-stage1 or pass EE_CC=/path/to/ee-gcc."
+
+help-legacy:
+	@echo "Historical and focused evidence runners"
+	@echo
+	@echo "  make hunt1000plus-v45-evidence ... hunt1041-v52-evidence"
+	@echo "  make match-miner-full"
+	@echo "  make historical-ee-gate"
+	@echo "  make match-get-tree-listing-strict"
+	@echo "  make match-mathfp-listing-strict"
+	@echo "  make match-libgcc-unwind-listing-strict"
+	@echo "  make match-gslib-hw-listing-strict"
+	@echo "  make match-libkernel-leaves-listing-strict"
+	@echo "  make match-libkernel-size-strings-listing-strict"
+	@echo "  make match-libkernel-libc-strings-listing-strict"
+	@echo "  make match-cpp-runtime-small-listing-strict"
+	@echo "  make match-cdvd-rpc-exact-listing-strict"
+
+status:
+	$(PYTHON) tools/project_status.py
+
+docs: audit-source
+	$(PYTHON) tools/update_progress.py
+
+check-generated: audit-source-check
+	$(PYTHON) tools/update_progress.py --check
+
+check-links:
+	$(PYTHON) tools/check_links.py
+
+reproduce-status:
+	bash tools/reproduce.sh status
+
+reproduce-check:
+	bash tools/reproduce.sh verify
+
+reproduce:
+	bash tools/reproduce.sh full
 
 audit-source:
 	$(PYTHON) tools/audit_source_completeness.py
@@ -147,17 +165,23 @@ audit-source-check:
 
 host-syntax:
 	@set -eu; \
+	mkdir -p "$(BUILD_DIR)"; \
+	log="$(BUILD_DIR)/host-syntax.log"; \
+	: > "$$log"; \
 	count=0; \
 	for source in $(SOURCE_C) $(MATCHING_C); do \
-		$(HOST_CC) -std=c11 -Wall -Wextra -fno-builtin -DSNESSTATION_HOST_SYNTAX=1 -fsyntax-only -Iinclude -iquote matching/ee_abi_compat "$$source"; \
+		if ! $(HOST_CC) -std=c11 -Wall -Wextra -fno-builtin -DSNESSTATION_HOST_SYNTAX=1 -fsyntax-only -Iinclude -iquote matching/ee_abi_compat "$$source" >>"$$log" 2>&1; then \
+			cat "$$log" >&2; \
+			exit 1; \
+		fi; \
 		count=$$((count + 1)); \
 	done; \
-	echo "host syntax: OK ($$count independent C translation units)"
+	echo "host syntax: OK ($$count independent C translation units; warnings in $$log)"
 
 test-tools:
 	$(PYTHON) -m unittest discover -s tools -p 'test_*.py'
 
-check: audit-source-check host-syntax test-tools
+check: check-generated check-links host-syntax test-tools
 	@echo "repository checks: OK"
 
 reference:
@@ -187,52 +211,52 @@ bootstrap-ee-cxx-stage1:
 		--languages c,c++ $(EE_BOOTSTRAP_JOBS_ARG)
 
 hunt1000plus-v45-runtime: reference fetch-newlib bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
-	$(PYTHON) tools/research/hunt1000plus_v45_runtime.py \
+	$(PYTHON) tools/history/research/hunt1000plus_v45_runtime.py \
 		--libgcc "$(EE_STAGE1_WORK_DIR)/prefix/lib/gcc-lib/ee/3.2.2/libgcc.a" \
 		--cxx "$(EE_STAGE1_CXX)" \
 		--assembler-prefix "$(EE_STAGE1_WORK_DIR)/prefix/ee/bin" \
 		--gcc-source "$(EE_STAGE1_WORK_DIR)/source/gcc-3.2.2"
 
 hunt1000plus-v45-historical: reference bootstrap-ee-stage1
-	$(PYTHON) tools/research/hunt1000plus_v45_historical.py \
+	$(PYTHON) tools/history/research/hunt1000plus_v45_historical.py \
 		--compiler "$(EE_STAGE1_CC)"
 
 hunt1000plus-v45-evidence: hunt1000plus-v45-runtime hunt1000plus-v45-historical
 	@echo "HUNT1000+ V45 evidence: OK (50 runtime + 4 historical strict matches)"
 
 hunt1000plus-v46-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
-	$(PYTHON) tools/research/hunt1000plus_v46_closure.py \
+	$(PYTHON) tools/history/research/hunt1000plus_v46_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)" \
 		--libgcc "$(EE_STAGE1_WORK_DIR)/build/gcc-ee-stage1/gcc/libgcc.a"
 	@echo "HUNT1000+ V46 evidence: OK (42 strict matches)"
 
 hunt1000plus-v47-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
-	$(PYTHON) tools/research/hunt1000plus_v47_closure.py \
+	$(PYTHON) tools/history/research/hunt1000plus_v47_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
 	@echo "HUNT1000+ V47 evidence: OK (79 strict matches)"
 
 hunt1041-v48-evidence: bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
-	$(PYTHON) tools/research/hunt1041_v48_closure.py \
+	$(PYTHON) tools/history/research/hunt1041_v48_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
 	@echo "HUNT1041 V48 evidence: OK (25 strict matches)"
 
 hunt1041-v49-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
-	$(PYTHON) tools/research/hunt1041_v49_closure.py \
+	$(PYTHON) tools/history/research/hunt1041_v49_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
 	@echo "HUNT1041 V49 evidence: OK (20 formal-ELF strict matches)"
 
 hunt1041-v51-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
-	$(PYTHON) tools/research/hunt1041_v51_closure.py \
+	$(PYTHON) tools/history/research/hunt1041_v51_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
 	@echo "HUNT1041 V51 evidence: OK (16 formal-ELF exact matches)"
 
 hunt1041-v52-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
-	$(PYTHON) tools/research/hunt1041_v52_closure.py \
+	$(PYTHON) tools/history/research/hunt1041_v52_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
 	@echo "HUNT1041 V52 evidence: OK (17 formal-ELF exact matches)"
@@ -292,7 +316,7 @@ ee-source-scan-strict: check-ee-compiler
 
 # Local historical EE regression gate. The original ELF remains the formal byte gate.
 historical-ee-gate: check match-libgcc-unwind-listing-strict ee-source-scan-strict
-	@echo "historical EE gate: OK (repository checks + 7/7 unwind + 101/101 C TUs)"
+	@echo "historical EE gate: OK (repository checks + 7/7 unwind + all tracked C TUs)"
 
 match-cdvd-rpc-exact-listing-strict: check-ee-compiler
 	EE_CC="$(EE_CC)" bash tools/run-cdvd-rpc-exact-match.sh
@@ -501,11 +525,12 @@ match-cpp-runtime-small-listing-strict:
 
 elf-status: audit-source-check
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
-	@echo "  - source-model coverage is closed, but EE build-ready types/ownership are not yet frozen"
-	@echo "  - global ownership/types and translation-unit boundaries are not frozen"
-	@echo "  - exact EE archives, linker script, object order and library order are unproven"
-	@echo "  - SJCRUNCH2 repacking is not reproduced"
-	@echo "See docs/MATCHING_WORKFLOW.md"
+	@echo "  - close the formal function frontier and regenerate pending V53 evidence"
+	@echo "  - freeze EE build-ready types, globals and translation-unit ownership"
+	@echo "  - reproduce data layout, relocations and section alignment"
+	@echo "  - prove exact EE archives, linker script, object order and library order"
+	@echo "  - reproduce SJCRUNCH2 packing and both reference hashes"
+	@echo "See docs/REPRODUCTION.md"
 
 elf: elf-status
 	@echo "Refusing to emit a pretend replacement ELF." >&2

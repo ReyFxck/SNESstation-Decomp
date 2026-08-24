@@ -1,3 +1,0 @@
-C syntax check: clean
-Unannotated LLVM <unknown> in EE range 0x100000..0x1affff: 0
-Recovered C files: 13
