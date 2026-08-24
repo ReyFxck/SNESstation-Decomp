@@ -22,9 +22,15 @@ V73's two strict PS2-I/O source variants are frozen in
 not itself promote any row.
 
 V74's two SPC7110 RTC proofs are frozen in
-`hunt1041-v74-validated-spc7110-rtc-2.tsv`. The generated
-`hunt1041-v74-frontier-map-52.tsv` supersedes V73's partial queue, covers every
-remaining non-matching row, and is verified by `tools/update_frontier_map.py`.
+`hunt1041-v74-validated-spc7110-rtc-2.tsv`; its 52-entry frontier map is now a
+frozen planning checkpoint.
+
+V75's five formal C4 proofs are frozen in
+`hunt1041-v75-validated-c4-5.tsv`. The exact unlisted `C4Op15` span is kept
+separately in `hunt1041-v75-c4-companion-1.tsv` so it cannot accidentally
+inflate the 1,041-row count. The generated `hunt1041-v75-frontier-map-47.tsv`
+covers every remaining non-matching row and is verified by
+`tools/update_frontier_map.py`.
 
 Unreferenced parameter sweeps and screening results belong under
 `analysis/archive/experiments/`, not beside authoritative evidence.

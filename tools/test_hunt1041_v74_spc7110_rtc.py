@@ -69,16 +69,10 @@ class Hunt1041V74Spc7110RtcTests(unittest.TestCase):
                 self.assertIn("HUNT1041 V74 strict MATCH", row["notes"])
                 self.assertIn("hunt1041-v74-validated-spc7110-rtc-2.tsv", row["notes"])
 
-    def test_frontier_map_covers_exactly_the_remaining_52(self) -> None:
+    def test_v74_frontier_map_remains_frozen_at_52(self) -> None:
         mapped = rows(FRONTIER, "\t")
         self.assertEqual(len(mapped), 52)
         self.assertEqual(len({row["address"] for row in mapped}), 52)
-        unmatched = {
-            row["address"]
-            for row in rows(ROOT / "analysis" / "progress_targets.csv", ",")
-            if row["status"] != "MATCHING"
-        }
-        self.assertEqual({row["address"] for row in mapped}, unmatched)
         self.assertEqual(
             Counter(row["track"] for row in mapped),
             {"frontend-ownership": 26, "historical-source": 26},

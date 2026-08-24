@@ -5,6 +5,11 @@ evidence. The formal checkpoint moves from **987/1041** to **989/1041
 (95.00%)**, leaving **52** audited entries. It also replaces the partial V73
 frontend queue with one generated map covering the complete remaining frontier.
 
+> This is a frozen V74 checkpoint. V75 promotes five C4 rows, corrects the
+> `0x0010c1f8` identity to `C4Op0D`, and regenerates the live frontier at 47
+> entries in
+> [`V75_C4_FLOAT_MATH_AND_FRONTIER.md`](V75_C4_FLOAT_MATH_AND_FRONTIER.md).
+
 ## Two new strict matches
 
 | Address | Historical identity | Bytes | Boundary | Proven target delta |

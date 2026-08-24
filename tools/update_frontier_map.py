@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the V74 address-level map for the 52 unmatched functions."""
+"""Generate the V75 address-level map for the 47 unmatched functions."""
 from __future__ import annotations
 
 import argparse
@@ -12,8 +12,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TARGETS = ROOT / "analysis" / "progress_targets.csv"
 READINESS = ROOT / "analysis" / "source_readiness.csv"
-OUTPUT = ROOT / "analysis" / "matching" / "hunt1041-v74-frontier-map-52.tsv"
-EXPECTED_FRONTIER = 52
+OUTPUT = ROOT / "analysis" / "matching" / "hunt1041-v75-frontier-map-47.tsv"
+EXPECTED_FRONTIER = 47
 MATCHING_GATE = (
     "strict EE GCC 3.2.2 object vs hash-pinned unpacked ELF; "
     "precise MIPS relocation masks only"
@@ -78,7 +78,6 @@ PACKETS = (
     ),
     Packet(
         (
-            0x0010B8A4, 0x0010BBCC, 0x0010BECC, 0x0010C094, 0x0010C1F8,
             0x0010C340, 0x0010C6F8, 0x0010CDCC, 0x0010CFA4, 0x0010D2A8,
             0x0010D4F0, 0x0010D7DC,
         ),
@@ -86,13 +85,8 @@ PACKETS = (
         "c4-core",
         "src/snes9x/c4_ps2_recovered.cpp",
         "P1",
-        "recover the SNES Station float/math and state-layout deltas in c4/c4emu",
+        "recover c4emu unaligned-word access, state layout and remaining PS2 deltas",
         (
-            (0x0010B8A4, "C4TransfWireFrame"),
-            (0x0010BBCC, "C4TransfWireFrame2"),
-            (0x0010BECC, "C4CalcWireFrame"),
-            (0x0010C094, "C4Op1F"),
-            (0x0010C1F8, "C4Op15"),
             (0x0010C340, "C4ConvOAM"),
             (0x0010C6F8, "C4DoScaleRotate"),
             (0x0010CDCC, "C4DrawWireFrame"),
@@ -182,13 +176,13 @@ def render() -> str:
     }
     if len(unmatched) != EXPECTED_FRONTIER:
         raise ValueError(
-            f"V74 frontier expected {EXPECTED_FRONTIER} entries, found {len(unmatched)}"
+            f"V75 frontier expected {EXPECTED_FRONTIER} entries, found {len(unmatched)}"
         )
     if set(unmatched) != set(packets):
         missing = sorted(set(unmatched) - set(packets))
         stale = sorted(set(packets) - set(unmatched))
         raise ValueError(
-            "V74 packet coverage changed: "
+            "V75 packet coverage changed: "
             f"missing={[f'0x{x:08x}' for x in missing]}; "
             f"stale={[f'0x{x:08x}' for x in stale]}"
         )

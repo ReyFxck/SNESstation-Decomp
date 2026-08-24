@@ -2,19 +2,22 @@
 
 The live counts are generated in
 [`status/PROJECT_STATUS.generated.md`](status/PROJECT_STATUS.generated.md).
-The formal manifest currently has 989 strict matches. V74 added strict
-compiler-side evidence for both SPC7110 RTC record functions and generated a
-complete map for the 52-entry frontier.
+The formal manifest currently has 994 strict matches. V75 added strict
+compiler-side evidence for five C4 float/math functions, recorded one exact
+auxiliary companion, and generated a complete map for the 47-entry frontier.
 
 ## Function frontier
 
-- Close the remaining 52 function-frontier entries with exact boundaries and
+- Close the remaining 47 function-frontier entries with exact boundaries and
   immutable evidence.
 - Prefer source-lineage and ABI corrections over unbounded compiler-flag
   farming.
-- Work the remaining frontier as two coordinated 26-entry tracks: frontend
-  ownership and historical-source deltas. The exact address-level queue is
-  [`../analysis/matching/hunt1041-v74-frontier-map-52.tsv`](../analysis/matching/hunt1041-v74-frontier-map-52.tsv).
+- Work the remaining frontier as two coordinated tracks: 26 frontend-ownership
+  entries and 21 historical-source deltas. The exact address-level queue is
+  [`../analysis/matching/hunt1041-v75-frontier-map-47.tsv`](../analysis/matching/hunt1041-v75-frontier-map-47.tsv).
+- Prioritize the seven remaining `c4emu` rows, starting with
+  `C4SprDisintegrate`; its core already matches and its open delta is isolated
+  to PS2 unaligned-word access and prologue scheduling.
 
 ## Build-ready source
 
