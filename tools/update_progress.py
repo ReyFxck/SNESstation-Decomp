@@ -236,7 +236,7 @@ The rejected patterns and their reasons are recorded in [`analysis/progress17_re
 | Metric | Count | Validated universe |
 |---|---:|---:|
 | Matching | {len(matching):,} | **{pct(len(matching), VALIDATED_TARGETS):.2f}%** |
-| Recovered exact results pending formal promotion | {project_status.recovered_pending:,} | working checkpoint **{project_status.working_checkpoint:,}/{VALIDATED_TARGETS:,} ({project_status.working_percent:.2f}%)** |
+| Recovered exact results still pending formal promotion | {project_status.recovered_pending:,} | V53 promotion completed in V72; working checkpoint **{project_status.working_checkpoint:,}/{VALIDATED_TARGETS:,} ({project_status.working_percent:.2f}%)** |
 | Reconstructed / matching | {len(reconstructed):,} | **{pct(len(reconstructed), VALIDATED_TARGETS):.2f}%** |
 | Mapped (identified + partial + reconstructed) | {len(mapped):,} | **{pct(len(mapped), VALIDATED_TARGETS):.2f}%** |
 
@@ -281,15 +281,14 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Checkpoint | Count | Meaning |
 |---|---:|---|
 | Formal `MATCHING` manifest | **{project_status.formal_matching:,}/{project_status.total:,} ({project_status.formal_percent:.2f}%)** | Promoted rows with immutable compiler/object evidence. |
-| Recovered exact results pending promotion | **{project_status.recovered_pending:,}** | V53 results whose target spans survive but whose compiler-side evidence must be regenerated. |
-| Working checkpoint | **{project_status.working_checkpoint:,}/{project_status.total:,} ({project_status.working_percent:.2f}%)** | Formal rows plus recovered-pending results; this is not the formal manifest count. |
-| Working frontier | **{project_status.working_remaining:,}** | Audited entries not closed by either category. |
+| Recovered exact results still pending promotion | **{project_status.recovered_pending:,}** | All six recovered V53 results were regenerated and promoted by V72. |
+| Working checkpoint | **{project_status.working_checkpoint:,}/{project_status.total:,} ({project_status.working_percent:.2f}%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
+| Working frontier | **{project_status.working_remaining:,}** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
-The {project_status.recovered_pending} currently recovered-pending entries are documented in
-[`V53_RECOVERED_PENDING.md`](V53_RECOVERED_PENDING.md). They remain
-`RECONSTRUCTED` in the authoritative manifests until their compiler objects,
-relocations, boundaries and hashes are regenerated.
+The six V53 recoveries are now formal `MATCHING` rows. Their regenerated
+compiler objects, exact partitions, relocation checks and immutable hashes are
+documented in [`V72_V53_PROMOTED.md`](V72_V53_PROMOTED.md).
 
 ## Final proof gates
 
@@ -319,7 +318,7 @@ unproven final-ELF stage.
 
 - **Matching:** {pct(len(matching), VALIDATED_TARGETS):.2f}%
 - **Formal checkpoint:** **{project_status.formal_matching:,}/{VALIDATED_TARGETS:,}** strict promoted matches
-- **Recovered pending:** **{project_status.recovered_pending:,}** additional V53 exact results awaiting regenerated compiler evidence
+- **Recovered pending:** **{project_status.recovered_pending:,}** (all six V53 recoveries were promoted in V72)
 - **Working checkpoint:** **{project_status.working_checkpoint:,}/{VALIDATED_TARGETS:,}** with **{project_status.working_remaining:,}** entries remaining
 - **Reconstructed:** **{pct(len(reconstructed), VALIDATED_TARGETS):.2f}%** ({len(reconstructed):,}/{VALIDATED_TARGETS:,} validated targets)
 - **Mapped / identified:** **{pct(len(mapped), VALIDATED_TARGETS):.2f}%** ({len(mapped):,}/{VALIDATED_TARGETS:,} validated targets)

@@ -19,9 +19,9 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 
 > **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
 
-- **Matching:** 94.04%
-- **Formal checkpoint:** **979/1,041** strict promoted matches
-- **Recovered pending:** **6** additional V53 exact results awaiting regenerated compiler evidence
+- **Matching:** 94.62%
+- **Formal checkpoint:** **985/1,041** strict promoted matches
+- **Recovered pending:** **0** (all six V53 recoveries were promoted in V72)
 - **Working checkpoint:** **985/1,041** with **56** entries remaining
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
@@ -34,9 +34,8 @@ The renderer-specific grid lives in [`docs/PROGRESS.generated.md`](docs/PROGRESS
 
 The formal count and the working checkpoint are intentionally separate. A row
 becomes formal `MATCHING` only after its compiler object, function boundary,
-relocations and target bytes are reproducibly verified. Exact results from the
-interrupted V53 session are preserved separately until the missing compiler-side
-evidence is regenerated.
+relocations and target bytes are reproducibly verified. V72 regenerated that
+evidence for all six interrupted V53 results and promoted them formally.
 
 ## One-command reproduction goal
 
@@ -128,8 +127,8 @@ layout and evidence policy are described in
 - Binary evidence comes before upstream-source similarity.
 - Modern PS2SDK code is never silently substituted for an unknown 2003–2004
   dependency.
-- Structural reconstruction, recovered-pending evidence and formal matching are
-  reported as separate measurements.
+- Structural reconstruction, recovered-but-unpromoted evidence and formal
+  matching are reported as separate measurements.
 - Generated status files must be refreshed with `make docs` and are checked by
   `make check`.
 - Historical evidence is archived, not silently discarded.

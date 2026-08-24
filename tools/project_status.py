@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Report the authoritative and recovered-pending decompilation checkpoints."""
+"""Report authoritative matching and any recovered evidence still unpromoted."""
 from __future__ import annotations
 
 import argparse
@@ -11,7 +11,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGETS = ROOT / "analysis" / "progress_targets.csv"
-PENDING = ROOT / "analysis" / "matching" / "hunt1041-v53-recovered-target-spans.tsv"
+RECOVERED_SPANS = (
+    ROOT / "analysis" / "matching" / "hunt1041-v53-recovered-target-spans.tsv"
+)
 EXPECTED_TARGETS = 1041
 
 
@@ -47,7 +49,7 @@ def _read_rows(path: Path, delimiter: str = ",") -> list[dict[str, str]]:
 
 def load_status(root: Path = ROOT) -> ProjectStatus:
     targets_path = root / TARGETS.relative_to(ROOT)
-    pending_path = root / PENDING.relative_to(ROOT)
+    recovered_path = root / RECOVERED_SPANS.relative_to(ROOT)
     targets = _read_rows(targets_path)
     if len(targets) != EXPECTED_TARGETS:
         raise ValueError(f"expected {EXPECTED_TARGETS} targets, found {len(targets)}")
@@ -64,14 +66,14 @@ def load_status(root: Path = ROOT) -> ProjectStatus:
     if unexpected:
         raise ValueError(f"unexpected manifest statuses: {sorted(unexpected)}")
 
-    recovered_rows = _read_rows(pending_path, delimiter="\t")
+    recovered_rows = _read_rows(recovered_path, delimiter="\t")
     recovered_addresses: set[str] = set()
     for row in recovered_rows:
         address = row["address"].lower()
         if address in recovered_addresses:
-            raise ValueError(f"duplicate recovered-pending address {address}")
+            raise ValueError(f"duplicate recovered-span address {address}")
         if address not in by_address:
-            raise ValueError(f"recovered-pending address outside manifest: {address}")
+            raise ValueError(f"recovered-span address outside manifest: {address}")
         if row.get("recovered_exact_match_fact", "").lower() != "yes":
             raise ValueError(f"recovered row is not marked exact: {address}")
         recovered_addresses.add(address)

@@ -2,13 +2,12 @@
 
 The live counts are generated in
 [`status/PROJECT_STATUS.generated.md`](status/PROJECT_STATUS.generated.md).
-The formal manifest currently has 979 strict matches; six recovered V53 exact
-results still need their compiler-side promotion evidence regenerated.
+The formal manifest currently has 985 strict matches. The six recovered V53
+results have regenerated compiler-side evidence and are formally promoted.
 
 ## Function frontier
 
-- Regenerate the six V53 compiler objects, relocation reports and cache keys.
-- Close the remaining 56 working-frontier entries with exact boundaries and
+- Close the remaining 56 function-frontier entries with exact boundaries and
   immutable evidence.
 - Prefer source-lineage and ABI corrections over unbounded compiler-flag
   farming.

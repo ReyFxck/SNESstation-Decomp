@@ -6,10 +6,10 @@ They are evidence of how conclusions were reached, not the current scoreboard.
 
 ## Current status
 
-- [`status/PROJECT_STATUS.generated.md`](status/PROJECT_STATUS.generated.md) — formal, recovered-pending and working checkpoints.
+- [`status/PROJECT_STATUS.generated.md`](status/PROJECT_STATUS.generated.md) — formal, recovered-evidence and working checkpoints.
 - [`PROGRESS.generated.md`](PROGRESS.generated.md) — structural and matching metrics.
 - [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) — source-model audit and build-readiness invariants.
-- [`status/V53_RECOVERED_PENDING.md`](status/V53_RECOVERED_PENDING.md) — six recovered exact results awaiting promotion evidence.
+- [`status/V72_V53_PROMOTED.md`](status/V72_V53_PROMOTED.md) — regenerated proof and formal promotion of the six V53 recoveries.
 - [`BOTTLENECKS.md`](BOTTLENECKS.md) — current technical blockers.
 - [`ROADMAP.md`](ROADMAP.md) — work remaining after structural closure.
 

@@ -3,7 +3,7 @@
 Maintained entry points live directly under `tools/` and are exercised by
 `make check` or a documented Make target.
 
-- `project_status.py` — reports formal and recovered-pending checkpoints.
+- `project_status.py` — reports formal and any recovered-but-unpromoted checkpoints.
 - `update_progress.py` / `audit_source_completeness.py` — generate and verify
   project state.
 - `compare_elf_functions.py` / `promote_match_evidence.py` — strict comparison

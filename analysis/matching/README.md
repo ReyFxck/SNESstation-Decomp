@@ -12,5 +12,9 @@ Naming conventions:
 - `*-target-spans.tsv` — frozen target-side recovery data, not automatically a
   formal promotion.
 
+The V53 target spans are paired with the completed compiler-side proof in
+`hunt1041-v72-validated-v53-6.tsv`; the frozen span file is retained as the
+recovery record rather than rewritten after promotion.
+
 Unreferenced parameter sweeps and screening results belong under
 `analysis/archive/experiments/`, not beside authoritative evidence.

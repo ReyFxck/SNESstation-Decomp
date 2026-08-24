@@ -90,7 +90,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	reference verify-reference extract-assets fetch-newlib fetch-ee-toolchain-recipe \
 	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
-	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence \
+	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
 	match-miner match-miner-full \
 	ee-source-scan ee-source-scan-strict historical-ee-gate \
@@ -124,6 +124,7 @@ help-legacy:
 	@echo "Historical and focused evidence runners"
 	@echo
 	@echo "  make hunt1000plus-v45-evidence ... hunt1041-v52-evidence"
+	@echo "  make hunt1041-v72-evidence  reproduce the six promoted V53 proofs"
 	@echo "  make match-miner-full"
 	@echo "  make historical-ee-gate"
 	@echo "  make match-get-tree-listing-strict"
@@ -260,6 +261,11 @@ hunt1041-v52-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
 	@echo "HUNT1041 V52 evidence: OK (17 formal-ELF exact matches)"
+
+hunt1041-v72-evidence: reference bootstrap-ee-cxx-stage1
+	$(PYTHON) tools/history/research/hunt1041_v72_promote_v53.py \
+		--cxx "$(EE_STAGE1_CXX)"
+	@echo "HUNT1041 V72 evidence: OK (6 promoted V53 formal-ELF exact matches)"
 
 toolchain-info:
 	@echo "Candidate EE compiler: GCC $(EE_GCC_VERSION)"

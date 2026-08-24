@@ -5,8 +5,8 @@
 - [x] Freeze the packed and unpacked target hashes.
 - [x] Audit the 1,041-entry structural universe.
 - [x] Provide a behavioral/source model for every audited entry.
-- [x] Promote 979 entries with strict compiler/object evidence.
-- [ ] Regenerate and promote the six recovered V53 results.
+- [x] Promote 985 entries with strict compiler/object evidence.
+- [x] Regenerate and promote the six recovered V53 results.
 - [ ] Close the remaining 56 working-frontier entries.
 
 ## 2. Build-ready source ownership
