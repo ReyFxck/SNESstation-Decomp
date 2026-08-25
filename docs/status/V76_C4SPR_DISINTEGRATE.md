@@ -36,7 +36,7 @@ cp /path/to/SNES_EMU.ELF original/SNES_EMU.ELF
 make hunt1041-v76-evidence
 ```
 
-## Current 46-entry frontier
+## Frozen 46-entry frontier
 
 The generated
 [`hunt1041-v76-frontier-map-46.tsv`](../../analysis/matching/hunt1041-v76-frontier-map-46.tsv)
@@ -47,6 +47,9 @@ covers every remaining non-`MATCHING` manifest row:
 | Frontend ownership | 26 | unchanged |
 | Historical-source deltas | 20 | minus `C4SprDisintegrate` |
 | Remaining C4 / `c4emu` packet | 6 | down from 7 |
+
+V77 later promotes `C4DrawWireFrame`; this map remains immutable as the V76
+checkpoint and is superseded by the generated 45-entry V77 frontier.
 
 The remaining C4 rows should continue to be treated as one translation-unit
 and state-layout problem. The V76 packed access and ABI findings are reusable

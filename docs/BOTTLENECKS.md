@@ -2,23 +2,23 @@
 
 The live counts are generated in
 [`status/PROJECT_STATUS.generated.md`](status/PROJECT_STATUS.generated.md).
-The formal manifest currently has 995 strict matches. V76 added strict
-compiler-side evidence for the complete 580-byte `C4SprDisintegrate` function
-and generated a complete map for the 46-entry frontier.
+The formal manifest currently has 996 strict matches. V77 added strict
+compiler-side evidence for the complete 472-byte `C4DrawWireFrame` function
+and generated a complete map for the 45-entry frontier.
 
 ## Function frontier
 
-- Close the remaining 46 function-frontier entries with exact boundaries and
+- Close the remaining 45 function-frontier entries with exact boundaries and
   immutable evidence.
 - Prefer source-lineage and ABI corrections over unbounded compiler-flag
   farming.
 - Work the remaining frontier as two coordinated tracks: 26 frontend-ownership
-  entries and 20 historical-source deltas. The exact address-level queue is
-  [`../analysis/matching/hunt1041-v76-frontier-map-46.tsv`](../analysis/matching/hunt1041-v76-frontier-map-46.tsv).
-- Continue the six remaining `c4emu` rows as one historical translation-unit
-  problem. V76 has now pinned the PS2 unaligned-word form, 32-bit `memset`
-  declaration and the narrow EE register-allocation constraint used by
-  `C4SprDisintegrate`.
+  entries and 19 historical-source deltas. The exact address-level queue is
+  [`../analysis/matching/hunt1041-v77-frontier-map-45.tsv`](../analysis/matching/hunt1041-v77-frontier-map-45.tsv).
+- Continue the five remaining `c4emu` rows as one historical translation-unit
+  problem. V76 and V77 have now pinned the PS2 packed 16/24-bit access forms,
+  the 32-bit `memset` declaration and the narrow EE allocation constraints
+  used by `C4SprDisintegrate` and `C4DrawWireFrame`.
 
 ## Build-ready source
 

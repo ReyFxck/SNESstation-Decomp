@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the V76 address-level map for the 46 unmatched functions."""
+"""Generate the V77 address-level map for the 45 unmatched functions."""
 from __future__ import annotations
 
 import argparse
@@ -12,8 +12,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TARGETS = ROOT / "analysis" / "progress_targets.csv"
 READINESS = ROOT / "analysis" / "source_readiness.csv"
-OUTPUT = ROOT / "analysis" / "matching" / "hunt1041-v76-frontier-map-46.tsv"
-EXPECTED_FRONTIER = 46
+OUTPUT = ROOT / "analysis" / "matching" / "hunt1041-v77-frontier-map-45.tsv"
+EXPECTED_FRONTIER = 45
 MATCHING_GATE = (
     "strict EE GCC 3.2.2 object vs hash-pinned unpacked ELF; "
     "precise MIPS relocation masks only"
@@ -78,7 +78,7 @@ PACKETS = (
     ),
     Packet(
         (
-            0x0010C340, 0x0010C6F8, 0x0010CDCC, 0x0010CFA4, 0x0010D2A8,
+            0x0010C340, 0x0010C6F8, 0x0010CFA4, 0x0010D2A8,
             0x0010D7DC,
         ),
         "historical-source",
@@ -89,7 +89,6 @@ PACKETS = (
         (
             (0x0010C340, "C4ConvOAM"),
             (0x0010C6F8, "C4DoScaleRotate"),
-            (0x0010CDCC, "C4DrawWireFrame"),
             (0x0010CFA4, "C4TransformLines"),
             (0x0010D2A8, "C4BitPlaneWave"),
             (0x0010D7DC, "S9xSetC4"),
@@ -175,13 +174,13 @@ def render() -> str:
     }
     if len(unmatched) != EXPECTED_FRONTIER:
         raise ValueError(
-            f"V76 frontier expected {EXPECTED_FRONTIER} entries, found {len(unmatched)}"
+            f"V77 frontier expected {EXPECTED_FRONTIER} entries, found {len(unmatched)}"
         )
     if set(unmatched) != set(packets):
         missing = sorted(set(unmatched) - set(packets))
         stale = sorted(set(packets) - set(unmatched))
         raise ValueError(
-            "V76 packet coverage changed: "
+            "V77 packet coverage changed: "
             f"missing={[f'0x{x:08x}' for x in missing]}; "
             f"stale={[f'0x{x:08x}' for x in stale]}"
         )

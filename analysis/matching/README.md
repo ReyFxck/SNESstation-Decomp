@@ -32,9 +32,12 @@ inflate the 1,041-row count. The `hunt1041-v75-frontier-map-47.tsv` file covers
 every row that remained at that checkpoint and is now frozen.
 
 V76's strict `C4SprDisintegrate` proof is frozen in
-`hunt1041-v76-validated-c4spr-1.tsv`. The generated
-`hunt1041-v76-frontier-map-46.tsv` is the current exhaustive queue; the V75
-47-entry map remains a frozen prior checkpoint.
+`hunt1041-v76-validated-c4spr-1.tsv`; its 46-entry frontier is now frozen.
+
+V77's strict `C4DrawWireFrame` proof is frozen in
+`hunt1041-v77-validated-c4draw-1.tsv`. The generated
+`hunt1041-v77-frontier-map-45.tsv` is the current exhaustive queue; the V75 and
+V76 maps remain frozen prior checkpoints.
 
 Unreferenced parameter sweeps and screening results belong under
 `analysis/archive/experiments/`, not beside authoritative evidence.
