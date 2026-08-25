@@ -19,10 +19,10 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 
 > **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
 
-- **Matching:** 95.49%
-- **Formal checkpoint:** **994/1,041** strict promoted matches
+- **Matching:** 95.58%
+- **Formal checkpoint:** **995/1,041** strict promoted matches
 - **Recovered pending:** **0** (the V53 recovery set is fully formal)
-- **Working checkpoint:** **994/1,041** with **47** entries remaining
+- **Working checkpoint:** **995/1,041** with **46** entries remaining
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
@@ -34,9 +34,9 @@ The renderer-specific grid lives in [`docs/PROGRESS.generated.md`](docs/PROGRESS
 
 The formal count and the working checkpoint are intentionally separate. A row
 becomes formal `MATCHING` only after its compiler object, function boundary,
-relocations and target bytes are reproducibly verified. V75 applies that gate
-to five C4 float/math functions, records one exact auxiliary companion without
-inflating the manifest, and tracks every one of the 47 remaining entries.
+relocations and target bytes are reproducibly verified. V76 applies that gate
+to the complete 580-byte `C4SprDisintegrate` function and tracks every one of
+the 46 remaining entries; the prior V75 C4 batch remains frozen as evidence.
 
 ## One-command reproduction goal
 

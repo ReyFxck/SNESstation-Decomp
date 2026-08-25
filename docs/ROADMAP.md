@@ -5,7 +5,7 @@
 - [x] Freeze the packed and unpacked target hashes.
 - [x] Audit the 1,041-entry structural universe.
 - [x] Provide a behavioral/source model for every audited entry.
-- [x] Promote 994 entries with strict compiler/object evidence.
+- [x] Promote 995 entries with strict compiler/object evidence.
 - [x] Regenerate and promote the six recovered V53 results.
 - [x] Prove the V73 `S9xLoadCheatFile` and `S9xSPCDump` PS2-I/O variants.
 - [x] Prove the V74 `S9xSaveSPC7110RTC` and `S9xLoadSPC7110RTC` PS2 variants.
@@ -13,7 +13,11 @@
   companion without changing the audited denominator.
 - [x] Regenerate the complete frontier map at 47 entries in two coordinated
   tracks.
-- [ ] Close the remaining 47 working-frontier entries.
+- [x] Prove the V76 `C4SprDisintegrate` row across its complete 580-byte span
+  with the historical EE C++ compiler.
+- [x] Regenerate the complete frontier map at 46 entries in two coordinated
+  tracks.
+- [ ] Close the remaining 46 working-frontier entries.
 
 ## 2. Build-ready source ownership
 

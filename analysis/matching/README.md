@@ -28,9 +28,13 @@ frozen planning checkpoint.
 V75's five formal C4 proofs are frozen in
 `hunt1041-v75-validated-c4-5.tsv`. The exact unlisted `C4Op15` span is kept
 separately in `hunt1041-v75-c4-companion-1.tsv` so it cannot accidentally
-inflate the 1,041-row count. The generated `hunt1041-v75-frontier-map-47.tsv`
-covers every remaining non-matching row and is verified by
-`tools/update_frontier_map.py`.
+inflate the 1,041-row count. The `hunt1041-v75-frontier-map-47.tsv` file covers
+every row that remained at that checkpoint and is now frozen.
+
+V76's strict `C4SprDisintegrate` proof is frozen in
+`hunt1041-v76-validated-c4spr-1.tsv`. The generated
+`hunt1041-v76-frontier-map-46.tsv` is the current exhaustive queue; the V75
+47-entry map remains a frozen prior checkpoint.
 
 Unreferenced parameter sweeps and screening results belong under
 `analysis/archive/experiments/`, not beside authoritative evidence.

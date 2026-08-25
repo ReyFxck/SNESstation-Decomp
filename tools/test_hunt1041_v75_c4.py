@@ -94,7 +94,7 @@ class Hunt1041V75C4Tests(unittest.TestCase):
                 self.assertIn("HUNT1041 V75 strict MATCH", row["notes"])
                 self.assertIn("hunt1041-v75-validated-c4-5.tsv", row["notes"])
 
-    def test_frontier_map_covers_exactly_the_remaining_47(self) -> None:
+    def test_frozen_frontier_map_records_the_v75_remaining_47(self) -> None:
         mapped = rows(FRONTIER, "\t")
         unmatched = {
             row["address"]
@@ -102,7 +102,9 @@ class Hunt1041V75C4Tests(unittest.TestCase):
             if row["status"] != "MATCHING"
         }
         self.assertEqual(len(mapped), 47)
-        self.assertEqual({row["address"] for row in mapped}, unmatched)
+        mapped_addresses = {row["address"] for row in mapped}
+        self.assertEqual(mapped_addresses - unmatched, {"0x0010d4f0"})
+        self.assertEqual(unmatched - mapped_addresses, set())
         self.assertEqual(
             Counter(row["track"] for row in mapped),
             {"frontend-ownership": 26, "historical-source": 21},

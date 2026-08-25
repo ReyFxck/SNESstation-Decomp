@@ -1,5 +1,8 @@
 # V75: C4 float/math proof and 47-entry frontier
 
+> Frozen checkpoint. V76 subsequently promoted `C4SprDisintegrate`; use the
+> current 46-entry frontier linked from the project status documentation.
+
 V75 promotes five C4 functions with strict historical-source evidence. The
 formal checkpoint moves from **989/1041** to **994/1041 (95.49%)**, leaving
 **47** audited entries. A sixth exact C4 function, `C4Op15`, is recorded as an

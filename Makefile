@@ -90,7 +90,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	reference verify-reference extract-assets fetch-newlib fetch-ee-toolchain-recipe \
 	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
-	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence \
+	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
 	match-miner match-miner-full \
 	ee-source-scan ee-source-scan-strict historical-ee-gate \
@@ -128,6 +128,7 @@ help-legacy:
 	@echo "  make hunt1041-v73-evidence  reproduce the two PS2-I/O historical proofs"
 	@echo "  make hunt1041-v74-evidence  reproduce the two SPC7110 RTC proofs"
 	@echo "  make hunt1041-v75-evidence  reproduce five C4 proofs plus companion"
+	@echo "  make hunt1041-v76-evidence  reproduce the C4SprDisintegrate proof"
 	@echo "  make match-miner-full"
 	@echo "  make historical-ee-gate"
 	@echo "  make match-get-tree-listing-strict"
@@ -289,6 +290,11 @@ hunt1041-v75-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v75_c4.py \
 		--cxx "$(EE_STAGE1_CXX)"
 	@echo "HUNT1041 V75 evidence: OK (5 formal C4 matches + 1 exact companion)"
+
+hunt1041-v76-evidence: reference bootstrap-ee-cxx-stage1
+	$(PYTHON) tools/history/research/hunt1041_v76_c4spr.py \
+		--cxx "$(EE_STAGE1_CXX)"
+	@echo "HUNT1041 V76 evidence: OK (1 formal C4SprDisintegrate match)"
 
 toolchain-info:
 	@echo "Candidate EE compiler: GCC $(EE_GCC_VERSION)"

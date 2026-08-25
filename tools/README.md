@@ -6,7 +6,7 @@ Maintained entry points live directly under `tools/` and are exercised by
 - `project_status.py` — reports formal and any recovered-but-unpromoted checkpoints.
 - `update_progress.py` / `audit_source_completeness.py` — generate and verify
   project state.
-- `update_frontier_map.py` — generate and verify the complete V75 47-entry
+- `update_frontier_map.py` — generate and verify the complete V76 46-entry
   two-track work queue.
 - `compare_elf_functions.py` / `promote_match_evidence.py` — strict comparison
   and promotion support.
@@ -29,3 +29,8 @@ The completed V74 SPC7110 RTC proof follows the same policy through
 The completed V75 C4 float/math proof follows the same policy through
 `make hunt1041-v75-evidence`; it reproduces five formal rows and one separately
 counted exact `C4Op15` boundary companion.
+
+The completed V76 `C4SprDisintegrate` proof is reproduced through
+`make hunt1041-v76-evidence`; the runner pins the official source, the narrow
+PS2 code-generation shim, the historical compiler and the complete target
+span before accepting the match.

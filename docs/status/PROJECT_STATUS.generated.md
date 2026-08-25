@@ -4,17 +4,17 @@
 
 | Checkpoint | Count | Meaning |
 |---|---:|---|
-| Formal `MATCHING` manifest | **994/1,041 (95.49%)** | Promoted rows with immutable compiler/object evidence. |
-| Recovered exact results still pending promotion | **0** | All recovered V53 results are formal; V75 added five independently reproduced C4 matches. |
-| Working checkpoint | **994/1,041 (95.49%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
-| Working frontier | **47** | Audited entries not yet formally matched or covered by recovered evidence. |
+| Formal `MATCHING` manifest | **995/1,041 (95.58%)** | Promoted rows with immutable compiler/object evidence. |
+| Recovered exact results still pending promotion | **0** | All recovered results are formal; V76 added the independently reproduced `C4SprDisintegrate` match. |
+| Working checkpoint | **995/1,041 (95.58%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
+| Working frontier | **46** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
-The six V53 recoveries, the two V73 PS2-I/O proofs and the two V74 SPC7110 RTC
-proofs remain formal `MATCHING` rows. V75 additionally proves five audited C4
-entries and one exact auxiliary `C4Op15` companion, then regenerates the
-complete frontier map at 47 entries. The current batch is documented in
-[`V75_C4_FLOAT_MATH_AND_FRONTIER.md`](V75_C4_FLOAT_MATH_AND_FRONTIER.md).
+The six V53 recoveries, the two V73 PS2-I/O proofs, the two V74 SPC7110 RTC
+proofs and the V75 C4 float/math batch remain formal `MATCHING` rows. V76
+additionally proves the complete 580-byte `C4SprDisintegrate` function and
+regenerates the frontier map at 46 entries. The current batch is documented in
+[`V76_C4SPR_DISINTEGRATE.md`](V76_C4SPR_DISINTEGRATE.md).
 
 ## Final proof gates
 
