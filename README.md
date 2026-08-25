@@ -28,6 +28,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
 - **Build-ready EE source ownership:** **97/97 TUs** (96 canonical + 1 alternate)
+- **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
@@ -79,6 +80,7 @@ make status
 make check
 make checkpoint-1041-check
 make source-tree
+make layout-oracle
 ```
 
 To verify a legally obtained reference binary:
@@ -101,6 +103,11 @@ historical evidence runners.
 `make source-tree` closes the Stage-2 gate with 97/97 real EE compilations and
 a duplicate-free 96-object canonical aggregate. See
 [`docs/status/BUILD_READY_SOURCE_TREE.md`](docs/status/BUILD_READY_SOURCE_TREE.md).
+
+`make layout-oracle` closes the first Stage-3 measurement gate without
+publishing the reference: it checks one SJCRUNCH2 section, thirteen blocks and
+fifty-one 64 KiB hash windows. See
+[`docs/status/V82_UNPACKED_LAYOUT_ORACLE.md`](docs/status/V82_UNPACKED_LAYOUT_ORACLE.md).
 
 ## Target fingerprint
 

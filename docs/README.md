@@ -11,6 +11,7 @@ They are evidence of how conclusions were reached, not the current scoreboard.
 - [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) — source-model audit and build-readiness invariants.
 - [`status/FUNCTION_FRONTIER_1041_CHECKPOINT.md`](status/FUNCTION_FRONTIER_1041_CHECKPOINT.md) — immutable tag, hashes and clean-checkout gates for the closed 1,041-function frontier.
 - [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md) — frozen EE ABI, 97-unit manifest, symbol ownership and canonical partial-link gate.
+- [`status/V82_UNPACKED_LAYOUT_ORACLE.md`](status/V82_UNPACKED_LAYOUT_ORACLE.md) — byte-free SJCRUNCH2/layout hashes and exact first-difference gate for Stage 3.
 - [`status/V72_V53_PROMOTED.md`](status/V72_V53_PROMOTED.md) — regenerated proof and formal promotion of the six V53 recoveries.
 - [`status/V81_FUNCTION_FRONTIER_CLOSED.md`](status/V81_FUNCTION_FRONTIER_CLOSED.md) — final 20 raw-exact promotions and the zero-entry function frontier.
 - [`status/V80_QUICK_WINS_23.md`](status/V80_QUICK_WINS_23.md) — frozen 23-function quick-win checkpoint and its superseded 20-entry frontier.

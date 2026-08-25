@@ -24,6 +24,16 @@ duplicate/common definitions and records all defined/external ownership. See
 The unresolved contracts now belong to the program-data, archive-identity and
 link-identity gates; they are no longer an ambiguous source-tree backlog.
 
+## Unpacked layout oracle — closed
+
+V82 freezes the private target as one initialized SJCRUNCH2 section, thirteen
+decompressed blocks and fifty-one 64 KiB hash windows. `make
+compare-unpacked` now reports the exact first divergent image offset/load
+address for every rebuilt candidate. See
+[`status/V82_UNPACKED_LAYOUT_ORACLE.md`](status/V82_UNPACKED_LAYOUT_ORACLE.md).
+
+This is a measurement gate, not a claim that the bytes have been rebuilt.
+
 ## Whole-program identity
 
 Even after every function is `MATCHING`, an identical ELF still requires:

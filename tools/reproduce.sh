@@ -7,6 +7,8 @@ cd "$PROJECT_ROOT"
 
 show_status() {
     python3 tools/project_status.py
+    printf '\nClosed whole-program measurement:\n'
+    printf '  - unpacked layout oracle: 1 section / 13 blocks / 51 hash windows\n'
     printf '\nExact replacement ELF still requires:\n'
     printf '  - exact global data, sections, relocations and object boundaries\n'
     printf '  - exact historical archives, linker script and link order\n'
@@ -30,6 +32,7 @@ case "$MODE" in
         make source-tree
         require_reference
         make reference
+        make layout-oracle-check
         make elf-status
         ;;
     full)
@@ -37,6 +40,7 @@ case "$MODE" in
         make source-tree
         require_reference
         make reference
+        make layout-oracle-check
         make elf
         ;;
     *)

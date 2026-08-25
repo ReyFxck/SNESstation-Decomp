@@ -60,6 +60,8 @@ Exact program-data bytes/placement and final object order remain Stage 3.
 
 ## 3. Link identity
 
+- [x] Freeze a byte-free unpacked-layout oracle with SJCRUNCH2 section/block
+  geometry, 64 KiB hashes and an exact first-difference comparator.
 - [ ] Identify exact old runtime/library revisions and archive members.
 - [ ] Recover the application linker script and section alignment.
 - [ ] Recover object order and library order.

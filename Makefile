@@ -57,6 +57,9 @@ SOURCE_TREE_SPECIAL_MAP := analysis/source_tree/special_ownership.tsv
 SOURCE_TREE_FINGERPRINTS := analysis/source_tree/object_fingerprints.tsv
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
+UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
+LAYOUT_ORACLE_REPORT := $(BUILD_DIR)/layout-oracle/comparison.json
+CANDIDATE_RAW ?= $(BUILD_DIR)/SNES_EMU.rebuilt.bin
 
 SOURCE_C := $(shell find src -type f -name '*.c' | LC_ALL=C sort)
 MATCHING_C := $(shell find matching/candidates -type f -name '*.c' | LC_ALL=C sort)
@@ -99,6 +102,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	reproduce-status reproduce-check reproduce \
 	audit-source audit-source-check host-syntax test-tools check \
 	reference verify-reference extract-assets fetch-newlib fetch-ee-toolchain-recipe \
+	layout-oracle layout-oracle-check layout-oracle-refresh layout-oracle-public-check compare-unpacked \
 	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
 	source-tree source-tree-check source-tree-refresh \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
@@ -127,6 +131,8 @@ help:
 	@echo "  make reference       unpack and verify original/SNES_EMU.ELF privately"
 	@echo "  make reproduce-check verify every implemented whole-program gate"
 	@echo "  make reproduce       run the stable full pipeline (final link still blocked)"
+	@echo "  make layout-oracle   verify the private unpacked layout against public hashes"
+	@echo "  make compare-unpacked CANDIDATE_RAW=path  report the first rebuilt-byte difference"
 	@echo "  make bootstrap-ee-stage1  build isolated binutils 2.14 + EE GCC 3.2.2"
 	@echo "  make source-tree     build toolchain and verify the frozen Stage-2 object set"
 	@echo "  make source-tree-check  verify Stage 2 with an available EE compiler"
@@ -223,7 +229,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -232,6 +238,38 @@ reference:
 
 verify-reference:
 	$(PYTHON) tools/verify_reference.py
+
+layout-oracle: reference
+	$(MAKE) layout-oracle-check
+
+layout-oracle-check:
+	$(PYTHON) tools/layout_oracle.py check \
+		--packed original/SNES_EMU.ELF \
+		--unpacked "$(REFERENCE_RAW)" \
+		--manifest "$(UNPACKED_LAYOUT_MANIFEST)"
+
+# Refreshing the public hash oracle is deliberately separate from checking it.
+# This target never writes the reference image itself into the repository.
+layout-oracle-refresh: reference
+	$(PYTHON) tools/layout_oracle.py capture \
+		--packed original/SNES_EMU.ELF \
+		--unpacked "$(REFERENCE_RAW)" \
+		--manifest "$(UNPACKED_LAYOUT_MANIFEST)"
+
+layout-oracle-public-check:
+	$(PYTHON) tools/layout_oracle.py validate \
+		--manifest "$(UNPACKED_LAYOUT_MANIFEST)"
+
+compare-unpacked: layout-oracle
+	@test -f "$(CANDIDATE_RAW)" || { \
+		echo "Missing rebuilt candidate: $(CANDIDATE_RAW)" >&2; \
+		exit 2; \
+	}
+	$(PYTHON) tools/layout_oracle.py compare \
+		--reference "$(REFERENCE_RAW)" \
+		--candidate "$(CANDIDATE_RAW)" \
+		--manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--report "$(LAYOUT_ORACLE_REPORT)"
 
 extract-assets: reference
 	$(PYTHON) tools/extract_embedded_assets.py \
@@ -650,6 +688,7 @@ match-cpp-runtime-small-listing-strict:
 elf-status: audit-source-check
 	@echo "Function-code gate: CLOSED (1041/1041 strict matches)"
 	@echo "Build-ready source ownership: CLOSED (97/97 TUs; 96 canonical objects)"
+	@echo "Unpacked layout oracle: CLOSED (1 section; 13 blocks; 51 hash windows)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
 	@echo "  - reproduce data layout, relocations and section alignment"
 	@echo "  - prove exact EE archives, linker script, object order and library order"

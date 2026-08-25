@@ -20,6 +20,8 @@ Useful modes:
 make reproduce-status   # no private ELF required
 make reproduce-check    # verify repository + private reference + blockers
 make reproduce          # full pipeline; currently stops at final-link gate
+make layout-oracle      # verify the private image against the public Stage-3 oracle
+make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
 ## Proof ladder
@@ -31,15 +33,18 @@ The final pipeline must prove every layer:
 2. **Translation units — closed** — 97/97 sources compile with the historical
    EE compiler; 96 canonical objects partially link with frozen ownership and
    no duplicate/common definitions.
-3. **Program data** — globals, constants, string pooling, vtables, BSS and
+3. **Unpacked layout oracle — closed** — one section, thirteen decompressed
+   blocks and fifty-one 64 KiB hash windows freeze the target geometry and
+   locate the exact first rebuilt-byte difference.
+4. **Program data** — globals, constants, string pooling, vtables, BSS and
    alignment match the unpacked target.
-4. **Relocations and archives** — the exact old PS2 libraries and their member
+5. **Relocations and archives** — the exact old PS2 libraries and their member
    selection are known.
-5. **Link** — linker script, section addresses, object order and library order
+6. **Link** — linker script, section addresses, object order and library order
    reproduce the unpacked ELF image.
-6. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+7. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
-7. **Final comparison** — section/layout reports and both unpacked and packed
+8. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
 
 The required reference hashes are:
@@ -51,6 +56,8 @@ The required reference hashes are:
 
 The Stage-2 evidence and its exact claim boundary are recorded in
 [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
+The first Stage-3 measurement gate is recorded in
+[`status/V82_UNPACKED_LAYOUT_ORACLE.md`](status/V82_UNPACKED_LAYOUT_ORACLE.md).
 
 ## What “original code” can mean
 

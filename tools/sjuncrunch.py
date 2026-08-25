@@ -40,6 +40,10 @@ class LZOError(ValueError):
     """Malformed or unsupported LZO1X block."""
 
 
+class SJCrunchError(ValueError):
+    """Malformed or inconsistent SJCRUNCH2 container."""
+
+
 def lzo1x_decompress_python(data: bytes, expected_size: int) -> bytes:
     """Decode an LZO1X block without a system liblzo dependency.
 
@@ -202,76 +206,163 @@ def decompress_block(comp: bytes, expected_size: int, native_lzo) -> bytes:
     return bytes(dstbuf)
 
 
-def unpack(src: Path, dst: Path):
-    data = src.read_bytes()
+def decode_container(data: bytes, native_lzo=None) -> dict[str, object]:
+    """Decode an SJCRUNCH2 payload and retain deterministic layout metadata."""
     if len(data) < HEADER_OFF + 28:
-        raise SystemExit("file too small for SJCRUNCH2 header")
+        raise SJCrunchError("file too small for SJCRUNCH2 header")
 
     off = HEADER_OFF
     entry, num_sections = struct.unpack_from("<II", data, off)
     off += 8
     if num_sections == 0 or num_sections > 64:
-        raise SystemExit(f"invalid SJCRUNCH2 section count: {num_sections}")
-    lzo = load_lzo()
+        raise SJCrunchError(f"invalid SJCRUNCH2 section count: {num_sections}")
+
     output = bytearray()
-    sections = []
+    sections: list[dict[str, object]] = []
 
     for section_index in range(num_sections):
         if off + 20 > len(data):
-            raise SystemExit("truncated section header")
+            raise SJCrunchError("truncated section header")
+
+        header_offset = off
         compressed_size, original_size, zero_size, vaddr, file_size = \
             struct.unpack_from("<IIIII", data, off)
         off += 20
+        block_stream_offset = off
+        image_offset = len(output)
         section_out = bytearray(original_size)
         total = 0
-        blocks = 0
+        compressed_total = 0
+        blocks: list[dict[str, object]] = []
 
         while total < original_size:
             if off + 8 > len(data):
-                raise SystemExit("truncated block header")
+                raise SJCrunchError("truncated block header")
+            block_header_offset = off
             usize, csize = struct.unpack_from("<II", data, off)
             off += 8
             if usize == 0 or csize == 0:
-                raise SystemExit("invalid zero-sized compressed block")
+                raise SJCrunchError("invalid zero-sized compressed block")
             if usize > original_size - total:
-                raise SystemExit("compressed block overruns declared section size")
+                raise SJCrunchError("compressed block overruns declared section size")
+
+            block_data_offset = off
             comp = data[off:off+csize]
             off += csize
             if len(comp) != csize:
-                raise SystemExit("truncated compressed block")
+                raise SJCrunchError("truncated compressed block")
 
             if usize == csize:
                 chunk = comp
+                encoding = "stored"
             else:
                 try:
-                    chunk = decompress_block(comp, usize, lzo)
+                    chunk = decompress_block(comp, usize, native_lzo)
                 except LZOError as exc:
-                    raise SystemExit(f"LZO error in block {blocks}: {exc}") from exc
+                    raise SJCrunchError(
+                        f"LZO error in block {len(blocks)}: {exc}"
+                    ) from exc
+                encoding = "lzo1x"
 
             section_out[total:total+usize] = chunk
+            blocks.append(
+                {
+                    "index": len(blocks),
+                    "packed_header_offset": block_header_offset,
+                    "packed_data_offset": block_data_offset,
+                    "packed_data_size": csize,
+                    "image_offset": image_offset + total,
+                    "virtual_address": vaddr + total,
+                    "initialized_size": usize,
+                    "encoding": encoding,
+                    "sha256": hashlib.sha256(chunk).hexdigest(),
+                }
+            )
             total += usize
-            blocks += 1
+            compressed_total += csize
+
+        block_stream_end = off
+        block_stream_size = block_stream_end - block_stream_offset
+        if compressed_total != compressed_size:
+            raise SJCrunchError(
+                "section compressed-size mismatch: "
+                f"declared {compressed_size}, decoded {compressed_total}"
+            )
+        if file_size < block_stream_size:
+            raise SJCrunchError(
+                "section file size is smaller than its block stream: "
+                f"declared {file_size}, consumed {block_stream_size}"
+            )
+
+        packed_end_offset = block_stream_offset + file_size
+        if packed_end_offset > len(data):
+            raise SJCrunchError("section file span extends beyond the packed input")
+        padding = data[block_stream_end:packed_end_offset]
+        off = packed_end_offset
 
         output.extend(section_out)
-        sections.append({
-            "index": section_index,
-            "compressed_size": compressed_size,
-            "original_size": original_size,
-            "zero_byte_size": zero_size,
-            "virtual_address": vaddr,
-            "file_size": file_size,
-            "blocks": blocks,
-        })
+        sections.append(
+            {
+                "index": section_index,
+                "packed_header_offset": header_offset,
+                "packed_block_stream_offset": block_stream_offset,
+                "packed_block_stream_end": block_stream_end,
+                "packed_end_offset": packed_end_offset,
+                "compressed_data_size": compressed_size,
+                "block_stream_size": block_stream_size,
+                "file_size": file_size,
+                "padding_size": len(padding),
+                "padding_is_zero": not any(padding),
+                "image_offset": image_offset,
+                "virtual_address": vaddr,
+                "initialized_size": original_size,
+                "zero_fill_size": zero_size,
+                "memory_size": original_size + zero_size,
+                "sha256": hashlib.sha256(section_out).hexdigest(),
+                "blocks": blocks,
+            }
+        )
 
+    return {
+        "entry_address": entry,
+        "header_offset": HEADER_OFF,
+        "container_end_offset": off,
+        "image": bytes(output),
+        "sections": sections,
+    }
+
+
+def unpack(src: Path, dst: Path):
+    data = src.read_bytes()
+    native_lzo = load_lzo()
+    try:
+        decoded = decode_container(data, native_lzo=native_lzo)
+    except SJCrunchError as exc:
+        raise SystemExit(str(exc)) from exc
+
+    output = decoded["image"]
+    sections = decoded["sections"]
+    assert isinstance(output, bytes)
+    assert isinstance(sections, list)
     dst.write_bytes(output)
-    print(f"entry=0x{entry:08x}")
-    print(f"decompressor={'native-liblzo2' if lzo is not None else 'python-lzo1x'}")
-    print(f"sections={num_sections}")
-    for s in sections:
-        print(f"section[{s['index']}]: vaddr=0x{s['virtual_address']:08x} size={s['original_size']} blocks={s['blocks']} bss={s['zero_byte_size']}")
+    print(f"entry=0x{decoded['entry_address']:08x}")
+    print(
+        "decompressor="
+        f"{'native-liblzo2' if native_lzo is not None else 'python-lzo1x'}"
+    )
+    print(f"sections={len(sections)}")
+    for section in sections:
+        blocks = section["blocks"]
+        assert isinstance(blocks, list)
+        print(
+            f"section[{section['index']}]: "
+            f"vaddr=0x{section['virtual_address']:08x} "
+            f"size={section['initialized_size']} "
+            f"blocks={len(blocks)} bss={section['zero_fill_size']}"
+        )
     print(f"output_size={len(output)}")
     print(f"sha256={hashlib.sha256(output).hexdigest()}")
-    return entry, sections
+    return decoded["entry_address"], sections
 
 
 def main():

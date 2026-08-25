@@ -9,6 +9,7 @@
 | Working checkpoint | **1,041/1,041 (100.00%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
 | Working frontier | **0** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Build-ready EE source ownership | **97/97 TUs** | 96 canonical objects partially link with a frozen ABI/symbol map and no duplicate/common definitions. |
+| Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
 The six V53 recoveries, the two V73 PS2-I/O proofs, the two V74 SPC7110 RTC
@@ -20,16 +21,21 @@ complete 472-byte `C4DrawWireFrame` function, V78 proves the complete
 bytes with raw-exact assembly reconstructions. V81 proves the final 20 spans,
 covering another 71,384 bytes, and closes the audited function frontier at
 1,041/1,041. The frontier map now contains 0 entries.
-The current batch is documented in
+V82 then freezes the first whole-program measurement gate without publishing
+the private image: one SJCRUNCH2 section, thirteen blocks and fifty-one hash
+windows. The current batch is documented in
+[`V82_UNPACKED_LAYOUT_ORACLE.md`](V82_UNPACKED_LAYOUT_ORACLE.md); the function
+closure remains frozen in
 [`V81_FUNCTION_FRONTIER_CLOSED.md`](V81_FUNCTION_FRONTIER_CLOSED.md).
 
 ## Final proof gates
 
 1. **Function gate closed:** all 1,041 audited rows have exact, reproducible evidence.
 2. **Source/object gate closed:** 97/97 TUs compile; 96 canonical objects have frozen ownership.
-3. Reproduce data/rodata/bss layout, relocations and section alignment.
-4. Recover the historical archives, linker script, object order and library order.
-5. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+3. **Unpacked oracle closed:** section/block geometry and 64 KiB hashes are frozen.
+4. Reproduce data/rodata/bss layout, relocations and section alignment.
+5. Recover the historical archives, linker script, object order and library order.
+6. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first
