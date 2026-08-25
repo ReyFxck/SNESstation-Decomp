@@ -1,5 +1,8 @@
 # V77: exact C4DrawWireFrame proof
 
+> Frozen checkpoint. V78 subsequently promoted `C4BitPlaneWave`; use the
+> current 44-entry frontier linked from the generated project status.
+
 V77 promotes `C4DrawWireFrame` at `0x0010cdcc` with strict
 historical-source evidence. The formal checkpoint moves from **995/1041** to
 **996/1041 (95.68%)**, leaving **45** audited entries.
@@ -39,7 +42,7 @@ cp /path/to/SNES_EMU.ELF original/SNES_EMU.ELF
 make hunt1041-v77-evidence
 ```
 
-## Current 45-entry frontier
+## Frozen 45-entry frontier
 
 The generated
 [`hunt1041-v77-frontier-map-45.tsv`](../../analysis/matching/hunt1041-v77-frontier-map-45.tsv)

@@ -68,7 +68,10 @@ class Hunt1041V76C4SprTests(unittest.TestCase):
         mapped_addresses = {row["address"] for row in mapped}
         self.assertEqual(len(mapped_addresses), 46)
         self.assertTrue(unmatched < mapped_addresses)
-        self.assertEqual(mapped_addresses - unmatched, {"0x0010cdcc"})
+        self.assertEqual(
+            mapped_addresses - unmatched,
+            {"0x0010cdcc", "0x0010d2a8"},
+        )
         self.assertNotIn(ADDRESS, unmatched)
         self.assertEqual(
             Counter(row["track"] for row in mapped),

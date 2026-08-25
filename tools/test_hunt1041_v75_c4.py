@@ -105,7 +105,7 @@ class Hunt1041V75C4Tests(unittest.TestCase):
         mapped_addresses = {row["address"] for row in mapped}
         self.assertEqual(
             mapped_addresses - unmatched,
-            {"0x0010cdcc", "0x0010d4f0"},
+            {"0x0010cdcc", "0x0010d2a8", "0x0010d4f0"},
         )
         self.assertEqual(unmatched - mapped_addresses, set())
         self.assertEqual(

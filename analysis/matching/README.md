@@ -35,9 +35,12 @@ V76's strict `C4SprDisintegrate` proof is frozen in
 `hunt1041-v76-validated-c4spr-1.tsv`; its 46-entry frontier is now frozen.
 
 V77's strict `C4DrawWireFrame` proof is frozen in
-`hunt1041-v77-validated-c4draw-1.tsv`. The generated
-`hunt1041-v77-frontier-map-45.tsv` is the current exhaustive queue; the V75 and
-V76 maps remain frozen prior checkpoints.
+`hunt1041-v77-validated-c4draw-1.tsv`; its 45-entry frontier is now frozen.
+
+V78's strict `C4BitPlaneWave` proof is frozen in
+`hunt1041-v78-validated-c4bit-1.tsv`. The generated
+`hunt1041-v78-frontier-map-44.tsv` is the current exhaustive queue; all earlier
+frontier maps remain immutable checkpoint evidence.
 
 Unreferenced parameter sweeps and screening results belong under
 `analysis/archive/experiments/`, not beside authoritative evidence.

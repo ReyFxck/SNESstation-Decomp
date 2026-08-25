@@ -19,10 +19,10 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 
 > **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
 
-- **Matching:** 95.68%
-- **Formal checkpoint:** **996/1,041** strict promoted matches
+- **Matching:** 95.77%
+- **Formal checkpoint:** **997/1,041** strict promoted matches
 - **Recovered pending:** **0** (the V53 recovery set is fully formal)
-- **Working checkpoint:** **996/1,041** with **45** entries remaining
+- **Working checkpoint:** **997/1,041** with **44** entries remaining
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
@@ -34,9 +34,9 @@ The renderer-specific grid lives in [`docs/PROGRESS.generated.md`](docs/PROGRESS
 
 The formal count and the working checkpoint are intentionally separate. A row
 becomes formal `MATCHING` only after its compiler object, function boundary,
-relocations and target bytes are reproducibly verified. V77 applies that gate
-to the complete 472-byte `C4DrawWireFrame` function and tracks every one of the
-45 remaining entries; the V75 and V76 C4 proofs remain frozen as evidence.
+relocations and target bytes are reproducibly verified. V78 applies that gate
+to the complete 584-byte `C4BitPlaneWave` function and tracks every one of the
+44 remaining entries; the V75, V76 and V77 C4 proofs remain frozen as evidence.
 
 ## One-command reproduction goal
 

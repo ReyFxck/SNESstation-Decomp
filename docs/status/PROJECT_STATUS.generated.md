@@ -4,18 +4,19 @@
 
 | Checkpoint | Count | Meaning |
 |---|---:|---|
-| Formal `MATCHING` manifest | **996/1,041 (95.68%)** | Promoted rows with immutable compiler/object evidence. |
-| Recovered exact results still pending promotion | **0** | All recovered results are formal; V77 added the independently reproduced `C4DrawWireFrame` match. |
-| Working checkpoint | **996/1,041 (95.68%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
-| Working frontier | **45** | Audited entries not yet formally matched or covered by recovered evidence. |
+| Formal `MATCHING` manifest | **997/1,041 (95.77%)** | Promoted rows with immutable compiler/object evidence. |
+| Recovered exact results still pending promotion | **0** | All recovered results are formal; V78 added the independently reproduced `C4BitPlaneWave` match. |
+| Working checkpoint | **997/1,041 (95.77%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
+| Working frontier | **44** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
 The six V53 recoveries, the two V73 PS2-I/O proofs, the two V74 SPC7110 RTC
 proofs and the V75 C4 float/math batch remain formal `MATCHING` rows. V76
-proves the complete 580-byte `C4SprDisintegrate` function; V77 additionally
-proves the complete 472-byte `C4DrawWireFrame` function and regenerates the
-frontier map at 45 entries. The current batch is documented in
-[`V77_C4DRAW_WIREFRAME.md`](V77_C4DRAW_WIREFRAME.md).
+proves the complete 580-byte `C4SprDisintegrate` function, V77 proves the
+complete 472-byte `C4DrawWireFrame` function, and V78 proves the complete
+584-byte `C4BitPlaneWave` function. The frontier map now contains 44 entries.
+The current batch is documented in
+[`V78_C4BIT_PLANE_WAVE.md`](V78_C4BIT_PLANE_WAVE.md).
 
 ## Final proof gates
 

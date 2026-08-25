@@ -6,7 +6,7 @@ Maintained entry points live directly under `tools/` and are exercised by
 - `project_status.py` — reports formal and any recovered-but-unpromoted checkpoints.
 - `update_progress.py` / `audit_source_completeness.py` — generate and verify
   project state.
-- `update_frontier_map.py` — generate and verify the complete V77 45-entry
+- `update_frontier_map.py` — generate and verify the complete V78 44-entry
   two-track work queue.
 - `compare_elf_functions.py` / `promote_match_evidence.py` — strict comparison
   and promotion support.
@@ -38,3 +38,9 @@ span before accepting the match.
 The completed V77 `C4DrawWireFrame` proof is reproduced through
 `make hunt1041-v77-evidence`; it adds the target-proven packed three-byte read
 form and compares the complete function with precise MIPS relocation masks.
+
+The completed V78 `C4BitPlaneWave` proof is reproduced through
+`make hunt1041-v78-evidence`. Its runner uses
+`build_ee_gcc_regalloc_profile.py` to relink an isolated `cc1plus` with the
+single target-proven `$t5`-before-`$t4` local-allocation tie-break; the canonical
+historical compiler and build tree remain unchanged.
