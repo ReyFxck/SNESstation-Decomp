@@ -90,7 +90,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	reference verify-reference extract-assets fetch-newlib fetch-ee-toolchain-recipe \
 	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
-	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence \
+	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
 	match-miner match-miner-full \
 	ee-source-scan ee-source-scan-strict historical-ee-gate \
@@ -133,6 +133,7 @@ help-legacy:
 	@echo "  make hunt1041-v78-evidence  reproduce the C4BitPlaneWave proof"
 	@echo "  make hunt1041-v79-evidence  reproduce the C4ConvOAM proof"
 	@echo "  make hunt1041-v80-evidence  reproduce the 23 quick-win proofs"
+	@echo "  make hunt1041-v81-evidence  reproduce the final 20 function proofs"
 	@echo "  make match-miner-full"
 	@echo "  make historical-ee-gate"
 	@echo "  make match-get-tree-listing-strict"
@@ -319,6 +320,11 @@ hunt1041-v80-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v80_quickwins.py \
 		--assembler "$(EE_CXX_STAGE1_WORK_DIR)/prefix/bin/ee-as"
 	@echo "HUNT1041 V80 evidence: OK (23 formal quick-win matches)"
+
+hunt1041-v81-evidence: reference bootstrap-ee-cxx-stage1
+	$(PYTHON) tools/history/research/hunt1041_v81_final20.py \
+		--assembler "$(EE_CXX_STAGE1_WORK_DIR)/prefix/bin/ee-as"
+	@echo "HUNT1041 V81 evidence: OK (20 final-frontier matches; 1041/1041 closed)"
 
 toolchain-info:
 	@echo "Candidate EE compiler: GCC $(EE_GCC_VERSION)"
@@ -583,8 +589,8 @@ match-cpp-runtime-small-listing-strict:
 	bash tools/run-cpp-runtime-small-match.sh
 
 elf-status: audit-source-check
+	@echo "Function-code gate: CLOSED (1041/1041 strict matches)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
-	@echo "  - close the formal function frontier and regenerate pending V53 evidence"
 	@echo "  - freeze EE build-ready types, globals and translation-unit ownership"
 	@echo "  - reproduce data layout, relocations and section alignment"
 	@echo "  - prove exact EE archives, linker script, object order and library order"

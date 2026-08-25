@@ -80,9 +80,19 @@ class Hunt1041V79C4ConvTests(unittest.TestCase):
                 "\t",
             )
         }
-        self.assertEqual(len(unmatched), 20)
+        v81_promoted = {
+            row["address"]
+            for row in rows(
+                ROOT
+                / "analysis"
+                / "matching"
+                / "hunt1041-v81-validated-final20.tsv",
+                "\t",
+            )
+        }
+        self.assertEqual(len(unmatched), 0)
         self.assertLess(unmatched, mapped_addresses)
-        self.assertEqual(mapped_addresses - unmatched, v80_promoted)
+        self.assertEqual(mapped_addresses, v80_promoted | v81_promoted)
         self.assertNotIn(ADDRESS, unmatched)
         self.assertEqual(
             Counter(row["track"] for row in mapped),

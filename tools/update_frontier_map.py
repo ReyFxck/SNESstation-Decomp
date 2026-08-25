@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the V80 address-level map for the 20 unmatched functions."""
+"""Generate the V81 address-level map after complete function closure."""
 from __future__ import annotations
 
 import argparse
@@ -12,8 +12,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TARGETS = ROOT / "analysis" / "progress_targets.csv"
 READINESS = ROOT / "analysis" / "source_readiness.csv"
-OUTPUT = ROOT / "analysis" / "matching" / "hunt1041-v80-frontier-map-20.tsv"
-EXPECTED_FRONTIER = 20
+OUTPUT = ROOT / "analysis" / "matching" / "hunt1041-v81-frontier-map-0.tsv"
+EXPECTED_FRONTIER = 0
 MATCHING_GATE = (
     "strict EE GCC 3.2.2 object vs hash-pinned unpacked ELF; "
     "precise MIPS relocation masks only"
@@ -169,6 +169,31 @@ PROMOTED_V80 = frozenset(
     }
 )
 
+PROMOTED_V81 = frozenset(
+    {
+        0x001008DC,
+        0x00100E78,
+        0x00101EF0,
+        0x00102AB0,
+        0x00103314,
+        0x00104418,
+        0x00104F18,
+        0x00106CA0,
+        0x0010C6F8,
+        0x0010CFA4,
+        0x0010D7DC,
+        0x0012C558,
+        0x001728D4,
+        0x00175300,
+        0x00175CB4,
+        0x00176594,
+        0x00177E6C,
+        0x001806A4,
+        0x00180B80,
+        0x00182984,
+    }
+)
+
 
 def read_rows(path: Path) -> list[dict[str, str]]:
     with path.open(encoding="utf-8", newline="") as stream:
@@ -202,14 +227,14 @@ def render() -> str:
     }
     if len(unmatched) != EXPECTED_FRONTIER:
         raise ValueError(
-            f"V80 frontier expected {EXPECTED_FRONTIER} entries, found {len(unmatched)}"
+            f"V81 frontier expected {EXPECTED_FRONTIER} entries, found {len(unmatched)}"
         )
-    expected_unmatched = set(packets) - PROMOTED_V80
+    expected_unmatched = set(packets) - PROMOTED_V80 - PROMOTED_V81
     if set(unmatched) != expected_unmatched:
         missing = sorted(set(unmatched) - expected_unmatched)
         stale = sorted(expected_unmatched - set(unmatched))
         raise ValueError(
-            "V80 packet coverage changed: "
+            "V81 packet coverage changed: "
             f"missing={[f'0x{x:08x}' for x in missing]}; "
             f"stale={[f'0x{x:08x}' for x in stale]}"
         )

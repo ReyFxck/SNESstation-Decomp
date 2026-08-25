@@ -12,8 +12,8 @@ The rejected patterns and their reasons are recorded in [`analysis/progress17_re
 
 | Metric | Count | Validated universe |
 |---|---:|---:|
-| Matching | 1,021 | **98.08%** |
-| Recovered exact results still pending formal promotion | 0 | V53 recovery set is fully formal; V80 quick-win proofs included; working checkpoint **1,021/1,041 (98.08%)** |
+| Matching | 1,041 | **100.00%** |
+| Recovered exact results still pending formal promotion | 0 | V53 recovery set is fully formal; V81 final-frontier proofs included; working checkpoint **1,041/1,041 (100.00%)** |
 | Reconstructed / matching | 1,041 | **100.00%** |
 | Mapped (identified + partial + reconstructed) | 1,041 | **100.00%** |
 

@@ -1,5 +1,8 @@
 # V80: 23 raw-exact quick wins
 
+> Frozen checkpoint. V81 subsequently promoted all 20 remaining functions;
+> use the zero-entry frontier linked from the generated project status.
+
 V80 promotes the 23 smallest non-C4 spans from the frozen V79 frontier. The
 formal checkpoint moves from **998/1,041 (95.87%)** to
 **1,021/1,041 (98.08%)**, leaving **20** audited entries.
@@ -51,7 +54,7 @@ cp /path/to/SNES_EMU.ELF original/SNES_EMU.ELF
 make hunt1041-v80-evidence
 ```
 
-## Current 20-entry frontier
+## Frozen 20-entry frontier
 
 The generated
 [`hunt1041-v80-frontier-map-20.tsv`](../../analysis/matching/hunt1041-v80-frontier-map-20.tsv)

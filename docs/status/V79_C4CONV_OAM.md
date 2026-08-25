@@ -1,7 +1,8 @@
 # V79: exact C4ConvOAM proof
 
-> Frozen checkpoint. V80 subsequently promoted 23 non-C4 quick wins; use the
-> current 20-entry frontier linked from the generated project status.
+> Frozen checkpoint. V80 subsequently promoted 23 non-C4 quick wins and V81
+> closed the remaining 20 functions; use the zero-entry frontier linked from
+> the generated project status.
 
 V79 promotes `C4ConvOAM` at `0x0010c340` with a raw byte-exact EE assembly
 reconstruction and a retained readable Snes9x 1.41-1 C model. The formal

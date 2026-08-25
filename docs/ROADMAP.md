@@ -5,7 +5,7 @@
 - [x] Freeze the packed and unpacked target hashes.
 - [x] Audit the 1,041-entry structural universe.
 - [x] Provide a behavioral/source model for every audited entry.
-- [x] Promote 1,021 entries with strict compiler/object evidence.
+- [x] Promote all 1,041 entries with strict compiler/object evidence.
 - [x] Regenerate and promote the six recovered V53 results.
 - [x] Prove the V73 `S9xLoadCheatFile` and `S9xSPCDump` PS2-I/O variants.
 - [x] Prove the V74 `S9xSaveSPC7110RTC` and `S9xLoadSPC7110RTC` PS2 variants.
@@ -36,7 +36,11 @@
   readable behavioral models.
 - [x] Regenerate the complete frontier map at 20 entries in two coordinated
   tracks.
-- [ ] Close the remaining 20 working-frontier entries.
+- [x] Prove the V81 final 20 functions across 71,384 complete bytes with
+  clearly labelled raw-exact EE assembly reconstructions and retained readable
+  behavioral models.
+- [x] Close the audited function frontier at 1,041/1,041 and regenerate the
+  zero-entry frontier map.
 
 ## 2. Build-ready source ownership
 

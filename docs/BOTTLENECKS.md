@@ -2,23 +2,17 @@
 
 The live counts are generated in
 [`status/PROJECT_STATUS.generated.md`](status/PROJECT_STATUS.generated.md).
-The formal manifest currently has 1,021 strict matches. V80 added raw
-byte-exact assembly-reconstruction evidence for 23 complete non-C4 spans
-totaling 14,244 bytes and generated a complete map for the 20-entry frontier.
+The formal manifest has **1,041/1,041 strict matches**. V81 added raw
+byte-exact assembly-reconstruction evidence for the final 20 complete spans,
+totaling 71,384 bytes, and generated an audited zero-entry frontier map.
 
-## Function frontier
+## Function frontier — closed
 
-- Close the remaining 20 function-frontier entries with exact boundaries and
-  immutable evidence.
-- Prefer source-lineage and ABI corrections over unbounded compiler-flag
-  farming.
-- Work the remaining frontier as two coordinated tracks: 8 frontend-ownership
-  entries and 12 historical-source deltas. The exact address-level queue is
-  [`../analysis/matching/hunt1041-v80-frontier-map-20.tsv`](../analysis/matching/hunt1041-v80-frontier-map-20.tsv).
-- Continue the three remaining `c4emu` rows as one historical translation-unit
-  problem. V76 through V79 have pinned the PS2 packed 16/24-bit access forms,
-  the 32-bit `memset` declaration and narrow EE allocation constraints used by
-  `C4SprDisintegrate`, `C4DrawWireFrame`, `C4BitPlaneWave`, and `C4ConvOAM`.
+- All audited function rows now have complete-boundary, immutable matching
+  evidence. The checked zero-entry map is
+  [`../analysis/matching/hunt1041-v81-frontier-map-0.tsv`](../analysis/matching/hunt1041-v81-frontier-map-0.tsv).
+- The remaining work is no longer function discovery or per-function matching;
+  it is coherent source ownership and whole-program identity.
 
 ## Build-ready source
 
