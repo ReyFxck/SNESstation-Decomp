@@ -85,6 +85,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 .DEFAULT_GOAL := help
 
 .PHONY: help help-legacy status docs frontier-map check-generated check-links \
+	checkpoint-1041-audit checkpoint-1041-check checkpoint-1041-reference-check \
 	reproduce-status reproduce-check reproduce \
 	audit-source audit-source-check host-syntax test-tools check \
 	reference verify-reference extract-assets fetch-newlib fetch-ee-toolchain-recipe \
@@ -109,6 +110,8 @@ help:
 	@echo
 	@echo "  make status          show formal, pending and working checkpoints"
 	@echo "  make check           run manifests, generated docs, links, syntax and tests"
+	@echo "  make checkpoint-1041-check  verify the frozen public 1041/1041 checkpoint"
+	@echo "  make checkpoint-1041-reference-check  rerun its private-reference proof"
 	@echo "  make docs            regenerate all maintained status files"
 	@echo "  make reference       unpack and verify original/SNES_EMU.ELF privately"
 	@echo "  make reproduce-check verify every implemented whole-program gate"
@@ -196,7 +199,18 @@ host-syntax:
 test-tools:
 	$(PYTHON) -m unittest discover -s tools -p 'test_*.py'
 
-check: check-generated check-links host-syntax test-tools
+checkpoint-1041-audit:
+	$(PYTHON) tools/verify_checkpoint_1041.py
+
+checkpoint-1041-check: check
+	@echo "function-frontier-1041-v81 public checkpoint: OK"
+
+checkpoint-1041-reference-check: checkpoint-1041-check
+	$(MAKE) hunt1041-v81-evidence
+	$(MAKE) elf-status
+	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
+
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit
 	@echo "repository checks: OK"
 
 reference:

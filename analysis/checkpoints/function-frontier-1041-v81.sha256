@@ -1,0 +1,6 @@
+# Frozen V81 function-frontier evidence. Paths are repository-relative.
+31c5aad06832fadab8d0bd703531718a87ea186d279c241a41789ae0c2608e1a  analysis/matching/hunt1041-v81-validated-final20.tsv
+102ca6f39a6360938a28be5f96ceaea1a95387760b4f49c6b7a3966b5fa592f3  analysis/matching/hunt1041-v81-frontier-map-0.tsv
+d7e14ca0b202efdbb1c38d2dda83949b9bb210d05e51591e64b789b6e2492615  matching/candidates/hunt1041_v81_final20_exact.S
+cc43e984384484e15a08652604dd90d991529cd56af6f3a73034c458ab04f766  tools/history/research/hunt1041_v81_final20.py
+2f5e6041a47b9de980df27da28d532984e09faa6f5dafa0c97342b0c74d3f081  docs/status/V81_FUNCTION_FRONTIER_CLOSED.md

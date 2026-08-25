@@ -40,6 +40,10 @@ raw-exact assembly reconstructions. The audited function frontier is now
 **1,041/1,041**, while the V75 through V80 checkpoints remain frozen as
 evidence.
 
+The immutable public checkpoint, canonical tag and clean-checkout verification
+commands are recorded in
+[`docs/status/FUNCTION_FRONTIER_1041_CHECKPOINT.md`](docs/status/FUNCTION_FRONTIER_1041_CHECKPOINT.md).
+
 ## One-command reproduction goal
 
 The stable entry point is:
@@ -71,6 +75,7 @@ compiler:
 ```bash
 make status
 make check
+make checkpoint-1041-check
 ```
 
 To verify a legally obtained reference binary:

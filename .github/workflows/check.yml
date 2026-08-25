@@ -15,5 +15,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Audit manifests, docs, source syntax and tools
-        run: make check
+      - name: Audit repository and frozen 1041-function checkpoint
+        run: make checkpoint-1041-check
