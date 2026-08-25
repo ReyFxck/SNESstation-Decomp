@@ -61,7 +61,7 @@ class Hunt1041V79C4ConvTests(unittest.TestCase):
             self.assertIn("representation=explicit-assembly-reconstruction", row["notes"])
             self.assertIn("hunt1041-v79-validated-c4conv-1.tsv", row["notes"])
 
-    def test_frontier_map_covers_exactly_the_remaining_43(self) -> None:
+    def test_frontier_map_is_the_frozen_v79_checkpoint(self) -> None:
         mapped = rows(FRONTIER, "\t")
         unmatched = {
             row["address"]
@@ -69,7 +69,20 @@ class Hunt1041V79C4ConvTests(unittest.TestCase):
             if row["status"] != "MATCHING"
         }
         self.assertEqual(len(mapped), 43)
-        self.assertEqual({row["address"] for row in mapped}, unmatched)
+        mapped_addresses = {row["address"] for row in mapped}
+        v80_promoted = {
+            row["address"]
+            for row in rows(
+                ROOT
+                / "analysis"
+                / "matching"
+                / "hunt1041-v80-validated-quickwins-23.tsv",
+                "\t",
+            )
+        }
+        self.assertEqual(len(unmatched), 20)
+        self.assertLess(unmatched, mapped_addresses)
+        self.assertEqual(mapped_addresses - unmatched, v80_promoted)
         self.assertNotIn(ADDRESS, unmatched)
         self.assertEqual(
             Counter(row["track"] for row in mapped),

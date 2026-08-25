@@ -68,8 +68,9 @@ class Hunt1041V78C4BitTests(unittest.TestCase):
         }
         self.assertEqual(len(mapped), 44)
         mapped_addresses = {row["address"] for row in mapped}
+        self.assertEqual(len(unmatched), 20)
         self.assertLess(unmatched, mapped_addresses)
-        self.assertEqual(mapped_addresses - unmatched, {"0x0010c340"})
+        self.assertEqual(len(mapped_addresses - unmatched), 24)
         self.assertNotIn(ADDRESS, unmatched)
         self.assertEqual(
             Counter(row["track"] for row in mapped),

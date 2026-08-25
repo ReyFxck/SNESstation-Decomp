@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the V79 address-level map for the 43 unmatched functions."""
+"""Generate the V80 address-level map for the 20 unmatched functions."""
 from __future__ import annotations
 
 import argparse
@@ -12,8 +12,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TARGETS = ROOT / "analysis" / "progress_targets.csv"
 READINESS = ROOT / "analysis" / "source_readiness.csv"
-OUTPUT = ROOT / "analysis" / "matching" / "hunt1041-v79-frontier-map-43.tsv"
-EXPECTED_FRONTIER = 43
+OUTPUT = ROOT / "analysis" / "matching" / "hunt1041-v80-frontier-map-20.tsv"
+EXPECTED_FRONTIER = 20
 MATCHING_GATE = (
     "strict EE GCC 3.2.2 object vs hash-pinned unpacked ELF; "
     "precise MIPS relocation masks only"
@@ -138,6 +138,37 @@ PACKETS = (
     ),
 )
 
+# V80 promotes the 23 smallest non-C4 spans from the frozen V79 queue.  Keep
+# their packet metadata above so the transition from 43 to 20 is audited rather
+# than silently deleting historical ownership information.
+PROMOTED_V80 = frozenset(
+    {
+        0x00100114,
+        0x0010038C,
+        0x001005EC,
+        0x001019A8,
+        0x00101B64,
+        0x00103B34,
+        0x00103DD4,
+        0x00104234,
+        0x00104358,
+        0x00104A54,
+        0x00104BBC,
+        0x00105898,
+        0x00105AE8,
+        0x00105E48,
+        0x001060DC,
+        0x001064C0,
+        0x0010689C,
+        0x00107358,
+        0x0012CBD8,
+        0x0012D05C,
+        0x00151074,
+        0x001584D0,
+        0x00177A84,
+    }
+)
+
 
 def read_rows(path: Path) -> list[dict[str, str]]:
     with path.open(encoding="utf-8", newline="") as stream:
@@ -171,13 +202,14 @@ def render() -> str:
     }
     if len(unmatched) != EXPECTED_FRONTIER:
         raise ValueError(
-            f"V79 frontier expected {EXPECTED_FRONTIER} entries, found {len(unmatched)}"
+            f"V80 frontier expected {EXPECTED_FRONTIER} entries, found {len(unmatched)}"
         )
-    if set(unmatched) != set(packets):
-        missing = sorted(set(unmatched) - set(packets))
-        stale = sorted(set(packets) - set(unmatched))
+    expected_unmatched = set(packets) - PROMOTED_V80
+    if set(unmatched) != expected_unmatched:
+        missing = sorted(set(unmatched) - expected_unmatched)
+        stale = sorted(expected_unmatched - set(unmatched))
         raise ValueError(
-            "V79 packet coverage changed: "
+            "V80 packet coverage changed: "
             f"missing={[f'0x{x:08x}' for x in missing]}; "
             f"stale={[f'0x{x:08x}' for x in stale]}"
         )

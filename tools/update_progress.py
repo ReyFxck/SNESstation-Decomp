@@ -236,7 +236,7 @@ The rejected patterns and their reasons are recorded in [`analysis/progress17_re
 | Metric | Count | Validated universe |
 |---|---:|---:|
 | Matching | {len(matching):,} | **{pct(len(matching), VALIDATED_TARGETS):.2f}%** |
-| Recovered exact results still pending formal promotion | {project_status.recovered_pending:,} | V53 recovery set is fully formal; V79 C4 proofs included; working checkpoint **{project_status.working_checkpoint:,}/{VALIDATED_TARGETS:,} ({project_status.working_percent:.2f}%)** |
+| Recovered exact results still pending formal promotion | {project_status.recovered_pending:,} | V53 recovery set is fully formal; V80 quick-win proofs included; working checkpoint **{project_status.working_checkpoint:,}/{VALIDATED_TARGETS:,} ({project_status.working_percent:.2f}%)** |
 | Reconstructed / matching | {len(reconstructed):,} | **{pct(len(reconstructed), VALIDATED_TARGETS):.2f}%** |
 | Mapped (identified + partial + reconstructed) | {len(mapped):,} | **{pct(len(mapped), VALIDATED_TARGETS):.2f}%** |
 
@@ -281,7 +281,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Checkpoint | Count | Meaning |
 |---|---:|---|
 | Formal `MATCHING` manifest | **{project_status.formal_matching:,}/{project_status.total:,} ({project_status.formal_percent:.2f}%)** | Promoted rows with immutable compiler/object evidence. |
-| Recovered exact results still pending promotion | **{project_status.recovered_pending:,}** | All recovered results are formal; V79 added the raw-exact `C4ConvOAM` reconstruction. |
+| Recovered exact results still pending promotion | **{project_status.recovered_pending:,}** | All recovered results are formal; V80 added 23 raw-exact quick-win reconstructions. |
 | Working checkpoint | **{project_status.working_checkpoint:,}/{project_status.total:,} ({project_status.working_percent:.2f}%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
 | Working frontier | **{project_status.working_remaining:,}** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
@@ -291,9 +291,11 @@ proofs and the V75 C4 float/math batch remain formal `MATCHING` rows. V76
 proves the complete 580-byte `C4SprDisintegrate` function, V77 proves the
 complete 472-byte `C4DrawWireFrame` function, V78 proves the complete
 584-byte `C4BitPlaneWave` function, and V79 proves the complete 952-byte
-`C4ConvOAM` function. The frontier map now contains 43 entries.
+`C4ConvOAM` function. V80 proves 23 complete non-C4 spans totaling 14,244
+bytes with raw-exact assembly reconstructions. The frontier map now contains
+20 entries.
 The current batch is documented in
-[`V79_C4CONV_OAM.md`](V79_C4CONV_OAM.md).
+[`V80_QUICK_WINS_23.md`](V80_QUICK_WINS_23.md).
 
 ## Final proof gates
 

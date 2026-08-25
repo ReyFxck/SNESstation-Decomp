@@ -4,10 +4,10 @@
 
 | Checkpoint | Count | Meaning |
 |---|---:|---|
-| Formal `MATCHING` manifest | **998/1,041 (95.87%)** | Promoted rows with immutable compiler/object evidence. |
-| Recovered exact results still pending promotion | **0** | All recovered results are formal; V79 added the raw-exact `C4ConvOAM` reconstruction. |
-| Working checkpoint | **998/1,041 (95.87%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
-| Working frontier | **43** | Audited entries not yet formally matched or covered by recovered evidence. |
+| Formal `MATCHING` manifest | **1,021/1,041 (98.08%)** | Promoted rows with immutable compiler/object evidence. |
+| Recovered exact results still pending promotion | **0** | All recovered results are formal; V80 added 23 raw-exact quick-win reconstructions. |
+| Working checkpoint | **1,021/1,041 (98.08%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
+| Working frontier | **20** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
 The six V53 recoveries, the two V73 PS2-I/O proofs, the two V74 SPC7110 RTC
@@ -15,9 +15,11 @@ proofs and the V75 C4 float/math batch remain formal `MATCHING` rows. V76
 proves the complete 580-byte `C4SprDisintegrate` function, V77 proves the
 complete 472-byte `C4DrawWireFrame` function, V78 proves the complete
 584-byte `C4BitPlaneWave` function, and V79 proves the complete 952-byte
-`C4ConvOAM` function. The frontier map now contains 43 entries.
+`C4ConvOAM` function. V80 proves 23 complete non-C4 spans totaling 14,244
+bytes with raw-exact assembly reconstructions. The frontier map now contains
+20 entries.
 The current batch is documented in
-[`V79_C4CONV_OAM.md`](V79_C4CONV_OAM.md).
+[`V80_QUICK_WINS_23.md`](V80_QUICK_WINS_23.md).
 
 ## Final proof gates
 

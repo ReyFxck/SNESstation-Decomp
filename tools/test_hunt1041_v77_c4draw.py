@@ -67,8 +67,9 @@ class Hunt1041V77C4DrawTests(unittest.TestCase):
         }
         self.assertEqual(len(mapped), 45)
         mapped_addresses = {row["address"] for row in mapped}
-        self.assertEqual(len(unmatched), 43)
+        self.assertEqual(len(unmatched), 20)
         self.assertLess(unmatched, mapped_addresses)
+        self.assertEqual(len(mapped_addresses - unmatched), 25)
         self.assertNotIn(ADDRESS, unmatched)
         self.assertIn("0x0010c340", mapped_addresses)
         self.assertNotIn("0x0010c340", unmatched)

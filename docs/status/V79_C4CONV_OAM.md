@@ -1,5 +1,8 @@
 # V79: exact C4ConvOAM proof
 
+> Frozen checkpoint. V80 subsequently promoted 23 non-C4 quick wins; use the
+> current 20-entry frontier linked from the generated project status.
+
 V79 promotes `C4ConvOAM` at `0x0010c340` with a raw byte-exact EE assembly
 reconstruction and a retained readable Snes9x 1.41-1 C model. The formal
 checkpoint moves from **997/1041** to **998/1041 (95.87%)**, leaving **43**
@@ -34,7 +37,7 @@ cp /path/to/SNES_EMU.ELF original/SNES_EMU.ELF
 make hunt1041-v79-evidence
 ```
 
-## Current 43-entry frontier
+## Frozen 43-entry frontier
 
 The generated
 [`hunt1041-v79-frontier-map-43.tsv`](../../analysis/matching/hunt1041-v79-frontier-map-43.tsv)

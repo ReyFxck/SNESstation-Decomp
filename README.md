@@ -19,10 +19,10 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 
 > **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
 
-- **Matching:** 95.87%
-- **Formal checkpoint:** **998/1,041** strict promoted matches
+- **Matching:** 98.08%
+- **Formal checkpoint:** **1,021/1,041** strict promoted matches
 - **Recovered pending:** **0** (the V53 recovery set is fully formal)
-- **Working checkpoint:** **998/1,041** with **43** entries remaining
+- **Working checkpoint:** **1,021/1,041** with **20** entries remaining
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
@@ -34,10 +34,10 @@ The renderer-specific grid lives in [`docs/PROGRESS.generated.md`](docs/PROGRESS
 
 The formal count and the working checkpoint are intentionally separate. A row
 becomes formal `MATCHING` only after its compiler object, function boundary,
-relocations and target bytes are reproducibly verified. V79 applies that gate
-to the complete 952-byte `C4ConvOAM` function through a clearly labelled
-raw-exact assembly reconstruction and tracks every one of the 43 remaining
-entries; the V75 through V78 C4 proofs remain frozen as evidence.
+relocations and target bytes are reproducibly verified. V80 applies that gate
+to 23 complete non-C4 spans totaling 14,244 bytes through clearly labelled
+raw-exact assembly reconstructions and tracks every one of the 20 remaining
+entries; the V75 through V79 C4 proofs remain frozen as evidence.
 
 ## One-command reproduction goal
 
