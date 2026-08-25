@@ -110,3 +110,8 @@ object set with explicit ownership. It does not prove the exact original 97-file
 source organization, define all target-address data, choose the original
 archives, reproduce relocations/sections, or match either frozen executable
 hash. Those are the Stage-3 and Stage-4 identity gates.
+
+The downstream
+[`V83_SOURCE_ADDRESS_ALIASES.md`](V83_SOURCE_ADDRESS_ALIASES.md) checkpoint
+resolves 257 of this frozen aggregate's 337 source-address aliases without
+changing the Stage-2 manifests or any allocated section bytes.

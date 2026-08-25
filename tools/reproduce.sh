@@ -7,8 +7,9 @@ cd "$PROJECT_ROOT"
 
 show_status() {
     python3 tools/project_status.py
-    printf '\nClosed whole-program measurement:\n'
+    printf '\nImplemented whole-program gates:\n'
     printf '  - unpacked layout oracle: 1 section / 13 blocks / 51 hash windows\n'
+    printf '  - source-address alias tranche: 257/337 proved; 80 explicit blockers\n'
     printf '\nExact replacement ELF still requires:\n'
     printf '  - exact global data, sections, relocations and object boundaries\n'
     printf '  - exact historical archives, linker script and link order\n'
@@ -29,7 +30,7 @@ case "$MODE" in
         ;;
     verify)
         make check
-        make source-tree
+        make source-aliases
         require_reference
         make reference
         make layout-oracle-check
@@ -37,7 +38,7 @@ case "$MODE" in
         ;;
     full)
         make check
-        make source-tree
+        make source-aliases
         require_reference
         make reference
         make layout-oracle-check

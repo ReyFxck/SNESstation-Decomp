@@ -28,6 +28,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
 - **Build-ready EE source ownership:** **97/97 TUs** (96 canonical + 1 alternate)
+- **Source-address aliases:** **257/337 proved**, **80 blocked**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -80,6 +81,7 @@ make status
 make check
 make checkpoint-1041-check
 make source-tree
+make source-aliases
 make layout-oracle
 ```
 
@@ -108,6 +110,11 @@ a duplicate-free 96-object canonical aggregate. See
 publishing the reference: it checks one SJCRUNCH2 section, thirteen blocks and
 fifty-one 64 KiB hash windows. See
 [`docs/status/V82_UNPACKED_LAYOUT_ORACLE.md`](docs/status/V82_UNPACKED_LAYOUT_ORACLE.md).
+
+`make source-aliases` proves and applies the first Stage-3 link-identity
+tranche: 257/337 alternate target-address names bind to 242 canonical global
+text symbols without changing allocated section bytes. See
+[`docs/status/V83_SOURCE_ADDRESS_ALIASES.md`](docs/status/V83_SOURCE_ADDRESS_ALIASES.md).
 
 ## Target fingerprint
 

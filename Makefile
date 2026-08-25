@@ -55,6 +55,11 @@ SOURCE_TREE_EXTERNAL_MAP := analysis/source_tree/external_symbol_ownership.tsv
 SOURCE_TREE_ABI_CONTRACT := analysis/source_tree/ee_abi_contract.c
 SOURCE_TREE_SPECIAL_MAP := analysis/source_tree/special_ownership.tsv
 SOURCE_TREE_FINGERPRINTS := analysis/source_tree/object_fingerprints.tsv
+SOURCE_ALIAS_MANIFEST := analysis/link_identity/source_address_aliases.tsv
+SOURCE_ALIAS_BUILD_DIR := $(BUILD_DIR)/source-aliases
+SOURCE_ALIAS_INPUT := $(SOURCE_TREE_BUILD_DIR)/source-tree.partial.o
+SOURCE_ALIAS_OUTPUT := $(SOURCE_ALIAS_BUILD_DIR)/source-tree.alias-resolved.partial.o
+SOURCE_ALIAS_REPORT := $(SOURCE_ALIAS_BUILD_DIR)/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -105,6 +110,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	layout-oracle layout-oracle-check layout-oracle-refresh layout-oracle-public-check compare-unpacked \
 	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
 	source-tree source-tree-check source-tree-refresh \
+	source-aliases source-aliases-check source-aliases-refresh source-aliases-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -136,6 +142,7 @@ help:
 	@echo "  make bootstrap-ee-stage1  build isolated binutils 2.14 + EE GCC 3.2.2"
 	@echo "  make source-tree     build toolchain and verify the frozen Stage-2 object set"
 	@echo "  make source-tree-check  verify Stage 2 with an available EE compiler"
+	@echo "  make source-aliases  prove and apply zero-byte Stage-3 address aliases"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -229,7 +236,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -446,6 +453,36 @@ source-tree-refresh: check-ee-compiler
 		--build-dir "$(SOURCE_TREE_BUILD_DIR)" \
 		--jobs "$${EE_SOURCE_TREE_JOBS:-8}" \
 		--update
+
+source-aliases: bootstrap-ee-stage1
+	$(MAKE) source-aliases-check EE_CC="$(EE_STAGE1_CC)"
+
+source-aliases-check: source-tree-check
+	$(PYTHON) tools/source_aliases.py link \
+		--compiler "$(EE_CC)" \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--progress-manifest "analysis/progress_targets.csv" \
+		--manifest "$(SOURCE_ALIAS_MANIFEST)" \
+		--input "$(SOURCE_ALIAS_INPUT)" \
+		--output "$(SOURCE_ALIAS_OUTPUT)" \
+		--report "$(SOURCE_ALIAS_REPORT)"
+
+# Refreshing aliases is a reviewed identity decision, kept separate from the
+# normal repository and historical-compiler checks.
+source-aliases-refresh:
+	$(PYTHON) tools/source_aliases.py refresh \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--progress-manifest "analysis/progress_targets.csv" \
+		--manifest "$(SOURCE_ALIAS_MANIFEST)"
+
+source-aliases-public-check:
+	$(PYTHON) tools/source_aliases.py validate \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--progress-manifest "analysis/progress_targets.csv" \
+		--manifest "$(SOURCE_ALIAS_MANIFEST)"
 
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \

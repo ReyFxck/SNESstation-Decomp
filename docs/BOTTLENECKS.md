@@ -34,6 +34,20 @@ address for every rebuilt candidate. See
 
 This is a measurement gate, not a claim that the bytes have been rebuilt.
 
+## Source-address aliases — first tranche closed
+
+V83 proves 257/337 address-shaped external names against 242 canonical global
+text definitions and applies them with zero-byte linker aliases. The
+alias-resolved aggregate retains 1,664 unresolved contracts, down from the
+frozen Stage-2 count of 1,921, while every allocated section remains
+byte-identical. See
+[`status/V83_SOURCE_ADDRESS_ALIASES.md`](status/V83_SOURCE_ADDRESS_ALIASES.md).
+
+The 80 deliberately blocked rows split into 73 audited target names that are
+not exact exported symbols, six addresses outside the audited target manifest
+and one two-candidate collision at `0x0010a840`. Those need semantic/visibility
+proof, not raw-address definitions.
+
 ## Whole-program identity
 
 Even after every function is `MATCHING`, an identical ELF still requires:

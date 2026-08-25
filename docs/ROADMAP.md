@@ -62,6 +62,10 @@ Exact program-data bytes/placement and final object order remain Stage 3.
 
 - [x] Freeze a byte-free unpacked-layout oracle with SJCRUNCH2 section/block
   geometry, 64 KiB hashes and an exact first-difference comparator.
+- [x] Prove and zero-byte bind 257/337 source-address aliases to 242 canonical
+  global text symbols without changing allocated sections.
+- [ ] Resolve the remaining 80 address aliases: 73 non-exported audited names,
+  six addresses outside the target manifest and one multiple-owner collision.
 - [ ] Identify exact old runtime/library revisions and archive members.
 - [ ] Recover the application linker script and section alignment.
 - [ ] Recover object order and library order.

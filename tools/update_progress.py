@@ -21,6 +21,7 @@ from project_status import load_status
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
 SOURCE_READINESS = ROOT / "analysis" / "source_readiness.csv"
+SOURCE_ALIASES = ROOT / "analysis" / "link_identity" / "source_address_aliases.tsv"
 OUT = ROOT / "docs" / "PROGRESS.generated.md"
 SVG_OUT = ROOT / "assets" / "progress.svg"
 STATUS_OUT = ROOT / "docs" / "status" / "PROJECT_STATUS.generated.md"
@@ -205,6 +206,13 @@ def main() -> None:
         row["source_form"] == "BEHAVIORAL_SOURCE_MODEL" for row in readiness
     )
     pseudocode_only_count = len(readiness) - source_model_count
+    alias_rows = list(
+        csv.DictReader(SOURCE_ALIASES.open(encoding="utf-8"), delimiter="\t")
+    )
+    alias_proved = sum(row["status"] == "PROVED" for row in alias_rows)
+    alias_blocked = sum(row["status"] == "BLOCKED" for row in alias_rows)
+    if not alias_rows or alias_proved + alias_blocked != len(alias_rows):
+        raise SystemExit("invalid source-address alias status manifest")
 
     draw = [
         r for r in rows
@@ -286,6 +294,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Working checkpoint | **{project_status.working_checkpoint:,}/{project_status.total:,} ({project_status.working_percent:.2f}%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
 | Working frontier | **{project_status.working_remaining:,}** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Build-ready EE source ownership | **97/97 TUs** | 96 canonical objects partially link with a frozen ABI/symbol map and no duplicate/common definitions. |
+| Source-address alias tranche | **{alias_proved}/{len(alias_rows)} proved** | Zero-byte linker aliases bind proven alternate names to canonical global text symbols; {alias_blocked} remain blocked. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -300,8 +309,14 @@ covering another 71,384 bytes, and closes the audited function frontier at
 1,041/1,041. The frontier map now contains 0 entries.
 V82 then freezes the first whole-program measurement gate without publishing
 the private image: one SJCRUNCH2 section, thirteen blocks and fifty-one hash
-windows. The current batch is documented in
-[`V82_UNPACKED_LAYOUT_ORACLE.md`](V82_UNPACKED_LAYOUT_ORACLE.md); the function
+windows. V83 proves {alias_proved} of {len(alias_rows)} source-address aliases
+against {len(set(row['canonical_symbol'] for row in alias_rows if row['status'] == 'PROVED'))}
+canonical global text symbols and applies them without changing any allocated
+section bytes; {alias_blocked} ambiguous or incomplete rows remain explicit blockers.
+The current batch is documented in
+[`V83_SOURCE_ADDRESS_ALIASES.md`](V83_SOURCE_ADDRESS_ALIASES.md); the layout
+oracle remains frozen in
+[`V82_UNPACKED_LAYOUT_ORACLE.md`](V82_UNPACKED_LAYOUT_ORACLE.md), and the function
 closure remains frozen in
 [`V81_FUNCTION_FRONTIER_CLOSED.md`](V81_FUNCTION_FRONTIER_CLOSED.md).
 
@@ -310,9 +325,10 @@ closure remains frozen in
 1. **Function gate closed:** all 1,041 audited rows have exact, reproducible evidence.
 2. **Source/object gate closed:** 97/97 TUs compile; 96 canonical objects have frozen ownership.
 3. **Unpacked oracle closed:** section/block geometry and 64 KiB hashes are frozen.
-4. Reproduce data/rodata/bss layout, relocations and section alignment.
-5. Recover the historical archives, linker script, object order and library order.
-6. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+4. **Address-alias tranche:** {alias_proved}/{len(alias_rows)} are proved and zero-byte bound; resolve the remaining {alias_blocked}.
+5. Reproduce data/rodata/bss layout, relocations and section alignment.
+6. Recover the historical archives, linker script, object order and library order.
+7. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first
@@ -340,6 +356,7 @@ unproven final-ELF stage.
 - **Mapped / identified:** **{pct(len(mapped), VALIDATED_TARGETS):.2f}%** ({len(mapped):,}/{VALIDATED_TARGETS:,} validated targets)
 - **Source-form checkpoint:** **{source_model_count:,} behavioral/source-model + {pseudocode_only_count:,} structural-pseudocode-only**
 - **Build-ready EE source ownership:** **97/97 TUs** (96 canonical + 1 alternate)
+- **Source-address aliases:** **{alias_proved}/{len(alias_rows)} proved**, **{alias_blocked} blocked**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**
