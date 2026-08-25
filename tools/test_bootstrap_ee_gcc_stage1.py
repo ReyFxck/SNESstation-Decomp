@@ -15,6 +15,7 @@ from bootstrap_ee_gcc_stage1 import (
     ARCHIVES,
     BuildFailure,
     CXX_MODERN_HOST_PATCH,
+    HOST_CFLAGS,
     apply_patch_once,
     safe_archive_path,
     safe_extract_archive,
@@ -22,6 +23,17 @@ from bootstrap_ee_gcc_stage1 import (
 
 
 class StageOneBootstrapTest(unittest.TestCase):
+    def test_host_flags_accept_gcc14_legacy_configure_probes(self) -> None:
+        # GCC 14 promotes these three pre-C99 diagnostics to errors by default.
+        # Binutils 2.14's generated configure probes intentionally use that
+        # historical source form, so downgrade only those diagnostics.
+        for diagnostic in (
+            "implicit-int",
+            "implicit-function-declaration",
+            "incompatible-pointer-types",
+        ):
+            self.assertIn(f"-Wno-error={diagnostic}", HOST_CFLAGS)
+
     def test_archive_contract_is_fully_pinned(self) -> None:
         self.assertEqual(
             [archive.name for archive in ARCHIVES],

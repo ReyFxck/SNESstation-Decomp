@@ -44,13 +44,19 @@
 
 ## 2. Build-ready source ownership
 
-- [ ] Freeze translation-unit boundaries and symbol visibility.
-- [ ] Replace provisional-width types with proven EE ABI types.
-- [ ] Assign globals, BSS, constructors, vtables and static data to exact
-  objects.
-- [ ] Split the large structural-lift source only when traceability and matching
-  checks remain exact.
-- [ ] Produce a complete historical-compiler object set.
+- [x] Freeze translation-unit boundaries and symbol visibility in an exact
+  97-entry manifest with 96 canonical objects and one explicit alternate.
+- [x] Replace provisional-width assumptions with a compiler-checked EE ABI
+  contract.
+- [x] Assign compiler-emitted globals, BSS, constructors and static data to
+  exact objects; assign vtable/data consumers to reserved program-data owners.
+- [x] Keep the large structural-lift source unsplit until a changed boundary
+  preserves traceability and matching evidence.
+- [x] Produce a complete historical-compiler object set and duplicate-free
+  canonical relocatable aggregate.
+
+Checkpoint evidence: [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
+Exact program-data bytes/placement and final object order remain Stage 3.
 
 ## 3. Link identity
 

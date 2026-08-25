@@ -8,6 +8,7 @@
 | Recovered exact results still pending promotion | **0** | All recovered results are formal; V81 closed the final 20 raw-exact function spans. |
 | Working checkpoint | **1,041/1,041 (100.00%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
 | Working frontier | **0** | Audited entries not yet formally matched or covered by recovered evidence. |
+| Build-ready EE source ownership | **97/97 TUs** | 96 canonical objects partially link with a frozen ABI/symbol map and no duplicate/common definitions. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
 The six V53 recoveries, the two V73 PS2-I/O proofs, the two V74 SPC7110 RTC
@@ -25,7 +26,7 @@ The current batch is documented in
 ## Final proof gates
 
 1. **Function gate closed:** all 1,041 audited rows have exact, reproducible evidence.
-2. Freeze translation-unit ownership, global types and source boundaries.
+2. **Source/object gate closed:** 97/97 TUs compile; 96 canonical objects have frozen ownership.
 3. Reproduce data/rodata/bss layout, relocations and section alignment.
 4. Recover the historical archives, linker script, object order and library order.
 5. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.

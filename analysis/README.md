@@ -9,6 +9,7 @@ The most important files are:
 | `symbols.csv` | Mirrored symbol/status manifest checked row-for-row |
 | `source_promotions.csv` | Typed-source overrides for historical pseudocode |
 | `source_readiness.csv` | Generated source-form and matching audit |
+| `source_tree/` | Stage-2 EE ABI, TU and defined/external ownership manifests |
 | `progress16_recovered_targets.csv` | Frozen Progress-16 structural universe |
 | `progress17_recovered_targets.csv` | Frozen Progress-17 structural universe |
 | `progress17_rejected_jal_candidates.csv` | Rejected data words from the raw JAL scan |

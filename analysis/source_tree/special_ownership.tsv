@@ -1,0 +1,17 @@
+kind	identity	source_owner	object_owner	stage2_state	next_gate
+constructor	gsDriver_ctor_00198c58	src/ps2/gsdriver_recovered.c	ps2/gsdriver_recovered.o	defined	link-identity
+constructor	gsDriver_ctor_00198cc8	src/ps2/gsdriver_recovered.c	ps2/gsdriver_recovered.o	defined	link-identity
+constructor	gsPipe_ctor_00199480	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o	defined	link-identity
+constructor	gsPipe_ctor_00199590	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o	defined	link-identity
+constructor	gsPipe_copy_ctor_00199700	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o	defined	link-identity
+constructor	gsPipe_copy_ctor_00199720	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o	defined	link-identity
+vtable	0x00426c28	src/ps2/progress11_frontend_recovered.c;src/ps2/address_leaf_recovered.c	reserved:vtable-data.o	consumer-owned	program-data
+vtable	SNES_VPTR_TYPE_INFO@0x00426d08	src/ps2/libsupcxx_rtti_recovered.c	reserved:vtable-data.o	consumer-owned	program-data
+vtable	SNES_VPTR_CLASS_TYPE_INFO@0x00426ca8	src/ps2/libsupcxx_rtti_recovered.c	reserved:vtable-data.o	consumer-owned	program-data
+vtable	SNES_VPTR_SI_TYPE_INFO@0x00426c78	src/ps2/libsupcxx_rtti_recovered.c	reserved:vtable-data.o	consumer-owned	program-data
+vtable	SNES_VPTR_VMI_TYPE_INFO@0x00426c48	src/ps2/libsupcxx_rtti_recovered.c	reserved:vtable-data.o	consumer-owned	program-data
+vtable	SNES_VPTR_BAD_CAST@0x00426cf0	src/ps2/libsupcxx_rtti_recovered.c	reserved:vtable-data.o	consumer-owned	program-data
+vtable	SNES_VPTR_BAD_TYPEID@0x00426cd8	src/ps2/libsupcxx_rtti_recovered.c	reserved:vtable-data.o	consumer-owned	program-data
+vtable	SNES_VPTR_EXCEPTION@0x00426d98	src/ps2/libsupcxx_rtti_recovered.c	reserved:vtable-data.o	consumer-owned	program-data
+vtable	SNES_VPTR_BAD_EXCEPTION@0x00426d80	src/ps2/libsupcxx_rtti_recovered.c	reserved:vtable-data.o	consumer-owned	program-data
+vtable	SNES_VPTR_BAD_ALLOC@0x00426dc8	src/ps2/libsupcxx_rtti_recovered.c	reserved:vtable-data.o	consumer-owned	program-data

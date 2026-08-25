@@ -8,7 +8,6 @@ cd "$PROJECT_ROOT"
 show_status() {
     python3 tools/project_status.py
     printf '\nExact replacement ELF still requires:\n'
-    printf '  - build-ready ownership and types for all translation units\n'
     printf '  - exact global data, sections, relocations and object boundaries\n'
     printf '  - exact historical archives, linker script and link order\n'
     printf '  - reproduced SJCRUNCH2 packing\n'
@@ -28,12 +27,14 @@ case "$MODE" in
         ;;
     verify)
         make check
+        make source-tree
         require_reference
         make reference
         make elf-status
         ;;
     full)
         make check
+        make source-tree
         require_reference
         make reference
         make elf

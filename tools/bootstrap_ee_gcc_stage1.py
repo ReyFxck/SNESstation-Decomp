@@ -33,7 +33,12 @@ AARCH64_GCC_HOST_PATCH = (
 CXX_MODERN_HOST_PATCH = (
     ROOT / "tools" / "patches" / "gcc-3.2.2-cxx-modern-host.patch"
 )
-HOST_CFLAGS = "-O2 -g -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0"
+HOST_CFLAGS = (
+    "-O2 -g -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 "
+    "-Wno-error=implicit-int "
+    "-Wno-error=implicit-function-declaration "
+    "-Wno-error=incompatible-pointer-types"
+)
 MINIMUM_FREE_BYTES = 650 * 1024 * 1024
 
 

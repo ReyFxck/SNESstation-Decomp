@@ -149,7 +149,7 @@ def _render_svg(
 <text x="30" y="48" class="sub">{pct(reconstructed, VALIDATED_TARGETS):.2f}% reconstructed · {pct(mapped, VALIDATED_TARGETS):.2f}% mapped · {pct(matching, VALIDATED_TARGETS):.2f}% matching</text>
 {''.join(legends)}
 {''.join(rects)}
-<text x="42" y="450" class="source">Source-form checkpoint (not build readiness)</text>
+<text x="42" y="450" class="source">Source-form coverage (separate from object ownership)</text>
 <rect x="42" y="462" width="{source_model_width}" height="16" rx="4" fill="#238636"/>
 <rect x="{42 + source_model_width}" y="462" width="{pseudocode_width}" height="16" rx="4" fill="#d29922"/>
 <text x="42" y="498" class="legend">{source_model_count} behavioral/source-model · {pseudocode_only_count} structural pseudocode only · complete ELF: no</text>
@@ -244,11 +244,12 @@ The README graphic is generated to [`assets/progress.svg`](../assets/progress.sv
 
 ## Source-form checkpoint
 
-Structural coverage is not the same as build readiness. Of the {VALIDATED_TARGETS:,}
-validated entries, **{source_model_count:,}** currently have a behavioral/source-model representation
-and **{pseudocode_only_count:,}** are currently represented only as structural
-pseudocode after applying typed source promotions. Neither
-category is a byte-matching claim. See
+All {VALIDATED_TARGETS:,} validated entries now have a behavioral/source-model
+representation and **{pseudocode_only_count:,}** remain only as structural
+pseudocode after typed promotions. The separate Stage-2 gate compiles the
+frozen 97-unit tree into 96 canonical EE objects plus one explicit alternate.
+Source form, object ownership and original-source provenance remain distinct
+claims. See
 [`docs/SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) for
 the generated invariant audit and remaining ELF gates.
 
@@ -284,6 +285,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Recovered exact results still pending promotion | **{project_status.recovered_pending:,}** | All recovered results are formal; V81 closed the final 20 raw-exact function spans. |
 | Working checkpoint | **{project_status.working_checkpoint:,}/{project_status.total:,} ({project_status.working_percent:.2f}%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
 | Working frontier | **{project_status.working_remaining:,}** | Audited entries not yet formally matched or covered by recovered evidence. |
+| Build-ready EE source ownership | **97/97 TUs** | 96 canonical objects partially link with a frozen ABI/symbol map and no duplicate/common definitions. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
 The six V53 recoveries, the two V73 PS2-I/O proofs, the two V74 SPC7110 RTC
@@ -301,7 +303,7 @@ The current batch is documented in
 ## Final proof gates
 
 1. **Function gate closed:** all 1,041 audited rows have exact, reproducible evidence.
-2. Freeze translation-unit ownership, global types and source boundaries.
+2. **Source/object gate closed:** 97/97 TUs compile; 96 canonical objects have frozen ownership.
 3. Reproduce data/rodata/bss layout, relocations and section alignment.
 4. Recover the historical archives, linker script, object order and library order.
 5. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
@@ -331,6 +333,7 @@ unproven final-ELF stage.
 - **Reconstructed:** **{pct(len(reconstructed), VALIDATED_TARGETS):.2f}%** ({len(reconstructed):,}/{VALIDATED_TARGETS:,} validated targets)
 - **Mapped / identified:** **{pct(len(mapped), VALIDATED_TARGETS):.2f}%** ({len(mapped):,}/{VALIDATED_TARGETS:,} validated targets)
 - **Source-form checkpoint:** **{source_model_count:,} behavioral/source-model + {pseudocode_only_count:,} structural-pseudocode-only**
+- **Build-ready EE source ownership:** **97/97 TUs** (96 canonical + 1 alternate)
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**
 

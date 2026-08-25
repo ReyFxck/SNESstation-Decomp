@@ -14,16 +14,15 @@ totaling 71,384 bytes, and generated an audited zero-entry frontier map.
 - The remaining work is no longer function discovery or per-function matching;
   it is coherent source ownership and whole-program identity.
 
-## Build-ready source
+## Build-ready source — closed
 
-All audited entries have a behavioral/source model, but that does not yet prove
-coherent historical translation units. The main remaining work is:
+The frozen Stage-2 gate compiles all 97 source units with EE GCC 3.2.2, selects
+96 canonical objects, retains one explicit CDVD alternate, rejects
+duplicate/common definitions and records all defined/external ownership. See
+[`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
 
-- freeze global ownership and exact PS2-width types;
-- separate structural-lift corridors into proven object boundaries;
-- reproduce visibility, common/BSS behavior, inline decisions and C++ ABI
-  ownership;
-- distinguish readable recovered source from exact assembly-only evidence.
+The unresolved contracts now belong to the program-data, archive-identity and
+link-identity gates; they are no longer an ambiguous source-tree backlog.
 
 ## Whole-program identity
 

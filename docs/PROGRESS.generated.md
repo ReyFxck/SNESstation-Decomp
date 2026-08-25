@@ -21,11 +21,12 @@ The README graphic is generated to [`assets/progress.svg`](../assets/progress.sv
 
 ## Source-form checkpoint
 
-Structural coverage is not the same as build readiness. Of the 1,041
-validated entries, **1,041** currently have a behavioral/source-model representation
-and **0** are currently represented only as structural
-pseudocode after applying typed source promotions. Neither
-category is a byte-matching claim. See
+All 1,041 validated entries now have a behavioral/source-model
+representation and **0** remain only as structural
+pseudocode after typed promotions. The separate Stage-2 gate compiles the
+frozen 97-unit tree into 96 canonical EE objects plus one explicit alternate.
+Source form, object ownership and original-source provenance remain distinct
+claims. See
 [`docs/SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) for
 the generated invariant audit and remaining ELF gates.
 

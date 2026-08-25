@@ -8,7 +8,8 @@ renderer, audio glue, filesystem code and historical runtime as faithfully as
 the binary evidence allows. It is not a modern rewrite of the emulator.
 
 > **Status:** active reverse engineering. Structural/source-model coverage is
-> closed, but a complete byte-identical replacement ELF is not yet available.
+> closed and the EE source/object tree is build-ready, but a complete
+> byte-identical replacement ELF is not yet available.
 
 <!-- DECOMP_PROGRESS_START -->
 ## Decompilation progress
@@ -26,6 +27,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
+- **Build-ready EE source ownership:** **97/97 TUs** (96 canonical + 1 alternate)
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
 
@@ -76,6 +78,7 @@ compiler:
 make status
 make check
 make checkpoint-1041-check
+make source-tree
 ```
 
 To verify a legally obtained reference binary:
@@ -94,6 +97,10 @@ make bootstrap-ee-stage1
 
 Run `make help` for the maintained workflow and `make help-legacy` for frozen
 historical evidence runners.
+
+`make source-tree` closes the Stage-2 gate with 97/97 real EE compilations and
+a duplicate-free 96-object canonical aggregate. See
+[`docs/status/BUILD_READY_SOURCE_TREE.md`](docs/status/BUILD_READY_SOURCE_TREE.md).
 
 ## Target fingerprint
 
@@ -151,9 +158,9 @@ asset.
 
 ## Contributing
 
-The highest-value work is closing the remaining compiler matches, recovering
-the exact historical link environment and turning source models into coherent
-build-ready translation units without weakening evidence. Read
+The highest-value work is now recovering program-data placement and the exact
+historical link environment without weakening the closed function and
+source-tree gates. Read
 [`CONTRIBUTING.md`](CONTRIBUTING.md) and
 [`docs/DECOMP_PLAYBOOK.md`](docs/DECOMP_PLAYBOOK.md) before changing identities
 or match status.

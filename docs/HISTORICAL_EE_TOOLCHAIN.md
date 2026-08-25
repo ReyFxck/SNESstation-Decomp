@@ -86,6 +86,10 @@ PS2 backend patch:
   binutils 2.14 intentionally formats fixed-width archive fields across
   adjacent structure members, which Ubuntu's modern fortified `sprintf`
   rejects at runtime;
+- GCC 14's three newly fatal pre-C99 diagnostics (`implicit-int`, implicit
+  function declarations and incompatible pointer types) are downgraded to
+  warnings for the 2003 host sources/configure probes only. Target warnings,
+  R5900 options and generated EE code are unchanged;
 - GCC receives the two small `obstack.h` and `collect2.c` fixes preserved in a
   later PS2DEV patch. They repair modern host-C compilation and the required
   `open(..., O_CREAT, mode)` call; neither changes R5900 code generation.
@@ -112,9 +116,10 @@ candidate. An ARM64 DroidSpaces run exposed the original 2003
 `config.guess` limitation before compilation. The corrected
 `aarch64-unknown-linux-gnu` configure path now completes a full stage-one build
 proxy. The resulting native AArch64 archive then passed the compiler probe and
-the seven-function `mathfp` comparison on DroidSpaces. A clean in-place
-bootstrap there remains dependent on that container's host GCC being able to
-create ordinary executables.
+the seven-function `mathfp` comparison on DroidSpaces. Debian Trixie/GCC 14 is
+supported by the narrowly scoped legacy-diagnostic host flags above; the
+bootstrap still proves that the host compiler can create and run ordinary
+executables.
 
 After it passes, use the printed absolute compiler path:
 

@@ -10,8 +10,8 @@ measurable claims.
 | Claim | Current state | Required evidence |
 |---|---:|---|
 | Structural coverage | **1,041/1,041** | Every validated entry has committed control-flow/behavior evidence. |
-| Build-ready source | **Incomplete** | Typed C/C++, declarations, globals and translation-unit ownership compile together for the EE. |
-| Function matching | **7/1,041** | A candidate object reproduces every non-relocation byte for a target function. |
+| Build-ready source ownership | **Closed: 97/97 TUs** | Every source compiles for the EE; 96 canonical objects partially link with frozen ABI/symbol ownership and one explicit alternate. |
+| Function matching | **1,041/1,041** | A candidate object reproduces every non-relocation byte for each audited target row. |
 | Replacement ELF | **Not available** | All objects, historical archives, linker script/order and binary layout reproduce the unpacked target. |
 
 The generated [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md)
@@ -26,9 +26,9 @@ first two claims separate row by row.
 2. **Audit the structural universe.** `make audit-source` verifies that both
    manifests agree and that all Progress-16/17 pseudocode markers have a
    corresponding validated entry.
-3. **Migrate source.** Replace placeholder `DAT_*`, `undefined*` and guessed
-   signatures with reviewed types and real translation units. A host syntax
-   check is useful, but it is not an EE build or a correctness proof.
+3. **Freeze source ownership.** The Stage-2 manifest compiles every real
+   translation unit with EE GCC 3.2.2, rejects duplicate/common definitions and
+   records unresolved data/archive/link contracts without inventing providers.
 4. **Reproduce one object.** Compile a small corridor with a recorded compiler,
    exact flags and a pinned source revision. Do not start by linking the whole
    program.
@@ -138,19 +138,19 @@ for identifying the exact pre-target EE GCC build. The math corridor remains the
 first pinned library experiment because its upstream source identity is unusually
 strong; the two results answer different provenance questions.
 
-## What “all scripts are complete” would require
+## What whole-program reproduction still requires
 
 The analysis scripts are reproducible for the work they claim: unpacking,
 wrapping, call scanning, structural manifests, source audit and object
 comparison. A complete rebuild pipeline still needs new evidence-driven pieces:
 
-- migration of 239 structural-pseudocode entries into build-ready units;
-- a global/type ownership map that prevents duplicate or missing storage;
 - exact startup objects and embedded-data/IRX placement;
 - pinned EE compiler, assembler, linker and every selected archive member;
 - the SNES Station linker script and object/library order;
 - unpacked-load-image comparison and, later, SJCRUNCH2 repacking.
 
-`make elf-status` prints these gates. `make elf` intentionally fails until they
-are closed; emitting a non-matching executable would not answer whether the
-original program had truly been recovered.
+The source/object gate and maps are documented in
+[`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
+`make elf-status` prints the later gates. `make elf` intentionally fails until
+they are closed; emitting a non-matching executable would not answer whether
+the original program had truly been recovered.

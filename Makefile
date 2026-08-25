@@ -48,6 +48,13 @@ GSLIB_HW_LISTING := analysis/functions/gslib_hw_0019bd38.asm
 GSLIB_HW_LISTING_RAW := $(MATCH_DIR)/gslib_hw/listing.bin
 GSLIB_HW_LISTING_REPORT := analysis/matching/gslib-hw-listing-report.md
 EE_SOURCE_SCAN_DIR := $(BUILD_DIR)/ee-source-scan
+SOURCE_TREE_BUILD_DIR := $(BUILD_DIR)/source-tree
+SOURCE_TREE_MANIFEST := analysis/source_tree/translation_units.tsv
+SOURCE_TREE_DEFINED_MAP := analysis/source_tree/defined_symbol_ownership.tsv
+SOURCE_TREE_EXTERNAL_MAP := analysis/source_tree/external_symbol_ownership.tsv
+SOURCE_TREE_ABI_CONTRACT := analysis/source_tree/ee_abi_contract.c
+SOURCE_TREE_SPECIAL_MAP := analysis/source_tree/special_ownership.tsv
+SOURCE_TREE_FINGERPRINTS := analysis/source_tree/object_fingerprints.tsv
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 
@@ -71,6 +78,9 @@ comma := ,
 EE_SOURCE_SCAN_FLAGS := $(filter-out -Werror,$(EE_CFLAGS))
 EE_SOURCE_SCAN_FLAGS := $(subst -Wa$(comma)-al,,$(EE_SOURCE_SCAN_FLAGS))
 EE_SOURCE_SCAN_FLAGS += -Iinclude/ee_stage1_compat -w
+EE_SOURCE_TREE_FLAGS := $(filter-out -Werror,$(EE_CFLAGS))
+EE_SOURCE_TREE_FLAGS := $(subst -Wa$(comma)-al,,$(EE_SOURCE_TREE_FLAGS))
+EE_SOURCE_TREE_FLAGS += -Iinclude/ee_stage1_compat -w
 # The target mathfp corridor uses the normal 64-bit double ABI and does not
 # carry GCC's optional jump-target padding.  Keeping both differences local
 # reproduces sinf/tanf without disturbing the application-object contract.
@@ -90,6 +100,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	audit-source audit-source-check host-syntax test-tools check \
 	reference verify-reference extract-assets fetch-newlib fetch-ee-toolchain-recipe \
 	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
+	source-tree source-tree-check source-tree-refresh \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -117,6 +128,8 @@ help:
 	@echo "  make reproduce-check verify every implemented whole-program gate"
 	@echo "  make reproduce       run the stable full pipeline (final link still blocked)"
 	@echo "  make bootstrap-ee-stage1  build isolated binutils 2.14 + EE GCC 3.2.2"
+	@echo "  make source-tree     build toolchain and verify the frozen Stage-2 object set"
+	@echo "  make source-tree-check  verify Stage 2 with an available EE compiler"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -364,6 +377,38 @@ check-ee-compiler:
 		exit 2; \
 	}
 
+source-tree: bootstrap-ee-stage1
+	$(MAKE) source-tree-check EE_CC="$(EE_STAGE1_CC)"
+
+source-tree-check: check-ee-compiler
+	$(PYTHON) tools/build_source_tree.py \
+		--compiler "$(EE_CC)" \
+		--cflags '$(EE_SOURCE_TREE_FLAGS)' \
+		--manifest "$(SOURCE_TREE_MANIFEST)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--abi-contract "$(SOURCE_TREE_ABI_CONTRACT)" \
+		--special-map "$(SOURCE_TREE_SPECIAL_MAP)" \
+		--fingerprints "$(SOURCE_TREE_FINGERPRINTS)" \
+		--build-dir "$(SOURCE_TREE_BUILD_DIR)" \
+		--jobs "$${EE_SOURCE_TREE_JOBS:-8}"
+
+# Deliberately separate from the check target: refreshing ownership is a
+# reviewed source-boundary decision, never an automatic side effect.
+source-tree-refresh: check-ee-compiler
+	$(PYTHON) tools/build_source_tree.py \
+		--compiler "$(EE_CC)" \
+		--cflags '$(EE_SOURCE_TREE_FLAGS)' \
+		--manifest "$(SOURCE_TREE_MANIFEST)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--abi-contract "$(SOURCE_TREE_ABI_CONTRACT)" \
+		--special-map "$(SOURCE_TREE_SPECIAL_MAP)" \
+		--fingerprints "$(SOURCE_TREE_FINGERPRINTS)" \
+		--build-dir "$(SOURCE_TREE_BUILD_DIR)" \
+		--jobs "$${EE_SOURCE_TREE_JOBS:-8}" \
+		--update
+
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \
 		--compiler "$(EE_CC)" \
@@ -604,8 +649,8 @@ match-cpp-runtime-small-listing-strict:
 
 elf-status: audit-source-check
 	@echo "Function-code gate: CLOSED (1041/1041 strict matches)"
+	@echo "Build-ready source ownership: CLOSED (97/97 TUs; 96 canonical objects)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
-	@echo "  - freeze EE build-ready types, globals and translation-unit ownership"
 	@echo "  - reproduce data layout, relocations and section alignment"
 	@echo "  - prove exact EE archives, linker script, object order and library order"
 	@echo "  - reproduce SJCRUNCH2 packing and both reference hashes"
