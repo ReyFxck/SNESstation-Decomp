@@ -70,7 +70,7 @@ class Hunt1041V76C4SprTests(unittest.TestCase):
         self.assertTrue(unmatched < mapped_addresses)
         self.assertEqual(
             mapped_addresses - unmatched,
-            {"0x0010cdcc", "0x0010d2a8"},
+            {"0x0010c340", "0x0010cdcc", "0x0010d2a8"},
         )
         self.assertNotIn(ADDRESS, unmatched)
         self.assertEqual(

@@ -1,5 +1,8 @@
 # V78: exact C4BitPlaneWave proof
 
+> Frozen checkpoint. V79 subsequently promoted `C4ConvOAM`; use the current
+> 43-entry frontier linked from the generated project status.
+
 V78 promotes `C4BitPlaneWave` at `0x0010d2a8` with strict
 historical-source evidence. The formal checkpoint moves from **996/1041** to
 **997/1041 (95.77%)**, leaving **44** audited entries.

@@ -59,7 +59,7 @@ class Hunt1041V78C4BitTests(unittest.TestCase):
             self.assertIn("HUNT1041 V78 strict MATCH", row["notes"])
             self.assertIn("hunt1041-v78-validated-c4bit-1.tsv", row["notes"])
 
-    def test_frontier_map_covers_exactly_the_remaining_44(self) -> None:
+    def test_frontier_map_is_the_frozen_v78_checkpoint(self) -> None:
         mapped = rows(FRONTIER, "\t")
         unmatched = {
             row["address"]
@@ -67,7 +67,9 @@ class Hunt1041V78C4BitTests(unittest.TestCase):
             if row["status"] != "MATCHING"
         }
         self.assertEqual(len(mapped), 44)
-        self.assertEqual({row["address"] for row in mapped}, unmatched)
+        mapped_addresses = {row["address"] for row in mapped}
+        self.assertLess(unmatched, mapped_addresses)
+        self.assertEqual(mapped_addresses - unmatched, {"0x0010c340"})
         self.assertNotIn(ADDRESS, unmatched)
         self.assertEqual(
             Counter(row["track"] for row in mapped),

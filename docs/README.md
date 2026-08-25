@@ -10,7 +10,8 @@ They are evidence of how conclusions were reached, not the current scoreboard.
 - [`PROGRESS.generated.md`](PROGRESS.generated.md) — structural and matching metrics.
 - [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) — source-model audit and build-readiness invariants.
 - [`status/V72_V53_PROMOTED.md`](status/V72_V53_PROMOTED.md) — regenerated proof and formal promotion of the six V53 recoveries.
-- [`status/V78_C4BIT_PLANE_WAVE.md`](status/V78_C4BIT_PLANE_WAVE.md) — strict 584-byte `C4BitPlaneWave` promotion and the current 44-entry frontier.
+- [`status/V79_C4CONV_OAM.md`](status/V79_C4CONV_OAM.md) — raw-exact 952-byte `C4ConvOAM` promotion and the current 43-entry frontier.
+- [`status/V78_C4BIT_PLANE_WAVE.md`](status/V78_C4BIT_PLANE_WAVE.md) — frozen strict 584-byte `C4BitPlaneWave` checkpoint and its superseded 44-entry frontier.
 - [`status/V77_C4DRAW_WIREFRAME.md`](status/V77_C4DRAW_WIREFRAME.md) — frozen strict 472-byte `C4DrawWireFrame` checkpoint and its superseded 45-entry frontier.
 - [`status/V76_C4SPR_DISINTEGRATE.md`](status/V76_C4SPR_DISINTEGRATE.md) — frozen strict 580-byte `C4SprDisintegrate` checkpoint and its superseded 46-entry frontier.
 - [`status/V75_C4_FLOAT_MATH_AND_FRONTIER.md`](status/V75_C4_FLOAT_MATH_AND_FRONTIER.md) — frozen prior checkpoint with five C4 promotions, one exact companion and its superseded 47-entry frontier.

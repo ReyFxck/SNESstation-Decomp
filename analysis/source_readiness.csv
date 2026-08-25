@@ -111,7 +111,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0010c1f8,snes_p16_0010c1f8,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0010c300,snes_dispatch_0010c300,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/ps2/small_dispatch_recovered.c,MATCHING
 0x0010c328,snes_dispatch_0010c328,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,MATCHING
-0x0010c340,snes_p16_0010c340,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
+0x0010c340,snes_p16_0010c340,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0010c6f8,snes_p16_0010c6f8,frontend-core,RECONSTRUCTED,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,UNPROVEN
 0x0010cbb0,snes_p17_0010cbb0,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0010cdcc,snes_p17_0010cdcc,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
