@@ -72,6 +72,11 @@ PRIVATE_ASSET_BUILD_DIR := $(BUILD_DIR)/private-assets
 PRIVATE_ASSET_INPUT := $(LINK_CONTRACT_OUTPUT)
 PRIVATE_ASSET_OUTPUT := $(PRIVATE_ASSET_BUILD_DIR)/source-tree.private-assets.partial.o
 PRIVATE_ASSET_REPORT := $(PRIVATE_ASSET_BUILD_DIR)/report.json
+PROVIDER_FRONTIER_MANIFEST := analysis/link_identity/provider_frontier_closure.tsv
+PROVIDER_FRONTIER_BUILD_DIR := $(BUILD_DIR)/provider-frontier
+PROVIDER_FRONTIER_INPUT := $(PRIVATE_ASSET_OUTPUT)
+PROVIDER_FRONTIER_OUTPUT := $(PROVIDER_FRONTIER_BUILD_DIR)/source-tree.provider-closed.partial.o
+PROVIDER_FRONTIER_REPORT := $(PROVIDER_FRONTIER_BUILD_DIR)/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -125,6 +130,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	source-aliases source-aliases-check source-aliases-refresh source-aliases-public-check \
 	link-contracts link-contracts-check link-contracts-refresh link-contracts-public-check \
 	private-assets private-assets-check private-assets-refresh private-assets-public-check \
+	provider-frontier provider-frontier-check provider-frontier-refresh provider-frontier-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -159,6 +165,7 @@ help:
 	@echo "  make source-aliases  prove and apply zero-byte Stage-3 address aliases"
 	@echo "  make link-contracts  apply the zero-byte Stage-3 link-contract frontier"
 	@echo "  make private-assets  verify and link the five private embedded-asset bundles"
+	@echo "  make provider-frontier  close the exact 251-name source-link frontier"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -252,7 +259,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -578,6 +585,36 @@ private-assets-public-check:
 		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
 		--manifest "$(PRIVATE_ASSET_MANIFEST)"
 
+provider-frontier: private-assets bootstrap-ee-stage1
+	$(MAKE) provider-frontier-check EE_CC="$(EE_STAGE1_CC)"
+
+provider-frontier-check: private-assets-check
+	$(PYTHON) tools/provider_frontier.py link \
+		--compiler "$(EE_CC)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--private-manifest "$(PRIVATE_ASSET_MANIFEST)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--manifest "$(PROVIDER_FRONTIER_MANIFEST)" \
+		--input "$(PROVIDER_FRONTIER_INPUT)" \
+		--build-dir "$(PROVIDER_FRONTIER_BUILD_DIR)" \
+		--output "$(PROVIDER_FRONTIER_OUTPUT)" \
+		--report "$(PROVIDER_FRONTIER_REPORT)"
+
+# The generated manifest is a reviewed closure decision, not a routine side effect.
+provider-frontier-refresh:
+	$(PYTHON) tools/provider_frontier.py refresh \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--private-manifest "$(PRIVATE_ASSET_MANIFEST)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--manifest "$(PROVIDER_FRONTIER_MANIFEST)"
+
+provider-frontier-public-check:
+	$(PYTHON) tools/provider_frontier.py validate \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--private-manifest "$(PRIVATE_ASSET_MANIFEST)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--manifest "$(PROVIDER_FRONTIER_MANIFEST)"
+
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \
 		--compiler "$(EE_CC)" \
@@ -821,8 +858,10 @@ elf-status: audit-source-check
 	@echo "Build-ready source ownership: CLOSED (97/97 TUs; 96 canonical objects)"
 	@echo "Unpacked layout oracle: CLOSED (1 section; 13 blocks; 51 hash windows)"
 	@echo "Zero-byte link contracts: 1337/1598 resolved (1274 anchors; 63 aliases)"
-	@echo "Provider frontier: 261 unresolved externals"
+	@echo "Private assets: CLOSED (10 providers; 62736 verified private bytes)"
+	@echo "Source-link provider namespace: CLOSED (251 -> 0 externals)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
+	@echo "  - replace compatibility storage/shims with exact target initializers/archive members"
 	@echo "  - reproduce data layout, relocations and section alignment"
 	@echo "  - prove exact EE archives, linker script, object order and library order"
 	@echo "  - reproduce SJCRUNCH2 packing and both reference hashes"

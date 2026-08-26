@@ -18,6 +18,9 @@ This directory contains public, byte-free evidence for the Stage-3 link gate.
 - `private_asset_providers.tsv` maps five verified private ranges to all ten
   asset data/size contracts, including padding, alignment and section names;
   it contains hashes and geometry only.
+- `provider_frontier_closure.tsv` classifies all 251 names left by V86 into
+  181 target-address anchors, nine recovered-text aliases, 44 compatibility
+  storage definitions and 17 deterministic EE runtime shims.
 
 The manifest deliberately contains no original executable bytes, extracted
 assets, local paths or encoded binary payloads. Regenerate it only from a
@@ -47,3 +50,9 @@ map. With a legal reference present, `make private-assets` uses `.incbin` only
 inside ignored `build/private-assets/`, verifies 62,736 contiguous provider
 bytes and reduces the partial-link frontier from 261 to 251. No generated
 assembly, object, report or extracted payload may be committed.
+
+Use `make provider-frontier-public-check` to verify that the V87 manifest is
+the exact V86 frontier. `make provider-frontier` then generates ignored
+storage/shim sources, partially links them after the private providers and
+proves **251 -> 0** undefined globals. This is source-link namespace closure;
+it does not prove target initializers, archive membership or final placement.

@@ -11,6 +11,7 @@ They are evidence of how conclusions were reached, not the current scoreboard.
 - [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) — source-model audit and build-readiness invariants.
 - [`status/FUNCTION_FRONTIER_1041_CHECKPOINT.md`](status/FUNCTION_FRONTIER_1041_CHECKPOINT.md) — immutable tag, hashes and clean-checkout gates for the closed 1,041-function frontier.
 - [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md) — frozen EE ABI, 97-unit manifest, symbol ownership and canonical partial-link gate.
+- [`status/V87_PROVIDER_FRONTIER_CLOSED.md`](status/V87_PROVIDER_FRONTIER_CLOSED.md) — all 251 remaining source-link contracts resolved and zero undefined globals proved.
 - [`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md) — five privately verified bundles close ten asset contracts and reduce the provider frontier to 251.
 - [`status/V85_ZERO_BYTE_LINK_FRONTIER.md`](status/V85_ZERO_BYTE_LINK_FRONTIER.md) — 1,337/1,598 zero-byte link contracts resolved and the exact 261-provider frontier.
 - [`status/V84_REVIEWED_SOURCE_ALIASES.md`](status/V84_REVIEWED_SOURCE_ALIASES.md) — cumulative 323/337 zero-byte aliases, reviewed semantic identities and the explicit 14-row remainder.

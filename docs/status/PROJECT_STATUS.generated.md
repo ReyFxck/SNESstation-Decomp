@@ -12,6 +12,7 @@
 | Source-address alias tranche | **323/337 proved** | Zero-byte linker aliases bind proven alternate names to canonical global text symbols; 14 remain blocked. |
 | Zero-byte link-contract frontier | **1,337/1,598 resolved** | 1,274 absolute target-address anchors plus 63 semantic text aliases leave 261 provider contracts explicit. |
 | Private embedded-asset providers | **10/10 resolved** | Five verified private bundles emit 62,736 ignored bytes and reduce the active frontier to 251. |
+| Source-link provider namespace | **251/251 resolved** | 181 target anchors, 9 text aliases, 44 storage definitions and 17 EE shims reduce aggregate externals to zero. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -38,8 +39,13 @@ remaining 261 names are the explicit provider frontier. The
 V86 private-reference gate then materializes five embedded-asset bundles,
 proves all 10 source-level data/size symbols, and reduces
 that frontier to 251 without changing any existing allocated
-section. The current batch is documented in
-[`V86_PRIVATE_ASSET_PROVIDERS.md`](V86_PRIVATE_ASSET_PROVIDERS.md); V85 remains
+section. V87 closes all 251 remaining source-link names in one
+audited batch and proves an aggregate external count of zero. Its compatibility
+storage and runtime shims are linkability scaffolding, not claims about exact
+target initializers or historical archive members. The current batch is
+documented in
+[`V87_PROVIDER_FRONTIER_CLOSED.md`](V87_PROVIDER_FRONTIER_CLOSED.md); V86 remains
+documented in [`V86_PRIVATE_ASSET_PROVIDERS.md`](V86_PRIVATE_ASSET_PROVIDERS.md); V85 remains
 documented in [`V85_ZERO_BYTE_LINK_FRONTIER.md`](V85_ZERO_BYTE_LINK_FRONTIER.md); V84 remains
 documented in [`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md); the layout
 oracle remains frozen in
@@ -54,10 +60,11 @@ closure remains frozen in
 3. **Unpacked oracle closed:** section/block geometry and 64 KiB hashes are frozen.
 4. **Address-alias tranche frozen:** 323/337 are proved and zero-byte bound; the remaining 14 are carried into the V85 provider frontier.
 5. **Zero-byte link-contract tranche frozen:** 1,337/1,598 are resolved and the exact 261-name input provider frontier is classified.
-6. **Private-asset tranche closed:** 10/10 provider symbols and 62,736 bytes are privately verified; 251 providers remain.
-7. Reproduce data/rodata/bss layout, relocations and section alignment.
-8. Recover the historical archives, linker script, object order and library order.
-9. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+6. **Private-asset tranche closed:** 10/10 provider symbols and 62,736 bytes are privately verified.
+7. **Source-link provider namespace closed:** 251/251 remaining contracts resolve and the aggregate has zero undefined globals.
+8. Replace compatibility storage/shims with exact initializers and proved archive members; reproduce data/rodata/bss layout, relocations and section alignment.
+9. Recover the linker script, object order and library order.
+10. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first

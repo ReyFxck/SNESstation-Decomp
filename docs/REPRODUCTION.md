@@ -24,6 +24,7 @@ make layout-oracle      # verify the private image against the public Stage-3 or
 make source-aliases     # build Stage 2 and apply proved zero-byte aliases
 make link-contracts     # reduce the V84 aggregate to the 261-provider frontier
 make private-assets     # privately materialize 10 asset providers; leave 251
+make provider-frontier  # close all 251 source-link names; leave 0 externals
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -48,15 +49,20 @@ The final pipeline must prove every layer:
 6. **Private embedded assets — closed** — five reference-verified bundles
    provide ten symbols and 62,736 bytes, reducing the frontier to 251 while
    remaining ignored private build products.
-7. **Program data** — globals, constants, string pooling, vtables, BSS and
-   alignment match the unpacked target.
-8. **Relocations and archives** — the exact old PS2 libraries and their member
-   selection are known.
-9. **Link** — linker script, section addresses, object order and library order
+7. **Source-link provider namespace — closed** — all 251 remaining contracts
+   resolve through audited anchors, recovered-text aliases, typed compatibility
+   storage or deterministic EE shims; the relocatable aggregate has zero
+   undefined globals.
+8. **Program data** — replace compatibility storage with exact globals,
+   constants, string pooling, vtables, BSS, initializers and alignment matching
+   the unpacked target.
+9. **Relocations and archives** — replace compatibility shims with exact old
+   PS2 library members and prove their selection.
+10. **Link** — linker script, section addresses, object order and library order
    reproduce the unpacked ELF image.
-10. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+11. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
-11. **Final comparison** — section/layout reports and both unpacked and packed
+12. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
 
 The required reference hashes are:
@@ -71,6 +77,8 @@ The Stage-2 evidence and its exact claim boundary are recorded in
 The first Stage-3 measurement gate is recorded in
 [`status/V82_UNPACKED_LAYOUT_ORACLE.md`](status/V82_UNPACKED_LAYOUT_ORACLE.md).
 The current Stage-3 private-provider checkpoint is recorded in
+[`status/V87_PROVIDER_FRONTIER_CLOSED.md`](status/V87_PROVIDER_FRONTIER_CLOSED.md).
+The preceding private-asset checkpoint remains recorded in
 [`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md).
 The preceding zero-byte link-contract frontier remains recorded in
 [`status/V85_ZERO_BYTE_LINK_FRONTIER.md`](status/V85_ZERO_BYTE_LINK_FRONTIER.md).

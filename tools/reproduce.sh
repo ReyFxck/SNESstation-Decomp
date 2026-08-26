@@ -12,9 +12,10 @@ show_status() {
     printf '  - source-address alias tranche: 323/337 proved; 14 explicit blockers\n'
     printf '  - zero-byte link contracts: 1337/1598 resolved; 261-provider frontier\n'
     printf '  - private embedded assets: 10/10 providers; 261 -> 251 frontier\n'
+    printf '  - source-link provider namespace: 251/251 resolved; 0 externals\n'
     printf '\nExact replacement ELF still requires:\n'
-    printf '  - exact global data, sections, relocations and object boundaries\n'
-    printf '  - exact historical archives, linker script and link order\n'
+    printf '  - exact initializers replacing compatibility storage; sections and relocations\n'
+    printf '  - exact historical members replacing shims; linker script and link order\n'
     printf '  - reproduced SJCRUNCH2 packing\n'
 }
 
@@ -33,14 +34,14 @@ case "$MODE" in
     verify)
         make check
         require_reference
-        make private-assets
+        make provider-frontier
         make layout-oracle-check
         make elf-status
         ;;
     full)
         make check
         require_reference
-        make private-assets
+        make provider-frontier
         make layout-oracle-check
         make elf
         ;;

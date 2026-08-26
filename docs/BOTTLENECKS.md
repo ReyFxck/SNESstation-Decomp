@@ -75,7 +75,7 @@ the partial-link frontier reaches **261 -> 251** without changing an existing
 allocated section. See
 [`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md).
 
-The active Stage-3B frontier is therefore:
+The V86 input frontier is therefore:
 
 | Provider class | Rows |
 |---|---:|
@@ -85,8 +85,23 @@ The active Stage-3B frontier is therefore:
 | Historical archive members | **5** |
 | **Total** | **251** |
 
-Archive members and real program data must still be added with byte-producing
-evidence; `--defsym` cannot close those contracts honestly.
+V87 resolves that complete **251-name source-link namespace in one batch**:
+
+| Resolution mechanism | Rows |
+|---|---:|
+| Target-address anchors | **181** |
+| Recovered-text aliases | **9** |
+| Typed compatibility storage | **44** |
+| Deterministic EE runtime shims | **17** |
+| **Total** | **251** |
+
+The final partial link proves **251 -> 0 undefined globals** and preserves
+every pre-existing allocated section fingerprint. This closes the provider
+*name* frontier, not the target-identity frontier: the 44 zero-initialized
+storage definitions and 17 source-model shims are clearly labelled
+compatibility scaffolding. Exact program-data initializers/placement and
+historical archive-member identity remain live blockers. See
+[`status/V87_PROVIDER_FRONTIER_CLOSED.md`](status/V87_PROVIDER_FRONTIER_CLOSED.md).
 
 ## Whole-program identity
 

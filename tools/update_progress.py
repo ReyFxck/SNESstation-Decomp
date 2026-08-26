@@ -24,6 +24,7 @@ SOURCE_READINESS = ROOT / "analysis" / "source_readiness.csv"
 SOURCE_ALIASES = ROOT / "analysis" / "link_identity" / "source_address_aliases.tsv"
 LINK_CONTRACTS = ROOT / "analysis" / "link_identity" / "link_contracts.tsv"
 PRIVATE_ASSET_PROVIDERS = ROOT / "analysis" / "link_identity" / "private_asset_providers.tsv"
+PROVIDER_FRONTIER_CLOSURE = ROOT / "analysis" / "link_identity" / "provider_frontier_closure.tsv"
 OUT = ROOT / "docs" / "PROGRESS.generated.md"
 SVG_OUT = ROOT / "assets" / "progress.svg"
 STATUS_OUT = ROOT / "docs" / "status" / "PROJECT_STATUS.generated.md"
@@ -262,6 +263,42 @@ def main() -> None:
         or provider_frontier != 251
     ):
         raise SystemExit("invalid private-asset provider manifest")
+    closure_rows = list(
+        csv.DictReader(PROVIDER_FRONTIER_CLOSURE.open(encoding="utf-8"), delimiter="\t")
+    )
+    active_provider_symbols = {
+        row["symbol"]
+        for row in contract_rows
+        if row["status"] == "BLOCKED" and row["symbol"] not in provider_symbols
+    }
+    closure_symbols = {row["symbol"] for row in closure_rows}
+    closure_kind_counts = {
+        kind: sum(row["resolution_kind"] == kind for row in closure_rows)
+        for kind in (
+            "absolute-target-anchor",
+            "semantic-text-alias",
+            "compatibility-storage",
+            "compatibility-runtime-shim",
+        )
+    }
+    closure_storage_bytes = sum(
+        int(row["storage_size_hex"], 0)
+        for row in closure_rows
+        if row["resolution_kind"] == "compatibility-storage"
+    )
+    if (
+        closure_symbols != active_provider_symbols
+        or len(closure_rows) != 251
+        or closure_kind_counts
+        != {
+            "absolute-target-anchor": 181,
+            "semantic-text-alias": 9,
+            "compatibility-storage": 44,
+            "compatibility-runtime-shim": 17,
+        }
+        or closure_storage_bytes != 185_694
+    ):
+        raise SystemExit("invalid provider-frontier closure manifest")
 
     draw = [
         r for r in rows
@@ -346,6 +383,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Source-address alias tranche | **{alias_proved}/{len(alias_rows)} proved** | Zero-byte linker aliases bind proven alternate names to canonical global text symbols; {alias_blocked} remain blocked. |
 | Zero-byte link-contract frontier | **{contract_resolved:,}/{len(contract_rows):,} resolved** | {contract_anchors:,} absolute target-address anchors plus {contract_aliases} semantic text aliases leave {contract_blocked:,} provider contracts explicit. |
 | Private embedded-asset providers | **{len(provider_symbols)}/{len(expected_private_symbols)} resolved** | Five verified private bundles emit {provider_bytes:,} ignored bytes and reduce the active frontier to {provider_frontier:,}. |
+| Source-link provider namespace | **{len(closure_rows)}/{len(active_provider_symbols)} resolved** | {closure_kind_counts['absolute-target-anchor']} target anchors, {closure_kind_counts['semantic-text-alias']} text aliases, {closure_kind_counts['compatibility-storage']} storage definitions and {closure_kind_counts['compatibility-runtime-shim']} EE shims reduce aggregate externals to zero. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -372,8 +410,13 @@ remaining {contract_blocked:,} names are the explicit provider frontier. The
 V86 private-reference gate then materializes five embedded-asset bundles,
 proves all {len(provider_symbols)} source-level data/size symbols, and reduces
 that frontier to {provider_frontier:,} without changing any existing allocated
-section. The current batch is documented in
-[`V86_PRIVATE_ASSET_PROVIDERS.md`](V86_PRIVATE_ASSET_PROVIDERS.md); V85 remains
+section. V87 closes all {len(closure_rows)} remaining source-link names in one
+audited batch and proves an aggregate external count of zero. Its compatibility
+storage and runtime shims are linkability scaffolding, not claims about exact
+target initializers or historical archive members. The current batch is
+documented in
+[`V87_PROVIDER_FRONTIER_CLOSED.md`](V87_PROVIDER_FRONTIER_CLOSED.md); V86 remains
+documented in [`V86_PRIVATE_ASSET_PROVIDERS.md`](V86_PRIVATE_ASSET_PROVIDERS.md); V85 remains
 documented in [`V85_ZERO_BYTE_LINK_FRONTIER.md`](V85_ZERO_BYTE_LINK_FRONTIER.md); V84 remains
 documented in [`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md); the layout
 oracle remains frozen in
@@ -388,10 +431,11 @@ closure remains frozen in
 3. **Unpacked oracle closed:** section/block geometry and 64 KiB hashes are frozen.
 4. **Address-alias tranche frozen:** {alias_proved}/{len(alias_rows)} are proved and zero-byte bound; the remaining {alias_blocked} are carried into the V85 provider frontier.
 5. **Zero-byte link-contract tranche frozen:** {contract_resolved:,}/{len(contract_rows):,} are resolved and the exact {contract_blocked:,}-name input provider frontier is classified.
-6. **Private-asset tranche closed:** {len(provider_symbols)}/{len(expected_private_symbols)} provider symbols and {provider_bytes:,} bytes are privately verified; {provider_frontier:,} providers remain.
-7. Reproduce data/rodata/bss layout, relocations and section alignment.
-8. Recover the historical archives, linker script, object order and library order.
-9. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+6. **Private-asset tranche closed:** {len(provider_symbols)}/{len(expected_private_symbols)} provider symbols and {provider_bytes:,} bytes are privately verified.
+7. **Source-link provider namespace closed:** {len(closure_rows)}/{len(active_provider_symbols)} remaining contracts resolve and the aggregate has zero undefined globals.
+8. Replace compatibility storage/shims with exact initializers and proved archive members; reproduce data/rodata/bss layout, relocations and section alignment.
+9. Recover the linker script, object order and library order.
+10. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first
@@ -422,6 +466,7 @@ unproven final-ELF stage.
 - **Source-address aliases:** **{alias_proved}/{len(alias_rows)} proved**, **{alias_blocked} blocked**
 - **Zero-byte link contracts:** **{contract_resolved:,}/{len(contract_rows):,} resolved**, **{contract_blocked:,} blocked** ({contract_anchors:,} address anchors + {contract_aliases} semantic aliases)
 - **Private embedded assets:** **{len(provider_symbols)}/{len(expected_private_symbols)} providers**, **{provider_bytes:,} verified private bytes**, **{provider_frontier:,} remaining externals**
+- **Source-link provider namespace:** **{len(closure_rows)}/{len(active_provider_symbols)} resolved**, **0 aggregate externals** ({closure_kind_counts['absolute-target-anchor']} anchors + {closure_kind_counts['semantic-text-alias']} aliases + {closure_kind_counts['compatibility-storage']} storage + {closure_kind_counts['compatibility-runtime-shim']} shims)
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**
