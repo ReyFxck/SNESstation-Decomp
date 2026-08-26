@@ -13,6 +13,7 @@
 | Zero-byte link-contract frontier | **1,337/1,598 resolved** | 1,274 absolute target-address anchors plus 63 semantic text aliases leave 261 provider contracts explicit. |
 | Private embedded-asset providers | **10/10 resolved** | Five verified private bundles emit 62,736 ignored bytes and reduce the active frontier to 251. |
 | Source-link provider namespace | **251/251 resolved** | 181 target anchors, 9 text aliases, 44 storage definitions and 17 EE shims reduce aggregate externals to zero. |
+| Original Stage-3C named-data tranche | **49/54 fingerprinted; 52/54 addressed** | 33 compatibility stores are replaced by nine exact private-reference range clusters; 3 extents and 2 source refactors remain. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -42,9 +43,15 @@ that frontier to 251 without changing any existing allocated
 section. V87 closes all 251 remaining source-link names in one
 audited batch and proves an aggregate external count of zero. Its compatibility
 storage and runtime shims are linkability scaffolding, not claims about exact
-target initializers or historical archive members. The current batch is
-documented in
-[`V87_PROVIDER_FRONTIER_CLOSED.md`](V87_PROVIDER_FRONTIER_CLOSED.md); V86 remains
+target initializers or historical archive members. V88 returns to the original
+Stage-3 partition and audits all 54 Stage-3C discrete-data rows: 49 now carry
+private-reference fingerprints, 52 have target addresses, and 33 former
+compatibility stores are replaced by nine exact range providers covering
+140,785 unique bytes. Three object extents and two synthetic
+source adapters remain, so Stage 3C is advanced but not yet closed. The current
+batch is documented in
+[`V88_STAGE3C_NAMED_DATA.md`](V88_STAGE3C_NAMED_DATA.md); V87 remains documented
+in [`V87_PROVIDER_FRONTIER_CLOSED.md`](V87_PROVIDER_FRONTIER_CLOSED.md); V86 remains
 documented in [`V86_PRIVATE_ASSET_PROVIDERS.md`](V86_PRIVATE_ASSET_PROVIDERS.md); V85 remains
 documented in [`V85_ZERO_BYTE_LINK_FRONTIER.md`](V85_ZERO_BYTE_LINK_FRONTIER.md); V84 remains
 documented in [`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md); the layout
@@ -62,9 +69,10 @@ closure remains frozen in
 5. **Zero-byte link-contract tranche frozen:** 1,337/1,598 are resolved and the exact 261-name input provider frontier is classified.
 6. **Private-asset tranche closed:** 10/10 provider symbols and 62,736 bytes are privately verified.
 7. **Source-link provider namespace closed:** 251/251 remaining contracts resolve and the aggregate has zero undefined globals.
-8. Replace compatibility storage/shims with exact initializers and proved archive members; reproduce data/rodata/bss layout, relocations and section alignment.
-9. Recover the linker script, object order and library order.
-10. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+8. **Original Stage-3C tranche advanced:** 49/54 rows have exact fingerprints, 52/54 have target addresses, and compatibility storage falls from 44 to 11; prove three remaining extents and remove two synthetic adapters.
+9. Replace the remaining compatibility storage/shims with exact initializers and proved archive members; reproduce data/rodata/bss layout, relocations and section alignment.
+10. Recover the linker script, object order and library order.
+11. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first

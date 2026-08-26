@@ -21,6 +21,11 @@ This directory contains public, byte-free evidence for the Stage-3 link gate.
 - `provider_frontier_closure.tsv` classifies all 251 names left by V86 into
   181 target-address anchors, nine recovered-text aliases, 44 compatibility
   storage definitions and 17 deterministic EE runtime shims.
+- `named_data.tsv` freezes the original 54-row Stage-3C tranche: 49 rows carry
+  private-reference range fingerprints, 52 have target addresses, three remain
+  address-only and two require a source-layout refactor.
+- `named_data_reviews.tsv` records the non-mechanical address, extent and
+  source-refactor decisions with checked public evidence paths and tokens.
 
 The manifest deliberately contains no original executable bytes, extracted
 assets, local paths or encoded binary payloads. Regenerate it only from a
@@ -56,3 +61,11 @@ the exact V86 frontier. `make provider-frontier` then generates ignored
 storage/shim sources, partially links them after the private providers and
 proves **251 -> 0** undefined globals. This is source-link namespace closure;
 it does not prove target initializers, archive membership or final placement.
+
+Use `make named-data-public-check` to validate the byte-free V88 ledger and
+its exact 337/54/53/212/1,265 original Stage-3 partition. With a legal private
+reference, `make named-data` verifies all 49 range hashes and replaces 33 V87
+compatibility stores with nine overlap-aware exact providers. Their 140,785
+unique bytes, generated assembly and objects stay below ignored
+`build/named-data/`. Three extents and two source refactors remain before Stage
+3C can be called closed; final placement belongs to Stage 3G.

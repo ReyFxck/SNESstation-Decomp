@@ -77,6 +77,12 @@ PROVIDER_FRONTIER_BUILD_DIR := $(BUILD_DIR)/provider-frontier
 PROVIDER_FRONTIER_INPUT := $(PRIVATE_ASSET_OUTPUT)
 PROVIDER_FRONTIER_OUTPUT := $(PROVIDER_FRONTIER_BUILD_DIR)/source-tree.provider-closed.partial.o
 PROVIDER_FRONTIER_REPORT := $(PROVIDER_FRONTIER_BUILD_DIR)/report.json
+NAMED_DATA_MANIFEST := analysis/link_identity/named_data.tsv
+NAMED_DATA_REVIEWS := analysis/link_identity/named_data_reviews.tsv
+NAMED_DATA_BUILD_DIR := $(BUILD_DIR)/named-data
+NAMED_DATA_INPUT := $(PRIVATE_ASSET_OUTPUT)
+NAMED_DATA_OUTPUT := $(NAMED_DATA_BUILD_DIR)/source-tree.named-data.partial.o
+NAMED_DATA_REPORT := $(NAMED_DATA_BUILD_DIR)/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -131,6 +137,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	link-contracts link-contracts-check link-contracts-refresh link-contracts-public-check \
 	private-assets private-assets-check private-assets-refresh private-assets-public-check \
 	provider-frontier provider-frontier-check provider-frontier-refresh provider-frontier-public-check \
+	named-data named-data-check named-data-verify named-data-refresh named-data-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -166,6 +173,7 @@ help:
 	@echo "  make link-contracts  apply the zero-byte Stage-3 link-contract frontier"
 	@echo "  make private-assets  verify and link the five private embedded-asset bundles"
 	@echo "  make provider-frontier  close the exact 251-name source-link frontier"
+	@echo "  make named-data      replace 33 compatibility stores with exact private Stage-3C ranges"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -259,7 +267,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -614,6 +622,65 @@ provider-frontier-public-check:
 		--private-manifest "$(PRIVATE_ASSET_MANIFEST)" \
 		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
 		--manifest "$(PROVIDER_FRONTIER_MANIFEST)"
+
+# Stage 3C: freeze the original 54-row named-data tranche without publishing
+# bytes from the private reference image.
+named-data: reference bootstrap-ee-stage1
+	$(MAKE) named-data-check EE_CC="$(EE_STAGE1_CC)"
+
+named-data-check: private-assets-check
+	@test -f "$(REFERENCE_RAW)" || { \
+		echo "Missing private unpacked reference: $(REFERENCE_RAW)" >&2; \
+		echo "Run make reference first." >&2; \
+		exit 2; \
+	}
+	$(PYTHON) tools/named_data.py link \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--private-manifest "$(PRIVATE_ASSET_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--reviews "$(NAMED_DATA_REVIEWS)" \
+		--manifest "$(NAMED_DATA_MANIFEST)" \
+		--reference "$(REFERENCE_RAW)" \
+		--compiler "$(EE_CC)" \
+		--input "$(NAMED_DATA_INPUT)" \
+		--build-dir "$(NAMED_DATA_BUILD_DIR)" \
+		--output "$(NAMED_DATA_OUTPUT)" \
+		--report "$(NAMED_DATA_REPORT)"
+
+named-data-verify: reference
+	$(PYTHON) tools/named_data.py verify \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--private-manifest "$(PRIVATE_ASSET_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--reviews "$(NAMED_DATA_REVIEWS)" \
+		--manifest "$(NAMED_DATA_MANIFEST)" \
+		--reference "$(REFERENCE_RAW)" \
+		--report "$(NAMED_DATA_REPORT)"
+
+named-data-refresh: reference
+	$(PYTHON) tools/named_data.py refresh \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--private-manifest "$(PRIVATE_ASSET_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--reviews "$(NAMED_DATA_REVIEWS)" \
+		--manifest "$(NAMED_DATA_MANIFEST)" \
+		--reference "$(REFERENCE_RAW)"
+
+named-data-public-check:
+	$(PYTHON) tools/named_data.py validate \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--private-manifest "$(PRIVATE_ASSET_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--reviews "$(NAMED_DATA_REVIEWS)" \
+		--manifest "$(NAMED_DATA_MANIFEST)"
 
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \

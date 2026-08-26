@@ -25,6 +25,7 @@ SOURCE_ALIASES = ROOT / "analysis" / "link_identity" / "source_address_aliases.t
 LINK_CONTRACTS = ROOT / "analysis" / "link_identity" / "link_contracts.tsv"
 PRIVATE_ASSET_PROVIDERS = ROOT / "analysis" / "link_identity" / "private_asset_providers.tsv"
 PROVIDER_FRONTIER_CLOSURE = ROOT / "analysis" / "link_identity" / "provider_frontier_closure.tsv"
+NAMED_DATA = ROOT / "analysis" / "link_identity" / "named_data.tsv"
 OUT = ROOT / "docs" / "PROGRESS.generated.md"
 SVG_OUT = ROOT / "assets" / "progress.svg"
 STATUS_OUT = ROOT / "docs" / "status" / "PROJECT_STATUS.generated.md"
@@ -300,6 +301,65 @@ def main() -> None:
     ):
         raise SystemExit("invalid provider-frontier closure manifest")
 
+    named_data_rows = list(
+        csv.DictReader(NAMED_DATA.open(encoding="utf-8"), delimiter="\t")
+    )
+    named_data_statuses = {
+        status: sum(row["status"] == status for row in named_data_rows)
+        for status in (
+            "PRIVATE_BYTES_PROVED",
+            "RANGE_PROVED",
+            "ADDRESS_PROVED",
+            "SOURCE_REFACTOR",
+        )
+    }
+    named_data_addressed = sum(bool(row["target_address"]) for row in named_data_rows)
+    named_data_fingerprinted = (
+        named_data_statuses["PRIVATE_BYTES_PROVED"]
+        + named_data_statuses["RANGE_PROVED"]
+    )
+    compatibility_storage = {
+        row["symbol"]
+        for row in closure_rows
+        if row["resolution_kind"] == "compatibility-storage"
+    }
+    exact_named_data = [
+        row
+        for row in named_data_rows
+        if row["symbol"] in compatibility_storage and row["status"] == "RANGE_PROVED"
+    ]
+    exact_intervals = sorted(
+        (
+            int(row["target_address"], 0),
+            int(row["target_address"], 0) + int(row["extent_hex"], 0),
+        )
+        for row in exact_named_data
+    )
+    exact_clusters: list[list[int]] = []
+    for start_address, end_address in exact_intervals:
+        if not exact_clusters or start_address > exact_clusters[-1][1]:
+            exact_clusters.append([start_address, end_address])
+        else:
+            exact_clusters[-1][1] = max(exact_clusters[-1][1], end_address)
+    exact_cluster_bytes = sum(end - start for start, end in exact_clusters)
+    if (
+        len(named_data_rows) != 54
+        or len({row["symbol"] for row in named_data_rows}) != 54
+        or named_data_statuses
+        != {
+            "PRIVATE_BYTES_PROVED": 10,
+            "RANGE_PROVED": 39,
+            "ADDRESS_PROVED": 3,
+            "SOURCE_REFACTOR": 2,
+        }
+        or named_data_addressed != 52
+        or named_data_fingerprinted != 49
+        or len(exact_named_data) != 33
+        or len(exact_clusters) != 9
+        or exact_cluster_bytes != 140_785
+    ):
+        raise SystemExit("invalid Stage-3C named-data manifest")
+
     draw = [
         r for r in rows
         if r["area"] == "renderer"
@@ -384,6 +444,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Zero-byte link-contract frontier | **{contract_resolved:,}/{len(contract_rows):,} resolved** | {contract_anchors:,} absolute target-address anchors plus {contract_aliases} semantic text aliases leave {contract_blocked:,} provider contracts explicit. |
 | Private embedded-asset providers | **{len(provider_symbols)}/{len(expected_private_symbols)} resolved** | Five verified private bundles emit {provider_bytes:,} ignored bytes and reduce the active frontier to {provider_frontier:,}. |
 | Source-link provider namespace | **{len(closure_rows)}/{len(active_provider_symbols)} resolved** | {closure_kind_counts['absolute-target-anchor']} target anchors, {closure_kind_counts['semantic-text-alias']} text aliases, {closure_kind_counts['compatibility-storage']} storage definitions and {closure_kind_counts['compatibility-runtime-shim']} EE shims reduce aggregate externals to zero. |
+| Original Stage-3C named-data tranche | **{named_data_fingerprinted}/54 fingerprinted; {named_data_addressed}/54 addressed** | {len(exact_named_data)} compatibility stores are replaced by nine exact private-reference range clusters; {named_data_statuses['ADDRESS_PROVED']} extents and {named_data_statuses['SOURCE_REFACTOR']} source refactors remain. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -413,9 +474,15 @@ that frontier to {provider_frontier:,} without changing any existing allocated
 section. V87 closes all {len(closure_rows)} remaining source-link names in one
 audited batch and proves an aggregate external count of zero. Its compatibility
 storage and runtime shims are linkability scaffolding, not claims about exact
-target initializers or historical archive members. The current batch is
-documented in
-[`V87_PROVIDER_FRONTIER_CLOSED.md`](V87_PROVIDER_FRONTIER_CLOSED.md); V86 remains
+target initializers or historical archive members. V88 returns to the original
+Stage-3 partition and audits all 54 Stage-3C discrete-data rows: 49 now carry
+private-reference fingerprints, 52 have target addresses, and 33 former
+compatibility stores are replaced by nine exact range providers covering
+{exact_cluster_bytes:,} unique bytes. Three object extents and two synthetic
+source adapters remain, so Stage 3C is advanced but not yet closed. The current
+batch is documented in
+[`V88_STAGE3C_NAMED_DATA.md`](V88_STAGE3C_NAMED_DATA.md); V87 remains documented
+in [`V87_PROVIDER_FRONTIER_CLOSED.md`](V87_PROVIDER_FRONTIER_CLOSED.md); V86 remains
 documented in [`V86_PRIVATE_ASSET_PROVIDERS.md`](V86_PRIVATE_ASSET_PROVIDERS.md); V85 remains
 documented in [`V85_ZERO_BYTE_LINK_FRONTIER.md`](V85_ZERO_BYTE_LINK_FRONTIER.md); V84 remains
 documented in [`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md); the layout
@@ -433,9 +500,10 @@ closure remains frozen in
 5. **Zero-byte link-contract tranche frozen:** {contract_resolved:,}/{len(contract_rows):,} are resolved and the exact {contract_blocked:,}-name input provider frontier is classified.
 6. **Private-asset tranche closed:** {len(provider_symbols)}/{len(expected_private_symbols)} provider symbols and {provider_bytes:,} bytes are privately verified.
 7. **Source-link provider namespace closed:** {len(closure_rows)}/{len(active_provider_symbols)} remaining contracts resolve and the aggregate has zero undefined globals.
-8. Replace compatibility storage/shims with exact initializers and proved archive members; reproduce data/rodata/bss layout, relocations and section alignment.
-9. Recover the linker script, object order and library order.
-10. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+8. **Original Stage-3C tranche advanced:** {named_data_fingerprinted}/54 rows have exact fingerprints, {named_data_addressed}/54 have target addresses, and compatibility storage falls from 44 to {44 - len(exact_named_data)}; prove three remaining extents and remove two synthetic adapters.
+9. Replace the remaining compatibility storage/shims with exact initializers and proved archive members; reproduce data/rodata/bss layout, relocations and section alignment.
+10. Recover the linker script, object order and library order.
+11. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first
@@ -467,6 +535,7 @@ unproven final-ELF stage.
 - **Zero-byte link contracts:** **{contract_resolved:,}/{len(contract_rows):,} resolved**, **{contract_blocked:,} blocked** ({contract_anchors:,} address anchors + {contract_aliases} semantic aliases)
 - **Private embedded assets:** **{len(provider_symbols)}/{len(expected_private_symbols)} providers**, **{provider_bytes:,} verified private bytes**, **{provider_frontier:,} remaining externals**
 - **Source-link provider namespace:** **{len(closure_rows)}/{len(active_provider_symbols)} resolved**, **0 aggregate externals** ({closure_kind_counts['absolute-target-anchor']} anchors + {closure_kind_counts['semantic-text-alias']} aliases + {closure_kind_counts['compatibility-storage']} storage + {closure_kind_counts['compatibility-runtime-shim']} shims)
+- **Original Stage-3C named data:** **{named_data_fingerprinted}/54 fingerprinted**, **{named_data_addressed}/54 addressed**, **{len(exact_named_data)} exact providers** ({named_data_statuses['ADDRESS_PROVED']} address-only + {named_data_statuses['SOURCE_REFACTOR']} source refactors remain)
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**

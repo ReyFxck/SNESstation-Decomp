@@ -32,6 +32,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Zero-byte link contracts:** **1,337/1,598 resolved**, **261 blocked** (1,274 address anchors + 63 semantic aliases)
 - **Private embedded assets:** **10/10 providers**, **62,736 verified private bytes**, **251 remaining externals**
 - **Source-link provider namespace:** **251/251 resolved**, **0 aggregate externals** (181 anchors + 9 aliases + 44 storage + 17 shims)
+- **Original Stage-3C named data:** **49/54 fingerprinted**, **52/54 addressed**, **33 exact providers** (3 address-only + 2 source refactors remain)
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -87,6 +88,7 @@ make source-tree
 make source-aliases
 make link-contracts
 make provider-frontier
+make named-data
 make layout-oracle
 ```
 
@@ -95,7 +97,7 @@ To verify a legally obtained reference binary:
 ```bash
 cp /path/to/SNES_EMU.ELF original/SNES_EMU.ELF
 make reference
-make provider-frontier
+make named-data
 make reproduce-check
 ```
 
@@ -143,6 +145,15 @@ aggregate has **zero undefined globals**. Compatibility storage/shims are
 explicit scaffolding; exact initializers, archive members and final placement
 remain later ELF-identity gates. See
 [`docs/status/V87_PROVIDER_FRONTIER_CLOSED.md`](docs/status/V87_PROVIDER_FRONTIER_CLOSED.md).
+
+`make named-data` audits the **original** 54-row Stage-3C tranche rather than
+treating V82–V87 as Stage 3A–3F. It fingerprints 49 rows, anchors 52 addresses
+and replaces 33 compatibility stores with nine overlap-aware exact private
+range providers covering 140,785 unique bytes. Compatibility storage falls
+from 44 to 11 while the aggregate remains at zero undefined globals. Three
+object extents and two source-layout refactors remain, so Stage 3C is advanced
+but not yet closed. See
+[`docs/status/V88_STAGE3C_NAMED_DATA.md`](docs/status/V88_STAGE3C_NAMED_DATA.md).
 
 ## Target fingerprint
 

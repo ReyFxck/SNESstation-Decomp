@@ -103,6 +103,25 @@ compatibility scaffolding. Exact program-data initializers/placement and
 historical archive-member identity remain live blockers. See
 [`status/V87_PROVIDER_FRONTIER_CLOSED.md`](status/V87_PROVIDER_FRONTIER_CLOSED.md).
 
+## Original Stage-3C named data — advanced, five blockers remain
+
+V88 reconciles the checkpoint history with the original Stage-3 plan. The
+Stage-2 external ownership map partitions exactly into 337 Stage-3B aliases,
+54 Stage-3C discrete-data rows, 53 Stage-3D runtime rows, 212 Stage-3E named
+contracts/zlib peers and 1,265 Stage-3F address-labelled data rows.
+
+All 54 Stage-3C rows are now classified. Of those, **49 have private-reference
+fingerprints** and **52 have target addresses**. The private link replaces 33
+compatibility stores with nine exact overlapping-range providers covering
+140,785 unique bytes, reducing compatibility storage from **44 to 11** without
+reopening the zero-external namespace gate.
+
+Stage 3C remains open on exactly three unknown extents
+(`g_frontend_font_001bb748`, `g_memory_state_001c3ab0` and
+`snes_vtable_00426c28`) and two synthetic unzip source adapters
+(`g_unz_ops_recovered` and `g_zip_io_recovered`). See
+[`status/V88_STAGE3C_NAMED_DATA.md`](status/V88_STAGE3C_NAMED_DATA.md).
+
 ## Whole-program identity
 
 Even after every function is `MATCHING`, an identical ELF still requires:

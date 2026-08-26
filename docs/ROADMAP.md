@@ -60,6 +60,13 @@ Exact program-data bytes/placement and final object order remain Stage 3.
 
 ## 3. Link identity
 
+The original tranche names remain the authoritative plan: 3A is closed; 3B is
+closed at address/link level (323 canonical aliases plus 14 exact-address
+anchors); 3C is advanced with five blockers; 3D and 3E are linkable but not
+historically exact; 3F has 1,265 addresses but not recovered ranges/bytes; and
+3G/3H remain the final layout and image gates. See
+[`status/V88_STAGE3C_NAMED_DATA.md`](status/V88_STAGE3C_NAMED_DATA.md).
+
 - [x] Freeze a byte-free unpacked-layout oracle with SJCRUNCH2 section/block
   geometry, 64 KiB hashes and an exact first-difference comparator.
 - [x] Prove and zero-byte bind 257/337 source-address aliases to 242 canonical
@@ -76,6 +83,11 @@ Exact program-data bytes/placement and final object order remain Stage 3.
   five historical archive contracts; prove a zero-undefined relocatable
   aggregate while keeping compatibility storage/shims explicitly distinct from
   final target identity.
+- [x] Freeze the original 54-row Stage-3C ledger; fingerprint 49 rows, anchor
+  52 target addresses and replace 33 compatibility stores with nine exact
+  private range providers covering 140,785 unique bytes.
+- [ ] Finish Stage 3C by proving three complete object extents and removing two
+  synthetic unzip source-layout adapters.
 - [ ] Identify exact old runtime/library revisions and archive members.
 - [ ] Recover the application linker script and section alignment.
 - [ ] Recover object order and library order.
