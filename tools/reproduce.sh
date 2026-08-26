@@ -11,6 +11,7 @@ show_status() {
     printf '  - unpacked layout oracle: 1 section / 13 blocks / 51 hash windows\n'
     printf '  - source-address alias tranche: 323/337 proved; 14 explicit blockers\n'
     printf '  - zero-byte link contracts: 1337/1598 resolved; 261-provider frontier\n'
+    printf '  - private embedded assets: 10/10 providers; 261 -> 251 frontier\n'
     printf '\nExact replacement ELF still requires:\n'
     printf '  - exact global data, sections, relocations and object boundaries\n'
     printf '  - exact historical archives, linker script and link order\n'
@@ -31,17 +32,15 @@ case "$MODE" in
         ;;
     verify)
         make check
-        make link-contracts
         require_reference
-        make reference
+        make private-assets
         make layout-oracle-check
         make elf-status
         ;;
     full)
         make check
-        make link-contracts
         require_reference
-        make reference
+        make private-assets
         make layout-oracle-check
         make elf
         ;;

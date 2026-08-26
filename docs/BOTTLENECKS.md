@@ -69,9 +69,24 @@ section, alignment or bytes. The remaining provider frontier is exact:
 | Historical archive members | **5** |
 | **Total** | **261** |
 
-This is now the active Stage-3B frontier. Archive members and real program
-data must be added with byte-producing evidence; `--defsym` cannot close
-those contracts honestly.
+V86 closes the ten private-asset rows with five hash-verified bundles totaling
+62,736 bytes. The private object is emitted only below ignored `build/`, and
+the partial-link frontier reaches **261 -> 251** without changing an existing
+allocated section. See
+[`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md).
+
+The active Stage-3B frontier is therefore:
+
+| Provider class | Rows |
+|---|---:|
+| Named link contracts | **197** |
+| Named program-data storage | **35** |
+| V84 source-address blockers | **14** |
+| Historical archive members | **5** |
+| **Total** | **251** |
+
+Archive members and real program data must still be added with byte-producing
+evidence; `--defsym` cannot close those contracts honestly.
 
 ## Whole-program identity
 

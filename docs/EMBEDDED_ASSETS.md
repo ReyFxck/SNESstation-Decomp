@@ -83,8 +83,21 @@ Keep a legally obtained reference at `original/SNES_EMU.ELF`, then run:
 make extract-assets
 ```
 
-This verifies both reference SHA-256 values, unpacks the ELF and writes private
-results to `build/extracted-assets/`:
+To materialize only the five bundles currently required by the source-tree
+link contracts (three IRXs plus the encoded credits and disclaimer), run:
+
+```bash
+make private-assets
+```
+
+That V86 gate verifies the same private ranges, padding and size words, emits
+an ignored provider object, and reduces the unresolved partial-link frontier
+from 261 to 251. It does not write standalone asset copies into the tracked
+tree; see
+[`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md).
+
+The `make extract-assets` command verifies both reference SHA-256 values,
+unpacks the ELF and writes private results to `build/extracted-assets/`:
 
 - the three IRXs;
 - the three original IIF files and PNG previews;

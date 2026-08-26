@@ -23,6 +23,7 @@ MANIFEST = ROOT / "analysis" / "progress_targets.csv"
 SOURCE_READINESS = ROOT / "analysis" / "source_readiness.csv"
 SOURCE_ALIASES = ROOT / "analysis" / "link_identity" / "source_address_aliases.tsv"
 LINK_CONTRACTS = ROOT / "analysis" / "link_identity" / "link_contracts.tsv"
+PRIVATE_ASSET_PROVIDERS = ROOT / "analysis" / "link_identity" / "private_asset_providers.tsv"
 OUT = ROOT / "docs" / "PROGRESS.generated.md"
 SVG_OUT = ROOT / "assets" / "progress.svg"
 STATUS_OUT = ROOT / "docs" / "status" / "PROJECT_STATUS.generated.md"
@@ -234,6 +235,33 @@ def main() -> None:
         or contract_anchors + contract_aliases != contract_resolved
     ):
         raise SystemExit("invalid zero-byte link-contract manifest")
+    provider_rows = list(
+        csv.DictReader(PRIVATE_ASSET_PROVIDERS.open(encoding="utf-8"), delimiter="\t")
+    )
+    provider_symbols = {
+        symbol
+        for row in provider_rows
+        for symbol in (row["data_symbol"], row["size_symbol"])
+    }
+    expected_private_symbols = {
+        row["symbol"]
+        for row in contract_rows
+        if row["status"] == "BLOCKED" and row["provider_kind"] == "private-asset"
+    }
+    provider_bytes = sum(
+        int(row["size_hex"], 0) + int(row["padding_hex"], 0) + 4
+        for row in provider_rows
+    )
+    provider_frontier = contract_blocked - len(provider_symbols)
+    if (
+        not provider_rows
+        or len(provider_rows) != 5
+        or provider_symbols != expected_private_symbols
+        or len(provider_symbols) != 10
+        or provider_bytes != 62_736
+        or provider_frontier != 251
+    ):
+        raise SystemExit("invalid private-asset provider manifest")
 
     draw = [
         r for r in rows
@@ -317,6 +345,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Build-ready EE source ownership | **97/97 TUs** | 96 canonical objects partially link with a frozen ABI/symbol map and no duplicate/common definitions. |
 | Source-address alias tranche | **{alias_proved}/{len(alias_rows)} proved** | Zero-byte linker aliases bind proven alternate names to canonical global text symbols; {alias_blocked} remain blocked. |
 | Zero-byte link-contract frontier | **{contract_resolved:,}/{len(contract_rows):,} resolved** | {contract_anchors:,} absolute target-address anchors plus {contract_aliases} semantic text aliases leave {contract_blocked:,} provider contracts explicit. |
+| Private embedded-asset providers | **{len(provider_symbols)}/{len(expected_private_symbols)} resolved** | Five verified private bundles emit {provider_bytes:,} ignored bytes and reduce the active frontier to {provider_frontier:,}. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -340,8 +369,12 @@ V85 then classifies the full 1,598-name V84 aggregate and resolves
 {contract_resolved:,} contracts without allocating a byte: {contract_anchors:,}
 target-address data anchors and {contract_aliases} semantic aliases. The
 remaining {contract_blocked:,} names are the explicit provider frontier. The
-current batch is documented in
-[`V85_ZERO_BYTE_LINK_FRONTIER.md`](V85_ZERO_BYTE_LINK_FRONTIER.md); V84 remains
+V86 private-reference gate then materializes five embedded-asset bundles,
+proves all {len(provider_symbols)} source-level data/size symbols, and reduces
+that frontier to {provider_frontier:,} without changing any existing allocated
+section. The current batch is documented in
+[`V86_PRIVATE_ASSET_PROVIDERS.md`](V86_PRIVATE_ASSET_PROVIDERS.md); V85 remains
+documented in [`V85_ZERO_BYTE_LINK_FRONTIER.md`](V85_ZERO_BYTE_LINK_FRONTIER.md); V84 remains
 documented in [`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md); the layout
 oracle remains frozen in
 [`V82_UNPACKED_LAYOUT_ORACLE.md`](V82_UNPACKED_LAYOUT_ORACLE.md), and the function
@@ -354,10 +387,11 @@ closure remains frozen in
 2. **Source/object gate closed:** 97/97 TUs compile; 96 canonical objects have frozen ownership.
 3. **Unpacked oracle closed:** section/block geometry and 64 KiB hashes are frozen.
 4. **Address-alias tranche frozen:** {alias_proved}/{len(alias_rows)} are proved and zero-byte bound; the remaining {alias_blocked} are carried into the V85 provider frontier.
-5. **Zero-byte link-contract tranche:** {contract_resolved:,}/{len(contract_rows):,} are resolved; close the {contract_blocked:,}-name provider frontier with real storage/archive evidence.
-6. Reproduce data/rodata/bss layout, relocations and section alignment.
-7. Recover the historical archives, linker script, object order and library order.
-8. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+5. **Zero-byte link-contract tranche frozen:** {contract_resolved:,}/{len(contract_rows):,} are resolved and the exact {contract_blocked:,}-name input provider frontier is classified.
+6. **Private-asset tranche closed:** {len(provider_symbols)}/{len(expected_private_symbols)} provider symbols and {provider_bytes:,} bytes are privately verified; {provider_frontier:,} providers remain.
+7. Reproduce data/rodata/bss layout, relocations and section alignment.
+8. Recover the historical archives, linker script, object order and library order.
+9. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first
@@ -387,6 +421,7 @@ unproven final-ELF stage.
 - **Build-ready EE source ownership:** **97/97 TUs** (96 canonical + 1 alternate)
 - **Source-address aliases:** **{alias_proved}/{len(alias_rows)} proved**, **{alias_blocked} blocked**
 - **Zero-byte link contracts:** **{contract_resolved:,}/{len(contract_rows):,} resolved**, **{contract_blocked:,} blocked** ({contract_anchors:,} address anchors + {contract_aliases} semantic aliases)
+- **Private embedded assets:** **{len(provider_symbols)}/{len(expected_private_symbols)} providers**, **{provider_bytes:,} verified private bytes**, **{provider_frontier:,} remaining externals**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**

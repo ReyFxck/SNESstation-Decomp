@@ -67,6 +67,11 @@ LINK_CONTRACT_BUILD_DIR := $(BUILD_DIR)/link-contracts
 LINK_CONTRACT_INPUT := $(SOURCE_ALIAS_OUTPUT)
 LINK_CONTRACT_OUTPUT := $(LINK_CONTRACT_BUILD_DIR)/source-tree.link-contracts.partial.o
 LINK_CONTRACT_REPORT := $(LINK_CONTRACT_BUILD_DIR)/report.json
+PRIVATE_ASSET_MANIFEST := analysis/link_identity/private_asset_providers.tsv
+PRIVATE_ASSET_BUILD_DIR := $(BUILD_DIR)/private-assets
+PRIVATE_ASSET_INPUT := $(LINK_CONTRACT_OUTPUT)
+PRIVATE_ASSET_OUTPUT := $(PRIVATE_ASSET_BUILD_DIR)/source-tree.private-assets.partial.o
+PRIVATE_ASSET_REPORT := $(PRIVATE_ASSET_BUILD_DIR)/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -119,6 +124,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	source-tree source-tree-check source-tree-refresh \
 	source-aliases source-aliases-check source-aliases-refresh source-aliases-public-check \
 	link-contracts link-contracts-check link-contracts-refresh link-contracts-public-check \
+	private-assets private-assets-check private-assets-refresh private-assets-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -152,6 +158,7 @@ help:
 	@echo "  make source-tree-check  verify Stage 2 with an available EE compiler"
 	@echo "  make source-aliases  prove and apply zero-byte Stage-3 address aliases"
 	@echo "  make link-contracts  apply the zero-byte Stage-3 link-contract frontier"
+	@echo "  make private-assets  verify and link the five private embedded-asset bundles"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -245,7 +252,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -534,6 +541,42 @@ link-contracts-public-check:
 		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
 		--manifest "$(LINK_CONTRACT_MANIFEST)" \
 		--reviews "$(LINK_CONTRACT_REVIEWS)"
+
+private-assets: reference bootstrap-ee-stage1
+	$(MAKE) private-assets-check EE_CC="$(EE_STAGE1_CC)"
+
+private-assets-check: link-contracts-check
+	@test -f "$(REFERENCE_RAW)" || { \
+		echo "Missing private unpacked reference: $(REFERENCE_RAW)" >&2; \
+		echo "Run make reference first." >&2; \
+		exit 2; \
+	}
+	$(PYTHON) tools/private_asset_providers.py link \
+		--compiler "$(EE_CC)" \
+		--reference "$(REFERENCE_RAW)" \
+		--assets "analysis/embedded_assets.csv" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--manifest "$(PRIVATE_ASSET_MANIFEST)" \
+		--input "$(PRIVATE_ASSET_INPUT)" \
+		--build-dir "$(PRIVATE_ASSET_BUILD_DIR)" \
+		--output "$(PRIVATE_ASSET_OUTPUT)" \
+		--report "$(PRIVATE_ASSET_REPORT)"
+
+# Refreshing this name/range map is a reviewed provider-identity decision.
+private-assets-refresh:
+	$(PYTHON) tools/private_asset_providers.py refresh \
+		--assets "analysis/embedded_assets.csv" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--manifest "$(PRIVATE_ASSET_MANIFEST)"
+
+private-assets-public-check:
+	$(PYTHON) tools/private_asset_providers.py validate \
+		--assets "analysis/embedded_assets.csv" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--manifest "$(PRIVATE_ASSET_MANIFEST)"
 
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \

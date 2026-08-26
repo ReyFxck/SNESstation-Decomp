@@ -69,9 +69,11 @@ Exact program-data bytes/placement and final object order remain Stage 3.
 - [x] Classify all 1,598 externals remaining after V84 and apply 1,274
   target-address data anchors plus 63 uniquely proved semantic text aliases
   without emitting code/data or changing allocated sections.
-- [ ] Close the exact 261-provider frontier: 197 named link contracts, 35
-  named program-data stores, 14 V84 address-alias blockers, 10 private-asset
-  providers and five historical archive members.
+- [x] Recover five embedded asset bundles from a private hash-verified reference
+  and satisfy all 10 data/size contracts without publishing their 62,736 bytes.
+- [ ] Close the exact 251-provider frontier: 197 named link contracts, 35
+  named program-data stores, 14 V84 address-alias blockers and five historical
+  archive members.
 - [ ] Identify exact old runtime/library revisions and archive members.
 - [ ] Recover the application linker script and section alignment.
 - [ ] Recover object order and library order.

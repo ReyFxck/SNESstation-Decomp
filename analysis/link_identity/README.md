@@ -15,6 +15,9 @@ This directory contains public, byte-free evidence for the Stage-3 link gate.
   and 261 explicit provider blockers.
 - `link_contract_reviews.tsv` freezes four non-mechanical semantic spellings
   with checked public evidence paths and tokens.
+- `private_asset_providers.tsv` maps five verified private ranges to all ten
+  asset data/size contracts, including padding, alignment and section names;
+  it contains hashes and geometry only.
 
 The manifest deliberately contains no original executable bytes, extracted
 assets, local paths or encoded binary payloads. Regenerate it only from a
@@ -38,3 +41,9 @@ frontier without a target compiler. `make link-contracts` rebuilds the V84
 aggregate, applies the 1,337 proved `--defsym` contracts and writes ignored
 reports under `build/link-contracts/`. Absolute address anchors assign values
 only: they do not create storage or reproduce target bytes.
+
+Use `make private-assets-public-check` to verify the byte-free V86 provider
+map. With a legal reference present, `make private-assets` uses `.incbin` only
+inside ignored `build/private-assets/`, verifies 62,736 contiguous provider
+bytes and reduces the partial-link frontier from 261 to 251. No generated
+assembly, object, report or extracted payload may be committed.

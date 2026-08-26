@@ -23,6 +23,7 @@ make reproduce          # full pipeline; currently stops at final-link gate
 make layout-oracle      # verify the private image against the public Stage-3 oracle
 make source-aliases     # build Stage 2 and apply proved zero-byte aliases
 make link-contracts     # reduce the V84 aggregate to the 261-provider frontier
+make private-assets     # privately materialize 10 asset providers; leave 251
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -44,15 +45,18 @@ The final pipeline must prove every layer:
 5. **Zero-byte link contracts — 1,337/1,598 resolved** — 1,274 frozen-address
    data anchors and 63 semantic aliases reduce the aggregate to 261 real
    providers without allocating code or data.
-6. **Program data** — globals, constants, string pooling, vtables, BSS and
+6. **Private embedded assets — closed** — five reference-verified bundles
+   provide ten symbols and 62,736 bytes, reducing the frontier to 251 while
+   remaining ignored private build products.
+7. **Program data** — globals, constants, string pooling, vtables, BSS and
    alignment match the unpacked target.
-7. **Relocations and archives** — the exact old PS2 libraries and their member
+8. **Relocations and archives** — the exact old PS2 libraries and their member
    selection are known.
-8. **Link** — linker script, section addresses, object order and library order
+9. **Link** — linker script, section addresses, object order and library order
    reproduce the unpacked ELF image.
-9. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+10. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
-10. **Final comparison** — section/layout reports and both unpacked and packed
+11. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
 
 The required reference hashes are:
@@ -66,7 +70,9 @@ The Stage-2 evidence and its exact claim boundary are recorded in
 [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
 The first Stage-3 measurement gate is recorded in
 [`status/V82_UNPACKED_LAYOUT_ORACLE.md`](status/V82_UNPACKED_LAYOUT_ORACLE.md).
-The current Stage-3 link-contract frontier is recorded in
+The current Stage-3 private-provider checkpoint is recorded in
+[`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md).
+The preceding zero-byte link-contract frontier remains recorded in
 [`status/V85_ZERO_BYTE_LINK_FRONTIER.md`](status/V85_ZERO_BYTE_LINK_FRONTIER.md).
 The preceding reviewed address-alias tranche remains recorded in
 [`status/V84_REVIEWED_SOURCE_ALIASES.md`](status/V84_REVIEWED_SOURCE_ALIASES.md).
