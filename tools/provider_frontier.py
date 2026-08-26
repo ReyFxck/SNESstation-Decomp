@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the exact V86 251-name source-link provider frontier.
+"""Close the post-refactor 248-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -157,7 +157,6 @@ STORAGE_SIZES = {
     "Settings_SkipFrames": 0x4,
     "_auStack_10e4": 0x8,
     "errno": 0x4,
-    "g_Memory": 0x4,
     "g_Settings_blob": 0x148,
     "g_bg_bitshift": 0x4,
     "g_bg_blob": 0x30,
@@ -187,8 +186,6 @@ STORAGE_SIZES = {
     "g_sram_size": 0x1,
     "g_tail_mask": 0x14,
     "g_tile_cache_state": 0x34,
-    "g_unz_ops_recovered": 0x18,
-    "g_zip_io_recovered": 0xA040,
 }
 
 RUNTIME_SHIMS = {
@@ -215,7 +212,6 @@ KNOWN_DATA_ADDRESSES = {
     "IPPU_FrameSync": 0x0035C268,
     "Memory_ROMFramesPerSecond": 0x003592FC,
     "Settings_SkipFrames": 0x0034551C,
-    "g_Memory": 0x0035E2B0,
     "g_Settings_blob": 0x003454E0,
     "g_bg_bitshift": 0x0035D454,
     "g_bg_blob": 0x0035D450,
@@ -286,8 +282,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 251:
-        fail(f"expected exact V86 frontier of 251 symbols, found {len(active)}")
+    if len(active) != 248:
+        fail(f"expected exact post-refactor frontier of 248 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -366,7 +362,7 @@ def derive_rows(
     expected = {
         ABSOLUTE_ANCHOR: 181,
         SEMANTIC_ALIAS: 9,
-        COMPAT_STORAGE: 44,
+        COMPAT_STORAGE: 41,
         RUNTIME_SHIM: 17,
     }
     if dict(counts) != expected:

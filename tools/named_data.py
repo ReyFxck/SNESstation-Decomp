@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 """Audit the original Stage-3C 54-name discrete-data tranche.
 
-The Stage-2 ownership checkpoint partitions its 1,921 externals into the
-original small-batch plan.  Stage 3C is exactly the 43 ``named-program-data``
-rows, one ``vtable-or-rtti`` row, and ten private-asset rows.  This gate keeps
-that historical 54-row definition stable and distinguishes four materially
-different claims:
+The Stage-2 ownership checkpoint partitions its original 1,921 externals into
+the small-batch plan.  Stage 3C is exactly the historical 43
+``named-program-data`` rows, one ``vtable-or-rtti`` row, and ten private-asset
+rows.  Four names were subsequently proved to be source-only adapters and
+removed, so the live source map has 1,917 externals and 50 Stage-3C objects.
+This gate keeps the historical 54-row definition stable and distinguishes
+three materially different closed claims:
 
 * a private reference range whose bytes and address are proved;
 * a named range whose target address, consumed extent, and bytes/zero-fill are
   proved without publishing those bytes;
-* an address-only contract whose full object extent is not yet proved; and
-* a synthetic behavioral-source adapter that has no single target object and
-  must be removed by a source-layout refactor.
+* a named range whose extent is fixed by a reviewed target boundary; and
+* a synthetic behavioral-source adapter proved absent from the target and
+  removed by a completed source-layout refactor.
 
 The public manifest contains only addresses, extents, classifications, and
 SHA-256 fingerprints.  ``verify`` and ``refresh`` require the privately
@@ -92,10 +94,39 @@ MANIFEST_FIELDS = (
 PRIVATE_BYTES = "PRIVATE_BYTES_PROVED"
 RANGE_PROVED = "RANGE_PROVED"
 ADDRESS_PROVED = "ADDRESS_PROVED"
-SOURCE_REFACTOR = "SOURCE_REFACTOR"
-VALID_STATUSES = {PRIVATE_BYTES, RANGE_PROVED, ADDRESS_PROVED, SOURCE_REFACTOR}
-VALID_DECISIONS = {"target-range", "target-address", "source-refactor"}
+SOURCE_REFACTOR_CLOSED = "SOURCE_REFACTOR_CLOSED"
+VALID_STATUSES = {
+    PRIVATE_BYTES, RANGE_PROVED, ADDRESS_PROVED, SOURCE_REFACTOR_CLOSED,
+}
+VALID_DECISIONS = {
+    "target-range", "target-address", "source-refactor-closed",
+}
 SHA_RE = re.compile(r"[0-9a-f]{64}")
+
+# These four names belong to the frozen 54-row Stage-3C plan, but no longer
+# occur in the live external map because the reviewed source refactors removed
+# their invented storage contracts.
+CLOSED_SOURCE_REFACTORS = {
+    "g_Memory": {
+        "category": "named-program-data",
+        "requesters": "app/main_flow_recovered.o",
+    },
+    "g_memory_state_001c3ab0": {
+        "category": "named-program-data",
+        "requesters": "ps2/libmtap_recovered.o",
+    },
+    "g_unz_ops_recovered": {
+        "category": "named-program-data",
+        "requesters": "unzip/unzip_api_recovered.o",
+    },
+    "g_zip_io_recovered": {
+        "category": "named-program-data",
+        "requesters": (
+            "unzip/explode_recovered.o;unzip/unreduce_recovered.o;"
+            "unzip/unshrink_recovered.o"
+        ),
+    },
+}
 
 
 class NamedDataError(RuntimeError):
@@ -191,9 +222,9 @@ def read_reviews(path: Path) -> dict[str, dict[str, str]]:
             fail(f"invalid named-data review decision for {symbol}: {row['decision']}")
         address = parse_hex(row["target_address"], field=f"{symbol} target address", allow_blank=True)
         extent = parse_hex(row["extent_hex"], field=f"{symbol} extent", allow_blank=True)
-        if row["decision"] == "source-refactor":
-            if address is not None:
-                fail(f"synthetic adapter review assigns target storage: {symbol}")
+        if row["decision"] == "source-refactor-closed":
+            if address is not None or extent is not None:
+                fail(f"closed source refactor assigns target storage: {symbol}")
         elif address is None:
             fail(f"target review lacks address: {symbol}")
         if row["decision"] == "target-range" and (extent is None or extent == 0):
@@ -240,9 +271,9 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
               + counts[("zlib-peer", "source-or-archive")],
         "3F": counts[("target-address-data", "program-data")],
     }
-    expected = {"3B": 337, "3C": 54, "3D": 53, "3E": 212, "3F": 1265}
-    if partition != expected or sum(partition.values()) != 1921:
-        fail(f"original Stage-3 partition drift: {partition}")
+    expected = {"3B": 337, "3C": 50, "3D": 53, "3E": 212, "3F": 1265}
+    if partition != expected or sum(partition.values()) != 1917:
+        fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 
 
@@ -255,8 +286,8 @@ def discrete_rows(external_rows: Sequence[dict[str, str]]) -> list[dict[str, str
             ("embedded-binary", "private-asset"),
         }
     ]
-    if len(rows) != 54:
-        fail(f"expected exact Stage-3C tranche of 54 rows, found {len(rows)}")
+    if len(rows) != 50:
+        fail(f"expected 50 live Stage-3C target objects, found {len(rows)}")
     return sorted(rows, key=lambda row: row["symbol"])
 
 
@@ -276,9 +307,23 @@ def base_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str,
                 fail(f"duplicate private named-data symbol: {symbol}")
             private[symbol] = (row, is_data)
 
+    historical_rows = discrete_rows(external_rows) + [
+        {
+            "symbol": symbol,
+            "category": metadata["category"],
+            "provider_kind": "program-data",
+            "owner": "removed-by-source-refactor",
+            "resolution_gate": "stage3c-closed",
+            "requesters": metadata["requesters"],
+        }
+        for symbol, metadata in CLOSED_SOURCE_REFACTORS.items()
+    ]
+    if len(historical_rows) != 54 or len({row["symbol"] for row in historical_rows}) != 54:
+        fail("historical Stage-3C 54-row tranche drift")
+
     result: list[dict[str, str]] = []
     used_reviews: set[str] = set()
-    for external in discrete_rows(external_rows):
+    for external in sorted(historical_rows, key=lambda row: row["symbol"]):
         symbol = external["symbol"]
         review = reviews.get(symbol)
         address: int | None = None
@@ -302,8 +347,8 @@ def base_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str,
             decision = review["decision"]
             address = parse_hex(review["target_address"], field=f"{symbol} target address", allow_blank=True)
             extent = parse_hex(review["extent_hex"], field=f"{symbol} extent", allow_blank=True)
-            if decision == "source-refactor":
-                status = SOURCE_REFACTOR
+            if decision == "source-refactor-closed":
+                status = SOURCE_REFACTOR_CLOSED
             elif extent:
                 status = RANGE_PROVED
             else:
@@ -327,8 +372,8 @@ def base_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str,
             else:
                 fail(f"unreviewed Stage-3C data blocker: {symbol}")
 
-        if status == SOURCE_REFACTOR:
-            region = "source-refactor"
+        if status == SOURCE_REFACTOR_CLOSED:
+            region = "source-refactor-closed"
         elif extent is None or extent == 0:
             region = "address-only"
         else:
@@ -440,7 +485,7 @@ def summarize(rows: Sequence[dict[str, str]]) -> dict[str, object]:
         "private_bytes": statuses[PRIVATE_BYTES],
         "range_proved": statuses[RANGE_PROVED],
         "address_only": statuses[ADDRESS_PROVED],
-        "source_refactor": statuses[SOURCE_REFACTOR],
+        "source_refactor_closed": statuses[SOURCE_REFACTOR_CLOSED],
         "addressed": addressed,
         "fingerprinted": fingerprinted,
         "regions": dict(sorted(regions.items())),
@@ -459,8 +504,8 @@ def exact_provider_rows(
         and row["symbol"] in named
         and named[row["symbol"]]["status"] == RANGE_PROVED
     ]
-    if len(result) != 33:
-        fail(f"expected 33 exact named-data provider replacements, found {len(result)}")
+    if len(result) != 32:
+        fail(f"expected 32 exact named-data provider replacements, found {len(result)}")
     return sorted(result, key=lambda row: (int(row["target_address"], 0), row["symbol"]))
 
 
@@ -483,13 +528,14 @@ def cluster_ranges(rows: Sequence[dict[str, str]]) -> list[dict[str, object]]:
             cast_rows = clusters[-1]["rows"]
             assert isinstance(cast_rows, list)
             cast_rows.append(row)
-    if len(clusters) != 9:
-        fail(f"expected nine exact named-data range clusters, found {len(clusters)}")
+    if len(clusters) != 15:
+        fail(f"expected 15 exact named-data range clusters, found {len(clusters)}")
     return clusters
 
 
 def render_exact_provider_assembly(
     rows: Sequence[dict[str, str]],
+    exported_names: set[str],
     reference: bytes,
     layout: dict[str, int | str],
     build_dir: Path,
@@ -543,6 +589,8 @@ def render_exact_provider_assembly(
             digest = sha256_bytes(material)
             section_type = 1
         for row in members:
+            if row["symbol"] not in exported_names:
+                continue
             offset = int(row["target_address"], 0) - start
             extent = int(row["extent_hex"], 0)
             lines.extend(
@@ -576,10 +624,13 @@ def link_exact_providers(
         fail("private unpacked reference is missing or does not match the layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 251:
-        fail(f"expected V87 frontier of 251 rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 248:
+        fail(f"expected post-refactor provider frontier of 248 rows, found {len(frontier_rows)}")
     replacements = exact_provider_rows(named_rows, frontier_rows)
     replacement_names = {row["symbol"] for row in replacements}
+    exact_ranges = [row for row in named_rows if row["status"] == RANGE_PROVED]
+    if len(exact_ranges) != 40:
+        fail(f"expected 40 non-private exact Stage-3C ranges, found {len(exact_ranges)}")
     remaining_frontier = [
         row for row in frontier_rows
         if not (row["resolution_kind"] == COMPAT_STORAGE and row["symbol"] in replacement_names)
@@ -600,7 +651,7 @@ def link_exact_providers(
     provider_object = args.build_dir / "stage3c_providers.o"
 
     exact_assembly, expected_exact_sections = render_exact_provider_assembly(
-        replacements, reference, layout, args.build_dir,
+        exact_ranges, replacement_names, reference, layout, args.build_dir,
     )
     exact_source.write_text(exact_assembly, encoding="utf-8")
     storage_source.write_text(render_storage_assembly(remaining_frontier), encoding="utf-8")
@@ -693,9 +744,11 @@ def link_exact_providers(
         "schema": 1,
         "claim": "stage3c-private-exact-named-data-providers",
         **summarize(named_rows),
-        "exact_provider_symbols": len(replacements),
-        "exact_provider_clusters": len(expected_exact_sections),
-        "compatibility_storage_before": 44,
+        "exact_range_symbols": len(exact_ranges),
+        "exact_range_clusters": len(expected_exact_sections),
+        "exact_range_bytes": sum(section["size"] for section in expected_exact_sections.values()),
+        "compatibility_replacements": len(replacements),
+        "compatibility_storage_before": 41,
         "compatibility_storage_after": compatibility_remaining,
         "input_external_symbols": len(input_undefined),
         "output_external_symbols": len(output_undefined),
@@ -783,12 +836,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(
         f"{action} Stage-3C named data: total={summary['total']} "
         f"fingerprinted={summary['fingerprinted']} addressed={summary['addressed']} "
-        f"address_only={summary['address_only']} source_refactor={summary['source_refactor']}"
+        f"address_only={summary['address_only']} "
+        f"source_refactor_closed={summary['source_refactor_closed']}"
     )
     if args.action == "link":
         print(
-            f"exact Stage-3C providers: {report['exact_provider_symbols']} symbols in "
-            f"{report['exact_provider_clusters']} clusters; compatibility storage "
+            f"exact Stage-3C ranges: {report['exact_range_symbols']} symbols in "
+            f"{report['exact_range_clusters']} clusters; compatibility storage "
             f"{report['compatibility_storage_before']} -> {report['compatibility_storage_after']}"
         )
         print(

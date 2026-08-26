@@ -1,5 +1,9 @@
 # V88 — original Stage-3C named-data oracle
 
+> Historical open checkpoint. V89 corrects the provisional `g_Memory` range,
+> removes four target-absent source adapters and closes Stage 3C. See
+> [`V89_STAGE3C_CLOSED.md`](V89_STAGE3C_CLOSED.md).
+
 V88 returns the whole-program work to the original Stage-3 partition. Earlier
 V82–V87 version numbers are checkpoints inside that plan; they are not aliases
 for Stage 3A–3F.

@@ -508,7 +508,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00191d4c,deflate_fast,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/deflate_engine_recovered.c;src/zlib/deflate_state_recovered.c,MATCHING
 0x001921a8,deflate_slow,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/deflate_engine_recovered.c;src/zlib/deflate_state_recovered.c,MATCHING
 0x0019272c,inflateReset,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/inflate_state_recovered.c,MATCHING
-0x00192784,inflateEnd,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/inflate_state_recovered.c;src/zlib/zlib_buffer_api_recovered.c,MATCHING
+0x00192784,inflateEnd,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/unzip/unzip_api_recovered.c;src/zlib/inflate_state_recovered.c;src/zlib/zlib_buffer_api_recovered.c,MATCHING
 0x00192800,inflateInit2_,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/zlib/inflate_state_recovered.c,MATCHING
 0x00192948,inflateInit_,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/zlib/inflate_state_recovered.c;src/zlib/zlib_buffer_api_recovered.c,MATCHING
 0x0019296c,inflate,zlib,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/zlib/inflate_state_recovered.c;src/zlib/zlib_buffer_api_recovered.c,MATCHING
@@ -704,10 +704,10 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019cf00,SifGetReg,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c;src/ps2/loadfile_iop_recovered.c;src/ps2/sifrpc_recovered.c,MATCHING
 0x0019cf10,SifWriteBackDCache,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/libkernel_leaf_recovered.c;src/ps2/libmc_recovered.c;src/ps2/loadfile_iop_recovered.c;src/ps2/sifrpc_recovered.c,MATCHING
 0x0019cfc0,fioOpen,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,MATCHING
-0x0019d090,fioClose,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,MATCHING
-0x0019d120,fioRead,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,MATCHING
+0x0019d090,fioClose,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c,MATCHING
+0x0019d120,fioRead,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/unzip/explode_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c,MATCHING
 0x0019d244,fioWrite,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/stdio_wrappers_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,MATCHING
-0x0019d360,fioLseek,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/zlib/gzio_recovered.c,MATCHING
+0x0019d360,fioLseek,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/unzip/explode_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c,MATCHING
 0x0019d410,fioMkdir,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0019d4b0,_fio_read_intr,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c,MATCHING
 0x0019d534,fioPutc,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio_recovered.c;src/zlib/gzio_recovered.c,MATCHING

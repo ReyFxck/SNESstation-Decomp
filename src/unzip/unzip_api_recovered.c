@@ -7,8 +7,8 @@
  * IDENTIFIED until their concrete target structure layouts are recovered.
  *
  * Target was compiled with -mlong64, so ZIP uLong-like fields are represented
- * as uint64_t here. Adapter structures are behavioral and are NOT yet claims
- * about exact in-memory target offsets.
+ * as uint64_t here. File operations are the direct PS2SDK calls present in the
+ * target; there is no callback operation-table object.
  */
 #include <stdint.h>
 #include <stdlib.h>
@@ -63,16 +63,10 @@ typedef struct {
     file_in_zip_read_info_recovered *pfile_in_zip_read;
 } unz_state_recovered;
 
-typedef struct {
-    int64_t (*seek)(int file, int64_t offset, int whence);
-    int64_t (*tell)(int file);
-    int (*read)(int file, void *dst, unsigned size);
-    int (*close)(int file);
-    int (*error)(int file);
-    int (*inflate_end)(void *stream_owner);
-} unz_ops_recovered;
-
-extern unz_ops_recovered g_unz_ops_recovered;
+extern int fioRead_0019d120(int file, void *dst, int size);
+extern int fioClose_0019d090(int file);
+extern int fioLseek_0019d360(int file, int offset, int whence);
+extern int inflateEnd_00192784(void *stream);
 
 int unzCloseCurrentFile_recovered(unz_state_recovered *s);
 
@@ -86,15 +80,12 @@ extern int unzlocal_GetCurrentFileInfoInternal_0018f6cc(
 int unzlocal_getByte_recovered(int fin, uint64_t *pi)
 {
     uint8_t c = 0;
-    int got = g_unz_ops_recovered.read != NULL
-            ? g_unz_ops_recovered.read(fin, &c, 1) : 0;
+    int got = fioRead_0019d120(fin, &c, 1);
     if (got == 1) {
         *pi = c;
         return UNZ_OK;
     }
-    if (g_unz_ops_recovered.error != NULL && g_unz_ops_recovered.error(fin))
-        return UNZ_ERRNO;
-    return UNZ_EOF;
+    return fin < 0 ? UNZ_ERRNO : UNZ_EOF;
 }
 
 /* Target VA 0x0018f070. */
@@ -153,11 +144,11 @@ uint64_t unzlocal_SearchCentralDir_recovered(int fin)
 {
     uint8_t *buf;
     uint64_t size, back, max_back = 0xffffu, found = 0;
-    if (g_unz_ops_recovered.seek == NULL || g_unz_ops_recovered.tell == NULL ||
-        g_unz_ops_recovered.read == NULL)
-        return 0;
-    if (g_unz_ops_recovered.seek(fin, 0, 2) != 0) return 0;
-    size = (uint64_t)g_unz_ops_recovered.tell(fin);
+    {
+        int end = fioLseek_0019d360(fin, 0, 2);
+        if (end < 0) return 0;
+        size = (uint64_t)(uint32_t)end;
+    }
     if (max_back > size) max_back = size;
     buf = (uint8_t *)malloc(BUFREADCOMMENT + 4u);
     if (buf == NULL) return 0;
@@ -168,8 +159,8 @@ uint64_t unzlocal_SearchCentralDir_recovered(int fin)
         read_pos = size - back;
         read_size = (BUFREADCOMMENT + 4u < size - read_pos)
                   ? BUFREADCOMMENT + 4u : size - read_pos;
-        if (g_unz_ops_recovered.seek(fin, (int64_t)read_pos, 0) != 0) break;
-        if (g_unz_ops_recovered.read(fin, buf, (unsigned)read_size) != (int)read_size) break;
+        if (fioLseek_0019d360(fin, (int)read_pos, 0) < 0) break;
+        if (fioRead_0019d120(fin, buf, (int)read_size) != (int)read_size) break;
         for (i = 0; i + 3 < read_size; ++i) {
             if (buf[i] == 0x50 && buf[i + 1] == 0x4b &&
                 buf[i + 2] == 0x05 && buf[i + 3] == 0x06) {
@@ -190,7 +181,7 @@ int unzClose_recovered(unz_state_recovered *s)
     /* Target closes an active current file before closing the archive. */
     if (s->pfile_in_zip_read != NULL)
         (void)unzCloseCurrentFile_recovered(s);
-    if (g_unz_ops_recovered.close != NULL) g_unz_ops_recovered.close(s->file);
+    (void)fioClose_0019d090(s->file);
     free(s);
     return UNZ_OK;
 }
@@ -309,12 +300,10 @@ int unzGetLocalExtrafield_recovered(unz_state_recovered *s, void *buf, unsigned 
     if (buf == NULL) return (int)available;
     now = len > available ? (unsigned)available : len;
     if (now == 0) return 0;
-    if (g_unz_ops_recovered.seek == NULL || g_unz_ops_recovered.read == NULL)
+    if (fioLseek_0019d360(r->file,
+        (int)(r->offset_local_extrafield + r->pos_local_extrafield), 0) < 0)
         return UNZ_ERRNO;
-    if (g_unz_ops_recovered.seek(r->file,
-        (int64_t)(r->offset_local_extrafield + r->pos_local_extrafield), 0) != 0)
-        return UNZ_ERRNO;
-    if (g_unz_ops_recovered.read(r->file, buf, now) != (int)now)
+    if (fioRead_0019d120(r->file, buf, (int)now) != (int)now)
         return UNZ_ERRNO;
     return (int)now;
 }
@@ -330,8 +319,8 @@ int unzCloseCurrentFile_recovered(unz_state_recovered *s)
         err = UNZ_CRCERROR;
     free(r->read_buffer);
     r->read_buffer = NULL;
-    if (r->stream_initialised && g_unz_ops_recovered.inflate_end != NULL)
-        g_unz_ops_recovered.inflate_end(r);
+    if (r->stream_initialised)
+        (void)inflateEnd_00192784((uint8_t *)r + 8u);
     r->stream_initialised = 0;
     free(r);
     s->pfile_in_zip_read = NULL;
@@ -345,13 +334,11 @@ int unzGetGlobalComment_recovered(unz_state_recovered *s, char *comment,
     uint64_t n;
     if (s == NULL) return UNZ_PARAMERROR;
     n = buffer_size > s->gi.size_comment ? s->gi.size_comment : buffer_size;
-    if (g_unz_ops_recovered.seek == NULL || g_unz_ops_recovered.read == NULL)
-        return UNZ_ERRNO;
-    if (g_unz_ops_recovered.seek(s->file, (int64_t)(s->central_pos + 22u), 0) != 0)
+    if (fioLseek_0019d360(s->file, (int)(s->central_pos + 22u), 0) < 0)
         return UNZ_ERRNO;
     if (n != 0) {
         if (comment != NULL) comment[0] = 0;
-        if (comment == NULL || g_unz_ops_recovered.read(s->file, comment, (unsigned)n) != (int)n)
+        if (comment == NULL || fioRead_0019d120(s->file, comment, (int)n) != (int)n)
             return UNZ_ERRNO;
     }
     if (comment != NULL && buffer_size > s->gi.size_comment)

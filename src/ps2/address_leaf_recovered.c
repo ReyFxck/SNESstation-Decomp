@@ -29,9 +29,14 @@ int snes_leaf_001701fc(void) { return 0x81; }
 int snes_leaf_00193290(int32_t value) { if (value < 0) return 1; return 0; }
 
 typedef struct SnesLeafObject3 { int32_t word0, word1, word2; } SnesLeafObject3;
-extern char snes_vtable_00426c28[];
+typedef struct SnesVtable00426c28 {
+    uint32_t entries[4];
+} SnesVtable00426c28;
+_Static_assert(sizeof(SnesVtable00426c28) == 0x10,
+               "0x00426c28 vtable address-point extent");
+extern SnesVtable00426c28 snes_vtable_00426c28;
 extern char snes_data_001b0000[];
-void snes_leaf_0010421c(SnesLeafObject3 *obj) { obj->word1=0; obj->word2=0; obj->word0=(int32_t)(intptr_t)snes_vtable_00426c28; }
+void snes_leaf_0010421c(SnesLeafObject3 *obj) { obj->word1=0; obj->word2=0; obj->word0=(int32_t)(intptr_t)&snes_vtable_00426c28; }
 int32_t snes_leaf_0010e33c(void) { return (int32_t)(intptr_t)(snes_data_001b0000 + 0x1b98); }
 int32_t snes_leaf_0010e348(void) { return (int32_t)(intptr_t)(snes_data_001b0000 + 0x1be0); }
 int32_t snes_leaf_0010e354(void) { return (int32_t)(intptr_t)(snes_data_001b0000 + 0x1c00); }

@@ -25,7 +25,7 @@ extern void rom_cleanup_00151330(void *memory);
 extern int  puts(const char *s);
 
 extern uint8_t g_Settings_blob[0x148];        /* EE VA 0x003454e0 */
-extern void   *g_Memory;                      /* logical VA 0x0035e2b0 */
+extern uint8_t g_p12_memory[];                /* EE VA 0x0034e2b0 */
 extern int     g_memory_card_available;
 extern char    g_selected_rom_path[];         /* EE VA 0x00428180 */
 
@@ -71,25 +71,25 @@ rom_selector:
        defaults field-by-field. Keep the raw assembly until the 1.41
        SSettings layout is fully recovered. */
 
-    if (!CMemory_Init_recovered(g_Memory) || !apu_buffers_init_0010a840()) {
+    if (!CMemory_Init_recovered(g_p12_memory) || !apu_buffers_init_0010a840()) {
         puts("Failed to Init Memory & APU");
         /* original exits through sub_00104e58 */
         return;
     }
 
-    if (!CMemory_LoadROM_001513bc(g_Memory, g_selected_rom_path)) {
+    if (!CMemory_LoadROM_001513bc(g_p12_memory, g_selected_rom_path)) {
         puts("Memory.LoadROM returned FALSE");
-        rom_cleanup_00151330(g_Memory);
+        rom_cleanup_00151330(g_p12_memory);
         goto rom_selector;
     }
 
     if (g_memory_card_available == 1)
-        CMemory_LoadSRAM_recovered(g_Memory, build_sram_path_00105750());
+        CMemory_LoadSRAM_recovered(g_p12_memory, build_sram_path_00105750());
 
     /* Renderer/audio/game loop setup occupies 0x105384..0x105574.
        It is intentionally left address-labelled for the next milestone. */
 
-    rom_cleanup_00151330(g_Memory);
+    rom_cleanup_00151330(g_p12_memory);
     restart_embedded_mod_00105d78();
     goto rom_selector;
 }

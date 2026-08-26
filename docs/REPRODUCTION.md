@@ -22,10 +22,10 @@ make reproduce-check    # verify repository + private reference + blockers
 make reproduce          # full pipeline; currently stops at final-link gate
 make layout-oracle      # verify the private image against the public Stage-3 oracle
 make source-aliases     # build Stage 2 and apply proved zero-byte aliases
-make link-contracts     # reduce the V84 aggregate to the 261-provider frontier
-make private-assets     # privately materialize 10 asset providers; leave 251
-make provider-frontier  # close all 251 source-link names; leave 0 externals
-make named-data         # replace 33 compatibility stores with exact Stage-3C ranges
+make link-contracts     # reduce the live aggregate to the 258-provider frontier
+make private-assets     # privately materialize 10 asset providers; leave 248
+make provider-frontier  # close all 248 source-link names; leave 0 externals
+make named-data         # verify the closed 54/54 Stage-3C ledger and ranges
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -44,20 +44,21 @@ The final pipeline must prove every layer:
 4. **Source-address aliases — 323/337 proved** — alternate address-shaped
    names bind to 307 canonical global text symbols with no allocated-byte
    changes; 14 evidence blockers remain.
-5. **Zero-byte link contracts — 1,337/1,598 resolved** — 1,274 frozen-address
-   data anchors and 63 semantic aliases reduce the aggregate to 261 real
+5. **Zero-byte link contracts — 1,336/1,594 resolved** — 1,273 frozen-address
+   data anchors and 63 semantic aliases reduce the aggregate to 258 real
    providers without allocating code or data.
 6. **Private embedded assets — closed** — five reference-verified bundles
-   provide ten symbols and 62,736 bytes, reducing the frontier to 251 while
+   provide ten symbols and 62,736 bytes, reducing the frontier to 248 while
    remaining ignored private build products.
-7. **Source-link provider namespace — closed** — all 251 remaining contracts
+7. **Source-link provider namespace — closed** — all 248 remaining contracts
    resolve through audited anchors, recovered-text aliases, typed compatibility
    storage or deterministic EE shims; the relocatable aggregate has zero
    undefined globals.
-8. **Original Stage-3C named data — advanced** — all 54 discrete-data rows are
-   classified; 49 have exact private-reference fingerprints, 52 have target
-   addresses and 33 compatibility stores are replaced by nine exact range
-   providers. Three extents and two source-layout refactors remain.
+8. **Original Stage-3C named data — closed** — all 54 historical rows are
+   adjudicated: 50 real target objects have exact private-reference
+   fingerprints and four invented source adapters are removed. Forty
+   non-asset ranges form 15 clusters covering 141,159 unique bytes, and 32
+   compatibility stores are replaced.
 9. **Remaining program data** — replace the remaining compatibility storage
    with exact globals, constants, string pooling, vtables, BSS, initializers
    and alignment matching the unpacked target.
@@ -81,7 +82,9 @@ The Stage-2 evidence and its exact claim boundary are recorded in
 [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
 The first Stage-3 measurement gate is recorded in
 [`status/V82_UNPACKED_LAYOUT_ORACLE.md`](status/V82_UNPACKED_LAYOUT_ORACLE.md).
-The current Stage-3C named-data checkpoint is recorded in
+The closed Stage-3C checkpoint is recorded in
+[`status/V89_STAGE3C_CLOSED.md`](status/V89_STAGE3C_CLOSED.md).
+The preceding open audit remains recorded in
 [`status/V88_STAGE3C_NAMED_DATA.md`](status/V88_STAGE3C_NAMED_DATA.md).
 The preceding source-link namespace checkpoint remains recorded in
 [`status/V87_PROVIDER_FRONTIER_CLOSED.md`](status/V87_PROVIDER_FRONTIER_CLOSED.md).

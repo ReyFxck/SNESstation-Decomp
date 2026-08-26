@@ -7,9 +7,9 @@
  * were independently identified and then cross-checked against period
  * Info-ZIP / Mark Adler sources.
  *
- * This file is a behavior-oriented reconstruction.  The small ZipIORecovered
- * adapter replaces the original unzip library's concrete structure layout;
- * exact target field offsets are tracked separately in analysis notes.
+ * The shared unzip read-state offsets and scratch addresses below are the
+ * concrete target layout.  Earlier recovery used a synthetic ZipIORecovered
+ * callback aggregate; the target has no such object.
  */
 #include <stdint.h>
 #include <stdlib.h>
@@ -42,54 +42,68 @@ uint64_t g_legacy_zip_bitbuf;
 int g_legacy_zip_bits_left;
 uint8_t g_legacy_zip_zipeof;
 
+extern int fioRead_0019d120(int file, void *dst, int size);
+extern int fioLseek_0019d360(int file, int offset, int whence);
+extern uint64_t crc32_recovered(uint64_t crc, const uint8_t *data,
+                                uint32_t size);
+
 /* Target VA 0x0018dc60. */
 int ReadByte_recovered(uint16_t *out)
 {
-    ZipIORecovered *io = &g_zip_io_recovered;
-    if (io->avail_in == 0) {
+    LegacyZipReadState *state = legacy_zip_read_state();
+    if (state->avail_in == 0) {
         uint32_t want;
         int got;
-        if (io->rest_read_compressed <= 0 || io->read_buffer_size == 0 ||
-            io->refill == NULL) {
+        if (state->rest_read_compressed == 0) {
             return 0;
         }
-        want = io->read_buffer_size;
-        if ((uint32_t)io->rest_read_compressed < want)
-            want = (uint32_t)io->rest_read_compressed;
-        got = io->refill(io->opaque, io->read_buffer, want);
-        if (got <= 0)
-            return got;
-        io->next_in = io->read_buffer;
-        io->avail_in = (uint32_t)got;
-        io->rest_read_compressed -= got;
+        want = 0x4000u;
+        if ((uint64_t)state->rest_read_compressed < want)
+            want = (uint32_t)state->rest_read_compressed;
+        if (want == 0)
+            return 0;
+        if (fioLseek_0019d360(
+                state->file,
+                (int)(state->pos_in_zipfile + state->byte_before_zipfile),
+                0) != 0)
+            return -1;
+        got = fioRead_0019d120(state->file, legacy_zip_read_buffer(state),
+                               (int)want);
+        if (got != (int)want)
+            return -1;
+        state->next_in_ee = state->read_buffer_ee;
+        state->avail_in = want;
+        state->pos_in_zipfile += want;
+        state->rest_read_compressed -= want;
     }
-    *out = *io->next_in++;
-    io->avail_in--;
+    *out = *legacy_zip_next_in(state);
+    state->next_in_ee++;
+    state->avail_in--;
     return 8;
 }
 
 /* Target VA 0x0018e318. */
 void flush_recovered(unsigned w)
 {
-    ZipIORecovered *io = &g_zip_io_recovered;
-    memmove(io->next_out, io->slide, w);
-    if (io->crc32_update != NULL)
-        io->crc32 = io->crc32_update(io->crc32, io->next_out, w);
-    io->next_out += w;
-    io->avail_out -= w;
-    io->total_out += w;
+    LegacyZipReadState *state = legacy_zip_read_state();
+    uint8_t *next_out = legacy_zip_next_out(state);
+    memmove(next_out, &g_shrink_workspace_recovered, w);
+    state->crc32 = crc32_recovered(state->crc32, next_out, w);
+    state->next_out_ee += w;
+    state->avail_out -= w;
+    state->total_out += w;
 }
 
 /* Target VA 0x0018e3ac. */
 void flush_stack_recovered(unsigned w)
 {
-    ZipIORecovered *io = &g_zip_io_recovered;
-    memmove(io->next_out, io->stack, w);
-    if (io->crc32_update != NULL)
-        io->crc32 = io->crc32_update(io->crc32, io->next_out, w);
-    io->next_out += w;
-    io->avail_out -= w;
-    io->total_out += w;
+    LegacyZipReadState *state = legacy_zip_read_state();
+    uint8_t *next_out = legacy_zip_next_out(state);
+    memmove(next_out, uRam0044e206, w);
+    state->crc32 = crc32_recovered(state->crc32, next_out, w);
+    state->next_out_ee += w;
+    state->avail_out -= w;
+    state->total_out += w;
 }
 
 /* Target VA 0x0018e440. */
@@ -312,8 +326,9 @@ static int explode_stream_recovered(struct huft_recovered *tb,
                                     int bb, int bl, int bd,
                                     int coded_literals, unsigned low_dist_bits)
 {
-    ZipIORecovered *io = &g_zip_io_recovered;
-    int32_t s = io->rest_read_uncompressed;
+    LegacyZipReadState *state = legacy_zip_read_state();
+    uint8_t *slide = (uint8_t *)(void *)&g_shrink_workspace_recovered;
+    int32_t s = (int32_t)state->rest_read_uncompressed;
     uint32_t b = 0, w = 0;
     unsigned k = 0, unflushed = 1;
 
@@ -332,7 +347,7 @@ static int explode_stream_recovered(struct huft_recovered *tb,
                 literal = (uint8_t)b;
                 b >>= 8; k -= 8;
             }
-            io->slide[w++] = literal;
+            slide[w++] = literal;
             if (w == EXPLODE_WSIZE) {
                 flush_recovered(w); w = 0; unflushed = 0;
             }
@@ -363,14 +378,14 @@ static int explode_stream_recovered(struct huft_recovered *tb,
             if (chunk > n) chunk = n;
             n -= chunk;
             if (unflushed && w <= d) {
-                memset(io->slide + w, 0, chunk);
+                memset(slide + w, 0, chunk);
                 w += chunk; d += chunk;
             } else if (w - d >= chunk) {
-                memcpy(io->slide + w, io->slide + d, chunk);
+                memcpy(slide + w, slide + d, chunk);
                 w += chunk; d += chunk;
             } else {
                 while (chunk-- != 0)
-                    io->slide[w++] = io->slide[d++];
+                    slide[w++] = slide[d++];
             }
             if (w == EXPLODE_WSIZE) {
                 flush_recovered(w); w = 0; unflushed = 0;
@@ -378,7 +393,7 @@ static int explode_stream_recovered(struct huft_recovered *tb,
         }
     }
     flush_recovered(w);
-    return io->rest_read_compressed != 0 ? 5 : 0;
+    return state->rest_read_compressed != 0 ? 5 : 0;
 }
 
 /* Target VAs 0x0018c1f8 / 0x0018c834 / 0x0018ce70 / 0x0018d3c4. */
@@ -398,11 +413,12 @@ int explode_nolit4_recovered(struct huft_recovered *tl, struct huft_recovered *t
 /* Target VA 0x0018d918. */
 int explode_recovered(void)
 {
-    ZipIORecovered *io = &g_zip_io_recovered;
+    LegacyZipArchiveState *archive = legacy_zip_archive_state();
+    LegacyZipReadState *state = legacy_zip_read_state();
     unsigned lengths[256];
     uint16_t cplen2[64], cplen3[64], extra[64], cpdist4[64], cpdist8[64];
     struct huft_recovered *tb = NULL, *tl = NULL, *td = NULL;
-    int bb = 9, bl = 7, bd = io->rest_read_compressed > 200000 ? 8 : 7;
+    int bb = 9, bl = 7, bd = state->rest_read_compressed > 200000 ? 8 : 7;
     int r;
     unsigned i;
 
@@ -415,7 +431,7 @@ int explode_recovered(void)
     }
     g_hufts_recovered = 0;
 
-    if ((io->general_purpose_flag & 4u) != 0) {
+    if ((archive->general_purpose_flag & 4u) != 0) {
         if ((r = get_tree_recovered(lengths, 256)) != 0) return r;
         if ((r = huft_build_recovered(lengths, 256, 256, NULL, NULL, &tb, &bb)) != 0)
             goto fail_tb;
@@ -424,10 +440,10 @@ int explode_recovered(void)
             goto fail_all;
         if ((r = get_tree_recovered(lengths, 64)) != 0) goto fail_all;
         if ((r = huft_build_recovered(lengths, 64, 0,
-                                      (io->general_purpose_flag & 2u) ? cpdist8 : cpdist4,
+                                      (archive->general_purpose_flag & 2u) ? cpdist8 : cpdist4,
                                       extra, &td, &bd)) != 0)
             goto fail_all;
-        r = (io->general_purpose_flag & 2u)
+        r = (archive->general_purpose_flag & 2u)
           ? explode_lit8_recovered(tb, tl, td, bb, bl, bd)
           : explode_lit4_recovered(tb, tl, td, bb, bl, bd);
     } else {
@@ -436,10 +452,10 @@ int explode_recovered(void)
             goto fail_all;
         if ((r = get_tree_recovered(lengths, 64)) != 0) goto fail_all;
         if ((r = huft_build_recovered(lengths, 64, 0,
-                                      (io->general_purpose_flag & 2u) ? cpdist8 : cpdist4,
+                                      (archive->general_purpose_flag & 2u) ? cpdist8 : cpdist4,
                                       extra, &td, &bd)) != 0)
             goto fail_all;
-        r = (io->general_purpose_flag & 2u)
+        r = (archive->general_purpose_flag & 2u)
           ? explode_nolit8_recovered(tl, td, bl, bd)
           : explode_nolit4_recovered(tl, td, bl, bd);
     }

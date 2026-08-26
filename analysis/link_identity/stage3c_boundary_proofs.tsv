@@ -1,0 +1,3 @@
+symbol	start_va	end_va	extent_hex	boundary_evidence	target_shape
+g_frontend_font_001bb748	0x001bb748	0x001bb87c	0x134	DAT_001bb87c independently starts at the exclusive end	gsFontRecovered has target-checked size 0x134
+snes_vtable_00426c28	0x00426c28	0x00426c38	0x10	typeinfo object begins at 0x00426c38	four address-point entries: 0x00104358 0x00104394 0x001043e4 0x00104418

@@ -172,8 +172,8 @@ help:
 	@echo "  make source-aliases  prove and apply zero-byte Stage-3 address aliases"
 	@echo "  make link-contracts  apply the zero-byte Stage-3 link-contract frontier"
 	@echo "  make private-assets  verify and link the five private embedded-asset bundles"
-	@echo "  make provider-frontier  close the exact 251-name source-link frontier"
-	@echo "  make named-data      replace 33 compatibility stores with exact private Stage-3C ranges"
+	@echo "  make provider-frontier  close the post-refactor 248-name source-link frontier"
+	@echo "  make named-data      verify the closed 54/54 Stage-3C ledger and exact ranges"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -623,8 +623,8 @@ provider-frontier-public-check:
 		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
 		--manifest "$(PROVIDER_FRONTIER_MANIFEST)"
 
-# Stage 3C: freeze the original 54-row named-data tranche without publishing
-# bytes from the private reference image.
+# Stage 3C: verify the closed original 54-row named-data tranche without
+# publishing bytes from the private reference image.
 named-data: reference bootstrap-ee-stage1
 	$(MAKE) named-data-check EE_CC="$(EE_STAGE1_CC)"
 
@@ -924,9 +924,10 @@ elf-status: audit-source-check
 	@echo "Function-code gate: CLOSED (1041/1041 strict matches)"
 	@echo "Build-ready source ownership: CLOSED (97/97 TUs; 96 canonical objects)"
 	@echo "Unpacked layout oracle: CLOSED (1 section; 13 blocks; 51 hash windows)"
-	@echo "Zero-byte link contracts: 1337/1598 resolved (1274 anchors; 63 aliases)"
+	@echo "Zero-byte link contracts: 1336/1594 resolved (1273 anchors; 63 aliases)"
 	@echo "Private assets: CLOSED (10 providers; 62736 verified private bytes)"
-	@echo "Source-link provider namespace: CLOSED (251 -> 0 externals)"
+	@echo "Source-link provider namespace: CLOSED (248 -> 0 externals)"
+	@echo "Original Stage 3C: CLOSED (50 exact target ranges + 4 removed source adapters)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
 	@echo "  - replace compatibility storage/shims with exact target initializers/archive members"
 	@echo "  - reproduce data layout, relocations and section alignment"

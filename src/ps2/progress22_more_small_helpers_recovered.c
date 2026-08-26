@@ -8,22 +8,16 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
+#include "../../include/gslib_recovered.h"
 
 /* --- 0x00103b34: frontend message slide / scissor helper. --- */
-extern void *g_frontend_driver_001bb2c0;
-extern unsigned char g_frontend_font_001bb748[];
+extern gsDriverRecovered *g_frontend_driver_001bb2c0;
+extern gsFontRecovered g_frontend_font_001bb748;
 
 extern void *operator_new_001a9e88(size_t size);
-extern void gsDriver_ctor_00198cc8(void *driver);
 extern void sub_001019a8(void);
 extern void CDVD_Stop_0019c0d0(void);
-extern void gsPipe_setScissorRect_00199ef8(void *pipe,
-                                           int32_t x1, int32_t y1,
-                                           int32_t x2, int32_t y2);
 extern void sub_00101b64(void);
-extern void gsFont_Print_0019b948(void *font, int x, int xend, int y, int z,
-                                  uint64_t colour, int alignment,
-                                  const char *text);
 extern void snes_p20_00101e8c(void);
 
 void snes_p22_00103b34(const char *text, int travel)
@@ -41,12 +35,12 @@ void snes_p22_00103b34(const char *text, int travel)
 
     if (limit < 0x186) {
         do {
-            gsPipe_setScissorRect_00199ef8(g_frontend_driver_001bb2c0,
+            gsPipe_setScissorRect_00199ef8(&g_frontend_driver_001bb2c0->drawPipe,
                                            0, 0, 0x280, 0x1e0);
             sub_00101b64();
-            gsPipe_setScissorRect_00199ef8(g_frontend_driver_001bb2c0,
+            gsPipe_setScissorRect_00199ef8(&g_frontend_driver_001bb2c0->drawPipe,
                                            100, 0x74, 0x21c, 0x166);
-            gsFont_Print_0019b948(g_frontend_font_001bb748,
+            gsFont_Print_0019b948(&g_frontend_font_001bb748,
                                   0x84, 0x1fc, y, 2,
                                   UINT64_C(0x80ffffff), 2, text);
             --y;
@@ -54,7 +48,7 @@ void snes_p22_00103b34(const char *text, int travel)
         } while (limit < y);
     }
 
-    gsPipe_setScissorRect_00199ef8(g_frontend_driver_001bb2c0,
+    gsPipe_setScissorRect_00199ef8(&g_frontend_driver_001bb2c0->drawPipe,
                                    0, 0, 0x280, 0x1e0);
 }
 

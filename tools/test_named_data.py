@@ -8,10 +8,10 @@ import named_data
 
 
 class NamedDataTests(unittest.TestCase):
-    def test_original_stage3_partition_is_frozen(self):
+    def test_live_stage3_partition_tracks_four_removed_adapters(self):
         rows = named_data.read_table(named_data.DEFAULT_EXTERNAL, named_data.EXTERNAL_FIELDS)
         self.assertEqual(
-            {"3B": 337, "3C": 54, "3D": 53, "3E": 212, "3F": 1265},
+            {"3B": 337, "3C": 50, "3D": 53, "3E": 212, "3F": 1265},
             named_data.stage3_partition(rows),
         )
 
@@ -21,9 +21,9 @@ class NamedDataTests(unittest.TestCase):
         counts = Counter(row["status"] for row in rows)
         self.assertEqual(54, len(rows))
         self.assertEqual(10, counts[named_data.PRIVATE_BYTES])
-        self.assertEqual(39, counts[named_data.RANGE_PROVED])
-        self.assertEqual(3, counts[named_data.ADDRESS_PROVED])
-        self.assertEqual(2, counts[named_data.SOURCE_REFACTOR])
+        self.assertEqual(40, counts[named_data.RANGE_PROVED])
+        self.assertEqual(0, counts[named_data.ADDRESS_PROVED])
+        self.assertEqual(4, counts[named_data.SOURCE_REFACTOR_CLOSED])
 
     def test_two_target_addresses_were_recovered(self):
         rows = {
@@ -34,24 +34,35 @@ class NamedDataTests(unittest.TestCase):
         self.assertEqual("0x448200", rows["g_shrink_workspace_recovered"]["target_address"])
         self.assertEqual("0x6000", rows["g_shrink_workspace_recovered"]["extent_hex"])
 
-    def test_synthetic_adapters_are_not_given_fake_target_storage(self):
+    def test_removed_source_adapters_are_not_given_fake_target_storage(self):
         rows = {
             row["symbol"]: row
             for row in named_data.read_manifest(named_data.DEFAULT_MANIFEST)
         }
-        for symbol in ("g_unz_ops_recovered", "g_zip_io_recovered"):
-            self.assertEqual(named_data.SOURCE_REFACTOR, rows[symbol]["status"])
+        for symbol in (
+            "g_Memory", "g_memory_state_001c3ab0",
+            "g_unz_ops_recovered", "g_zip_io_recovered",
+        ):
+            self.assertEqual(named_data.SOURCE_REFACTOR_CLOSED, rows[symbol]["status"])
             self.assertEqual("", rows[symbol]["target_address"])
+            self.assertEqual("", rows[symbol]["extent_hex"])
             self.assertEqual("", rows[symbol]["sha256"])
 
-    def test_exact_provider_replacement_is_33_symbols_in_9_clusters(self):
+    def test_exact_ranges_and_compatibility_replacements_are_complete(self):
         named = named_data.read_manifest(named_data.DEFAULT_MANIFEST)
         frontier = named_data.read_table(
             named_data.DEFAULT_FRONTIER, named_data.FRONTIER_FIELDS
         )
         replacements = named_data.exact_provider_rows(named, frontier)
-        self.assertEqual(33, len(replacements))
-        self.assertEqual(9, len(named_data.cluster_ranges(replacements)))
+        ranges = [row for row in named if row["status"] == named_data.RANGE_PROVED]
+        self.assertEqual(32, len(replacements))
+        self.assertEqual(40, len(ranges))
+        clusters = named_data.cluster_ranges(ranges)
+        self.assertEqual(15, len(clusters))
+        self.assertEqual(
+            141159,
+            sum(int(cluster["end"]) - int(cluster["start"]) for cluster in clusters),
+        )
 
     def test_range_materialization_crosses_into_zero_fill(self):
         layout = {

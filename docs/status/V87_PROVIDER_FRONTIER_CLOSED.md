@@ -1,5 +1,9 @@
 # V87 complete source-link provider closure
 
+> Historical pre-refactor checkpoint. V89 removes four invented Stage-3C
+> source contracts and regenerates the live closure at 248 names. See
+> [`V89_STAGE3C_CLOSED.md`](V89_STAGE3C_CLOSED.md).
+
 V87 closes the complete 251-name frontier left by the V86 private-asset gate
 in one audited batch. The historical EE compiler builds deterministic
 compatibility storage/runtime shims, the linker applies reviewed address and

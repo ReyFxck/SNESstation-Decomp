@@ -10,10 +10,10 @@
 | Working frontier | **0** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Build-ready EE source ownership | **97/97 TUs** | 96 canonical objects partially link with a frozen ABI/symbol map and no duplicate/common definitions. |
 | Source-address alias tranche | **323/337 proved** | Zero-byte linker aliases bind proven alternate names to canonical global text symbols; 14 remain blocked. |
-| Zero-byte link-contract frontier | **1,337/1,598 resolved** | 1,274 absolute target-address anchors plus 63 semantic text aliases leave 261 provider contracts explicit. |
-| Private embedded-asset providers | **10/10 resolved** | Five verified private bundles emit 62,736 ignored bytes and reduce the active frontier to 251. |
-| Source-link provider namespace | **251/251 resolved** | 181 target anchors, 9 text aliases, 44 storage definitions and 17 EE shims reduce aggregate externals to zero. |
-| Original Stage-3C named-data tranche | **49/54 fingerprinted; 52/54 addressed** | 33 compatibility stores are replaced by nine exact private-reference range clusters; 3 extents and 2 source refactors remain. |
+| Zero-byte link-contract frontier | **1,336/1,594 resolved** | 1,273 absolute target-address anchors plus 63 semantic text aliases leave 258 provider contracts explicit. |
+| Private embedded-asset providers | **10/10 resolved** | Five verified private bundles emit 62,736 ignored bytes and reduce the active frontier to 248. |
+| Source-link provider namespace | **248/248 resolved** | 181 target anchors, 9 text aliases, 41 storage definitions and 17 EE shims reduce aggregate externals to zero. |
+| Original Stage-3C named-data tranche | **54/54 adjudicated; 50 exact target ranges + 4 closed source refactors** | All target objects are fingerprinted, 32 compatibility stores are replaced, and 15 overlap-aware private-reference clusters cover 141,159 unique bytes. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -33,24 +33,26 @@ cumulative proof to 323 of 337 aliases against
 307 canonical global text symbols and applies them without changing
 any allocated section bytes; 14 boundary/archive rows remain
 explicit blockers.
-V85 then classifies the full 1,598-name V84 aggregate and resolves
-1,337 contracts without allocating a byte: 1,274
+V85/V89 classify the live 1,594-name post-refactor aggregate and resolve
+1,336 contracts without allocating a byte: 1,273
 target-address data anchors and 63 semantic aliases. The
-remaining 261 names are the explicit provider frontier. The
+remaining 258 names are the explicit provider frontier. The
 V86 private-reference gate then materializes five embedded-asset bundles,
 proves all 10 source-level data/size symbols, and reduces
-that frontier to 251 without changing any existing allocated
-section. V87 closes all 251 remaining source-link names in one
+that frontier to 248 without changing any existing allocated
+section. V87 closes all 248 remaining source-link names in one
 audited batch and proves an aggregate external count of zero. Its compatibility
 storage and runtime shims are linkability scaffolding, not claims about exact
-target initializers or historical archive members. V88 returns to the original
-Stage-3 partition and audits all 54 Stage-3C discrete-data rows: 49 now carry
-private-reference fingerprints, 52 have target addresses, and 33 former
-compatibility stores are replaced by nine exact range providers covering
-140,785 unique bytes. Three object extents and two synthetic
-source adapters remain, so Stage 3C is advanced but not yet closed. The current
-batch is documented in
-[`V88_STAGE3C_NAMED_DATA.md`](V88_STAGE3C_NAMED_DATA.md); V87 remains documented
+target initializers or historical archive members. V88 opened the original
+54-row Stage-3C audit. V89 closes it: 50 real target objects carry exact
+private-reference fingerprints in 15 overlap-aware clusters
+covering 141,159 unique bytes, while four invented source
+adapters are proved absent and removed. The live external set is therefore
+1,917 rather than the historical 1,921-plan count; 32
+compatibility stores are replaced and only nine later-stage stores remain.
+The current batch is documented in
+[`V89_STAGE3C_CLOSED.md`](V89_STAGE3C_CLOSED.md); V88 remains documented
+in [`V88_STAGE3C_NAMED_DATA.md`](V88_STAGE3C_NAMED_DATA.md); V87 remains documented
 in [`V87_PROVIDER_FRONTIER_CLOSED.md`](V87_PROVIDER_FRONTIER_CLOSED.md); V86 remains
 documented in [`V86_PRIVATE_ASSET_PROVIDERS.md`](V86_PRIVATE_ASSET_PROVIDERS.md); V85 remains
 documented in [`V85_ZERO_BYTE_LINK_FRONTIER.md`](V85_ZERO_BYTE_LINK_FRONTIER.md); V84 remains
@@ -66,10 +68,10 @@ closure remains frozen in
 2. **Source/object gate closed:** 97/97 TUs compile; 96 canonical objects have frozen ownership.
 3. **Unpacked oracle closed:** section/block geometry and 64 KiB hashes are frozen.
 4. **Address-alias tranche frozen:** 323/337 are proved and zero-byte bound; the remaining 14 are carried into the V85 provider frontier.
-5. **Zero-byte link-contract tranche frozen:** 1,337/1,598 are resolved and the exact 261-name input provider frontier is classified.
+5. **Zero-byte link-contract tranche frozen:** 1,336/1,594 are resolved and the exact 258-name input provider frontier is classified.
 6. **Private-asset tranche closed:** 10/10 provider symbols and 62,736 bytes are privately verified.
-7. **Source-link provider namespace closed:** 251/251 remaining contracts resolve and the aggregate has zero undefined globals.
-8. **Original Stage-3C tranche advanced:** 49/54 rows have exact fingerprints, 52/54 have target addresses, and compatibility storage falls from 44 to 11; prove three remaining extents and remove two synthetic adapters.
+7. **Source-link provider namespace closed:** 248/248 remaining contracts resolve and the aggregate has zero undefined globals.
+8. **Original Stage-3C tranche closed:** all 54 historical rows are adjudicated as 50 exact target ranges plus 4 completed source refactors; compatibility storage falls from 41 to 9.
 9. Replace the remaining compatibility storage/shims with exact initializers and proved archive members; reproduce data/rodata/bss layout, relocations and section alignment.
 10. Recover the linker script, object order and library order.
 11. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.

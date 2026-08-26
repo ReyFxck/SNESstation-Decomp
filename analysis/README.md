@@ -20,8 +20,8 @@ Subdirectories:
 - `functions/` — committed assembly and structural snapshots anchored by address.
 - `matching/` — immutable strict comparison evidence and small gate manifests.
 - `link_identity/` — hash-only unpacked layout, zero-byte alias/anchor
-  decisions, the exact 54-row Stage-3C named-data ledger, private-provider
-  ranges and the complete source-link provider closure.
+  decisions, the closed 54-row Stage-3C named-data ledger and boundary proofs,
+  private-provider ranges and the complete source-link provider closure.
 - `archive/` — historical validation logs and exploratory sweeps no longer used
   as live inputs.
 

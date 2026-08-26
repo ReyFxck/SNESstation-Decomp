@@ -17,12 +17,6 @@
 #define SHRINK_CLEAR 256
 #define SHRINK_MAX_BITS 13
 
-typedef struct {
-    int16_t prefix[SHRINK_HSIZE];
-    uint8_t suffix[SHRINK_HSIZE];
-} ShrinkWorkspaceRecovered;
-
-extern ShrinkWorkspaceRecovered g_shrink_workspace_recovered;
 static int codesize_recovered;
 static int maxcode_recovered;
 static int maxcodemax_recovered;
@@ -46,7 +40,7 @@ static unsigned read_shrink_code(void)
 /* Target VA 0x0018eeb4. */
 void partial_clear_recovered(void)
 {
-    ShrinkWorkspaceRecovered *ws = &g_shrink_workspace_recovered;
+    LegacyShrinkWorkspace *ws = &g_shrink_workspace_recovered;
     int cd;
 
     for (cd = SHRINK_FIRST; cd < free_ent_recovered; ++cd)
@@ -71,7 +65,7 @@ void partial_clear_recovered(void)
 /* Target VA 0x0018ea64. */
 void unShrink_recovered(void)
 {
-    ShrinkWorkspaceRecovered *ws = &g_shrink_workspace_recovered;
+    LegacyShrinkWorkspace *ws = &g_shrink_workspace_recovered;
     int code, finchar, oldcode, incode, stackp;
 
     codesize_recovered = SHRINK_INIT_BITS;
@@ -89,7 +83,7 @@ void unShrink_recovered(void)
     oldcode = (int)read_shrink_code();
     if (g_legacy_zip_zipeof) return;
     finchar = oldcode;
-    g_zip_io_recovered.stack[0] = (uint8_t)finchar;
+    uRam0044e206[0] = (uint8_t)finchar;
     flush_stack_recovered(1);
     stackp = SHRINK_HSIZE;
 
@@ -113,22 +107,22 @@ void unShrink_recovered(void)
 
         incode = code;
         if (ws->prefix[code] == -1) {
-            g_zip_io_recovered.stack[--stackp] = (uint8_t)finchar;
+            uRam0044e206[--stackp] = (uint8_t)finchar;
             code = oldcode;
         }
 
         while (code >= SHRINK_FIRST) {
             if (ws->prefix[code] == -1) {
-                g_zip_io_recovered.stack[--stackp] = (uint8_t)finchar;
+                uRam0044e206[--stackp] = (uint8_t)finchar;
                 code = oldcode;
             } else {
-                g_zip_io_recovered.stack[--stackp] = ws->suffix[code];
+                uRam0044e206[--stackp] = ws->suffix[code];
                 code = ws->prefix[code];
             }
         }
 
         finchar = ws->suffix[code];
-        g_zip_io_recovered.stack[--stackp] = (uint8_t)finchar;
+        uRam0044e206[--stackp] = (uint8_t)finchar;
         flush_stack_recovered((unsigned)(SHRINK_HSIZE - stackp));
         stackp = SHRINK_HSIZE;
 

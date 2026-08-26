@@ -38,8 +38,8 @@ This is a measurement gate, not a claim that the bytes have been rebuilt.
 
 V84 proves 323/337 address-shaped external names against 307 canonical global
 text definitions and applies them with zero-byte linker aliases. The
-alias-resolved aggregate retains 1,598 unresolved contracts, down from the
-frozen Stage-2 count of 1,921, while every allocated section remains
+alias-resolved live aggregate retains 1,594 unresolved contracts, down from
+the post-refactor source-tree count of 1,917, while every allocated section remains
 byte-identical. See
 [`status/V84_REVIEWED_SOURCE_ALIASES.md`](status/V84_REVIEWED_SOURCE_ALIASES.md).
 
@@ -50,10 +50,10 @@ archive/boundary proof, not raw-address definitions.
 
 ## Zero-byte link contracts — full frontier frozen
 
-V85 classifies every one of the 1,598 externals in the V84 aggregate. It
-assigns 1,274 address-qualified program-data names their frozen absolute value
+The live contract map classifies all 1,594 post-refactor externals. It assigns
+1,273 address-qualified program-data names their frozen absolute value
 and binds 63 uniquely identified call contracts to existing recovered global
-text. The partial link therefore reaches **1,598 -> 261 unresolved externals**
+text. The partial link therefore reaches **1,594 -> 258 unresolved externals**
 while every allocated section fingerprint remains identical. See
 [`status/V85_ZERO_BYTE_LINK_FRONTIER.md`](status/V85_ZERO_BYTE_LINK_FRONTIER.md).
 
@@ -63,15 +63,15 @@ section, alignment or bytes. The remaining provider frontier is exact:
 | Provider class | Rows |
 |---|---:|
 | Named link contracts | **197** |
-| Named program-data storage | **35** |
+| Named program-data storage | **32** |
 | V84 source-address blockers | **14** |
 | Private assets | **10** |
 | Historical archive members | **5** |
-| **Total** | **261** |
+| **Total** | **258** |
 
 V86 closes the ten private-asset rows with five hash-verified bundles totaling
 62,736 bytes. The private object is emitted only below ignored `build/`, and
-the partial-link frontier reaches **261 -> 251** without changing an existing
+the partial-link frontier reaches **258 -> 248** without changing an existing
 allocated section. See
 [`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md).
 
@@ -80,47 +80,42 @@ The V86 input frontier is therefore:
 | Provider class | Rows |
 |---|---:|
 | Named link contracts | **197** |
-| Named program-data storage | **35** |
+| Named program-data storage | **32** |
 | V84 source-address blockers | **14** |
 | Historical archive members | **5** |
-| **Total** | **251** |
+| **Total** | **248** |
 
-V87 resolves that complete **251-name source-link namespace in one batch**:
+The regenerated closure resolves the complete **248-name source-link namespace in one batch**:
 
 | Resolution mechanism | Rows |
 |---|---:|
 | Target-address anchors | **181** |
 | Recovered-text aliases | **9** |
-| Typed compatibility storage | **44** |
+| Typed compatibility storage | **41** |
 | Deterministic EE runtime shims | **17** |
-| **Total** | **251** |
+| **Total** | **248** |
 
-The final partial link proves **251 -> 0 undefined globals** and preserves
+The final partial link proves **248 -> 0 undefined globals** and preserves
 every pre-existing allocated section fingerprint. This closes the provider
-*name* frontier, not the target-identity frontier: the 44 zero-initialized
+*name* frontier, not the target-identity frontier: the 41 zero-initialized
 storage definitions and 17 source-model shims are clearly labelled
 compatibility scaffolding. Exact program-data initializers/placement and
 historical archive-member identity remain live blockers. See
 [`status/V87_PROVIDER_FRONTIER_CLOSED.md`](status/V87_PROVIDER_FRONTIER_CLOSED.md).
 
-## Original Stage-3C named data — advanced, five blockers remain
+## Original Stage-3C named data — closed
 
-V88 reconciles the checkpoint history with the original Stage-3 plan. The
-Stage-2 external ownership map partitions exactly into 337 Stage-3B aliases,
-54 Stage-3C discrete-data rows, 53 Stage-3D runtime rows, 212 Stage-3E named
-contracts/zlib peers and 1,265 Stage-3F address-labelled data rows.
+V89 closes the historical 54-row plan without pretending that invented source
+storage exists in the target. Exactly **50 rows are real target objects** and
+all 50 carry private-reference fingerprints. The other four rows are completed
+source refactors: `g_Memory`, `g_memory_state_001c3ab0`,
+`g_unz_ops_recovered` and `g_zip_io_recovered` are proved absent and removed.
 
-All 54 Stage-3C rows are now classified. Of those, **49 have private-reference
-fingerprints** and **52 have target addresses**. The private link replaces 33
-compatibility stores with nine exact overlapping-range providers covering
-140,785 unique bytes, reducing compatibility storage from **44 to 11** without
-reopening the zero-external namespace gate.
-
-Stage 3C remains open on exactly three unknown extents
-(`g_frontend_font_001bb748`, `g_memory_state_001c3ab0` and
-`snes_vtable_00426c28`) and two synthetic unzip source adapters
-(`g_unz_ops_recovered` and `g_zip_io_recovered`). See
-[`status/V88_STAGE3C_NAMED_DATA.md`](status/V88_STAGE3C_NAMED_DATA.md).
+The 40 non-asset target ranges form 15 overlap-aware clusters covering 141,159
+unique bytes. Thirty-two compatibility stores are replaced, reducing the live
+storage scaffolding from **41 to nine**, and the partial link still proves
+**248 -> 0 undefined globals**. See
+[`status/V89_STAGE3C_CLOSED.md`](status/V89_STAGE3C_CLOSED.md).
 
 ## Whole-program identity
 

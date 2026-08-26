@@ -1,5 +1,9 @@
 # V86 private embedded-asset providers
 
+> Historical pre-refactor checkpoint. The five bundles and 62,736 verified
+> bytes remain unchanged; V89 regenerates the surrounding live frontier at
+> 258 → 248. See [`V89_STAGE3C_CLOSED.md`](V89_STAGE3C_CLOSED.md).
+
 V86 closes the ten `private-asset` contracts carried by the V85 frontier. A
 user-supplied reference image is SHA-256 verified, five exact byte ranges plus
 their target padding and 32-bit size words are materialized below `build/`, and

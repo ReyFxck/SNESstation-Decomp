@@ -1182,8 +1182,8 @@ DAT_00423867	target-address-data	program-data	reserved:target-data.o	program-dat
 DAT_00423868	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_0042386c	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_004243d8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00424850	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00424854	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
+DAT_00424850	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;unzip/explode_recovered.o;unzip/unreduce_recovered.o
+DAT_00424854	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;unzip/explode_recovered.o;unzip/unreduce_recovered.o
 DAT_00425970	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00426820	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 EI	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1400,10 +1400,10 @@ FUN_0019c610	target-function-alias	source-address-alias	src/ps2/libc_text_recove
 FUN_0019c688	target-function-alias	source-address-alias	src/ps2/libkernel_client_init_recovered.c;src/ps2/libmc_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019cc0c	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/libkernel_client_init_recovered.c;src/ps2/libmc_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019cfc0	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d090	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d120	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d090	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d120	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/unzip/explode_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019d244	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/stdio_wrappers_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d360	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d360	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/unzip/explode_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019d410	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019d600	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/loadfile_iop_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019d740	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/loadfile_iop_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1673,7 +1673,6 @@ fixed_td_00425870	named-external	link-contract	reserved:link-contract	link-ident
 fixed_tl_00424870	named-external	link-contract	reserved:link-contract	link-identity	zlib/inftrees_recovered.o
 free	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/gcc_fde_runtime_recovered.o;ps2/libsupcxx_rtti_recovered.o;snes9x/apu_alloc_recovered.o;snes9x/memory_cleanup_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o;zlib/zutil_adler_recovered.o
 free_like_0019e784	target-address-symbol	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/libkernel_heap_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/gspipe_recovered.o
-g_Memory	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o
 g_Settings_blob	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o
 g_apu_state_00345498	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/apu_alloc_recovered.o
 g_bg_bitshift	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o
@@ -1689,11 +1688,10 @@ g_gfx_blob	named-program-data	program-data	reserved:program-data.o	program-data	
 g_head_mask	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_16bit_recovered.o;snes9x/tile_color_math_recovered.o;snes9x/tile_draw_clipped_recovered.o;snes9x/tile_scaled_remaining_recovered.o
 g_loaded_rom_path	named-program-data	program-data	reserved:program-data.o	program-data	ps2/path_helpers_recovered.o
 g_memory_card_available	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o
-g_memory_state_001c3ab0	named-program-data	program-data	reserved:program-data.o	program-data	ps2/libmtap_recovered.o
 g_memory_vram	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o
 g_odd_high	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o;snes9x/tile_lookup_tables_recovered.o
 g_odd_low	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o;snes9x/tile_lookup_tables_recovered.o
-g_p12_memory	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress12_io_state_recovered.o
+g_p12_memory	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o;ps2/libmtap_recovered.o;ps2/progress12_io_state_recovered.o
 g_p12_sdd1_dat_extension	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress12_io_state_recovered.o
 g_p21_state_extension_prefix_001b1348	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress21_small_helpers_recovered.o
 g_p21_toc_anchor_00427010	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress21_small_helpers_recovered.o
@@ -1702,7 +1700,7 @@ g_selected_rom_path	named-program-data	program-data	reserved:program-data.o	prog
 g_settings_54	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/sram_recovered.o
 g_settings_64	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/sram_recovered.o
 g_settings_66	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/sram_recovered.o
-g_shrink_workspace_recovered	named-program-data	program-data	reserved:program-data.o	program-data	unzip/unshrink_recovered.o
+g_shrink_workspace_recovered	named-program-data	program-data	reserved:program-data.o	program-data	unzip/explode_recovered.o;unzip/unreduce_recovered.o;unzip/unshrink_recovered.o
 g_special_load_flag	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/sram_recovered.o
 g_special_save_enable	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/sram_recovered.o
 g_sram	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/sram_recovered.o
@@ -1711,8 +1709,6 @@ g_sram_size	named-program-data	program-data	reserved:program-data.o	program-data
 g_state_003454e0	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress22_more_small_helpers_recovered.o
 g_tail_mask	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_16bit_recovered.o;snes9x/tile_color_math_recovered.o;snes9x/tile_draw_clipped_recovered.o;snes9x/tile_scaled_remaining_recovered.o
 g_tile_cache_state	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/memory_init_recovered.o
-g_unz_ops_recovered	named-program-data	program-data	reserved:program-data.o	program-data	unzip/unzip_api_recovered.o
-g_zip_io_recovered	named-program-data	program-data	reserved:program-data.o	program-data	unzip/explode_recovered.o;unzip/unreduce_recovered.o;unzip/unshrink_recovered.o
 gzopen	zlib-peer	source-or-archive	zlib object family	link-identity	ps2/small_dispatch_recovered.o
 iFlushCache_0019cec0	target-address-symbol	source-address-alias	src/ps2/gs_fifo_recovered.c;src/ps2/libkernel_leaf_recovered.c	link-identity	ps2/gs_fifo_recovered.o
 iRam00426e2c	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1735,7 +1731,7 @@ iRam0043ecc4	named-external	link-contract	reserved:link-contract	link-identity	p
 iRam0043ecc8	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iRam0043eccc	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iSifSendCmd	named-external	link-contract	reserved:link-contract	link-identity	ps2/sifrpc_recovered.o
-inflateEnd_00192784	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/zlib_buffer_api_recovered.o
+inflateEnd_00192784	zlib-peer	source-or-archive	zlib object family	link-identity	unzip/unzip_api_recovered.o;zlib/zlib_buffer_api_recovered.o
 inflateInit__00192948	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/zlib_buffer_api_recovered.o
 inflate_0019296c	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/zlib_buffer_api_recovered.o
 isdigit	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress21_small_helpers_recovered.o
@@ -1910,7 +1906,7 @@ uRam0044774b	named-external	link-contract	reserved:link-contract	link-identity	p
 uRam0044774c	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 uRam0044774d	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 uRam0044774e	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-uRam0044e206	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
+uRam0044e206	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o;unzip/explode_recovered.o;unzip/unshrink_recovered.o
 uRam00450205	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 unzlocal_GetCurrentFileInfoInternal_0018f6cc	target-address-symbol	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/unzip/unzip_api_recovered.c	link-identity	unzip/unzip_api_recovered.o
 vsprintf	c-runtime	historical-archive	newlib/libc	archive-identity	zlib/gzio_recovered.o

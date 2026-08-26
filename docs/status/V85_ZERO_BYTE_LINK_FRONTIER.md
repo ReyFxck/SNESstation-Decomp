@@ -1,5 +1,10 @@
 # V85 zero-byte link-contract frontier
 
+> Historical pre-refactor checkpoint. V89 removes four invented Stage-3C
+> source contracts and regenerates the live counts as 1,336/1,594 resolved
+> with a 258-name provider frontier. See
+> [`V89_STAGE3C_CLOSED.md`](V89_STAGE3C_CLOSED.md).
+
 V85 freezes the complete unresolved-symbol frontier after the V84
 source-address aliases. Of the 1,598 input externals, 1,337 can be resolved
 without choosing an archive member or allocating a single byte. The resulting

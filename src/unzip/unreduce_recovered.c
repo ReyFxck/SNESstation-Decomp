@@ -57,11 +57,13 @@ void LoadFollowers_recovered(void)
 /* Target VA 0x0018e4c0. */
 void unReduce_recovered(void)
 {
-    ZipIORecovered *st = &g_zip_io_recovered;
+    LegacyZipArchiveState *archive = legacy_zip_archive_state();
+    LegacyZipReadState *state = legacy_zip_read_state();
+    uint8_t *slide = (uint8_t *)(void *)&g_shrink_workspace_recovered;
     int lchar = 0, ex_state = 0, v = 0, len = 0;
-    int32_t remaining = st->rest_read_compressed;
+    int32_t remaining = (int32_t)state->rest_read_compressed;
     unsigned w = 0, unflushed = 1;
-    unsigned factor = st->compression_method;
+    unsigned factor = (unsigned)archive->compression_method;
 
     if (factor > 4) return;
     LoadFollowers_recovered();
@@ -82,7 +84,7 @@ void unReduce_recovered(void)
         case 0:
             if (nchar != REDUCE_DLE) {
                 --remaining;
-                st->slide[w++] = (uint8_t)nchar;
+                slide[w++] = (uint8_t)nchar;
                 if (w == REDUCE_WINDOW) { flush_recovered(w); w = 0; unflushed = 0; }
             } else ex_state = 1;
             break;
@@ -93,7 +95,7 @@ void unReduce_recovered(void)
                 ex_state = len == l_table_recovered[factor] ? 2 : 3;
             } else {
                 --remaining;
-                st->slide[w++] = REDUCE_DLE;
+                slide[w++] = REDUCE_DLE;
                 if (w == REDUCE_WINDOW) { flush_recovered(w); w = 0; unflushed = 0; }
                 ex_state = 0;
             }
@@ -115,11 +117,11 @@ void unReduce_recovered(void)
                 if (chunk > n) chunk = n;
                 n -= chunk;
                 if (unflushed && w <= d) {
-                    memset(st->slide + w, 0, chunk); w += chunk; d += chunk;
+                    memset(slide + w, 0, chunk); w += chunk; d += chunk;
                 } else if (w - d >= chunk) {
-                    memcpy(st->slide + w, st->slide + d, chunk); w += chunk; d += chunk;
+                    memcpy(slide + w, slide + d, chunk); w += chunk; d += chunk;
                 } else {
-                    while (chunk-- != 0) st->slide[w++] = st->slide[d++];
+                    while (chunk-- != 0) slide[w++] = slide[d++];
                 }
                 if (w == REDUCE_WINDOW) { flush_recovered(w); w = 0; unflushed = 0; }
             }

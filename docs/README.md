@@ -11,10 +11,11 @@ They are evidence of how conclusions were reached, not the current scoreboard.
 - [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) — source-model audit and build-readiness invariants.
 - [`status/FUNCTION_FRONTIER_1041_CHECKPOINT.md`](status/FUNCTION_FRONTIER_1041_CHECKPOINT.md) — immutable tag, hashes and clean-checkout gates for the closed 1,041-function frontier.
 - [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md) — frozen EE ABI, 97-unit manifest, symbol ownership and canonical partial-link gate.
-- [`status/V88_STAGE3C_NAMED_DATA.md`](status/V88_STAGE3C_NAMED_DATA.md) — original 54-row Stage-3C ledger, 49 fingerprints, 33 exact range providers and five explicit blockers.
-- [`status/V87_PROVIDER_FRONTIER_CLOSED.md`](status/V87_PROVIDER_FRONTIER_CLOSED.md) — all 251 remaining source-link contracts resolved and zero undefined globals proved.
-- [`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md) — five privately verified bundles close ten asset contracts and reduce the provider frontier to 251.
-- [`status/V85_ZERO_BYTE_LINK_FRONTIER.md`](status/V85_ZERO_BYTE_LINK_FRONTIER.md) — 1,337/1,598 zero-byte link contracts resolved and the exact 261-provider frontier.
+- [`status/V89_STAGE3C_CLOSED.md`](status/V89_STAGE3C_CLOSED.md) — closed 54/54 Stage-3C ledger: 50 exact target objects and four completed source refactors.
+- [`status/V88_STAGE3C_NAMED_DATA.md`](status/V88_STAGE3C_NAMED_DATA.md) — preceding open Stage-3C audit, retained as historical evidence.
+- [`status/V87_PROVIDER_FRONTIER_CLOSED.md`](status/V87_PROVIDER_FRONTIER_CLOSED.md) — pre-refactor 251-name source-link namespace checkpoint.
+- [`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md) — pre-refactor checkpoint for the same five privately verified bundles and ten asset contracts.
+- [`status/V85_ZERO_BYTE_LINK_FRONTIER.md`](status/V85_ZERO_BYTE_LINK_FRONTIER.md) — pre-refactor zero-byte link-contract checkpoint.
 - [`status/V84_REVIEWED_SOURCE_ALIASES.md`](status/V84_REVIEWED_SOURCE_ALIASES.md) — cumulative 323/337 zero-byte aliases, reviewed semantic identities and the explicit 14-row remainder.
 - [`status/V83_SOURCE_ADDRESS_ALIASES.md`](status/V83_SOURCE_ADDRESS_ALIASES.md) — 257/337 mechanically proved zero-byte aliases and the explicit 80-row remainder.
 - [`status/V82_UNPACKED_LAYOUT_ORACLE.md`](status/V82_UNPACKED_LAYOUT_ORACLE.md) — byte-free SJCRUNCH2/layout hashes and exact first-difference gate for Stage 3.
