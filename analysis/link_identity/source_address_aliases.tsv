@@ -37,7 +37,7 @@ FUN_001056c0	0x001056c0	PROVED	snes_dispatch_001056c0	progress-name-global-text	
 FUN_00105718	0x00105718	PROVED	snes_dispatch_00105718	progress-name-global-text	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00105750	0x00105750	PROVED	build_sram_path_00105750	progress-name-global-text	src/ps2/path_helpers_recovered.c	ps2/path_helpers_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001057fc	0x001057fc	PROVED	build_state_path_001057fc	unique-address-suffix-global-text	src/ps2/path_helpers_recovered.c	ps2/path_helpers_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_00105898	0x00105898	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=snes_p16_00105898
+FUN_00105898	0x00105898	PROVED	S9xSyncSpeed	reviewed-semantic-identity-global-text	src/ps2/path_helpers_recovered.c	ps2/path_helpers_recovered.o	ps2/progress28_structural_lift_recovered.o	typed source promotion identifies the target control flow as the exported S9xSyncSpeed model;evidence=analysis/source_promotions.csv#S9xSyncSpeed
 FUN_001059cc	0x001059cc	PROVED	_makepath	progress-name-global-text	src/ps2/path_helpers_recovered.c	ps2/path_helpers_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00105ae8	0x00105ae8	PROVED	split_path_00105ae8	unique-address-suffix-global-text	src/ps2/path_helpers_recovered.c	ps2/path_helpers_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00105d30	0x00105d30	PROVED	snes_dispatch_00105d30	progress-name-global-text	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o	ps2/progress28_structural_lift_recovered.o	
@@ -54,7 +54,7 @@ FUN_0010773c	0x0010773c	PROVED	snes_p11_0010773c	progress-name-global-text	src/p
 FUN_001080cc	0x001080cc	PROVED	snes_qsort_001080cc	progress-name-global-text	src/ps2/libc_misc_recovered.c	ps2/libc_misc_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00108a34	0x00108a34	PROVED	snes_rand_00108a34	progress-name-global-text	src/ps2/libc_misc_recovered.c	ps2/libc_misc_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00108ce4	0x00108ce4	PROVED	snes_p11_00108ce4	progress-name-global-text	src/ps2/progress11_frontend_recovered.c	ps2/progress11_frontend_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0010a840	0x0010a840	BLOCKED		ambiguous-address-suffix-global-text			ps2/progress28_structural_lift_recovered.o	apu_buffer_allocator_0010a840;apu_buffers_init_0010a840
+FUN_0010a840	0x0010a840	PROVED	apu_buffer_allocator_0010a840	reviewed-semantic-identity-global-text	src/snes9x/apu_alloc_recovered.c	snes9x/apu_alloc_recovered.o	ps2/progress28_structural_lift_recovered.o	historical S9xInitAPU evidence selects the allocator and rejects the integration-only wrapper;evidence=analysis/matching/hunt400-v9-object-provenance.tsv#apu_buffer_allocator
 FUN_0010b72c	0x0010b72c	PROVED	snes_p13_apu_io_write_0010b72c	progress-name-global-text	src/snes9x/progress13_core_helpers_recovered.c	snes9x/progress13_core_helpers_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001140e0	0x001140e0	PROVED	snes_leaf_001140e0	progress-name-global-text	src/ps2/address_leaf_recovered.c	ps2/address_leaf_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0011444c	0x0011444c	PROVED	snes_p11_0011444c	progress-name-global-text	src/snes9x/progress11_core_recovered.c	snes9x/progress11_core_recovered.o	ps2/progress28_structural_lift_recovered.o	
@@ -74,17 +74,17 @@ FUN_0012f744	0x0012f744	BLOCKED		address-outside-progress-manifest			ps2/progres
 FUN_0012fe5c	0x0012fe5c	PROVED	snes_leaf_0012fe5c	progress-name-global-text	src/ps2/address_leaf_recovered.c	ps2/address_leaf_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0012fe9c	0x0012fe9c	PROVED	snes_leaf_0012fe9c	progress-name-global-text	src/ps2/address_leaf_recovered.c	ps2/address_leaf_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0012feb4	0x0012feb4	PROVED	snes_leaf_0012feb4	progress-name-global-text	src/ps2/address_leaf_recovered.c	ps2/address_leaf_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_00142a78	0x00142a78	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=tile_lookup_table_init
+FUN_00142a78	0x00142a78	BLOCKED		reviewed-source-boundary-blocker			ps2/progress28_structural_lift_recovered.o	the exported lookup-table helper models only an interior block of the full graphics initializer;evidence=analysis/matching/hunt1041-v49-validated-20.tsv#S9xGraphicsInit
 FUN_0014308c	0x0014308c	PROVED	snes_p11_0014308c	progress-name-global-text	src/snes9x/progress11_core_recovered.c	snes9x/progress11_core_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00148338	0x00148338	PROVED	snes_leaf_00148338	progress-name-global-text	src/ps2/address_leaf_recovered.c	ps2/address_leaf_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00150ccc	0x00150ccc	PROVED	snes_p27_00150ccc	unique-address-suffix-global-text	src/ps2/progress27_large_state_cpu_batch_recovered.c	ps2/progress27_large_state_cpu_batch_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00150e18	0x00150e18	PROVED	snes_p27_00150e18	unique-address-suffix-global-text	src/ps2/progress27_large_state_cpu_batch_recovered.c	ps2/progress27_large_state_cpu_batch_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00150f54	0x00150f54	PROVED	snes_p27_00150f54	unique-address-suffix-global-text	src/ps2/progress27_large_state_cpu_batch_recovered.c	ps2/progress27_large_state_cpu_batch_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_00151074	0x00151074	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=CMemory_Init
+FUN_00151074	0x00151074	PROVED	CMemory_Init_recovered	progress-name-recovered-suffix-global-text	src/snes9x/memory_init_recovered.c	snes9x/memory_init_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00151330	0x00151330	PROVED	rom_cleanup_00151330	unique-address-suffix-global-text	src/snes9x/memory_cleanup_recovered.c	snes9x/memory_cleanup_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00151360	0x00151360	PROVED	snes_p11_00151360	progress-name-global-text	src/ps2/progress11_frontend_recovered.c	ps2/progress11_frontend_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_00153354	0x00153354	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=CMemory_LoadSRAM
-FUN_001534b8	0x001534b8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=CMemory_SaveSRAM
+FUN_00153354	0x00153354	PROVED	CMemory_LoadSRAM_recovered	progress-name-recovered-suffix-global-text	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001534b8	0x001534b8	PROVED	CMemory_SaveSRAM_recovered	progress-name-recovered-suffix-global-text	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001535c0	0x001535c0	PROVED	snes_leaf_001535c0	progress-name-global-text	src/ps2/address_leaf_recovered.c	ps2/address_leaf_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00153608	0x00153608	PROVED	CMemory_map_WriteProtectROM_00153608	progress-name-global-text	src/snes9x/memmap_metadata_recovered.c	snes9x/memmap_metadata_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00153674	0x00153674	PROVED	snes_p13_frontend_table_init_00153674	progress-name-global-text	src/snes9x/progress13_frontend_more_recovered.c	snes9x/progress13_frontend_more_recovered.o	ps2/progress28_structural_lift_recovered.o	
@@ -152,26 +152,26 @@ FUN_00183778	0x00183778	PROVED	snes_p13_days_in_month_00183778	progress-name-glo
 FUN_00183bdc	0x00183bdc	PROVED	snes_p11_00183bdc	progress-name-global-text	src/snes9x/progress11_core_recovered.c	snes9x/progress11_core_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00183c58	0x00183c58	PROVED	snes_p12_00183c58	progress-name-global-text	src/ps2/progress12_io_state_recovered.c	ps2/progress12_io_state_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00183d40	0x00183d40	PROVED	snes_p12_00183d40	progress-name-global-text	src/ps2/progress12_io_state_recovered.c	ps2/progress12_io_state_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_00186cf4	0x00186cf4	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=DrawTile16x2x2
-FUN_00187010	0x00187010	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=DrawClippedTile16x2x2
-FUN_0018d918	0x0018d918	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=explode
-FUN_0018e3ac	0x0018e3ac	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=flush_stack
-FUN_0018e440	0x0018e440	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=FillBitBuffer
-FUN_0018e4c0	0x0018e4c0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=unReduce
-FUN_0018eeb4	0x0018eeb4	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=partial_clear
-FUN_0018f070	0x0018f070	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=unzlocal_getShort
-FUN_0018f0ec	0x0018f0ec	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=unzlocal_getLong
-FUN_0018f27c	0x0018f27c	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=unzlocal_SearchCentralDir
-FUN_0018f5e0	0x0018f5e0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=unzClose
-FUN_0018f654	0x0018f654	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=unzlocal_DosDateToTmuDate
+FUN_00186cf4	0x00186cf4	PROVED	DrawTile16x2x2_recovered	progress-name-recovered-suffix-global-text	src/snes9x/tile_16bit_recovered.c	snes9x/tile_16bit_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_00187010	0x00187010	PROVED	DrawClippedTile16x2x2_recovered	progress-name-recovered-suffix-global-text	src/snes9x/tile_16bit_recovered.c	snes9x/tile_16bit_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018d918	0x0018d918	PROVED	explode_recovered	progress-name-recovered-suffix-global-text	src/unzip/explode_recovered.c	unzip/explode_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018e3ac	0x0018e3ac	PROVED	flush_stack_recovered	progress-name-recovered-suffix-global-text	src/unzip/explode_recovered.c	unzip/explode_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018e440	0x0018e440	PROVED	FillBitBuffer_recovered	progress-name-recovered-suffix-global-text	src/unzip/explode_recovered.c	unzip/explode_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018e4c0	0x0018e4c0	PROVED	unReduce_recovered	progress-name-recovered-suffix-global-text	src/unzip/unreduce_recovered.c	unzip/unreduce_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018eeb4	0x0018eeb4	PROVED	partial_clear_recovered	progress-name-recovered-suffix-global-text	src/unzip/unshrink_recovered.c	unzip/unshrink_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018f070	0x0018f070	PROVED	unzlocal_getShort_recovered	progress-name-recovered-suffix-global-text	src/unzip/unzip_api_recovered.c	unzip/unzip_api_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018f0ec	0x0018f0ec	PROVED	unzlocal_getLong_recovered	progress-name-recovered-suffix-global-text	src/unzip/unzip_api_recovered.c	unzip/unzip_api_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018f27c	0x0018f27c	PROVED	unzlocal_SearchCentralDir_recovered	progress-name-recovered-suffix-global-text	src/unzip/unzip_api_recovered.c	unzip/unzip_api_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018f5e0	0x0018f5e0	PROVED	unzClose_recovered	progress-name-recovered-suffix-global-text	src/unzip/unzip_api_recovered.c	unzip/unzip_api_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018f654	0x0018f654	PROVED	unzlocal_DosDateToTmuDate_recovered	progress-name-recovered-suffix-global-text	src/unzip/unzip_api_recovered.c	unzip/unzip_api_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0018faa4	0x0018faa4	PROVED	snes_dispatch_0018faa4	progress-name-global-text	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0018faec	0x0018faec	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=unzGoToFirstFile
-FUN_0018fb54	0x0018fb54	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=unzGoToNextFile
-FUN_0018fbfc	0x0018fbfc	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=unzLocateFile
-FUN_00190578	0x00190578	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=unzCloseCurrentFile
-FUN_00192800	0x00192800	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=inflateInit2_
-FUN_0019296c	0x0019296c	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=inflate
-FUN_001930a0	0x001930a0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=crc32
+FUN_0018faec	0x0018faec	PROVED	unzGoToFirstFile_recovered	progress-name-recovered-suffix-global-text	src/unzip/unzip_api_recovered.c	unzip/unzip_api_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018fb54	0x0018fb54	PROVED	unzGoToNextFile_recovered	progress-name-recovered-suffix-global-text	src/unzip/unzip_api_recovered.c	unzip/unzip_api_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0018fbfc	0x0018fbfc	PROVED	unzLocateFile_recovered	progress-name-recovered-suffix-global-text	src/unzip/unzip_api_recovered.c	unzip/unzip_api_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_00190578	0x00190578	PROVED	unzCloseCurrentFile_recovered	progress-name-recovered-suffix-global-text	src/unzip/unzip_api_recovered.c	unzip/unzip_api_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_00192800	0x00192800	PROVED	inflateInit2__recovered	progress-name-recovered-suffix-global-text	src/zlib/inflate_state_recovered.c	zlib/inflate_state_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019296c	0x0019296c	PROVED	inflate_recovered	progress-name-recovered-suffix-global-text	src/zlib/inflate_state_recovered.c	zlib/inflate_state_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001930a0	0x001930a0	PROVED	crc32_recovered	progress-name-recovered-suffix-global-text	src/zlib/crc32_recovered.c	zlib/crc32_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00193564	0x00193564	PROVED	gzopen_00193564	unique-address-suffix-global-text	src/zlib/gzio_recovered.c	zlib/gzio_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00193a34	0x00193a34	PROVED	gzread_00193a34	unique-address-suffix-global-text	src/zlib/gzio_recovered.c	zlib/gzio_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00193dbc	0x00193dbc	PROVED	gzwrite_00193dbc	unique-address-suffix-global-text	src/zlib/gzio_recovered.c	zlib/gzio_recovered.o	ps2/progress28_structural_lift_recovered.o	
@@ -220,9 +220,9 @@ FUN_0019d360	0x0019d360	PROVED	fioLseek_0019d360	unique-address-suffix-global-te
 FUN_0019d410	0x0019d410	PROVED	fioMkdir_0019d410	unique-address-suffix-global-text	src/ps2/fileio_recovered.c	ps2/fileio_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019d600	0x0019d600	PROVED	SifLoadModule_0019d600	unique-address-suffix-global-text	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019d740	0x0019d740	PROVED	SifIopReset_0019d740	unique-address-suffix-global-text	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0019e388	0x0019e388	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=printf
-FUN_0019e3d0	0x0019e3d0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=sprintf
-FUN_0019e414	0x0019e414	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=puts_like
+FUN_0019e388	0x0019e388	PROVED	printf_recovered	progress-name-recovered-suffix-global-text	src/ps2/stdio_wrappers_recovered.c	ps2/stdio_wrappers_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019e3d0	0x0019e3d0	PROVED	sprintf_recovered	progress-name-recovered-suffix-global-text	src/ps2/stdio_wrappers_recovered.c	ps2/stdio_wrappers_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019e414	0x0019e414	PROVED	puts_like_recovered	progress-name-recovered-suffix-global-text	src/ps2/stdio_wrappers_recovered.c	ps2/stdio_wrappers_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019e4b4	0x0019e4b4	PROVED	malloc_0019e4b4	unique-address-suffix-global-text	src/ps2/libkernel_heap_recovered.c	ps2/libkernel_heap_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019e698	0x0019e698	PROVED	memalign_0019e698	unique-address-suffix-global-text	src/ps2/libkernel_heap_recovered.c	ps2/libkernel_heap_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019e784	0x0019e784	PROVED	free_0019e784	unique-address-suffix-global-text	src/ps2/libkernel_heap_recovered.c	ps2/libkernel_heap_recovered.o	ps2/progress28_structural_lift_recovered.o	
@@ -246,59 +246,59 @@ FUN_001a1204	0x001a1204	PROVED	mcGetDir_001a1204	unique-address-suffix-global-te
 FUN_001a147c	0x001a147c	PROVED	mcDelete_001a147c	unique-address-suffix-global-text	src/ps2/libmc_recovered.c	ps2/libmc_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a1974	0x001a1974	PROVED	mcSync_001a1974	unique-address-suffix-global-text	src/ps2/libmc_recovered.c	ps2/libmc_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a1a54	0x001a1a54	PROVED	strcpy_sjis_001a1a54	unique-address-suffix-global-text	src/ps2/libmc_recovered.c	ps2/libmc_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_001a1b20	0x001a1b20	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=__muldi3
-FUN_001a1b98	0x001a1b98	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=__floatdisf
-FUN_001a1c98	0x001a1c98	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=__fixunsdfdi
-FUN_001a1db8	0x001a1db8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=__divdi3
-FUN_001a3340	0x001a3340	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=fptodp
-FUN_001a35b0	0x001a35b0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=dpadd
-FUN_001a3610	0x001a3610	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=dpsub
-FUN_001a3680	0x001a3680	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=dpmul
-FUN_001a3950	0x001a3950	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=dpdiv
-FUN_001a3ad8	0x001a3ad8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=dpcmp
-FUN_001a3b30	0x001a3b30	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=litodp
-FUN_001a3bf0	0x001a3bf0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=dptoli
-FUN_001a3cc0	0x001a3cc0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=dptofp
-FUN_001a3d18	0x001a3d18	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=dptoul
-FUN_001a3dc0	0x001a3dc0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=size_of_encoded_value
-FUN_001a3e30	0x001a3e30	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=base_of_encoded_value
-FUN_001a3ee8	0x001a3ee8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=read_uleb128
-FUN_001a3f28	0x001a3f28	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=read_sleb128
-FUN_001a3f88	0x001a3f88	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=read_encoded_value_with_base
-FUN_001a40e8	0x001a40e8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=_Unwind_GetLanguageSpecificData
+FUN_001a1b20	0x001a1b20	PROVED	snes___muldi3	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a1b98	0x001a1b98	PROVED	snes___floatdisf	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a1c98	0x001a1c98	PROVED	snes___fixunsdfdi	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a1db8	0x001a1db8	PROVED	snes___divdi3	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3340	0x001a3340	PROVED	snes_fptodp	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a35b0	0x001a35b0	PROVED	snes_dpadd	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3610	0x001a3610	PROVED	snes_dpsub	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3680	0x001a3680	PROVED	snes_dpmul	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3950	0x001a3950	PROVED	snes_dpdiv	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3ad8	0x001a3ad8	PROVED	snes_dpcmp	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3b30	0x001a3b30	PROVED	snes_litodp	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3bf0	0x001a3bf0	PROVED	snes_dptoli	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3cc0	0x001a3cc0	PROVED	snes_dptofp	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3d18	0x001a3d18	PROVED	snes_dptoul	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3dc0	0x001a3dc0	PROVED	snes_size_of_encoded_value	progress-name-snes-prefix-global-text	src/ps2/gcc_unwind_pe_recovered.c	ps2/gcc_unwind_pe_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3e30	0x001a3e30	PROVED	snes_base_of_encoded_value	progress-name-snes-prefix-global-text	src/ps2/gcc_unwind_pe_recovered.c	ps2/gcc_unwind_pe_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3ee8	0x001a3ee8	PROVED	snes_read_uleb128	progress-name-snes-prefix-global-text	src/ps2/gcc_unwind_pe_recovered.c	ps2/gcc_unwind_pe_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3f28	0x001a3f28	PROVED	snes_read_sleb128	progress-name-snes-prefix-global-text	src/ps2/gcc_unwind_pe_recovered.c	ps2/gcc_unwind_pe_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a3f88	0x001a3f88	PROVED	snes_read_encoded_value_with_base	progress-name-snes-prefix-global-text	src/ps2/gcc_unwind_pe_recovered.c	ps2/gcc_unwind_pe_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a40e8	0x001a40e8	PROVED	snes_Unwind_GetLanguageSpecificData	progress-name-snes-stripped-prefix-global-text	src/ps2/gcc_unwind_pe_recovered.c	ps2/gcc_unwind_pe_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a51d0	0x001a51d0	PROVED	snes_dispatch_001a51d0	progress-name-global-text	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_001a5c98	0x001a5c98	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=_Unwind_SetGR
-FUN_001a5cb0	0x001a5cb0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=_Unwind_GetIP
-FUN_001a5cb8	0x001a5cb8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=_Unwind_SetIP
-FUN_001a5cc0	0x001a5cc0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=size_of_encoded_value_fde
-FUN_001a5dd0	0x001a5dd0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=read_encoded_value_with_base_fde
-FUN_001a61c0	0x001a61c0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=fde_base_from_object
-FUN_001a6240	0x001a6240	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=fde_get_cie_encoding
+FUN_001a5c98	0x001a5c98	PROVED	snes_Unwind_SetGR	progress-name-snes-stripped-prefix-global-text	src/ps2/gcc_unwind_pe_recovered.c	ps2/gcc_unwind_pe_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a5cb0	0x001a5cb0	PROVED	snes_Unwind_GetIP	progress-name-snes-stripped-prefix-global-text	src/ps2/gcc_unwind_pe_recovered.c	ps2/gcc_unwind_pe_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a5cb8	0x001a5cb8	PROVED	snes_Unwind_SetIP	progress-name-snes-stripped-prefix-global-text	src/ps2/gcc_unwind_pe_recovered.c	ps2/gcc_unwind_pe_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a5cc0	0x001a5cc0	BLOCKED		reviewed-historical-archive-blocker			ps2/progress28_structural_lift_recovered.o	the matched entry belongs to a historical libgcc archive member not exported by the source aggregate;evidence=analysis/matching/hunt1000plus-v45-validated-runtime.tsv#unwind-dw2-fde.o
+FUN_001a5dd0	0x001a5dd0	BLOCKED		reviewed-historical-archive-blocker			ps2/progress28_structural_lift_recovered.o	the matched entry belongs to a historical libgcc archive member not exported by the source aggregate;evidence=analysis/matching/hunt1000plus-v34-validated-16.tsv#unwind-dw2-fde.o
+FUN_001a61c0	0x001a61c0	PROVED	snes_fde_base_from_object	progress-name-snes-prefix-global-text	src/ps2/gcc_fde_runtime_recovered.c	ps2/gcc_fde_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a6240	0x001a6240	PROVED	snes_fde_get_cie_encoding	progress-name-snes-prefix-global-text	src/ps2/gcc_fde_runtime_recovered.c	ps2/gcc_fde_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a6348	0x001a6348	BLOCKED		address-outside-progress-manifest			ps2/progress28_structural_lift_recovered.o	no audited target row
 FUN_001a6410	0x001a6410	BLOCKED		address-outside-progress-manifest			ps2/progress28_structural_lift_recovered.o	no audited target row
 FUN_001a7638	0x001a7638	PROVED	snes_p21_001a7638	unique-address-suffix-global-text	src/ps2/progress21_small_helpers_recovered.c	ps2/progress21_small_helpers_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_001a8864	0x001a8864	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=padRead
-FUN_001a88a8	0x001a88a8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=padGetState
-FUN_001a90f8	0x001a90f8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=operator_delete
-FUN_001a9118	0x001a9118	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=operator_delete_array
-FUN_001a91b0	0x001a91b0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=base_of_encoded_value_eh_personality
-FUN_001a9268	0x001a9268	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=read_uleb128_eh_personality
-FUN_001a92a8	0x001a92a8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=read_sleb128_eh_personality
-FUN_001a9308	0x001a9308	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=read_encoded_value_with_base_eh_personality
+FUN_001a8864	0x001a8864	PROVED	snes_padRead	progress-name-snes-prefix-global-text	src/ps2/libpad_recovered.c	ps2/libpad_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a88a8	0x001a88a8	PROVED	snes_padGetState	progress-name-snes-prefix-global-text	src/ps2/libpad_recovered.c	ps2/libpad_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a90f8	0x001a90f8	PROVED	snes_operator_delete	progress-name-snes-prefix-global-text	src/ps2/cpp_runtime_recovered.c	ps2/cpp_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a9118	0x001a9118	PROVED	snes_operator_delete_array	progress-name-snes-prefix-global-text	src/ps2/cpp_runtime_recovered.c	ps2/cpp_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a91b0	0x001a91b0	BLOCKED		reviewed-historical-archive-blocker			ps2/progress28_structural_lift_recovered.o	the matched helper belongs to the historical libsupc++ personality archive member;evidence=analysis/matching/hunt1000plus-v45-validated-runtime.tsv#eh_personality.o
+FUN_001a9268	0x001a9268	BLOCKED		reviewed-historical-archive-blocker			ps2/progress28_structural_lift_recovered.o	the matched helper belongs to the historical libsupc++ personality archive member;evidence=analysis/matching/cpp-eh-runtime-small-listing-report.md#read_uleb128_eh_personality
+FUN_001a92a8	0x001a92a8	BLOCKED		reviewed-historical-archive-blocker			ps2/progress28_structural_lift_recovered.o	the matched helper belongs to the historical libsupc++ personality archive member;evidence=analysis/matching/cpp-eh-runtime-small-listing-report.md#read_sleb128_eh_personality
+FUN_001a9308	0x001a9308	BLOCKED		reviewed-historical-archive-blocker			ps2/progress28_structural_lift_recovered.o	the matched helper belongs to the historical libsupc++ personality archive member;evidence=analysis/matching/hunt1000plus-v45-validated-runtime.tsv#eh_personality.o
 FUN_001a9488	0x001a9488	PROVED	snes_p13_parse_lsda_header_001a9488	unique-address-suffix-global-text	src/ps2/progress13_cpp_personality_recovered.c	ps2/progress13_cpp_personality_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a9588	0x001a9588	PROVED	snes_p13_get_ttype_entry_001a9588	unique-address-suffix-global-text	src/ps2/progress13_cpp_personality_recovered.c	ps2/progress13_cpp_personality_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a95f8	0x001a95f8	PROVED	snes_p13_get_adjusted_ptr_001a95f8	unique-address-suffix-global-text	src/ps2/progress13_cpp_personality_recovered.c	ps2/progress13_cpp_personality_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a9698	0x001a9698	PROVED	snes_p13_check_exception_spec_001a9698	unique-address-suffix-global-text	src/ps2/progress13_cpp_personality_recovered.c	ps2/progress13_cpp_personality_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_001a9ca8	0x001a9ca8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=__terminate
-FUN_001a9d08	0x001a9d08	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=__unexpected
-FUN_001a9db8	0x001a9db8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=__cxa_throw
-FUN_001a9e40	0x001a9e40	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=__cxa_rethrow
-FUN_001a9e88	0x001a9e88	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=operator_new
-FUN_001a9f68	0x001a9f68	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=operator_new_array
-FUN_001aab20	0x001aab20	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=class_type_info_do_upcast
-FUN_001aafb8	0x001aafb8	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=__cxa_allocate_exception
-FUN_001ab0f0	0x001ab0f0	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=__cxa_begin_catch
-FUN_001ab308	0x001ab308	BLOCKED		progress-target-not-exported			ps2/progress28_structural_lift_recovered.o	expected=__cxa_get_globals_fast
+FUN_001a9ca8	0x001a9ca8	PROVED	snes_p13___terminate	progress-name-snes-p13-prefix-global-text	src/ps2/progress13_cpp_eh_recovered.c	ps2/progress13_cpp_eh_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a9d08	0x001a9d08	BLOCKED		reviewed-historical-archive-blocker			ps2/progress28_structural_lift_recovered.o	the matched unexpected wrapper has no equivalent exported source-aggregate entry yet;evidence=analysis/matching/cpp-eh-runtime-small-listing-report.md#cpp_unexpected_helper
+FUN_001a9db8	0x001a9db8	PROVED	snes_p13___cxa_throw	progress-name-snes-p13-prefix-global-text	src/ps2/progress13_cpp_eh_recovered.c	ps2/progress13_cpp_eh_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a9e40	0x001a9e40	PROVED	snes_p13___cxa_rethrow	progress-name-snes-p13-prefix-global-text	src/ps2/progress13_cpp_eh_recovered.c	ps2/progress13_cpp_eh_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a9e88	0x001a9e88	PROVED	snes_p13_operator_new	progress-name-snes-p13-prefix-global-text	src/ps2/progress13_cpp_eh_recovered.c	ps2/progress13_cpp_eh_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a9f68	0x001a9f68	PROVED	snes_operator_new_array	progress-name-snes-prefix-global-text	src/ps2/cpp_runtime_recovered.c	ps2/cpp_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001aab20	0x001aab20	PROVED	snes_class_type_info_do_upcast3	reviewed-semantic-identity-global-text	src/ps2/libsupcxx_rtti_recovered.c	ps2/libsupcxx_rtti_recovered.o	ps2/progress28_structural_lift_recovered.o	the historical libsupc++ match identifies the exported three-argument protected upcast model;evidence=analysis/matching/hunt1000plus-v45-validated-runtime.tsv#class_type_info_do_upcast
+FUN_001aafb8	0x001aafb8	PROVED	snes_cxa_allocate_exception	progress-name-snes-stripped-prefix-global-text	src/ps2/libsupcxx_rtti_recovered.c	ps2/libsupcxx_rtti_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001ab0f0	0x001ab0f0	PROVED	snes_cxa_begin_catch	progress-name-snes-stripped-prefix-global-text	src/ps2/libsupcxx_rtti_recovered.c	ps2/libsupcxx_rtti_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001ab308	0x001ab308	PROVED	snes_cxa_get_globals_fast	progress-name-snes-stripped-prefix-global-text	src/ps2/libsupcxx_rtti_recovered.c	ps2/libsupcxx_rtti_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001ab4e8	0x001ab4e8	PROVED	S9xGetMemPointer_001ab4e8	unique-address-suffix-global-text	src/snes9x/getset_recovered.c	snes9x/getset_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001ab63c	0x001ab63c	PROVED	S9xGetByte_001ab63c	unique-address-suffix-global-text	src/snes9x/getset_recovered.c	snes9x/getset_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001ab900	0x001ab900	PROVED	S9xSetByte_001ab900	unique-address-suffix-global-text	src/snes9x/getset_recovered.c	snes9x/getset_recovered.o	ps2/progress28_structural_lift_recovered.o	
@@ -314,7 +314,7 @@ load_config_00106054	0x00106054	PROVED	snes_p11_00106054	progress-name-global-te
 memalign_like_0019e698	0x0019e698	PROVED	memalign_0019e698	unique-address-suffix-global-text	src/ps2/libkernel_heap_recovered.c	ps2/libkernel_heap_recovered.o	ps2/gspipe_recovered.o	
 memcpy_like_0019c364	0x0019c364	PROVED	sn_memcpy_0019c364	unique-address-suffix-global-text	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o	ps2/gspipe_recovered.o	
 memory_card_setup_0010689c	0x0010689c	PROVED	snes_p28_0010689c	unique-address-suffix-global-text	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o	app/main_flow_recovered.o	
-operator_new_001a9e88	0x001a9e88	BLOCKED		progress-target-not-exported			ps2/progress22_more_small_helpers_recovered.o	expected=operator_new
+operator_new_001a9e88	0x001a9e88	PROVED	snes_p13_operator_new	progress-name-snes-p13-prefix-global-text	src/ps2/progress13_cpp_eh_recovered.c	ps2/progress13_cpp_eh_recovered.o	ps2/progress22_more_small_helpers_recovered.o	
 per_rom_cleanup_00151330	0x00151330	PROVED	rom_cleanup_00151330	unique-address-suffix-global-text	src/snes9x/memory_cleanup_recovered.c	snes9x/memory_cleanup_recovered.o	ps2/libmtap_recovered.o	
 restart_embedded_mod_00105d78	0x00105d78	PROVED	snes_dispatch_00105d78	progress-name-global-text	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o	app/main_flow_recovered.o	
 snes_memory_helper_00150f54	0x00150f54	PROVED	snes_p27_00150f54	unique-address-suffix-global-text	src/ps2/progress27_large_state_cpu_batch_recovered.c	ps2/progress27_large_state_cpu_batch_recovered.o	snes9x/memory_cleanup_recovered.o	

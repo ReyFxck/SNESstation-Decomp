@@ -64,8 +64,11 @@ Exact program-data bytes/placement and final object order remain Stage 3.
   geometry, 64 KiB hashes and an exact first-difference comparator.
 - [x] Prove and zero-byte bind 257/337 source-address aliases to 242 canonical
   global text symbols without changing allocated sections.
-- [ ] Resolve the remaining 80 address aliases: 73 non-exported audited names,
-  six addresses outside the target manifest and one multiple-owner collision.
+- [x] Prove 66 additional owner-checked/reviewed aliases, reaching 323/337
+  aliases against 307 canonical global text symbols.
+- [ ] Resolve the remaining 14 address aliases: seven historical archive
+  entries, one non-equivalent source boundary and six addresses outside the
+  target manifest.
 - [ ] Identify exact old runtime/library revisions and archive members.
 - [ ] Recover the application linker script and section alignment.
 - [ ] Recover object order and library order.

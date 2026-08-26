@@ -309,12 +309,13 @@ covering another 71,384 bytes, and closes the audited function frontier at
 1,041/1,041. The frontier map now contains 0 entries.
 V82 then freezes the first whole-program measurement gate without publishing
 the private image: one SJCRUNCH2 section, thirteen blocks and fifty-one hash
-windows. V83 proves {alias_proved} of {len(alias_rows)} source-address aliases
-against {len(set(row['canonical_symbol'] for row in alias_rows if row['status'] == 'PROVED'))}
+windows. V83 freezes the first 257 source-address aliases; V84 extends the
+cumulative proof to {alias_proved} of {len(alias_rows)} aliases against
+{len(set(row['canonical_symbol'] for row in alias_rows if row['status'] == 'PROVED'))}
 canonical global text symbols and applies them without changing any allocated
-section bytes; {alias_blocked} ambiguous or incomplete rows remain explicit blockers.
+section bytes; {alias_blocked} boundary/archive rows remain explicit blockers.
 The current batch is documented in
-[`V83_SOURCE_ADDRESS_ALIASES.md`](V83_SOURCE_ADDRESS_ALIASES.md); the layout
+[`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md); the layout
 oracle remains frozen in
 [`V82_UNPACKED_LAYOUT_ORACLE.md`](V82_UNPACKED_LAYOUT_ORACLE.md), and the function
 closure remains frozen in

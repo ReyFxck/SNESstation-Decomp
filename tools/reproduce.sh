@@ -9,7 +9,7 @@ show_status() {
     python3 tools/project_status.py
     printf '\nImplemented whole-program gates:\n'
     printf '  - unpacked layout oracle: 1 section / 13 blocks / 51 hash windows\n'
-    printf '  - source-address alias tranche: 257/337 proved; 80 explicit blockers\n'
+    printf '  - source-address alias tranche: 323/337 proved; 14 explicit blockers\n'
     printf '\nExact replacement ELF still requires:\n'
     printf '  - exact global data, sections, relocations and object boundaries\n'
     printf '  - exact historical archives, linker script and link order\n'

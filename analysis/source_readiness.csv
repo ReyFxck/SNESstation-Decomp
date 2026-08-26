@@ -880,8 +880,8 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001a6090,__deregister_frame_info_bases,unwind-fde,MATCHING,BEHAVIORAL_SOURCE_MODEL,no,,MATCHING
 0x001a6168,__deregister_frame_info,unwind-fde,MATCHING,BEHAVIORAL_SOURCE_MODEL,no,,MATCHING
 0x001a6188,__deregister_frame,unwind-fde,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gcc_fde_runtime_recovered.c,MATCHING
-0x001a61c0,fde_base_from_object,unwind-fde,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x001a6240,fde_get_cie_encoding,unwind-fde,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x001a61c0,fde_base_from_object,unwind-fde,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gcc_fde_runtime_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x001a6240,fde_get_cie_encoding,unwind-fde,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gcc_fde_runtime_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x001a64e8,snes_p16_001a64e8,gcc-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x001a6770,snes_p16_001a6770,gcc-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x001a68f0,snes_p16_001a68f0,gcc-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING

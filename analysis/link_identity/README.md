@@ -5,8 +5,11 @@ This directory contains public, byte-free evidence for the Stage-3 link gate.
 - `unpacked_layout.json` freezes the verified packed/unpacked hashes,
   SJCRUNCH2 section and block geometry, BSS span and 64 KiB hash windows.
 - `source_address_aliases.tsv` records all 337 Stage-2 address-shaped external
-  names: 257 are proved against canonical global text symbols and 80 retain an
+  names: 323 are proved against canonical global text symbols and 14 retain an
   explicit evidence blocker.
+- `source_alias_reviews.tsv` freezes three semantic identity proofs and eight
+  deliberately blocked boundary/archive decisions, each with a checked public
+  evidence path and token.
 
 The manifest deliberately contains no original executable bytes, extracted
 assets, local paths or encoded binary payloads. Regenerate it only from a

@@ -37,9 +37,9 @@ The final pipeline must prove every layer:
 3. **Unpacked layout oracle — closed** — one section, thirteen decompressed
    blocks and fifty-one 64 KiB hash windows freeze the target geometry and
    locate the exact first rebuilt-byte difference.
-4. **Source-address aliases — 257/337 proved** — alternate address-shaped
-   names bind to 242 canonical global text symbols with no allocated-byte
-   changes; 80 evidence blockers remain.
+4. **Source-address aliases — 323/337 proved** — alternate address-shaped
+   names bind to 307 canonical global text symbols with no allocated-byte
+   changes; 14 evidence blockers remain.
 5. **Program data** — globals, constants, string pooling, vtables, BSS and
    alignment match the unpacked target.
 6. **Relocations and archives** — the exact old PS2 libraries and their member
@@ -62,8 +62,8 @@ The Stage-2 evidence and its exact claim boundary are recorded in
 [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
 The first Stage-3 measurement gate is recorded in
 [`status/V82_UNPACKED_LAYOUT_ORACLE.md`](status/V82_UNPACKED_LAYOUT_ORACLE.md).
-The first Stage-3 link-identity tranche is recorded in
-[`status/V83_SOURCE_ADDRESS_ALIASES.md`](status/V83_SOURCE_ADDRESS_ALIASES.md).
+The current Stage-3 link-identity tranche is recorded in
+[`status/V84_REVIEWED_SOURCE_ALIASES.md`](status/V84_REVIEWED_SOURCE_ALIASES.md).
 
 ## What “original code” can mean
 

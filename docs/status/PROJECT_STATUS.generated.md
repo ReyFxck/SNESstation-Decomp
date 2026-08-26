@@ -9,7 +9,7 @@
 | Working checkpoint | **1,041/1,041 (100.00%)** | Formal rows plus any disjoint recovered-but-unpromoted results. |
 | Working frontier | **0** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Build-ready EE source ownership | **97/97 TUs** | 96 canonical objects partially link with a frozen ABI/symbol map and no duplicate/common definitions. |
-| Source-address alias tranche | **257/337 proved** | Zero-byte linker aliases bind proven alternate names to canonical global text symbols; 80 remain blocked. |
+| Source-address alias tranche | **323/337 proved** | Zero-byte linker aliases bind proven alternate names to canonical global text symbols; 14 remain blocked. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -24,12 +24,13 @@ covering another 71,384 bytes, and closes the audited function frontier at
 1,041/1,041. The frontier map now contains 0 entries.
 V82 then freezes the first whole-program measurement gate without publishing
 the private image: one SJCRUNCH2 section, thirteen blocks and fifty-one hash
-windows. V83 proves 257 of 337 source-address aliases
-against 242
+windows. V83 freezes the first 257 source-address aliases; V84 extends the
+cumulative proof to 323 of 337 aliases against
+307
 canonical global text symbols and applies them without changing any allocated
-section bytes; 80 ambiguous or incomplete rows remain explicit blockers.
+section bytes; 14 boundary/archive rows remain explicit blockers.
 The current batch is documented in
-[`V83_SOURCE_ADDRESS_ALIASES.md`](V83_SOURCE_ADDRESS_ALIASES.md); the layout
+[`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md); the layout
 oracle remains frozen in
 [`V82_UNPACKED_LAYOUT_ORACLE.md`](V82_UNPACKED_LAYOUT_ORACLE.md), and the function
 closure remains frozen in
@@ -40,7 +41,7 @@ closure remains frozen in
 1. **Function gate closed:** all 1,041 audited rows have exact, reproducible evidence.
 2. **Source/object gate closed:** 97/97 TUs compile; 96 canonical objects have frozen ownership.
 3. **Unpacked oracle closed:** section/block geometry and 64 KiB hashes are frozen.
-4. **Address-alias tranche:** 257/337 are proved and zero-byte bound; resolve the remaining 80.
+4. **Address-alias tranche:** 323/337 are proved and zero-byte bound; resolve the remaining 14.
 5. Reproduce data/rodata/bss layout, relocations and section alignment.
 6. Recover the historical archives, linker script, object order and library order.
 7. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.

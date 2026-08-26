@@ -31,6 +31,7 @@ DEFAULT_EXTERNAL = ROOT / "analysis" / "source_tree" / "external_symbol_ownershi
 DEFAULT_DEFINED = ROOT / "analysis" / "source_tree" / "defined_symbol_ownership.tsv"
 DEFAULT_PROGRESS = ROOT / "analysis" / "progress_targets.csv"
 DEFAULT_MANIFEST = ROOT / "analysis" / "link_identity" / "source_address_aliases.tsv"
+DEFAULT_REVIEWS = ROOT / "analysis" / "link_identity" / "source_alias_reviews.tsv"
 DEFAULT_INPUT = ROOT / "build" / "source-tree" / "source-tree.partial.o"
 DEFAULT_BUILD = ROOT / "build" / "source-aliases"
 DEFAULT_OUTPUT = DEFAULT_BUILD / "source-tree.alias-resolved.partial.o"
@@ -62,6 +63,15 @@ MANIFEST_FIELDS = (
     "canonical_source",
     "canonical_object",
     "requesters",
+    "detail",
+)
+REVIEW_FIELDS = (
+    "alias",
+    "decision",
+    "canonical_symbol",
+    "evidence",
+    "evidence_path",
+    "evidence_token",
     "detail",
 )
 
@@ -129,10 +139,93 @@ def symbol_address(symbol: str) -> int:
     return int(match.group(1), 16)
 
 
+def read_reviews(path: Path) -> list[dict[str, str]]:
+    """Load the small, human-reviewed exception set and verify its citations."""
+    rows = read_table(path, REVIEW_FIELDS, delimiter="\t")
+    seen: set[str] = set()
+    for row in rows:
+        alias = row["alias"]
+        if alias in seen:
+            fail(f"duplicate reviewed alias: {alias}")
+        seen.add(alias)
+        decision = row["decision"]
+        if decision not in {PROVED, BLOCKED}:
+            fail(f"invalid reviewed decision for {alias}: {decision}")
+        if decision == PROVED and not row["canonical_symbol"]:
+            fail(f"proved review lacks canonical symbol: {alias}")
+        if decision == BLOCKED and row["canonical_symbol"]:
+            fail(f"blocked review names a canonical symbol: {alias}")
+        if not row["evidence"].startswith("reviewed-"):
+            fail(f"review evidence is not explicitly labelled for {alias}")
+        if not row["evidence_token"] or not row["detail"]:
+            fail(f"incomplete reviewed evidence for {alias}")
+
+        relative = Path(row["evidence_path"])
+        if relative.is_absolute() or ".." in relative.parts:
+            fail(f"review evidence path must stay repository-relative: {alias}")
+        evidence_path = ROOT / relative
+        if not evidence_path.is_file():
+            fail(f"missing reviewed evidence for {alias}: {relative}")
+        evidence_text = evidence_path.read_text(encoding="utf-8", errors="replace")
+        address = f"0x{symbol_address(alias):08x}"
+        if address not in evidence_text or row["evidence_token"] not in evidence_text:
+            fail(
+                f"review evidence drift for {alias}: expected {address} and "
+                f"{row['evidence_token']!r} in {relative}"
+            )
+    return rows
+
+
+def normalized_progress_candidates(
+    progress_name: str,
+    by_name: dict[str, dict[str, str]],
+) -> list[tuple[dict[str, str], str]]:
+    """Return unique exported symbols reached by audited naming conventions."""
+    variants = [
+        (
+            progress_name + "_recovered",
+            "progress-name-recovered-suffix-global-text",
+        ),
+        (
+            "snes_" + progress_name,
+            "progress-name-snes-prefix-global-text",
+        ),
+    ]
+    stripped = progress_name.lstrip("_")
+    if stripped != progress_name:
+        variants.append(
+            (
+                "snes_" + stripped,
+                "progress-name-snes-stripped-prefix-global-text",
+            )
+        )
+    variants.append(
+        (
+            "snes_p13_" + progress_name,
+            "progress-name-snes-p13-prefix-global-text",
+        )
+    )
+    if stripped != progress_name:
+        variants.append(
+            (
+                "snes_p13_" + stripped,
+                "progress-name-snes-p13-stripped-prefix-global-text",
+            )
+        )
+
+    matches: dict[str, tuple[dict[str, str], str]] = {}
+    for name, evidence in variants:
+        target = by_name.get(name)
+        if target is not None and name not in matches:
+            matches[name] = (target, evidence)
+    return [matches[name] for name in sorted(matches)]
+
+
 def derive_rows(
     external_rows: Sequence[dict[str, str]],
     defined_rows: Sequence[dict[str, str]],
     progress_rows: Sequence[dict[str, str]],
+    review_rows: Sequence[dict[str, str]] = (),
 ) -> list[dict[str, str]]:
     """Classify every frozen source-address alias using strict public evidence."""
     global_text = [
@@ -168,20 +261,49 @@ def derive_rows(
     if len({row["symbol"] for row in aliases}) != len(aliases):
         fail("duplicate source-address alias in external ownership map")
 
+    alias_names = {row["symbol"] for row in aliases}
+    reviews: dict[str, dict[str, str]] = {}
+    for row in review_rows:
+        alias = row["alias"]
+        if alias in reviews:
+            fail(f"duplicate reviewed alias: {alias}")
+        if alias not in alias_names:
+            fail(f"reviewed alias is not a frozen source-address external: {alias}")
+        reviews[alias] = row
+
     result: list[dict[str, str]] = []
     for external in sorted(aliases, key=lambda row: row["symbol"]):
         alias = external["symbol"]
         address = symbol_address(alias)
         progress = progress_by_address.get(address)
         exact = by_name.get(progress["name"]) if progress is not None else None
+        normalized = (
+            normalized_progress_candidates(progress["name"], by_name)
+            if progress is not None
+            else []
+        )
         suffix_candidates = [
             row for row in by_suffix.get(address, []) if row["symbol"] != alias
         ]
+        review = reviews.get(alias)
 
         target: dict[str, str] | None = None
         evidence: str
         detail = ""
-        if exact is not None:
+        if review is not None:
+            evidence = review["evidence"]
+            detail = (
+                f"{review['detail']};evidence={review['evidence_path']}"
+                f"#{review['evidence_token']}"
+            )
+            if review["decision"] == PROVED:
+                target = by_name.get(review["canonical_symbol"])
+                if target is None:
+                    fail(
+                        f"reviewed canonical symbol is not global text for {alias}: "
+                        f"{review['canonical_symbol']}"
+                    )
+        elif exact is not None:
             target = exact
             evidence = "progress-name-global-text"
         elif len(suffix_candidates) == 1:
@@ -190,6 +312,11 @@ def derive_rows(
         elif len(suffix_candidates) > 1:
             evidence = "ambiguous-address-suffix-global-text"
             detail = ";".join(sorted(row["symbol"] for row in suffix_candidates))
+        elif len(normalized) == 1:
+            target, evidence = normalized[0]
+        elif len(normalized) > 1:
+            evidence = "ambiguous-progress-name-normalization-global-text"
+            detail = ";".join(target["symbol"] for target, _evidence in normalized)
         elif progress is not None:
             evidence = "progress-target-not-exported"
             detail = f"expected={progress['name']}"
@@ -234,7 +361,8 @@ def expected_manifest(args: argparse.Namespace) -> tuple[list[dict[str, str]], s
     external_rows = read_table(args.external_map, EXTERNAL_FIELDS, delimiter="\t")
     defined_rows = read_table(args.defined_map, DEFINED_FIELDS, delimiter="\t")
     progress_rows = read_table(args.progress_manifest, PROGRESS_FIELDS, delimiter=",")
-    rows = derive_rows(external_rows, defined_rows, progress_rows)
+    review_rows = read_reviews(args.reviews)
+    rows = derive_rows(external_rows, defined_rows, progress_rows, review_rows)
     return rows, render_tsv(rows)
 
 
@@ -455,7 +583,7 @@ def link_aliases(args: argparse.Namespace, rows: Sequence[dict[str, str]]) -> di
 
     summary = summarize(rows)
     report: dict[str, object] = {
-        "schema": 1,
+        "schema": 2,
         "claim": "source-address-alias-resolution",
         **summary,
         "input_external_symbols": input_external_count,
@@ -466,6 +594,7 @@ def link_aliases(args: argparse.Namespace, rows: Sequence[dict[str, str]]) -> di
         "input_sha256": sha256_file(args.input),
         "output_sha256": sha256_file(args.output),
         "manifest_sha256": sha256_file(args.manifest),
+        "review_manifest_sha256": sha256_file(args.reviews),
         "allocated_sections": input_sections,
     }
     args.report.parent.mkdir(parents=True, exist_ok=True)
@@ -492,6 +621,7 @@ def add_manifest_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--defined-map", type=Path, default=DEFAULT_DEFINED)
     parser.add_argument("--progress-manifest", type=Path, default=DEFAULT_PROGRESS)
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
+    parser.add_argument("--reviews", type=Path, default=DEFAULT_REVIEWS)
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -510,7 +640,13 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     link_parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     link_parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     args = parser.parse_args(argv)
-    for name in ("external_map", "defined_map", "progress_manifest", "manifest"):
+    for name in (
+        "external_map",
+        "defined_map",
+        "progress_manifest",
+        "manifest",
+        "reviews",
+    ):
         value = getattr(args, name)
         if not value.is_absolute():
             setattr(args, name, (ROOT / value).resolve())

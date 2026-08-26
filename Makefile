@@ -56,6 +56,7 @@ SOURCE_TREE_ABI_CONTRACT := analysis/source_tree/ee_abi_contract.c
 SOURCE_TREE_SPECIAL_MAP := analysis/source_tree/special_ownership.tsv
 SOURCE_TREE_FINGERPRINTS := analysis/source_tree/object_fingerprints.tsv
 SOURCE_ALIAS_MANIFEST := analysis/link_identity/source_address_aliases.tsv
+SOURCE_ALIAS_REVIEWS := analysis/link_identity/source_alias_reviews.tsv
 SOURCE_ALIAS_BUILD_DIR := $(BUILD_DIR)/source-aliases
 SOURCE_ALIAS_INPUT := $(SOURCE_TREE_BUILD_DIR)/source-tree.partial.o
 SOURCE_ALIAS_OUTPUT := $(SOURCE_ALIAS_BUILD_DIR)/source-tree.alias-resolved.partial.o
@@ -464,6 +465,7 @@ source-aliases-check: source-tree-check
 		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
 		--progress-manifest "analysis/progress_targets.csv" \
 		--manifest "$(SOURCE_ALIAS_MANIFEST)" \
+		--reviews "$(SOURCE_ALIAS_REVIEWS)" \
 		--input "$(SOURCE_ALIAS_INPUT)" \
 		--output "$(SOURCE_ALIAS_OUTPUT)" \
 		--report "$(SOURCE_ALIAS_REPORT)"
@@ -475,14 +477,16 @@ source-aliases-refresh:
 		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
 		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
 		--progress-manifest "analysis/progress_targets.csv" \
-		--manifest "$(SOURCE_ALIAS_MANIFEST)"
+		--manifest "$(SOURCE_ALIAS_MANIFEST)" \
+		--reviews "$(SOURCE_ALIAS_REVIEWS)"
 
 source-aliases-public-check:
 	$(PYTHON) tools/source_aliases.py validate \
 		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
 		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
 		--progress-manifest "analysis/progress_targets.csv" \
-		--manifest "$(SOURCE_ALIAS_MANIFEST)"
+		--manifest "$(SOURCE_ALIAS_MANIFEST)" \
+		--reviews "$(SOURCE_ALIAS_REVIEWS)"
 
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \

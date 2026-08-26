@@ -19,7 +19,10 @@ void snes___register_frame_info_table(const uint8_t*b,SnesFdeObject*ob){snes___r
 static SnesFdeObject*remove_list(SnesFdeObject**h,const uint8_t*b){SnesFdeObject**l=h;while(*l){SnesFdeObject*ob=*l;if(ob->fde_begin==b){*l=ob->next;ob->next=NULL;return ob;}l=&ob->next;}return NULL;}
 SnesFdeObject*snes___deregister_frame_info_bases(const uint8_t*b){uint32_t first;SnesFdeObject*ob;memcpy(&first,b,4);if(!first)return NULL;ob=remove_list(&snes_fde_objects,b);if(!ob)ob=remove_list(&snes_fde_seen_objects,b);return ob;}
 SnesFdeObject*snes___deregister_frame_info(const uint8_t*b){return snes___deregister_frame_info_bases(b);}
+/* 0x001a61c0 -- recovered FDE object base helper. */
 uint32_t snes_fde_base_from_object(uint8_t e,const SnesFdeObject*ob){if(e==PE_omit)return 0;switch(e&0x70u){case PE_absptr:case PE_pcrel:case PE_aligned:return 0;case PE_textrel:return ob->tbase;case PE_datarel:return ob->dbase;default:abort();}}
+
+/* 0x001a6240 -- recovered CIE encoding helper. */
 int snes_fde_get_cie_encoding(const uint8_t*cie){const uint8_t*p=cie+8;const char*aug;uint64_t u;int64_t s;if(*p++!=1)return 0;aug=(const char*)p;while(*p++!=0){}p=snes_fde_read_uleb128(p,&u);p=snes_fde_read_sleb128(p,&s);(void)u;(void)s;++p;if(aug[0]!='z')return PE_absptr;p=snes_fde_read_uleb128(p,&u);++aug;while(*aug){switch(*aug++){case'L':++p;break;case'P':{uint8_t e=*p++;uint64_t x;p=snes_fde_read_encoded_value_with_base(e,0,p,&x,NULL,NULL);break;}case'R':return *p;default:return PE_absptr;}}return PE_absptr;}
 
 /*

@@ -112,6 +112,7 @@ archives, reproduce relocations/sections, or match either frozen executable
 hash. Those are the Stage-3 and Stage-4 identity gates.
 
 The downstream
-[`V83_SOURCE_ADDRESS_ALIASES.md`](V83_SOURCE_ADDRESS_ALIASES.md) checkpoint
-resolves 257 of this frozen aggregate's 337 source-address aliases without
-changing the Stage-2 manifests or any allocated section bytes.
+[`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md) checkpoint
+resolves 323 of this aggregate's 337 source-address aliases without changing
+any allocated section bytes. Two address-trace ownership rows are corrected;
+the compiled object fingerprints remain unchanged.
