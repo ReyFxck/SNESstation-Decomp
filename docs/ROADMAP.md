@@ -66,9 +66,12 @@ Exact program-data bytes/placement and final object order remain Stage 3.
   global text symbols without changing allocated sections.
 - [x] Prove 66 additional owner-checked/reviewed aliases, reaching 323/337
   aliases against 307 canonical global text symbols.
-- [ ] Resolve the remaining 14 address aliases: seven historical archive
-  entries, one non-equivalent source boundary and six addresses outside the
-  target manifest.
+- [x] Classify all 1,598 externals remaining after V84 and apply 1,274
+  target-address data anchors plus 63 uniquely proved semantic text aliases
+  without emitting code/data or changing allocated sections.
+- [ ] Close the exact 261-provider frontier: 197 named link contracts, 35
+  named program-data stores, 14 V84 address-alias blockers, 10 private-asset
+  providers and five historical archive members.
 - [ ] Identify exact old runtime/library revisions and archive members.
 - [ ] Recover the application linker script and section alignment.
 - [ ] Recover object order and library order.

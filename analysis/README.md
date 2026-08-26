@@ -10,7 +10,7 @@ The most important files are:
 | `source_promotions.csv` | Typed-source overrides for historical pseudocode |
 | `source_readiness.csv` | Generated source-form and matching audit |
 | `source_tree/` | Stage-2 EE ABI, TU and defined/external ownership manifests |
-| `link_identity/` | Stage-3 unpacked-layout oracle, source-address aliases and link evidence without private bytes |
+| `link_identity/` | Stage-3 unpacked-layout oracle, source-address aliases, zero-byte link-contract frontier and link evidence without private bytes |
 | `progress16_recovered_targets.csv` | Frozen Progress-16 structural universe |
 | `progress17_recovered_targets.csv` | Frozen Progress-17 structural universe |
 | `progress17_rejected_jal_candidates.csv` | Rejected data words from the raw JAL scan |
@@ -19,7 +19,7 @@ Subdirectories:
 
 - `functions/` — committed assembly and structural snapshots anchored by address.
 - `matching/` — immutable strict comparison evidence and small gate manifests.
-- `link_identity/` — hash-only unpacked layout, zero-byte alias decisions and later whole-program link evidence.
+- `link_identity/` — hash-only unpacked layout, zero-byte alias/anchor decisions and the explicit whole-program provider frontier.
 - `archive/` — historical validation logs and exploratory sweeps no longer used
   as live inputs.
 

@@ -1,0 +1,5 @@
+symbol	canonical_symbol	target_address	evidence_path	evidence_token	detail
+FlushCache_0019ceb0	FlushCache	0x0019ceb0	analysis/progress_targets.csv	Leaf syscall wrapper	the address-qualified call contract is the recovered target FlushCache entry
+SifWriteBackDCache_0019cf10	SifWriteBackDCache	0x0019cf10	analysis/progress_targets.csv	64-byte cache-line writeback	the address-qualified call contract is the recovered target cache writeback entry
+fioSeek_like_0019d360	fioLseek_0019d360	0x0019d360	analysis/progress_targets.csv	Old fileIO RPC fno 4	the source-model seek spelling maps to the target's old fioLseek RPC entry
+puts	puts_like_recovered	0x0019e414	analysis/progress_targets.csv	not standard puts	the target's puts call contract intentionally writes without appending a newline

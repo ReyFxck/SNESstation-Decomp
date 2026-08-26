@@ -29,6 +29,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
 - **Build-ready EE source ownership:** **97/97 TUs** (96 canonical + 1 alternate)
 - **Source-address aliases:** **323/337 proved**, **14 blocked**
+- **Zero-byte link contracts:** **1,337/1,598 resolved**, **261 blocked** (1,274 address anchors + 63 semantic aliases)
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -82,6 +83,7 @@ make check
 make checkpoint-1041-check
 make source-tree
 make source-aliases
+make link-contracts
 make layout-oracle
 ```
 
@@ -115,6 +117,12 @@ fifty-one 64 KiB hash windows. See
 tranche: 323/337 alternate target-address names bind to 307 canonical global
 text symbols without changing allocated section bytes. See
 [`docs/status/V84_REVIEWED_SOURCE_ALIASES.md`](docs/status/V84_REVIEWED_SOURCE_ALIASES.md).
+
+`make link-contracts` applies the next zero-byte Stage-3 gate to the complete
+V84 aggregate: 1,274 target-address anchors and 63 semantic text aliases
+resolve 1,337/1,598 contracts and reduce the real provider frontier to 261,
+again without changing an allocated section. See
+[`docs/status/V85_ZERO_BYTE_LINK_FRONTIER.md`](docs/status/V85_ZERO_BYTE_LINK_FRONTIER.md).
 
 ## Target fingerprint
 

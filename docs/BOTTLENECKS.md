@@ -48,6 +48,31 @@ entries, one source helper that is not equivalent to the complete historical
 function and six addresses outside the audited target manifest. Those need
 archive/boundary proof, not raw-address definitions.
 
+## Zero-byte link contracts — full frontier frozen
+
+V85 classifies every one of the 1,598 externals in the V84 aggregate. It
+assigns 1,274 address-qualified program-data names their frozen absolute value
+and binds 63 uniquely identified call contracts to existing recovered global
+text. The partial link therefore reaches **1,598 -> 261 unresolved externals**
+while every allocated section fingerprint remains identical. See
+[`status/V85_ZERO_BYTE_LINK_FRONTIER.md`](status/V85_ZERO_BYTE_LINK_FRONTIER.md).
+
+An absolute anchor is not storage: V85 does not invent the symbol's size,
+section, alignment or bytes. The remaining provider frontier is exact:
+
+| Provider class | Rows |
+|---|---:|
+| Named link contracts | **197** |
+| Named program-data storage | **35** |
+| V84 source-address blockers | **14** |
+| Private assets | **10** |
+| Historical archive members | **5** |
+| **Total** | **261** |
+
+This is now the active Stage-3B frontier. Archive members and real program
+data must be added with byte-producing evidence; `--defsym` cannot close
+those contracts honestly.
+
 ## Whole-program identity
 
 Even after every function is `MATCHING`, an identical ELF still requires:

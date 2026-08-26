@@ -113,6 +113,9 @@ hash. Those are the Stage-3 and Stage-4 identity gates.
 
 The downstream
 [`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md) checkpoint
-resolves 323 of this aggregate's 337 source-address aliases without changing
-any allocated section bytes. Two address-trace ownership rows are corrected;
-the compiled object fingerprints remain unchanged.
+resolves 323 of this aggregate's 337 source-address aliases. V85 then
+classifies all 1,598 remaining contracts and resolves 1,337 of them through
+1,274 absolute address anchors and 63 semantic aliases. Both partial-link
+gates leave every allocated section unchanged; the 261-name provider frontier
+is documented in
+[`V85_ZERO_BYTE_LINK_FRONTIER.md`](V85_ZERO_BYTE_LINK_FRONTIER.md).

@@ -10,6 +10,11 @@ This directory contains public, byte-free evidence for the Stage-3 link gate.
 - `source_alias_reviews.tsv` freezes three semantic identity proofs and eight
   deliberately blocked boundary/archive decisions, each with a checked public
   evidence path and token.
+- `link_contracts.tsv` classifies every one of the 1,598 externals in the V84
+  aggregate: 1,274 absolute target-address anchors, 63 semantic text aliases
+  and 261 explicit provider blockers.
+- `link_contract_reviews.tsv` freezes four non-mechanical semantic spellings
+  with checked public evidence paths and tokens.
 
 The manifest deliberately contains no original executable bytes, extracted
 assets, local paths or encoded binary payloads. Regenerate it only from a
@@ -27,3 +32,9 @@ Use `make source-aliases-public-check` for the compiler-free manifest gate and
 `alias=canonical_symbol` relationships. The latter writes ignored artifacts
 under `build/source-aliases/` and verifies that allocated sections are
 unchanged.
+
+Use `make link-contracts-public-check` to verify the complete public V85
+frontier without a target compiler. `make link-contracts` rebuilds the V84
+aggregate, applies the 1,337 proved `--defsym` contracts and writes ignored
+reports under `build/link-contracts/`. Absolute address anchors assign values
+only: they do not create storage or reproduce target bytes.

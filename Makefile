@@ -61,6 +61,12 @@ SOURCE_ALIAS_BUILD_DIR := $(BUILD_DIR)/source-aliases
 SOURCE_ALIAS_INPUT := $(SOURCE_TREE_BUILD_DIR)/source-tree.partial.o
 SOURCE_ALIAS_OUTPUT := $(SOURCE_ALIAS_BUILD_DIR)/source-tree.alias-resolved.partial.o
 SOURCE_ALIAS_REPORT := $(SOURCE_ALIAS_BUILD_DIR)/report.json
+LINK_CONTRACT_MANIFEST := analysis/link_identity/link_contracts.tsv
+LINK_CONTRACT_REVIEWS := analysis/link_identity/link_contract_reviews.tsv
+LINK_CONTRACT_BUILD_DIR := $(BUILD_DIR)/link-contracts
+LINK_CONTRACT_INPUT := $(SOURCE_ALIAS_OUTPUT)
+LINK_CONTRACT_OUTPUT := $(LINK_CONTRACT_BUILD_DIR)/source-tree.link-contracts.partial.o
+LINK_CONTRACT_REPORT := $(LINK_CONTRACT_BUILD_DIR)/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -112,6 +118,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
 	source-tree source-tree-check source-tree-refresh \
 	source-aliases source-aliases-check source-aliases-refresh source-aliases-public-check \
+	link-contracts link-contracts-check link-contracts-refresh link-contracts-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -144,6 +151,7 @@ help:
 	@echo "  make source-tree     build toolchain and verify the frozen Stage-2 object set"
 	@echo "  make source-tree-check  verify Stage 2 with an available EE compiler"
 	@echo "  make source-aliases  prove and apply zero-byte Stage-3 address aliases"
+	@echo "  make link-contracts  apply the zero-byte Stage-3 link-contract frontier"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -237,7 +245,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -488,6 +496,45 @@ source-aliases-public-check:
 		--manifest "$(SOURCE_ALIAS_MANIFEST)" \
 		--reviews "$(SOURCE_ALIAS_REVIEWS)"
 
+link-contracts: bootstrap-ee-stage1
+	$(MAKE) link-contracts-check EE_CC="$(EE_STAGE1_CC)"
+
+link-contracts-check: source-aliases-check
+	$(PYTHON) tools/link_contracts.py link \
+		--compiler "$(EE_CC)" \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--progress-manifest "analysis/progress_targets.csv" \
+		--source-alias-manifest "$(SOURCE_ALIAS_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--manifest "$(LINK_CONTRACT_MANIFEST)" \
+		--reviews "$(LINK_CONTRACT_REVIEWS)" \
+		--input "$(LINK_CONTRACT_INPUT)" \
+		--output "$(LINK_CONTRACT_OUTPUT)" \
+		--report "$(LINK_CONTRACT_REPORT)"
+
+# Refreshing the frontier is a reviewed link-identity decision and therefore
+# stays separate from normal repository and historical-compiler checks.
+link-contracts-refresh:
+	$(PYTHON) tools/link_contracts.py refresh \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--progress-manifest "analysis/progress_targets.csv" \
+		--source-alias-manifest "$(SOURCE_ALIAS_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--manifest "$(LINK_CONTRACT_MANIFEST)" \
+		--reviews "$(LINK_CONTRACT_REVIEWS)"
+
+link-contracts-public-check:
+	$(PYTHON) tools/link_contracts.py validate \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--progress-manifest "analysis/progress_targets.csv" \
+		--source-alias-manifest "$(SOURCE_ALIAS_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--manifest "$(LINK_CONTRACT_MANIFEST)" \
+		--reviews "$(LINK_CONTRACT_REVIEWS)"
+
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \
 		--compiler "$(EE_CC)" \
@@ -730,6 +777,8 @@ elf-status: audit-source-check
 	@echo "Function-code gate: CLOSED (1041/1041 strict matches)"
 	@echo "Build-ready source ownership: CLOSED (97/97 TUs; 96 canonical objects)"
 	@echo "Unpacked layout oracle: CLOSED (1 section; 13 blocks; 51 hash windows)"
+	@echo "Zero-byte link contracts: 1337/1598 resolved (1274 anchors; 63 aliases)"
+	@echo "Provider frontier: 261 unresolved externals"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
 	@echo "  - reproduce data layout, relocations and section alignment"
 	@echo "  - prove exact EE archives, linker script, object order and library order"

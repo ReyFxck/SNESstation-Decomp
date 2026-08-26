@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
 SOURCE_READINESS = ROOT / "analysis" / "source_readiness.csv"
 SOURCE_ALIASES = ROOT / "analysis" / "link_identity" / "source_address_aliases.tsv"
+LINK_CONTRACTS = ROOT / "analysis" / "link_identity" / "link_contracts.tsv"
 OUT = ROOT / "docs" / "PROGRESS.generated.md"
 SVG_OUT = ROOT / "assets" / "progress.svg"
 STATUS_OUT = ROOT / "docs" / "status" / "PROJECT_STATUS.generated.md"
@@ -213,6 +214,26 @@ def main() -> None:
     alias_blocked = sum(row["status"] == "BLOCKED" for row in alias_rows)
     if not alias_rows or alias_proved + alias_blocked != len(alias_rows):
         raise SystemExit("invalid source-address alias status manifest")
+    alias_targets = len(
+        set(row["canonical_symbol"] for row in alias_rows if row["status"] == "PROVED")
+    )
+    contract_rows = list(
+        csv.DictReader(LINK_CONTRACTS.open(encoding="utf-8"), delimiter="\t")
+    )
+    contract_resolved = sum(row["status"] == "RESOLVED" for row in contract_rows)
+    contract_blocked = sum(row["status"] == "BLOCKED" for row in contract_rows)
+    contract_anchors = sum(
+        row["resolution_kind"] == "absolute-address-anchor" for row in contract_rows
+    )
+    contract_aliases = sum(
+        row["resolution_kind"] == "semantic-text-alias" for row in contract_rows
+    )
+    if (
+        not contract_rows
+        or contract_resolved + contract_blocked != len(contract_rows)
+        or contract_anchors + contract_aliases != contract_resolved
+    ):
+        raise SystemExit("invalid zero-byte link-contract manifest")
 
     draw = [
         r for r in rows
@@ -295,6 +316,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Working frontier | **{project_status.working_remaining:,}** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Build-ready EE source ownership | **97/97 TUs** | 96 canonical objects partially link with a frozen ABI/symbol map and no duplicate/common definitions. |
 | Source-address alias tranche | **{alias_proved}/{len(alias_rows)} proved** | Zero-byte linker aliases bind proven alternate names to canonical global text symbols; {alias_blocked} remain blocked. |
+| Zero-byte link-contract frontier | **{contract_resolved:,}/{len(contract_rows):,} resolved** | {contract_anchors:,} absolute target-address anchors plus {contract_aliases} semantic text aliases leave {contract_blocked:,} provider contracts explicit. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -311,11 +333,16 @@ V82 then freezes the first whole-program measurement gate without publishing
 the private image: one SJCRUNCH2 section, thirteen blocks and fifty-one hash
 windows. V83 freezes the first 257 source-address aliases; V84 extends the
 cumulative proof to {alias_proved} of {len(alias_rows)} aliases against
-{len(set(row['canonical_symbol'] for row in alias_rows if row['status'] == 'PROVED'))}
-canonical global text symbols and applies them without changing any allocated
-section bytes; {alias_blocked} boundary/archive rows remain explicit blockers.
-The current batch is documented in
-[`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md); the layout
+{alias_targets} canonical global text symbols and applies them without changing
+any allocated section bytes; {alias_blocked} boundary/archive rows remain
+explicit blockers.
+V85 then classifies the full 1,598-name V84 aggregate and resolves
+{contract_resolved:,} contracts without allocating a byte: {contract_anchors:,}
+target-address data anchors and {contract_aliases} semantic aliases. The
+remaining {contract_blocked:,} names are the explicit provider frontier. The
+current batch is documented in
+[`V85_ZERO_BYTE_LINK_FRONTIER.md`](V85_ZERO_BYTE_LINK_FRONTIER.md); V84 remains
+documented in [`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md); the layout
 oracle remains frozen in
 [`V82_UNPACKED_LAYOUT_ORACLE.md`](V82_UNPACKED_LAYOUT_ORACLE.md), and the function
 closure remains frozen in
@@ -326,10 +353,11 @@ closure remains frozen in
 1. **Function gate closed:** all 1,041 audited rows have exact, reproducible evidence.
 2. **Source/object gate closed:** 97/97 TUs compile; 96 canonical objects have frozen ownership.
 3. **Unpacked oracle closed:** section/block geometry and 64 KiB hashes are frozen.
-4. **Address-alias tranche:** {alias_proved}/{len(alias_rows)} are proved and zero-byte bound; resolve the remaining {alias_blocked}.
-5. Reproduce data/rodata/bss layout, relocations and section alignment.
-6. Recover the historical archives, linker script, object order and library order.
-7. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+4. **Address-alias tranche frozen:** {alias_proved}/{len(alias_rows)} are proved and zero-byte bound; the remaining {alias_blocked} are carried into the V85 provider frontier.
+5. **Zero-byte link-contract tranche:** {contract_resolved:,}/{len(contract_rows):,} are resolved; close the {contract_blocked:,}-name provider frontier with real storage/archive evidence.
+6. Reproduce data/rodata/bss layout, relocations and section alignment.
+7. Recover the historical archives, linker script, object order and library order.
+8. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first
@@ -358,6 +386,7 @@ unproven final-ELF stage.
 - **Source-form checkpoint:** **{source_model_count:,} behavioral/source-model + {pseudocode_only_count:,} structural-pseudocode-only**
 - **Build-ready EE source ownership:** **97/97 TUs** (96 canonical + 1 alternate)
 - **Source-address aliases:** **{alias_proved}/{len(alias_rows)} proved**, **{alias_blocked} blocked**
+- **Zero-byte link contracts:** **{contract_resolved:,}/{len(contract_rows):,} resolved**, **{contract_blocked:,} blocked** ({contract_anchors:,} address anchors + {contract_aliases} semantic aliases)
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**
