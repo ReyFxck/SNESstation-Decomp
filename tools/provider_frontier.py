@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-Stage-3E-refactor 227-name source-link provider frontier.
+"""Close the post-libgcc-refactor 224-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -8,8 +8,8 @@ It combines four audited mechanisms:
 * target addresses already encoded in low-level lifted names;
 * reviewed aliases to recovered global text definitions;
 * typed compatibility storage for source-model globals; and
-* deterministic EE shims for the four still-unproved historical runtime
-  contracts.
+* one deterministic EE shim for the still-unproved historical `snprintf`
+  contract.
 
 The shims and compatibility storage are generated below ignored ``build/``.
 They close the source-link namespace, but they do not claim original data
@@ -187,9 +187,6 @@ STORAGE_SIZES = {
 }
 
 RUNTIME_SHIMS = {
-    "__ashlti3",
-    "__fixunssfdi",
-    "__lshrti3",
     "snprintf",
 }
 
@@ -267,8 +264,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 227:
-        fail(f"expected exact post-Stage-3E-refactor frontier of 227 symbols, found {len(active)}")
+    if len(active) != 224:
+        fail(f"expected exact post-libgcc-refactor frontier of 224 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -348,7 +345,7 @@ def derive_rows(
         ABSOLUTE_ANCHOR: 175,
         SEMANTIC_ALIAS: 9,
         COMPAT_STORAGE: 39,
-        RUNTIME_SHIM: 4,
+        RUNTIME_SHIM: 1,
     }
     if dict(counts) != expected:
         fail(f"provider classification count drift: {dict(counts)} != {expected}")
@@ -418,57 +415,8 @@ def render_runtime_c() -> str:
 #include <stdarg.h>
 typedef __SIZE_TYPE__ p_size_t;
 typedef va_list p_va_list;
-typedef unsigned int p_u32;
-typedef unsigned long long p_u64;
-typedef __uint128_t p_u128;
-
-typedef union p_u128_words {
-    p_u128 whole;
-    struct { p_u64 lo, hi; } part;
-} p_u128_words;
 
 extern int ps2lib_vsnprintf_recovered(char *, p_size_t, const char *, p_va_list);
-
-p_u128 __ashlti3(p_u128 value, int shift)
-{
-    p_u128_words in, out;
-    unsigned count = (unsigned)shift;
-    in.whole = value;
-    if (count == 0) return value;
-    if (count >= 128) { out.part.lo = 0; out.part.hi = 0; }
-    else if (count >= 64) { out.part.lo = 0; out.part.hi = in.part.lo << (count - 64); }
-    else { out.part.lo = in.part.lo << count; out.part.hi = (in.part.hi << count) | (in.part.lo >> (64 - count)); }
-    return out.whole;
-}
-
-p_u128 __lshrti3(p_u128 value, int shift)
-{
-    p_u128_words in, out;
-    unsigned count = (unsigned)shift;
-    in.whole = value;
-    if (count == 0) return value;
-    if (count >= 128) { out.part.lo = 0; out.part.hi = 0; }
-    else if (count >= 64) { out.part.lo = in.part.hi >> (count - 64); out.part.hi = 0; }
-    else { out.part.lo = (in.part.lo >> count) | (in.part.hi << (64 - count)); out.part.hi = in.part.hi >> count; }
-    return out.whole;
-}
-
-p_u64 __fixunssfdi(float value)
-{
-    union { float f; p_u32 u; } bits;
-    p_u32 exponent, mantissa;
-    int shift;
-    bits.f = value;
-    if ((bits.u & 0x80000000u) != 0) return 0;
-    exponent = (bits.u >> 23) & 0xffu;
-    if (exponent < 127u) return 0;
-    if (exponent == 0xffu) return ~(p_u64)0;
-    mantissa = (bits.u & 0x7fffffu) | 0x800000u;
-    shift = (int)exponent - 127 - 23;
-    if (shift >= 64) return ~(p_u64)0;
-    if (shift >= 0) return (p_u64)mantissa << (unsigned)shift;
-    return (p_u64)mantissa >> (unsigned)(-shift);
-}
 
 int snprintf(char *dst, p_size_t size, const char *format, ...)
 {

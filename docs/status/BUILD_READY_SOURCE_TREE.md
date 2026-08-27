@@ -115,9 +115,10 @@ The downstream
 [`V84_REVIEWED_SOURCE_ALIASES.md`](V84_REVIEWED_SOURCE_ALIASES.md) checkpoint
 resolves 323 of this aggregate's 337 source-address aliases. After V89 removes
 four source-only Stage-3C adapters and V90 removes 20 source-only Stage-3E
-contracts plus the duplicate `errno` external, the source tree contains 1,896
-externals and the alias-resolved map contains 1,573 contracts. It resolves
+contracts plus the duplicate `errno` external. V91 removes three compiler-libcall
+artifacts introduced by the structural lift, so the source tree contains 1,893
+externals and the alias-resolved map contains 1,570 contracts. It resolves
 1,336 of them through 1,273 absolute address anchors and 63 semantic aliases.
 Both partial-link gates leave every allocated section unchanged; the current
 correction is documented in
-[`V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md).
+[`V91_STAGE3D_LIBGCC_CLOSED.md`](V91_STAGE3D_LIBGCC_CLOSED.md).

@@ -60,6 +60,38 @@ typedef __uint128_t undefined16;
 #error "Progress-28 low-level lift requires unsigned __int128 support for R5900-wide temporaries"
 #endif
 
+typedef union p28_u128_bytes {
+    p28_u128 whole;
+    unsigned char byte[16];
+} p28_u128_bytes;
+
+static uint64_t p28_float_to_u64(float value)
+{
+    union {
+        float value;
+        uint32_t bits;
+    } input;
+    uint32_t exponent;
+    uint32_t mantissa;
+    int shift;
+
+    input.value = value;
+    if ((input.bits & UINT32_C(0x80000000)) != 0)
+        return 0;
+    exponent = (input.bits >> 23) & UINT32_C(0xff);
+    if (exponent < 127u)
+        return 0;
+    if (exponent == 0xffu)
+        return (input.bits & UINT32_C(0x7fffff)) == 0 ? UINT64_MAX : 0;
+    mantissa = (input.bits & UINT32_C(0x7fffff)) | UINT32_C(0x800000);
+    shift = (int)exponent - 127 - 23;
+    if (shift >= 64)
+        return UINT64_MAX;
+    if (shift >= 0)
+        return (uint64_t)mantissa << (unsigned)shift;
+    return (uint64_t)mantissa >> (unsigned)(-shift);
+}
+
 typedef uint8_t byte;
 typedef int8_t sbyte;
 typedef uint8_t uchar;
@@ -85,60 +117,94 @@ typedef uint64_t code();
 
 static p28_u128 p28_mask_bytes(unsigned bytes)
 {
-    if (bytes >= 16u)
-        return ~(p28_u128)0;
-    if (bytes == 0u)
-        return (p28_u128)0;
-    return (((p28_u128)1u << (bytes * 8u)) - (p28_u128)1u);
+    p28_u128_bytes result;
+    unsigned i;
+
+    if (bytes > 16u)
+        bytes = 16u;
+    for (i = 0; i < 16u; ++i)
+        result.byte[i] = i < bytes ? 0xffu : 0u;
+    return result.whole;
 }
 
 static p28_u128 p28_concat(p28_u128 hi, p28_u128 lo, unsigned lo_bytes)
 {
-    return (hi << (lo_bytes * 8u)) | (lo & p28_mask_bytes(lo_bytes));
+    p28_u128_bytes high;
+    p28_u128_bytes low;
+    p28_u128_bytes result;
+    unsigned i;
+
+    high.whole = hi;
+    low.whole = lo;
+    if (lo_bytes > 16u)
+        lo_bytes = 16u;
+    for (i = 0; i < 16u; ++i) {
+        if (i < lo_bytes)
+            result.byte[i] = low.byte[i];
+        else
+            result.byte[i] = high.byte[i - lo_bytes];
+    }
+    return result.whole;
 }
 
 static p28_u128 p28_subpiece(p28_u128 value, unsigned byte_offset, unsigned out_bytes)
 {
-    return (value >> (byte_offset * 8u)) & p28_mask_bytes(out_bytes);
+    p28_u128_bytes input;
+    p28_u128_bytes result;
+    unsigned i;
+
+    input.whole = value;
+    if (out_bytes > 16u)
+        out_bytes = 16u;
+    for (i = 0; i < 16u; ++i) {
+        if (i < out_bytes && byte_offset < 16u && i < 16u - byte_offset)
+            result.byte[i] = input.byte[byte_offset + i];
+        else
+            result.byte[i] = 0u;
+    }
+    return result.whole;
 }
 
 static p28_u128 p28_sign_extend(p28_u128 value, unsigned in_bytes)
 {
-    const unsigned bits = in_bytes * 8u;
-    p28_u128 mask;
-    p28_u128 sign;
+    p28_u128_bytes result;
+    unsigned char fill;
+    unsigned i;
 
-    if (bits == 0u || bits >= 128u)
+    if (in_bytes == 0u || in_bytes >= 16u)
         return value;
 
-    mask = (((p28_u128)1u << bits) - (p28_u128)1u);
-    sign = (p28_u128)1u << (bits - 1u);
-    value &= mask;
-    return (value ^ sign) - sign;
+    result.whole = value;
+    fill = (result.byte[in_bytes - 1u] & 0x80u) != 0u ? 0xffu : 0u;
+    for (i = in_bytes; i < 16u; ++i)
+        result.byte[i] = fill;
+    return result.whole;
 }
 
 static p28_u128 p28_load_blob(const void *src, size_t bytes)
 {
     const unsigned char *in = (const unsigned char *)src;
-    p28_u128 value = 0;
+    p28_u128_bytes value;
     size_t i;
 
     if (bytes > 16u)
         bytes = 16u;
-    for (i = 0; i < bytes; ++i)
-        value |= (p28_u128)in[i] << (i * 8u);
-    return value;
+    for (i = 0; i < 16u; ++i)
+        value.byte[i] = i < bytes ? in[i] : 0u;
+    return value.whole;
 }
 
 static void p28_store_blob(void *dst, p28_u128 value, size_t bytes)
 {
     unsigned char *out = (unsigned char *)dst;
+    p28_u128_bytes input;
     size_t i;
 
+    input.whole = value;
     if (bytes > 16u)
         bytes = 16u;
     for (i = 0; i < bytes; ++i)
-        out[i] = (unsigned char)(value >> (i * 8u));
+        out[i] = input.byte[i];
 }
 
 static void p28_copy_blob(void *dst, const void *src, size_t bytes)
@@ -158,7 +224,7 @@ static p28_u128 p28_read_piece(
     unsigned piece_bytes)
 {
     const unsigned char *in = (const unsigned char *)src;
-    p28_u128 value = 0;
+    p28_u128_bytes value;
     unsigned i;
 
     if (byte_offset >= object_bytes)
@@ -168,9 +234,9 @@ static p28_u128 p28_read_piece(
     if ((size_t)byte_offset + piece_bytes > object_bytes)
         piece_bytes = (unsigned)(object_bytes - byte_offset);
 
-    for (i = 0; i < piece_bytes; ++i)
-        value |= (p28_u128)in[byte_offset + i] << (i * 8u);
-    return value;
+    for (i = 0; i < 16u; ++i)
+        value.byte[i] = i < piece_bytes ? in[byte_offset + i] : 0u;
+    return value.whole;
 }
 
 static void p28_write_piece(
@@ -181,8 +247,10 @@ static void p28_write_piece(
     p28_u128 value)
 {
     unsigned char *out = (unsigned char *)dst;
+    p28_u128_bytes input;
     unsigned i;
 
+    input.whole = value;
     if (byte_offset >= object_bytes)
         return;
     if (piece_bytes > 16u)
@@ -191,7 +259,7 @@ static void p28_write_piece(
         piece_bytes = (unsigned)(object_bytes - byte_offset);
 
     for (i = 0; i < piece_bytes; ++i)
-        out[byte_offset + i] = (unsigned char)(value >> (i * 8u));
+        out[byte_offset + i] = input.byte[i];
 }
 
 /* Ghidra intrinsic lowerings used by this generated corridor. */
@@ -2873,7 +2941,7 @@ LAB_00102b90:
         fVar11 = (float)FUN_001a3cc0(uVar5);
       }
 LAB_00102fb0:
-      DAT_001bb2c8 = fVar11;
+      DAT_001bb2c8 = p28_float_to_u64(fVar11);
       if ((uVar7 & 0x10) != 0) {
         snes_p28_00103314();
       }
@@ -2895,17 +2963,17 @@ LAB_00102fb0:
         fVar11 = (float)(local_b9 - 0x80);
         if (32.0 < fVar11) {
           fVar11 = fVar11 - 32.0;
-          DAT_001bb2c8 = DAT_001bb2c8 + fVar11 / 96.0;
+          DAT_001bb2c8 = p28_float_to_u64(DAT_001bb2c8 + fVar11 / 96.0);
         }
         if (fVar11 < -32.0) {
-          DAT_001bb2c8 = DAT_001bb2c8 + (fVar11 + 32.0) / 96.0;
+          DAT_001bb2c8 = p28_float_to_u64(DAT_001bb2c8 + (fVar11 + 32.0) / 96.0);
         }
       }
       if (DAT_001bb2c8 < 1.0) {
         DAT_001bb2c8 = 1.0;
       }
       if (iVar1 < (int)DAT_001bb2c8) {
-        DAT_001bb2c8 = (float)iVar1;
+        DAT_001bb2c8 = p28_float_to_u64((float)iVar1);
       }
     }
     iVar8 = iVar9 / 2;
@@ -6840,7 +6908,7 @@ LAB_00115640:
                         uVar11 = (uint)puVar3 & 7;
                         *(ulong *)(puVar3 + -uVar11) =
                              *(ulong *)(puVar3 + -uVar11) & -1L << (uVar11 + 1) * 8 |
-                             CONCAT44(local_110[1],local_110[0]) >> (7 - uVar11) * 8;
+                             (uint64_t)CONCAT44(local_110[1],local_110[0]) >> (7 - uVar11) * 8;
                         p28_store_blob(local_e8, (p28_u128)((uint64_t)CONCAT44(local_110[1],local_110[0])), sizeof(local_e8));
                         uVar12 = 2;
                       }
@@ -6921,7 +6989,7 @@ LAB_00115640:
                     uVar11 = (uint)puVar3 & 7;
                     *(ulong *)(puVar3 + -uVar11) =
                          *(ulong *)(puVar3 + -uVar11) & -1L << (uVar11 + 1) * 8 |
-                         CONCAT44(local_130[1],local_130[0]) >> (7 - uVar11) * 8;
+                         (uint64_t)CONCAT44(local_130[1],local_130[0]) >> (7 - uVar11) * 8;
                     p28_store_blob(local_e8, (p28_u128)((uint64_t)CONCAT44(local_130[1],local_130[0])), sizeof(local_e8));
                     p28_write_piece(&local_e0, sizeof(local_e0), 0u, 8u, (p28_u128)(CONCAT44(local_110[3],local_110[2])));
                     puVar3 = local_e0 + 7;
@@ -6949,7 +7017,7 @@ LAB_00115640:
                       uVar11 = (uint)puVar3 & 7;
                       *(ulong *)(puVar3 + -uVar11) =
                            *(ulong *)(puVar3 + -uVar11) & -1L << (uVar11 + 1) * 8 |
-                           CONCAT44(local_110[1],local_110[0]) >> (7 - uVar11) * 8;
+                           (uint64_t)CONCAT44(local_110[1],local_110[0]) >> (7 - uVar11) * 8;
                       p28_store_blob(local_e8, (p28_u128)((uint64_t)CONCAT44(local_110[1],local_110[0])), sizeof(local_e8));
                       p28_write_piece(&local_e0, sizeof(local_e0), 0u, 8u, (p28_u128)(CONCAT44(local_130[3],local_130[2])));
                       puVar3 = local_e0 + 7;
@@ -8951,19 +9019,19 @@ void snes_p28_0012c558()
   uVar1 = DAT_003413aa;
   fVar8 = (float)(int)DAT_003413a8;
   fVar7 = (float)((int)(short)DAT_003413aa - (int)DAT_003413a8);
-  DAT_003413cc = (float)(&DAT_0033ee78)[DAT_003413ae >> 5] *
-                 (float)(&DAT_0033ee78)[DAT_003413ac >> 5];
-  DAT_003413d0 = (float)(&DAT_0033ee78)[DAT_003413ae >> 5] *
-                 (float)(&DAT_0033ce78)[DAT_003413ac >> 5];
-  DAT_003413d4 = -(float)(&DAT_0033ce78)[DAT_003413ae >> 5];
-  DAT_003413f4 = (float)(int)DAT_003413a2 + DAT_003413cc * fVar7;
-  DAT_003413f8 = (float)(int)DAT_003413a4 + DAT_003413d0 * fVar7;
-  DAT_003413fc = (float)(int)DAT_003413a6 + DAT_003413d4 * fVar7;
-  DAT_003413d8 = (float)(int)DAT_003413a2 - DAT_003413cc * fVar8;
-  DAT_003413dc = (float)(int)DAT_003413a4 - DAT_003413d0 * fVar8;
-  DAT_003413e0 = (float)(int)DAT_003413a6 - DAT_003413d4 * fVar8;
+  DAT_003413cc = p28_float_to_u64((float)(&DAT_0033ee78)[DAT_003413ae >> 5] *
+                                  (float)(&DAT_0033ee78)[DAT_003413ac >> 5]);
+  DAT_003413d0 = p28_float_to_u64((float)(&DAT_0033ee78)[DAT_003413ae >> 5] *
+                                  (float)(&DAT_0033ce78)[DAT_003413ac >> 5]);
+  DAT_003413d4 = p28_float_to_u64(-(float)(&DAT_0033ce78)[DAT_003413ae >> 5]);
+  DAT_003413f4 = p28_float_to_u64((float)(int)DAT_003413a2 + DAT_003413cc * fVar7);
+  DAT_003413f8 = p28_float_to_u64((float)(int)DAT_003413a4 + DAT_003413d0 * fVar7);
+  DAT_003413fc = p28_float_to_u64((float)(int)DAT_003413a6 + DAT_003413d4 * fVar7);
+  DAT_003413d8 = p28_float_to_u64((float)(int)DAT_003413a2 - DAT_003413cc * fVar8);
+  DAT_003413dc = p28_float_to_u64((float)(int)DAT_003413a4 - DAT_003413d0 * fVar8);
+  DAT_003413e0 = p28_float_to_u64((float)(int)DAT_003413a6 - DAT_003413d4 * fVar8);
   if (DAT_003413d4 == 0.0) {
-    DAT_003413d4 = DAT_003413d4 + 1.0;
+    DAT_003413d4 = p28_float_to_u64(DAT_003413d4 + 1.0);
   }
   DAT_003413f0 = DAT_003413e0 / -DAT_003413d4;
   _DAT_003413b0 = 0;
@@ -9004,7 +9072,7 @@ void snes_p28_0012c558()
   uVar5 = FUN_001a3680(uVar5,uVar3);
   uVar5 = FUN_001a3680(uVar5,0x3ef0000000000000);
   fVar7 = (float)FUN_001a3cc0(uVar5);
-  DAT_0034143c = fVar7;
+  DAT_0034143c = p28_float_to_u64(fVar7);
   uVar5 = FUN_001a3b30(DAT_003413ac);
   uVar3 = FUN_001a3680(uVar5,uVar3);
   uVar3 = FUN_001a3680(uVar3,0x3ef0000000000000);
@@ -9021,21 +9089,21 @@ void snes_p28_0012c558()
     DAT_0034143c = -0.15;
   }
   fVar7 = (float)FUN_001a0254(DAT_0034143c);
-  DAT_0034145c = 1.0 / fVar7;
-  DAT_00341444 = (float)(int)DAT_003413a2;
-  DAT_00341448 = (float)(int)DAT_003413a4;
-  DAT_0034144c = (float)(int)DAT_003413a6;
+  DAT_0034145c = p28_float_to_u64(1.0 / fVar7);
+  DAT_00341444 = p28_float_to_u64((float)(int)DAT_003413a2);
+  DAT_00341448 = p28_float_to_u64((float)(int)DAT_003413a4);
+  DAT_0034144c = p28_float_to_u64((float)(int)DAT_003413a6);
   fVar7 = (float)FUN_001a0024(DAT_00341440);
-  DAT_00341450 = -fVar7 * DAT_0034144c * DAT_0034145c + DAT_00341444;
+  DAT_00341450 = p28_float_to_u64(-fVar7 * DAT_0034144c * DAT_0034145c + DAT_00341444);
   fVar7 = (float)FUN_0019fddc(DAT_00341440);
   DAT_00341444 = DAT_003413d8;
-  DAT_00341454 = fVar7 * DAT_0034144c * DAT_0034145c + DAT_00341448;
+  DAT_00341454 = p28_float_to_u64(fVar7 * DAT_0034144c * DAT_0034145c + DAT_00341448);
   DAT_00341448 = DAT_003413dc;
   _DAT_003413b4 = (undefined2)(int)DAT_00341450;
   DAT_0034144c = DAT_003413e0;
   _DAT_003413b6 = (undefined2)(int)DAT_00341454;
   fVar7 = (float)FUN_001a0024(DAT_00341440);
-  DAT_00341450 = -fVar7 * DAT_0034144c * DAT_0034145c + DAT_00341444;
+  DAT_00341450 = p28_float_to_u64(-fVar7 * DAT_0034144c * DAT_0034145c + DAT_00341444);
   if (DAT_00341450 < -32768.0) {
     DAT_00341450 = -32768.0;
   }
@@ -9043,7 +9111,7 @@ void snes_p28_0012c558()
     DAT_00341450 = 32767.0;
   }
   fVar7 = (float)FUN_0019fddc(DAT_00341440);
-  DAT_00341454 = fVar7 * DAT_0034144c * DAT_0034145c + DAT_00341448;
+  DAT_00341454 = p28_float_to_u64(fVar7 * DAT_0034144c * DAT_0034145c + DAT_00341448);
   if (DAT_00341454 < -32768.0) {
     DAT_00341454 = -32768.0;
   }
@@ -9073,17 +9141,17 @@ void snes_p28_0012ce18()
   if (DAT_00341466 != 0) {
     DAT_003414b4 = 0;
     fVar7 = (float)((int)DAT_00341466 - (int)DAT_00341464);
-    DAT_003414b0 = fVar7;
+    DAT_003414b0 = p28_float_to_u64(fVar7);
     FUN_0012cbd8();
     fVar1 = DAT_003414bc;
     fVar4 = DAT_003414b8;
     DAT_003414b4 = 0xc3000000;
-    DAT_003414b0 = fVar7;
+    DAT_003414b0 = p28_float_to_u64(fVar7);
     FUN_0012cbd8();
     fVar3 = DAT_003414bc;
     fVar5 = DAT_003414b8;
     DAT_003414b4 = 0x42fe0000;
-    DAT_003414b0 = fVar7;
+    DAT_003414b0 = p28_float_to_u64(fVar7);
     FUN_0012cbd8();
     fVar6 = 32767.0;
     fVar2 = (DAT_003414b8 - fVar5) * 0.00390625 * 256.0;
@@ -9150,21 +9218,23 @@ void snes_p28_0012d05c()
   }
   uVar4 = iVar3 >> 3 & 0x1ffc;
   iVar3 = -(uint)DAT_003413ae;
-  DAT_003414cc = (float)((int)DAT_003414c0 - (int)DAT_003413a2);
-  DAT_003414d0 = (float)((int)DAT_003414c2 - (int)DAT_003413a4);
+  DAT_003414cc = p28_float_to_u64((float)((int)DAT_003414c0 - (int)DAT_003413a2));
+  DAT_003414d0 = p28_float_to_u64((float)((int)DAT_003414c2 - (int)DAT_003413a4));
   fVar6 = *(float *)((int)&DAT_0033ce78 + uVar4);
   fVar5 = *(float *)((int)&DAT_0033ee78 + uVar4);
   if (DAT_003413ae != 0) {
     iVar3 = iVar3 + 0x1f;
   }
   DAT_003414fc = iVar3 >> 5 & 0x7ff;
-  DAT_003414dc = DAT_003414cc * fVar5 + DAT_003414d0 * fVar6;
-  DAT_003414d4 = (float)((int)DAT_003414c4 - (int)DAT_003413a6);
-  DAT_003414d8 = DAT_003414cc * fVar6 + DAT_003414d0 * -fVar5;
-  DAT_003414ec = (DAT_003414dc * (float)(&DAT_0033ee78)[DAT_003414fc] +
-                 DAT_003414d4 * (float)(&DAT_0033ce78)[DAT_003414fc]) - (float)(int)DAT_003413a8;
-  DAT_003414e8 = DAT_003414dc * (float)(&DAT_0033ce78)[DAT_003414fc] +
-                 DAT_003414d4 * -(float)(&DAT_0033ee78)[DAT_003414fc];
+  DAT_003414dc = p28_float_to_u64(DAT_003414cc * fVar5 + DAT_003414d0 * fVar6);
+  DAT_003414d4 = p28_float_to_u64((float)((int)DAT_003414c4 - (int)DAT_003413a6));
+  DAT_003414d8 = p28_float_to_u64(DAT_003414cc * fVar6 + DAT_003414d0 * -fVar5);
+  DAT_003414ec = p28_float_to_u64(
+      (DAT_003414dc * (float)(&DAT_0033ee78)[DAT_003414fc] +
+       DAT_003414d4 * (float)(&DAT_0033ce78)[DAT_003414fc]) - (float)(int)DAT_003413a8);
+  DAT_003414e8 = p28_float_to_u64(
+      DAT_003414dc * (float)(&DAT_0033ce78)[DAT_003414fc] +
+      DAT_003414d4 * -(float)(&DAT_0033ee78)[DAT_003414fc]);
   DAT_003414e0 = DAT_003414d4;
   DAT_003414e4 = DAT_003414d8;
   if (DAT_003414ec < 0.0) {
@@ -32785,18 +32855,18 @@ int *param_4;
               uVar3 = (int)param_4 + 7U & 7;
               puVar4 = (ulong *)(((int)param_4 + 7U) - uVar3);
               *puVar4 = *puVar4 & -1L << (uVar3 + 1) * 8 |
-                        CONCAT44(uStack_bc,iStack_c0) >> (7 - uVar3) * 8;
+                        (uint64_t)CONCAT44(uStack_bc,iStack_c0) >> (7 - uVar3) * 8;
               uVar3 = (uint)param_4 & 7;
               *(ulong *)((int)param_4 - uVar3) =
-                   CONCAT44(uStack_bc,iStack_c0) << uVar3 * 8 |
+                   (uint64_t)CONCAT44(uStack_bc,iStack_c0) << uVar3 * 8 |
                    *(ulong *)((int)param_4 - uVar3) & 0xffffffffffffffffU >> (8 - uVar3) * 8;
               uVar3 = (int)param_4 + 0xfU & 7;
               puVar4 = (ulong *)(((int)param_4 + 0xfU) - uVar3);
               *puVar4 = *puVar4 & -1L << (uVar3 + 1) * 8 |
-                        CONCAT44(iStack_b4,uStack_b8) >> (7 - uVar3) * 8;
+                        (uint64_t)CONCAT44(iStack_b4,uStack_b8) >> (7 - uVar3) * 8;
               uVar3 = (uint)(param_4 + 2) & 7;
               puVar4 = (ulong *)((int)(param_4 + 2) - uVar3);
-              *puVar4 = CONCAT44(iStack_b4,uStack_b8) << uVar3 * 8 |
+              *puVar4 = (uint64_t)CONCAT44(iStack_b4,uStack_b8) << uVar3 * 8 |
                         *puVar4 & 0xffffffffffffffffU >> (8 - uVar3) * 8;
               uVar3 = param_4[1];
               if ((int)uVar3 < 4) {

@@ -92,7 +92,7 @@ make private-assets
 
 That gate verifies the same private ranges, padding and size words, emits an
 ignored provider object, and reduces the current unresolved partial-link
-frontier from 237 to 227. The frozen V86 report retains its historical
+frontier from 234 to 224. The frozen V86 report retains its historical
 pre-Stage-3E count of 258 to 248. It does not write standalone asset copies
 into the tracked tree; see
 [`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md).

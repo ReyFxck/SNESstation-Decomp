@@ -6,7 +6,8 @@ the small-batch plan.  Stage 3C is exactly the historical 43
 ``named-program-data`` rows, one ``vtable-or-rtti`` row, and ten private-asset
 rows.  Four Stage-3C names were subsequently proved to be source-only adapters
 and removed.  The later Stage-3E cleanup removes 20 more source-only helpers
-and canonicalizes ``errno``, so the live source map has 1,896 externals while
+and canonicalizes ``errno``; the Stage-3D libgcc refactor removes three
+compiler-libcall artifacts, so the live source map has 1,893 externals while
 the historical 54-row Stage-3C ledger remains unchanged.
 This gate keeps the historical 54-row definition stable and distinguishes
 three materially different closed claims:
@@ -273,8 +274,8 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
               + counts[("zlib-peer", "source-or-archive")],
         "3F": counts[("target-address-data", "program-data")],
     }
-    expected = {"3B": 337, "3C": 50, "3D": 53, "3E": 191, "3F": 1265}
-    if partition != expected or sum(partition.values()) != 1896:
+    expected = {"3B": 337, "3C": 50, "3D": 50, "3E": 191, "3F": 1265}
+    if partition != expected or sum(partition.values()) != 1893:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 
@@ -626,8 +627,8 @@ def link_exact_providers(
         fail("private unpacked reference is missing or does not match the layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 227:
-        fail(f"expected post-Stage-3E-refactor provider frontier of 227 rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 224:
+        fail(f"expected post-libgcc-refactor provider frontier of 224 rows, found {len(frontier_rows)}")
     replacements = exact_provider_rows(named_rows, frontier_rows)
     replacement_names = {row["symbol"] for row in replacements}
     exact_ranges = [row for row in named_rows if row["status"] == RANGE_PROVED]

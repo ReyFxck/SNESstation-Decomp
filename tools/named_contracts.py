@@ -576,8 +576,8 @@ def link_exact_providers(
         fail("private reference does not match the frozen layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 227:
-        fail(f"expected 227 post-Stage-3E-refactor provider rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 224:
+        fail(f"expected 224 post-libgcc-refactor provider rows, found {len(frontier_rows)}")
     frontier_by_name = unique(frontier_rows, "symbol", "provider row")
 
     stage3c_rows = read_table(args.stage3c_manifest, stage3c.MANIFEST_FIELDS)

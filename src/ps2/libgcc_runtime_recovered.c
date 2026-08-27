@@ -108,12 +108,23 @@ float snes___floatdisf(int64_t value)
 /* 0x001a1c98 — unsigned conversion from the target's raw DFmode word. */
 uint64_t snes___fixunsdfdi(uint64_t raw)
 {
-    const double value = raw_to_double(raw);
-    if (!(value > 0.0))
+    const unsigned exponent = (unsigned)((raw >> 52) & UINT64_C(0x7ff));
+    const uint64_t fraction = raw & UINT64_C(0x000fffffffffffff);
+    uint64_t mantissa;
+    int shift;
+
+    if ((raw >> 63) != 0 || exponent < 1023u)
         return 0;
-    if (value >= 18446744073709551615.0)
+    if (exponent == 0x7ffu)
+        return fraction == 0 ? UINT64_MAX : 0;
+    if (exponent >= 1087u)
         return UINT64_MAX;
-    return (uint64_t)value;
+
+    mantissa = fraction | UINT64_C(0x0010000000000000);
+    shift = (int)exponent - 1023 - 52;
+    if (shift >= 0)
+        return mantissa << (unsigned)shift;
+    return mantissa >> (unsigned)(-shift);
 }
 
 /* 0x001a3340 — SF -> DFmode, returned as the target's raw 64-bit word. */

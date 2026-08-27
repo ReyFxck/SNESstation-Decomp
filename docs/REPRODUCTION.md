@@ -22,11 +22,12 @@ make reproduce-check    # verify repository + private reference + blockers
 make reproduce          # full pipeline; currently stops at final-link gate
 make layout-oracle      # verify the private image against the public Stage-3 oracle
 make source-aliases     # build Stage 2 and apply proved zero-byte aliases
-make link-contracts     # reduce the live aggregate to the 237-provider frontier
-make private-assets     # privately materialize 10 asset providers; leave 227
-make provider-frontier  # close all 227 source-link names; leave 0 externals
+make link-contracts     # reduce the live aggregate to the 234-provider frontier
+make private-assets     # privately materialize 10 asset providers; leave 224
+make provider-frontier  # close all 224 source-link names; leave 0 externals
 make named-data         # verify the closed 54/54 Stage-3C ledger and ranges
 make named-contracts    # verify the closed 212/212 Stage-3E ledger and ranges
+make libgcc-contracts   # verify the closed 7/7 Stage-3D libgcc subtranche
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -45,13 +46,13 @@ The final pipeline must prove every layer:
 4. **Source-address aliases — 323/337 proved** — alternate address-shaped
    names bind to 307 canonical global text symbols with no allocated-byte
    changes; 14 evidence blockers remain.
-5. **Zero-byte link contracts — 1,336/1,573 resolved** — 1,273 frozen-address
-   data anchors and 63 semantic aliases reduce the aggregate to 237 real
+5. **Zero-byte link contracts — 1,336/1,570 resolved** — 1,273 frozen-address
+   data anchors and 63 semantic aliases reduce the aggregate to 234 real
    providers without allocating code or data.
 6. **Private embedded assets — closed** — five reference-verified bundles
-   provide ten symbols and 62,736 bytes, reducing the frontier to 227 while
+   provide ten symbols and 62,736 bytes, reducing the frontier to 224 while
    remaining ignored private build products.
-7. **Source-link provider namespace — closed** — all 227 remaining contracts
+7. **Source-link provider namespace — closed** — all 224 remaining contracts
    resolve through audited anchors, recovered-text aliases, typed compatibility
    storage or deterministic EE shims; the relocatable aggregate has zero
    undefined globals.
@@ -65,15 +66,19 @@ The final pipeline must prove every layer:
    23 names bind to recovered text, two target entries and two external
    addresses are proved, and 20 source-only adapters are removed. All seven
    zlib peers are closed and compatibility storage reaches zero.
-10. **Historical runtimes (Stage 3D)** — replace four remaining shims with exact old
-   PS2 library members and prove their selection.
-11. **Unnamed data (Stage 3F)** — recover ranges, bytes, zero-fill boundaries,
+10. **Stage-3D libgcc — closed** — four complete GCC 3.2.2 archive-member
+   `.text` sections match 3,848 target bytes after 21 relocations; three
+   target-absent compiler-libcall artifacts are removed from source.
+11. **Remaining historical runtimes (Stage 3D)** — replace the final
+   `snprintf` shim and prove the libc/Newlib and PS2 library revisions/member
+   selection for the other 46 original contracts.
+12. **Unnamed data (Stage 3F)** — recover ranges, bytes, zero-fill boundaries,
    overlaps and alignment for 1,265 address-qualified contracts.
-12. **Link** — linker script, section addresses, object order and library order
+13. **Link** — linker script, section addresses, object order and library order
    reproduce the unpacked ELF image.
-13. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+14. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
-14. **Final comparison** — section/layout reports and both unpacked and packed
+15. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
 
 The required reference hashes are:
@@ -87,6 +92,8 @@ The Stage-2 evidence and its exact claim boundary are recorded in
 [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
 The first Stage-3 measurement gate is recorded in
 [`status/V82_UNPACKED_LAYOUT_ORACLE.md`](status/V82_UNPACKED_LAYOUT_ORACLE.md).
+The closed Stage-3D libgcc checkpoint is recorded in
+[`status/V91_STAGE3D_LIBGCC_CLOSED.md`](status/V91_STAGE3D_LIBGCC_CLOSED.md).
 The closed Stage-3E checkpoint is recorded in
 [`status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md).
 The preceding closed Stage-3C checkpoint is recorded in

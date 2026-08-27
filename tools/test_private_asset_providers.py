@@ -166,8 +166,8 @@ class PrivateAssetProviderTests(unittest.TestCase):
                 "bundles": 5,
                 "provider_symbols": 10,
                 "provider_bytes": 62736,
-                "input_frontier": 237,
-                "output_frontier": 227,
+                "input_frontier": 234,
+                "output_frontier": 224,
             },
             report,
         )

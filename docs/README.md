@@ -11,6 +11,7 @@ They are evidence of how conclusions were reached, not the current scoreboard.
 - [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) — source-model audit and build-readiness invariants.
 - [`status/FUNCTION_FRONTIER_1041_CHECKPOINT.md`](status/FUNCTION_FRONTIER_1041_CHECKPOINT.md) — immutable tag, hashes and clean-checkout gates for the closed 1,041-function frontier.
 - [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md) — frozen EE ABI, 97-unit manifest, symbol ownership and canonical partial-link gate.
+- [`status/V91_STAGE3D_LIBGCC_CLOSED.md`](status/V91_STAGE3D_LIBGCC_CLOSED.md) — closed 7/7 libgcc subtranche: four exact GCC 3.2.2 archive members and three completed source refactors.
 - [`status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md) — closed 212/212 Stage-3E ledger, seven exact zlib peers and zero remaining compatibility storage.
 - [`status/V89_STAGE3C_CLOSED.md`](status/V89_STAGE3C_CLOSED.md) — closed 54/54 Stage-3C ledger: 50 exact target objects and four completed source refactors.
 - [`status/V88_STAGE3C_NAMED_DATA.md`](status/V88_STAGE3C_NAMED_DATA.md) — preceding open Stage-3C audit, retained as historical evidence.
