@@ -9,6 +9,10 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "ee_intrinsics_recovered.h"
+
+#define lrintf(value) snes_ee_lrintf(value)
+
 /* 0x0010b72c -- mirrored APU I/O/timer-target byte write. */
 typedef struct {
     uint8_t *ram;

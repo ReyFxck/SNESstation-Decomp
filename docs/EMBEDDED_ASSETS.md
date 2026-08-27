@@ -90,10 +90,11 @@ link contracts (three IRXs plus the encoded credits and disclaimer), run:
 make private-assets
 ```
 
-That V86 gate verifies the same private ranges, padding and size words, emits
-an ignored provider object, and reduces the unresolved partial-link frontier
-from 258 to 248 in the live post-refactor aggregate. It does not write standalone asset copies into the tracked
-tree; see
+That gate verifies the same private ranges, padding and size words, emits an
+ignored provider object, and reduces the current unresolved partial-link
+frontier from 237 to 227. The frozen V86 report retains its historical
+pre-Stage-3E count of 258 to 248. It does not write standalone asset copies
+into the tracked tree; see
 [`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md).
 
 The `make extract-assets` command verifies both reference SHA-256 values,

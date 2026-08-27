@@ -60,11 +60,11 @@ Exact program-data bytes/placement and final object order remain Stage 3.
 
 ## 3. Link identity
 
-The original tranche names remain the authoritative plan: 3A, 3B and 3C are
-closed; 3D and 3E are linkable but not historically exact; 3F has 1,265
+The original tranche names remain the authoritative plan: 3A, 3B, 3C and 3E
+are closed; 3D remains linkable but not historically exact; 3F has 1,265
 addresses but not recovered ranges/bytes; and 3G/3H remain the final layout
 and image gates. See
-[`status/V89_STAGE3C_CLOSED.md`](status/V89_STAGE3C_CLOSED.md).
+[`status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md).
 
 - [x] Freeze a byte-free unpacked-layout oracle with SJCRUNCH2 section/block
   geometry, 64 KiB hashes and an exact first-difference comparator.
@@ -72,12 +72,12 @@ and image gates. See
   global text symbols without changing allocated sections.
 - [x] Prove 66 additional owner-checked/reviewed aliases, reaching 323/337
   aliases against 307 canonical global text symbols.
-- [x] Classify the live 1,594 externals after the Stage-3C source refactor and
+- [x] Classify the V89-era 1,594 externals after the Stage-3C source refactor and
   apply 1,273 target-address data anchors plus 63 semantic text aliases
   without emitting code/data or changing allocated sections.
 - [x] Recover five embedded asset bundles from a private hash-verified reference
   and satisfy all 10 data/size contracts without publishing their 62,736 bytes.
-- [x] Close the post-refactor 248-name source-link provider frontier: 197 named
+- [x] Close the V89-era 248-name source-link provider frontier: 197 named
   link contracts, 32 named program-data stores, 14 V84 address-alias blockers and
   five historical archive contracts; prove a zero-undefined relocatable
   aggregate while keeping compatibility storage/shims explicitly distinct from
@@ -85,7 +85,17 @@ and image gates. See
 - [x] Freeze and close the original 54-row Stage-3C ledger: fingerprint all 50
   real target objects, prove 40 non-asset ranges in 15 clusters covering
   141,159 unique bytes and remove four invented source adapters.
+- [x] Freeze and close the original 212-row Stage-3E ledger: prove 23 recovered
+  text aliases, 164 exact target ranges, two exact target entries, two external
+  architectural addresses and one canonical data alias; remove 20 target-absent
+  instruction/stack adapters.
+- [x] Prove all seven zlib peers against recovered target text and replace all
+  remaining compatibility storage. Combined Stage-3C/3E exact providers cover
+  196 names in 61 overlap-aware clusters and the live partial link reaches
+  227 -> 0 externals with four historical-runtime shims still explicit.
 - [ ] Identify exact old runtime/library revisions and archive members.
+- [ ] Recover exact ranges, bytes, zero-fill boundaries and overlaps for the
+  1,265 Stage-3F unnamed address contracts.
 - [ ] Recover the application linker script and section alignment.
 - [ ] Recover object order and library order.
 - [ ] Reproduce relocations, string pooling and final unpacked data layout.

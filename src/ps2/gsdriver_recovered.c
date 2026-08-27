@@ -11,6 +11,7 @@
 #include <stdint.h>
 
 #include "../../include/gslib_recovered.h"
+#include "ee_intrinsics_recovered.h"
 
 #define GS_PRIV_PMODE     ((uintptr_t)0x12000000u)
 #define GS_PRIV_DISPFB1   ((uintptr_t)0x12000070u)
@@ -28,13 +29,19 @@
    ASCII 'E' (0x45) to choose PAL (3) vs NTSC (2). */
 extern uint8_t target_video_mode_byte_001fc752;
 
-/* Host-buildable stand-ins for the inline BIOS/kernel operations in target. */
-extern int ps2_bios_syscall_2_recovered(int a0, int a1, int a2);
-extern void ps2_gs_put_imr_recovered(uint32_t value);
-extern uint32_t ps2_add_intc_handler_recovered(int cause, void (*handler)(void), void *arg);
-extern void ps2_remove_intc_handler_recovered(int cause, uint32_t id);
-extern void ps2_enable_intc_recovered(int cause);
-extern void ps2_disable_intc_recovered(int cause);
+/* These are inline BIOS/kernel operations in the target, not external calls. */
+#define ps2_bios_syscall_2_recovered(a0, a1, a2) \
+    snes_ee_syscall3(2, (uint32_t)(a0), (uint32_t)(a1), (uint32_t)(a2))
+#define ps2_gs_put_imr_recovered(value) snes_ee_gs_put_imr(value)
+#define ps2_add_intc_handler_recovered(cause, handler, arg) \
+    ((uint32_t)snes_ee_syscall3(0x10, (uint32_t)(cause), \
+        (uint32_t)(uintptr_t)(handler), (uint32_t)(uintptr_t)(arg)))
+#define ps2_remove_intc_handler_recovered(cause, id) \
+    ((void)snes_ee_syscall3(0x11, (uint32_t)(cause), (uint32_t)(id), 0))
+#define ps2_enable_intc_recovered(cause) \
+    ((void)snes_ee_syscall3(0x14, (uint32_t)(cause), 0, 0))
+#define ps2_disable_intc_recovered(cause) \
+    ((void)snes_ee_syscall3(0x15, (uint32_t)(cause), 0, 0))
 
 static uint32_t bytes_per_pixel(uint32_t psm)
 {

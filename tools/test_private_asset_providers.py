@@ -148,7 +148,7 @@ class PrivateAssetProviderTests(unittest.TestCase):
         output_symbols = [NmSymbol("asset_data", "D", "0", "3"), NmSymbol("asset_size", "D", "4", "4"), NmSymbol("still_missing", "U")]
         self.assertEqual((3, 1), verify_link_result(input_symbols, output_symbols, contracts, rows))
 
-    def test_frozen_repository_manifest_has_expected_v86_counts(self) -> None:
+    def test_frozen_repository_manifest_has_expected_live_counts(self) -> None:
         args = argparse.Namespace(
             assets=DEFAULT_ASSETS,
             contracts=DEFAULT_CONTRACTS,
@@ -166,8 +166,8 @@ class PrivateAssetProviderTests(unittest.TestCase):
                 "bundles": 5,
                 "provider_symbols": 10,
                 "provider_bytes": 62736,
-                "input_frontier": 258,
-                "output_frontier": 248,
+                "input_frontier": 237,
+                "output_frontier": 227,
             },
             report,
         )

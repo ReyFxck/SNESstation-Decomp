@@ -10,10 +10,11 @@
 | Working frontier | **0** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Build-ready EE source ownership | **97/97 TUs** | 96 canonical objects partially link with a frozen ABI/symbol map and no duplicate/common definitions. |
 | Source-address alias tranche | **323/337 proved** | Zero-byte linker aliases bind proven alternate names to canonical global text symbols; 14 remain blocked. |
-| Zero-byte link-contract frontier | **1,336/1,594 resolved** | 1,273 absolute target-address anchors plus 63 semantic text aliases leave 258 provider contracts explicit. |
-| Private embedded-asset providers | **10/10 resolved** | Five verified private bundles emit 62,736 ignored bytes and reduce the active frontier to 248. |
-| Source-link provider namespace | **248/248 resolved** | 181 target anchors, 9 text aliases, 41 storage definitions and 17 EE shims reduce aggregate externals to zero. |
+| Zero-byte link-contract frontier | **1,336/1,573 resolved** | 1,273 absolute target-address anchors plus 63 semantic text aliases leave 237 provider contracts explicit. |
+| Private embedded-asset providers | **10/10 resolved** | Five verified private bundles emit 62,736 ignored bytes and reduce the active frontier to 227. |
+| Source-link provider namespace | **227/227 resolved** | 175 target anchors, 9 text aliases, 39 storage definitions and 4 EE shims reduce aggregate externals to zero. |
 | Original Stage-3C named-data tranche | **54/54 adjudicated; 50 exact target ranges + 4 closed source refactors** | All target objects are fingerprinted, 32 compatibility stores are replaced, and 15 overlap-aware private-reference clusters cover 141,159 unique bytes. |
+| Original Stage-3E named-contract tranche | **212/212 adjudicated; 165 fingerprinted ranges/data aliases + 20 closed source refactors** | 23 text aliases, 164 target ranges, two target entries, two external addresses and one canonical data alias remove all remaining compatibility storage. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -33,25 +34,33 @@ cumulative proof to 323 of 337 aliases against
 307 canonical global text symbols and applies them without changing
 any allocated section bytes; 14 boundary/archive rows remain
 explicit blockers.
-V85/V89 classify the live 1,594-name post-refactor aggregate and resolve
+V85/V89 froze the preceding 1,594-name post-Stage-3C aggregate. V90 removes
+twenty target-absent instruction/stack adapters and canonicalizes `errno` to
+the existing target word, so the live source now has 1,896 externals and the
+alias-resolved contract map has 1,573 rows. It still resolves
 1,336 contracts without allocating a byte: 1,273
 target-address data anchors and 63 semantic aliases. The
-remaining 258 names are the explicit provider frontier. The
+remaining 237 names are the explicit provider frontier. The
 V86 private-reference gate then materializes five embedded-asset bundles,
 proves all 10 source-level data/size symbols, and reduces
-that frontier to 248 without changing any existing allocated
-section. V87 closes all 248 remaining source-link names in one
-audited batch and proves an aggregate external count of zero. Its compatibility
-storage and runtime shims are linkability scaffolding, not claims about exact
-target initializers or historical archive members. V88 opened the original
+that frontier to 227 without changing any existing allocated
+section. The live V90 closure classifies all 227 remaining
+source-link names and proves an aggregate external count of zero. V87 remains
+the historical pre-refactor 248-row checkpoint. V88 opened the original
 54-row Stage-3C audit. V89 closes it: 50 real target objects carry exact
 private-reference fingerprints in 15 overlap-aware clusters
 covering 141,159 unique bytes, while four invented source
-adapters are proved absent and removed. The live external set is therefore
-1,917 rather than the historical 1,921-plan count; 32
-compatibility stores are replaced and only nine later-stage stores remain.
+adapters are proved absent and removed. V90 then closes the historical
+212-row Stage-3E ledger: 164 exact
+target ranges plus one canonical data alias are fingerprinted, all seven zlib
+peers bind to recovered target text, and 20
+source-only contracts are eliminated. Across Stages 3C and 3E, 196 provider
+names occupy 61 overlap-aware clusters covering
+167,782 unique bytes; compatibility storage falls from 39
+to zero while four historical-runtime shims remain explicit.
 The current batch is documented in
-[`V89_STAGE3C_CLOSED.md`](V89_STAGE3C_CLOSED.md); V88 remains documented
+[`V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md);
+V89 remains documented in [`V89_STAGE3C_CLOSED.md`](V89_STAGE3C_CLOSED.md); V88 remains documented
 in [`V88_STAGE3C_NAMED_DATA.md`](V88_STAGE3C_NAMED_DATA.md); V87 remains documented
 in [`V87_PROVIDER_FRONTIER_CLOSED.md`](V87_PROVIDER_FRONTIER_CLOSED.md); V86 remains
 documented in [`V86_PRIVATE_ASSET_PROVIDERS.md`](V86_PRIVATE_ASSET_PROVIDERS.md); V85 remains
@@ -68,13 +77,15 @@ closure remains frozen in
 2. **Source/object gate closed:** 97/97 TUs compile; 96 canonical objects have frozen ownership.
 3. **Unpacked oracle closed:** section/block geometry and 64 KiB hashes are frozen.
 4. **Address-alias tranche frozen:** 323/337 are proved and zero-byte bound; the remaining 14 are carried into the V85 provider frontier.
-5. **Zero-byte link-contract tranche frozen:** 1,336/1,594 are resolved and the exact 258-name input provider frontier is classified.
+5. **Zero-byte link-contract tranche frozen:** 1,336/1,573 are resolved and the exact 237-name input provider frontier is classified.
 6. **Private-asset tranche closed:** 10/10 provider symbols and 62,736 bytes are privately verified.
-7. **Source-link provider namespace closed:** 248/248 remaining contracts resolve and the aggregate has zero undefined globals.
-8. **Original Stage-3C tranche closed:** all 54 historical rows are adjudicated as 50 exact target ranges plus 4 completed source refactors; compatibility storage falls from 41 to 9.
-9. Replace the remaining compatibility storage/shims with exact initializers and proved archive members; reproduce data/rodata/bss layout, relocations and section alignment.
-10. Recover the linker script, object order and library order.
-11. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+7. **Source-link provider namespace closed:** 227/227 remaining contracts resolve and the aggregate has zero undefined globals.
+8. **Original Stage-3C tranche closed:** all 54 historical rows are adjudicated as 50 exact target ranges plus 4 completed source refactors.
+9. **Original Stage-3E tranche closed:** all 212 historical rows are adjudicated; 165 target-backed ranges/data aliases are fingerprinted, seven zlib peers are exact text aliases and compatibility storage falls from 39 to zero.
+10. Close Stage 3D with exact historical runtime/archive revisions and members, replacing the four remaining shims.
+11. Close Stage 3F by recovering ranges, bytes, BSS boundaries and overlaps for the 1,265 unnamed address contracts.
+12. Reproduce data/rodata/bss layout, relocations, section alignment, linker script, object order and library order.
+13. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first

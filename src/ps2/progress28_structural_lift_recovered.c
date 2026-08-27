@@ -12,6 +12,13 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "ee_intrinsics_recovered.h"
+
+#define EI() snes_ee_ei()
+#define SQRT(value) snes_ee_sqrt_trunc(value)
+#define syscall(ignored) ((void)(ignored), snes_ee_syscall())
+#define trap(code) ((void)(code), snes_ee_trap())
+
 #if defined(__GNUC__)
 #pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
 #pragma GCC diagnostic ignored "-Wint-conversion"
@@ -1604,7 +1611,6 @@ extern uint64_t LAB_00185d8c;
 extern uint64_t LAB_001860a8;
 extern uint64_t LAB_00186540;
 extern uint64_t LAB_0018685c;
-extern uint64_t SUB_00002214;
 extern uint64_t UNK_00108000;
 extern uint64_t UNK_001a6320;
 extern uint64_t UNK_001b85c8;
@@ -1623,13 +1629,7 @@ extern uint64_t UNK_0040ffb0;
 extern uint64_t UNK_0040ffb2;
 extern uint64_t UNK_0040ffc0;
 extern uint64_t UNK_00420000;
-extern uint64_t _auStack_10e4;
 extern uint64_t s_THIS_SCRIPT_WAS_STOLEN_001b6ed0;
-extern uint64_t stack0x00000000;
-extern uint64_t stack0xffffef20;
-extern uint64_t stack0xffffef90;
-extern uint64_t stack0xffffef98;
-extern uint64_t stack0xffffefa4;
 
 /* Forward declarations preserve calls between lifted functions. */
 
@@ -10826,6 +10826,7 @@ ulong param_1;
   int iStack0000003c;
   int iStack00000040;
   int iStack00000044;
+  undefined8 stack_slots_00000000[2] = {0, 0};
   
   do {
     lVar1 = (param_1 | in_hi) + (long)(iStack00000044 * in_v0_lo);
@@ -10920,7 +10921,7 @@ LAB_00144e28:
       if (uVar5 != 0) {
         uVar2 = *puVar11;
         uVar7 = (uint)uVar2;
-        DAT_0035d4cc = (&stack0x00000000)[(uVar7 & 0x2000) >> 0xd];
+        DAT_0035d4cc = stack_slots_00000000[(uVar7 & 0x2000) >> 0xd];
         uVar6 = 8 - uVar5;
         if (uVar12 < 8 - uVar5) {
           uVar6 = uVar12;
@@ -10966,7 +10967,7 @@ LAB_00144e28:
         do {
           uVar2 = *puVar11;
           uVar7 = (uint)uVar2;
-          DAT_0035d4cc = (&stack0x00000000)[(uVar7 & 0x2000) >> 0xd];
+          DAT_0035d4cc = stack_slots_00000000[(uVar7 & 0x2000) >> 0xd];
           if (DAT_0035d450 == 8) {
             if ((uVar2 & 0x4000) == 0) {
               iVar4 = uVar7 + (uVar6 & 1);
@@ -11006,7 +11007,7 @@ LAB_00144e28:
       if (uVar9 != 0) {
         uVar2 = *puVar11;
         uVar6 = (uint)uVar2;
-        DAT_0035d4cc = (&stack0x00000000)[(uVar6 & 0x2000) >> 0xd];
+        DAT_0035d4cc = stack_slots_00000000[(uVar6 & 0x2000) >> 0xd];
         if (DAT_0035d450 == 8) {
           if ((uVar2 & 0x4000) == 0) {
             iVar4 = uVar6 + (uVar7 & 1);
@@ -23464,7 +23465,7 @@ LAB_0015e8a0:
     break;
   case 0x15:
     pcVar4 = "V-Timer %04x\n";
-    bVar1 = (&SUB_00002214)[(uintptr_t)(DAT_0034e2c4)];
+    bVar1 = *(byte *)(DAT_0034e2c4 + 0x2214);
 LAB_0015e8c8:
     uVar9 = uVar9 << 8 | (uint)bVar1;
     goto LAB_0015e8a0;
@@ -24853,7 +24854,7 @@ undefined8 param_1;
                      (ushort)local_ec & (ushort)(0xffffffff >> (uVar2 + 1) * 8)) &
                      (ushort)(-1 << (4 - uVar3) * 8) |
                      (ushort)(*(uint *)(auStack_1072 + -uVar3) >> uVar3 * 8);
-      DAT_0035bfe0 = stack0xffffef90;
+      DAT_0035bfe0 = auStack_1072[2];
       uVar2 = (uint)(auStack_106c + 1) & 3;
       uVar3 = (uint)(auStack_106f + 1) & 3;
       DAT_0035bfe2 = ((ushort)(*(int *)(auStack_106c + 1 + -uVar2) << (3 - uVar2) * 8) |
@@ -24867,12 +24868,12 @@ undefined8 param_1;
                      (ushort)local_dc & (ushort)(0xffffffff >> (uVar2 + 1) * 8)) &
                      (ushort)(-1 << (4 - uVar3) * 8) |
                      (ushort)(*(uint *)(auStack_106c + 2 + -uVar3) >> uVar3 * 8);
-      DAT_0035bfe8 = stack0xffffef98;
+      DAT_0035bfe8 = auStack_106a[2];
       *(undefined *)(DAT_0034e2c4 + 0x2134) = p28_read_piece(&uStack_1067, sizeof(uStack_1067), 3u, 1u);
       *(undefined *)(DAT_0034e2c4 + 0x2135) = local_1063;
       *(undefined *)(DAT_0034e2c4 + 0x2136) = local_1062;
       uVar2 = (uint)p28_load_blob(auStack_105f, sizeof(auStack_105f)) & 3;
-      DAT_0035bff4 = (stack0xffffefa4 << 0x18 | local_d4 & 0xffffff) & -1 << (4 - uVar2) * 8 |
+      DAT_0035bff4 = ((uint)auStack_105f[3] << 0x18 | local_d4 & 0xffffff) & -1 << (4 - uVar2) * 8 |
                      *(uint *)(auStack_105f + -uVar2) >> uVar2 * 8;
       iVar11 = 0;
       do {
@@ -24908,7 +24909,7 @@ undefined8 param_1;
         p28_write_piece(&DAT_003454da, sizeof(DAT_003454da), 0u, 1u, (p28_u128)((undefined)local_10fc));
         DAT_003454dc = local_10f8;
         p28_write_piece(&DAT_003454da, sizeof(DAT_003454da), 1u, 1u, (p28_u128)(auStack_10f7[3]));
-        DAT_003453b8 = stack0xffffef20;
+        DAT_003453b8 = local_10e2[2];
         iVar11 = 0;
         DAT_003453bc = *(byte *)(DAT_0034549c + 0xf1) >> 7;
         DAT_00345491 = local_10d8[0] >> 1 & 1;
@@ -24973,8 +24974,9 @@ LAB_00173398:
         snes_p28_0015e40c(local_10f1,0x2206);
         snes_p28_0015e40c(local_10f0,0x2207);
         snes_p28_0015e40c(local_10ef,0x2208);
-        local_c8 = _auStack_10e4;
-        snes_p28_0015e40c(_auStack_10e4 - 0x3fa000U >> 0xd & 0xff,0x2224);
+        local_c8 = (uint)auStack_10e4[0] | (uint)auStack_10e4[1] << 8 |
+                   (uint)local_10e2[0] << 16 | (uint)local_10e2[1] << 24;
+        snes_p28_0015e40c(((uint)local_c8 - 0x3fa000U) >> 0xd & 0xff,0x2224);
         snes_p28_0015e40c(auStack_10dd[1],0x2201);
         snes_p28_0015e40c(local_10d8[1],0x2209);
         DAT_00345aec = (undefined2)uStack_eb0;
@@ -30933,7 +30935,7 @@ undefined8 param_4;
   local_100 = param_2;
   local_f0 = param_3;
   local_e0 = param_4;
-  snes_p28_001a5228(local_920,&stack0x00000000,unaff_retaddr);
+  snes_p28_001a5228(local_920,(undefined4)(uintptr_t)local_920,unaff_retaddr);
   puVar4 = local_7c0;
   do {
     uVar5 = puVar1[1];
@@ -31062,7 +31064,7 @@ undefined8 param_4;
   uStack_100 = param_2;
   uStack_f0 = param_3;
   uStack_e0 = param_4;
-  snes_p28_001a5228(auStack_400,&stack0x00000000,unaff_retaddr);
+  snes_p28_001a5228(auStack_400,(undefined4)(uintptr_t)auStack_400,unaff_retaddr);
   puVar3 = auStack_2a0;
   do {
     uVar4 = puVar1[1];
@@ -31113,7 +31115,7 @@ undefined8 param_4;
   local_100 = param_2;
   local_f0 = param_3;
   local_e0 = param_4;
-  snes_p28_001a5228(local_3e0,&stack0x00000000,unaff_retaddr);
+  snes_p28_001a5228(local_3e0,(undefined4)(uintptr_t)local_3e0,unaff_retaddr);
   puVar4 = local_280;
   do {
     uVar5 = puVar1[1];

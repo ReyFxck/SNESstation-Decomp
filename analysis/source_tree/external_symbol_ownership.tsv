@@ -1186,7 +1186,6 @@ DAT_00424850	target-address-data	program-data	reserved:target-data.o	program-dat
 DAT_00424854	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;unzip/explode_recovered.o;unzip/unreduce_recovered.o
 DAT_00425970	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00426820	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-EI	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001005b0	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00101858	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00101860	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1537,8 +1536,6 @@ S9xSync_PeriodCounter	named-external	link-contract	reserved:link-contract	link-i
 S9xSync_PeriodPrevious	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 S9xSync_PeriodValue	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 S9xSync_SetVolume	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
-SQRT	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-SUB_00002214	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 Settings_SkipFrames	named-program-data	program-data	reserved:program-data.o	program-data	ps2/path_helpers_recovered.o
 SifAddCmdHandler	ps2-runtime	historical-archive	PS2SDK runtime archives	archive-identity	ps2/sifrpc_recovered.o
 SifAllocIopHeap	ps2-runtime	historical-archive	PS2SDK runtime archives	archive-identity	ps2/load_module_buffer.o
@@ -1629,7 +1626,6 @@ __lshrti3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progre
 __muldi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/address_leaf_recovered.o;ps2/libc_misc_recovered.o;ps2/progress13_cpp_personality_recovered.o;ps2/progress28_structural_lift_recovered.o;ps2/small_dispatch_recovered.o;snes9x/progress13_runtime_more_recovered.o;zlib/trees_recovered.o
 __udivdi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/ps2lib_formatter_recovered.o;snes9x/progress13_runtime_more_recovered.o
 __umoddi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/ps2lib_formatter_recovered.o;zlib/zutil_adler_recovered.o
-_auStack_10e4	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 abort	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/gcc_fde_runtime_recovered.o;ps2/gcc_unwind_pe_recovered.o
 bRam0042c800	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 bRam0042c801	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1653,7 +1649,6 @@ embedded_disclaimer_bytes	embedded-binary	private-asset	reserved:embedded-assets
 embedded_disclaimer_xor	embedded-binary	private-asset	reserved:embedded-assets.o	program-data	app/main_flow_recovered.o
 embedded_sjpcm_irx	embedded-binary	private-asset	reserved:embedded-assets.o	program-data	app/main_bootstrap.o
 embedded_sjpcm_irx_size	embedded-binary	private-asset	reserved:embedded-assets.o	program-data	app/main_bootstrap.o
-errno	named-external	link-contract	reserved:link-contract	link-identity	ps2/newlib_mathfp_recovered.o
 exit_wrapper_0019c5cc	target-address-symbol	source-address-alias	src/ps2/libmtap_recovered.c;src/ps2/small_dispatch_recovered.c	link-identity	ps2/libmtap_recovered.o
 fRam0042c804	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 fRam0042c808	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1735,10 +1730,7 @@ inflateEnd_00192784	zlib-peer	source-or-archive	zlib object family	link-identity
 inflateInit__00192948	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/zlib_buffer_api_recovered.o
 inflate_0019296c	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/zlib_buffer_api_recovered.o
 isdigit	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress21_small_helpers_recovered.o
-isinf	named-external	link-contract	reserved:link-contract	link-identity	ps2/libgcc_runtime_recovered.o
-isnan	named-external	link-contract	reserved:link-contract	link-identity	ps2/libgcc_runtime_recovered.o
 load_config_00106054	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
-lrintf	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress11_frontend_recovered.o;snes9x/progress13_core_helpers_recovered.o
 malloc	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/gcc_fde_runtime_recovered.o;ps2/libsupcxx_rtti_recovered.o;snes9x/apu_alloc_recovered.o;snes9x/memory_init_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o
 mcInit	ps2-runtime	historical-archive	PS2SDK runtime archives	archive-identity	app/main_bootstrap.o
 memalign_like_0019e698	target-address-symbol	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/libkernel_heap_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/gspipe_recovered.o
@@ -1753,12 +1745,6 @@ operator_new_001a9e88	target-address-symbol	source-address-alias	src/app/main_bo
 operator_new_u32	named-external	link-contract	reserved:link-contract	link-identity	app/main_bootstrap.o
 per_rom_cleanup_00151330	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/libmtap_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/memory_cleanup_recovered.c;src/snes9x/memory_init_recovered.c	link-identity	ps2/libmtap_recovered.o
 printf	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/gspipe_recovered.o
-ps2_add_intc_handler_recovered	named-external	link-contract	reserved:link-contract	link-identity	ps2/gsdriver_recovered.o
-ps2_bios_syscall_2_recovered	named-external	link-contract	reserved:link-contract	link-identity	ps2/gsdriver_recovered.o
-ps2_disable_intc_recovered	named-external	link-contract	reserved:link-contract	link-identity	ps2/gsdriver_recovered.o
-ps2_enable_intc_recovered	named-external	link-contract	reserved:link-contract	link-identity	ps2/gsdriver_recovered.o
-ps2_gs_put_imr_recovered	named-external	link-contract	reserved:link-contract	link-identity	ps2/gsdriver_recovered.o
-ps2_remove_intc_handler_recovered	named-external	link-contract	reserved:link-contract	link-identity	ps2/gsdriver_recovered.o
 puRam00426fc4	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 puRam00447754	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 puRam00447758	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1782,11 +1768,6 @@ snes_vtable_00426c28	vtable-or-rtti	program-data	reserved:vtable-data.o	program-
 snprintf	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/small_dispatch_recovered.o;snes9x/memmap_metadata_recovered.o
 sprintf	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/path_helpers_recovered.o;ps2/progress12_io_state_recovered.o;zlib/gzio_recovered.o
 sqrtf	named-external	link-contract	reserved:link-contract	link-identity	ps2/newlib_mathfp_recovered.o
-stack0x00000000	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-stack0xffffef20	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-stack0xffffef90	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-stack0xffffef98	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-stack0xffffefa4	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 strcasecmp	named-external	link-contract	reserved:link-contract	link-identity	ps2/audio_rpc_recovered.o
 strcat	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/path_helpers_recovered.o;zlib/gzio_recovered.o
 strchr	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
@@ -1814,10 +1795,8 @@ sub_00183d40	target-function-alias	source-address-alias	src/ps2/progress12_io_st
 switchdataD_001b18f8	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 switchdataD_001ba82c	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 switchdataD_001baad0	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-syscall	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 target_video_mode_byte_001fc752	named-external	link-contract	reserved:link-contract	link-identity	ps2/gsdriver_recovered.o
 top_level_gui_00102ab0	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
-trap	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 uRam00426e20	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 uRam00426e3c	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 uRam00426fa4	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o

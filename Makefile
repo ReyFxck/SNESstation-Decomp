@@ -83,6 +83,11 @@ NAMED_DATA_BUILD_DIR := $(BUILD_DIR)/named-data
 NAMED_DATA_INPUT := $(PRIVATE_ASSET_OUTPUT)
 NAMED_DATA_OUTPUT := $(NAMED_DATA_BUILD_DIR)/source-tree.named-data.partial.o
 NAMED_DATA_REPORT := $(NAMED_DATA_BUILD_DIR)/report.json
+NAMED_CONTRACT_MANIFEST := analysis/link_identity/named_contracts.tsv
+NAMED_CONTRACT_BUILD_DIR := $(BUILD_DIR)/named-contracts
+NAMED_CONTRACT_INPUT := $(PRIVATE_ASSET_OUTPUT)
+NAMED_CONTRACT_OUTPUT := $(NAMED_CONTRACT_BUILD_DIR)/source-tree.named-contracts.partial.o
+NAMED_CONTRACT_REPORT := $(NAMED_CONTRACT_BUILD_DIR)/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -138,6 +143,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	private-assets private-assets-check private-assets-refresh private-assets-public-check \
 	provider-frontier provider-frontier-check provider-frontier-refresh provider-frontier-public-check \
 	named-data named-data-check named-data-verify named-data-refresh named-data-public-check \
+	named-contracts named-contracts-check named-contracts-verify named-contracts-refresh named-contracts-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -172,8 +178,9 @@ help:
 	@echo "  make source-aliases  prove and apply zero-byte Stage-3 address aliases"
 	@echo "  make link-contracts  apply the zero-byte Stage-3 link-contract frontier"
 	@echo "  make private-assets  verify and link the five private embedded-asset bundles"
-	@echo "  make provider-frontier  close the post-refactor 248-name source-link frontier"
+	@echo "  make provider-frontier  close the post-Stage-3E 227-name source-link frontier"
 	@echo "  make named-data      verify the closed 54/54 Stage-3C ledger and exact ranges"
+	@echo "  make named-contracts verify the closed 212/212 Stage-3E ledger and exact ranges"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -267,7 +274,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -682,6 +689,68 @@ named-data-public-check:
 		--reviews "$(NAMED_DATA_REVIEWS)" \
 		--manifest "$(NAMED_DATA_MANIFEST)"
 
+# Stage 3E: close the historical 205 named contracts plus seven zlib peers.
+# Public verification uses only addresses, extents and hashes. Private link
+# verification materializes exact ranges only below ignored build/.
+named-contracts: reference bootstrap-ee-stage1
+	$(MAKE) named-contracts-check EE_CC="$(EE_STAGE1_CC)"
+
+named-contracts-check: private-assets-check
+	@test -f "$(REFERENCE_RAW)" || { \
+		echo "Missing private unpacked reference: $(REFERENCE_RAW)" >&2; \
+		echo "Run make reference first." >&2; \
+		exit 2; \
+	}
+	$(PYTHON) tools/named_contracts.py link \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)" \
+		--source-alias-manifest "$(SOURCE_ALIAS_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--stage3c-manifest "$(NAMED_DATA_MANIFEST)" \
+		--manifest "$(NAMED_CONTRACT_MANIFEST)" \
+		--reference "$(REFERENCE_RAW)" \
+		--compiler "$(EE_CC)" \
+		--input "$(NAMED_CONTRACT_INPUT)" \
+		--build-dir "$(NAMED_CONTRACT_BUILD_DIR)" \
+		--output "$(NAMED_CONTRACT_OUTPUT)" \
+		--report "$(NAMED_CONTRACT_REPORT)"
+
+named-contracts-verify: reference
+	$(PYTHON) tools/named_contracts.py verify \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)" \
+		--source-alias-manifest "$(SOURCE_ALIAS_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--manifest "$(NAMED_CONTRACT_MANIFEST)" \
+		--reference "$(REFERENCE_RAW)" \
+		--report "$(NAMED_CONTRACT_REPORT)"
+
+# Refreshing private fingerprints is a reviewed range-boundary decision.
+named-contracts-refresh: reference
+	$(PYTHON) tools/named_contracts.py refresh \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)" \
+		--source-alias-manifest "$(SOURCE_ALIAS_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--manifest "$(NAMED_CONTRACT_MANIFEST)" \
+		--reference "$(REFERENCE_RAW)"
+
+named-contracts-public-check:
+	$(PYTHON) tools/named_contracts.py validate \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)" \
+		--source-alias-manifest "$(SOURCE_ALIAS_MANIFEST)" \
+		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--manifest "$(NAMED_CONTRACT_MANIFEST)"
+
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \
 		--compiler "$(EE_CC)" \
@@ -924,12 +993,15 @@ elf-status: audit-source-check
 	@echo "Function-code gate: CLOSED (1041/1041 strict matches)"
 	@echo "Build-ready source ownership: CLOSED (97/97 TUs; 96 canonical objects)"
 	@echo "Unpacked layout oracle: CLOSED (1 section; 13 blocks; 51 hash windows)"
-	@echo "Zero-byte link contracts: 1336/1594 resolved (1273 anchors; 63 aliases)"
-	@echo "Private assets: CLOSED (10 providers; 62736 verified private bytes)"
-	@echo "Source-link provider namespace: CLOSED (248 -> 0 externals)"
+	@echo "Zero-byte link contracts: 1336/1573 resolved (1273 anchors; 63 aliases)"
+	@echo "Private assets: CLOSED (10 providers; 62736 bytes; frontier 237 -> 227)"
+	@echo "Source-link provider namespace: CLOSED (227 -> 0 externals)"
 	@echo "Original Stage 3C: CLOSED (50 exact target ranges + 4 removed source adapters)"
+	@echo "Original Stage 3E: CLOSED (212/212; 165 fingerprinted ranges/data aliases)"
+	@echo "Compatibility storage: CLOSED (39 -> 0 exact-range replacements)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
-	@echo "  - replace compatibility storage/shims with exact target initializers/archive members"
+	@echo "  - replace four remaining runtime shims with exact historical archive members"
+	@echo "  - close Stage 3D runtimes and Stage 3F unnamed data ranges/bytes"
 	@echo "  - reproduce data layout, relocations and section alignment"
 	@echo "  - prove exact EE archives, linker script, object order and library order"
 	@echo "  - reproduce SJCRUNCH2 packing and both reference hashes"

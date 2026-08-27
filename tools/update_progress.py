@@ -26,6 +26,7 @@ LINK_CONTRACTS = ROOT / "analysis" / "link_identity" / "link_contracts.tsv"
 PRIVATE_ASSET_PROVIDERS = ROOT / "analysis" / "link_identity" / "private_asset_providers.tsv"
 PROVIDER_FRONTIER_CLOSURE = ROOT / "analysis" / "link_identity" / "provider_frontier_closure.tsv"
 NAMED_DATA = ROOT / "analysis" / "link_identity" / "named_data.tsv"
+NAMED_CONTRACTS = ROOT / "analysis" / "link_identity" / "named_contracts.tsv"
 OUT = ROOT / "docs" / "PROGRESS.generated.md"
 SVG_OUT = ROOT / "assets" / "progress.svg"
 STATUS_OUT = ROOT / "docs" / "status" / "PROJECT_STATUS.generated.md"
@@ -261,7 +262,7 @@ def main() -> None:
         or provider_symbols != expected_private_symbols
         or len(provider_symbols) != 10
         or provider_bytes != 62_736
-        or provider_frontier != 248
+        or provider_frontier != 227
     ):
         raise SystemExit("invalid private-asset provider manifest")
     closure_rows = list(
@@ -289,15 +290,15 @@ def main() -> None:
     )
     if (
         closure_symbols != active_provider_symbols
-        or len(closure_rows) != 248
+        or len(closure_rows) != 227
         or closure_kind_counts
         != {
-            "absolute-target-anchor": 181,
+            "absolute-target-anchor": 175,
             "semantic-text-alias": 9,
-            "compatibility-storage": 41,
-            "compatibility-runtime-shim": 17,
+            "compatibility-storage": 39,
+            "compatibility-runtime-shim": 4,
         }
-        or closure_storage_bytes != 144_642
+        or closure_storage_bytes != 144_630
     ):
         raise SystemExit("invalid provider-frontier closure manifest")
 
@@ -363,6 +364,84 @@ def main() -> None:
         or exact_cluster_bytes != 141_159
     ):
         raise SystemExit("invalid Stage-3C named-data manifest")
+
+    named_contract_rows = list(
+        csv.DictReader(NAMED_CONTRACTS.open(encoding="utf-8"), delimiter="\t")
+    )
+    named_contract_statuses = {
+        status: sum(row["status"] == status for row in named_contract_rows)
+        for status in (
+            "TEXT_ALIAS_PROVED",
+            "TARGET_RANGE_PROVED",
+            "TARGET_ENTRY_PROVED",
+            "EXTERNAL_ADDRESS_PROVED",
+            "DATA_ALIAS_PROVED",
+            "SOURCE_REFACTOR_CLOSED",
+        )
+    }
+    named_contract_fingerprinted = sum(
+        row["status"] in {"TARGET_RANGE_PROVED", "DATA_ALIAS_PROVED"}
+        for row in named_contract_rows
+    )
+    named_contract_addressed = sum(
+        bool(row["target_address"]) for row in named_contract_rows
+    )
+    named_contract_zlib = sum(
+        row["category"] == "zlib-peer" for row in named_contract_rows
+    )
+    stage3e_range_rows = [
+        row for row in named_contract_rows
+        if row["status"] == "TARGET_RANGE_PROVED"
+    ]
+    stage3e_exact_storage = {
+        row["symbol"]
+        for row in stage3e_range_rows
+        if row["symbol"] in compatibility_storage
+    }
+    stage3e_intervals = sorted(
+        (
+            int(row["target_address"], 0),
+            int(row["target_address"], 0) + int(row["extent_hex"], 0),
+        )
+        for row in stage3e_range_rows
+    )
+    stage3e_clusters: list[list[int]] = []
+    for start_address, end_address in stage3e_intervals:
+        if not stage3e_clusters or start_address > stage3e_clusters[-1][1]:
+            stage3e_clusters.append([start_address, end_address])
+        else:
+            stage3e_clusters[-1][1] = max(stage3e_clusters[-1][1], end_address)
+    stage3e_cluster_bytes = sum(end - start for start, end in stage3e_clusters)
+    combined_intervals = sorted([*exact_intervals, *stage3e_intervals])
+    combined_clusters: list[list[int]] = []
+    for start_address, end_address in combined_intervals:
+        if not combined_clusters or start_address > combined_clusters[-1][1]:
+            combined_clusters.append([start_address, end_address])
+        else:
+            combined_clusters[-1][1] = max(combined_clusters[-1][1], end_address)
+    combined_cluster_bytes = sum(end - start for start, end in combined_clusters)
+    if (
+        len(named_contract_rows) != 212
+        or len({row["symbol"] for row in named_contract_rows}) != 212
+        or named_contract_statuses
+        != {
+            "TEXT_ALIAS_PROVED": 23,
+            "TARGET_RANGE_PROVED": 164,
+            "TARGET_ENTRY_PROVED": 2,
+            "EXTERNAL_ADDRESS_PROVED": 2,
+            "DATA_ALIAS_PROVED": 1,
+            "SOURCE_REFACTOR_CLOSED": 20,
+        }
+        or named_contract_fingerprinted != 165
+        or named_contract_addressed != 192
+        or named_contract_zlib != 7
+        or len(stage3e_exact_storage) != 7
+        or len(stage3e_clusters) != 49
+        or stage3e_cluster_bytes != 26_633
+        or len(combined_clusters) != 61
+        or combined_cluster_bytes != 167_782
+    ):
+        raise SystemExit("invalid Stage-3E named-contract manifest")
 
     draw = [
         r for r in rows
@@ -449,6 +528,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Private embedded-asset providers | **{len(provider_symbols)}/{len(expected_private_symbols)} resolved** | Five verified private bundles emit {provider_bytes:,} ignored bytes and reduce the active frontier to {provider_frontier:,}. |
 | Source-link provider namespace | **{len(closure_rows)}/{len(active_provider_symbols)} resolved** | {closure_kind_counts['absolute-target-anchor']} target anchors, {closure_kind_counts['semantic-text-alias']} text aliases, {closure_kind_counts['compatibility-storage']} storage definitions and {closure_kind_counts['compatibility-runtime-shim']} EE shims reduce aggregate externals to zero. |
 | Original Stage-3C named-data tranche | **54/54 adjudicated; {named_data_fingerprinted} exact target ranges + {named_data_statuses['SOURCE_REFACTOR_CLOSED']} closed source refactors** | All target objects are fingerprinted, {len(exact_named_data)} compatibility stores are replaced, and {len(exact_clusters)} overlap-aware private-reference clusters cover {exact_cluster_bytes:,} unique bytes. |
+| Original Stage-3E named-contract tranche | **212/212 adjudicated; {named_contract_fingerprinted} fingerprinted ranges/data aliases + {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} closed source refactors** | {named_contract_statuses['TEXT_ALIAS_PROVED']} text aliases, {named_contract_statuses['TARGET_RANGE_PROVED']} target ranges, two target entries, two external addresses and one canonical data alias remove all remaining compatibility storage. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -468,25 +548,33 @@ cumulative proof to {alias_proved} of {len(alias_rows)} aliases against
 {alias_targets} canonical global text symbols and applies them without changing
 any allocated section bytes; {alias_blocked} boundary/archive rows remain
 explicit blockers.
-V85/V89 classify the live 1,594-name post-refactor aggregate and resolve
+V85/V89 froze the preceding 1,594-name post-Stage-3C aggregate. V90 removes
+twenty target-absent instruction/stack adapters and canonicalizes `errno` to
+the existing target word, so the live source now has 1,896 externals and the
+alias-resolved contract map has {len(contract_rows):,} rows. It still resolves
 {contract_resolved:,} contracts without allocating a byte: {contract_anchors:,}
 target-address data anchors and {contract_aliases} semantic aliases. The
 remaining {contract_blocked:,} names are the explicit provider frontier. The
 V86 private-reference gate then materializes five embedded-asset bundles,
 proves all {len(provider_symbols)} source-level data/size symbols, and reduces
 that frontier to {provider_frontier:,} without changing any existing allocated
-section. V87 closes all {len(closure_rows)} remaining source-link names in one
-audited batch and proves an aggregate external count of zero. Its compatibility
-storage and runtime shims are linkability scaffolding, not claims about exact
-target initializers or historical archive members. V88 opened the original
+section. The live V90 closure classifies all {len(closure_rows)} remaining
+source-link names and proves an aggregate external count of zero. V87 remains
+the historical pre-refactor 248-row checkpoint. V88 opened the original
 54-row Stage-3C audit. V89 closes it: 50 real target objects carry exact
 private-reference fingerprints in {len(exact_clusters)} overlap-aware clusters
 covering {exact_cluster_bytes:,} unique bytes, while four invented source
-adapters are proved absent and removed. The live external set is therefore
-1,917 rather than the historical 1,921-plan count; {len(exact_named_data)}
-compatibility stores are replaced and only nine later-stage stores remain.
+adapters are proved absent and removed. V90 then closes the historical
+212-row Stage-3E ledger: {named_contract_statuses['TARGET_RANGE_PROVED']} exact
+target ranges plus one canonical data alias are fingerprinted, all seven zlib
+peers bind to recovered target text, and {named_contract_statuses['SOURCE_REFACTOR_CLOSED']}
+source-only contracts are eliminated. Across Stages 3C and 3E, 196 provider
+names occupy {len(combined_clusters)} overlap-aware clusters covering
+{combined_cluster_bytes:,} unique bytes; compatibility storage falls from 39
+to zero while four historical-runtime shims remain explicit.
 The current batch is documented in
-[`V89_STAGE3C_CLOSED.md`](V89_STAGE3C_CLOSED.md); V88 remains documented
+[`V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md);
+V89 remains documented in [`V89_STAGE3C_CLOSED.md`](V89_STAGE3C_CLOSED.md); V88 remains documented
 in [`V88_STAGE3C_NAMED_DATA.md`](V88_STAGE3C_NAMED_DATA.md); V87 remains documented
 in [`V87_PROVIDER_FRONTIER_CLOSED.md`](V87_PROVIDER_FRONTIER_CLOSED.md); V86 remains
 documented in [`V86_PRIVATE_ASSET_PROVIDERS.md`](V86_PRIVATE_ASSET_PROVIDERS.md); V85 remains
@@ -506,10 +594,12 @@ closure remains frozen in
 5. **Zero-byte link-contract tranche frozen:** {contract_resolved:,}/{len(contract_rows):,} are resolved and the exact {contract_blocked:,}-name input provider frontier is classified.
 6. **Private-asset tranche closed:** {len(provider_symbols)}/{len(expected_private_symbols)} provider symbols and {provider_bytes:,} bytes are privately verified.
 7. **Source-link provider namespace closed:** {len(closure_rows)}/{len(active_provider_symbols)} remaining contracts resolve and the aggregate has zero undefined globals.
-8. **Original Stage-3C tranche closed:** all 54 historical rows are adjudicated as {named_data_fingerprinted} exact target ranges plus {named_data_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors; compatibility storage falls from 41 to {41 - len(exact_named_data)}.
-9. Replace the remaining compatibility storage/shims with exact initializers and proved archive members; reproduce data/rodata/bss layout, relocations and section alignment.
-10. Recover the linker script, object order and library order.
-11. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+8. **Original Stage-3C tranche closed:** all 54 historical rows are adjudicated as {named_data_fingerprinted} exact target ranges plus {named_data_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors.
+9. **Original Stage-3E tranche closed:** all 212 historical rows are adjudicated; {named_contract_fingerprinted} target-backed ranges/data aliases are fingerprinted, seven zlib peers are exact text aliases and compatibility storage falls from 39 to zero.
+10. Close Stage 3D with exact historical runtime/archive revisions and members, replacing the four remaining shims.
+11. Close Stage 3F by recovering ranges, bytes, BSS boundaries and overlaps for the 1,265 unnamed address contracts.
+12. Reproduce data/rodata/bss layout, relocations, section alignment, linker script, object order and library order.
+13. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first
@@ -542,6 +632,7 @@ unproven final-ELF stage.
 - **Private embedded assets:** **{len(provider_symbols)}/{len(expected_private_symbols)} providers**, **{provider_bytes:,} verified private bytes**, **{provider_frontier:,} remaining externals**
 - **Source-link provider namespace:** **{len(closure_rows)}/{len(active_provider_symbols)} resolved**, **0 aggregate externals** ({closure_kind_counts['absolute-target-anchor']} anchors + {closure_kind_counts['semantic-text-alias']} aliases + {closure_kind_counts['compatibility-storage']} storage + {closure_kind_counts['compatibility-runtime-shim']} shims)
 - **Original Stage-3C named data:** **54/54 closed** (**{named_data_fingerprinted} exact target ranges + {named_data_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors**; {named_data_statuses['ADDRESS_PROVED']} address-only remain)
+- **Original Stage-3E named contracts:** **212/212 closed** (**{named_contract_fingerprinted} fingerprinted ranges/data aliases + {named_contract_statuses['TEXT_ALIAS_PROVED']} text aliases + {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors**; compatibility storage **39 → 0**)
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**

@@ -238,7 +238,7 @@ class LinkContractTests(unittest.TestCase):
         ]
         self.assertEqual((3, 1), verify_link_result(input_symbols, output_symbols, rows))
 
-    def test_frozen_repository_manifest_has_expected_v85_counts(self) -> None:
+    def test_frozen_repository_manifest_has_expected_live_counts(self) -> None:
         args = argparse.Namespace(
             external_map=DEFAULT_EXTERNAL,
             defined_map=DEFAULT_DEFINED,
@@ -250,15 +250,15 @@ class LinkContractTests(unittest.TestCase):
         )
         rows = validate_frozen_manifest(args)
         report = summarize(rows)
-        self.assertEqual(1594, report["contracts_total"])
+        self.assertEqual(1573, report["contracts_total"])
         self.assertEqual(1336, report["resolved"])
-        self.assertEqual(258, report["blocked"])
+        self.assertEqual(237, report["blocked"])
         self.assertEqual(1273, report["address_anchors"])
         self.assertEqual(63, report["semantic_aliases"])
         self.assertEqual(
             {
                 "historical-archive": 5,
-                "link-contract": 197,
+                "link-contract": 176,
                 "private-asset": 10,
                 "program-data": 32,
                 "source-address-alias": 14,

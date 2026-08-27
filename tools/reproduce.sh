@@ -10,14 +10,15 @@ show_status() {
     printf '\nImplemented whole-program gates:\n'
     printf '  - unpacked layout oracle: 1 section / 13 blocks / 51 hash windows\n'
     printf '  - source-address alias tranche: 323/337 proved; 14 explicit blockers\n'
-    printf '  - zero-byte link contracts: 1336/1594 resolved; 258-provider frontier\n'
-    printf '  - private embedded assets: 10/10 providers; 258 -> 248 frontier\n'
-    printf '  - source-link provider namespace: 248/248 resolved; 0 externals\n'
+    printf '  - zero-byte link contracts: 1336/1573 resolved; 237-provider frontier\n'
+    printf '  - private embedded assets: 10/10 providers; 237 -> 227 frontier\n'
+    printf '  - source-link provider namespace: 227/227 resolved; 0 externals\n'
     printf '  - original Stage-3C named data: CLOSED 54/54 (50 ranges + 4 refactors)\n'
+    printf '  - original Stage-3E named contracts: CLOSED 212/212 (165 fingerprints)\n'
     printf '\nExact replacement ELF still requires:\n'
-    printf '  - Stage 3D historical runtime/archive identities; remaining exact data\n'
-    printf '  - exact initializers replacing 9 compatibility stores; sections and relocations\n'
-    printf '  - exact historical members replacing shims; linker script and link order\n'
+    printf '  - Stage 3D historical runtime/archive identities; replace 4 shims\n'
+    printf '  - Stage 3F ranges/bytes for 1,265 unnamed address contracts\n'
+    printf '  - exact sections, relocations, linker script and link order\n'
     printf '  - reproduced SJCRUNCH2 packing\n'
 }
 
@@ -36,14 +37,14 @@ case "$MODE" in
     verify)
         make check
         require_reference
-        make named-data
+        make named-contracts
         make layout-oracle-check
         make elf-status
         ;;
     full)
         make check
         require_reference
-        make named-data
+        make named-contracts
         make layout-oracle-check
         make elf
         ;;

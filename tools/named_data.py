@@ -4,8 +4,10 @@
 The Stage-2 ownership checkpoint partitions its original 1,921 externals into
 the small-batch plan.  Stage 3C is exactly the historical 43
 ``named-program-data`` rows, one ``vtable-or-rtti`` row, and ten private-asset
-rows.  Four names were subsequently proved to be source-only adapters and
-removed, so the live source map has 1,917 externals and 50 Stage-3C objects.
+rows.  Four Stage-3C names were subsequently proved to be source-only adapters
+and removed.  The later Stage-3E cleanup removes 20 more source-only helpers
+and canonicalizes ``errno``, so the live source map has 1,896 externals while
+the historical 54-row Stage-3C ledger remains unchanged.
 This gate keeps the historical 54-row definition stable and distinguishes
 three materially different closed claims:
 
@@ -271,8 +273,8 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
               + counts[("zlib-peer", "source-or-archive")],
         "3F": counts[("target-address-data", "program-data")],
     }
-    expected = {"3B": 337, "3C": 50, "3D": 53, "3E": 212, "3F": 1265}
-    if partition != expected or sum(partition.values()) != 1917:
+    expected = {"3B": 337, "3C": 50, "3D": 53, "3E": 191, "3F": 1265}
+    if partition != expected or sum(partition.values()) != 1896:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 
@@ -624,8 +626,8 @@ def link_exact_providers(
         fail("private unpacked reference is missing or does not match the layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 248:
-        fail(f"expected post-refactor provider frontier of 248 rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 227:
+        fail(f"expected post-Stage-3E-refactor provider frontier of 227 rows, found {len(frontier_rows)}")
     replacements = exact_provider_rows(named_rows, frontier_rows)
     replacement_names = {row["symbol"] for row in replacements}
     exact_ranges = [row for row in named_rows if row["status"] == RANGE_PROVED]
@@ -748,7 +750,7 @@ def link_exact_providers(
         "exact_range_clusters": len(expected_exact_sections),
         "exact_range_bytes": sum(section["size"] for section in expected_exact_sections.values()),
         "compatibility_replacements": len(replacements),
-        "compatibility_storage_before": 41,
+        "compatibility_storage_before": 39,
         "compatibility_storage_after": compatibility_remaining,
         "input_external_symbols": len(input_undefined),
         "output_external_symbols": len(output_undefined),

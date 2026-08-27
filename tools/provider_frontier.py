@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-refactor 248-name source-link provider frontier.
+"""Close the post-Stage-3E-refactor 227-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -8,8 +8,8 @@ It combines four audited mechanisms:
 * target addresses already encoded in low-level lifted names;
 * reviewed aliases to recovered global text definitions;
 * typed compatibility storage for source-model globals; and
-* deterministic EE shims for compiler/intrinsic contracts introduced by the
-  buildable behavioral source models.
+* deterministic EE shims for the four still-unproved historical runtime
+  contracts.
 
 The shims and compatibility storage are generated below ignored ``build/``.
 They close the source-link namespace, but they do not claim original data
@@ -155,8 +155,6 @@ STORAGE_SIZES = {
     "S9xSync_PeriodPrevious": 0x4,
     "S9xSync_PeriodValue": 0x4,
     "Settings_SkipFrames": 0x4,
-    "_auStack_10e4": 0x8,
-    "errno": 0x4,
     "g_Settings_blob": 0x148,
     "g_bg_bitshift": 0x4,
     "g_bg_blob": 0x30,
@@ -189,23 +187,10 @@ STORAGE_SIZES = {
 }
 
 RUNTIME_SHIMS = {
-    "EI",
-    "SQRT",
     "__ashlti3",
     "__fixunssfdi",
     "__lshrti3",
-    "isinf",
-    "isnan",
-    "lrintf",
-    "ps2_add_intc_handler_recovered",
-    "ps2_bios_syscall_2_recovered",
-    "ps2_disable_intc_recovered",
-    "ps2_enable_intc_recovered",
-    "ps2_gs_put_imr_recovered",
-    "ps2_remove_intc_handler_recovered",
     "snprintf",
-    "syscall",
-    "trap",
 }
 
 KNOWN_DATA_ADDRESSES = {
@@ -282,8 +267,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 248:
-        fail(f"expected exact post-refactor frontier of 248 symbols, found {len(active)}")
+    if len(active) != 227:
+        fail(f"expected exact post-Stage-3E-refactor frontier of 227 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -360,10 +345,10 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 181,
+        ABSOLUTE_ANCHOR: 175,
         SEMANTIC_ALIAS: 9,
-        COMPAT_STORAGE: 41,
-        RUNTIME_SHIM: 17,
+        COMPAT_STORAGE: 39,
+        RUNTIME_SHIM: 4,
     }
     if dict(counts) != expected:
         fail(f"provider classification count drift: {dict(counts)} != {expected}")
@@ -495,55 +480,6 @@ int snprintf(char *dst, p_size_t size, const char *format, ...)
     return result;
 }
 
-int isnan(double value)
-{
-    union { double f; p_u32 u; } bits;
-    bits.f = value;
-    return (bits.u & 0x7fffffffu) > 0x7f800000u;
-}
-
-int isinf(double value)
-{
-    union { double f; p_u32 u; } bits;
-    bits.f = value;
-    return (bits.u & 0x7fffffffu) == 0x7f800000u;
-}
-
-long lrintf(float value)
-{
-    long result;
-    __asm__ volatile("cvt.w.s $f0,%1\n\tmfc1 %0,$f0" : "=r"(result) : "f"(value) : "$f0");
-    return result;
-}
-
-int SQRT(float value)
-{
-    int result;
-    __asm__ volatile("sqrt.s $f0,%1\n\ttrunc.w.s $f0,$f0\n\tmfc1 %0,$f0" : "=r"(result) : "f"(value) : "$f0");
-    return result;
-}
-
-int EI(void) { __asm__ volatile("ei" : : : "memory"); return 0; }
-int syscall(int ignored) { (void)ignored; __asm__ volatile("syscall" : : : "memory"); return 0; }
-int trap(int code) { (void)code; __asm__ volatile("break 7" : : : "memory"); return 0; }
-
-static int p_syscall3(int number, p_u32 a0v, p_u32 a1v, p_u32 a2v)
-{
-    register int v0 __asm__("$2");
-    register int v1 __asm__("$3") = number;
-    register p_u32 a0 __asm__("$4") = a0v;
-    register p_u32 a1 __asm__("$5") = a1v;
-    register p_u32 a2 __asm__("$6") = a2v;
-    __asm__ volatile("syscall" : "=r"(v0), "+r"(v1), "+r"(a0), "+r"(a1), "+r"(a2) : : "memory");
-    return v0;
-}
-
-int ps2_bios_syscall_2_recovered(int a0, int a1, int a2) { return p_syscall3(2, a0, a1, a2); }
-p_u32 ps2_add_intc_handler_recovered(int cause, void (*handler)(void), void *arg) { return (p_u32)p_syscall3(0x10, cause, (p_u32)handler, (p_u32)arg); }
-void ps2_remove_intc_handler_recovered(int cause, p_u32 id) { (void)p_syscall3(0x11, cause, id, 0); }
-void ps2_enable_intc_recovered(int cause) { (void)p_syscall3(0x14, cause, 0, 0); }
-void ps2_disable_intc_recovered(int cause) { (void)p_syscall3(0x15, cause, 0, 0); }
-void ps2_gs_put_imr_recovered(p_u32 value) { *(volatile p_u64 *)0x12001010u = (p_u64)value; }
 '''
 
 

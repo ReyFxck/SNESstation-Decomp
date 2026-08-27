@@ -16,6 +16,11 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "ee_intrinsics_recovered.h"
+
+#define isnan(value) snes_ee_isnan(value)
+#define isinf(value) snes_ee_isinf(value)
+
 static uint64_t double_to_raw(double value)
 {
     uint64_t raw;

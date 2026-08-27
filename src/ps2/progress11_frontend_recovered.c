@@ -11,6 +11,9 @@
 #include <stdlib.h>
 
 #include "gslib_recovered.h"
+#include "ee_intrinsics_recovered.h"
+
+#define lrintf(value) snes_ee_lrintf(value)
 
 typedef void (*P11VoidCallback)(void *opaque);
 typedef void (*P11FreeCallback)(void *ptr, void *opaque);
