@@ -221,3 +221,17 @@ The new Stage-3F audit rejects provisional `uint64_t` declarations as object
 size evidence. It proves **705 consumed spans / 70,746 unique bytes**, including
 eight fixed-count memory calls, and keeps all 560 unwitnessed names explicit.
 See [`status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
+
+## V95 section-backed addresses
+
+The source-link aggregate now binds **886/1,265** unnamed addresses to exact
+section storage, with 109 additional ranges / 69,768 bytes. It reuses the 66
+Stage-3C/E and asset sections and does not duplicate overlapping bytes. The
+12,078 original relocations to those names are preserved; 2,658 synthetic
+pointer/HI16/LO16 relocations pass an isolated placement check.
+
+**379 addresses remain unbacked.** The 705 direct-access proofs are unchanged;
+181 further labels merely fall inside already-proved storage. They deliberately
+have no object extent, and neither do section-backed addresses close complete
+array bounds or the final application integration. `make elf` remains blocked.
+See [`status/V95_SECTION_BACKED_DATA_ALIASES.md`](status/V95_SECTION_BACKED_DATA_ALIASES.md).

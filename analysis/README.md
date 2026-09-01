@@ -24,6 +24,7 @@ Subdirectories:
   closed seven-row Stage-3D libgcc ledger, four formatter-call refactor proofs,
   43 runtime contracts selecting 42 complete PS2LIB member texts, two separately
   proved target runtime overrides, 705/1,265 minimum unnamed-data access spans,
+  886 section-backed addresses with explicit physical range ownership,
   private-provider ranges and the complete source-link provider closure.
 - `archive/` — historical validation logs and exploratory sweeps no longer used
   as live inputs.

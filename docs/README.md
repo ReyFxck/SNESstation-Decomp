@@ -11,6 +11,7 @@ They are evidence of how conclusions were reached, not the current scoreboard.
 - [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) — source-model audit and build-readiness invariants.
 - [`status/FUNCTION_FRONTIER_1041_CHECKPOINT.md`](status/FUNCTION_FRONTIER_1041_CHECKPOINT.md) — immutable tag, hashes and clean-checkout gates for the closed 1,041-function frontier.
 - [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md) — frozen EE ABI, 97-unit manifest, symbol ownership and canonical partial-link gate.
+- [`status/V95_SECTION_BACKED_DATA_ALIASES.md`](status/V95_SECTION_BACKED_DATA_ALIASES.md) — 886/1,265 section-backed addresses, 69,768 additional proved bytes and an isolated address-relocation check; full data bounds remain open.
 - [`status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md) — runtime ledger 53/53; exact target-selected puts/abort overrides; 705/1,265 minimum data-access spans, not full Stage-3F closure.
 - [`status/V93_STAGE3D_RUNTIME_MEMBERS.md`](status/V93_STAGE3D_RUNTIME_MEMBERS.md) — historical 43 runtime contracts / 42 complete PS2LIB member texts checkpoint, Stage 3D 51/53.
 - [`status/V92_STAGE3D_SNPRINTF_REFACTOR.md`](status/V92_STAGE3D_SNPRINTF_REFACTOR.md) — four original sprintf calls proved; synthetic snprintf removed, zero runtime shims; historical Stage-3D 8/53 checkpoint.

@@ -138,3 +138,12 @@ runtime contract ledger. The new data audit proves minimum consumed spans for
 705/1,265 unnamed contracts without using provisional lifted C types as object
 sizes. Complete object bounds and final executable integration remain open.
 See [`V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
+
+V95 preserves the same 97 translation units, source-object fingerprints,
+defined/external ownership and namespace counts. Its downstream partial link
+binds 886 unnamed absolute anchors to section-relative storage labels,
+materializes 69,768 proved bytes and preserves all pre-existing allocated
+sections and 12,078 source relocations to those names. The new backing ledgers
+record physical range ownership without claiming original C object bounds.
+The 379 unbacked addresses and whole-program integration remain open. See
+[`V95_SECTION_BACKED_DATA_ALIASES.md`](V95_SECTION_BACKED_DATA_ALIASES.md).

@@ -99,6 +99,11 @@ RUNTIME_MEMBER_INPUTS := analysis/link_identity/runtime_member_inputs.tsv
 RUNTIME_MEMBER_BUILD_DIR := $(BUILD_DIR)/runtime-members
 RUNTIME_MEMBER_REPORT := $(RUNTIME_MEMBER_BUILD_DIR)/report.json
 RUNTIME_MEMBER_CACHE_ARG := $(if $(strip $(RUNTIME_MEMBER_SOURCE_CACHE)),--source-cache "$(RUNTIME_MEMBER_SOURCE_CACHE)",)
+DATA_BACKING_MANIFEST := analysis/link_identity/data_backing.tsv
+DATA_BACKING_SECTIONS := analysis/link_identity/data_backing_sections.tsv
+DATA_BACKING_BUILD_DIR := $(BUILD_DIR)/data-backing
+DATA_BACKING_OUTPUT := $(DATA_BACKING_BUILD_DIR)/source-tree.data-backed.partial.o
+DATA_BACKING_REPORT := $(DATA_BACKING_BUILD_DIR)/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -158,6 +163,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	libgcc-contracts libgcc-contracts-check libgcc-contracts-verify libgcc-contracts-refresh libgcc-contracts-public-check \
 	runtime-refactors runtime-refactors-check runtime-refactors-verify runtime-refactors-public-check \
 	runtime-members runtime-members-check runtime-members-verify runtime-members-refresh runtime-members-public-check \
+	data-backing data-backing-check data-backing-verify data-backing-refresh data-backing-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -197,7 +203,10 @@ help:
 	@echo "  make named-contracts verify the closed 212/212 Stage-3E ledger and exact ranges"
 	@echo "  make libgcc-contracts verify the closed 7/7 Stage-3D libgcc subtranche"
 	@echo "  make runtime-refactors prove four sprintf call sites; close the snprintf lift contract"
-	@echo "  make runtime-members   verify 42 complete PS2LIB member texts; Stage 3D 51/53"
+	@echo "  make runtime-members   verify 42 complete PS2LIB member texts; 43 contracts"
+	@echo "  make runtime-overrides prove target-selected puts/abort; Stage 3D 53/53"
+	@echo "  make unnamed-data      verify 705 minimum-access spans; full object bounds open"
+	@echo "  make data-backing      bind 886/1265 addresses to proved sections; 379 unbacked"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -291,7 +300,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check unnamed-data-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check unnamed-data-public-check data-backing-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -909,6 +918,28 @@ unnamed-data-refresh: reference
 unnamed-data-public-check:
 	$(PYTHON) tools/unnamed_data.py validate
 
+data-backing: reference bootstrap-ee-stage1
+	$(MAKE) data-backing-check EE_CC="$(EE_STAGE1_CC)"
+
+data-backing-check: named-contracts-check unnamed-data-verify
+	$(PYTHON) tools/data_backing.py link \
+		--compiler "$(EE_CC)" --reference "$(REFERENCE_RAW)" \
+		--manifest "$(DATA_BACKING_MANIFEST)" --sections "$(DATA_BACKING_SECTIONS)" \
+		--input "$(NAMED_CONTRACT_OUTPUT)" --build-dir "$(DATA_BACKING_BUILD_DIR)" \
+		--output "$(DATA_BACKING_OUTPUT)" --report "$(DATA_BACKING_REPORT)"
+
+data-backing-verify: reference
+	$(PYTHON) tools/data_backing.py verify --reference "$(REFERENCE_RAW)" \
+		--manifest "$(DATA_BACKING_MANIFEST)" --sections "$(DATA_BACKING_SECTIONS)"
+
+data-backing-refresh: reference
+	$(PYTHON) tools/data_backing.py capture --reference "$(REFERENCE_RAW)" \
+		--manifest "$(DATA_BACKING_MANIFEST)" --sections "$(DATA_BACKING_SECTIONS)"
+
+data-backing-public-check:
+	$(PYTHON) tools/data_backing.py validate \
+		--manifest "$(DATA_BACKING_MANIFEST)" --sections "$(DATA_BACKING_SECTIONS)"
+
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \
 		--compiler "$(EE_CC)" \
@@ -1159,6 +1190,7 @@ elf-status: audit-source-check
 	@echo "Stage 3D libgcc: CLOSED (4 exact archive members + 3 source refactors)"
 	@echo "Stage 3D runtime contracts: CLOSED (53/53; puts/abort target overrides proved)"
 	@echo "Stage 3F access spans: 705/1265 witnessed; complete object/array extents OPEN"
+	@echo "Stage 3F storage-backed addresses: 886/1265; 379 unbacked; 69768 additional proved bytes"
 	@echo "Compatibility storage: CLOSED (39 -> 0 exact-range replacements)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
 	@echo "  - select and integrate exact function implementations into final objects"

@@ -135,3 +135,18 @@ two recovered providers at their exact target addresses. `make unnamed-data`
 re-derives consumed data spans from the private target; ordinary validation
 does not update hashes. Both have repository-only `*-public-check` gates.
 See [`V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](../../docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
+
+`data_backing.tsv` preserves the 1,265-name roster and assigns 886 zero-sized
+section-relative aliases; 379 remain absolute anchors without proved storage.
+`data_backing_sections.tsv` owns 175 nonoverlapping physical ranges (66 reused,
+109 added), with hashes only. Its 181 interior-address-only aliases do not gain
+access-width or object-bound claims. The V94 access ledger is unchanged.
+
+`make data-backing-public-check` re-derives that geometry and ownership without
+private bytes. `make data-backing-verify` verifies the reference hashes and
+instruction evidence without requiring a compiler. `make data-backing` also
+links the real aggregate, preserves original allocated sections and all 12,078
+affected source relocations, and proves 2,658 synthetic address relocations in
+an isolated data-placement ELF. It does not produce an emulator. Only explicit
+`make data-backing-refresh` replaces the reviewed hash ledger. See
+[`V95_SECTION_BACKED_DATA_ALIASES.md`](../../docs/status/V95_SECTION_BACKED_DATA_ALIASES.md).

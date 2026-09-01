@@ -21,9 +21,11 @@ show_status() {
     printf '  - Stage-3D target overrides: 2/2; 15 named calls; 104 exact linked bytes\n'
     printf '  - Stage-3D runtime contract ledger: CLOSED 53/53\n'
     printf '  - Stage-3F access spans: 705/1265; 70,746 unique consumed bytes\n'
+    printf '  - Stage-3F section backing: 886/1265 addresses; 69,768 additional proved bytes\n'
     printf '\nExact replacement ELF still requires:\n'
     printf '  - final source selection/integration of exact function implementations\n'
     printf '  - complete Stage-3F object/array extents; 560 lack direct access witnesses\n'
+    printf '  - backing for 379 remaining addresses; 181 backed interiors do not prove bounds\n'
     printf '  - historical member data and original whole-archive composition\n'
     printf '  - exact sections, relocations, linker script and link order\n'
     printf '  - reproduced SJCRUNCH2 packing\n'
@@ -46,6 +48,7 @@ case "$MODE" in
         require_reference
         make runtime-overrides
         make unnamed-data
+        make data-backing
         make layout-oracle-check
         make elf-status
         ;;
@@ -54,6 +57,7 @@ case "$MODE" in
         require_reference
         make runtime-overrides
         make unnamed-data
+        make data-backing
         make layout-oracle-check
         make elf
         ;;

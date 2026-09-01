@@ -64,9 +64,10 @@ The original tranche names remain the authoritative plan: 3A, 3B, 3C and 3E
 are closed; 3D now adjudicates all 53 runtime contracts, including the two
 target-selected `puts`/`abort` overrides. Full archive composition, member data
 and final global relocations remain separate integration work. Stage 3F has
-705/1,265 target-consumed access spans but not complete object/array bounds;
+705/1,265 target-consumed access spans and 886/1,265 section-backed addresses,
+but not complete object/array bounds; 379 addresses remain unbacked.
 3G/3H remain the final layout and image gates. See
-[`status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
+[`status/V95_SECTION_BACKED_DATA_ALIASES.md`](status/V95_SECTION_BACKED_DATA_ALIASES.md).
 
 - [x] Freeze a byte-free unpacked-layout oracle with SJCRUNCH2 section/block
   geometry, 64 KiB hashes and an exact first-difference comparator.
@@ -109,13 +110,18 @@ and final global relocations remain separate integration work. Stage 3F has
   two incompatible historical provider candidates rejected (V94: 53/53).
 - [x] Prove minimum consumed spans for 705/1,265 Stage-3F contracts directly
   from target instructions and fixed-count memory calls (70,746 unique bytes).
+- [x] Materialize 109 uncovered minimum-access ranges (69,768 bytes), reuse
+  66 exact sections and bind 886 addresses as zero-sized section-relative
+  aliases; preserve 12,078 source relocations and prove 2,658 isolated address
+  relocations. The 181 interior-only aliases do not prove their access widths.
 - [ ] Select and integrate the exact per-function implementations into the
   final object set; compiling the canonical behavioral models is not proof
   that their aggregate code equals the complete target text.
 - [ ] Integrate member data and final relocation values; prove original archive
   composition rather than treating local selection containers as historical.
 - [ ] Recover exact ranges, bytes, zero-fill boundaries and overlaps for the
-  1,265 Stage-3F unnamed address contracts.
+  379 unbacked Stage-3F addresses and complete object/array bounds for all
+  1,265 unnamed contracts.
 - [ ] Recover the application linker script and section alignment.
 - [ ] Recover object order and library order.
 - [ ] Reproduce relocations, string pooling and final unpacked data layout.

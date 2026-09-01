@@ -39,6 +39,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3D PS2LIB member text:** **43 contracts / 42 complete objects**, **12,964 bytes**
 - **Stage-3D runtime contracts:** **53/53 closed**, **0 open**; `puts`/`abort` have 15 named-call witnesses and 104 exact linked bytes
 - **Stage-3F unnamed data access proof:** **705/1,265** consumed spans, **70,746 unique bytes**; complete object/array extents remain open
+- **Stage-3F section-backed addresses:** **886/1,265**, **379 unbacked**; **69,768 additional proved bytes**, not complete-object closure
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -101,6 +102,7 @@ make runtime-refactors
 make runtime-members
 make runtime-overrides
 make unnamed-data
+make data-backing
 make layout-oracle
 ```
 
@@ -217,6 +219,15 @@ proves minimum target-consumed spans for **705/1,265** unnamed contracts,
 covering **70,746 unique bytes**; complete object/array bounds, source selection,
 member data and the final link/packing identity remain open. See
 [`docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
+
+`make data-backing` binds **886/1,265 unnamed addresses** to exact sections,
+reusing 66 existing sections and adding only **109 proved ranges / 69,768 bytes**.
+All 12,078 source relocations to these aliases remain unchanged; an isolated
+probe proves 886 pointer values and 886 HI16/LO16 pairs. Of the backed labels,
+181 are interior addresses without their own access-width proof. The remaining
+379 addresses and complete C object/array bounds are still open; the probe is
+not a replacement emulator ELF. See
+[`docs/status/V95_SECTION_BACKED_DATA_ALIASES.md`](docs/status/V95_SECTION_BACKED_DATA_ALIASES.md).
 
 ## Target fingerprint
 

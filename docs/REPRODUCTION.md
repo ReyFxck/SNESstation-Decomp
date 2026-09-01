@@ -32,6 +32,7 @@ make runtime-refactors  # prove four sprintf calls; runtime shims 1 -> 0
 make runtime-members    # prove 43 contracts / 42 PS2LIB member texts
 make runtime-overrides  # two selected runtime overrides; Stage 3D 53/53
 make unnamed-data      # 705/1265 minimum access spans; full data bounds remain open
+make data-backing      # 886/1265 section-backed addresses; 379 still unbacked
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -86,7 +87,12 @@ The final pipeline must prove every layer:
 14. **Unnamed data (Stage 3F)** — 705/1,265 contracts have minimum consumed
    spans proved from target instructions and fixed-count memory calls. Recover
    the complete object/array bounds, remaining indexed uses, overlaps and
-   zero-fill boundaries; 560 names still lack a direct access witness.
+   zero-fill boundaries; 560 names still lack a direct access witness. The
+   section-backing gate reuses 66 exact sections, adds 109 minimum-access
+   ranges / 69,768 bytes and binds 886 addresses to real section storage.
+   It preserves 12,078 source relocations and proves 2,658 synthetic address
+   relocations. The 181 interior-only aliases have no access-width claim;
+   379 addresses remain unbacked, and full object bounds are still open.
 15. **Link** — select/integrate exact implementation objects, linker script,
    section addresses, object order and library order to
    reproduce the unpacked ELF image.
@@ -114,6 +120,8 @@ The complete PS2LIB member-text recipes and two rejected candidates are in
 [`status/V93_STAGE3D_RUNTIME_MEMBERS.md`](status/V93_STAGE3D_RUNTIME_MEMBERS.md).
 The target-selected override closure and minimum unnamed-data access proofs are in
 [`status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
+The section-relative backing ownership and isolated relocation proof are in
+[`status/V95_SECTION_BACKED_DATA_ALIASES.md`](status/V95_SECTION_BACKED_DATA_ALIASES.md).
 The closed Stage-3E checkpoint is recorded in
 [`status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md).
 The preceding closed Stage-3C checkpoint is recorded in
