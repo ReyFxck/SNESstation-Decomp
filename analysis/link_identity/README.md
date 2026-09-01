@@ -47,8 +47,8 @@ This directory contains public, byte-free evidence for the Stage-3 link gate.
 - `runtime_overrides.tsv` and `runtime_override_witnesses.tsv` prove the two
   target-selected reconstructed overrides via 15 historical named calls and
   104 exact linked bytes; the original runtime ledger reaches 53/53.
-- `unnamed_data_accesses.tsv` retains all 1,265 unnamed contracts: 705 have
-  minimum target-consumed spans (70,746 unique bytes), and 560 lack direct
+- `unnamed_data_accesses.tsv` retains all 1,265 unnamed contracts: 824 have
+  minimum target-consumed spans (167,521 unique bytes), and 441 lack
   witnesses. Complete object/array extents and Stage-3F closure remain open.
 
 The manifest deliberately contains no original executable bytes, extracted
@@ -136,17 +136,19 @@ re-derives consumed data spans from the private target; ordinary validation
 does not update hashes. Both have repository-only `*-public-check` gates.
 See [`V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](../../docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
 
-`data_backing.tsv` preserves the 1,265-name roster and assigns 886 zero-sized
-section-relative aliases; 379 remain absolute anchors without proved storage.
-`data_backing_sections.tsv` owns 175 nonoverlapping physical ranges (66 reused,
-109 added), with hashes only. Its 181 interior-address-only aliases do not gain
-access-width or object-bound claims. The V94 access ledger is unchanged.
+`data_backing.tsv` preserves the 1,265-name roster and assigns 961 zero-sized
+section-relative aliases; 304 remain absolute anchors without proved storage.
+`data_backing_sections.tsv` owns 183 nonoverlapping physical ranges (66 reused,
+117 materialized), with hashes only. Its 137 interior-address-only aliases do
+not gain access-width or object-bound claims. V96 adds the proof kind, full
+function hash and analyzer hash to the access ledger; 131 entries now use
+must-constant CFG witnesses, including 119 newly witnessed contracts.
 
 `make data-backing-public-check` re-derives that geometry and ownership without
 private bytes. `make data-backing-verify` verifies the reference hashes and
 instruction evidence without requiring a compiler. `make data-backing` also
-links the real aggregate, preserves original allocated sections and all 12,078
-affected source relocations, and proves 2,658 synthetic address relocations in
+links the real aggregate, preserves original allocated sections and all 12,434
+affected source relocations, and proves 2,883 synthetic address relocations in
 an isolated data-placement ELF. It does not produce an emulator. Only explicit
 `make data-backing-refresh` replaces the reviewed hash ledger. See
-[`V95_SECTION_BACKED_DATA_ALIASES.md`](../../docs/status/V95_SECTION_BACKED_DATA_ALIASES.md).
+[`V96_CONTROL_FLOW_DATA_ACCESSES.md`](../../docs/status/V96_CONTROL_FLOW_DATA_ACCESSES.md).

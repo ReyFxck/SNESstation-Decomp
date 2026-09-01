@@ -132,11 +132,12 @@ class UnnamedDataManifestTests(unittest.TestCase):
 
     def test_direct_access_counts_do_not_claim_complete_stage3f(self):
         report = data.statistics(self.rows)
-        self.assertEqual((1265, 705, 560, 70746), tuple(report[k] for k in
+        self.assertEqual((1265, 824, 441, 167521), tuple(report[k] for k in
                          ("contracts_total", "direct_access_proved", "awaiting_direct_access", "unique_consumed_bytes")))
         self.assertFalse(report["complete_object_extents_proved"])
         self.assertFalse(report["stage3f_closed"])
-        self.assertEqual(8, report["constant_call_ranges"])
+        self.assertEqual(10, report["constant_call_ranges"])
+        self.assertEqual({data.LOCAL: 693, data.FLOW: 131}, report["proof_kinds"])
 
     def test_overlaps_are_counted_once(self):
         rows = [dict(self.proved, target_address="0x100000", extent_hex="0x8"),
@@ -185,6 +186,19 @@ class UnnamedDataManifestTests(unittest.TestCase):
         row = next(r for r in self.rows if r["callee_address"])
         row["base_register"] = "7"
         self.changed("argument/extent")
+
+    def test_cfg_proof_cannot_use_a_partial_instruction_window(self):
+        row = next(r for r in self.rows if r['proof_kind'] == data.FLOW)
+        row['instruction_window_sha256'] = '0'*64
+        self.changed("complete function")
+
+    def test_analyzer_drift_requires_private_recapture(self):
+        self.proved['analysis_sha256'] = '0'*64
+        self.changed("analysis profile")
+
+    def test_unknown_analysis_kind_rejected(self):
+        self.proved['proof_kind'] = 'assume-all-paths'
+        self.changed("proof kind")
 
 
 if __name__ == "__main__":

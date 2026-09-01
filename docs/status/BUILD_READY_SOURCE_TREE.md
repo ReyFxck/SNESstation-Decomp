@@ -147,3 +147,11 @@ sections and 12,078 source relocations to those names. The new backing ledgers
 record physical range ownership without claiming original C object bounds.
 The 379 unbacked addresses and whole-program integration remain open. See
 [`V95_SECTION_BACKED_DATA_ALIASES.md`](V95_SECTION_BACKED_DATA_ALIASES.md).
+
+V96 leaves these Stage-2 sources, ownership maps and object fingerprints
+unchanged. Its CFG-aware access analysis raises the minimum-access ledger to
+824 contracts, section backing to 961 addresses and the preserved relocation
+roster to 12,434. Another 96,178 target-backed data bytes are materialized;
+this is downstream data ownership, not a new claim that the behavioral source
+aggregate is the final exact program. See
+[`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).

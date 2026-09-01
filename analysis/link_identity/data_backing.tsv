@@ -152,22 +152,22 @@ DAT_003413ac	0x003413ac	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034139c	0x10	0x
 DAT_003413ae	0x003413ae	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034139c	0x12	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003413b8	0x003413b8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413b4	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003413bc	0x003413bc	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413b4	0x8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_003413cc	0x003413cc	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003413d0	0x003413d0	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003413d4	0x003413d4	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003413d8	0x003413d8	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003413dc	0x003413dc	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003413e0	0x003413e0	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003413f0	0x003413f0	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003413f4	0x003413f4	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003413f8	0x003413f8	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003413fc	0x003413fc	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_003413cc	0x003413cc	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413cc	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003413d0	0x003413d0	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413cc	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003413d4	0x003413d4	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413cc	0x8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003413d8	0x003413d8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413cc	0xc	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003413dc	0x003413dc	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413cc	0x10	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003413e0	0x003413e0	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413cc	0x14	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003413f0	0x003413f0	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413f0	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003413f4	0x003413f4	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413f0	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003413f8	0x003413f8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413f0	0x8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003413fc	0x003413fc	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413f0	0xc	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00341434	0x00341434	SECTION_BACKED_ADDRESS	.data.stage3f.va_00341434	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00341438	0x00341438	SECTION_BACKED_ADDRESS	.data.stage3f.va_00341434	0x4	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034143c	0x0034143c	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034143c	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00341440	0x00341440	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034143c	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00341444	0x00341444	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034143c	0x8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00341448	0x00341448	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_00341448	0x00341448	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034143c	0xc	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034144c	0x0034144c	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_00341450	0x00341450	SECTION_BACKED_ADDRESS	.data.stage3f.va_00341450	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00341454	0x00341454	SECTION_BACKED_ADDRESS	.data.stage3f.va_00341450	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -182,16 +182,16 @@ DAT_003414b8	0x003414b8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x8	0x4
 DAT_003414bc	0x003414bc	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0xc	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003414c0	0x003414c0	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x10	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003414c2	0x003414c2	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x12	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_003414c4	0x003414c4	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003414cc	0x003414cc	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003414d0	0x003414d0	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003414d4	0x003414d4	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003414d8	0x003414d8	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003414dc	0x003414dc	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414dc	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_003414e0	0x003414e0	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003414e4	0x003414e4	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414e4	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_003414e8	0x003414e8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414e4	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_003414ec	0x003414ec	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414e4	0x8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003414c4	0x003414c4	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x14	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003414cc	0x003414cc	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x1c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003414d0	0x003414d0	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x20	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003414d4	0x003414d4	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x24	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003414d8	0x003414d8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x28	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003414dc	0x003414dc	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x2c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003414e0	0x003414e0	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x30	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003414e4	0x003414e4	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x34	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003414e8	0x003414e8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x38	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003414ec	0x003414ec	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x3c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003414fc	0x003414fc	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414fc	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003415b0	0x003415b0	SECTION_BACKED_ADDRESS	.data.stage3f.va_003415b0	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003415b2	0x003415b2	SECTION_BACKED_ADDRESS	.data.stage3f.va_003415b0	0x2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -217,8 +217,8 @@ DAT_00341630	0x00341630	SECTION_BACKED_ADDRESS	.data.stage3f.va_00341630	0x0	0x2
 DAT_00342a38	0x00342a38	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x0	0x7fc	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342a7c	0x00342a7c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x44	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342a80	0x00342a80	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x48	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00342a88	0x00342a88	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x50	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00342a8c	0x00342a8c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x54	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00342a88	0x00342a88	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x50	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00342a8c	0x00342a8c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x54	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342a90	0x00342a90	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x58	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342aac	0x00342aac	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x74	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342ab0	0x00342ab0	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x78	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -227,21 +227,21 @@ DAT_00342ab8	0x00342ab8	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x80	0x
 DAT_00342abc	0x00342abc	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x84	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342ad0	0x00342ad0	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x98	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342ad4	0x00342ad4	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x9c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00342ad8	0x00342ad8	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0xa0		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00342ad8	0x00342ad8	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0xa0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342ae4	0x00342ae4	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0xac	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342ae8	0x00342ae8	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0xb0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342aec	0x00342aec	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0xb4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342af0	0x00342af0	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0xb8		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342b70	0x00342b70	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x138		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00342bf0	0x00342bf0	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1b8		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00342bf4	0x00342bf4	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1bc		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00342bf0	0x00342bf0	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1b8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00342bf4	0x00342bf4	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1bc	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342bf8	0x00342bf8	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1c0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00342bfc	0x00342bfc	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1c4		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00342c00	0x00342c00	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1c8		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00342c04	0x00342c04	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1cc		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00342c08	0x00342c08	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1d0		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00342c0c	0x00342c0c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1d4		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00342c10	0x00342c10	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1d8		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00342bfc	0x00342bfc	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1c4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00342c00	0x00342c00	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1c8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00342c04	0x00342c04	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1cc	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00342c08	0x00342c08	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1d0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00342c0c	0x00342c0c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1d4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00342c10	0x00342c10	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1d8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342c14	0x00342c14	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1dc		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00342c24	0x00342c24	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x1ec		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034323c	0x0034323c	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034323c	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -252,11 +252,11 @@ DAT_00344e0c	0x00344e0c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00344e08	0x4	0x4
 DAT_00345303	0x00345303	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345303	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345305	0x00345305	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345305	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034531c	0x0034531c	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034531c	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345320	0x00345320	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_00345321	0x00345321	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345321	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345322	0x00345322	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345321	0x1	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345323	0x00345323	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345321	0x2	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345324	0x00345324	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345321	0x3	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345320	0x00345320	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034531c	0x4	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345321	0x00345321	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034531c	0x5	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345322	0x00345322	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034531c	0x6	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345323	0x00345323	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034531c	0x7	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345324	0x00345324	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034531c	0x8	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345328	0x00345328	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345328	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034532c	0x0034532c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345328	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345330	0x00345330	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345328	0x8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -286,11 +286,11 @@ DAT_0034539d	0x0034539d	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345398	0x5	0x1
 DAT_003453a0	0x003453a0	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453a0	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003453a4	0x003453a4	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453a0	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003453a8	0x003453a8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453a0	0x8	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_003453a9	0x003453a9	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003453aa	0x003453aa	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453aa	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_003453ac	0x003453ac	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453aa	0x2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003453a9	0x003453a9	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453a0	0x9	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003453aa	0x003453aa	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453a0	0xa	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003453ac	0x003453ac	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453a0	0xc	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003453ae	0x003453ae	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003453b0	0x003453b0	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_003453b0	0x003453b0	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453b0	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003453b2	0x003453b2	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003453b4	0x003453b4	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003453b6	0x003453b6	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453b6	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -319,22 +319,22 @@ DAT_00345432	0x00345432	NO_PROVED_BACKING					ps2/progress28_structural_lift_rec
 DAT_0034543f	0x0034543f	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034543f	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345440	0x00345440	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034543f	0x1	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345442	0x00345442	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_00345484	0x00345484	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_00345486	0x00345486	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_00345488	0x00345488	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_0034548a	0x0034548a	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034548a	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0034548c	0x0034548c	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034548a	0x2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0034548e	0x0034548e	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034548a	0x4	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345490	0x00345490	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034548a	0x6	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345491	0x00345491	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034548a	0x7	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345492	0x00345492	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034548a	0x8	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345493	0x00345493	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_00345484	0x00345484	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345484	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345486	0x00345486	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345484	0x2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345488	0x00345488	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345484	0x4	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034548a	0x0034548a	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345484	0x6	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034548c	0x0034548c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345484	0x8	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034548e	0x0034548e	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345484	0xa	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345490	0x00345490	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345484	0xc	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345491	0x00345491	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345484	0xd	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345492	0x00345492	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345484	0xe	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345493	0x00345493	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345484	0xf	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345498	0x00345498	SECTION_BACKED_ADDRESS	.data.stage3ce.va_00345498	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034549c	0x0034549c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_00345498	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003454a0	0x003454a0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_00345498	0x8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003454a4	0x003454a4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_00345498	0xc	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_003454ac	0x003454ac	SECTION_BACKED_ADDRESS	.data.stage3ce.va_00345498	0x14		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_003454b0	0x003454b0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_00345498	0x18		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003454ac	0x003454ac	SECTION_BACKED_ADDRESS	.data.stage3ce.va_00345498	0x14	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003454b0	0x003454b0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_00345498	0x18	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003454b4	0x003454b4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_00345498	0x1c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003454b8	0x003454b8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_00345498	0x20	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003454bc	0x003454bc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_00345498	0x24	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -363,8 +363,8 @@ DAT_00345514	0x00345514	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x34	0
 DAT_00345518	0x00345518	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x38	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034551c	0x0034551c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x3c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345520	0x00345520	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x40	0x8	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345528	0x00345528	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x48		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345530	0x00345530	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x50		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345528	0x00345528	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x48	0x8	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345530	0x00345530	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x50	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345531	0x00345531	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x51	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345532	0x00345532	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x52	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345533	0x00345533	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x53	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -398,7 +398,7 @@ DAT_00345564	0x00345564	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x84	0
 DAT_00345565	0x00345565	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x85	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345566	0x00345566	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x86	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345567	0x00345567	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x87	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345568	0x00345568	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x88		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345568	0x00345568	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x88	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345569	0x00345569	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x89	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034556b	0x0034556b	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x8b	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034556c	0x0034556c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x8c	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -407,28 +407,28 @@ DAT_003455f8	0x003455f8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x118	
 DAT_003455fc	0x003455fc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x11c	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003455fd	0x003455fd	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x11d	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345608	0x00345608	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x128	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345609	0x00345609	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x129		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345609	0x00345609	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x129	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034560a	0x0034560a	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x12a	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0034560b	0x0034560b	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x12b		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034560b	0x0034560b	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x12b	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034560c	0x0034560c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x12c	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034560d	0x0034560d	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x12d	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0034560e	0x0034560e	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x12e		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345610	0x00345610	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x130		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034560e	0x0034560e	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x12e	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345610	0x00345610	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x130	0x8	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345618	0x00345618	SECTION_BACKED_ADDRESS	.data.stage3ce.va_003454e0	0x138	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345ae8	0x00345ae8	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345ae8	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345ae9	0x00345ae9	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345ae8	0x1	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345aea	0x00345aea	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345ae8	0x2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345aec	0x00345aec	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345ae8	0x4	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345aee	0x00345aee	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345ae8	0x6	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345af0	0x00345af0	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345ae8	0x8	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345af0	0x00345af0	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345ae8	0x8	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345af2	0x00345af2	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_00345af4	0x00345af4	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_00345af6	0x00345af6	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345af6	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345af8	0x00345af8	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345af6	0x2	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345afc	0x00345afc	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_00345afd	0x00345afd	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345afd	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345afe	0x00345afe	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345afd	0x1	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00345aff	0x00345aff	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345afd	0x2	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345afc	0x00345afc	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345af6	0x6	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345afd	0x00345afd	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345af6	0x7	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345afe	0x00345afe	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345af6	0x8	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00345aff	0x00345aff	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345af6	0x9	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345b0c	0x00345b0c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345b0c	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345b10	0x00345b10	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345b0c	0x4	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00345b12	0x00345b12	SECTION_BACKED_ADDRESS	.data.stage3f.va_00345b12	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -457,7 +457,7 @@ DAT_00347b50	0x00347b50	NO_PROVED_BACKING					ps2/progress28_structural_lift_rec
 DAT_00347b54	0x00347b54	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_00347b58	0x00347b58	SECTION_BACKED_ADDRESS	.data.stage3f.va_00347b58	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00348b48	0x00348b48	SECTION_BACKED_ADDRESS	.data.stage3f.va_00348b48	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00348b58	0x00348b58	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_00348b58	0x00348b58	SECTION_BACKED_ADDRESS	.data.stage3f.va_00348b58	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00348b74	0x00348b74	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_00348b78	0x00348b78	SECTION_BACKED_ADDRESS	.data.stage3f.va_00348b78	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00348bb4	0x00348bb4	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
@@ -490,9 +490,9 @@ DAT_0034db64	0x0034db64	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034db50	0x14	0x
 DAT_0034db68	0x0034db68	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034db50	0x18	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034db6c	0x0034db6c	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034db50	0x1c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034db70	0x0034db70	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034db50	0x20	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0034db74	0x0034db74	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_0034db78	0x0034db78	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_0034db7c	0x0034db7c	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_0034db74	0x0034db74	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034db50	0x24	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034db78	0x0034db78	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034db50	0x28	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034db7c	0x0034db7c	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034db50	0x2c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034db80	0x0034db80	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_0034db84	0x0034db84	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_0034db88	0x0034db88	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
@@ -531,11 +531,11 @@ DAT_0034dc30	0x0034dc30	NO_PROVED_BACKING					ps2/progress28_structural_lift_rec
 DAT_0034dc34	0x0034dc34	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_0034dc38	0x0034dc38	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_0034e280	0x0034e280	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034e280	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0034e284	0x0034e284	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_0034e288	0x0034e288	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_0034e28c	0x0034e28c	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_0034e290	0x0034e290	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_0034e294	0x0034e294	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034e294	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034e284	0x0034e284	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034e284	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034e288	0x0034e288	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034e284	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034e28c	0x0034e28c	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034e284	0x8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034e290	0x0034e290	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034e284	0xc	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0034e294	0x0034e294	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034e284	0x10	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034e298	0x0034e298	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e298	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034e29c	0x0034e29c	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034e29c	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0034e2a8	0x0034e2a8	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034e2a8	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -551,7 +551,7 @@ DAT_0034e2cd	0x0034e2cd	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0x1d	0
 DAT_0034e2d4	0x0034e2d4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0x24	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003592fc	0x003592fc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xb04c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00359304	0x00359304	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xb054	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00359308	0x00359308	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xb058		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00359308	0x00359308	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xb058	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00359314	0x00359314	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xb064		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00359318	0x00359318	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xb068		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035931c	0x0035931c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xb06c		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -603,7 +603,7 @@ DAT_0035b7a8	0x0035b7a8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd4f8
 DAT_0035b7aa	0x0035b7aa	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd4fa	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035b7ac	0x0035b7ac	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd4fc	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035b7ae	0x0035b7ae	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd4fe	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035b7b0	0x0035b7b0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd500	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035b7b0	0x0035b7b0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd500	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035b7b2	0x0035b7b2	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd502	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035b7b4	0x0035b7b4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd504		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035b7b6	0x0035b7b6	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd506	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -617,7 +617,7 @@ DAT_0035b7c4	0x0035b7c4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd514
 DAT_0035b7c6	0x0035b7c6	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd516	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035b7c8	0x0035b7c8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd518	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035b9c8	0x0035b9c8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd718	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035b9c9	0x0035b9c9	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd719		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035b9c9	0x0035b9c9	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd719	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035b9ca	0x0035b9ca	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd71a		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035b9cc	0x0035b9cc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd71c		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035b9ce	0x0035b9ce	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd71e		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -634,9 +634,9 @@ DAT_0035b9ee	0x0035b9ee	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd73e
 DAT_0035b9f8	0x0035b9f8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd748		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bfca	0x0035bfca	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd1a	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bfcc	0x0035bfcc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd1c	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035bfce	0x0035bfce	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd1e		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035bfce	0x0035bfce	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd1e	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bfcf	0x0035bfcf	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd1f	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035bfd0	0x0035bfd0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd20		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035bfd0	0x0035bfd0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd20	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bfd2	0x0035bfd2	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd22	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bfd4	0x0035bfd4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd24	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bfd6	0x0035bfd6	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd26	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -652,7 +652,7 @@ DAT_0035bfe6	0x0035bfe6	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd36
 DAT_0035bfe8	0x0035bfe8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd38	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bfea	0x0035bfea	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd3a	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bfeb	0x0035bfeb	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd3b	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035bfec	0x0035bfec	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd3c	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035bfec	0x0035bfec	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd3c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bfed	0x0035bfed	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd3d	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bfee	0x0035bfee	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd3e	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bfef	0x0035bfef	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd3f	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -661,13 +661,13 @@ DAT_0035bff2	0x0035bff2	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd42
 DAT_0035bff4	0x0035bff4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd44	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bff8	0x0035bff8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd48	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bff9	0x0035bff9	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd49	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035bffa	0x0035bffa	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd4a		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035bffb	0x0035bffb	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd4b		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035bffa	0x0035bffa	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd4a	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035bffb	0x0035bffb	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd4b	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bffc	0x0035bffc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd4c	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035bffe	0x0035bffe	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd4e	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035c000	0x0035c000	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd50		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035c000	0x0035c000	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd50	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c001	0x0035c001	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd51	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035c002	0x0035c002	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd52		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035c002	0x0035c002	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd52	0x220	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c003	0x0035c003	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd53		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c222	0x0035c222	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf72	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c223	0x0035c223	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf73	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -680,13 +680,13 @@ DAT_0035c22a	0x0035c22a	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf7a
 DAT_0035c22b	0x0035c22b	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf7b	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c22c	0x0035c22c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf7c	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c22d	0x0035c22d	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf7d	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035c22e	0x0035c22e	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf7e		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035c22f	0x0035c22f	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf7f		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035c230	0x0035c230	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf80		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035c231	0x0035c231	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf81		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035c22e	0x0035c22e	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf7e	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035c22f	0x0035c22f	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf7f	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035c230	0x0035c230	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf80	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035c231	0x0035c231	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf81	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c232	0x0035c232	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf82		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035c236	0x0035c236	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf86		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035c237	0x0035c237	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf87		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035c236	0x0035c236	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf86	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035c237	0x0035c237	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf87	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c238	0x0035c238	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf88		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c239	0x0035c239	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf89		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c23a	0x0035c23a	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdf8a		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -725,7 +725,7 @@ DAT_0035c25b	0x0035c25b	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdfab
 DAT_0035c25c	0x0035c25c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdfac		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c25d	0x0035c25d	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdfad		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c25e	0x0035c25e	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdfae	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035c260	0x0035c260	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdfb0		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035c260	0x0035c260	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdfb0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c262	0x0035c262	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdfb2	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c263	0x0035c263	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdfb3	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035c268	0x0035c268	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdfb8	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -761,11 +761,11 @@ DAT_0035ceb0	0x0035ceb0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xec00
 DAT_0035d0b0	0x0035d0b0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee00	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d0b4	0x0035d0b4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee04	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d0b8	0x0035d0b8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee08	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035d0bc	0x0035d0bc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee0c		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035d0bc	0x0035d0bc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee0c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d0c0	0x0035d0c0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee10	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035d0c4	0x0035d0c4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee14		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035d0c8	0x0035d0c8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee18	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035d0cc	0x0035d0cc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee1c		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035d0c4	0x0035d0c4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee14	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035d0c8	0x0035d0c8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee18	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035d0cc	0x0035d0cc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee1c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d0d0	0x0035d0d0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee20		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d0d4	0x0035d0d4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee24		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d0d8	0x0035d0d8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee28		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -780,7 +780,7 @@ DAT_0035d118	0x0035d118	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xee68
 DAT_0035d194	0x0035d194	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xeee4		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d1a8	0x0035d1a8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xeef8		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d224	0x0035d224	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xef74		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035d238	0x0035d238	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xef88		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035d238	0x0035d238	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xef88	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d23c	0x0035d23c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xef8c		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d250	0x0035d250	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xefa0		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d2cc	0x0035d2cc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf01c		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -834,7 +834,7 @@ DAT_0035d4c4	0x0035d4c4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf214
 DAT_0035d4c8	0x0035d4c8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf218	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d4cc	0x0035d4cc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf21c	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d4cd	0x0035d4cd	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf21d	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035d4d0	0x0035d4d0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf220		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035d4d0	0x0035d4d0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf220	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d4d4	0x0035d4d4	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf224	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d4d8	0x0035d4d8	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf228	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035d4dc	0x0035d4dc	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf22c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -845,7 +845,7 @@ DAT_0035d4ec	0x0035d4ec	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf23c
 DAT_0035d4f0	0x0035d4f0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf240	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035dab0	0x0035dab0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf800		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035dd38	0x0035dd38	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xfa88		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0035df3c	0x0035df3c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xfc8c	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0035df3c	0x0035df3c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xfc8c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035df40	0x0035df40	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xfc90	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035df48	0x0035df48	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xfc98		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0035df4a	0x0035df4a	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xfc9a		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -888,8 +888,8 @@ DAT_003ab734	0x003ab734	SECTION_BACKED_ADDRESS	.data.stage3f.va_003ab730	0x4	0x1
 DAT_003ab738	0x003ab738	SECTION_BACKED_ADDRESS	.data.stage3f.va_003ab738	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003ab73c	0x003ab73c	SECTION_BACKED_ADDRESS	.data.stage3f.va_003ab738	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003ab740	0x003ab740	SECTION_BACKED_ADDRESS	.data.stage3f.va_003ab738	0x8	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_003ab744	0x003ab744	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003ab748	0x003ab748	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_003ab744	0x003ab744	SECTION_BACKED_ADDRESS	.data.stage3f.va_003ab738	0xc	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003ab748	0x003ab748	SECTION_BACKED_ADDRESS	.data.stage3f.va_003ab738	0x10	0x17700	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003d2e48	0x003d2e48	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003e2e48	0x003e2e48	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003f2e48	0x003f2e48	SECTION_BACKED_ADDRESS	.data.stage3f.va_003f2e48	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -928,9 +928,9 @@ DAT_003fa6d8	0x003fa6d8	NO_PROVED_BACKING					ps2/progress28_structural_lift_rec
 DAT_003fa6dc	0x003fa6dc	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fa6de	0x003fa6de	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fa6e0	0x003fa6e0	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fa726	0x003fa726	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_003fa726	0x003fa726	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fa726	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003fa728	0x003fa728	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fa928	0x003fa928	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_003fa928	0x003fa928	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fa928	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003fa92a	0x003fa92a	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fa92c	0x003fa92c	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fa92e	0x003fa92e	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
@@ -939,36 +939,36 @@ DAT_003fa931	0x003fa931	NO_PROVED_BACKING					ps2/progress28_structural_lift_rec
 DAT_003fa932	0x003fa932	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fa933	0x003fa933	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fa934	0x003fa934	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb038	0x003fb038	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb03a	0x003fb03a	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb03c	0x003fb03c	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb03e	0x003fb03e	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb040	0x003fb040	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb042	0x003fb042	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb044	0x003fb044	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb046	0x003fb046	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb048	0x003fb048	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb049	0x003fb049	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb04a	0x003fb04a	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb04c	0x003fb04c	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb04e	0x003fb04e	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb050	0x003fb050	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb052	0x003fb052	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb054	0x003fb054	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb056	0x003fb056	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb058	0x003fb058	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb059	0x003fb059	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb05a	0x003fb05a	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb05b	0x003fb05b	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb05c	0x003fb05c	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb05d	0x003fb05d	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb05e	0x003fb05e	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb060	0x003fb060	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb064	0x003fb064	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb069	0x003fb069	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb06c	0x003fb06c	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb06e	0x003fb06e	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb071	0x003fb071	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_003fb038	0x003fb038	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb038	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb03a	0x003fb03a	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb03a	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb03c	0x003fb03c	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb03a	0x2	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb03e	0x003fb03e	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb03e	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb040	0x003fb040	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb03e	0x2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb042	0x003fb042	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb03e	0x4	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb044	0x003fb044	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb03e	0x6	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb046	0x003fb046	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb03e	0x8	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb048	0x003fb048	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb03e	0xa	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb049	0x003fb049	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb03e	0xb	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb04a	0x003fb04a	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb03e	0xc	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb04c	0x003fb04c	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb04e	0x003fb04e	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0x2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb050	0x003fb050	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0x4	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb052	0x003fb052	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0x6	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb054	0x003fb054	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0x8	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb056	0x003fb056	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0xa	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb058	0x003fb058	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0xc	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb059	0x003fb059	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0xd	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb05a	0x003fb05a	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0xe	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb05b	0x003fb05b	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0xf	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb05c	0x003fb05c	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0x10	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb05d	0x003fb05d	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0x11	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb05e	0x003fb05e	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0x12	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb060	0x003fb060	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb04c	0x14	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb064	0x003fb064	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb064	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb069	0x003fb069	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb069	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb06c	0x003fb06c	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb06c	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb06e	0x003fb06e	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb06e	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb071	0x003fb071	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb071	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003fb292	0x003fb292	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fb293	0x003fb293	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fb294	0x003fb294	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
@@ -985,10 +985,10 @@ DAT_003fb2d2	0x003fb2d2	NO_PROVED_BACKING					ps2/progress28_structural_lift_rec
 DAT_003fb2d8	0x003fb2d8	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fb2de	0x003fb2de	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fb2e4	0x003fb2e4	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb2eb	0x003fb2eb	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb2ec	0x003fb2ec	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb2ee	0x003fb2ee	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-DAT_003fb2ef	0x003fb2ef	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_003fb2eb	0x003fb2eb	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb2eb	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb2ec	0x003fb2ec	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb2eb	0x1	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb2ee	0x003fb2ee	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb2eb	0x3	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_003fb2ef	0x003fb2ef	SECTION_BACKED_ADDRESS	.data.stage3f.va_003fb2eb	0x4	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_003fb2f8	0x003fb2f8	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fb2f9	0x003fb2f9	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_003fb2fa	0x003fb2fa	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
@@ -1153,22 +1153,22 @@ DAT_00423550	0x00423550	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0x8	0x1
 DAT_00423551	0x00423551	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0x9	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423552	0x00423552	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0xa	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423553	0x00423553	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0xb	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_00423554	0x00423554	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0xc	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_00423554	0x00423554	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0xc	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423555	0x00423555	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0xd	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423556	0x00423556	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0xe	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423557	0x00423557	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0xf	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423558	0x00423558	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0x10	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0042355a	0x0042355a	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_0042355b	0x0042355b	SECTION_BACKED_ADDRESS	.data.stage3f.va_0042355b	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0042355c	0x0042355c	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+DAT_0042355c	0x0042355c	SECTION_BACKED_ADDRESS	.data.stage3f.va_0042355b	0x1	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423858	0x00423858	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x0	0x1c	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423859	0x00423859	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x1	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0042385a	0x0042385a	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x2	0xd	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_0042385b	0x0042385b	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x3	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0042385c	0x0042385c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x4		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0042385d	0x0042385d	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x5		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0042385e	0x0042385e	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x6		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0042385f	0x0042385f	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x7		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0042385c	0x0042385c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x4	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0042385d	0x0042385d	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x5	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0042385e	0x0042385e	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x6	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0042385f	0x0042385f	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x7	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423860	0x00423860	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x8	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423861	0x00423861	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x9	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423862	0x00423862	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0xa	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -1178,7 +1178,7 @@ DAT_00423865	0x00423865	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0xd	0x1
 DAT_00423866	0x00423866	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0xe		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423867	0x00423867	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0xf	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00423868	0x00423868	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x10	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-DAT_0042386c	0x0042386c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x14		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+DAT_0042386c	0x0042386c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423858	0x14	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_004243d8	0x004243d8	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 DAT_00424850	0x00424850	SECTION_BACKED_ADDRESS	.data.stage3f.va_00424850	0x0	0x4	direct-access	ps2/progress28_structural_lift_recovered.o;unzip/explode_recovered.o;unzip/unreduce_recovered.o	section-backed address only; complete C object/array extent unproved
 DAT_00424854	0x00424854	SECTION_BACKED_ADDRESS	.data.stage3f.va_00424850	0x4	0x4	direct-access	ps2/progress28_structural_lift_recovered.o;unzip/explode_recovered.o;unzip/unreduce_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -1232,13 +1232,13 @@ _DAT_003413b0	0x003413b0	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034139c	0x14	0
 _DAT_003413b2	0x003413b2	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
 _DAT_003413b4	0x003413b4	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413b4	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_003413b6	0x003413b6	SECTION_BACKED_ADDRESS	.data.stage3f.va_003413b4	0x2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-_DAT_00341468	0x00341468	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-_DAT_0034146a	0x0034146a	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034146a	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-_DAT_0034146c	0x0034146c	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
-_DAT_0034146e	0x0034146e	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034146e	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-_DAT_003414c6	0x003414c6	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414c6	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-_DAT_003414c8	0x003414c8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414c6	0x2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-_DAT_003414ca	0x003414ca	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414c6	0x4	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_00341468	0x00341468	SECTION_BACKED_ADDRESS	.data.stage3f.va_00341460	0x8	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_0034146a	0x0034146a	SECTION_BACKED_ADDRESS	.data.stage3f.va_00341460	0xa	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_0034146c	0x0034146c	SECTION_BACKED_ADDRESS	.data.stage3f.va_00341460	0xc	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_0034146e	0x0034146e	SECTION_BACKED_ADDRESS	.data.stage3f.va_00341460	0xe	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_003414c6	0x003414c6	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x16	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_003414c8	0x003414c8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x18	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_003414ca	0x003414ca	SECTION_BACKED_ADDRESS	.data.stage3f.va_003414b0	0x1a	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_003415bc	0x003415bc	SECTION_BACKED_ADDRESS	.data.stage3f.va_003415ba	0x2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_003415be	0x003415be	SECTION_BACKED_ADDRESS	.data.stage3f.va_003415ba	0x4	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_003415c0	0x003415c0	SECTION_BACKED_ADDRESS	.data.stage3f.va_003415ba	0x6	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
@@ -1246,21 +1246,21 @@ _DAT_00341612	0x00341612	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034160c	0x6	0x
 _DAT_00341620	0x00341620	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034161e	0x2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_00341622	0x00341622	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034161e	0x4	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_00341624	0x00341624	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034161e	0x6	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-_DAT_00342a84	0x00342a84	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x4c	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_00342a84	0x00342a84	SECTION_BACKED_ADDRESS	.data.stage3f.va_00342a38	0x4c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_00345388	0x00345388	SECTION_BACKED_ADDRESS	.data.stage3f.va_0034534c	0x3c	0x8	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_003453a8	0x003453a8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453a0	0x8	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-_DAT_003453b0	0x003453b0	NO_PROVED_BACKING					ps2/progress28_structural_lift_recovered.o	absolute address only; storage and complete object/array extent unproved
+_DAT_003453b0	0x003453b0	SECTION_BACKED_ADDRESS	.data.stage3f.va_003453b0	0x0	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_003454d8	0x003454d8	SECTION_BACKED_ADDRESS	.data.stage3f.va_003454d8	0x0	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_0035b74c	0x0035b74c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd49c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_0035b752	0x0035b752	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd4a2	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_0035b75a	0x0035b75a	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd4aa	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_0035b760	0x0035b760	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd4b0	0x8	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-_DAT_0035b7b0	0x0035b7b0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd500	0x2	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-_DAT_0035bfec	0x0035bfec	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd3c	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_0035b7b0	0x0035b7b0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xd500	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_0035bfec	0x0035bfec	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdd3c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_0035c29c	0x0035c29c	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xdfec	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-_DAT_0035d4d0	0x0035d4d0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf220		interior-address-only	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_0035d4d0	0x0035d4d0	SECTION_BACKED_ADDRESS	.data.stage3ce.va_0034e2b0	0xf220	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_0041350d	0x0041350d	SECTION_BACKED_ADDRESS	.data.stage3f.va_00413504	0x9	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_00413511	0x00413511	SECTION_BACKED_ADDRESS	.data.stage3f.va_00413504	0xd	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_00413518	0x00413518	SECTION_BACKED_ADDRESS	.data.stage3f.va_00413504	0x14	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
 _DAT_00413540	0x00413540	SECTION_BACKED_ADDRESS	.data.stage3f.va_00413504	0x3c	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
-_DAT_00423554	0x00423554	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0xc	0x1	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved
+_DAT_00423554	0x00423554	SECTION_BACKED_ADDRESS	.data.stage3f.va_00423548	0xc	0x4	direct-access	ps2/progress28_structural_lift_recovered.o	section-backed address only; complete C object/array extent unproved

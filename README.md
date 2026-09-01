@@ -38,8 +38,8 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3D formatter refactor:** **4/4 call sites proved**, **runtime shims 1 → 0**
 - **Stage-3D PS2LIB member text:** **43 contracts / 42 complete objects**, **12,964 bytes**
 - **Stage-3D runtime contracts:** **53/53 closed**, **0 open**; `puts`/`abort` have 15 named-call witnesses and 104 exact linked bytes
-- **Stage-3F unnamed data access proof:** **705/1,265** consumed spans, **70,746 unique bytes**; complete object/array extents remain open
-- **Stage-3F section-backed addresses:** **886/1,265**, **379 unbacked**; **69,768 additional proved bytes**, not complete-object closure
+- **Stage-3F unnamed data access proof:** **824/1,265** consumed spans, **167,521 unique bytes** (131 CFG witnesses); complete object/array extents remain open
+- **Stage-3F section-backed addresses:** **961/1,265**, **304 unbacked**; **165,946 materialized access bytes**, not complete-object closure
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -214,20 +214,25 @@ identity remain separate. See
 `make runtime-overrides` completes the **53/53 runtime contract ledger**.
 Fifteen historical named incoming relocations select the recovered `puts` and
 `abort` providers, which link to **104 raw-exact target bytes**. This does not
-invent an original archive origin for the overrides. `make unnamed-data`
-proves minimum target-consumed spans for **705/1,265** unnamed contracts,
-covering **70,746 unique bytes**; complete object/array bounds, source selection,
-member data and the final link/packing identity remain open. See
+invent an original archive origin for the overrides. The V94 checkpoint first
+proved minimum target-consumed spans for **705/1,265** unnamed contracts,
+covering **70,746 unique bytes**. See
 [`docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
 
-`make data-backing` binds **886/1,265 unnamed addresses** to exact sections,
-reusing 66 existing sections and adding only **109 proved ranges / 69,768 bytes**.
-All 12,078 source relocations to these aliases remain unchanged; an isolated
-probe proves 886 pointer values and 886 HI16/LO16 pairs. Of the backed labels,
-181 are interior addresses without their own access-width proof. The remaining
-379 addresses and complete C object/array bounds are still open; the probe is
-not a replacement emulator ELF. See
+V95 first bound **886/1,265 unnamed addresses** to exact sections,
+reusing 66 existing sections and adding **109 proved ranges / 69,768 bytes**.
+Its isolated probe is not a replacement emulator ELF. See
 [`docs/status/V95_SECTION_BACKED_DATA_ALIASES.md`](docs/status/V95_SECTION_BACKED_DATA_ALIASES.md).
+
+V96 extends `make unnamed-data` with fixed-point control-flow analysis:
+**824 access contracts**, including 119 newly witnessed names and 12 wider
+spans, cover **167,521 unique bytes**. The largest addition is a proved
+96,000-byte `memset` range for the sound echo buffer. `make data-backing` now
+binds **961 addresses** and materializes **96,178 more bytes than V95**.
+All 12,434 affected source relocations are preserved; 2,883 isolated address
+relocations pass. **304 addresses, complete object/array bounds, exact source
+integration and final ELF layout/packing remain open.** See
+[`docs/status/V96_CONTROL_FLOW_DATA_ACCESSES.md`](docs/status/V96_CONTROL_FLOW_DATA_ACCESSES.md).
 
 ## Target fingerprint
 

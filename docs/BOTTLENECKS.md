@@ -235,3 +235,20 @@ pointer/HI16/LO16 relocations pass an isolated placement check.
 have no object extent, and neither do section-backed addresses close complete
 array bounds or the final application integration. `make elf` remains blocked.
 See [`status/V95_SECTION_BACKED_DATA_ALIASES.md`](status/V95_SECTION_BACKED_DATA_ALIASES.md).
+
+## V96 control-flow access proofs
+
+The block-only analyzer missed constants carried across branches, loop
+invariants and unrelated FPU operations. The added analysis accepts a GPR
+value only when all reachable predecessors agree, waits for the loop fixed
+point, models annulled delay slots, and clears facts across unknown calls or
+instructions. Unresolved indirect jumps disable the additional CFG proof.
+
+It proves **119 more access contracts and 12 wider minimum spans**, notably
+the target's 96,000-byte sound echo `memset`. The current ledger reaches
+**824/1,265 access witnesses** and **961/1,265 backed addresses**, adding
+96,178 physical bytes over V95. **304 addresses still lack backing**, 441
+still lack access witnesses, and complete array/object bounds are unproved.
+No exact implementation objects were replaced by behavioral models or raw
+reference text. Final source integration, layout and packing remain separate.
+See [`status/V96_CONTROL_FLOW_DATA_ACCESSES.md`](status/V96_CONTROL_FLOW_DATA_ACCESSES.md).

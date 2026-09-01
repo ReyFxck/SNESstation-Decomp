@@ -43,10 +43,10 @@ class DataBackingTests(unittest.TestCase):
 
     def test_counts_keep_stage3f_open(self):
         stats = gate.statistics(self.rows, self.sections)
-        for key, expected in {"contracts_total": 1265, "section_backed_addresses": 886,
-                              "unbacked_addresses": 379, "reused_sections": 66, "new_sections": 109,
-                              "new_backing_bytes": 69768, "new_zero_fill_bytes": 0,
-                              "total_backing_bytes": 300286}.items():
+        for key, expected in {"contracts_total": 1265, "section_backed_addresses": 961,
+                              "unbacked_addresses": 304, "reused_sections": 66, "new_sections": 117,
+                              "new_backing_bytes": 165946, "new_zero_fill_bytes": 0,
+                              "total_backing_bytes": 396464}.items():
             self.assertEqual(stats[key], expected, key)
         self.assertFalse(stats["stage3f_closed"])
         self.assertFalse(stats["complete_object_extents_proved"])
@@ -54,7 +54,7 @@ class DataBackingTests(unittest.TestCase):
 
     def test_direct_accesses_fully_covered(self):
         rows = [r for r in self.rows if r["coverage_kind"] == "direct-access"]
-        self.assertEqual(len(rows), 705)
+        self.assertEqual(len(rows), 824)
         for row in rows:
             start = int(row["target_address"], 0)
             self.assertEqual(gate.subtract_ranges([(start, start+int(row["access_extent_hex"], 0))],
@@ -62,12 +62,12 @@ class DataBackingTests(unittest.TestCase):
 
     def test_interior_aliases_never_claim_extent(self):
         interior = [r for r in self.rows if r["coverage_kind"] == "interior-address-only"]
-        self.assertEqual(len(interior), 181)
+        self.assertEqual(len(interior), 137)
         self.assertTrue(all(not r["access_extent_hex"] and r["claim"] == gate.CLAIM for r in interior))
 
     def test_unbacked_rows_have_no_storage_or_extent(self):
         rows = [r for r in self.rows if r["status"] == gate.UNBACKED]
-        self.assertEqual(len(rows), 379)
+        self.assertEqual(len(rows), 304)
         for row in rows:
             self.assertTrue(all(not row[k] for k in ("section", "section_offset_hex", "access_extent_hex", "coverage_kind")))
             self.assertEqual(row["claim"], gate.UNBACKED_CLAIM)
@@ -148,15 +148,15 @@ class DataBackingTests(unittest.TestCase):
 
     def test_new_assembly_has_no_object_sizes_or_globals(self):
         text = gate.render_additions(Path(self.tmp.name)/"reference.bin", self.sections)
-        self.assertEqual(text.count(".incbin"), 109)
+        self.assertEqual(text.count(".incbin"), 117)
         self.assertNotIn(".globl", text)
         self.assertNotIn(".size", text)
         self.assertNotIn(".word", text)
 
     def test_rebinding_assigns_inside_output_section(self):
         text = gate.render_rebind(self.rows, self.sections)
-        self.assertEqual(text.count(" = . + "), 886)
-        self.assertEqual(text.count("KEEP(*("), 175)
+        self.assertEqual(text.count(" = . + "), 961)
+        self.assertEqual(text.count("KEEP(*("), 183)
         self.assertIn("DAT_0034551c = . + 0x3c;", text)
         self.assertIn(".data.stage3ce.va_003454e0 0 : {", text)
 
@@ -200,9 +200,9 @@ class DataBackingTests(unittest.TestCase):
 
     def test_probe_declares_three_address_relocations_per_alias(self):
         text = gate.render_probe(self.rows)
-        self.assertEqual(text.count(".word "), 886)
-        self.assertEqual(text.count("%hi("), 886)
-        self.assertEqual(text.count("%lo("), 886)
+        self.assertEqual(text.count(".word "), 961)
+        self.assertEqual(text.count("%hi("), 961)
+        self.assertEqual(text.count("%lo("), 961)
         self.assertNotIn(".globl", text)
         placement = gate.render_probe_layout(self.sections)
         self.assertIn("0x00500000", placement)

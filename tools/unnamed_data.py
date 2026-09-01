@@ -4,8 +4,9 @@
 A direct target load/store proves its consumed byte width, NOT an entire C
 object, array bound, initialized region or final section placement. This gate
 never uses the structural lift's provisional uint64_t declarations as sizes.
-Only constant address constructions inside one basic block and strict matched
-function spans are accepted. Unproved/indexed contracts remain explicit.
+Block-local constants and fixed-point must-constant control-flow proofs inside
+strict matched function spans are accepted. Unproved/indexed contracts remain
+explicit; a branch is never pruned merely to obtain a desired address.
 """
 from __future__ import annotations
 
@@ -20,6 +21,7 @@ from typing import Sequence
 
 import libgcc_contracts as libgcc
 import named_data
+import ee_dataflow
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "analysis/link_identity/unnamed_data_accesses.tsv"
@@ -28,7 +30,8 @@ BLOCKED = "NO_DIRECT_ACCESS_WITNESS"
 FIELDS = ("symbol", "target_address", "status", "extent_hex", "region", "sha256",
           "function_address", "function_extent_hex", "access_address", "access_opcode",
           "base_register", "trace_addresses", "instruction_window_sha256", "callee_address", "callee_sha256",
-          "matching_evidence", "matching_evidence_sha256", "requesters", "claim")
+          "matching_evidence", "matching_evidence_sha256", "requesters",
+          "proof_kind", "function_sha256", "analysis_sha256", "claim")
 # Partial unaligned transfers, atomics, cache instructions and indirect/indexed
 # base addresses are deliberately not converted into object-width claims.
 MEMORY = {
@@ -46,6 +49,8 @@ CALLS = {
 }
 BRANCHES = {1, 4, 5, 6, 7, 20, 21, 22, 23}
 CLAIM = "minimum directly accessed span; complete object/array extent and final layout unproved"
+LOCAL = "block-local-constant"
+FLOW = "cfg-must-constant"
 
 
 class UnnamedDataError(RuntimeError):
@@ -58,6 +63,11 @@ def fail(message: str) -> None:
 
 def digest(payload: bytes) -> str:
     return hashlib.sha256(payload).hexdigest()
+
+
+def analysis_hash() -> str:
+    """Changing either analyzer requires explicit private recapture/review."""
+    return digest(Path(__file__).read_bytes() + b"\0" + Path(ee_dataflow.__file__).read_bytes())
 
 
 def signed16(value: int) -> int:
@@ -196,6 +206,11 @@ def strict_spans(root: Path = ROOT) -> dict[int, tuple[int, str]]:
     return spans
 
 
+def scan_function(body: bytes, base: int) -> list[dict]:
+    local = [{**hit, "proof_kind": LOCAL} for hit in scan_body(body, base)]
+    return local + ee_dataflow.scan_body(body, base, MEMORY, CALLS)
+
+
 def external_rows(path: Path) -> list[dict[str, str]]:
     rows = [r for r in libgcc.read_table(path, libgcc.EXTERNAL_FIELDS) if r["category"] == "target-address-data"]
     if len(rows) != 1265 or len({r["symbol"] for r in rows}) != 1265:
@@ -245,11 +260,11 @@ def capture(args: argparse.Namespace) -> list[dict[str, str]]:
     selected = {}
     for base, (size, evidence) in sorted(strict_spans().items()):
         offset = base - libgcc.TARGET_BASE
-        for hit in scan_body(raw[offset:offset + size], base):
+        for hit in scan_function(raw[offset:offset + size], base):
             address = hit["address"]
             if address not in wanted or address + hit["width"] > int(layout["memory_end"]):
                 continue
-            rank = (-hit["width"], len(hit["trace"]), hit["pc"], base)
+            rank = (-hit["width"], hit["proof_kind"] != LOCAL, len(hit["trace"]), hit["pc"], base)
             if address in selected and selected[address][0] <= rank:
                 continue
             selected[address] = (rank, hit, base, size, evidence)
@@ -266,7 +281,13 @@ def capture(args: argparse.Namespace) -> list[dict[str, str]]:
                 "base_register": str(hit["base_register"]), "trace_addresses": ";".join(f"0x{x:08x}" for x in trace),
                 "instruction_window_sha256": digest(raw[min(trace)-libgcc.TARGET_BASE:pc-libgcc.TARGET_BASE+4]),
                 "matching_evidence": evidence, "matching_evidence_sha256": digest((ROOT / evidence).read_bytes()),
-                "claim": CLAIM})
+                "claim": CLAIM, "proof_kind": hit["proof_kind"],
+                "function_sha256": digest(raw[base-libgcc.TARGET_BASE:base-libgcc.TARGET_BASE+size]),
+                "analysis_sha256": analysis_hash()})
+            if hit["proof_kind"] == FLOW:
+                # A CFG proof covers all branch predecessors/backedges. A
+                # linear instruction window alone would omit relevant paths.
+                row["instruction_window_sha256"] = row["function_sha256"]
             if "callee" in hit:
                 row.update({"callee_address": f"0x{hit['callee']:08x}", "callee_sha256": callees[hit["callee"]]})
             row["sha256"] = digest(named_data.range_bytes(raw, row, layout))
@@ -283,6 +304,7 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
     spans = strict_spans()
     callees = callee_hashes()
     evidence_hashes = {}
+    profile = analysis_hash()
     for row, ext in zip(rows, external):
         address = address_of(row["symbol"])
         if row["target_address"] != f"0x{address:08x}" or row["requesters"] != ext["requesters"]:
@@ -293,6 +315,8 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
             continue
         if row["status"] != PROVED or row["claim"] != CLAIM:
             fail("direct access is not a complete-object identity claim")
+        if row["proof_kind"] not in (LOCAL, FLOW) or row["analysis_sha256"] != profile:
+            fail("access analysis profile/proof kind changed; private recapture required")
         width = int(row["extent_hex"], 0)
         call = bool(row["callee_address"])
         if call:
@@ -312,15 +336,19 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
         if spans.get(base) != (size, row["matching_evidence"]):
             fail("access witness not inside a strict matched function span")
         trace = tuple(int(x, 0) for x in row["trace_addresses"].split(";"))
-        if (not trace or len(trace) > 8 or trace != tuple(sorted(set(trace)))
-                or any(x % 4 or not base <= x < pc + (1 if call else 0) for x in trace)
+        flow = row["proof_kind"] == FLOW
+        trace_end = base + size if flow else pc + (1 if call else 0)
+        if (not trace or len(trace) > (ee_dataflow.MAX_TRACE if flow else 8) or trace != tuple(sorted(set(trace)))
+                or any(x % 4 or not base <= x < trace_end for x in trace)
                 or pc % 4 or not base <= pc < base + size
                 or call and pc - 4 not in trace
                 or not 1 <= int(row["base_register"]) <= 31):
             fail("invalid local address-construction trace")
-        for key in ("sha256", "instruction_window_sha256", "matching_evidence_sha256"):
+        for key in ("sha256", "instruction_window_sha256", "matching_evidence_sha256", "function_sha256", "analysis_sha256"):
             if not libgcc.SHA_RE.fullmatch(row[key]):
                 fail(f"missing access proof hash: {key}")
+        if flow and row["instruction_window_sha256"] != row["function_sha256"]:
+            fail("CFG proof must fingerprint the complete function, including all predecessors")
         evidence = row["matching_evidence"]
         if evidence not in evidence_hashes:
             evidence_hashes[evidence] = digest((ROOT / evidence).read_bytes())
@@ -343,6 +371,7 @@ def statistics(rows: Sequence[dict[str, str]]) -> dict:
             "overlap_aware_clusters": len(clusters), "unique_consumed_bytes": sum(b-a for a,b in clusters),
             "access_widths": dict(sorted(Counter(int(r["extent_hex"], 0) for r in proved).items())),
             "constant_call_ranges": sum(bool(r["callee_address"]) for r in proved),
+            "proof_kinds": dict(sorted(Counter(r["proof_kind"] for r in proved).items())),
             "complete_object_extents_proved": False, "stage3f_closed": False,
             "scope": "minimum directly accessed spans only; not full objects/arrays or final layout"}
 

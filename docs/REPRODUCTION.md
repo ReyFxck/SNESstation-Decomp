@@ -31,8 +31,8 @@ make libgcc-contracts   # verify the closed 7/7 Stage-3D libgcc subtranche
 make runtime-refactors  # prove four sprintf calls; runtime shims 1 -> 0
 make runtime-members    # prove 43 contracts / 42 PS2LIB member texts
 make runtime-overrides  # two selected runtime overrides; Stage 3D 53/53
-make unnamed-data      # 705/1265 minimum access spans; full data bounds remain open
-make data-backing      # 886/1265 section-backed addresses; 379 still unbacked
+make unnamed-data      # 824/1265 minimum access spans; block-local and CFG proofs
+make data-backing      # 961/1265 section-backed addresses; 304 still unbacked
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -84,15 +84,17 @@ The final pipeline must prove every layer:
 13. **Stage-3D target overrides — closed** — 15 historical named calls select
    the recovered puts/abort implementations, which link to 104 raw-exact bytes.
    The original runtime contract ledger is 53/53, not a whole-archive pedigree.
-14. **Unnamed data (Stage 3F)** — 705/1,265 contracts have minimum consumed
-   spans proved from target instructions and fixed-count memory calls. Recover
-   the complete object/array bounds, remaining indexed uses, overlaps and
-   zero-fill boundaries; 560 names still lack a direct access witness. The
-   section-backing gate reuses 66 exact sections, adds 109 minimum-access
-   ranges / 69,768 bytes and binds 886 addresses to real section storage.
-   It preserves 12,078 source relocations and proves 2,658 synthetic address
-   relocations. The 181 interior-only aliases have no access-width claim;
-   379 addresses remain unbacked, and full object bounds are still open.
+14. **Unnamed data (Stage 3F)** — 824/1,265 contracts have minimum consumed
+   spans proved from target instructions and fixed-count memory calls. The
+   131 CFG witnesses require agreement at every reachable predecessor and a
+   fixed point before accepting loop facts. Full-function and analyzer hashes
+   bind these proofs; they are not runtime coverage or full object bounds.
+   441 names lack access witnesses. The section-backing gate reuses 66 exact
+   sections, materializes 117 access ranges / 165,946 bytes and binds 961
+   addresses to real storage (96,178 more bytes than V95). It preserves 12,434
+   source relocations and proves 2,883 synthetic address relocations. The 137
+   interior-only aliases have no access-width claim; 304 addresses remain
+   unbacked, and full object/array bounds are still open.
 15. **Link** — select/integrate exact implementation objects, linker script,
    section addresses, object order and library order to
    reproduce the unpacked ELF image.
@@ -122,6 +124,8 @@ The target-selected override closure and minimum unnamed-data access proofs are 
 [`status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
 The section-relative backing ownership and isolated relocation proof are in
 [`status/V95_SECTION_BACKED_DATA_ALIASES.md`](status/V95_SECTION_BACKED_DATA_ALIASES.md).
+The branch/loop-aware extension and updated current counts are in
+[`status/V96_CONTROL_FLOW_DATA_ACCESSES.md`](status/V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The closed Stage-3E checkpoint is recorded in
 [`status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md).
 The preceding closed Stage-3C checkpoint is recorded in
