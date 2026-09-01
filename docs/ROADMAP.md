@@ -61,12 +61,12 @@ Exact program-data bytes/placement and final object order remain Stage 3.
 ## 3. Link identity
 
 The original tranche names remain the authoritative plan: 3A, 3B, 3C and 3E
-are closed; 3D has seven closed libgcc contracts plus the closed `snprintf`
-source refactor. Its remaining 45 libc/Newlib/PS2 runtime contracts are not
-yet historically exact; 3F has
+are closed; 3D has seven closed libgcc contracts, the `snprintf` source refactor
+and 43 contracts proved by 42 complete PS2LIB member texts (51/53 total).
+The `puts`/`abort` runtime overrides remain open; 3F has
 1,265 addresses but not recovered ranges/bytes; and 3G/3H remain the final
 layout and image gates. See
-[`status/V92_STAGE3D_SNPRINTF_REFACTOR.md`](status/V92_STAGE3D_SNPRINTF_REFACTOR.md).
+[`status/V93_STAGE3D_RUNTIME_MEMBERS.md`](status/V93_STAGE3D_RUNTIME_MEMBERS.md).
 
 - [x] Freeze a byte-free unpacked-layout oracle with SJCRUNCH2 section/block
   geometry, 64 KiB hashes and an exact first-difference comparator.
@@ -100,9 +100,14 @@ layout and image gates. See
   remove three target-absent compiler-libcall artifacts from the source tree.
 - [x] Prove four direct target calls to `sprintf@0x0019e3d0` and remove the
   synthetic `snprintf` dependency; retain snapshot-model buffer bounds and
-  reach zero compatibility runtime shims (Stage 3D: 8/53 closed).
-- [ ] Identify exact old libc/Newlib and PS2 runtime/library revisions and
-  archive members for the remaining 45 Stage-3D contracts.
+  reach zero compatibility runtime shims (V92: 8/53 closed).
+- [x] Rebuild 42 complete PS2LIB member texts from pinned source/header inputs,
+  prove 12,964 bytes with 700 precise relocation masks and identify the owners
+  of 43 additional runtime contracts (V93: 51/53 closed).
+- [ ] Prove the two remaining Stage-3D runtime-override identities: `puts` and
+  `abort`; their pinned historical archive candidates are explicitly rejected.
+- [ ] Integrate member data and final relocation values; prove original archive
+  composition rather than treating local selection containers as historical.
 - [ ] Recover exact ranges, bytes, zero-fill boundaries and overlaps for the
   1,265 Stage-3F unnamed address contracts.
 - [ ] Recover the application linker script and section alignment.

@@ -17,8 +17,9 @@ show_status() {
     printf '  - original Stage-3E named contracts: CLOSED 212/212 (165 fingerprints)\n'
     printf '  - Stage-3D libgcc subtranche: CLOSED 7/7 (4 archive members + 3 refactors)\n'
     printf '  - Stage-3D snprintf refactor: CLOSED (4 sprintf calls; runtime shims=0)\n'
+    printf '  - Stage-3D PS2LIB member text: 43 contracts / 42 objects / 12,964 bytes\n'
     printf '\nExact replacement ELF still requires:\n'
-    printf '  - remaining 45/53 Stage 3D libc/Newlib and PS2 runtime/archive identities\n'
+    printf '  - remaining 2/53 Stage 3D identities: puts/abort overrides (51 closed)\n'
     printf '  - Stage 3F ranges/bytes for 1,265 unnamed address contracts\n'
     printf '  - exact sections, relocations, linker script and link order\n'
     printf '  - reproduced SJCRUNCH2 packing\n'
@@ -39,14 +40,14 @@ case "$MODE" in
     verify)
         make check
         require_reference
-        make runtime-refactors
+        make runtime-members
         make layout-oracle-check
         make elf-status
         ;;
     full)
         make check
         require_reference
-        make runtime-refactors
+        make runtime-members
         make layout-oracle-check
         make elf
         ;;

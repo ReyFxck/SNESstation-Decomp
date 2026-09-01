@@ -186,7 +186,9 @@ def verify_reference(path: Path, rows: Sequence[dict[str, str]]) -> list[dict[st
 
 
 def summary() -> str:
-    return "contracts_closed=1 call_sites=4 runtime_shims=0 stage3d_closed=8/53 stage3d_open=45"
+    # Aggregate Stage-3D accounting belongs to runtime_members; this gate
+    # continues to prove only the single V92 source refactor.
+    return "contracts_closed=1 call_sites=4 runtime_shims=0"
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:

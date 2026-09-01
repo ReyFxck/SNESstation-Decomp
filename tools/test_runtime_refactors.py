@@ -25,7 +25,7 @@ class RuntimeRefactorTests(unittest.TestCase):
         self.assertEqual({"snprintf"}, {row["former_contract"] for row in rows})
         self.assertEqual({"sprintf"}, {row["replacement_contract"] for row in rows})
         self.assertEqual(336, sum(int(row["extent_hex"], 0) for row in rows))
-        self.assertIn("stage3d_closed=8/53", runtime.summary())
+        self.assertIn("contracts_closed=1 call_sites=4", runtime.summary())
 
     def test_ledger_tampering_is_rejected(self):
         rows = runtime.expected_rows()

@@ -174,16 +174,30 @@ shim are removed, while the snapshot adapter keeps its bounded behavior for
 small caller-supplied buffers. The live frontier is now
 **1,892 -> 1,569 -> 233 -> 223 -> 0** with **zero runtime shims**.
 
-Stage 3D is **8/53 closed**; the remaining **45** libc/Newlib and PS2
-runtime contracts still need archive identity/placement proof. This change
+The V92 checkpoint closed **8/53** Stage-3D contracts. This source change
 updates two source-object fingerprints, not the frozen function checkpoint.
 See [`status/V92_STAGE3D_SNPRINTF_REFACTOR.md`](status/V92_STAGE3D_SNPRINTF_REFACTOR.md).
+
+## Stage-3D PS2LIB member text — 43 additional contracts proved
+
+V93 rebuilds **42 complete member texts** from pinned PS2LIB migration sources,
+covering **43** runtime imports, **12,964 bytes** and **700 relocation masks**.
+The proof includes all helpers and terminal padding, not only the previously
+matching function bodies. Runtime ownership now identifies the exact member
+recipe instead of generic Newlib/PS2SDK labels; all source-object fingerprints
+and live namespace counts stay unchanged.
+
+Stage 3D reaches **51/53 closed**. The `puts` candidate adds a newline absent
+from the target, and the `abort` candidate prints/exits instead of spinning.
+Both remain blocked for runtime-override identity. Member data, final relocation
+values and historical archive packaging/order are not closed by text matching.
+See [`status/V93_STAGE3D_RUNTIME_MEMBERS.md`](status/V93_STAGE3D_RUNTIME_MEMBERS.md).
 
 ## Whole-program identity
 
 Even after every function is `MATCHING`, an identical ELF still requires:
 
-- exact old PS2LIB/PS2SDK-era archive revisions and selected members;
+- the remaining `puts`/`abort` runtime overrides and final archive composition;
 - exact application linker script, section placement and object/library order;
 - data/rodata/string-pool/vtable layout and relocations;
 - exact binutils patch level;

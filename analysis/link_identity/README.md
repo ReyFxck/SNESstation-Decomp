@@ -38,6 +38,12 @@ This directory contains public, byte-free evidence for the Stage-3 link gate.
 - `runtime_refactors.tsv` closes the `snprintf` source contract: four frozen
   target spans record direct call addresses, the existing `sprintf` callee,
   target hashes and immutable matching-evidence hashes.
+- `runtime_members.tsv` adjudicates the remaining 45 runtime contracts: 43
+  select exact complete member text and `puts`/`abort` stay blocked.
+- `runtime_member_objects.tsv` freezes 42 selected and two rejected PS2LIB
+  source recipes, full-text geometry/hashes, dependency hashes and symbol maps.
+- `runtime_member_inputs.tsv` pins 36 source/header inputs from historical
+  PS2LIB migration snapshots plus three historical compiler headers.
 
 The manifest deliberately contains no original executable bytes, extracted
 assets, local paths or encoded binary payloads. Regenerate it only from a
@@ -103,5 +109,16 @@ Use `make runtime-refactors-public-check` to validate the four-call ledger
 and prove the removed `snprintf` namespace stays absent. `make runtime-refactors`
 runs the full EE/private dependency chain and checks each original direct
 JAL to `sprintf@0x0019e3d0` against the SHA-verified reference. There are zero
-runtime shims, eight closed Stage-3D contracts and 45 archive identities open;
-this does not claim whole-function or final-ELF identity for the source models.
+runtime shims; this does not claim whole-function or final-ELF identity for the
+source models.
+
+Use `make runtime-members-public-check` for the 45-contract ledger and
+`make runtime-members` for the full private chain plus historical member
+rebuild. The verifier checks 12,964 complete text bytes after 700 precise
+relocation masks, including internal helpers and padding. Stage 3D is 51/53
+closed; `puts` and `abort` are rejected candidates. Pinned migration sources
+are reproducible witnesses, not proof of a particular historical archive
+container. Selected `.a` files and rejected objects stay below ignored
+`build/runtime-members/`; member data, final relocation values and global link
+order remain separate gates. See
+[`V93_STAGE3D_RUNTIME_MEMBERS.md`](../../docs/status/V93_STAGE3D_RUNTIME_MEMBERS.md).

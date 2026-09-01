@@ -123,3 +123,10 @@ externals and the alias-resolved map contains 1,569 contracts. It resolves
 Both partial-link gates leave every allocated section unchanged; the current
 correction is documented in
 [`V92_STAGE3D_SNPRINTF_REFACTOR.md`](V92_STAGE3D_SNPRINTF_REFACTOR.md).
+
+V93 preserves these object fingerprints and namespace counts while refining
+runtime ownership: 43 imports now identify their PS2LIB member-text recipe,
+and the two rejected `puts`/`abort` candidates have an explicit runtime-override
+gate. The 42 complete historical member texts are separate build products;
+their default PS2LIB ABI must not be confused with the recovered-source ABI
+above. See [`V93_STAGE3D_RUNTIME_MEMBERS.md`](V93_STAGE3D_RUNTIME_MEMBERS.md).

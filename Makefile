@@ -93,6 +93,12 @@ LIBGCC_CONTRACT_BUILD_DIR := $(BUILD_DIR)/libgcc-contracts
 LIBGCC_CONTRACT_REPORT := $(LIBGCC_CONTRACT_BUILD_DIR)/report.json
 RUNTIME_REFACTOR_MANIFEST := analysis/link_identity/runtime_refactors.tsv
 RUNTIME_REFACTOR_REPORT := $(BUILD_DIR)/runtime-refactors/report.json
+RUNTIME_MEMBER_MANIFEST := analysis/link_identity/runtime_members.tsv
+RUNTIME_MEMBER_OBJECTS := analysis/link_identity/runtime_member_objects.tsv
+RUNTIME_MEMBER_INPUTS := analysis/link_identity/runtime_member_inputs.tsv
+RUNTIME_MEMBER_BUILD_DIR := $(BUILD_DIR)/runtime-members
+RUNTIME_MEMBER_REPORT := $(RUNTIME_MEMBER_BUILD_DIR)/report.json
+RUNTIME_MEMBER_CACHE_ARG := $(if $(strip $(RUNTIME_MEMBER_SOURCE_CACHE)),--source-cache "$(RUNTIME_MEMBER_SOURCE_CACHE)",)
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -151,6 +157,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	named-contracts named-contracts-check named-contracts-verify named-contracts-refresh named-contracts-public-check \
 	libgcc-contracts libgcc-contracts-check libgcc-contracts-verify libgcc-contracts-refresh libgcc-contracts-public-check \
 	runtime-refactors runtime-refactors-check runtime-refactors-verify runtime-refactors-public-check \
+	runtime-members runtime-members-check runtime-members-verify runtime-members-refresh runtime-members-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -190,6 +197,7 @@ help:
 	@echo "  make named-contracts verify the closed 212/212 Stage-3E ledger and exact ranges"
 	@echo "  make libgcc-contracts verify the closed 7/7 Stage-3D libgcc subtranche"
 	@echo "  make runtime-refactors prove four sprintf call sites; close the snprintf lift contract"
+	@echo "  make runtime-members   verify 42 complete PS2LIB member texts; Stage 3D 51/53"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -283,7 +291,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -837,6 +845,42 @@ runtime-refactors-public-check:
 		--contracts "$(LINK_CONTRACT_MANIFEST)" \
 		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)"
 
+# V93: reproduce pinned PS2LIB source recipes, archive selection and complete
+# member text. Rejected puts/abort candidates stay outside selected archives.
+runtime-members: reference bootstrap-ee-stage1
+	$(MAKE) runtime-members-check EE_CC="$(EE_STAGE1_CC)"
+
+runtime-members-check: runtime-refactors-check
+	$(PYTHON) tools/runtime_members.py verify \
+		--manifest "$(RUNTIME_MEMBER_MANIFEST)" \
+		--objects "$(RUNTIME_MEMBER_OBJECTS)" \
+		--inputs "$(RUNTIME_MEMBER_INPUTS)" \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)" \
+		--reference "$(REFERENCE_RAW)" \
+		--compiler "$(EE_CC)" \
+		--build-dir "$(RUNTIME_MEMBER_BUILD_DIR)" \
+		--report "$(RUNTIME_MEMBER_REPORT)" $(RUNTIME_MEMBER_CACHE_ARG)
+
+runtime-members-verify: reference check-ee-compiler
+	$(PYTHON) tools/runtime_members.py verify \
+		--compiler "$(EE_CC)" $(RUNTIME_MEMBER_CACHE_ARG)
+
+# Capturing new fingerprints is an explicit reviewed identity decision.
+runtime-members-refresh: reference check-ee-compiler
+	$(PYTHON) tools/runtime_members.py capture \
+		--compiler "$(EE_CC)" $(RUNTIME_MEMBER_CACHE_ARG)
+
+runtime-members-public-check:
+	$(PYTHON) tools/runtime_members.py validate \
+		--manifest "$(RUNTIME_MEMBER_MANIFEST)" \
+		--objects "$(RUNTIME_MEMBER_OBJECTS)" \
+		--inputs "$(RUNTIME_MEMBER_INPUTS)" \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)"
+
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \
 		--compiler "$(EE_CC)" \
@@ -1087,8 +1131,8 @@ elf-status: audit-source-check
 	@echo "Stage 3D libgcc: CLOSED (4 exact archive members + 3 source refactors)"
 	@echo "Compatibility storage: CLOSED (39 -> 0 exact-range replacements)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
-	@echo "  - remaining 45/53 Stage-3D archive identities (8 closed; snprintf refactor proved)"
-	@echo "  - close remaining Stage 3D libc/Newlib/PS2 runtimes and Stage 3F unnamed data"
+	@echo "  - remaining 2/53 Stage-3D identities: puts/abort overrides (51 closed)"
+	@echo "  - Stage 3F unnamed data; member data and final relocation values"
 	@echo "  - reproduce data layout, relocations and section alignment"
 	@echo "  - prove exact EE archives, linker script, object order and library order"
 	@echo "  - reproduce SJCRUNCH2 packing and both reference hashes"

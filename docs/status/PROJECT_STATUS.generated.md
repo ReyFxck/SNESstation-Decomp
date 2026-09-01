@@ -16,7 +16,8 @@
 | Original Stage-3C named-data tranche | **54/54 adjudicated; 50 exact target ranges + 4 closed source refactors** | All target objects are fingerprinted, 32 compatibility stores are replaced, and 15 overlap-aware private-reference clusters cover 141,159 unique bytes. |
 | Original Stage-3E named-contract tranche | **212/212 adjudicated; 165 fingerprinted ranges/data aliases + 20 closed source refactors** | 23 text aliases, 164 target ranges, two target entries, two external addresses and one canonical data alias remove all remaining compatibility storage. |
 | Stage-3D libgcc subtranche | **7/7 closed; 4 exact archive members + 3 source refactors** | 3,848 complete member-text bytes and 21 relocations are privately verified. |
-| Stage-3D formatter refactor | **1 contract closed / 4 call sites** | Direct calls select `sprintf@0x0019e3d0`; `snprintf` is removed from the source namespace, leaving zero compatibility runtime shims and 45/53 archive identities open (8/53 closed). |
+| Stage-3D formatter refactor | **1 contract closed / 4 call sites** | Direct calls select `sprintf@0x0019e3d0`; `snprintf` is removed from the source namespace, leaving zero compatibility runtime shims. |
+| Stage-3D PS2LIB members | **43/45 contracts / 42 complete member texts** | 12,964 bytes; 700 precise relocation masks; 51/53 Stage-3D identities closed. `puts` and `abort` stay blocked; final data/relocation/container identity is separate. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -95,7 +96,7 @@ closure remains frozen in
 8. **Original Stage-3C tranche closed:** all 54 historical rows are adjudicated as 50 exact target ranges plus 4 completed source refactors.
 9. **Original Stage-3E tranche closed:** all 212 historical rows are adjudicated; 165 target-backed ranges/data aliases are fingerprinted, seven zlib peers are exact text aliases and compatibility storage falls from 39 to zero.
 10. **Stage-3D libgcc subtranche closed:** all seven contracts are adjudicated as four exact archive members plus three completed source refactors.
-11. **Stage-3D formatter refactor closed:** four direct target calls prove the `snprintf` dependency is synthetic; runtime shims fall from one to zero. Close the remaining 45/53 libc/Newlib and PS2 runtime/archive identities (8/53 closed).
+11. **Stage-3D member text:** 43 runtime contracts select 42 complete PS2LIB member texts (12,964 bytes). Four direct calls already closed the synthetic `snprintf` dependency. Resolve the remaining 2/53 `puts`/`abort` override identities (51/53 closed); member data and final relocation values remain separate.
 12. Close Stage 3F by recovering ranges, bytes, BSS boundaries and overlaps for the 1,265 unnamed address contracts.
 13. Reproduce data/rodata/bss layout, relocations, section alignment, linker script, object order and library order.
 14. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.

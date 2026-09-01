@@ -18,6 +18,7 @@ from pathlib import Path
 
 from project_status import load_status
 import runtime_refactors
+import runtime_members
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
@@ -474,7 +475,9 @@ def main() -> None:
 
     runtime_rows = runtime_refactors.validate_manifest(runtime_refactors.parse_args(["validate"]))
     runtime_closed = len({row["former_contract"] for row in runtime_rows})
-    stage3d_closed = len(libgcc_rows) + runtime_closed
+    member_rows, member_objects = runtime_members.validate_manifest(runtime_members.parse_args(["validate"]))
+    member_report = runtime_members.statistics(member_rows, member_objects)
+    stage3d_closed = len(libgcc_rows) + runtime_closed + member_report["contracts_closed"]
     stage3d_remaining = 53 - stage3d_closed
 
     draw = [
@@ -564,7 +567,8 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Original Stage-3C named-data tranche | **54/54 adjudicated; {named_data_fingerprinted} exact target ranges + {named_data_statuses['SOURCE_REFACTOR_CLOSED']} closed source refactors** | All target objects are fingerprinted, {len(exact_named_data)} compatibility stores are replaced, and {len(exact_clusters)} overlap-aware private-reference clusters cover {exact_cluster_bytes:,} unique bytes. |
 | Original Stage-3E named-contract tranche | **212/212 adjudicated; {named_contract_fingerprinted} fingerprinted ranges/data aliases + {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} closed source refactors** | {named_contract_statuses['TEXT_ALIAS_PROVED']} text aliases, {named_contract_statuses['TARGET_RANGE_PROVED']} target ranges, two target entries, two external addresses and one canonical data alias remove all remaining compatibility storage. |
 | Stage-3D libgcc subtranche | **7/7 closed; {libgcc_statuses['ARCHIVE_TEXT_EXACT']} exact archive members + {libgcc_statuses['SOURCE_REFACTOR_CLOSED']} source refactors** | {libgcc_exact_bytes:,} complete member-text bytes and {libgcc_relocations} relocations are privately verified. |
-| Stage-3D formatter refactor | **{runtime_closed} contract closed / {len(runtime_rows)} call sites** | Direct calls select `sprintf@0x0019e3d0`; `snprintf` is removed from the source namespace, leaving zero compatibility runtime shims and {stage3d_remaining}/53 archive identities open ({stage3d_closed}/53 closed). |
+| Stage-3D formatter refactor | **{runtime_closed} contract closed / {len(runtime_rows)} call sites** | Direct calls select `sprintf@0x0019e3d0`; `snprintf` is removed from the source namespace, leaving zero compatibility runtime shims. |
+| Stage-3D PS2LIB members | **{member_report['contracts_closed']}/45 contracts / {member_report['selected_members']} complete member texts** | {member_report['exact_text_bytes']:,} bytes; {member_report['relocations_normalized']} precise relocation masks; {stage3d_closed}/53 Stage-3D identities closed. `puts` and `abort` stay blocked; final data/relocation/container identity is separate. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -643,7 +647,7 @@ closure remains frozen in
 8. **Original Stage-3C tranche closed:** all 54 historical rows are adjudicated as {named_data_fingerprinted} exact target ranges plus {named_data_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors.
 9. **Original Stage-3E tranche closed:** all 212 historical rows are adjudicated; {named_contract_fingerprinted} target-backed ranges/data aliases are fingerprinted, seven zlib peers are exact text aliases and compatibility storage falls from 39 to zero.
 10. **Stage-3D libgcc subtranche closed:** all seven contracts are adjudicated as four exact archive members plus three completed source refactors.
-11. **Stage-3D formatter refactor closed:** four direct target calls prove the `snprintf` dependency is synthetic; runtime shims fall from one to zero. Close the remaining {stage3d_remaining}/53 libc/Newlib and PS2 runtime/archive identities ({stage3d_closed}/53 closed).
+11. **Stage-3D member text:** {member_report['contracts_closed']} runtime contracts select {member_report['selected_members']} complete PS2LIB member texts ({member_report['exact_text_bytes']:,} bytes). Four direct calls already closed the synthetic `snprintf` dependency. Resolve the remaining {stage3d_remaining}/53 `puts`/`abort` override identities ({stage3d_closed}/53 closed); member data and final relocation values remain separate.
 12. Close Stage 3F by recovering ranges, bytes, BSS boundaries and overlaps for the 1,265 unnamed address contracts.
 13. Reproduce data/rodata/bss layout, relocations, section alignment, linker script, object order and library order.
 14. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
@@ -681,7 +685,8 @@ unproven final-ELF stage.
 - **Original Stage-3C named data:** **54/54 closed** (**{named_data_fingerprinted} exact target ranges + {named_data_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors**; {named_data_statuses['ADDRESS_PROVED']} address-only remain)
 - **Original Stage-3E named contracts:** **212/212 closed** (**{named_contract_fingerprinted} fingerprinted ranges/data aliases + {named_contract_statuses['TEXT_ALIAS_PROVED']} text aliases + {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors**; compatibility storage **39 → 0**)
 - **Stage-3D libgcc contracts:** **7/7 closed** (**{libgcc_statuses['ARCHIVE_TEXT_EXACT']} exact archive members + {libgcc_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors**)
-- **Stage-3D formatter refactor:** **{len(runtime_rows)}/4 call sites proved**, **runtime shims 1 → 0**; Stage 3D **{stage3d_closed}/53 closed**, **{stage3d_remaining} open**
+- **Stage-3D formatter refactor:** **{len(runtime_rows)}/4 call sites proved**, **runtime shims 1 → 0**
+- **Stage-3D PS2LIB member text:** **{member_report['contracts_closed']} contracts / {member_report['selected_members']} complete objects**, **{member_report['exact_text_bytes']:,} bytes**; Stage 3D **{stage3d_closed}/53 closed**, **{stage3d_remaining} open** (`puts`, `abort`)
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**

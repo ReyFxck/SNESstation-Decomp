@@ -52,8 +52,10 @@ class BuildSourceTreeTests(unittest.TestCase):
             "FUN_00123456": ("target-function-alias", "link-identity"),
             "snes_vtable_00426c28": ("vtable-or-rtti", "program-data"),
             "embedded_cdvd_irx": ("embedded-binary", "program-data"),
-            "memcpy": ("c-runtime", "archive-identity"),
-            "SifCallRpc": ("ps2-runtime", "archive-identity"),
+            "memcpy": ("c-runtime", "runtime-member-text-identity"),
+            "SifCallRpc": ("ps2-runtime", "runtime-member-text-identity"),
+            "puts": ("c-runtime", "runtime-override-identity"),
+            "abort": ("c-runtime", "runtime-override-identity"),
         }
         for symbol, expected in cases.items():
             category, _provider, _owner, gate = MODULE.classify_external(symbol, readiness)

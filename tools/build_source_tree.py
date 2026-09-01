@@ -376,6 +376,14 @@ def classify_external(
         return "cxx-runtime", "historical-archive", "libsupc++/libstdc++", "archive-identity"
     if symbol.startswith(LIBGCC_PREFIXES):
         return "compiler-runtime", "historical-archive", "libgcc", "archive-identity"
+    # V93 pins the pre-2004 PS2LIB member lineage instead of attributing these
+    # routines generically to Newlib or a modern PS2SDK archive. Full data and
+    # final relocation identity remain separate from this member-text gate.
+    from runtime_members import ownership as runtime_ownership
+    runtime = runtime_ownership(symbol)
+    if runtime is not None:
+        category = "c-runtime" if symbol in LIBC_SYMBOLS else "ps2-runtime"
+        return category, "historical-archive", *runtime
     if symbol in LIBC_SYMBOLS or symbol.startswith(("_impure", "__s", "stdin", "stdout", "stderr")):
         return "c-runtime", "historical-archive", "newlib/libc", "archive-identity"
     if symbol.startswith(PS2_RUNTIME_PREFIXES):

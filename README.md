@@ -35,7 +35,8 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Original Stage-3C named data:** **54/54 closed** (**50 exact target ranges + 4 completed source refactors**; 0 address-only remain)
 - **Original Stage-3E named contracts:** **212/212 closed** (**165 fingerprinted ranges/data aliases + 23 text aliases + 20 completed source refactors**; compatibility storage **39 → 0**)
 - **Stage-3D libgcc contracts:** **7/7 closed** (**4 exact archive members + 3 completed source refactors**)
-- **Stage-3D formatter refactor:** **4/4 call sites proved**, **runtime shims 1 → 0**; Stage 3D **8/53 closed**, **45 open**
+- **Stage-3D formatter refactor:** **4/4 call sites proved**, **runtime shims 1 → 0**
+- **Stage-3D PS2LIB member text:** **43 contracts / 42 complete objects**, **12,964 bytes**; Stage 3D **51/53 closed**, **2 open** (`puts`, `abort`)
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -95,6 +96,7 @@ make named-data
 make named-contracts
 make libgcc-contracts
 make runtime-refactors
+make runtime-members
 make layout-oracle
 ```
 
@@ -191,8 +193,17 @@ Four SHA-frozen target spans contain direct calls to `sprintf@0x0019e3d0`;
 the recovered call sites now use that existing provider, and the snapshot
 model preserves small-buffer truncation. Runtime shims fall **1 → 0**.
 This is one source-contract correction, not an additional archive-member
-match: Stage 3D is **8/53 closed**, with **45 identities still open**. See
+match. The V92 checkpoint closed eight Stage-3D contracts. See
 [`docs/status/V92_STAGE3D_SNPRINTF_REFACTOR.md`](docs/status/V92_STAGE3D_SNPRINTF_REFACTOR.md).
+
+`make runtime-members` now proves **43 more runtime contracts** against **42
+complete PS2LIB member texts**: 12,964 bytes, including helpers and terminal
+gaps, after 700 precise relocation masks. Stage 3D reaches **51/53 closed**;
+`puts` and `abort` remain explicit rejected archive candidates. Pinned source
+and header hashes make the member recipes reproducible without publishing
+private bytes. Final member data/relocations, archive order and executable
+identity remain separate. See
+[`docs/status/V93_STAGE3D_RUNTIME_MEMBERS.md`](docs/status/V93_STAGE3D_RUNTIME_MEMBERS.md).
 
 ## Target fingerprint
 
