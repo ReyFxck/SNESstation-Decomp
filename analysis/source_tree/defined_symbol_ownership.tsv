@@ -948,7 +948,7 @@ snes_dispatch_00101890	global	text	0x50	src/ps2/small_dispatch_recovered.c	ps2/s
 snes_dispatch_001018e0	global	text	0x28	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
 snes_dispatch_00103c7c	global	text	0x48	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
 snes_dispatch_001056c0	global	text	0x2c	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
-snes_dispatch_00105718	global	text	0x48	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
+snes_dispatch_00105718	global	text	0xac	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
 snes_dispatch_00105d30	global	text	0x70	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
 snes_dispatch_00105d78	global	text	0x10c	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
 snes_dispatch_00105e04	global	text	0x94	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
@@ -1017,9 +1017,9 @@ lorom_sram_offset	local	text	0x28	src/snes9x/getset_recovered.c	snes9x/getset_re
 sa1_direct_write_wake	local	text	0x30	src/snes9x/getset_recovered.c	snes9x/getset_recovered.o
 sa1_ram_write_state	local	text	0x10	src/snes9x/getset_recovered.c	snes9x/getset_recovered.o
 special_read_value	local	text	0xcc	src/snes9x/getset_recovered.c	snes9x/getset_recovered.o
-CMemory_MapMode_00156c0c	global	text	0x40	src/snes9x/memmap_metadata_recovered.c	snes9x/memmap_metadata_recovered.o
-CMemory_Size_00156994	global	text	0x70	src/snes9x/memmap_metadata_recovered.c	snes9x/memmap_metadata_recovered.o
-CMemory_StaticRAMSize_00156934	global	text	0x7c	src/snes9x/memmap_metadata_recovered.c	snes9x/memmap_metadata_recovered.o
+CMemory_MapMode_00156c0c	global	text	0x3c	src/snes9x/memmap_metadata_recovered.c	snes9x/memmap_metadata_recovered.o
+CMemory_Size_00156994	global	text	0x68	src/snes9x/memmap_metadata_recovered.c	snes9x/memmap_metadata_recovered.o
+CMemory_StaticRAMSize_00156934	global	text	0x74	src/snes9x/memmap_metadata_recovered.c	snes9x/memmap_metadata_recovered.o
 CMemory_map_WriteProtectROM_00153608	global	text	0x44	src/snes9x/memmap_metadata_recovered.c	snes9x/memmap_metadata_recovered.o
 per_rom_buffer_cleanup_00151360	global	text	0x70	src/snes9x/memory_cleanup_recovered.c	snes9x/memory_cleanup_recovered.o
 rom_cleanup_00151330	global	text	0x30	src/snes9x/memory_cleanup_recovered.c	snes9x/memory_cleanup_recovered.o

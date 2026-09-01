@@ -52,11 +52,11 @@ class ProviderFrontierTests(unittest.TestCase):
         rows = validate_frozen_manifest(args)
         self.assertEqual(
             {
-                "frontier_total": 224,
+                "frontier_total": 223,
                 "absolute_anchors": 175,
                 "semantic_aliases": 9,
                 "compatibility_storage_symbols": 39,
-                "runtime_shims": 1,
+                "runtime_shims": 0,
                 "compatibility_storage_bytes": 144630,
             },
             summarize(rows),
@@ -68,7 +68,7 @@ class ProviderFrontierTests(unittest.TestCase):
             kind: {row["symbol"] for row in rows if row["resolution_kind"] == kind}
             for kind in (ABSOLUTE_ANCHOR, SEMANTIC_ALIAS, COMPAT_STORAGE, RUNTIME_SHIM)
         }
-        self.assertEqual(224, len(set().union(*by_kind.values())))
+        self.assertEqual(223, len(set().union(*by_kind.values())))
         self.assertFalse(any(by_kind[a] & by_kind[b] for a in by_kind for b in by_kind if a < b))
         self.assertEqual("snes_fatal_spin_00107578", next(
             row["target_symbol"] for row in rows if row["symbol"] == "abort"
@@ -79,7 +79,7 @@ class ProviderFrontierTests(unittest.TestCase):
 
     def test_frontier_drift_is_rejected(self) -> None:
         contracts = self.contracts[:-1]
-        with self.assertRaisesRegex(FrontierError, "224"):
+        with self.assertRaisesRegex(FrontierError, "223"):
             derive_rows(contracts, self.private, self.defined)
 
     def test_generated_sources_cover_storage_and_runtime_without_payloads(self) -> None:
@@ -91,7 +91,7 @@ class ProviderFrontierTests(unittest.TestCase):
         self.assertNotIn("__ashlti3", runtime)
         self.assertNotIn("__fixunssfdi", runtime)
         self.assertNotIn("__lshrti3", runtime)
-        self.assertIn("int snprintf", runtime)
+        self.assertNotIn("int snprintf", runtime)
         self.assertNotIn("ps2_add_intc_handler_recovered", runtime)
         self.assertNotIn("long lrintf", runtime)
         self.assertNotIn("__builtin_va_start", runtime)
@@ -99,7 +99,7 @@ class ProviderFrontierTests(unittest.TestCase):
     def test_input_frontier_must_be_exact(self) -> None:
         rows = derive_rows(self.contracts, self.private, self.defined)
         symbols = [NmSymbol(row["symbol"], "U") for row in rows]
-        self.assertEqual(224, len(verify_input_frontier(symbols, rows)))
+        self.assertEqual(223, len(verify_input_frontier(symbols, rows)))
         with self.assertRaisesRegex(FrontierError, "drift"):
             verify_input_frontier(symbols[:-1], rows)
 

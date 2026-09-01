@@ -1762,8 +1762,7 @@ snes_ram_003f4be8	named-external	link-contract	reserved:link-contract	link-ident
 snes_state_0035e2c4	named-external	link-contract	reserved:link-contract	link-identity	ps2/address_leaf_recovered.o
 snes_udivmoddi4_001a7788	target-address-symbol	source-address-alias	src/ps2/progress21_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress21_small_helpers_recovered.o
 snes_vtable_00426c28	vtable-or-rtti	program-data	reserved:vtable-data.o	program-data	ps2/address_leaf_recovered.o
-snprintf	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/small_dispatch_recovered.o;snes9x/memmap_metadata_recovered.o
-sprintf	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/path_helpers_recovered.o;ps2/progress12_io_state_recovered.o;zlib/gzio_recovered.o
+sprintf	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/path_helpers_recovered.o;ps2/progress12_io_state_recovered.o;ps2/small_dispatch_recovered.o;snes9x/memmap_metadata_recovered.o;zlib/gzio_recovered.o
 sqrtf	named-external	link-contract	reserved:link-contract	link-identity	ps2/newlib_mathfp_recovered.o
 strcasecmp	named-external	link-contract	reserved:link-contract	link-identity	ps2/audio_rpc_recovered.o
 strcat	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/path_helpers_recovered.o;zlib/gzio_recovered.o

@@ -576,8 +576,8 @@ def link_exact_providers(
         fail("private reference does not match the frozen layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 224:
-        fail(f"expected 224 post-libgcc-refactor provider rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 223:
+        fail(f"expected 223 post-snprintf-refactor provider rows, found {len(frontier_rows)}")
     frontier_by_name = unique(frontier_rows, "symbol", "provider row")
 
     stage3c_rows = read_table(args.stage3c_manifest, stage3c.MANIFEST_FIELDS)
@@ -652,7 +652,7 @@ def link_exact_providers(
     }
     provider_defined = {name for name, symbol in provider_by_name.items() if not symbol.undefined}
     provider_undefined = {name for name, symbol in provider_by_name.items() if symbol.undefined}
-    if provider_defined != expected_defined or provider_undefined != {"ps2lib_vsnprintf_recovered"}:
+    if provider_defined != expected_defined or provider_undefined:
         fail(
             "Stage-3E generated provider symbol drift; "
             f"missing={sorted(expected_defined-provider_defined)[:5]} "

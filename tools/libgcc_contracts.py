@@ -401,8 +401,8 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
     }
     if active != EXACT_SYMBOLS:
         fail(f"active compiler-runtime set drift: {sorted(active)} != {sorted(EXACT_SYMBOLS)}")
-    if len(external) != 1893:
-        fail(f"expected 1,893 live source externals after libgcc refactors, found {len(external)}")
+    if len(external) != 1892:
+        fail(f"expected 1,892 live source externals after runtime refactors, found {len(external)}")
 
     contracts = {row["symbol"]: row for row in read_table(args.contracts, CONTRACT_FIELDS)}
     for spec in SPECS:
@@ -416,12 +416,12 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
             fail(f"source-refactored libgcc name returned to link contracts: {spec.symbol}")
 
     frontier = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier) != 224:
-        fail(f"expected 224 post-libgcc provider rows, found {len(frontier)}")
+    if len(frontier) != 223:
+        fail(f"expected 223 post-snprintf provider rows, found {len(frontier)}")
     runtime_shims = {
         row["symbol"] for row in frontier if row["resolution_kind"] == "compatibility-runtime-shim"
     }
-    if runtime_shims != {"snprintf"}:
+    if runtime_shims:
         fail(f"unexpected remaining runtime shims: {sorted(runtime_shims)}")
     if set(SPEC_BY_SYMBOL) & {row["symbol"] for row in frontier}:
         fail("closed libgcc names remain in the compatibility-provider frontier")
@@ -450,7 +450,7 @@ def verify_frozen(args: argparse.Namespace) -> dict[str, object]:
 def summary(rows: Sequence[dict[str, str]]) -> str:
     exact = sum(row["status"] == ARCHIVE_TEXT_EXACT for row in rows)
     refactors = sum(row["status"] == SOURCE_REFACTOR_CLOSED for row in rows)
-    return f"total={len(rows)} archive_exact={exact} source_refactors_closed={refactors} runtime_shims=1"
+    return f"total={len(rows)} archive_exact={exact} source_refactors_closed={refactors} runtime_shims=0"
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:

@@ -61,11 +61,12 @@ Exact program-data bytes/placement and final object order remain Stage 3.
 ## 3. Link identity
 
 The original tranche names remain the authoritative plan: 3A, 3B, 3C and 3E
-are closed; the seven-contract libgcc part of 3D is closed while its remaining
-46 libc/Newlib/PS2 runtime contracts are not yet historically exact; 3F has
+are closed; 3D has seven closed libgcc contracts plus the closed `snprintf`
+source refactor. Its remaining 45 libc/Newlib/PS2 runtime contracts are not
+yet historically exact; 3F has
 1,265 addresses but not recovered ranges/bytes; and 3G/3H remain the final
 layout and image gates. See
-[`status/V91_STAGE3D_LIBGCC_CLOSED.md`](status/V91_STAGE3D_LIBGCC_CLOSED.md).
+[`status/V92_STAGE3D_SNPRINTF_REFACTOR.md`](status/V92_STAGE3D_SNPRINTF_REFACTOR.md).
 
 - [x] Freeze a byte-free unpacked-layout oracle with SJCRUNCH2 section/block
   geometry, 64 KiB hashes and an exact first-difference comparator.
@@ -93,13 +94,15 @@ layout and image gates. See
 - [x] Prove all seven zlib peers against recovered target text and replace all
   remaining compatibility storage. Combined Stage-3C/3E exact providers cover
   196 names in 61 overlap-aware clusters and the live partial link reaches
-  224 -> 0 externals with one historical-runtime shim still explicit.
+  223 -> 0 externals; V92 also removes the last runtime shim.
 - [x] Close all seven Stage-3D libgcc contracts: match four complete GCC 3.2.2
   archive-member text sections totaling 3,848 bytes after 21 relocations, and
   remove three target-absent compiler-libcall artifacts from the source tree.
+- [x] Prove four direct target calls to `sprintf@0x0019e3d0` and remove the
+  synthetic `snprintf` dependency; retain snapshot-model buffer bounds and
+  reach zero compatibility runtime shims (Stage 3D: 8/53 closed).
 - [ ] Identify exact old libc/Newlib and PS2 runtime/library revisions and
-  archive members for the remaining 46 Stage-3D contracts, including
-  `snprintf`.
+  archive members for the remaining 45 Stage-3D contracts.
 - [ ] Recover exact ranges, bytes, zero-fill boundaries and overlaps for the
   1,265 Stage-3F unnamed address contracts.
 - [ ] Recover the application linker script and section alignment.

@@ -6,8 +6,9 @@ the small-batch plan.  Stage 3C is exactly the historical 43
 ``named-program-data`` rows, one ``vtable-or-rtti`` row, and ten private-asset
 rows.  Four Stage-3C names were subsequently proved to be source-only adapters
 and removed.  The later Stage-3E cleanup removes 20 more source-only helpers
-and canonicalizes ``errno``; the Stage-3D libgcc refactor removes three
-compiler-libcall artifacts, so the live source map has 1,893 externals while
+and canonicalizes ``errno``; Stage 3D removes three compiler-libcall artifacts
+and the source-only ``snprintf`` dependency, so the live source map has
+1,892 externals while
 the historical 54-row Stage-3C ledger remains unchanged.
 This gate keeps the historical 54-row definition stable and distinguishes
 three materially different closed claims:
@@ -274,8 +275,8 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
               + counts[("zlib-peer", "source-or-archive")],
         "3F": counts[("target-address-data", "program-data")],
     }
-    expected = {"3B": 337, "3C": 50, "3D": 50, "3E": 191, "3F": 1265}
-    if partition != expected or sum(partition.values()) != 1893:
+    expected = {"3B": 337, "3C": 50, "3D": 49, "3E": 191, "3F": 1265}
+    if partition != expected or sum(partition.values()) != 1892:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 
@@ -627,8 +628,8 @@ def link_exact_providers(
         fail("private unpacked reference is missing or does not match the layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 224:
-        fail(f"expected post-libgcc-refactor provider frontier of 224 rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 223:
+        fail(f"expected post-snprintf-refactor provider frontier of 223 rows, found {len(frontier_rows)}")
     replacements = exact_provider_rows(named_rows, frontier_rows)
     replacement_names = {row["symbol"] for row in replacements}
     exact_ranges = [row for row in named_rows if row["status"] == RANGE_PROVED]
@@ -698,7 +699,7 @@ def link_exact_providers(
     provider_undefined = {
         name for name, symbol in provider_by_name.items() if symbol.undefined
     }
-    if provider_defined != expected_defined or provider_undefined != {"ps2lib_vsnprintf_recovered"}:
+    if provider_defined != expected_defined or provider_undefined:
         fail(
             "Stage-3C provider symbol drift; "
             f"missing={sorted(expected_defined - provider_defined)[:5]} "

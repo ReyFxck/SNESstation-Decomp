@@ -91,6 +91,8 @@ NAMED_CONTRACT_REPORT := $(NAMED_CONTRACT_BUILD_DIR)/report.json
 LIBGCC_CONTRACT_MANIFEST := analysis/link_identity/libgcc_contracts.tsv
 LIBGCC_CONTRACT_BUILD_DIR := $(BUILD_DIR)/libgcc-contracts
 LIBGCC_CONTRACT_REPORT := $(LIBGCC_CONTRACT_BUILD_DIR)/report.json
+RUNTIME_REFACTOR_MANIFEST := analysis/link_identity/runtime_refactors.tsv
+RUNTIME_REFACTOR_REPORT := $(BUILD_DIR)/runtime-refactors/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -148,6 +150,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	named-data named-data-check named-data-verify named-data-refresh named-data-public-check \
 	named-contracts named-contracts-check named-contracts-verify named-contracts-refresh named-contracts-public-check \
 	libgcc-contracts libgcc-contracts-check libgcc-contracts-verify libgcc-contracts-refresh libgcc-contracts-public-check \
+	runtime-refactors runtime-refactors-check runtime-refactors-verify runtime-refactors-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -182,10 +185,11 @@ help:
 	@echo "  make source-aliases  prove and apply zero-byte Stage-3 address aliases"
 	@echo "  make link-contracts  apply the zero-byte Stage-3 link-contract frontier"
 	@echo "  make private-assets  verify and link the five private embedded-asset bundles"
-	@echo "  make provider-frontier  close the post-libgcc-refactor 224-name source-link frontier"
+	@echo "  make provider-frontier  close the post-runtime-refactor 223-name source-link frontier"
 	@echo "  make named-data      verify the closed 54/54 Stage-3C ledger and exact ranges"
 	@echo "  make named-contracts verify the closed 212/212 Stage-3E ledger and exact ranges"
 	@echo "  make libgcc-contracts verify the closed 7/7 Stage-3D libgcc subtranche"
+	@echo "  make runtime-refactors prove four sprintf call sites; close the snprintf lift contract"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -279,7 +283,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -806,6 +810,33 @@ libgcc-contracts-public-check:
 		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
 		--manifest "$(LIBGCC_CONTRACT_MANIFEST)"
 
+# V92: the four formatter call sites all select the existing sprintf target.
+# This closes one source-only contract, not another historical archive member.
+runtime-refactors: reference bootstrap-ee-stage1
+	$(MAKE) runtime-refactors-check EE_CC="$(EE_STAGE1_CC)"
+
+runtime-refactors-check: libgcc-contracts-check
+	$(PYTHON) tools/runtime_refactors.py verify \
+		--manifest "$(RUNTIME_REFACTOR_MANIFEST)" \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)" \
+		--reference "$(REFERENCE_RAW)" \
+		--report "$(RUNTIME_REFACTOR_REPORT)"
+
+runtime-refactors-verify: reference
+	$(PYTHON) tools/runtime_refactors.py verify \
+		--manifest "$(RUNTIME_REFACTOR_MANIFEST)" \
+		--reference "$(REFERENCE_RAW)" \
+		--report "$(RUNTIME_REFACTOR_REPORT)"
+
+runtime-refactors-public-check:
+	$(PYTHON) tools/runtime_refactors.py validate \
+		--manifest "$(RUNTIME_REFACTOR_MANIFEST)" \
+		--external-map "$(SOURCE_TREE_EXTERNAL_MAP)" \
+		--contracts "$(LINK_CONTRACT_MANIFEST)" \
+		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)"
+
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \
 		--compiler "$(EE_CC)" \
@@ -1048,15 +1079,15 @@ elf-status: audit-source-check
 	@echo "Function-code gate: CLOSED (1041/1041 strict matches)"
 	@echo "Build-ready source ownership: CLOSED (97/97 TUs; 96 canonical objects)"
 	@echo "Unpacked layout oracle: CLOSED (1 section; 13 blocks; 51 hash windows)"
-	@echo "Zero-byte link contracts: 1336/1570 resolved (1273 anchors; 63 aliases)"
-	@echo "Private assets: CLOSED (10 providers; 62736 bytes; frontier 234 -> 224)"
-	@echo "Source-link provider namespace: CLOSED (224 -> 0 externals)"
+	@echo "Zero-byte link contracts: 1336/1569 resolved (1273 anchors; 63 aliases)"
+	@echo "Private assets: CLOSED (10 providers; 62736 bytes; frontier 233 -> 223)"
+	@echo "Source-link provider namespace: CLOSED (223 -> 0 externals; runtime shims=0)"
 	@echo "Original Stage 3C: CLOSED (50 exact target ranges + 4 removed source adapters)"
 	@echo "Original Stage 3E: CLOSED (212/212; 165 fingerprinted ranges/data aliases)"
 	@echo "Stage 3D libgcc: CLOSED (4 exact archive members + 3 source refactors)"
 	@echo "Compatibility storage: CLOSED (39 -> 0 exact-range replacements)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
-	@echo "  - replace the final snprintf shim with its exact historical archive member"
+	@echo "  - remaining 45/53 Stage-3D archive identities (8 closed; snprintf refactor proved)"
 	@echo "  - close remaining Stage 3D libc/Newlib/PS2 runtimes and Stage 3F unnamed data"
 	@echo "  - reproduce data layout, relocations and section alignment"
 	@echo "  - prove exact EE archives, linker script, object order and library order"

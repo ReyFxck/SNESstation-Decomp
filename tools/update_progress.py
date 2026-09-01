@@ -17,6 +17,7 @@ from html import escape
 from pathlib import Path
 
 from project_status import load_status
+import runtime_refactors
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
@@ -263,7 +264,7 @@ def main() -> None:
         or provider_symbols != expected_private_symbols
         or len(provider_symbols) != 10
         or provider_bytes != 62_736
-        or provider_frontier != 224
+        or provider_frontier != 223
     ):
         raise SystemExit("invalid private-asset provider manifest")
     closure_rows = list(
@@ -291,13 +292,13 @@ def main() -> None:
     )
     if (
         closure_symbols != active_provider_symbols
-        or len(closure_rows) != 224
+        or len(closure_rows) != 223
         or closure_kind_counts
         != {
             "absolute-target-anchor": 175,
             "semantic-text-alias": 9,
             "compatibility-storage": 39,
-            "compatibility-runtime-shim": 1,
+            "compatibility-runtime-shim": 0,
         }
         or closure_storage_bytes != 144_630
     ):
@@ -471,6 +472,11 @@ def main() -> None:
     ):
         raise SystemExit("invalid Stage-3D libgcc manifest")
 
+    runtime_rows = runtime_refactors.validate_manifest(runtime_refactors.parse_args(["validate"]))
+    runtime_closed = len({row["former_contract"] for row in runtime_rows})
+    stage3d_closed = len(libgcc_rows) + runtime_closed
+    stage3d_remaining = 53 - stage3d_closed
+
     draw = [
         r for r in rows
         if r["area"] == "renderer"
@@ -557,7 +563,8 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Source-link provider namespace | **{len(closure_rows)}/{len(active_provider_symbols)} resolved** | {closure_kind_counts['absolute-target-anchor']} target anchors, {closure_kind_counts['semantic-text-alias']} text aliases, {closure_kind_counts['compatibility-storage']} storage definitions and {closure_kind_counts['compatibility-runtime-shim']} EE shims reduce aggregate externals to zero. |
 | Original Stage-3C named-data tranche | **54/54 adjudicated; {named_data_fingerprinted} exact target ranges + {named_data_statuses['SOURCE_REFACTOR_CLOSED']} closed source refactors** | All target objects are fingerprinted, {len(exact_named_data)} compatibility stores are replaced, and {len(exact_clusters)} overlap-aware private-reference clusters cover {exact_cluster_bytes:,} unique bytes. |
 | Original Stage-3E named-contract tranche | **212/212 adjudicated; {named_contract_fingerprinted} fingerprinted ranges/data aliases + {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} closed source refactors** | {named_contract_statuses['TEXT_ALIAS_PROVED']} text aliases, {named_contract_statuses['TARGET_RANGE_PROVED']} target ranges, two target entries, two external addresses and one canonical data alias remove all remaining compatibility storage. |
-| Stage-3D libgcc subtranche | **7/7 closed; {libgcc_statuses['ARCHIVE_TEXT_EXACT']} exact archive members + {libgcc_statuses['SOURCE_REFACTOR_CLOSED']} source refactors** | {libgcc_exact_bytes:,} complete member-text bytes and {libgcc_relocations} relocations are privately verified; only `snprintf` remains a compatibility runtime shim. |
+| Stage-3D libgcc subtranche | **7/7 closed; {libgcc_statuses['ARCHIVE_TEXT_EXACT']} exact archive members + {libgcc_statuses['SOURCE_REFACTOR_CLOSED']} source refactors** | {libgcc_exact_bytes:,} complete member-text bytes and {libgcc_relocations} relocations are privately verified. |
+| Stage-3D formatter refactor | **{runtime_closed} contract closed / {len(runtime_rows)} call sites** | Direct calls select `sprintf@0x0019e3d0`; `snprintf` is removed from the source namespace, leaving zero compatibility runtime shims and {stage3d_remaining}/53 archive identities open ({stage3d_closed}/53 closed). |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -580,7 +587,8 @@ explicit blockers.
 V85/V89 froze the preceding 1,594-name post-Stage-3C aggregate. V90 removes
 twenty target-absent instruction/stack adapters and canonicalizes `errno` to
 the existing target word. V91 then removes three compiler-generated lift
-artifacts, so the live source now has 1,893 externals and the
+artifacts. V92 removes the `snprintf` source-only dependency after proving four
+direct calls to the existing `sprintf` target. The live source now has 1,892 externals and the
 alias-resolved contract map has {len(contract_rows):,} rows. It still resolves
 {contract_resolved:,} contracts without allocating a byte: {contract_anchors:,}
 target-address data anchors and {contract_aliases} semantic aliases. The
@@ -588,7 +596,7 @@ remaining {contract_blocked:,} names are the explicit provider frontier. The
 V86 private-reference gate then materializes five embedded-asset bundles,
 proves all {len(provider_symbols)} source-level data/size symbols, and reduces
 that frontier to {provider_frontier:,} without changing any existing allocated
-section. The live V91 closure classifies all {len(closure_rows)} remaining
+section. The live V92 closure classifies all {len(closure_rows)} remaining
 source-link names and proves an aggregate external count of zero. V87 remains
 the historical pre-refactor 248-row checkpoint. V88 opened the original
 54-row Stage-3C audit. V89 closes it: 50 real target objects carry exact
@@ -604,8 +612,12 @@ names occupy {len(combined_clusters)} overlap-aware clusters covering
 to zero. V91 closes all seven libgcc contracts: four complete archive-member
 text sections totaling {libgcc_exact_bytes:,} bytes are exact after masking
 {libgcc_relocations} relocation-controlled words, while three source-only
-compiler libcalls are removed. `snprintf` is the sole remaining runtime shim.
+compiler libcalls are removed. V92 closes the `snprintf` source contract with
+four SHA-frozen call-site proofs; the final compatibility runtime shim is
+removed. The source-model snapshot adapter retains bounded truncation for
+small buffers, and all numeric output bounds are regression-tested.
 The current batch is documented in
+[`V92_STAGE3D_SNPRINTF_REFACTOR.md`](V92_STAGE3D_SNPRINTF_REFACTOR.md); V91 remains documented in
 [`V91_STAGE3D_LIBGCC_CLOSED.md`](V91_STAGE3D_LIBGCC_CLOSED.md); V90 remains documented in
 [`V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md);
 V89 remains documented in [`V89_STAGE3C_CLOSED.md`](V89_STAGE3C_CLOSED.md); V88 remains documented
@@ -630,8 +642,8 @@ closure remains frozen in
 7. **Source-link provider namespace closed:** {len(closure_rows)}/{len(active_provider_symbols)} remaining contracts resolve and the aggregate has zero undefined globals.
 8. **Original Stage-3C tranche closed:** all 54 historical rows are adjudicated as {named_data_fingerprinted} exact target ranges plus {named_data_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors.
 9. **Original Stage-3E tranche closed:** all 212 historical rows are adjudicated; {named_contract_fingerprinted} target-backed ranges/data aliases are fingerprinted, seven zlib peers are exact text aliases and compatibility storage falls from 39 to zero.
-10. **Stage-3D libgcc subtranche closed:** all seven contracts are adjudicated as four exact archive members plus three completed source refactors; runtime shims fall from four to one.
-11. Close the remaining Stage 3D libc/Newlib and PS2 runtime/archive identities, including `snprintf`.
+10. **Stage-3D libgcc subtranche closed:** all seven contracts are adjudicated as four exact archive members plus three completed source refactors.
+11. **Stage-3D formatter refactor closed:** four direct target calls prove the `snprintf` dependency is synthetic; runtime shims fall from one to zero. Close the remaining {stage3d_remaining}/53 libc/Newlib and PS2 runtime/archive identities ({stage3d_closed}/53 closed).
 12. Close Stage 3F by recovering ranges, bytes, BSS boundaries and overlaps for the 1,265 unnamed address contracts.
 13. Reproduce data/rodata/bss layout, relocations, section alignment, linker script, object order and library order.
 14. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
@@ -668,7 +680,8 @@ unproven final-ELF stage.
 - **Source-link provider namespace:** **{len(closure_rows)}/{len(active_provider_symbols)} resolved**, **0 aggregate externals** ({closure_kind_counts['absolute-target-anchor']} anchors + {closure_kind_counts['semantic-text-alias']} aliases + {closure_kind_counts['compatibility-storage']} storage + {closure_kind_counts['compatibility-runtime-shim']} shims)
 - **Original Stage-3C named data:** **54/54 closed** (**{named_data_fingerprinted} exact target ranges + {named_data_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors**; {named_data_statuses['ADDRESS_PROVED']} address-only remain)
 - **Original Stage-3E named contracts:** **212/212 closed** (**{named_contract_fingerprinted} fingerprinted ranges/data aliases + {named_contract_statuses['TEXT_ALIAS_PROVED']} text aliases + {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors**; compatibility storage **39 → 0**)
-- **Stage-3D libgcc contracts:** **7/7 closed** (**{libgcc_statuses['ARCHIVE_TEXT_EXACT']} exact archive members + {libgcc_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors**; runtime shims **4 → 1**)
+- **Stage-3D libgcc contracts:** **7/7 closed** (**{libgcc_statuses['ARCHIVE_TEXT_EXACT']} exact archive members + {libgcc_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors**)
+- **Stage-3D formatter refactor:** **{len(runtime_rows)}/4 call sites proved**, **runtime shims 1 → 0**; Stage 3D **{stage3d_closed}/53 closed**, **{stage3d_remaining} open**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**

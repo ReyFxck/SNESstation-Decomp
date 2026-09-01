@@ -38,8 +38,8 @@ This is a measurement gate, not a claim that the bytes have been rebuilt.
 
 V84 proves 323/337 address-shaped external names against 307 canonical global
 text definitions and applies them with zero-byte linker aliases. The
-alias-resolved live aggregate retains 1,570 unresolved contracts, down from
-the post-libgcc-refactor source-tree count of 1,893, while every allocated section remains
+alias-resolved live aggregate retains 1,569 unresolved contracts, down from
+the post-runtime-refactor source-tree count of 1,892, while every allocated section remains
 byte-identical. See
 [`status/V84_REVIEWED_SOURCE_ALIASES.md`](status/V84_REVIEWED_SOURCE_ALIASES.md).
 
@@ -50,14 +50,14 @@ archive/boundary proof, not raw-address definitions.
 
 ## Zero-byte link contracts — full frontier frozen
 
-The live contract map classifies all 1,570 post-refactor externals. It assigns
+The live contract map classifies all 1,569 post-refactor externals. It assigns
 1,273 address-qualified program-data names their frozen absolute value
 and binds 63 uniquely identified call contracts to existing recovered global
-text. The partial link therefore reaches **1,570 -> 234 unresolved externals**
+text. The partial link therefore reaches **1,569 -> 233 unresolved externals**
 while every allocated section fingerprint remains identical. See
 [`status/V85_ZERO_BYTE_LINK_FRONTIER.md`](status/V85_ZERO_BYTE_LINK_FRONTIER.md)
 for the frozen pre-refactor method and
-[`status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md)
+[`status/V92_STAGE3D_SNPRINTF_REFACTOR.md`](status/V92_STAGE3D_SNPRINTF_REFACTOR.md)
 for the live counts.
 
 An absolute anchor is not storage: V85 does not invent the symbol's size,
@@ -69,40 +69,40 @@ section, alignment or bytes. The remaining provider frontier is exact:
 | Named program-data storage | **32** |
 | V84 source-address blockers | **14** |
 | Private assets | **10** |
-| Historical archive members | **2** |
-| **Total** | **234** |
+| Historical archive members | **1** |
+| **Total** | **233** |
 
 V86 closes the ten private-asset rows with five hash-verified bundles totaling
 62,736 bytes. The private object is emitted only below ignored `build/`, and
-the partial-link frontier reaches **234 -> 224** without changing an existing
+the partial-link frontier reaches **233 -> 223** without changing an existing
 allocated section. See
 [`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md).
 
-The V86 input frontier is therefore:
+The live frontier after the V86 private-asset gate is therefore:
 
 | Provider class | Rows |
 |---|---:|
 | Named link contracts | **176** |
 | Named program-data storage | **32** |
 | V84 source-address blockers | **14** |
-| Historical archive members | **2** |
-| **Total** | **224** |
+| Historical archive members | **1** |
+| **Total** | **223** |
 
-The regenerated closure resolves the complete **224-name source-link namespace in one batch**:
+The regenerated closure resolves the complete **223-name source-link namespace in one batch**:
 
 | Resolution mechanism | Rows |
 |---|---:|
 | Target-address anchors | **175** |
 | Recovered-text aliases | **9** |
 | Typed compatibility storage | **39** |
-| Deterministic EE runtime shims | **1** |
-| **Total** | **224** |
+| Deterministic EE runtime shims | **0** |
+| **Total** | **223** |
 
-The final partial link proves **224 -> 0 undefined globals** and preserves
+The final partial link proves **223 -> 0 undefined globals** and preserves
 every pre-existing allocated section fingerprint. This closes the provider
 *name* frontier, not the target-identity frontier: the 39 zero-initialized
-storage definitions and the remaining `snprintf` runtime shim are clearly labelled
-compatibility scaffolding. Exact program-data initializers/placement and
+storage definitions are clearly labelled compatibility scaffolding; no
+runtime shim remains. Exact program-data initializers/placement and
 historical archive-member identity remain live blockers. See
 [`status/V87_PROVIDER_FRONTIER_CLOSED.md`](status/V87_PROVIDER_FRONTIER_CLOSED.md)
 for the historical closure and the V90 report for the regenerated frontier.
@@ -118,7 +118,7 @@ source refactors: `g_Memory`, `g_memory_state_001c3ab0`,
 The 40 non-asset target ranges form 15 overlap-aware clusters covering 141,159
 unique bytes. Thirty-two compatibility stores are replaced, reducing the
 current live storage scaffolding from **39 to seven**, and the partial link
-still proves **224 -> 0 undefined globals**. The frozen V89 report retains its
+still proves **223 -> 0 undefined globals**. The frozen V89 report retains its
 historical pre-Stage-3E count of 41 to nine. See
 [`status/V89_STAGE3C_CLOSED.md`](status/V89_STAGE3C_CLOSED.md).
 
@@ -146,8 +146,8 @@ the 21-row reduction from the V89 live source count.
 Stage 3E replaces the seven storage definitions left after the current Stage
 3C gate. Across both tranches, **196 exact provider names** occupy **61
 overlap-aware clusters covering 167,782 unique bytes**. Compatibility storage
-therefore reaches **39 -> 0**, while the private partial link proves **224 ->
-0 undefined globals**. One runtime shim remains explicit for Stage 3D. See
+therefore reaches **39 -> 0**, while the private partial link proves **223 ->
+0 undefined globals**. V92 also removes the last runtime shim. See
 [`status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md).
 
 ## Stage-3D libgcc subtranche — closed
@@ -163,10 +163,21 @@ the non-empty `_fixunssfdi.o` has zero relocation-normalized occurrences in
 the complete target image. Rewriting the affected conversions and wide lift
 helpers removes all three undefined references under the historical compiler.
 
-The live source frontier becomes **1,893 -> 1,570 -> 234 -> 224 -> 0**, and
-runtime shims fall from four to one. The remaining shim is `snprintf`; the
-remaining Stage-3D work is libc/Newlib and PS2 runtime/archive identity. See
+The V91 checkpoint closed seven of the original 53 Stage-3D contracts. See
 [`status/V91_STAGE3D_LIBGCC_CLOSED.md`](status/V91_STAGE3D_LIBGCC_CLOSED.md).
+
+## Stage-3D formatter source refactor — closed
+
+V92 proves that the four source-model `snprintf` uses correspond to direct
+target calls to `sprintf@0x0019e3d0`. The source contract and final runtime
+shim are removed, while the snapshot adapter keeps its bounded behavior for
+small caller-supplied buffers. The live frontier is now
+**1,892 -> 1,569 -> 233 -> 223 -> 0** with **zero runtime shims**.
+
+Stage 3D is **8/53 closed**; the remaining **45** libc/Newlib and PS2
+runtime contracts still need archive identity/placement proof. This change
+updates two source-object fingerprints, not the frozen function checkpoint.
+See [`status/V92_STAGE3D_SNPRINTF_REFACTOR.md`](status/V92_STAGE3D_SNPRINTF_REFACTOR.md).
 
 ## Whole-program identity
 

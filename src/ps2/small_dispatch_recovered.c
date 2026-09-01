@@ -11,7 +11,21 @@ int snes_dispatch_00101890(const char*p,uint8_t read,void**out){
 void snes_dispatch_001018e0(int h,void(*fn)(int,void*),void*o){if(fn)fn(h,o);}
 int snes_dispatch_00103c7c(const char*p,void*b,int(*fn)(const char*,const char*,unsigned,void*,unsigned,const char*,void*),void*o){return fn?fn(p,".ZIP .SMC .SFC .SWC .FIG .058 .BIN",3,b,0xfa0u,p,o):0;}
 int snes_dispatch_001056c0(VF fn,void*o){if(fn)fn(o);return 1;}
-char*snes_dispatch_00105718(char*b,size_t n){if(n)snprintf(b,n,"%s","cdrom0:\\ROMS\\SNAP");return b;}
+/* The target calls sprintf on its fixed snapshot buffer.  n belongs only to
+ * this source-model adapter; keep its small-buffer truncation safe without
+ * introducing a target-absent snprintf dependency. */
+char *snes_dispatch_00105718(char *b, size_t n)
+{
+    if (n >= sizeof("cdrom0:\\ROMS\\SNAP")) {
+        sprintf(b, "cdrom0:\\ROMS\\SNAP");
+    } else if (n) {
+        size_t i;
+        for (i = 0; i + 1 < n; ++i)
+            b[i] = "cdrom0:\\ROMS\\SNAP"[i];
+        b[n - 1] = '\0';
+    }
+    return b;
+}
 void snes_dispatch_00105d30(unsigned m,void*mem,void*(*pf)(void*),void(*lf)(void*,void*,void*),void*o){if(m==1&&pf&&lf)lf(mem,pf(o),o);}
 /* `mod` is the ProTracker M.K. asset at 0x002ec540. Its exact logical size is
  * 0x3640c; the target updates the adjacent size word to aligned 0x36410. */

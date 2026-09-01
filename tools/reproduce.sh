@@ -10,15 +10,15 @@ show_status() {
     printf '\nImplemented whole-program gates:\n'
     printf '  - unpacked layout oracle: 1 section / 13 blocks / 51 hash windows\n'
     printf '  - source-address alias tranche: 323/337 proved; 14 explicit blockers\n'
-    printf '  - zero-byte link contracts: 1336/1570 resolved; 234-provider frontier\n'
-    printf '  - private embedded assets: 10/10 providers; 234 -> 224 frontier\n'
-    printf '  - source-link provider namespace: 224/224 resolved; 0 externals\n'
+    printf '  - zero-byte link contracts: 1336/1569 resolved; 233-provider frontier\n'
+    printf '  - private embedded assets: 10/10 providers; 233 -> 223 frontier\n'
+    printf '  - source-link provider namespace: 223/223 resolved; 0 externals\n'
     printf '  - original Stage-3C named data: CLOSED 54/54 (50 ranges + 4 refactors)\n'
     printf '  - original Stage-3E named contracts: CLOSED 212/212 (165 fingerprints)\n'
     printf '  - Stage-3D libgcc subtranche: CLOSED 7/7 (4 archive members + 3 refactors)\n'
+    printf '  - Stage-3D snprintf refactor: CLOSED (4 sprintf calls; runtime shims=0)\n'
     printf '\nExact replacement ELF still requires:\n'
-    printf '  - remaining Stage 3D libc/Newlib and PS2 runtime/archive identities\n'
-    printf '  - replace the final compatibility runtime shim (snprintf)\n'
+    printf '  - remaining 45/53 Stage 3D libc/Newlib and PS2 runtime/archive identities\n'
     printf '  - Stage 3F ranges/bytes for 1,265 unnamed address contracts\n'
     printf '  - exact sections, relocations, linker script and link order\n'
     printf '  - reproduced SJCRUNCH2 packing\n'
@@ -39,14 +39,14 @@ case "$MODE" in
     verify)
         make check
         require_reference
-        make libgcc-contracts
+        make runtime-refactors
         make layout-oracle-check
         make elf-status
         ;;
     full)
         make check
         require_reference
-        make libgcc-contracts
+        make runtime-refactors
         make layout-oracle-check
         make elf
         ;;
