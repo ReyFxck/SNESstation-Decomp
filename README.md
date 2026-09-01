@@ -36,7 +36,9 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Original Stage-3E named contracts:** **212/212 closed** (**165 fingerprinted ranges/data aliases + 23 text aliases + 20 completed source refactors**; compatibility storage **39 → 0**)
 - **Stage-3D libgcc contracts:** **7/7 closed** (**4 exact archive members + 3 completed source refactors**)
 - **Stage-3D formatter refactor:** **4/4 call sites proved**, **runtime shims 1 → 0**
-- **Stage-3D PS2LIB member text:** **43 contracts / 42 complete objects**, **12,964 bytes**; Stage 3D **51/53 closed**, **2 open** (`puts`, `abort`)
+- **Stage-3D PS2LIB member text:** **43 contracts / 42 complete objects**, **12,964 bytes**
+- **Stage-3D runtime contracts:** **53/53 closed**, **0 open**; `puts`/`abort` have 15 named-call witnesses and 104 exact linked bytes
+- **Stage-3F unnamed data access proof:** **705/1,265** consumed spans, **70,746 unique bytes**; complete object/array extents remain open
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -97,6 +99,8 @@ make named-contracts
 make libgcc-contracts
 make runtime-refactors
 make runtime-members
+make runtime-overrides
+make unnamed-data
 make layout-oracle
 ```
 
@@ -198,12 +202,21 @@ match. The V92 checkpoint closed eight Stage-3D contracts. See
 
 `make runtime-members` now proves **43 more runtime contracts** against **42
 complete PS2LIB member texts**: 12,964 bytes, including helpers and terminal
-gaps, after 700 precise relocation masks. Stage 3D reaches **51/53 closed**;
+gaps, after 700 precise relocation masks. That V93 checkpoint reached **51/53**;
 `puts` and `abort` remain explicit rejected archive candidates. Pinned source
 and header hashes make the member recipes reproducible without publishing
 private bytes. Final member data/relocations, archive order and executable
 identity remain separate. See
 [`docs/status/V93_STAGE3D_RUNTIME_MEMBERS.md`](docs/status/V93_STAGE3D_RUNTIME_MEMBERS.md).
+
+`make runtime-overrides` completes the **53/53 runtime contract ledger**.
+Fifteen historical named incoming relocations select the recovered `puts` and
+`abort` providers, which link to **104 raw-exact target bytes**. This does not
+invent an original archive origin for the overrides. `make unnamed-data`
+proves minimum target-consumed spans for **705/1,265** unnamed contracts,
+covering **70,746 unique bytes**; complete object/array bounds, source selection,
+member data and the final link/packing identity remain open. See
+[`docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
 
 ## Target fingerprint
 

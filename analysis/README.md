@@ -22,8 +22,9 @@ Subdirectories:
 - `link_identity/` — hash-only unpacked layout, zero-byte alias/anchor
   decisions, the closed 54-row Stage-3C and 212-row Stage-3E ledgers, the
   closed seven-row Stage-3D libgcc ledger, four formatter-call refactor proofs,
-  43 runtime contracts selecting 42 complete PS2LIB member texts (two blocked), private-provider
-  ranges and the complete source-link provider closure.
+  43 runtime contracts selecting 42 complete PS2LIB member texts, two separately
+  proved target runtime overrides, 705/1,265 minimum unnamed-data access spans,
+  private-provider ranges and the complete source-link provider closure.
 - `archive/` — historical validation logs and exploratory sweeps no longer used
   as live inputs.
 

@@ -36,9 +36,10 @@ class RuntimeMemberTests(unittest.TestCase):
         self.assertEqual({runtime.EXACT: 43, runtime.BLOCKED: 2}, dict(Counter(r["status"] for r in rows)))
         self.assertEqual({runtime.EXACT: 42, runtime.BLOCKED: 2}, dict(Counter(r["status"] for r in objects)))
 
-    def test_overall_stage3d_counts_include_previous_subtranches_once(self):
+    def test_member_statistics_do_not_claim_overall_runtime_closure(self):
         report = runtime.statistics(self.rows, self.objects)
-        self.assertEqual((51, 53, 2), tuple(report[k] for k in ("stage3d_closed", "stage3d_total", "stage3d_open")))
+        self.assertNotIn("stage3d_closed", report)
+        self.assertEqual(43, report["contracts_closed"])
         self.assertEqual(12_964, report["exact_text_bytes"])
         self.assertEqual(700, report["relocations_normalized"])
         self.assertEqual(42, report["selected_members"])
@@ -79,7 +80,7 @@ class RuntimeMemberTests(unittest.TestCase):
         readiness = build_source_tree.load_source_readiness()
         for spec in runtime.CONTRACTS:
             category, kind, owner, gate = build_source_tree.classify_external(spec.symbol, readiness)
-            self.assertEqual("historical-archive", kind)
+            self.assertEqual("recovered-runtime" if spec.symbol in {"puts", "abort"} else "historical-archive", kind)
             self.assertIn(category, ("c-runtime", "ps2-runtime"))
             self.assertEqual(runtime.ownership(spec.symbol), (owner, gate))
         self.assertIn("PS2LIB libc/memcpy.o", runtime.ownership("memcpy")[0])

@@ -54,8 +54,8 @@ class BuildSourceTreeTests(unittest.TestCase):
             "embedded_cdvd_irx": ("embedded-binary", "program-data"),
             "memcpy": ("c-runtime", "runtime-member-text-identity"),
             "SifCallRpc": ("ps2-runtime", "runtime-member-text-identity"),
-            "puts": ("c-runtime", "runtime-override-identity"),
-            "abort": ("c-runtime", "runtime-override-identity"),
+            "puts": ("c-runtime", "runtime-override-callsite-identity"),
+            "abort": ("c-runtime", "runtime-override-callsite-identity"),
         }
         for symbol, expected in cases.items():
             category, _provider, _owner, gate = MODULE.classify_external(symbol, readiness)

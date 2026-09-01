@@ -1,5 +1,9 @@
 # V93 — Stage-3D PS2LIB member text
 
+> Historical 51/53 checkpoint. V94 proves the selected `puts`/`abort` overrides
+> without promoting these rejected member candidates. See
+> [`V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
+
 Base: V92 commit `00d60ec6843f40a33bb280064c20da29b14a18a4`.
 
 V93 proves **43 of the 45 remaining runtime contracts**, using **42 complete

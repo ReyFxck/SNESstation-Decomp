@@ -38,7 +38,7 @@ REVISIONS = (APR15, APR18, MAY04)
 GCC_INPUT = "gcc-3.2.2"
 INPUTS_SHA256 = "cf977fe1a10e1522cac1dac3cff0559c1cdfa5551172ad459880427aef50679e"
 EXACT = "MEMBER_TEXT_EXACT"
-BLOCKED = "BLOCKED_RUNTIME_IDENTITY"
+BLOCKED = "REJECTED_MEMBER_CANDIDATE"
 PROFILE = "ps2lib-ee-gcc-3.2.2-os-default-abi"
 FLAGS = ("-D_EE", "-DPS2_EE", "-G0", "-EL", "-pipe", "-w", "-Os", "-nostdinc")
 INCLUDE_DIRS = (
@@ -199,8 +199,8 @@ CONTRACT_BY_SYMBOL = {item.symbol: item for item in CONTRACTS}
 EXACT_SYMBOLS = {item.symbol for item in CONTRACTS if item.status == EXACT}
 BLOCKED_SYMBOLS = {item.symbol for item in CONTRACTS if item.status == BLOCKED}
 DETAILS = {
-    "puts": "pinned F_puts appends newline and returns len+1; target writes without newline; runtime override identity remains unproved",
-    "abort": "pinned terminate.o prints and calls _exit; current alias selects an eight-byte spin; archive/override origin remains unproved",
+    "puts": "pinned F_puts appends newline and returns len+1; rejected as provider; target-selected recovered override is proved separately",
+    "abort": "pinned terminate.o prints and calls _exit; rejected as selected provider; its weak abort body is only a puts caller witness",
 }
 
 
@@ -222,7 +222,8 @@ def ownership(symbol: str) -> tuple[str, str] | None:
         return None
     member = MEMBER_BY_KEY[spec.member]
     if spec.status == BLOCKED:
-        return f"runtime override under review ({member.key} rejected)", "runtime-override-identity"
+        from runtime_overrides import ownership as override_ownership
+        return override_ownership(symbol)
     return f"PS2LIB {member.key} (ps2sdk@{member.revision[:8]} source)", "runtime-member-text-identity"
 
 
@@ -250,7 +251,7 @@ def validate_inputs(path: Path) -> list[dict[str, str]]:
 def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], dict[str, str]]:
     external = libgcc.read_table(args.external_map, libgcc.EXTERNAL_FIELDS)
     active = {r["symbol"]: r for r in external if r["category"] in ("c-runtime", "ps2-runtime")
-              and r["provider_kind"] == "historical-archive"}
+              and r["provider_kind"] in ("historical-archive", "recovered-runtime")}
     if set(active) != set(CONTRACT_BY_SYMBOL) or len(external) != 1892:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
@@ -303,7 +304,7 @@ def validate_manifest(args: argparse.Namespace) -> tuple[list[dict[str, str]], l
     rows = libgcc.read_table(args.manifest, FIELDS)
     objects = libgcc.read_table(args.objects, OBJECT_FIELDS)
     if [r["symbol"] for r in rows] != sorted(CONTRACT_BY_SYMBOL):
-        fail("runtime ledger must retain all 45 sorted contracts including two blockers")
+        fail("runtime ledger must retain all 45 sorted contracts including two rejected member candidates")
     if [r["member"] for r in objects] != sorted(MEMBER_BY_KEY):
         fail("runtime member ledger must contain 42 selected and two rejected recipes")
     for row in rows:
@@ -525,15 +526,14 @@ def statistics(rows: Sequence[dict[str, str]], objects: Sequence[dict[str, str]]
     return {"contracts_total": len(rows), "contracts_closed": closed, "contracts_blocked": len(rows) - closed,
             "selected_members": len(selected), "rejected_members": len(objects) - len(selected),
             "exact_text_bytes": sum(int(row["text_size_hex"], 0) for row in selected),
-            "relocations_normalized": sum(int(row["relocation_count"]) for row in selected),
-            "stage3d_closed": 7 + 1 + closed, "stage3d_total": 53, "stage3d_open": 53 - 7 - 1 - closed}
+            "relocations_normalized": sum(int(row["relocation_count"]) for row in selected)}
 
 
 def summary(report: dict[str, object]) -> str:
     return (f"contracts={report['contracts_closed']}/{report['contracts_total']} "
             f"members={report['selected_members']} text_bytes={report['exact_text_bytes']} "
             f"relocations={report['relocations_normalized']} "
-            f"stage3d={report['stage3d_closed']}/53 open={report['stage3d_open']}")
+            f"rejected_member_candidates={report['rejected_members']}")
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -577,7 +577,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.report.parent.mkdir(parents=True, exist_ok=True)
             args.report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(f"verified Stage-3D runtime members: {summary(report)}")
-        print("blocked runtime identities: abort, puts (no forced archive selection)")
+        print("rejected member providers: abort, puts (target overrides have a separate proof gate)")
         return 0
     except (RuntimeMemberError, libgcc.LibgccContractError, OSError, ValueError, KeyError) as error:
         print(f"runtime members: FAIL: {error}")

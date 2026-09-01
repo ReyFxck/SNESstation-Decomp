@@ -69,7 +69,7 @@ section, alignment or bytes. The remaining provider frontier is exact:
 | Named program-data storage | **32** |
 | V84 source-address blockers | **14** |
 | Private assets | **10** |
-| Historical archive members | **1** |
+| Target runtime override (deferred alias) | **1** |
 | **Total** | **233** |
 
 V86 closes the ten private-asset rows with five hash-verified bundles totaling
@@ -85,7 +85,7 @@ The live frontier after the V86 private-asset gate is therefore:
 | Named link contracts | **176** |
 | Named program-data storage | **32** |
 | V84 source-address blockers | **14** |
-| Historical archive members | **1** |
+| Target runtime override (deferred alias) | **1** |
 | **Total** | **223** |
 
 The regenerated closure resolves the complete **223-name source-link namespace in one batch**:
@@ -187,9 +187,9 @@ matching function bodies. Runtime ownership now identifies the exact member
 recipe instead of generic Newlib/PS2SDK labels; all source-object fingerprints
 and live namespace counts stay unchanged.
 
-Stage 3D reaches **51/53 closed**. The `puts` candidate adds a newline absent
+V93 reached **51/53 closed**. The `puts` candidate adds a newline absent
 from the target, and the `abort` candidate prints/exits instead of spinning.
-Both remain blocked for runtime-override identity. Member data, final relocation
+V94 subsequently proves the target-selected overrides separately. Member data, final relocation
 values and historical archive packaging/order are not closed by text matching.
 See [`status/V93_STAGE3D_RUNTIME_MEMBERS.md`](status/V93_STAGE3D_RUNTIME_MEMBERS.md).
 
@@ -197,7 +197,9 @@ See [`status/V93_STAGE3D_RUNTIME_MEMBERS.md`](status/V93_STAGE3D_RUNTIME_MEMBERS
 
 Even after every function is `MATCHING`, an identical ELF still requires:
 
-- the remaining `puts`/`abort` runtime overrides and final archive composition;
+- original archive composition and historical member data integration;
+- complete Stage-3F data bounds: 705/1,265 names now have minimum access spans,
+  while 560 lack direct witnesses and full object/array extents remain open;
 - exact application linker script, section placement and object/library order;
 - data/rodata/string-pool/vtable layout and relocations;
 - exact binutils patch level;
@@ -205,3 +207,17 @@ Even after every function is `MATCHING`, an identical ELF still requires:
 
 These gates are intentionally enforced by the blocked `make elf` target. The
 full sequence is documented in [`REPRODUCTION.md`](REPRODUCTION.md).
+
+## V94 runtime closure and data-access evidence
+
+Stage 3D is now **53/53 runtime contracts adjudicated**. Fourteen named abort
+relocations in two complete unwind members select `0x00107578`; a separate
+complete weak termination function proves the named puts call to `0x0019e414`.
+The recovered overrides link to 104 raw-exact bytes, including the outgoing
+fioWrite relocation. This establishes selected target contracts, not original
+archive origin or a replacement application.
+
+The new Stage-3F audit rejects provisional `uint64_t` declarations as object
+size evidence. It proves **705 consumed spans / 70,746 unique bytes**, including
+eight fixed-count memory calls, and keeps all 560 unwitnessed names explicit.
+See [`status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).

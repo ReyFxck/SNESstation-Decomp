@@ -270,6 +270,7 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
               + counts[("embedded-binary", "private-asset")],
         "3D": counts[("ps2-runtime", "historical-archive")]
               + counts[("c-runtime", "historical-archive")]
+              + counts[("c-runtime", "recovered-runtime")]
               + counts[("compiler-runtime", "historical-archive")],
         "3E": counts[("named-external", "link-contract")]
               + counts[("zlib-peer", "source-or-archive")],

@@ -114,7 +114,8 @@ def validate_live_contracts(
         fail("sprintf canonical target drift")
     if any(row["resolution_kind"] == "compatibility-runtime-shim" for row in frontier):
         fail("compatibility runtime shim returned")
-    runtime = Counter(row["category"] for row in external if row["provider_kind"] == "historical-archive")
+    runtime = Counter(row["category"] for row in external
+                      if row["provider_kind"] in ("historical-archive", "recovered-runtime"))
     if runtime != {"ps2-runtime": 25, "c-runtime": 20, "compiler-runtime": 4}:
         fail(f"live Stage-3D partition drift: {dict(runtime)}")
 

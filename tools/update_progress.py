@@ -19,6 +19,8 @@ from pathlib import Path
 from project_status import load_status
 import runtime_refactors
 import runtime_members
+import runtime_overrides
+import unnamed_data
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
@@ -477,7 +479,11 @@ def main() -> None:
     runtime_closed = len({row["former_contract"] for row in runtime_rows})
     member_rows, member_objects = runtime_members.validate_manifest(runtime_members.parse_args(["validate"]))
     member_report = runtime_members.statistics(member_rows, member_objects)
-    stage3d_closed = len(libgcc_rows) + runtime_closed + member_report["contracts_closed"]
+    override_rows, override_witnesses = runtime_overrides.validate_manifest(runtime_overrides.parse_args(["validate"]))
+    override_report = runtime_overrides.statistics(override_rows, override_witnesses)
+    unnamed_rows = unnamed_data.validate_manifest(unnamed_data.parse_args(["validate"]))
+    unnamed_report = unnamed_data.statistics(unnamed_rows)
+    stage3d_closed = len(libgcc_rows) + runtime_closed + member_report["contracts_closed"] + len(override_rows)
     stage3d_remaining = 53 - stage3d_closed
 
     draw = [
@@ -568,7 +574,9 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Original Stage-3E named-contract tranche | **212/212 adjudicated; {named_contract_fingerprinted} fingerprinted ranges/data aliases + {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} closed source refactors** | {named_contract_statuses['TEXT_ALIAS_PROVED']} text aliases, {named_contract_statuses['TARGET_RANGE_PROVED']} target ranges, two target entries, two external addresses and one canonical data alias remove all remaining compatibility storage. |
 | Stage-3D libgcc subtranche | **7/7 closed; {libgcc_statuses['ARCHIVE_TEXT_EXACT']} exact archive members + {libgcc_statuses['SOURCE_REFACTOR_CLOSED']} source refactors** | {libgcc_exact_bytes:,} complete member-text bytes and {libgcc_relocations} relocations are privately verified. |
 | Stage-3D formatter refactor | **{runtime_closed} contract closed / {len(runtime_rows)} call sites** | Direct calls select `sprintf@0x0019e3d0`; `snprintf` is removed from the source namespace, leaving zero compatibility runtime shims. |
-| Stage-3D PS2LIB members | **{member_report['contracts_closed']}/45 contracts / {member_report['selected_members']} complete member texts** | {member_report['exact_text_bytes']:,} bytes; {member_report['relocations_normalized']} precise relocation masks; {stage3d_closed}/53 Stage-3D identities closed. `puts` and `abort` stay blocked; final data/relocation/container identity is separate. |
+| Stage-3D PS2LIB members | **{member_report['contracts_closed']}/45 contracts / {member_report['selected_members']} complete member texts** | {member_report['exact_text_bytes']:,} bytes; {member_report['relocations_normalized']} precise relocation masks. Two rejected member candidates are resolved by the separate override gate. |
+| Stage-3D target runtime overrides | **{len(override_rows)}/2 proved; {stage3d_closed}/53 runtime contracts closed** | {override_report['incoming_named_calls']} historical named calls select `puts`/`abort`; {override_report['provider_bytes']} linked bytes are raw-exact. Original archive origin, member data and global final relocations remain separate. |
+| Stage-3F unnamed data accesses | **{unnamed_report['direct_access_proved']}/{unnamed_report['contracts_total']} with proved consumed spans** | {unnamed_report['unique_consumed_bytes']:,} unique bytes, {unnamed_report['constant_call_ranges']} fixed-count memory-call ranges; {unnamed_report['awaiting_direct_access']} lack direct witnesses. These are minimum spans, not complete object/array bounds; Stage 3F remains open. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -620,7 +628,10 @@ compiler libcalls are removed. V92 closes the `snprintf` source contract with
 four SHA-frozen call-site proofs; the final compatibility runtime shim is
 removed. The source-model snapshot adapter retains bounded truncation for
 small buffers, and all numeric output bounds are regression-tested.
-The current batch is documented in
+The V94 runtime override closure and minimum unnamed-data access gate are
+documented in
+[`V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
+The preceding formatter refactor is documented in
 [`V92_STAGE3D_SNPRINTF_REFACTOR.md`](V92_STAGE3D_SNPRINTF_REFACTOR.md); V91 remains documented in
 [`V91_STAGE3D_LIBGCC_CLOSED.md`](V91_STAGE3D_LIBGCC_CLOSED.md); V90 remains documented in
 [`V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md);
@@ -647,8 +658,8 @@ closure remains frozen in
 8. **Original Stage-3C tranche closed:** all 54 historical rows are adjudicated as {named_data_fingerprinted} exact target ranges plus {named_data_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors.
 9. **Original Stage-3E tranche closed:** all 212 historical rows are adjudicated; {named_contract_fingerprinted} target-backed ranges/data aliases are fingerprinted, seven zlib peers are exact text aliases and compatibility storage falls from 39 to zero.
 10. **Stage-3D libgcc subtranche closed:** all seven contracts are adjudicated as four exact archive members plus three completed source refactors.
-11. **Stage-3D member text:** {member_report['contracts_closed']} runtime contracts select {member_report['selected_members']} complete PS2LIB member texts ({member_report['exact_text_bytes']:,} bytes). Four direct calls already closed the synthetic `snprintf` dependency. Resolve the remaining {stage3d_remaining}/53 `puts`/`abort` override identities ({stage3d_closed}/53 closed); member data and final relocation values remain separate.
-12. Close Stage 3F by recovering ranges, bytes, BSS boundaries and overlaps for the 1,265 unnamed address contracts.
+11. **Stage-3D runtime contracts closed:** {stage3d_closed}/53 adjudicated, including both target-selected overrides ({override_report['provider_bytes']} exact linked bytes). Original whole-archive composition, member data and final global relocation values remain separate.
+12. **Stage-3F access proof:** {unnamed_report['direct_access_proved']}/1,265 contracts have target-instruction/call-consumed spans; {unnamed_report['awaiting_direct_access']} still lack such witnesses. Close complete data/object/array extents and zero-fill boundaries; the minimum-access gate is not full Stage-3F closure.
 13. Reproduce data/rodata/bss layout, relocations, section alignment, linker script, object order and library order.
 14. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
@@ -686,7 +697,9 @@ unproven final-ELF stage.
 - **Original Stage-3E named contracts:** **212/212 closed** (**{named_contract_fingerprinted} fingerprinted ranges/data aliases + {named_contract_statuses['TEXT_ALIAS_PROVED']} text aliases + {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors**; compatibility storage **39 → 0**)
 - **Stage-3D libgcc contracts:** **7/7 closed** (**{libgcc_statuses['ARCHIVE_TEXT_EXACT']} exact archive members + {libgcc_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors**)
 - **Stage-3D formatter refactor:** **{len(runtime_rows)}/4 call sites proved**, **runtime shims 1 → 0**
-- **Stage-3D PS2LIB member text:** **{member_report['contracts_closed']} contracts / {member_report['selected_members']} complete objects**, **{member_report['exact_text_bytes']:,} bytes**; Stage 3D **{stage3d_closed}/53 closed**, **{stage3d_remaining} open** (`puts`, `abort`)
+- **Stage-3D PS2LIB member text:** **{member_report['contracts_closed']} contracts / {member_report['selected_members']} complete objects**, **{member_report['exact_text_bytes']:,} bytes**
+- **Stage-3D runtime contracts:** **{stage3d_closed}/53 closed**, **{stage3d_remaining} open**; `puts`/`abort` have {override_report['incoming_named_calls']} named-call witnesses and {override_report['provider_bytes']} exact linked bytes
+- **Stage-3F unnamed data access proof:** **{unnamed_report['direct_access_proved']}/1,265** consumed spans, **{unnamed_report['unique_consumed_bytes']:,} unique bytes**; complete object/array extents remain open
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**

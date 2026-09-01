@@ -130,3 +130,11 @@ and the two rejected `puts`/`abort` candidates have an explicit runtime-override
 gate. The 42 complete historical member texts are separate build products;
 their default PS2LIB ABI must not be confused with the recovered-source ABI
 above. See [`V93_STAGE3D_RUNTIME_MEMBERS.md`](V93_STAGE3D_RUNTIME_MEMBERS.md).
+
+V94 again preserves every source-object fingerprint and the aggregate. It
+classifies the two target-selected overrides as `recovered-runtime`, proves
+their named incoming calls and 104 exact linked bytes, and closes the 53-row
+runtime contract ledger. The new data audit proves minimum consumed spans for
+705/1,265 unnamed contracts without using provisional lifted C types as object
+sizes. Complete object bounds and final executable integration remain open.
+See [`V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).

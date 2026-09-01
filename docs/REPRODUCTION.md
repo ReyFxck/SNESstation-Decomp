@@ -29,7 +29,9 @@ make named-data         # verify the closed 54/54 Stage-3C ledger and ranges
 make named-contracts    # verify the closed 212/212 Stage-3E ledger and ranges
 make libgcc-contracts   # verify the closed 7/7 Stage-3D libgcc subtranche
 make runtime-refactors  # prove four sprintf calls; runtime shims 1 -> 0
-make runtime-members    # prove 43 contracts / 42 PS2LIB member texts; Stage 3D 51/53
+make runtime-members    # prove 43 contracts / 42 PS2LIB member texts
+make runtime-overrides  # two selected runtime overrides; Stage 3D 53/53
+make unnamed-data      # 705/1265 minimum access spans; full data bounds remain open
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -76,15 +78,21 @@ The final pipeline must prove every layer:
    last runtime shim.
 12. **Stage-3D PS2LIB member text — 43 more contracts closed** — 42 complete
    texts cover 12,964 bytes after 700 relocation masks, with pinned source and
-   header dependency hashes. Stage 3D reaches 51/53; `puts`/`abort` override
-   identity stays open. Member data and final relocated values are separate.
-13. **Unnamed data (Stage 3F)** — recover ranges, bytes, zero-fill boundaries,
-   overlaps and alignment for 1,265 address-qualified contracts.
-14. **Link** — linker script, section addresses, object order and library order
+   header dependency hashes. Incompatible puts/abort member candidates remain
+   rejected; member data and final relocated values are separate.
+13. **Stage-3D target overrides — closed** — 15 historical named calls select
+   the recovered puts/abort implementations, which link to 104 raw-exact bytes.
+   The original runtime contract ledger is 53/53, not a whole-archive pedigree.
+14. **Unnamed data (Stage 3F)** — 705/1,265 contracts have minimum consumed
+   spans proved from target instructions and fixed-count memory calls. Recover
+   the complete object/array bounds, remaining indexed uses, overlaps and
+   zero-fill boundaries; 560 names still lack a direct access witness.
+15. **Link** — select/integrate exact implementation objects, linker script,
+   section addresses, object order and library order to
    reproduce the unpacked ELF image.
-15. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+16. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
-16. **Final comparison** — section/layout reports and both unpacked and packed
+17. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
 
 The required reference hashes are:
@@ -104,6 +112,8 @@ The subsequent formatter refactor and its private direct-call proof are in
 [`status/V92_STAGE3D_SNPRINTF_REFACTOR.md`](status/V92_STAGE3D_SNPRINTF_REFACTOR.md).
 The complete PS2LIB member-text recipes and two rejected candidates are in
 [`status/V93_STAGE3D_RUNTIME_MEMBERS.md`](status/V93_STAGE3D_RUNTIME_MEMBERS.md).
+The target-selected override closure and minimum unnamed-data access proofs are in
+[`status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
 The closed Stage-3E checkpoint is recorded in
 [`status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md).
 The preceding closed Stage-3C checkpoint is recorded in

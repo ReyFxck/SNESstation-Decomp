@@ -257,7 +257,7 @@ class LinkContractTests(unittest.TestCase):
         self.assertEqual(63, report["semantic_aliases"])
         self.assertEqual(
             {
-                "historical-archive": 1,
+                "recovered-runtime": 1,
                 "link-contract": 176,
                 "private-asset": 10,
                 "program-data": 32,

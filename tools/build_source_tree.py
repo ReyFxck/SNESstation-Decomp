@@ -376,6 +376,10 @@ def classify_external(
         return "cxx-runtime", "historical-archive", "libsupc++/libstdc++", "archive-identity"
     if symbol.startswith(LIBGCC_PREFIXES):
         return "compiler-runtime", "historical-archive", "libgcc", "archive-identity"
+    from runtime_overrides import KIND as override_kind, ownership as override_ownership
+    override = override_ownership(symbol)
+    if override is not None:
+        return "c-runtime", override_kind, *override
     # V93 pins the pre-2004 PS2LIB member lineage instead of attributing these
     # routines generically to Newlib or a modern PS2SDK archive. Full data and
     # final relocation identity remain separate from this member-text gate.

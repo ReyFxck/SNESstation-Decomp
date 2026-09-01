@@ -108,7 +108,7 @@ RESOLVED = "RESOLVED"
 BLOCKED = "BLOCKED"
 ABSOLUTE_ANCHOR = "absolute-address-anchor"
 SEMANTIC_ALIAS = "semantic-text-alias"
-SEMANTIC_PROVIDERS = {"historical-archive", "link-contract", "source-or-archive"}
+SEMANTIC_PROVIDERS = {"historical-archive", "link-contract", "source-or-archive", "recovered-runtime"}
 
 
 class ContractError(RuntimeError):
@@ -247,6 +247,8 @@ def blocker_for(external: dict[str, str], source_block: dict[str, str] | None) -
         return "blocked-private-asset", "private asset bytes and extraction provenance are intentionally absent"
     if provider == "historical-archive":
         return "blocked-historical-archive", "historical archive revision and member identity are not yet proved"
+    if provider == "recovered-runtime":
+        return "deferred-runtime-alias", "target-selected override is bound by the reviewed provider-frontier alias gate"
     if provider == "source-or-archive":
         return "blocked-source-or-archive", "source definition versus historical archive provider is not yet proved"
     if provider == "link-contract":

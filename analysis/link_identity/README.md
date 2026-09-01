@@ -39,11 +39,17 @@ This directory contains public, byte-free evidence for the Stage-3 link gate.
   target spans record direct call addresses, the existing `sprintf` callee,
   target hashes and immutable matching-evidence hashes.
 - `runtime_members.tsv` adjudicates the remaining 45 runtime contracts: 43
-  select exact complete member text and `puts`/`abort` stay blocked.
+  select exact complete member text and two historical candidates stay rejected.
 - `runtime_member_objects.tsv` freezes 42 selected and two rejected PS2LIB
   source recipes, full-text geometry/hashes, dependency hashes and symbol maps.
 - `runtime_member_inputs.tsv` pins 36 source/header inputs from historical
   PS2LIB migration snapshots plus three historical compiler headers.
+- `runtime_overrides.tsv` and `runtime_override_witnesses.tsv` prove the two
+  target-selected reconstructed overrides via 15 historical named calls and
+  104 exact linked bytes; the original runtime ledger reaches 53/53.
+- `unnamed_data_accesses.tsv` retains all 1,265 unnamed contracts: 705 have
+  minimum target-consumed spans (70,746 unique bytes), and 560 lack direct
+  witnesses. Complete object/array extents and Stage-3F closure remain open.
 
 The manifest deliberately contains no original executable bytes, extracted
 assets, local paths or encoded binary payloads. Regenerate it only from a
@@ -115,10 +121,17 @@ source models.
 Use `make runtime-members-public-check` for the 45-contract ledger and
 `make runtime-members` for the full private chain plus historical member
 rebuild. The verifier checks 12,964 complete text bytes after 700 precise
-relocation masks, including internal helpers and padding. Stage 3D is 51/53
-closed; `puts` and `abort` are rejected candidates. Pinned migration sources
+relocation masks, including internal helpers and padding. The V93 checkpoint
+was 51/53; the separate V94 override gate closes the remaining two contracts
+without selecting the rejected `puts`/`abort` candidates. Pinned migration sources
 are reproducible witnesses, not proof of a particular historical archive
 container. Selected `.a` files and rejected objects stay below ignored
 `build/runtime-members/`; member data, final relocation values and global link
 order remain separate gates. See
 [`V93_STAGE3D_RUNTIME_MEMBERS.md`](../../docs/status/V93_STAGE3D_RUNTIME_MEMBERS.md).
+
+`make runtime-overrides` verifies the complete dependency chain and links the
+two recovered providers at their exact target addresses. `make unnamed-data`
+re-derives consumed data spans from the private target; ordinary validation
+does not update hashes. Both have repository-only `*-public-check` gates.
+See [`V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](../../docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).

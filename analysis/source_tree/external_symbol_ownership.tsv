@@ -1623,7 +1623,7 @@ __floatdisf	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/libg
 __muldi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/address_leaf_recovered.o;ps2/libc_misc_recovered.o;ps2/progress13_cpp_personality_recovered.o;ps2/progress28_structural_lift_recovered.o;ps2/small_dispatch_recovered.o;snes9x/progress13_runtime_more_recovered.o;zlib/trees_recovered.o
 __udivdi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/ps2lib_formatter_recovered.o;snes9x/progress13_runtime_more_recovered.o
 __umoddi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/ps2lib_formatter_recovered.o;zlib/zutil_adler_recovered.o
-abort	c-runtime	historical-archive	runtime override under review (libc/terminate.o rejected)	runtime-override-identity	ps2/gcc_fde_runtime_recovered.o;ps2/gcc_unwind_pe_recovered.o
+abort	c-runtime	recovered-runtime	target-selected recovered override: snes_fatal_spin_00107578	runtime-override-callsite-identity	ps2/gcc_fde_runtime_recovered.o;ps2/gcc_unwind_pe_recovered.o
 bRam0042c800	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 bRam0042c801	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 bRam0042e888	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1745,7 +1745,7 @@ printf	c-runtime	historical-archive	PS2LIB libc/printf.o (ps2sdk@694100b7 source
 puRam00426fc4	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 puRam00447754	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 puRam00447758	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-puts	c-runtime	historical-archive	runtime override under review (libc/puts.o rejected)	runtime-override-identity	app/main_bootstrap.o;app/main_flow_recovered.o
+puts	c-runtime	recovered-runtime	target-selected recovered override: puts_like_recovered	runtime-override-callsite-identity	app/main_bootstrap.o;app/main_flow_recovered.o
 restart_embedded_mod_00105d78	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/small_dispatch_recovered.c	link-identity	app/main_flow_recovered.o
 s_THIS_SCRIPT_WAS_STOLEN_001b6ed0	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 sinf	named-external	link-contract	reserved:link-contract	link-identity	snes9x/progress13_core_helpers_recovered.o

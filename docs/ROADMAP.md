@@ -61,12 +61,12 @@ Exact program-data bytes/placement and final object order remain Stage 3.
 ## 3. Link identity
 
 The original tranche names remain the authoritative plan: 3A, 3B, 3C and 3E
-are closed; 3D has seven closed libgcc contracts, the `snprintf` source refactor
-and 43 contracts proved by 42 complete PS2LIB member texts (51/53 total).
-The `puts`/`abort` runtime overrides remain open; 3F has
-1,265 addresses but not recovered ranges/bytes; and 3G/3H remain the final
-layout and image gates. See
-[`status/V93_STAGE3D_RUNTIME_MEMBERS.md`](status/V93_STAGE3D_RUNTIME_MEMBERS.md).
+are closed; 3D now adjudicates all 53 runtime contracts, including the two
+target-selected `puts`/`abort` overrides. Full archive composition, member data
+and final global relocations remain separate integration work. Stage 3F has
+705/1,265 target-consumed access spans but not complete object/array bounds;
+3G/3H remain the final layout and image gates. See
+[`status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
 
 - [x] Freeze a byte-free unpacked-layout oracle with SJCRUNCH2 section/block
   geometry, 64 KiB hashes and an exact first-difference comparator.
@@ -104,8 +104,14 @@ layout and image gates. See
 - [x] Rebuild 42 complete PS2LIB member texts from pinned source/header inputs,
   prove 12,964 bytes with 700 precise relocation masks and identify the owners
   of 43 additional runtime contracts (V93: 51/53 closed).
-- [ ] Prove the two remaining Stage-3D runtime-override identities: `puts` and
-  `abort`; their pinned historical archive candidates are explicitly rejected.
+- [x] Prove both Stage-3D target-selected runtime overrides using 15 historical
+  named incoming relocations and 104 raw-exact final linked bytes; keep the
+  two incompatible historical provider candidates rejected (V94: 53/53).
+- [x] Prove minimum consumed spans for 705/1,265 Stage-3F contracts directly
+  from target instructions and fixed-count memory calls (70,746 unique bytes).
+- [ ] Select and integrate the exact per-function implementations into the
+  final object set; compiling the canonical behavioral models is not proof
+  that their aggregate code equals the complete target text.
 - [ ] Integrate member data and final relocation values; prove original archive
   composition rather than treating local selection containers as historical.
 - [ ] Recover exact ranges, bytes, zero-fill boundaries and overlaps for the

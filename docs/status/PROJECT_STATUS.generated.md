@@ -17,7 +17,9 @@
 | Original Stage-3E named-contract tranche | **212/212 adjudicated; 165 fingerprinted ranges/data aliases + 20 closed source refactors** | 23 text aliases, 164 target ranges, two target entries, two external addresses and one canonical data alias remove all remaining compatibility storage. |
 | Stage-3D libgcc subtranche | **7/7 closed; 4 exact archive members + 3 source refactors** | 3,848 complete member-text bytes and 21 relocations are privately verified. |
 | Stage-3D formatter refactor | **1 contract closed / 4 call sites** | Direct calls select `sprintf@0x0019e3d0`; `snprintf` is removed from the source namespace, leaving zero compatibility runtime shims. |
-| Stage-3D PS2LIB members | **43/45 contracts / 42 complete member texts** | 12,964 bytes; 700 precise relocation masks; 51/53 Stage-3D identities closed. `puts` and `abort` stay blocked; final data/relocation/container identity is separate. |
+| Stage-3D PS2LIB members | **43/45 contracts / 42 complete member texts** | 12,964 bytes; 700 precise relocation masks. Two rejected member candidates are resolved by the separate override gate. |
+| Stage-3D target runtime overrides | **2/2 proved; 53/53 runtime contracts closed** | 15 historical named calls select `puts`/`abort`; 104 linked bytes are raw-exact. Original archive origin, member data and global final relocations remain separate. |
+| Stage-3F unnamed data accesses | **705/1265 with proved consumed spans** | 70,746 unique bytes, 8 fixed-count memory-call ranges; 560 lack direct witnesses. These are minimum spans, not complete object/array bounds; Stage 3F remains open. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -69,7 +71,10 @@ compiler libcalls are removed. V92 closes the `snprintf` source contract with
 four SHA-frozen call-site proofs; the final compatibility runtime shim is
 removed. The source-model snapshot adapter retains bounded truncation for
 small buffers, and all numeric output bounds are regression-tested.
-The current batch is documented in
+The V94 runtime override closure and minimum unnamed-data access gate are
+documented in
+[`V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
+The preceding formatter refactor is documented in
 [`V92_STAGE3D_SNPRINTF_REFACTOR.md`](V92_STAGE3D_SNPRINTF_REFACTOR.md); V91 remains documented in
 [`V91_STAGE3D_LIBGCC_CLOSED.md`](V91_STAGE3D_LIBGCC_CLOSED.md); V90 remains documented in
 [`V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md);
@@ -96,8 +101,8 @@ closure remains frozen in
 8. **Original Stage-3C tranche closed:** all 54 historical rows are adjudicated as 50 exact target ranges plus 4 completed source refactors.
 9. **Original Stage-3E tranche closed:** all 212 historical rows are adjudicated; 165 target-backed ranges/data aliases are fingerprinted, seven zlib peers are exact text aliases and compatibility storage falls from 39 to zero.
 10. **Stage-3D libgcc subtranche closed:** all seven contracts are adjudicated as four exact archive members plus three completed source refactors.
-11. **Stage-3D member text:** 43 runtime contracts select 42 complete PS2LIB member texts (12,964 bytes). Four direct calls already closed the synthetic `snprintf` dependency. Resolve the remaining 2/53 `puts`/`abort` override identities (51/53 closed); member data and final relocation values remain separate.
-12. Close Stage 3F by recovering ranges, bytes, BSS boundaries and overlaps for the 1,265 unnamed address contracts.
+11. **Stage-3D runtime contracts closed:** 53/53 adjudicated, including both target-selected overrides (104 exact linked bytes). Original whole-archive composition, member data and final global relocation values remain separate.
+12. **Stage-3F access proof:** 705/1,265 contracts have target-instruction/call-consumed spans; 560 still lack such witnesses. Close complete data/object/array extents and zero-fill boundaries; the minimum-access gate is not full Stage-3F closure.
 13. Reproduce data/rodata/bss layout, relocations, section alignment, linker script, object order and library order.
 14. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 

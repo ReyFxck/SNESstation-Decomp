@@ -291,7 +291,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check unnamed-data-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -881,6 +881,34 @@ runtime-members-public-check:
 		--contracts "$(LINK_CONTRACT_MANIFEST)" \
 		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)"
 
+.PHONY: runtime-overrides runtime-overrides-check runtime-overrides-verify runtime-overrides-refresh runtime-overrides-public-check unnamed-data unnamed-data-verify unnamed-data-refresh unnamed-data-public-check
+
+runtime-overrides: reference bootstrap-ee-stage1
+	$(MAKE) runtime-overrides-check EE_CC="$(EE_STAGE1_CC)"
+
+runtime-overrides-check: runtime-members-check
+	$(PYTHON) tools/runtime_overrides.py verify --compiler "$(EE_CC)" --reference "$(REFERENCE_RAW)"
+
+runtime-overrides-verify: reference check-ee-compiler
+	$(PYTHON) tools/runtime_overrides.py verify --compiler "$(EE_CC)" --reference "$(REFERENCE_RAW)"
+
+runtime-overrides-refresh: reference check-ee-compiler
+	$(PYTHON) tools/runtime_overrides.py capture --compiler "$(EE_CC)" --reference "$(REFERENCE_RAW)"
+
+runtime-overrides-public-check:
+	$(PYTHON) tools/runtime_overrides.py validate
+
+unnamed-data: reference
+	$(PYTHON) tools/unnamed_data.py verify --reference "$(REFERENCE_RAW)"
+
+unnamed-data-verify: unnamed-data
+
+unnamed-data-refresh: reference
+	$(PYTHON) tools/unnamed_data.py capture --reference "$(REFERENCE_RAW)"
+
+unnamed-data-public-check:
+	$(PYTHON) tools/unnamed_data.py validate
+
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \
 		--compiler "$(EE_CC)" \
@@ -1129,9 +1157,11 @@ elf-status: audit-source-check
 	@echo "Original Stage 3C: CLOSED (50 exact target ranges + 4 removed source adapters)"
 	@echo "Original Stage 3E: CLOSED (212/212; 165 fingerprinted ranges/data aliases)"
 	@echo "Stage 3D libgcc: CLOSED (4 exact archive members + 3 source refactors)"
+	@echo "Stage 3D runtime contracts: CLOSED (53/53; puts/abort target overrides proved)"
+	@echo "Stage 3F access spans: 705/1265 witnessed; complete object/array extents OPEN"
 	@echo "Compatibility storage: CLOSED (39 -> 0 exact-range replacements)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
-	@echo "  - remaining 2/53 Stage-3D identities: puts/abort overrides (51 closed)"
+	@echo "  - select and integrate exact function implementations into final objects"
 	@echo "  - Stage 3F unnamed data; member data and final relocation values"
 	@echo "  - reproduce data layout, relocations and section alignment"
 	@echo "  - prove exact EE archives, linker script, object order and library order"
