@@ -10,7 +10,7 @@
 | Working frontier | **0** | Audited entries not yet formally matched or covered by recovered evidence. |
 | Build-ready EE source ownership | **97/97 TUs** | 96 canonical objects partially link with a frozen ABI/symbol map and no duplicate/common definitions. |
 | Source-address alias tranche | **323/337 proved** | Zero-byte linker aliases bind proven alternate names to canonical global text symbols; 14 remain blocked. |
-| Zero-byte link-contract frontier | **1,336/1,569 resolved** | 1,273 absolute target-address anchors plus 63 semantic text aliases leave 233 provider contracts explicit. |
+| Zero-byte link-contract frontier | **1,307/1,540 resolved** | 1,244 absolute target-address anchors plus 63 semantic text aliases leave 233 provider contracts explicit. |
 | Private embedded-asset providers | **10/10 resolved** | Five verified private bundles emit 62,736 ignored bytes and reduce the active frontier to 223. |
 | Source-link provider namespace | **223/223 resolved** | 175 target anchors, 9 text aliases, 39 storage definitions and 0 EE shims reduce aggregate externals to zero. |
 | Original Stage-3C named-data tranche | **54/54 adjudicated; 50 exact target ranges + 4 closed source refactors** | All target objects are fingerprinted, 32 compatibility stores are replaced, and 15 overlap-aware private-reference clusters cover 141,159 unique bytes. |
@@ -19,8 +19,9 @@
 | Stage-3D formatter refactor | **1 contract closed / 4 call sites** | Direct calls select `sprintf@0x0019e3d0`; `snprintf` is removed from the source namespace, leaving zero compatibility runtime shims. |
 | Stage-3D PS2LIB members | **43/45 contracts / 42 complete member texts** | 12,964 bytes; 700 precise relocation masks. Two rejected member candidates are resolved by the separate override gate. |
 | Stage-3D target runtime overrides | **2/2 proved; 53/53 runtime contracts closed** | 15 historical named calls select `puts`/`abort`; 104 linked bytes are raw-exact. Original archive origin, member data and global final relocations remain separate. |
-| Stage-3F unnamed data accesses | **824/1265 with proved consumed spans** | 167,521 unique bytes, 10 fixed-count memory-call ranges; 131 fixed-point CFG witnesses. 441 lack access witnesses. These are minimum spans, not complete object/array bounds; Stage 3F remains open. |
-| Stage-3F section-backed addresses | **961/1265 backed; 304 unbacked** | 117 new ranges / 165,946 additional bytes; 137 interior-address aliases do not establish access widths. Section-relative labels have size zero; complete object bounds remain open. |
+| Stage-3F unnamed data accesses | **872/1265 with proved consumed spans** | 167,659 unique bytes, 10 fixed-count memory-call ranges; 146 fixed-point CFG and 33 deterministic-prefix witnesses. 364 lack access witnesses; 29 ROM-offset refactors are separately closed. These are not complete object/array bounds. |
+| Stage-3F historical data providers | **49 exact source intervals / 810,542 bytes** | Pinned Snes9x source, typed object/section extents and exact private byte comparison. Fourteen functions reapply all relocations; two explicitly focused proofs reapply only data references. The backing link rebuilds 695,316 bytes from source; not full-image identity. |
+| Stage-3F section-backed addresses | **1197 backed + 29 refactored / 1265; 39 unresolved** | 104 new ranges / 762,372 additional bytes; 113 interior-address aliases do not establish access widths. ROM-relative constants are not image storage. Complete object bounds remain open. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -44,9 +45,10 @@ V85/V89 froze the preceding 1,594-name post-Stage-3C aggregate. V90 removes
 twenty target-absent instruction/stack adapters and canonicalizes `errno` to
 the existing target word. V91 then removes three compiler-generated lift
 artifacts. V92 removes the `snprintf` source-only dependency after proving four
-direct calls to the existing `sprintf` target. The live source now has 1,892 externals and the
-alias-resolved contract map has 1,569 rows. It still resolves
-1,336 contracts without allocating a byte: 1,273
+direct calls to the existing `sprintf` target. V97 removes 29 ROM-relative pseudo-globals.
+The live source now has 1,863 externals and the
+alias-resolved contract map has 1,540 rows. It still resolves
+1,307 contracts without allocating a byte: 1,244
 target-address data anchors and 63 semantic aliases. The
 remaining 233 names are the explicit provider frontier. The
 V86 private-reference gate then materializes five embedded-asset bundles,
@@ -72,7 +74,13 @@ compiler libcalls are removed. V92 closes the `snprintf` source contract with
 four SHA-frozen call-site proofs; the final compatibility runtime shim is
 removed. The source-model snapshot adapter retains bounded truncation for
 small buffers, and all numeric output bounds are regression-tested.
-The current branch/loop-aware data-access proof is documented in
+V97 closed 29 false image-address contracts as byte offsets/size limits in four
+ROM functions. V98 expands the historical providers to 49
+intervals / 810,542 exact bytes and rebuilds 695,316
+bytes for the real backing link instead of extracting those ranges from the original. The remaining
+39 addresses, complete object bounds and final executable
+integration stay explicit in [`V98_SOURCE_DATA_INTEGRATION.md`](V98_SOURCE_DATA_INTEGRATION.md).
+The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
 [`V95_SECTION_BACKED_DATA_ALIASES.md`](V95_SECTION_BACKED_DATA_ALIASES.md).
@@ -99,14 +107,14 @@ closure remains frozen in
 2. **Source/object gate closed:** 97/97 TUs compile; 96 canonical objects have frozen ownership.
 3. **Unpacked oracle closed:** section/block geometry and 64 KiB hashes are frozen.
 4. **Address-alias tranche frozen:** 323/337 are proved and zero-byte bound; the remaining 14 are carried into the V85 provider frontier.
-5. **Zero-byte link-contract tranche frozen:** 1,336/1,569 are resolved and the exact 233-name input provider frontier is classified.
+5. **Zero-byte link-contract tranche frozen:** 1,307/1,540 are resolved and the exact 233-name input provider frontier is classified.
 6. **Private-asset tranche closed:** 10/10 provider symbols and 62,736 bytes are privately verified.
 7. **Source-link provider namespace closed:** 223/223 remaining contracts resolve and the aggregate has zero undefined globals.
 8. **Original Stage-3C tranche closed:** all 54 historical rows are adjudicated as 50 exact target ranges plus 4 completed source refactors.
 9. **Original Stage-3E tranche closed:** all 212 historical rows are adjudicated; 165 target-backed ranges/data aliases are fingerprinted, seven zlib peers are exact text aliases and compatibility storage falls from 39 to zero.
 10. **Stage-3D libgcc subtranche closed:** all seven contracts are adjudicated as four exact archive members plus three completed source refactors.
 11. **Stage-3D runtime contracts closed:** 53/53 adjudicated, including both target-selected overrides (104 exact linked bytes). Original whole-archive composition, member data and final global relocation values remain separate.
-12. **Stage-3F access and backing proof:** 824/1,265 contracts have target-instruction/call-consumed spans; 441 still lack such witnesses. 961/1,265 addresses now bind to exact section storage, including 137 interior-address-only aliases; 304 remain unbacked. Close complete data/object/array extents and zero-fill boundaries; neither minimum-access nor address backing is full Stage-3F closure.
+12. **Stage-3F access and backing proof:** 872/1,265 contracts have target-instruction/call-consumed spans; 364 still lack such witnesses. 1197 addresses bind to storage; 29 ROM-offset contracts are separately removed; 39 remain unresolved. Close complete data/object/array extents and zero-fill boundaries; neither minimum-access nor address backing is full Stage-3F closure.
 13. Reproduce data/rodata/bss layout, relocations, section alignment, linker script, object order and library order.
 14. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 

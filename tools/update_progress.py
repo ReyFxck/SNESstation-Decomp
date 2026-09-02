@@ -22,6 +22,7 @@ import runtime_members
 import runtime_overrides
 import unnamed_data
 import data_backing
+import historical_data
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
@@ -486,6 +487,8 @@ def main() -> None:
     unnamed_report = unnamed_data.statistics(unnamed_rows)
     backing_rows, backing_sections = data_backing.validate(data_backing.parse_args(["validate"]))
     backing_report = data_backing.statistics(backing_rows, backing_sections)
+    historical_report = historical_data.validate()
+    historical_bytes = sum(row["size"] for row in historical_report["owners"])
     stage3d_closed = len(libgcc_rows) + runtime_closed + member_report["contracts_closed"] + len(override_rows)
     stage3d_remaining = 53 - stage3d_closed
 
@@ -579,8 +582,9 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Stage-3D formatter refactor | **{runtime_closed} contract closed / {len(runtime_rows)} call sites** | Direct calls select `sprintf@0x0019e3d0`; `snprintf` is removed from the source namespace, leaving zero compatibility runtime shims. |
 | Stage-3D PS2LIB members | **{member_report['contracts_closed']}/45 contracts / {member_report['selected_members']} complete member texts** | {member_report['exact_text_bytes']:,} bytes; {member_report['relocations_normalized']} precise relocation masks. Two rejected member candidates are resolved by the separate override gate. |
 | Stage-3D target runtime overrides | **{len(override_rows)}/2 proved; {stage3d_closed}/53 runtime contracts closed** | {override_report['incoming_named_calls']} historical named calls select `puts`/`abort`; {override_report['provider_bytes']} linked bytes are raw-exact. Original archive origin, member data and global final relocations remain separate. |
-| Stage-3F unnamed data accesses | **{unnamed_report['direct_access_proved']}/{unnamed_report['contracts_total']} with proved consumed spans** | {unnamed_report['unique_consumed_bytes']:,} unique bytes, {unnamed_report['constant_call_ranges']} fixed-count memory-call ranges; {unnamed_report['proof_kinds']['cfg-must-constant']} fixed-point CFG witnesses. {unnamed_report['awaiting_direct_access']} lack access witnesses. These are minimum spans, not complete object/array bounds; Stage 3F remains open. |
-| Stage-3F section-backed addresses | **{backing_report['section_backed_addresses']}/{backing_report['contracts_total']} backed; {backing_report['unbacked_addresses']} unbacked** | {backing_report['new_sections']} new ranges / {backing_report['new_backing_bytes']:,} additional bytes; {backing_report['coverage_kinds']['interior-address-only']} interior-address aliases do not establish access widths. Section-relative labels have size zero; complete object bounds remain open. |
+| Stage-3F unnamed data accesses | **{unnamed_report['direct_access_proved']}/{unnamed_report['contracts_total']} with proved consumed spans** | {unnamed_report['unique_consumed_bytes']:,} unique bytes, {unnamed_report['constant_call_ranges']} fixed-count memory-call ranges; {unnamed_report['proof_kinds']['cfg-must-constant']} fixed-point CFG and {unnamed_report['proof_kinds']['deterministic-prefix']} deterministic-prefix witnesses. {unnamed_report['awaiting_direct_access']} lack access witnesses; {unnamed_report['rom_offset_refactors_closed']} ROM-offset refactors are separately closed. These are not complete object/array bounds. |
+| Stage-3F historical data providers | **{len(historical_report['owners'])} exact source intervals / {historical_bytes:,} bytes** | Pinned Snes9x source, typed object/section extents and exact private byte comparison. Fourteen functions reapply all relocations; two explicitly focused proofs reapply only data references. The backing link rebuilds {backing_report['historical_source_bytes']:,} bytes from source; not full-image identity. |
+| Stage-3F section-backed addresses | **{backing_report['section_backed_addresses']} backed + {backing_report['rom_offset_refactors_closed']} refactored / {backing_report['contracts_total']}; {backing_report['unbacked_addresses']} unresolved** | {backing_report['new_sections']} new ranges / {backing_report['new_backing_bytes']:,} additional bytes; {backing_report['coverage_kinds']['interior-address-only']} interior-address aliases do not establish access widths. ROM-relative constants are not image storage. Complete object bounds remain open. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -604,7 +608,8 @@ V85/V89 froze the preceding 1,594-name post-Stage-3C aggregate. V90 removes
 twenty target-absent instruction/stack adapters and canonicalizes `errno` to
 the existing target word. V91 then removes three compiler-generated lift
 artifacts. V92 removes the `snprintf` source-only dependency after proving four
-direct calls to the existing `sprintf` target. The live source now has 1,892 externals and the
+direct calls to the existing `sprintf` target. V97 removes 29 ROM-relative pseudo-globals.
+The live source now has 1,863 externals and the
 alias-resolved contract map has {len(contract_rows):,} rows. It still resolves
 {contract_resolved:,} contracts without allocating a byte: {contract_anchors:,}
 target-address data anchors and {contract_aliases} semantic aliases. The
@@ -632,7 +637,13 @@ compiler libcalls are removed. V92 closes the `snprintf` source contract with
 four SHA-frozen call-site proofs; the final compatibility runtime shim is
 removed. The source-model snapshot adapter retains bounded truncation for
 small buffers, and all numeric output bounds are regression-tested.
-The current branch/loop-aware data-access proof is documented in
+V97 closed 29 false image-address contracts as byte offsets/size limits in four
+ROM functions. V98 expands the historical providers to {len(historical_report['owners'])}
+intervals / {historical_bytes:,} exact bytes and rebuilds {backing_report['historical_source_bytes']:,}
+bytes for the real backing link instead of extracting those ranges from the original. The remaining
+{backing_report['unbacked_addresses']} addresses, complete object bounds and final executable
+integration stay explicit in [`V98_SOURCE_DATA_INTEGRATION.md`](V98_SOURCE_DATA_INTEGRATION.md).
+The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
 [`V95_SECTION_BACKED_DATA_ALIASES.md`](V95_SECTION_BACKED_DATA_ALIASES.md).
@@ -666,7 +677,7 @@ closure remains frozen in
 9. **Original Stage-3E tranche closed:** all 212 historical rows are adjudicated; {named_contract_fingerprinted} target-backed ranges/data aliases are fingerprinted, seven zlib peers are exact text aliases and compatibility storage falls from 39 to zero.
 10. **Stage-3D libgcc subtranche closed:** all seven contracts are adjudicated as four exact archive members plus three completed source refactors.
 11. **Stage-3D runtime contracts closed:** {stage3d_closed}/53 adjudicated, including both target-selected overrides ({override_report['provider_bytes']} exact linked bytes). Original whole-archive composition, member data and final global relocation values remain separate.
-12. **Stage-3F access and backing proof:** {unnamed_report['direct_access_proved']}/1,265 contracts have target-instruction/call-consumed spans; {unnamed_report['awaiting_direct_access']} still lack such witnesses. {backing_report['section_backed_addresses']}/1,265 addresses now bind to exact section storage, including {backing_report['coverage_kinds']['interior-address-only']} interior-address-only aliases; {backing_report['unbacked_addresses']} remain unbacked. Close complete data/object/array extents and zero-fill boundaries; neither minimum-access nor address backing is full Stage-3F closure.
+12. **Stage-3F access and backing proof:** {unnamed_report['direct_access_proved']}/1,265 contracts have target-instruction/call-consumed spans; {unnamed_report['awaiting_direct_access']} still lack such witnesses. {backing_report['section_backed_addresses']} addresses bind to storage; {backing_report['rom_offset_refactors_closed']} ROM-offset contracts are separately removed; {backing_report['unbacked_addresses']} remain unresolved. Close complete data/object/array extents and zero-fill boundaries; neither minimum-access nor address backing is full Stage-3F closure.
 13. Reproduce data/rodata/bss layout, relocations, section alignment, linker script, object order and library order.
 14. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
@@ -706,8 +717,9 @@ unproven final-ELF stage.
 - **Stage-3D formatter refactor:** **{len(runtime_rows)}/4 call sites proved**, **runtime shims 1 → 0**
 - **Stage-3D PS2LIB member text:** **{member_report['contracts_closed']} contracts / {member_report['selected_members']} complete objects**, **{member_report['exact_text_bytes']:,} bytes**
 - **Stage-3D runtime contracts:** **{stage3d_closed}/53 closed**, **{stage3d_remaining} open**; `puts`/`abort` have {override_report['incoming_named_calls']} named-call witnesses and {override_report['provider_bytes']} exact linked bytes
-- **Stage-3F unnamed data access proof:** **{unnamed_report['direct_access_proved']}/1,265** consumed spans, **{unnamed_report['unique_consumed_bytes']:,} unique bytes** ({unnamed_report['proof_kinds']['cfg-must-constant']} CFG witnesses); complete object/array extents remain open
-- **Stage-3F section-backed addresses:** **{backing_report['section_backed_addresses']}/1,265**, **{backing_report['unbacked_addresses']} unbacked**; **{backing_report['new_backing_bytes']:,} materialized access bytes**, not complete-object closure
+- **Stage-3F unnamed data access proof:** **{unnamed_report['direct_access_proved']}/1,265** consumed spans, **{unnamed_report['unique_consumed_bytes']:,} unique bytes** ({unnamed_report['proof_kinds']['cfg-must-constant']} CFG + {unnamed_report['proof_kinds']['deterministic-prefix']} deterministic-prefix witnesses); complete object/array extents remain open
+- **Stage-3F historical data:** **{len(historical_report['owners'])} exact source intervals / {historical_bytes:,} bytes**, rebuilt from pinned public source
+- **Stage-3F contracts:** **{backing_report['section_backed_addresses']} storage-backed + {backing_report['rom_offset_refactors_closed']} ROM refactors / 1,265**, **{backing_report['unbacked_addresses']} unresolved**; **{backing_report['new_backing_bytes']:,} materialized bytes**, not complete-object closure
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**

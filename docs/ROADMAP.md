@@ -64,10 +64,11 @@ The original tranche names remain the authoritative plan: 3A, 3B, 3C and 3E
 are closed; 3D now adjudicates all 53 runtime contracts, including the two
 target-selected `puts`/`abort` overrides. Full archive composition, member data
 and final global relocations remain separate integration work. Stage 3F has
-824/1,265 target-consumed access spans and 961/1,265 section-backed addresses,
-but not complete object/array bounds; 304 addresses remain unbacked.
+872/1,265 target-consumed access spans, 1,197 section-backed addresses and
+29 closed ROM-offset refactors. Thirty-nine contracts remain unresolved;
+complete object/array bounds are not closed.
 3G/3H remain the final layout and image gates. See
-[`status/V96_CONTROL_FLOW_DATA_ACCESSES.md`](status/V96_CONTROL_FLOW_DATA_ACCESSES.md).
+[`status/V98_SOURCE_DATA_INTEGRATION.md`](status/V98_SOURCE_DATA_INTEGRATION.md).
 
 - [x] Freeze a byte-free unpacked-layout oracle with SJCRUNCH2 section/block
   geometry, 64 KiB hashes and an exact first-difference comparator.
@@ -76,7 +77,7 @@ but not complete object/array bounds; 304 addresses remain unbacked.
 - [x] Prove 66 additional owner-checked/reviewed aliases, reaching 323/337
   aliases against 307 canonical global text symbols.
 - [x] Classify the V89-era 1,594 externals after the Stage-3C source refactor and
-  apply 1,273 target-address data anchors plus 63 semantic text aliases
+  apply 1,244 live target-address data anchors plus 63 semantic text aliases
   without emitting code/data or changing allocated sections.
 - [x] Recover five embedded asset bundles from a private hash-verified reference
   and satisfy all 10 data/size contracts without publishing their 62,736 bytes.
@@ -118,14 +119,22 @@ but not complete object/array bounds; 304 addresses remain unbacked.
   delayed/annulled branch semantics and conservative GPR effects. Prove 119
   more names and 12 wider spans, including a 96,000-byte sound echo clear;
   reach 824 access witnesses and 961 backed addresses (V96).
+- [x] Rebuild 16 historical source-data intervals totaling 790,988 exact bytes,
+  correct 29 ROM-relative pseudo-globals and add 214 backed addresses (V97).
+  The original 1,265-row audit retains 1,175 backed, 29 closed and 61 unresolved.
+- [x] Extend historical source data to 49 intervals / 810,542 exact bytes;
+  close 22 more addresses and feed 695,316 freshly compiled bytes into the
+  real backing link (V98). The current audit has 1,197 backed, 29 refactored
+  and 39 unresolved contracts. Selected source-provider bounds are not full
+  target-wide object/array closure.
 - [ ] Select and integrate the exact per-function implementations into the
   final object set; compiling the canonical behavioral models is not proof
   that their aggregate code equals the complete target text.
 - [ ] Integrate member data and final relocation values; prove original archive
   composition rather than treating local selection containers as historical.
 - [ ] Recover exact ranges, bytes, zero-fill boundaries and overlaps for the
-  304 unbacked Stage-3F addresses and complete object/array bounds for all
-  1,265 unnamed contracts.
+  39 unresolved Stage-3F addresses and complete object/array bounds for the
+  actual data contracts. The 29 removed ROM offsets are not EE image objects.
 - [ ] Recover the application linker script and section alignment.
 - [ ] Recover object order and library order.
 - [ ] Reproduce relocations, string pooling and final unpacked data layout.

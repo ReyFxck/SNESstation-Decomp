@@ -29,7 +29,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
 - **Build-ready EE source ownership:** **97/97 TUs** (96 canonical + 1 alternate)
 - **Source-address aliases:** **323/337 proved**, **14 blocked**
-- **Zero-byte link contracts:** **1,336/1,569 resolved**, **233 blocked** (1,273 address anchors + 63 semantic aliases)
+- **Zero-byte link contracts:** **1,307/1,540 resolved**, **233 blocked** (1,244 address anchors + 63 semantic aliases)
 - **Private embedded assets:** **10/10 providers**, **62,736 verified private bytes**, **223 remaining externals**
 - **Source-link provider namespace:** **223/223 resolved**, **0 aggregate externals** (175 anchors + 9 aliases + 39 storage + 0 shims)
 - **Original Stage-3C named data:** **54/54 closed** (**50 exact target ranges + 4 completed source refactors**; 0 address-only remain)
@@ -38,8 +38,9 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3D formatter refactor:** **4/4 call sites proved**, **runtime shims 1 → 0**
 - **Stage-3D PS2LIB member text:** **43 contracts / 42 complete objects**, **12,964 bytes**
 - **Stage-3D runtime contracts:** **53/53 closed**, **0 open**; `puts`/`abort` have 15 named-call witnesses and 104 exact linked bytes
-- **Stage-3F unnamed data access proof:** **824/1,265** consumed spans, **167,521 unique bytes** (131 CFG witnesses); complete object/array extents remain open
-- **Stage-3F section-backed addresses:** **961/1,265**, **304 unbacked**; **165,946 materialized access bytes**, not complete-object closure
+- **Stage-3F unnamed data access proof:** **872/1,265** consumed spans, **167,659 unique bytes** (146 CFG + 33 deterministic-prefix witnesses); complete object/array extents remain open
+- **Stage-3F historical data:** **49 exact source intervals / 810,542 bytes**, rebuilt from pinned public source
+- **Stage-3F contracts:** **1197 storage-backed + 29 ROM refactors / 1,265**, **39 unresolved**; **762,372 materialized bytes**, not complete-object closure
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -139,8 +140,8 @@ text symbols without changing allocated section bytes. See
 [`docs/status/V84_REVIEWED_SOURCE_ALIASES.md`](docs/status/V84_REVIEWED_SOURCE_ALIASES.md).
 
 `make link-contracts` applies the zero-byte Stage-3 gate to the live
-post-refactor aggregate: 1,273 target-address anchors and 63 semantic text
-aliases resolve 1,336/1,569 live contracts and reduce the provider frontier to
+post-refactor aggregate: 1,244 target-address anchors and 63 semantic text
+aliases resolve 1,307/1,540 live contracts and reduce the provider frontier to
 233, again without changing an allocated section. V90 explains the 20
 target-absent Stage-3E contracts removed from source and the canonical `errno`
 alias; V91 removes three compiler-generated lift artifacts and V92 removes the
@@ -224,15 +225,32 @@ reusing 66 existing sections and adding **109 proved ranges / 69,768 bytes**.
 Its isolated probe is not a replacement emulator ELF. See
 [`docs/status/V95_SECTION_BACKED_DATA_ALIASES.md`](docs/status/V95_SECTION_BACKED_DATA_ALIASES.md).
 
-V96 extends `make unnamed-data` with fixed-point control-flow analysis:
+V96 extended `make unnamed-data` with fixed-point control-flow analysis:
 **824 access contracts**, including 119 newly witnessed names and 12 wider
 spans, cover **167,521 unique bytes**. The largest addition is a proved
-96,000-byte `memset` range for the sound echo buffer. `make data-backing` now
-binds **961 addresses** and materializes **96,178 more bytes than V95**.
+96,000-byte `memset` range for the sound echo buffer. Its backing checkpoint
+bound **961 addresses** and materialized **96,178 more bytes than V95**.
 All 12,434 affected source relocations are preserved; 2,883 isolated address
-relocations pass. **304 addresses, complete object/array bounds, exact source
-integration and final ELF layout/packing remain open.** See
+relocations passed. That version left 304 addresses unresolved. See
 [`docs/status/V96_CONTROL_FLOW_DATA_ACCESSES.md`](docs/status/V96_CONTROL_FLOW_DATA_ACCESSES.md).
+
+V97 resolved **243 of those 304**: **214 additional storage-backed addresses**
+and **29 ROM-offset source refactors**. Sixteen typed historical source-data
+intervals reproduced **790,988 original bytes**. That audit had **1,175
+backed + 29 closed / 1,265**, leaving **61 unresolved**. All 13,511 affected
+source relocations are preserved; 3,525 isolated address relocations pass.
+Complete object bounds, exact implementation integration and final ELF
+layout/packing remain open. See
+[`docs/status/V97_HISTORICAL_DATA_AND_ROM_OFFSETS.md`](docs/status/V97_HISTORICAL_DATA_AND_ROM_OFFSETS.md).
+
+V98 resolves **22 more addresses**, leaving **39**: **1,197 backed + 29
+refactored / 1,265**. Its 49 historical intervals reproduce **810,542 bytes**;
+**695,316 bytes enter the backing link from a fresh source rebuild**, with no
+reference-extraction fallback for those ranges. DSP1, SuperFX, C4, PPU and
+CRC providers gain explicit extents. The link preserves **13,619 source
+relocations** and verifies **3,591 isolated address relocations**. It is still
+not the final emulator ELF. See
+[`docs/status/V98_SOURCE_DATA_INTEGRATION.md`](docs/status/V98_SOURCE_DATA_INTEGRATION.md).
 
 ## Target fingerprint
 

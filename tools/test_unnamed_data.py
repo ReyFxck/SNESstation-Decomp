@@ -132,12 +132,13 @@ class UnnamedDataManifestTests(unittest.TestCase):
 
     def test_direct_access_counts_do_not_claim_complete_stage3f(self):
         report = data.statistics(self.rows)
-        self.assertEqual((1265, 824, 441, 167521), tuple(report[k] for k in
+        self.assertEqual((1265, 872, 364, 167659), tuple(report[k] for k in
                          ("contracts_total", "direct_access_proved", "awaiting_direct_access", "unique_consumed_bytes")))
         self.assertFalse(report["complete_object_extents_proved"])
         self.assertFalse(report["stage3f_closed"])
         self.assertEqual(10, report["constant_call_ranges"])
-        self.assertEqual({data.LOCAL: 693, data.FLOW: 131}, report["proof_kinds"])
+        self.assertEqual({data.LOCAL: 693, data.FLOW: 146, data.PREFIX: 33}, report["proof_kinds"])
+        self.assertEqual(29, report["rom_offset_refactors_closed"])
 
     def test_overlaps_are_counted_once(self):
         rows = [dict(self.proved, target_address="0x100000", extent_hex="0x8"),

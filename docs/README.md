@@ -11,7 +11,9 @@ They are evidence of how conclusions were reached, not the current scoreboard.
 - [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) — source-model audit and build-readiness invariants.
 - [`status/FUNCTION_FRONTIER_1041_CHECKPOINT.md`](status/FUNCTION_FRONTIER_1041_CHECKPOINT.md) — immutable tag, hashes and clean-checkout gates for the closed 1,041-function frontier.
 - [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md) — frozen EE ABI, 97-unit manifest, symbol ownership and canonical partial-link gate.
-- [`status/V96_CONTROL_FLOW_DATA_ACCESSES.md`](status/V96_CONTROL_FLOW_DATA_ACCESSES.md) — branch/loop-aware access proof: 824 witnessed contracts, 961 backed addresses and 96,178 additional bytes over V95; complete object bounds remain open.
+- [`status/V97_HISTORICAL_DATA_AND_ROM_OFFSETS.md`](status/V97_HISTORICAL_DATA_AND_ROM_OFFSETS.md) — 1,175 backed addresses + 29 ROM refactors; 61 remain. Sixteen historical source intervals reproduce 790,988 data bytes.
+- [`status/V98_SOURCE_DATA_INTEGRATION.md`](status/V98_SOURCE_DATA_INTEGRATION.md) — 22 more addresses closed; 39 remain. Forty-nine providers reproduce 810,542 bytes, with 695,316 source-built bytes integrated into the backing link.
+- [`status/V96_CONTROL_FLOW_DATA_ACCESSES.md`](status/V96_CONTROL_FLOW_DATA_ACCESSES.md) — preceding branch/loop-aware proof: 824 witnessed contracts and 961 backed addresses.
 - [`status/V95_SECTION_BACKED_DATA_ALIASES.md`](status/V95_SECTION_BACKED_DATA_ALIASES.md) — initial 886/1,265 section-backed-address checkpoint, 69,768 proved bytes and an isolated address-relocation check.
 - [`status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md) — runtime ledger 53/53; exact target-selected puts/abort overrides; 705/1,265 minimum data-access spans, not full Stage-3F closure.
 - [`status/V93_STAGE3D_RUNTIME_MEMBERS.md`](status/V93_STAGE3D_RUNTIME_MEMBERS.md) — historical 43 runtime contracts / 42 complete PS2LIB member texts checkpoint, Stage 3D 51/53.

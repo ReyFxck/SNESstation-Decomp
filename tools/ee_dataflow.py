@@ -15,9 +15,14 @@ from dataclasses import dataclass
 import struct
 
 MAX_TRACE = 24
+MAX_PREFIX_STEPS = 4096
 Fact = tuple[int, tuple[int, ...]]
 State = dict[int, Fact]
 ZERO: State = {0: (0, ())}
+
+
+class UnknownInstruction(ValueError):
+    """The deterministic prefix cannot cross an instruction we do not model."""
 
 
 def signed16(value: int) -> int:
@@ -74,7 +79,7 @@ MMI_PRESERVES_GPRS = (
 
 
 def transfer(state: State, word: int, pc: int, memory: dict, calls: dict,
-             hits: list[dict] | None = None) -> State:
+             hits: list[dict] | None = None, *, strict: bool = False) -> State:
     """Apply one NON-control instruction; values outside low positive RAM drop."""
     result = dict(state)
     op, rs, rt, rd, sa, fn = word >> 26, word >> 21 & 31, word >> 16 & 31, word >> 11 & 31, word >> 6 & 31, word & 63
@@ -89,6 +94,11 @@ def transfer(state: State, word: int, pc: int, memory: dict, calls: dict,
                              "base_register": rs, "trace": trace, "proof_kind": "cfg-must-constant"})
         if op not in (40, 41, 43, 63, 31, 57, 62, 49, 54):
             result.pop(rt, None)
+    elif op in (26, 27, 34, 38):
+        # Partial unaligned loads write rt, but prove no fixed byte width.
+        result.pop(rt, None)
+    elif op in (42, 44, 45, 46):
+        pass  # Partial stores read GPRs; their data extent remains unproved.
     elif op == 15 and rs == 0:
         assign(result, rt, imm << 16, (pc,))
     elif op in (8, 9, 24, 25, 12, 13, 14):
@@ -98,8 +108,17 @@ def transfer(state: State, word: int, pc: int, memory: dict, calls: dict,
             value = (value + signed16(imm) if op in (8, 9, 24, 25) else
                      value & imm if op == 12 else value | imm if op == 13 else value ^ imm)
             assign(result, rt, value, traced(state[rs], pc=pc))
-    elif op in (10, 11):  # slti[u]: invalidate rt; do not infer branch conditions
+    elif op in (10, 11):
         result.pop(rt, None)
+        if rs in state:
+            immediate = signed16(imm)
+            value = (int(state[rs][0] < immediate) if op == 10 or immediate >= 0 else 1)
+            assign(result, rt, value, traced(state[rs], pc=pc))
+    elif op == 0 and fn in (24, 25) and sa == 0:
+        # EE three-register mult[u]; retain only non-overflowing low positives.
+        result.pop(rd, None)
+        if rs in state and rt in state:
+            assign(result, rd, state[rs][0] * state[rt][0], traced(state[rs], state[rt], pc=pc))
     elif op == 0 and fn in (33, 35, 45, 47, 36, 37, 38) and sa == 0:
         result.pop(rd, None)
         if rs in state and rt in state:
@@ -140,6 +159,8 @@ def transfer(state: State, word: int, pc: int, memory: dict, calls: dict,
     else:
         # In particular unknown MMI/COP0/COP2 encodings, syscalls and traps are
         # barriers. Do not assume destination fields for reserved instructions.
+        if strict:
+            raise UnknownInstruction(f"unmodelled instruction at 0x{pc:08x}")
         result = dict(ZERO)
     result[0] = (0, ())
     return result
@@ -201,6 +222,87 @@ def memory_call(state: State, ctl: Control, pc: int, calls: dict, hits: list[dic
                          "opcode": name + (".write" if argument == 4 else ".read"),
                          "base_register": argument, "trace": trace, "callee": ctl.target,
                          "proof_kind": "cfg-must-constant"})
+
+
+def branch_taken(word: int, state: State) -> bool | None:
+    """Use only fully known low-positive integer operands; never choose a path."""
+    op, rs, rt = word >> 26, word >> 21 & 31, word >> 16 & 31
+    if rs not in state:
+        return None
+    a = state[rs][0]
+    if op in (4, 5, 20, 21) and rt in state:
+        return (a == state[rt][0]) == (op in (4, 20))
+    if op in (6, 7, 22, 23) and rt == 0:
+        return a == 0 if op in (6, 22) else a > 0
+    if op == 1 and rt in (0, 1, 2, 3):
+        return rt in (1, 3)  # tracked values are nonnegative
+    return None
+
+
+def scan_prefix(body: bytes, base: int, memory: dict, calls: dict) -> list[dict]:
+    """Bounded concrete prefix from the real entry; no input/memory assumptions.
+
+    Each loop occurrence is a separate witness, NOT a loop invariant. Stop at
+    the first unknown branch, unknown instruction, or call; do not resume after
+    it. Reaching the budget discards every prefix hit, rather than claiming a
+    finite execution for an unproved loop.
+    """
+    if base % 4 or len(body) % 4 or not body:
+        return []
+    words = struct.unpack("<" + "I" * (len(body) // 4), body)
+    end = base + len(body)
+    controls = {base + i*4: ctl for i, word in enumerate(words)
+                if (ctl := control(word, base + i*4)) is not None}
+    delays = {pc + 4 for pc in controls}
+    if any(pc >= end or pc in controls for pc in delays):
+        return []
+    if any(ctl.kind in ("jump", "branch") and ctl.target in delays for ctl in controls.values()):
+        return []
+    pc, steps, state, hits = base, 0, dict(ZERO), []
+
+    def execute(address: int, current: State) -> State:
+        nonlocal steps
+        steps += 1
+        found: list[dict] = []
+        result = transfer(current, words[(address-base)//4], address, memory, calls, found, strict=True)
+        hits.extend({**hit, "proof_kind": "deterministic-prefix", "execution_step": steps} for hit in found)
+        return result
+
+    try:
+        while base <= pc < end:
+            if steps >= MAX_PREFIX_STEPS:
+                return []
+            ctl = controls.get(pc)
+            if ctl is None:
+                state = execute(pc, state)
+                pc += 4
+                continue
+            if ctl.kind in ("invalid", "indirect") or ctl.kind == "branch" and ctl.link_register is not None:
+                break
+            decision = branch_taken(words[(pc-base)//4], state) if ctl.kind == "branch" else True
+            if decision is None:
+                break
+            steps += 1
+            if not ctl.likely or decision:
+                if steps >= MAX_PREFIX_STEPS:
+                    return []
+                prior = dict(state)
+                if ctl.link_register is not None:
+                    prior.pop(ctl.link_register, None)
+                state = execute(pc+4, prior)
+            if ctl.kind == "call":
+                found = []
+                memory_call(state, ctl, pc, calls, found)
+                hits.extend({**hit, "proof_kind": "deterministic-prefix", "execution_step": steps} for hit in found)
+                break
+            if ctl.kind == "return":
+                break
+            pc = ctl.target if decision else pc + 8
+            if pc is None or pc % 4:
+                break
+    except UnknownInstruction:
+        pass
+    return hits
 
 
 def scan_body(body: bytes, base: int, memory: dict, calls: dict) -> list[dict]:

@@ -252,7 +252,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     external = libgcc.read_table(args.external_map, libgcc.EXTERNAL_FIELDS)
     active = {r["symbol"]: r for r in external if r["category"] in ("c-runtime", "ps2-runtime")
               and r["provider_kind"] in ("historical-archive", "recovered-runtime")}
-    if set(active) != set(CONTRACT_BY_SYMBOL) or len(external) != 1892:
+    if set(active) != set(CONTRACT_BY_SYMBOL) or len(external) != 1863:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):

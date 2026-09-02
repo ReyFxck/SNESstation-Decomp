@@ -38,8 +38,8 @@ This is a measurement gate, not a claim that the bytes have been rebuilt.
 
 V84 proves 323/337 address-shaped external names against 307 canonical global
 text definitions and applies them with zero-byte linker aliases. The
-alias-resolved live aggregate retains 1,569 unresolved contracts, down from
-the post-runtime-refactor source-tree count of 1,892, while every allocated section remains
+alias-resolved live aggregate retains 1,540 unresolved contracts, down from
+the post-ROM-refactor source-tree count of 1,863, while every allocated section remains
 byte-identical. See
 [`status/V84_REVIEWED_SOURCE_ALIASES.md`](status/V84_REVIEWED_SOURCE_ALIASES.md).
 
@@ -50,10 +50,10 @@ archive/boundary proof, not raw-address definitions.
 
 ## Zero-byte link contracts — full frontier frozen
 
-The live contract map classifies all 1,569 post-refactor externals. It assigns
-1,273 address-qualified program-data names their frozen absolute value
+The live contract map classifies all 1,540 post-refactor externals. It assigns
+1,244 address-qualified program-data names their frozen absolute value
 and binds 63 uniquely identified call contracts to existing recovered global
-text. The partial link therefore reaches **1,569 -> 233 unresolved externals**
+text. The partial link therefore reaches **1,540 -> 233 unresolved externals**
 while every allocated section fingerprint remains identical. See
 [`status/V85_ZERO_BYTE_LINK_FRONTIER.md`](status/V85_ZERO_BYTE_LINK_FRONTIER.md)
 for the frozen pre-refactor method and
@@ -172,7 +172,7 @@ V92 proves that the four source-model `snprintf` uses correspond to direct
 target calls to `sprintf@0x0019e3d0`. The source contract and final runtime
 shim are removed, while the snapshot adapter keeps its bounded behavior for
 small caller-supplied buffers. The live frontier is now
-**1,892 -> 1,569 -> 233 -> 223 -> 0** with **zero runtime shims**.
+**1,863 -> 1,540 -> 233 -> 223 -> 0** with **zero runtime shims** (after V97 ROM refactors).
 
 The V92 checkpoint closed **8/53** Stage-3D contracts. This source change
 updates two source-object fingerprints, not the frozen function checkpoint.
@@ -245,10 +245,41 @@ point, models annulled delay slots, and clears facts across unknown calls or
 instructions. Unresolved indirect jumps disable the additional CFG proof.
 
 It proves **119 more access contracts and 12 wider minimum spans**, notably
-the target's 96,000-byte sound echo `memset`. The current ledger reaches
+the target's 96,000-byte sound echo `memset`. The V96 checkpoint reached
 **824/1,265 access witnesses** and **961/1,265 backed addresses**, adding
-96,178 physical bytes over V95. **304 addresses still lack backing**, 441
-still lack access witnesses, and complete array/object bounds are unproved.
+96,178 physical bytes over V95. It left 304 addresses without backing and
+441 without access witnesses. Complete array/object bounds were unproved.
 No exact implementation objects were replaced by behavioral models or raw
 reference text. Final source integration, layout and packing remain separate.
 See [`status/V96_CONTROL_FLOW_DATA_ACCESSES.md`](status/V96_CONTROL_FLOW_DATA_ACCESSES.md).
+
+## V97 typed data and ROM offsets
+
+The V97 checkpoint was **1,175 storage-backed + 29 ROM refactors / 1,265**,
+with **61 unresolved contracts**. Pinned historical source rebuilds 790,988
+bytes across 16 typed intervals. This adds 214 backed addresses; another 29
+were misidentified ROM-relative constants and are now removed from the live
+source namespace, not materialized at a coincident EE address.
+
+The new private link preserves 13,511 affected source relocations and checks
+3,525 isolated address relocations. Remaining candidates include DSP/C4
+tables, runtime constants and code pointers: each still needs actual identity
+and boundary proof. Full object bounds, exact function integration, archive
+data/composition, layout, final relocations and packing are still separate.
+See [`status/V97_HISTORICAL_DATA_AND_ROM_OFFSETS.md`](status/V97_HISTORICAL_DATA_AND_ROM_OFFSETS.md).
+
+## V98 source-data integration
+
+Current state: **1,197 backed + 29 ROM refactors / 1,265; 39 unresolved**.
+The 49 historical providers reproduce 810,542 bytes, with 695,316 selected
+bytes now rebuilt and consumed by the actual backing link. Missing or changed
+compiled data fail the gate; reference extraction is not a fallback.
+
+The remaining contracts include 15 code pointers, audio addresses, C4 tables,
+runtime/compression constants, SPC7110 data and a possibly biased map address.
+The complete `rtc_f9` object is not promoted: its compiled extent currently
+differs from the target at offset 24. The CRC proof is deliberately local to
+two relocations; it does not assert a single MEMMAP string-pool base.
+Exact function selection, unresolved object bounds, member data, final layout,
+global relocations and packing remain open. See
+[`status/V98_SOURCE_DATA_INTEGRATION.md`](status/V98_SOURCE_DATA_INTEGRATION.md).

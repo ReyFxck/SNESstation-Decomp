@@ -205,8 +205,9 @@ help:
 	@echo "  make runtime-refactors prove four sprintf call sites; close the snprintf lift contract"
 	@echo "  make runtime-members   verify 42 complete PS2LIB member texts; 43 contracts"
 	@echo "  make runtime-overrides prove target-selected puts/abort; Stage 3D 53/53"
-	@echo "  make unnamed-data      verify 824 minimum-access spans with block/CFG proofs"
-	@echo "  make data-backing      bind 961/1265 addresses to proved sections; 304 unbacked"
+	@echo "  make unnamed-data      verify 872 minimum spans with block/CFG/prefix proofs"
+	@echo "  make historical-data   rebuild 49 exact typed source-data intervals"
+	@echo "  make data-backing      1197 backed + 29 ROM refactors; 39 unresolved; source data integrated"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -300,7 +301,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check unnamed-data-public-check data-backing-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -890,7 +891,7 @@ runtime-members-public-check:
 		--contracts "$(LINK_CONTRACT_MANIFEST)" \
 		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)"
 
-.PHONY: runtime-overrides runtime-overrides-check runtime-overrides-verify runtime-overrides-refresh runtime-overrides-public-check unnamed-data unnamed-data-verify unnamed-data-refresh unnamed-data-public-check
+.PHONY: runtime-overrides runtime-overrides-check runtime-overrides-verify runtime-overrides-refresh runtime-overrides-public-check unnamed-data unnamed-data-verify unnamed-data-refresh unnamed-data-public-check rom-offsets-public-check rom-offsets-verify historical-data historical-data-check historical-data-public-check historical-data-verify
 
 runtime-overrides: reference bootstrap-ee-stage1
 	$(MAKE) runtime-overrides-check EE_CC="$(EE_STAGE1_CC)"
@@ -919,11 +920,13 @@ unnamed-data-public-check:
 	$(PYTHON) tools/unnamed_data.py validate
 
 data-backing: reference bootstrap-ee-stage1
+	$(MAKE) bootstrap-ee-cxx-stage1
 	$(MAKE) data-backing-check EE_CC="$(EE_STAGE1_CC)"
 
-data-backing-check: named-contracts-check unnamed-data-verify
+data-backing-check: named-contracts-check unnamed-data-verify rom-offsets-verify historical-data-check
 	$(PYTHON) tools/data_backing.py link \
 		--compiler "$(EE_CC)" --reference "$(REFERENCE_RAW)" \
+		--historical-compiler "$(EE_STAGE1_CXX)" \
 		--manifest "$(DATA_BACKING_MANIFEST)" --sections "$(DATA_BACKING_SECTIONS)" \
 		--input "$(NAMED_CONTRACT_OUTPUT)" --build-dir "$(DATA_BACKING_BUILD_DIR)" \
 		--output "$(DATA_BACKING_OUTPUT)" --report "$(DATA_BACKING_REPORT)"
@@ -939,6 +942,26 @@ data-backing-refresh: reference
 data-backing-public-check:
 	$(PYTHON) tools/data_backing.py validate \
 		--manifest "$(DATA_BACKING_MANIFEST)" --sections "$(DATA_BACKING_SECTIONS)"
+
+rom-offsets-public-check:
+	$(PYTHON) tools/rom_offsets.py validate
+
+rom-offsets-verify: reference
+	$(PYTHON) tools/rom_offsets.py verify --reference "$(REFERENCE_RAW)"
+
+historical-data: reference bootstrap-ee-cxx-stage1
+	$(MAKE) historical-data-check
+
+# Use historical-data for an automatic compiler bootstrap; the -check target
+# deliberately requires the selected EE_STAGE1_CXX to already exist.
+historical-data-check: reference
+	$(PYTHON) tools/historical_data.py build --compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)"
+
+historical-data-verify: reference
+	$(PYTHON) tools/historical_data.py verify --reference "$(REFERENCE_RAW)"
+
+historical-data-public-check:
+	$(PYTHON) tools/historical_data.py validate
 
 match-miner: reference check-ee-compiler
 	$(PYTHON) tools/run_match_miner.py \
@@ -1182,15 +1205,16 @@ elf-status: audit-source-check
 	@echo "Function-code gate: CLOSED (1041/1041 strict matches)"
 	@echo "Build-ready source ownership: CLOSED (97/97 TUs; 96 canonical objects)"
 	@echo "Unpacked layout oracle: CLOSED (1 section; 13 blocks; 51 hash windows)"
-	@echo "Zero-byte link contracts: 1336/1569 resolved (1273 anchors; 63 aliases)"
+	@echo "Zero-byte link contracts: 1307/1540 resolved (1244 anchors; 63 aliases)"
 	@echo "Private assets: CLOSED (10 providers; 62736 bytes; frontier 233 -> 223)"
 	@echo "Source-link provider namespace: CLOSED (223 -> 0 externals; runtime shims=0)"
 	@echo "Original Stage 3C: CLOSED (50 exact target ranges + 4 removed source adapters)"
 	@echo "Original Stage 3E: CLOSED (212/212; 165 fingerprinted ranges/data aliases)"
 	@echo "Stage 3D libgcc: CLOSED (4 exact archive members + 3 source refactors)"
 	@echo "Stage 3D runtime contracts: CLOSED (53/53; puts/abort target overrides proved)"
-	@echo "Stage 3F access spans: 824/1265 witnessed (693 local + 131 CFG); object/array extents OPEN"
-	@echo "Stage 3F storage-backed addresses: 961/1265; 304 unbacked; 165946 materialized access bytes"
+	@echo "Stage 3F access spans: 872/1265 witnessed (693 local + 146 CFG + 33 prefix); full bounds OPEN"
+	@echo "Stage 3F: 1197 storage-backed + 29 ROM refactors; 39 unresolved; 762372 materialized bytes"
+	@echo "Historical backing: 695316 bytes freshly rebuilt from pinned source (not privately extracted)"
 	@echo "Compatibility storage: CLOSED (39 -> 0 exact-range replacements)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
 	@echo "  - select and integrate exact function implementations into final objects"

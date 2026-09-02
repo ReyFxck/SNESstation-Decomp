@@ -117,8 +117,8 @@ resolves 323 of this aggregate's 337 source-address aliases. After V89 removes
 four source-only Stage-3C adapters and V90 removes 20 source-only Stage-3E
 contracts plus the duplicate `errno` external. V91 removes three compiler-libcall
 artifacts introduced by the structural lift. V92 then removes the synthetic
-`snprintf` dependency, so the source tree contains 1,892
-externals and the alias-resolved map contains 1,569 contracts. It resolves
+`snprintf` dependency, so that checkpoint contained 1,892
+externals and the alias-resolved map contained 1,569 contracts. It resolved
 1,336 of them through 1,273 absolute address anchors and 63 semantic aliases.
 Both partial-link gates leave every allocated section unchanged; the current
 correction is documented in
@@ -155,3 +155,22 @@ roster to 12,434. Another 96,178 target-backed data bytes are materialized;
 this is downstream data ownership, not a new claim that the behavioral source
 aggregate is the final exact program. See
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
+
+V97 intentionally changes four functions in the canonical Progress-28 source
+to remove 29 ROM-relative pseudo-globals. The source-tree fingerprints and
+defined/external ownership maps are refreshed: **1,863 source externals →
+1,540 after aliases → 233 after contracts → 223 after assets → 0**.
+The 97-TU / 96-canonical-object ownership gate remains closed. Sixteen typed
+historical data intervals independently match 790,988 original bytes; the
+downstream audit has 1,175 backed + 29 refactored contracts and 61 unresolved.
+The entire source revision is not zero-byte; only its later rebinding step
+preserves its corrected input bytes. See
+[`V97_HISTORICAL_DATA_AND_ROM_OFFSETS.md`](V97_HISTORICAL_DATA_AND_ROM_OFFSETS.md).
+
+V98 leaves the canonical 97-TU ownership/fingerprints and the live external
+chain unchanged. It adds 33 historical provider intervals (49 total), closes
+22 address-backing contracts and replaces private extraction of historical
+backing with 695,316 freshly compiled source bytes. All 13,619 affected source
+relocations and preexisting allocated input bytes survive the real link.
+This is data-provider integration, not selection of the exact target text
+implementations. See [`V98_SOURCE_DATA_INTEGRATION.md`](V98_SOURCE_DATA_INTEGRATION.md).

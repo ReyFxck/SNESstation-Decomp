@@ -24,6 +24,8 @@ import private_asset_providers as assets
 import runtime_members
 import runtime_overrides
 import unnamed_data as accesses
+import historical_data
+import rom_offsets
 from compare_elf_functions import ELFFile, Symbol
 from source_aliases import alloc_section_fingerprints, resolve_tool, run, sibling_tool
 
@@ -34,6 +36,7 @@ DEFAULT_BUILD = ROOT / "build/data-backing"
 BACKED = "SECTION_BACKED_ADDRESS"
 UNBACKED = "NO_PROVED_BACKING"
 NEW = "stage3f-access"
+HISTORICAL = "historical-source-exact"
 CLAIM = "section-backed address only; complete C object/array extent unproved"
 UNBACKED_CLAIM = "absolute address only; storage and complete object/array extent unproved"
 FIELDS = ("symbol", "target_address", "status", "section", "section_offset_hex",
@@ -134,6 +137,8 @@ def access_args(args: argparse.Namespace, command: str = "validate") -> argparse
 
 
 def derive(args: argparse.Namespace) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
+    rom_offsets.validate()
+    historical = historical_data.validate()
     c_rows, layout = stage3c.validate_manifest(stage3c.parse_args(["validate"]))
     e_rows, e_layout = stage3e.validate_manifest(stage3e.parse_args(["validate"]))
     if layout != e_layout:
@@ -153,6 +158,12 @@ def derive(args: argparse.Namespace) -> tuple[list[dict[str, str]], list[dict[st
         end = int(row["size_word_va"], 0) + 4
         sections.append(section_row(row["section_name"], start, end, "private-asset", 4, [row], layout))
     no_overlap(sections)
+    for owner in historical["owners"]:
+        first, last = owner["address"], owner["address"] + owner["size"]
+        for start, end in subtract_ranges([(first, last)], [interval(r) for r in sections]):
+            sections.append(section_row(f".data.stage3f.history.va_{start:08x}", start, end,
+                                        HISTORICAL, 1, [owner], layout))
+    no_overlap(sections)
     proved = [r for r in access_rows if r["status"] == accesses.PROVED]
     uncovered = subtract_ranges([interval(r) for r in proved], [interval(r) for r in sections])
     for start, end in uncovered:
@@ -168,6 +179,13 @@ def derive(args: argparse.Namespace) -> tuple[list[dict[str, str]], list[dict[st
         if not SYMBOL_RE.fullmatch(name):
             fail("unsafe data alias name")
         address = int(source["target_address"], 0)
+        if source["status"] == rom_offsets.STATUS:
+            # A numerical overlap with initialized RAM is NOT an identity:
+            # these 29 names were offsets into a separately loaded ROM.
+            rows.append({**{key: "" for key in FIELDS}, "symbol": name,
+                         "target_address": source["target_address"], "status": rom_offsets.STATUS,
+                         "requesters": source["requesters"], "claim": rom_offsets.CLAIM})
+            continue
         owners = [r for r in sections if interval(r)[0] <= address < interval(r)[1]]
         if len(owners) > 1:
             fail("ambiguous backing owner")
@@ -182,7 +200,8 @@ def derive(args: argparse.Namespace) -> tuple[list[dict[str, str]], list[dict[st
             row.update({"status": BACKED, "section": section["section"],
                         "section_offset_hex": hex(address-int(section["target_address"], 0)),
                         "access_extent_hex": source["extent_hex"] if direct else "",
-                        "coverage_kind": "direct-access" if direct else "interior-address-only",
+                        "coverage_kind": "direct-access" if direct else
+                            "historical-source-owner" if section["origin"] == HISTORICAL else "interior-address-only",
                         "claim": CLAIM})
         elif source["status"] == accesses.PROVED:
             fail("proved access lacks storage")
@@ -219,6 +238,8 @@ def verify_reference(args: argparse.Namespace, sections: Sequence[dict[str, str]
     for row in sections:
         if fingerprint(raw, row) != row["sha256"]:
             fail(f"private backing fingerprint mismatch: {row['section']}")
+    historical_data.verify_reference(args.reference, historical_data.validate())
+    rom_offsets.verify_reference(args.reference)
     if accesses.capture(access_args(args, "verify")) != accesses.validate_manifest(access_args(args)):
         fail("private access proofs changed")
     return raw
@@ -226,9 +247,14 @@ def verify_reference(args: argparse.Namespace, sections: Sequence[dict[str, str]
 
 def statistics(rows: Sequence[dict[str, str]], sections: Sequence[dict[str, str]]) -> dict:
     backed = [r for r in rows if r["status"] == BACKED]
-    new = [r for r in sections if r["origin"] == NEW]
+    new = [r for r in sections if r["origin"] in (NEW, HISTORICAL)]
+    closed = sum(r["status"] == rom_offsets.STATUS for r in rows)
     return {"contracts_total": len(rows), "section_backed_addresses": len(backed),
-            "unbacked_addresses": len(rows)-len(backed),
+            "unbacked_addresses": len(rows)-len(backed)-closed,
+            "rom_offset_refactors_closed": closed,
+            "resolved_contracts": len(backed)+closed,
+            "historical_source_sections": sum(r["origin"] == HISTORICAL for r in sections),
+            "historical_source_bytes": sum(int(r["extent_hex"], 0) for r in sections if r["origin"] == HISTORICAL),
             "coverage_kinds": dict(sorted(Counter(r["coverage_kind"] for r in backed).items())),
             "reused_sections": len(sections)-len(new), "new_sections": len(new),
             "new_backing_bytes": sum(int(r["extent_hex"], 0) for r in new),
@@ -271,6 +297,10 @@ def check_input(elf: ELFFile, rows: Sequence[dict[str, str]]) -> dict[str, Symbo
     symbols = global_map(elf)
     for row in rows:
         symbol = symbols.get(row["symbol"])
+        if row["status"] == rom_offsets.STATUS:
+            if symbol is not None:
+                fail("ROM offset must not have an image-address anchor")
+            continue
         if (symbol is None or symbol.section_index != 0xFFF1 or symbol.size != 0
                 or symbol.value != int(row["target_address"], 0)):
             fail(f"input address anchor drift: {row['symbol']}")
@@ -305,15 +335,61 @@ def reference_roster(elf: ELFFile, names: set[str]) -> list[tuple[str, int, int,
     return sorted(result)
 
 
-def render_additions(reference: Path, sections: Sequence[dict[str, str]]) -> str:
-    quoted = assets.quote_assembly_path(reference.resolve())
-    lines = ["/* Private minimum-access backing; never commit generated bytes. */", ".set noreorder"]
+def source_backing_payloads(sections: Sequence[dict[str, str]], owners: Sequence[dict],
+                            payloads: dict[tuple[str, str], bytes]) -> dict[str, bytes]:
+    """Slice only rebuilt provider bytes, never fall back to reference extraction."""
+    result = {}
     for row in sections:
-        if row["origin"] != NEW:
+        if row["origin"] != HISTORICAL:
+            continue
+        start, end = interval(row)
+        found = [r for r in owners if r["address"] <= start and end <= r["address"]+r["size"]]
+        if len(found) != 1:
+            fail("historical backing lacks one complete source provider")
+        owner = found[0]
+        payload = payloads.get((owner["unit"], owner["symbol"]))
+        if payload is None or len(payload) != owner["size"] or digest(payload) != owner["sha256"]:
+            fail("rebuilt historical provider is absent or changed")
+        offset = start-owner["address"]
+        piece = payload[offset:offset+end-start]
+        if digest(piece) != row["sha256"]:
+            fail("rebuilt source bytes differ from the frozen backing interval")
+        result[row["section"]] = piece
+    return result
+
+
+def rebuild_source_backing(args: argparse.Namespace, sections: Sequence[dict[str, str]]) -> dict[str, Path]:
+    frozen, payloads = historical_data.validate(), {}
+    build = args.build_dir / "historical-source"
+    settings = historical_data.parse_args(["build", "--compiler", str(args.historical_compiler),
+                                           "--reference", str(args.reference), "--build-dir", str(build)])
+    if historical_data.build_manifest(settings, payloads) != frozen:
+        fail("fresh source rebuild differs from the historical data proof")
+    pieces = source_backing_payloads(sections, frozen["owners"], payloads)
+    paths = {}
+    for index, (section, payload) in enumerate(sorted(pieces.items())):
+        path = build / f"provider-{index:04d}.bin"
+        path.write_bytes(payload)
+        paths[section] = path
+    return paths
+
+
+def render_additions(reference: Path, sections: Sequence[dict[str, str]],
+                     source_payloads: dict[str, Path] | None = None) -> str:
+    quoted = assets.quote_assembly_path(reference.resolve())
+    lines = ["/* Rebuilt historical source plus private minimum-access backing. */", ".set noreorder"]
+    for row in sections:
+        if row["origin"] not in (NEW, HISTORICAL):
             continue
         size = int(row["extent_hex"], 0)
         kind = "nobits" if row["region"] == "zero-fill" else "progbits"
         lines.extend([f'.section {row["section"]},"aw",@{kind}', ".balign 1"])
+        if row["origin"] == HISTORICAL:
+            if source_payloads is None or row["section"] not in source_payloads or kind != "progbits":
+                fail("historical bytes must come from the fresh source rebuild")
+            path = assets.quote_assembly_path(source_payloads[row["section"]].resolve())
+            lines.append(f'.incbin "{path}",0,{size}')
+            continue
         lines.append(f".space {size}" if kind == "nobits" else
                      f'.incbin "{quoted}",{int(row["target_address"], 0)-libgcc.TARGET_BASE},{size}')
     return "\n".join(lines) + "\n"
@@ -413,8 +489,8 @@ def link(args: argparse.Namespace, rows: Sequence[dict[str, str]], sections: Seq
     verify_reference(args, sections)
     before = ELFFile(args.input)
     check_input(before, rows)
-    old = [r for r in sections if r["origin"] != NEW]
-    new = [r for r in sections if r["origin"] == NEW]
+    old = [r for r in sections if r["origin"] not in (NEW, HISTORICAL)]
+    new = [r for r in sections if r["origin"] in (NEW, HISTORICAL)]
     check_sections(args.input, old)
     original_sections = alloc_section_fingerprints(args.input)
     if set(original_sections) & {r["section"] for r in new}:
@@ -425,10 +501,11 @@ def link(args: argparse.Namespace, rows: Sequence[dict[str, str]], sections: Seq
     objcopy = sibling_tool(compiler, None, "objcopy")
     args.build_dir.mkdir(parents=True, exist_ok=True)
     args.output.parent.mkdir(parents=True, exist_ok=True)
+    source_payloads = rebuild_source_backing(args, sections)
     additions = args.build_dir / "minimum_access_backing.S"
     addition_object = additions.with_suffix(".o")
     script = args.build_dir / "section_relative_aliases.ld"
-    additions.write_text(render_additions(args.reference, sections), encoding="utf-8")
+    additions.write_text(render_additions(args.reference, sections, source_payloads), encoding="utf-8")
     script.write_text(render_rebind(rows, sections), encoding="utf-8")
     run([str(assembler), "-EL", "-o", str(addition_object), str(additions)])
     check_sections(addition_object, new)
@@ -469,6 +546,9 @@ def link(args: argparse.Namespace, rows: Sequence[dict[str, str]], sections: Seq
             "input_sha256": digest(args.input.read_bytes()), "output_sha256": digest(args.output.read_bytes()),
             "existing_allocated_sections_unchanged": True, "global_symbol_roster_unchanged": True,
             "unbacked_anchors_unchanged": True, "source_relocations_preserved": len(roster),
+            "historical_backing_from_fresh_source": True,
+            "historical_source_rebuilt_bytes": sum(int(r["extent_hex"], 0) for r in new if r["origin"] == HISTORICAL),
+            "historical_bytes_extracted_from_reference": 0,
             "source_relocation_types": dict(sorted(Counter(str(r[2]) for r in roster).items())),
             "undefined_globals_before": 0, "undefined_globals_after": 0,
             "probe_scope": "data placement and synthetic address relocations only; not emulator code"}
@@ -482,6 +562,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--access-manifest", type=Path, default=accesses.DEFAULT_MANIFEST)
     parser.add_argument("--reference", type=Path, default=libgcc.DEFAULT_REFERENCE)
     parser.add_argument("--compiler", default="ee-gcc")
+    parser.add_argument("--historical-compiler", type=Path, default=historical_data.DEFAULT_COMPILER)
     parser.add_argument("--input", type=Path, default=stage3e.DEFAULT_OUTPUT)
     parser.add_argument("--build-dir", type=Path, default=DEFAULT_BUILD)
     parser.add_argument("--output", type=Path, default=DEFAULT_BUILD / "source-tree.data-backed.partial.o")
@@ -522,6 +603,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     except (DataBackingError, libgcc.LibgccContractError, stage3c.NamedDataError,
             stage3e.NamedContractError, accesses.UnnamedDataError, assets.ProviderError,
+            historical_data.HistoricalDataError, rom_offsets.ROMOffsetError,
             runtime_overrides.RuntimeOverrideError, OSError, ValueError, KeyError) as error:
         print(f"data backing: FAIL -- {error}")
         return 1

@@ -10,8 +10,8 @@ This directory contains public, byte-free evidence for the Stage-3 link gate.
 - `source_alias_reviews.tsv` freezes three semantic identity proofs and eight
   deliberately blocked boundary/archive decisions, each with a checked public
   evidence path and token.
-- `link_contracts.tsv` classifies every one of the 1,569 live post-refactor
-  externals: 1,273 absolute target-address anchors, 63 semantic text aliases
+- `link_contracts.tsv` classifies every one of the 1,540 live post-refactor
+  externals: 1,244 absolute target-address anchors, 63 semantic text aliases
   and 233 explicit provider blockers.
 - `link_contract_reviews.tsv` freezes four non-mechanical semantic spellings
   with checked public evidence paths and tokens.
@@ -47,9 +47,16 @@ This directory contains public, byte-free evidence for the Stage-3 link gate.
 - `runtime_overrides.tsv` and `runtime_override_witnesses.tsv` prove the two
   target-selected reconstructed overrides via 15 historical named calls and
   104 exact linked bytes; the original runtime ledger reaches 53/53.
-- `unnamed_data_accesses.tsv` retains all 1,265 unnamed contracts: 824 have
-  minimum target-consumed spans (167,521 unique bytes), and 441 lack
-  witnesses. Complete object/array extents and Stage-3F closure remain open.
+- `unnamed_data_accesses.tsv` retains all 1,265 historical contracts: 872 have
+  minimum target-consumed spans (167,659 unique bytes), 364 lack witnesses
+  and 29 ROM-offset refactors are separately closed. Complete bounds remain open.
+- `historical_data.json` pins 49 source-provider intervals / 810,542 exact
+  bytes, input closures and solved relocation witnesses. Two explicitly
+  focused data-reference proofs do not claim complete function relocations.
+  The real backing link consumes 695,316 freshly compiled bytes from these
+  providers. The public manifest contains no payload bytes.
+- `rom_offset_refactors.tsv` freezes the four-function evidence for 29 removed
+  ROM-relative pseudo-globals; numerical overlap with EE storage is not identity.
 
 The manifest deliberately contains no original executable bytes, extracted
 assets, local paths or encoded binary payloads. Regenerate it only from a
@@ -70,7 +77,7 @@ unchanged.
 
 Use `make link-contracts-public-check` to verify the complete public contract
 frontier without a target compiler. `make link-contracts` rebuilds the live
-aggregate, applies the 1,336 proved `--defsym` contracts and writes ignored
+aggregate, applies the 1,307 proved `--defsym` contracts and writes ignored
 reports under `build/link-contracts/`. Absolute address anchors assign values
 only: they do not create storage or reproduce target bytes.
 
@@ -136,19 +143,22 @@ re-derives consumed data spans from the private target; ordinary validation
 does not update hashes. Both have repository-only `*-public-check` gates.
 See [`V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](../../docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
 
-`data_backing.tsv` preserves the 1,265-name roster and assigns 961 zero-sized
-section-relative aliases; 304 remain absolute anchors without proved storage.
-`data_backing_sections.tsv` owns 183 nonoverlapping physical ranges (66 reused,
-117 materialized), with hashes only. Its 137 interior-address-only aliases do
-not gain access-width or object-bound claims. V96 adds the proof kind, full
-function hash and analyzer hash to the access ledger; 131 entries now use
-must-constant CFG witnesses, including 119 newly witnessed contracts.
+`data_backing.tsv` preserves the historical 1,265-name roster: 1,197 zero-sized
+section-relative aliases, 29 closed ROM refactors and 39 unresolved anchors.
+`data_backing_sections.tsv` owns 170 nonoverlapping ranges (66 reused,
+104 materialized), with hashes only. Its 113 interior-address-only aliases
+do not gain access-width or object-bound claims; another 212 aliases have
+typed historical owners. Access proofs comprise 693 local, 146 CFG and 33
+deterministic-prefix witnesses, with full-function/analyzer hashes and prefix
+execution occurrences. ROM-offset records cannot be promoted by RAM overlap.
 
 `make data-backing-public-check` re-derives that geometry and ownership without
 private bytes. `make data-backing-verify` verifies the reference hashes and
 instruction evidence without requiring a compiler. `make data-backing` also
-links the real aggregate, preserves original allocated sections and all 12,434
-affected source relocations, and proves 2,883 synthetic address relocations in
+rebuilds and consumes the historical source-data providers in the real aggregate,
+preserving its allocated input sections and all 13,619 affected source relocations.
+Historical rows have no fallback to reference extraction; the other minimum-access
+ranges still use the private reference. It proves 3,591 synthetic address relocations in
 an isolated data-placement ELF. It does not produce an emulator. Only explicit
 `make data-backing-refresh` replaces the reviewed hash ledger. See
-[`V96_CONTROL_FLOW_DATA_ACCESSES.md`](../../docs/status/V96_CONTROL_FLOW_DATA_ACCESSES.md).
+[`V98_SOURCE_DATA_INTEGRATION.md`](../../docs/status/V98_SOURCE_DATA_INTEGRATION.md).

@@ -31,8 +31,9 @@ make libgcc-contracts   # verify the closed 7/7 Stage-3D libgcc subtranche
 make runtime-refactors  # prove four sprintf calls; runtime shims 1 -> 0
 make runtime-members    # prove 43 contracts / 42 PS2LIB member texts
 make runtime-overrides  # two selected runtime overrides; Stage 3D 53/53
-make unnamed-data      # 824/1265 minimum access spans; block-local and CFG proofs
-make data-backing      # 961/1265 section-backed addresses; 304 still unbacked
+make unnamed-data      # 872 minimum spans; local / CFG / deterministic prefix
+make historical-data   # 49 typed intervals / 810542 exact bytes; EE C++ rebuild
+make data-backing      # 1197 backed + 29 ROM refactors; 39 unresolved; source data integrated
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -51,7 +52,7 @@ The final pipeline must prove every layer:
 4. **Source-address aliases — 323/337 proved** — alternate address-shaped
    names bind to 307 canonical global text symbols with no allocated-byte
    changes; 14 evidence blockers remain.
-5. **Zero-byte link contracts — 1,336/1,569 resolved** — 1,273 frozen-address
+5. **Zero-byte link contracts — 1,307/1,540 resolved** — 1,244 frozen-address
    data anchors and 63 semantic aliases reduce the aggregate to 233 real
    providers without allocating code or data.
 6. **Private embedded assets — closed** — five reference-verified bundles
@@ -84,17 +85,18 @@ The final pipeline must prove every layer:
 13. **Stage-3D target overrides — closed** — 15 historical named calls select
    the recovered puts/abort implementations, which link to 104 raw-exact bytes.
    The original runtime contract ledger is 53/53, not a whole-archive pedigree.
-14. **Unnamed data (Stage 3F)** — 824/1,265 contracts have minimum consumed
-   spans proved from target instructions and fixed-count memory calls. The
-   131 CFG witnesses require agreement at every reachable predecessor and a
-   fixed point before accepting loop facts. Full-function and analyzer hashes
-   bind these proofs; they are not runtime coverage or full object bounds.
-   441 names lack access witnesses. The section-backing gate reuses 66 exact
-   sections, materializes 117 access ranges / 165,946 bytes and binds 961
-   addresses to real storage (96,178 more bytes than V95). It preserves 12,434
-   source relocations and proves 2,883 synthetic address relocations. The 137
-   interior-only aliases have no access-width claim; 304 addresses remain
-   unbacked, and full object/array bounds are still open.
+14. **Unnamed data (Stage 3F)** — 872/1,265 contracts have minimum consumed
+   spans: 693 local, 146 CFG and 33 bounded deterministic-prefix witnesses.
+   Full-function/analyzer hashes bind these proofs; they are not runtime
+   coverage or full object bounds. The independent historical-data gate
+   compiles 49 typed source intervals and proves 810,542 bytes. The backing
+   gate reuses 66 sections, adds 104 ranges / 762,372 bytes and binds 1,197
+   addresses. Twenty-nine ROM offsets are closed source refactors, never image
+   objects. It preserves 13,619 source relocations and proves 3,591 isolated
+   address relocations. Historical rows consume 695,316 freshly compiled
+   source bytes with no reference-extraction fallback. Thirty-nine contracts
+   and full object bounds remain open. See
+   [`status/V98_SOURCE_DATA_INTEGRATION.md`](status/V98_SOURCE_DATA_INTEGRATION.md).
 15. **Link** — select/integrate exact implementation objects, linker script,
    section addresses, object order and library order to
    reproduce the unpacked ELF image.

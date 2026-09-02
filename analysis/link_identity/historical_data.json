@@ -1,0 +1,2424 @@
+{
+  "bindings": {
+    "apu": {
+      "@section:.data": {
+        "address": 3363696,
+        "witnesses": [
+          1094596,
+          1094604,
+          1094712,
+          1094720,
+          1094776,
+          1094784,
+          1094888,
+          1094892,
+          1094932,
+          1094936,
+          1094952,
+          1094960
+        ]
+      },
+      "APU": {
+        "address": 3429304,
+        "witnesses": [
+          1092332,
+          1092340,
+          1092556,
+          1092564,
+          1092612,
+          1092616,
+          1092728,
+          1092736
+        ]
+      },
+      "APUROM": {
+        "address": 4145256,
+        "witnesses": [
+          1092360,
+          1092364
+        ]
+      },
+      "APURegisters": {
+        "address": 3429592,
+        "witnesses": [
+          1092444,
+          1092452
+        ]
+      },
+      "IAPU": {
+        "address": 3429528,
+        "witnesses": [
+          1091920,
+          1091928,
+          1092060,
+          1092068,
+          1092200,
+          1092204,
+          1092208,
+          1092328,
+          1092336,
+          1092496,
+          1092644,
+          1092652,
+          1092680,
+          1092688,
+          1092868
+        ]
+      },
+      "S9xAPUCycleLengths": {
+        "address": 4145320,
+        "witnesses": [
+          1092668,
+          1092676
+        ]
+      },
+      "S9xAPUCycles": {
+        "address": 4146344,
+        "witnesses": [
+          1092700,
+          1092708
+        ]
+      },
+      "Settings": {
+        "address": 3429600,
+        "witnesses": [
+          1091896,
+          1091904,
+          1092428,
+          1092440,
+          1094924,
+          1095000
+        ]
+      },
+      "_Z13S9xResetSoundh": {
+        "address": 1538692,
+        "witnesses": [
+          1092760
+        ]
+      },
+      "_Z15S9xSetSoundADSRiiiiii": {
+        "address": 1525092,
+        "witnesses": [
+          1094984
+        ]
+      },
+      "_Z15S9xSetSoundModeii": {
+        "address": 1539504,
+        "witnesses": [
+          1094636,
+          1094756,
+          1094812,
+          1094872
+        ]
+      },
+      "_Z16S9xSetEchoEnableh": {
+        "address": 1524000,
+        "witnesses": [
+          1092768
+        ]
+      },
+      "_Z18S9xSetEnvelopeRateimii": {
+        "address": 1523492,
+        "witnesses": [
+          1094696,
+          1094844
+        ]
+      },
+      "_Z20S9xSetEnvelopeHeightii": {
+        "address": 1525272,
+        "witnesses": [
+          1094856
+        ]
+      },
+      "memmove": {
+        "address": 1688736,
+        "witnesses": [
+          1092404,
+          1092420
+        ]
+      },
+      "memset": {
+        "address": 1688476,
+        "witnesses": [
+          1091952,
+          1091968,
+          1091988,
+          1092008,
+          1092028,
+          1092048,
+          1092356,
+          1092376
+        ]
+      },
+      "spc_dump_dsp": {
+        "address": 3363704,
+        "witnesses": [
+          1091912,
+          1091936
+        ]
+      }
+    },
+    "c4": {
+      "@section:.bss": {
+        "address": 4376580,
+        "witnesses": [
+          1095864,
+          1095872,
+          1095880,
+          1095896,
+          1095904,
+          1095912,
+          1095920,
+          1096036,
+          1096040,
+          1096048,
+          1096104,
+          1096108,
+          1096112,
+          1096124,
+          1096128,
+          1096144,
+          1096152,
+          1096204,
+          1096264,
+          1096284,
+          1096300,
+          1096424,
+          1096444,
+          1096680,
+          1096688,
+          1096696,
+          1096708,
+          1096716,
+          1096724,
+          1096732,
+          1097992,
+          1098356
+        ]
+      },
+      "@section:.rodata": {
+        "address": 1775824,
+        "witnesses": [
+          1095964,
+          1095968,
+          1096776,
+          1096780,
+          1098020,
+          1098024,
+          1098376,
+          1098380,
+          1098428,
+          1098432
+        ]
+      },
+      "C41FAngleRes": {
+        "address": 3365194,
+        "witnesses": [
+          1097896,
+          1097924,
+          1097928,
+          1098072
+        ]
+      },
+      "C41FDistVal": {
+        "address": 3365198,
+        "witnesses": [
+          1098320,
+          1098328,
+          1098492
+        ]
+      },
+      "C41FXVal": {
+        "address": 3365190,
+        "witnesses": [
+          1097884,
+          1097888,
+          1098060,
+          1098240
+        ]
+      },
+      "C41FYVal": {
+        "address": 3365192,
+        "witnesses": [
+          1097908,
+          1097912,
+          1097960,
+          1097976,
+          1098248,
+          1098252
+        ]
+      },
+      "C4WFDist": {
+        "address": 3365186,
+        "witnesses": [
+          1096324,
+          1096332,
+          1097116,
+          1097124,
+          1097564,
+          1097568,
+          1097664,
+          1097688,
+          1097804,
+          1097828
+        ]
+      },
+      "C4WFScale": {
+        "address": 3365188,
+        "witnesses": [
+          1096488,
+          1096492,
+          1097280,
+          1097284
+        ]
+      },
+      "C4WFX2Val": {
+        "address": 3365182,
+        "witnesses": [
+          1095848,
+          1095940,
+          1096656,
+          1096744,
+          1097424,
+          1097456
+        ]
+      },
+      "C4WFXVal": {
+        "address": 3365176,
+        "witnesses": [
+          1095984,
+          1095988,
+          1096628,
+          1096632,
+          1096672,
+          1096740,
+          1097400,
+          1097404,
+          1097436,
+          1097452
+        ]
+      },
+      "C4WFY2Val": {
+        "address": 3365184,
+        "witnesses": [
+          1096168,
+          1096172,
+          1096960,
+          1096964,
+          1097460,
+          1097464
+        ]
+      },
+      "C4WFYVal": {
+        "address": 3365178,
+        "witnesses": [
+          1095856,
+          1095992,
+          1096636,
+          1096640,
+          1096664,
+          1096748,
+          1097288,
+          1097408,
+          1097444,
+          1097472
+        ]
+      },
+      "C4WFZVal": {
+        "address": 3365180,
+        "witnesses": [
+          1095944,
+          1095948,
+          1096784,
+          1096800
+        ]
+      },
+      "atanf": {
+        "address": 1705052,
+        "witnesses": [
+          1098004
+        ]
+      },
+      "cosf": {
+        "address": 1703388,
+        "witnesses": [
+          1096100,
+          1096156,
+          1096256,
+          1096316,
+          1096416,
+          1096472,
+          1096892,
+          1096948,
+          1097048,
+          1097108,
+          1097208,
+          1097264
+        ]
+      },
+      "dpadd": {
+        "address": 1717680,
+        "witnesses": [
+          1096068,
+          1096224,
+          1096384,
+          1096860,
+          1097016,
+          1097176
+        ]
+      },
+      "dpdiv": {
+        "address": 1718608,
+        "witnesses": [
+          1098028
+        ]
+      },
+      "dpmul": {
+        "address": 1717888,
+        "witnesses": [
+          1096056,
+          1096080,
+          1096212,
+          1096236,
+          1096372,
+          1096396,
+          1096848,
+          1096872,
+          1097004,
+          1097028,
+          1097164,
+          1097188,
+          1098044,
+          1098384,
+          1098436
+        ]
+      },
+      "dptofp": {
+        "address": 1719488,
+        "witnesses": [
+          1096088,
+          1096244,
+          1096404,
+          1096880,
+          1097036,
+          1097196
+        ]
+      },
+      "dptoli": {
+        "address": 1719280,
+        "witnesses": [
+          1098052,
+          1098392,
+          1098444
+        ]
+      },
+      "fabsf": {
+        "address": 1705648,
+        "witnesses": [
+          1097504,
+          1097528,
+          1097604,
+          1097684,
+          1097744,
+          1097824
+        ]
+      },
+      "fptodp": {
+        "address": 1717056,
+        "witnesses": [
+          1096044,
+          1096200,
+          1096360,
+          1096836,
+          1096992,
+          1097152,
+          1098012,
+          1098368,
+          1098420
+        ]
+      },
+      "sinf": {
+        "address": 1703972,
+        "witnesses": [
+          1096116,
+          1096140,
+          1096272,
+          1096296,
+          1096432,
+          1096456,
+          1096908,
+          1096932,
+          1097064,
+          1097088,
+          1097224,
+          1097248
+        ]
+      },
+      "sqrtf": {
+        "address": 1705632,
+        "witnesses": [
+          1098480
+        ]
+      }
+    },
+    "dsp1": {
+      "@section:.data": {
+        "address": 3395192,
+        "witnesses": [
+          1238672,
+          1238676
+        ]
+      },
+      "InvTable": {
+        "address": 3411600,
+        "witnesses": [
+          1229296,
+          1229304
+        ]
+      },
+      "Op00Multiplicand": {
+        "address": 3411576,
+        "witnesses": [
+          1229116,
+          1229128
+        ]
+      },
+      "Op00Multiplier": {
+        "address": 3411578,
+        "witnesses": [
+          1229120,
+          1229124
+        ]
+      },
+      "Op00Result": {
+        "address": 3411580,
+        "witnesses": [
+          1229136,
+          1229148
+        ]
+      },
+      "Op2FSize": {
+        "address": 3413560,
+        "witnesses": [
+          1237716,
+          1237724
+        ]
+      },
+      "_Z7InitDSPv": {
+        "address": 1228844,
+        "witnesses": [
+          1238704
+        ]
+      }
+    },
+    "fxemu": {
+      "@section:.data": {
+        "address": 3418680,
+        "witnesses": [
+          1245224,
+          1245228,
+          1245272,
+          1245280
+        ]
+      },
+      "@section:.text": {
+        "address": 1244764,
+        "witnesses": [
+          1245460
+        ]
+      },
+      "GSU": {
+        "address": 3418680,
+        "witnesses": [
+          1244916,
+          1244924,
+          1244940,
+          1244948,
+          1245308,
+          1245312
+        ]
+      },
+      "_Z24fx_computeScreenPointersv": {
+        "address": 1245492,
+        "witnesses": [
+          1245452
+        ]
+      },
+      "fx_apfPlotTable": {
+        "address": 3423024,
+        "witnesses": [
+          1245396,
+          1245400
+        ]
+      },
+      "fx_ppfOpcodeTable": {
+        "address": 3420732,
+        "witnesses": [
+          1245388,
+          1245392
+        ]
+      }
+    },
+    "memmap": {
+      "@section:.rodata": {
+        "address": 1794552,
+        "witnesses": [
+          1386680,
+          1386692
+        ]
+      }
+    },
+    "ppu": {
+      "@section:.data": {
+        "address": 4148208,
+        "witnesses": [
+          1415576,
+          1415584,
+          1415596,
+          1415600
+        ]
+      }
+    },
+    "snaporig": {
+      "@section:.rodata": {
+        "address": 1802480,
+        "witnesses": [
+          1508372,
+          1508388,
+          1508440,
+          1508444,
+          1508488,
+          1508496,
+          1508568,
+          1508572,
+          1508676,
+          1508684,
+          1508840,
+          1508852,
+          1509784,
+          1509792,
+          1510020,
+          1510028,
+          1510076,
+          1510080,
+          1510112,
+          1510120,
+          1510152,
+          1510156,
+          1510188,
+          1510196,
+          1510664,
+          1510668,
+          1510724,
+          1510732,
+          1510792,
+          1510796,
+          1511748,
+          1511764
+        ]
+      },
+      "@section:.text": {
+        "address": 1507884,
+        "witnesses": [
+          1508456,
+          1508504,
+          1508584,
+          1508772,
+          1508860,
+          1509804,
+          1510040,
+          1510088,
+          1510128,
+          1510164,
+          1510208,
+          1510344,
+          1510680,
+          1510760,
+          1510808
+        ]
+      },
+      "APU": {
+        "address": 3429304,
+        "witnesses": [
+          1510540,
+          1510548
+        ]
+      },
+      "APURegisters": {
+        "address": 3429592,
+        "witnesses": [
+          1510728,
+          1510736,
+          1511460,
+          1511468
+        ]
+      },
+      "CPU": {
+        "address": 3429184,
+        "witnesses": [
+          1508652,
+          1508660,
+          1508776,
+          1510352,
+          1510356,
+          1510404,
+          1510420,
+          1510424,
+          1510440,
+          1510472,
+          1510480
+        ]
+      },
+      "DMA": {
+        "address": 3527520,
+        "witnesses": [
+          1509856,
+          1509864
+        ]
+      },
+      "IAPU": {
+        "address": 3429528,
+        "witnesses": [
+          1510232,
+          1510240,
+          1510712,
+          1510720,
+          1511456,
+          1511464,
+          1511564,
+          1511572
+        ]
+      },
+      "ICPU": {
+        "address": 3429144,
+        "witnesses": [
+          1510256,
+          1510264
+        ]
+      },
+      "IPPU": {
+        "address": 3523176,
+        "witnesses": [
+          1509744,
+          1509752
+        ]
+      },
+      "Memory": {
+        "address": 3465904,
+        "witnesses": [
+          1508520,
+          1508528,
+          1508620,
+          1508624,
+          1510016,
+          1510024
+        ]
+      },
+      "OrigAPU": {
+        "address": 4174888,
+        "witnesses": [
+          1510184,
+          1510192
+        ]
+      },
+      "OrigAPURegisters": {
+        "address": 4242296,
+        "witnesses": [
+          1510660,
+          1510672,
+          1510716,
+          1511644
+        ]
+      },
+      "OrigCPU": {
+        "address": 4174792,
+        "witnesses": [
+          1508552,
+          1508564
+        ]
+      },
+      "OrigDMA": {
+        "address": 4174584,
+        "witnesses": [
+          1509788,
+          1509796,
+          1509840,
+          1509848
+        ]
+      },
+      "OrigPPU": {
+        "address": 4171456,
+        "witnesses": [
+          1508804,
+          1508836,
+          1508972,
+          1508980,
+          1509088,
+          1509096,
+          1509148,
+          1509152,
+          1509652,
+          1509656
+        ]
+      },
+      "OrigRegisters": {
+        "address": 4174776,
+        "witnesses": [
+          1508668,
+          1508692
+        ]
+      },
+      "OrigSoundData": {
+        "address": 4175112,
+        "witnesses": [
+          1510780,
+          1510788,
+          1510924,
+          1510932,
+          1510980,
+          1510988,
+          1511228,
+          1511232,
+          1511312,
+          1511320
+        ]
+      },
+      "PPU": {
+        "address": 3520392,
+        "witnesses": [
+          1508888,
+          1508900,
+          1508992,
+          1508996,
+          1509108,
+          1509112,
+          1509168,
+          1509172,
+          1509660,
+          1509664,
+          1510388,
+          1510392
+        ]
+      },
+      "Registers": {
+        "address": 3429288,
+        "witnesses": [
+          1508792,
+          1508800,
+          1510248,
+          1510252
+        ]
+      },
+      "S9xBasename": {
+        "address": 1054996,
+        "witnesses": [
+          1511712,
+          1511724
+        ]
+      },
+      "S9xFixColourBrightness": {
+        "address": 1413544,
+        "witnesses": [
+          1509772
+        ]
+      },
+      "S9xMessage": {
+        "address": 1070768,
+        "witnesses": [
+          1511760
+        ]
+      },
+      "S9xReset": {
+        "address": 1137496,
+        "witnesses": [
+          1508548
+        ]
+      },
+      "SRAM": {
+        "address": 3465880,
+        "witnesses": [
+          1510108,
+          1510116
+        ]
+      },
+      "Settings": {
+        "address": 3429600,
+        "witnesses": [
+          1510220,
+          1510228,
+          1510364,
+          1510376,
+          1510384,
+          1510452,
+          1510468,
+          1510500,
+          1510524,
+          1510536,
+          1511556,
+          1511560
+        ]
+      },
+      "SoundData": {
+        "address": 3464016,
+        "witnesses": [
+          1510824,
+          1510836,
+          1510948,
+          1510952,
+          1511000,
+          1511008,
+          1511248,
+          1511252,
+          1511324,
+          1511332
+        ]
+      },
+      "_Z12S9xSetPCBasej": {
+        "address": 1753124,
+        "witnesses": [
+          1510292
+        ]
+      },
+      "_Z15S9xSetSoundMuteh": {
+        "address": 1525884,
+        "witnesses": [
+          1508560,
+          1510236,
+          1511448
+        ]
+      },
+      "_Z28S9xFixSoundAfterSnapshotLoadv": {
+        "address": 1524560,
+        "witnesses": [
+          1510244
+        ]
+      },
+      "_ZN7CMemory11FixROMSpeedEv": {
+        "address": 1390016,
+        "witnesses": [
+          1508628
+        ]
+      },
+      "_ZdaPv": {
+        "address": 1741080,
+        "witnesses": [
+          1508232
+        ]
+      },
+      "_Znaj": {
+        "address": 1744744,
+        "witnesses": [
+          1508196
+        ]
+      },
+      "gzread": {
+        "address": 1653300,
+        "witnesses": [
+          1508036,
+          1508172,
+          1508216,
+          1508300
+        ]
+      },
+      "memcmp": {
+        "address": 1688664,
+        "witnesses": [
+          1508384
+        ]
+      },
+      "memmove": {
+        "address": 1688736,
+        "witnesses": [
+          1509536,
+          1509584
+        ]
+      },
+      "strcasecmp": {
+        "address": 1697888,
+        "witnesses": [
+          1508532,
+          1511736
+        ]
+      },
+      "strncmp": {
+        "address": 1688592,
+        "witnesses": [
+          1508100
+        ]
+      },
+      "strtol": {
+        "address": 1698688,
+        "witnesses": [
+          1508124,
+          1508408
+        ]
+      }
+    }
+  },
+  "claim": "exact typed source-provider interval; not final-link or full-image identity",
+  "functions": [
+    {
+      "address": 1507980,
+      "evidence": "analysis/matching/hunt1041-v52-validated-17.tsv",
+      "evidence_sha256": "05383075b5e8de362905b18184a8b4b88c4b9e1310568ac1791fff170c6129d9",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "b33a6202a7bda3b89b220a1da015d09c6f3f49c7ae21920f72ec451fb58786e0",
+      "size": 268,
+      "symbol": "_Z9ReadBlockPKcPviS1_",
+      "unit": "snaporig"
+    },
+    {
+      "address": 1508248,
+      "evidence": "analysis/matching/hunt1041-v52-validated-17.tsv",
+      "evidence_sha256": "05383075b5e8de362905b18184a8b4b88c4b9e1310568ac1791fff170c6129d9",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "1651f32c67163ff806b94944a93622c9a4e5ecbe3826da4b876f3764d5263ee8",
+      "size": 3528,
+      "symbol": "_Z16ReadOrigSnapshotPv",
+      "unit": "snaporig"
+    },
+    {
+      "address": 1091892,
+      "evidence": "analysis/matching/hunt1041-v52-validated-17.tsv",
+      "evidence_sha256": "05383075b5e8de362905b18184a8b4b88c4b9e1310568ac1791fff170c6129d9",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "7b9b22e9e4219577dc0519b524ba93e24e2829c425bdbcfe6b7213c47f245ac0",
+      "size": 1044,
+      "symbol": "S9xResetAPU",
+      "unit": "apu"
+    },
+    {
+      "address": 1094512,
+      "evidence": "analysis/matching/hunt500plus-v33-validated-204.tsv",
+      "evidence_sha256": "198b46bab535289a94dc3974ab342f12191763e99b5f096294b68629f210f5a7",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "464844cbc93d4ea69eb116422746dcfbf6c80c2962cd32dd46291d4545bc3f56",
+      "size": 500,
+      "symbol": "_Z14S9xFixEnvelopeihhh",
+      "unit": "apu"
+    },
+    {
+      "address": 1229116,
+      "evidence": "analysis/matching/hunt500plus-v33-validated-204.tsv",
+      "evidence_sha256": "198b46bab535289a94dc3974ab342f12191763e99b5f096294b68629f210f5a7",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "954ef18e73005a40bc6d991afaca36c2b78e96c461eced3ef3a020b6f04fa4e9",
+      "size": 36,
+      "symbol": "_Z7DSPOp00v",
+      "unit": "dsp1"
+    },
+    {
+      "address": 1229192,
+      "evidence": "analysis/matching/hunt500plus-v33-validated-204.tsv",
+      "evidence_sha256": "198b46bab535289a94dc3974ab342f12191763e99b5f096294b68629f210f5a7",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "ddeff07b2cecd6cd173f45c92c2828c5495051302f91affe88202452e6c8eef1",
+      "size": 284,
+      "symbol": "_Z12DSP1_InversessPsS_",
+      "unit": "dsp1"
+    },
+    {
+      "address": 1237712,
+      "evidence": "analysis/matching/hunt500plus-v33-validated-204.tsv",
+      "evidence_sha256": "198b46bab535289a94dc3974ab342f12191763e99b5f096294b68629f210f5a7",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "f426c8a61a6ed423327b9489d4779bfd8ff34fade9c6902438028ddeaa5d82ac",
+      "size": 16,
+      "symbol": "_Z7DSPOp2Fv",
+      "unit": "dsp1"
+    },
+    {
+      "address": 1238664,
+      "evidence": "analysis/matching/hunt500plus-v33-validated-204.tsv",
+      "evidence_sha256": "198b46bab535289a94dc3974ab342f12191763e99b5f096294b68629f210f5a7",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "e57b7aa76188c8ccff99957d54c21d64efbc6ab64a4e2458a3615e76efc20731",
+      "size": 60,
+      "symbol": "_Z11S9xInitDSP1v",
+      "unit": "dsp1"
+    },
+    {
+      "address": 1244912,
+      "evidence": "analysis/matching/hunt500plus-v33-validated-204.tsv",
+      "evidence_sha256": "198b46bab535289a94dc3974ab342f12191763e99b5f096294b68629f210f5a7",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "8d2a527156418943c8ffe42f761a005584ddc217381cf1a68ddca68860ebd686",
+      "size": 580,
+      "symbol": "_Z20fx_readRegisterSpacev",
+      "unit": "fxemu"
+    },
+    {
+      "address": 1413736,
+      "evidence": "analysis/matching/hunt1000plus-v46-validated-42.tsv",
+      "evidence_sha256": "c13a582a9b6bc100256670dbc0d2b2bda6f10293f4359e3b2fd912dcf8c2f5db",
+      "relocation_scope": "selected-data-references",
+      "sha256": "c3159c2619767a4e145c394f8d9a2964fa20e2e0a3412f3511ab20a4abaf9782",
+      "size": 5000,
+      "symbol": "S9xSetPPU",
+      "unit": "ppu"
+    },
+    {
+      "address": 1385176,
+      "evidence": "analysis/matching/hunt1041-v52-validated-17.tsv",
+      "evidence_sha256": "05383075b5e8de362905b18184a8b4b88c4b9e1310568ac1791fff170c6129d9",
+      "relocation_scope": "selected-data-references",
+      "sha256": "5c6072d8d1892b2346877a2820d67d29a2040a333951ad704b9301380cb47a8c",
+      "size": 4220,
+      "symbol": "_ZN7CMemory7InitROMEh",
+      "unit": "memmap"
+    },
+    {
+      "address": 1095844,
+      "evidence": "analysis/matching/hunt1041-v75-validated-c4-5.tsv",
+      "evidence_sha256": "ab4c4d26b26eb4f23e2f5877e611c9192abbc54041aa63a6fc014216235f527a",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "836a03bef39c640f2f73345444026688456ae3e64678907e41517fe9736efc3a",
+      "size": 808,
+      "symbol": "C4TransfWireFrame",
+      "unit": "c4"
+    },
+    {
+      "address": 1096652,
+      "evidence": "analysis/matching/hunt1041-v75-validated-c4-5.tsv",
+      "evidence_sha256": "ab4c4d26b26eb4f23e2f5877e611c9192abbc54041aa63a6fc014216235f527a",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "979b7761e73d9bb38d98c8a2a7e092098a81f2d985c0b4634bc6895f3d6fba26",
+      "size": 768,
+      "symbol": "C4TransfWireFrame2",
+      "unit": "c4"
+    },
+    {
+      "address": 1097420,
+      "evidence": "analysis/matching/hunt1041-v75-validated-c4-5.tsv",
+      "evidence_sha256": "ab4c4d26b26eb4f23e2f5877e611c9192abbc54041aa63a6fc014216235f527a",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "fe5df2ee28aad2cb5f3098f332af85f7e08ba6eecb9c15b5fd60639425446f30",
+      "size": 456,
+      "symbol": "C4CalcWireFrame",
+      "unit": "c4"
+    },
+    {
+      "address": 1097876,
+      "evidence": "analysis/matching/hunt1041-v75-validated-c4-5.tsv",
+      "evidence_sha256": "ab4c4d26b26eb4f23e2f5877e611c9192abbc54041aa63a6fc014216235f527a",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "4f960ff15e772d288e9469159b2f9b27928aed85916794192aefb05980166bd9",
+      "size": 224,
+      "symbol": "C4Op1F",
+      "unit": "c4"
+    },
+    {
+      "address": 1098232,
+      "evidence": "analysis/matching/hunt1041-v75-validated-c4-5.tsv",
+      "evidence_sha256": "ab4c4d26b26eb4f23e2f5877e611c9192abbc54041aa63a6fc014216235f527a",
+      "relocation_scope": "complete-function-relocations",
+      "sha256": "e7e60c411845301df556805b1d6d058698fd0d2aaaef6683690f9bbb581c9cf8",
+      "size": 264,
+      "symbol": "C4Op0D",
+      "unit": "c4"
+    }
+  ],
+  "global_anchors": [
+    {
+      "address": 3429304,
+      "source_offset": 856,
+      "symbol": "APU",
+      "unit": "apu",
+      "witnesses": [
+        1092332,
+        1092340,
+        1092556,
+        1092564,
+        1092612,
+        1092616,
+        1092728,
+        1092736
+      ]
+    },
+    {
+      "address": 4145256,
+      "source_offset": 716808,
+      "symbol": "APUROM",
+      "unit": "apu",
+      "witnesses": [
+        1092360,
+        1092364
+      ]
+    },
+    {
+      "address": 3429592,
+      "source_offset": 1144,
+      "symbol": "APURegisters",
+      "unit": "apu",
+      "witnesses": [
+        1092444,
+        1092452
+      ]
+    },
+    {
+      "address": 3429528,
+      "source_offset": 1080,
+      "symbol": "IAPU",
+      "unit": "apu",
+      "witnesses": [
+        1091920,
+        1091928,
+        1092060,
+        1092068,
+        1092200,
+        1092204,
+        1092208,
+        1092328,
+        1092336,
+        1092496,
+        1092644,
+        1092652,
+        1092680,
+        1092688,
+        1092868
+      ]
+    },
+    {
+      "address": 4145320,
+      "source_offset": 716872,
+      "symbol": "S9xAPUCycleLengths",
+      "unit": "apu",
+      "witnesses": [
+        1092668,
+        1092676
+      ]
+    },
+    {
+      "address": 4146344,
+      "source_offset": 717896,
+      "symbol": "S9xAPUCycles",
+      "unit": "apu",
+      "witnesses": [
+        1092700,
+        1092708
+      ]
+    },
+    {
+      "address": 3429600,
+      "source_offset": 1152,
+      "symbol": "Settings",
+      "unit": "apu",
+      "witnesses": [
+        1091896,
+        1091904,
+        1092428,
+        1092440,
+        1094924,
+        1095000
+      ]
+    },
+    {
+      "address": 3429304,
+      "source_offset": 856,
+      "symbol": "APU",
+      "unit": "snaporig",
+      "witnesses": [
+        1510540,
+        1510548
+      ]
+    },
+    {
+      "address": 3429592,
+      "source_offset": 1144,
+      "symbol": "APURegisters",
+      "unit": "snaporig",
+      "witnesses": [
+        1510728,
+        1510736,
+        1511460,
+        1511468
+      ]
+    },
+    {
+      "address": 3429184,
+      "source_offset": 736,
+      "symbol": "CPU",
+      "unit": "snaporig",
+      "witnesses": [
+        1508652,
+        1508660,
+        1508776,
+        1510352,
+        1510356,
+        1510404,
+        1510420,
+        1510424,
+        1510440,
+        1510472,
+        1510480
+      ]
+    },
+    {
+      "address": 3527520,
+      "source_offset": 99072,
+      "symbol": "DMA",
+      "unit": "snaporig",
+      "witnesses": [
+        1509856,
+        1509864
+      ]
+    },
+    {
+      "address": 3429528,
+      "source_offset": 1080,
+      "symbol": "IAPU",
+      "unit": "snaporig",
+      "witnesses": [
+        1510232,
+        1510240,
+        1510712,
+        1510720,
+        1511456,
+        1511464,
+        1511564,
+        1511572
+      ]
+    },
+    {
+      "address": 3429144,
+      "source_offset": 696,
+      "symbol": "ICPU",
+      "unit": "snaporig",
+      "witnesses": [
+        1510256,
+        1510264
+      ]
+    },
+    {
+      "address": 3523176,
+      "source_offset": 94728,
+      "symbol": "IPPU",
+      "unit": "snaporig",
+      "witnesses": [
+        1509744,
+        1509752
+      ]
+    },
+    {
+      "address": 3465904,
+      "source_offset": 37456,
+      "symbol": "Memory",
+      "unit": "snaporig",
+      "witnesses": [
+        1508520,
+        1508528,
+        1508620,
+        1508624,
+        1510016,
+        1510024
+      ]
+    },
+    {
+      "address": 3520392,
+      "source_offset": 91944,
+      "symbol": "PPU",
+      "unit": "snaporig",
+      "witnesses": [
+        1508888,
+        1508900,
+        1508992,
+        1508996,
+        1509108,
+        1509112,
+        1509168,
+        1509172,
+        1509660,
+        1509664,
+        1510388,
+        1510392
+      ]
+    },
+    {
+      "address": 3429288,
+      "source_offset": 840,
+      "symbol": "Registers",
+      "unit": "snaporig",
+      "witnesses": [
+        1508792,
+        1508800,
+        1510248,
+        1510252
+      ]
+    },
+    {
+      "address": 3465880,
+      "source_offset": 37432,
+      "symbol": "SRAM",
+      "unit": "snaporig",
+      "witnesses": [
+        1510108,
+        1510116
+      ]
+    },
+    {
+      "address": 3429600,
+      "source_offset": 1152,
+      "symbol": "Settings",
+      "unit": "snaporig",
+      "witnesses": [
+        1510220,
+        1510228,
+        1510364,
+        1510376,
+        1510384,
+        1510452,
+        1510468,
+        1510500,
+        1510524,
+        1510536,
+        1511556,
+        1511560
+      ]
+    },
+    {
+      "address": 3464016,
+      "source_offset": 35568,
+      "symbol": "SoundData",
+      "unit": "snaporig",
+      "witnesses": [
+        1510824,
+        1510836,
+        1510948,
+        1510952,
+        1511000,
+        1511008,
+        1511248,
+        1511252,
+        1511324,
+        1511332
+      ]
+    }
+  ],
+  "inputs": {
+    "apu": {
+      "compat/memory.h": "7836d5434524cd8a58fb68f227926c47d9ed2d45414278cd63daf81749dd0f2c",
+      "compat/stdio.h": "842f3332f016fb807687f1bd527dd10e30b1a69c4fc49dc5160b8db206b53eb9",
+      "compat/string.h": "cdba39634f52ee3c9bdb16967f5d1c945fcc24b16d500e313022a5b00fee134f",
+      "gcc-3.2.2/limits.h": "fd2a25a280514de5e7aa3f18464e1c7984733c37af035f7f3840ee0c0ae18956",
+      "gcc-3.2.2/stdarg.h": "a43e740c99baa8b131033c467cbef49ebbf86761df76de321c0b23d893af1901",
+      "gcc-3.2.2/stddef.h": "d46c55c3760cc6120042b58d8ae006d63efc710cd355751f2b130e27208a56c7",
+      "layout/65c816.h": "c68f7fd0118bb735c5509ee8cb4c93695c8f319c3e6a927dc3ab16093486ee11",
+      "layout/APU.CPP": "84e40e72f8fcca594e4086cad61d65c6703a0297d2e54b1ab6a823168cdf8ded",
+      "layout/MEMMAP.H": "2a3cc6205e4fd23c1784aaf4ff7d0f9d68f9bb475a3036a10cd26d92707a5ff9",
+      "layout/apu.h": "54761eeecb92202e7e3ccffd574ac03edde958397775920632c188b4764fd6cf",
+      "layout/cpuexec.h": "28d8f49fda1aa7298b0a9c8887006a327d95fb4ae39af4cfeff184c7c0b28449",
+      "layout/gfx.h": "2ae885e4f880f2c2684119577030fc68caec06705f1b8ccb7805944d02ce8334",
+      "layout/messages.h": "6ec925df9da8a98826208d76c79e6521e8bcab382a7792a667aa84e79388535c",
+      "layout/pixform.h": "e6c2e217ffcafa565b11494f3b3d1204fcf1bd00e7622f1e5d78aba4236951e6",
+      "layout/port.h": "b9b12ce623021f733178a3a6059ab628e45079ffe852177f1a33566c838bafd7",
+      "layout/ppu.h": "6a2f7ae5b30c0a610e03d9ea9fbee71014f8542ceed5260939fca67a461cd171",
+      "layout/snapshot.h": "8ce31eb8b5c701e01428bd7dbf1796e640a10392ca9d4aee6807f1161f763d7f",
+      "layout/snes9x.h": "c567933f4c63595c9ae71568e68d37afa5201d91164669cdbf108ce2a64ce0b4",
+      "layout/soundux.h": "15b32a03eab073fc9382a27c943a41775115977f506f9edc2db076f7a653160a",
+      "layout/spc700.h": "c916dbe1084d96b3c18d6c912f02350bbd1c6856bc068d9003605f5bf5661b16",
+      "newlib-1.10.0/_ansi.h": "28e788875d4230a2d6fc0e89a0c3f6bd68e30053394701d73a45e5cb7d290946",
+      "newlib-1.10.0/alloca.h": "2d967c8d4adcd11885e47e2c9c046e52d30670672dc10ed9d1e329d9dae902b0",
+      "newlib-1.10.0/machine/types.h": "f37932e69653c9689a84bdfad058b7de3ebf301a684ffceb052951c88383fc4a",
+      "newlib-1.10.0/stdio.h": "1e39d39272346bf8221f5964315791741ee83f9f9cab7b81f55b3b8c6a9942d0",
+      "newlib-1.10.0/stdlib.h": "36fcb63b18adbdb66c8b6a776a659ff3def7df472ed93cc3e308d5003e3a5af0",
+      "newlib-1.10.0/string.h": "e9a4540a290f8ef178a00bf9e19c86dcf47f2f4386dd42056126580358117f8a",
+      "newlib-1.10.0/sys/_types.h": "71a2a78b9af882aee475b25bc5761f1680d40342097922dd55414513ad8074ca",
+      "newlib-1.10.0/sys/config.h": "ef87d21ce75b61f4f75c84aecd47fc292bea55a83038dcb2da3b788d3655f71d",
+      "newlib-1.10.0/sys/reent.h": "684daf1dc2f4493ec0762f1ee5c6450700e771bf2924840689e0c99c648b6e0f",
+      "newlib-1.10.0/sys/types.h": "ed74234f42e67baaf6cc5e5ed0f6e5c86df718b9ca1837508c93a43f4ed42b54",
+      "snes9x-1.41-1/zlib/zconf.h": "ba5c78fd43ff258e40761d2c98e89a3e125d900b82ca77f1a73a2f3c62d66091",
+      "snes9x-1.41-1/zlib/zlib.h": "56ff7663df8470fddf2e64a4a57da1d4e17d041f0b895a53ae5fab0d492d7e0b"
+    },
+    "c4": {
+      "compat/memory.h": "7836d5434524cd8a58fb68f227926c47d9ed2d45414278cd63daf81749dd0f2c",
+      "compat/stdio.h": "842f3332f016fb807687f1bd527dd10e30b1a69c4fc49dc5160b8db206b53eb9",
+      "compat/string.h": "cdba39634f52ee3c9bdb16967f5d1c945fcc24b16d500e313022a5b00fee134f",
+      "gcc-3.2.2/limits.h": "fd2a25a280514de5e7aa3f18464e1c7984733c37af035f7f3840ee0c0ae18956",
+      "gcc-3.2.2/stdarg.h": "a43e740c99baa8b131033c467cbef49ebbf86761df76de321c0b23d893af1901",
+      "gcc-3.2.2/stddef.h": "d46c55c3760cc6120042b58d8ae006d63efc710cd355751f2b130e27208a56c7",
+      "layout/65c816.h": "c68f7fd0118bb735c5509ee8cb4c93695c8f319c3e6a927dc3ab16093486ee11",
+      "layout/MEMMAP.H": "2a3cc6205e4fd23c1784aaf4ff7d0f9d68f9bb475a3036a10cd26d92707a5ff9",
+      "layout/c4.cpp": "d33244713aa55d3f01a2a3a9a86db09228849908163f361bbfa37eefd4901e13",
+      "layout/c4.h": "368a3e15e1d431b0369a521f822db29b9494bf0e4433712a9a98d0df6a97b91d",
+      "layout/messages.h": "6ec925df9da8a98826208d76c79e6521e8bcab382a7792a667aa84e79388535c",
+      "layout/pixform.h": "e6c2e217ffcafa565b11494f3b3d1204fcf1bd00e7622f1e5d78aba4236951e6",
+      "layout/port.h": "b9b12ce623021f733178a3a6059ab628e45079ffe852177f1a33566c838bafd7",
+      "layout/snes9x.h": "c567933f4c63595c9ae71568e68d37afa5201d91164669cdbf108ce2a64ce0b4",
+      "newlib-1.10.0/_ansi.h": "28e788875d4230a2d6fc0e89a0c3f6bd68e30053394701d73a45e5cb7d290946",
+      "newlib-1.10.0/alloca.h": "2d967c8d4adcd11885e47e2c9c046e52d30670672dc10ed9d1e329d9dae902b0",
+      "newlib-1.10.0/machine/ieeefp.h": "dfe7431100ac6b66e77249bfb31d47770ec0209565ce2eec01b191788ad00006",
+      "newlib-1.10.0/machine/types.h": "f37932e69653c9689a84bdfad058b7de3ebf301a684ffceb052951c88383fc4a",
+      "newlib-1.10.0/math.h": "8f14e31ca4b840dfcd4bcda01cec386e9ad392978052157b15624a0a9a4243f7",
+      "newlib-1.10.0/stdio.h": "1e39d39272346bf8221f5964315791741ee83f9f9cab7b81f55b3b8c6a9942d0",
+      "newlib-1.10.0/stdlib.h": "36fcb63b18adbdb66c8b6a776a659ff3def7df472ed93cc3e308d5003e3a5af0",
+      "newlib-1.10.0/string.h": "e9a4540a290f8ef178a00bf9e19c86dcf47f2f4386dd42056126580358117f8a",
+      "newlib-1.10.0/sys/_types.h": "71a2a78b9af882aee475b25bc5761f1680d40342097922dd55414513ad8074ca",
+      "newlib-1.10.0/sys/config.h": "ef87d21ce75b61f4f75c84aecd47fc292bea55a83038dcb2da3b788d3655f71d",
+      "newlib-1.10.0/sys/reent.h": "684daf1dc2f4493ec0762f1ee5c6450700e771bf2924840689e0c99c648b6e0f",
+      "newlib-1.10.0/sys/types.h": "ed74234f42e67baaf6cc5e5ed0f6e5c86df718b9ca1837508c93a43f4ed42b54"
+    },
+    "dsp1": {
+      "compat/memory.h": "7836d5434524cd8a58fb68f227926c47d9ed2d45414278cd63daf81749dd0f2c",
+      "compat/stdio.h": "842f3332f016fb807687f1bd527dd10e30b1a69c4fc49dc5160b8db206b53eb9",
+      "compat/string.h": "cdba39634f52ee3c9bdb16967f5d1c945fcc24b16d500e313022a5b00fee134f",
+      "gcc-3.2.2/limits.h": "fd2a25a280514de5e7aa3f18464e1c7984733c37af035f7f3840ee0c0ae18956",
+      "gcc-3.2.2/stdarg.h": "a43e740c99baa8b131033c467cbef49ebbf86761df76de321c0b23d893af1901",
+      "gcc-3.2.2/stddef.h": "d46c55c3760cc6120042b58d8ae006d63efc710cd355751f2b130e27208a56c7",
+      "layout/65c816.h": "c68f7fd0118bb735c5509ee8cb4c93695c8f319c3e6a927dc3ab16093486ee11",
+      "layout/DSP1.CPP": "4c0046c4bc05565b0638defc450e635a55403ce7d15be536d1a738312b337045",
+      "layout/DSP1EMU.C": "5da9432bccdb572971c39da3debdd8e3562a90930e53d3dcb4bbd831d80b948c",
+      "layout/MEMMAP.H": "2a3cc6205e4fd23c1784aaf4ff7d0f9d68f9bb475a3036a10cd26d92707a5ff9",
+      "layout/dsp1.h": "851a1c9d8aa356496b8b7d1aa66453a3f8a14a66ab2e39d18ab4a0e42dd87b34",
+      "layout/dsp2emu.c": "f7cc685aab5d522f149f77d299828776e946c52aa613edf3cdbd6d65fb75cca6",
+      "layout/messages.h": "6ec925df9da8a98826208d76c79e6521e8bcab382a7792a667aa84e79388535c",
+      "layout/missing.h": "0c45a489a3599629a42a324fff2e3f1d4d575ca403305122eb7a5694730e933b",
+      "layout/pixform.h": "e6c2e217ffcafa565b11494f3b3d1204fcf1bd00e7622f1e5d78aba4236951e6",
+      "layout/port.h": "b9b12ce623021f733178a3a6059ab628e45079ffe852177f1a33566c838bafd7",
+      "layout/snes9x.h": "c567933f4c63595c9ae71568e68d37afa5201d91164669cdbf108ce2a64ce0b4",
+      "newlib-1.10.0/_ansi.h": "28e788875d4230a2d6fc0e89a0c3f6bd68e30053394701d73a45e5cb7d290946",
+      "newlib-1.10.0/alloca.h": "2d967c8d4adcd11885e47e2c9c046e52d30670672dc10ed9d1e329d9dae902b0",
+      "newlib-1.10.0/machine/ieeefp.h": "dfe7431100ac6b66e77249bfb31d47770ec0209565ce2eec01b191788ad00006",
+      "newlib-1.10.0/machine/types.h": "f37932e69653c9689a84bdfad058b7de3ebf301a684ffceb052951c88383fc4a",
+      "newlib-1.10.0/math.h": "8f14e31ca4b840dfcd4bcda01cec386e9ad392978052157b15624a0a9a4243f7",
+      "newlib-1.10.0/stdio.h": "1e39d39272346bf8221f5964315791741ee83f9f9cab7b81f55b3b8c6a9942d0",
+      "newlib-1.10.0/stdlib.h": "36fcb63b18adbdb66c8b6a776a659ff3def7df472ed93cc3e308d5003e3a5af0",
+      "newlib-1.10.0/string.h": "e9a4540a290f8ef178a00bf9e19c86dcf47f2f4386dd42056126580358117f8a",
+      "newlib-1.10.0/sys/_types.h": "71a2a78b9af882aee475b25bc5761f1680d40342097922dd55414513ad8074ca",
+      "newlib-1.10.0/sys/config.h": "ef87d21ce75b61f4f75c84aecd47fc292bea55a83038dcb2da3b788d3655f71d",
+      "newlib-1.10.0/sys/reent.h": "684daf1dc2f4493ec0762f1ee5c6450700e771bf2924840689e0c99c648b6e0f",
+      "newlib-1.10.0/sys/types.h": "ed74234f42e67baaf6cc5e5ed0f6e5c86df718b9ca1837508c93a43f4ed42b54",
+      "snes9x-1.41-1/zlib/zconf.h": "ba5c78fd43ff258e40761d2c98e89a3e125d900b82ca77f1a73a2f3c62d66091",
+      "snes9x-1.41-1/zlib/zlib.h": "56ff7663df8470fddf2e64a4a57da1d4e17d041f0b895a53ae5fab0d492d7e0b"
+    },
+    "fxemu": {
+      "compat/stdio.h": "842f3332f016fb807687f1bd527dd10e30b1a69c4fc49dc5160b8db206b53eb9",
+      "compat/string.h": "cdba39634f52ee3c9bdb16967f5d1c945fcc24b16d500e313022a5b00fee134f",
+      "gcc-3.2.2/stdarg.h": "a43e740c99baa8b131033c467cbef49ebbf86761df76de321c0b23d893af1901",
+      "gcc-3.2.2/stddef.h": "d46c55c3760cc6120042b58d8ae006d63efc710cd355751f2b130e27208a56c7",
+      "layout/fxemu.cpp": "021c8b181f3cc5967955a837ffc916f7b30c43adcfef801ee5289e4684ace08e",
+      "layout/fxemu.h": "5c1a21064aca4e58b5fed16b9965f28540b04f5ad1cfa5dda18eb1e90686f6fe",
+      "layout/fxinst.h": "d46944449bf5978cc8aac7c50a8d63747f6101630af4c8b5a14337bb9ffc1480",
+      "newlib-1.10.0/_ansi.h": "28e788875d4230a2d6fc0e89a0c3f6bd68e30053394701d73a45e5cb7d290946",
+      "newlib-1.10.0/alloca.h": "2d967c8d4adcd11885e47e2c9c046e52d30670672dc10ed9d1e329d9dae902b0",
+      "newlib-1.10.0/stdio.h": "1e39d39272346bf8221f5964315791741ee83f9f9cab7b81f55b3b8c6a9942d0",
+      "newlib-1.10.0/stdlib.h": "36fcb63b18adbdb66c8b6a776a659ff3def7df472ed93cc3e308d5003e3a5af0",
+      "newlib-1.10.0/string.h": "e9a4540a290f8ef178a00bf9e19c86dcf47f2f4386dd42056126580358117f8a",
+      "newlib-1.10.0/sys/_types.h": "71a2a78b9af882aee475b25bc5761f1680d40342097922dd55414513ad8074ca",
+      "newlib-1.10.0/sys/config.h": "ef87d21ce75b61f4f75c84aecd47fc292bea55a83038dcb2da3b788d3655f71d",
+      "newlib-1.10.0/sys/reent.h": "684daf1dc2f4493ec0762f1ee5c6450700e771bf2924840689e0c99c648b6e0f"
+    },
+    "globals": {
+      "compat/memory.h": "7836d5434524cd8a58fb68f227926c47d9ed2d45414278cd63daf81749dd0f2c",
+      "compat/stdio.h": "842f3332f016fb807687f1bd527dd10e30b1a69c4fc49dc5160b8db206b53eb9",
+      "compat/string.h": "cdba39634f52ee3c9bdb16967f5d1c945fcc24b16d500e313022a5b00fee134f",
+      "gcc-3.2.2/limits.h": "fd2a25a280514de5e7aa3f18464e1c7984733c37af035f7f3840ee0c0ae18956",
+      "gcc-3.2.2/stdarg.h": "a43e740c99baa8b131033c467cbef49ebbf86761df76de321c0b23d893af1901",
+      "gcc-3.2.2/stddef.h": "d46c55c3760cc6120042b58d8ae006d63efc710cd355751f2b130e27208a56c7",
+      "layout/65c816.h": "c68f7fd0118bb735c5509ee8cb4c93695c8f319c3e6a927dc3ab16093486ee11",
+      "layout/GLOBALS.CPP": "5288f2a11e40db589254e579dca4aa4f9ffe6636a2e6704b9f142d04625cf0fc",
+      "layout/MEMMAP.H": "2a3cc6205e4fd23c1784aaf4ff7d0f9d68f9bb475a3036a10cd26d92707a5ff9",
+      "layout/apu.h": "54761eeecb92202e7e3ccffd574ac03edde958397775920632c188b4764fd6cf",
+      "layout/cheats.h": "d67e0ee2929ef319faaa8b6cfec3967b5b646d7fc6dd0ef48c63db32d1d97f43",
+      "layout/cpuexec.h": "28d8f49fda1aa7298b0a9c8887006a327d95fb4ae39af4cfeff184c7c0b28449",
+      "layout/debug.h": "3041c5c2f80331a63a542245502d7a061f87802d0f48500f6189d0a3538d001f",
+      "layout/dma.h": "9ab02a14f1f69f7821a59b5f7e48f23bf9dd1b06f26b17086edbaba8fcce4d2f",
+      "layout/dsp1.h": "851a1c9d8aa356496b8b7d1aa66453a3f8a14a66ab2e39d18ab4a0e42dd87b34",
+      "layout/fxemu.h": "5c1a21064aca4e58b5fed16b9965f28540b04f5ad1cfa5dda18eb1e90686f6fe",
+      "layout/gfx.h": "2ae885e4f880f2c2684119577030fc68caec06705f1b8ccb7805944d02ce8334",
+      "layout/messages.h": "6ec925df9da8a98826208d76c79e6521e8bcab382a7792a667aa84e79388535c",
+      "layout/missing.h": "0c45a489a3599629a42a324fff2e3f1d4d575ca403305122eb7a5694730e933b",
+      "layout/netplay.h": "7d0bebb7c1dcc6a858c172b09a9233218d7eec6cf2f90fbb30a32d6b4962475b",
+      "layout/pixform.h": "e6c2e217ffcafa565b11494f3b3d1204fcf1bd00e7622f1e5d78aba4236951e6",
+      "layout/port.h": "b9b12ce623021f733178a3a6059ab628e45079ffe852177f1a33566c838bafd7",
+      "layout/ppu.h": "6a2f7ae5b30c0a610e03d9ea9fbee71014f8542ceed5260939fca67a461cd171",
+      "layout/sa1.h": "f7a5e62940bb3f189148a357bf6560ecc446766a4b496d31dbb5f1a3c7aa88b2",
+      "layout/snes9x.h": "c567933f4c63595c9ae71568e68d37afa5201d91164669cdbf108ce2a64ce0b4",
+      "layout/soundux.h": "15b32a03eab073fc9382a27c943a41775115977f506f9edc2db076f7a653160a",
+      "layout/spc700.h": "c916dbe1084d96b3c18d6c912f02350bbd1c6856bc068d9003605f5bf5661b16",
+      "layout/spc7110.h": "a89802fb2d8d801f63a236be6296d7db96d35c47e9c3f4bd73cf021048ebc141",
+      "newlib-1.10.0/_ansi.h": "28e788875d4230a2d6fc0e89a0c3f6bd68e30053394701d73a45e5cb7d290946",
+      "newlib-1.10.0/alloca.h": "2d967c8d4adcd11885e47e2c9c046e52d30670672dc10ed9d1e329d9dae902b0",
+      "newlib-1.10.0/machine/types.h": "f37932e69653c9689a84bdfad058b7de3ebf301a684ffceb052951c88383fc4a",
+      "newlib-1.10.0/stdio.h": "1e39d39272346bf8221f5964315791741ee83f9f9cab7b81f55b3b8c6a9942d0",
+      "newlib-1.10.0/stdlib.h": "36fcb63b18adbdb66c8b6a776a659ff3def7df472ed93cc3e308d5003e3a5af0",
+      "newlib-1.10.0/string.h": "e9a4540a290f8ef178a00bf9e19c86dcf47f2f4386dd42056126580358117f8a",
+      "newlib-1.10.0/sys/_types.h": "71a2a78b9af882aee475b25bc5761f1680d40342097922dd55414513ad8074ca",
+      "newlib-1.10.0/sys/config.h": "ef87d21ce75b61f4f75c84aecd47fc292bea55a83038dcb2da3b788d3655f71d",
+      "newlib-1.10.0/sys/reent.h": "684daf1dc2f4493ec0762f1ee5c6450700e771bf2924840689e0c99c648b6e0f",
+      "newlib-1.10.0/sys/types.h": "ed74234f42e67baaf6cc5e5ed0f6e5c86df718b9ca1837508c93a43f4ed42b54",
+      "snes9x-1.41-1/zlib/zconf.h": "ba5c78fd43ff258e40761d2c98e89a3e125d900b82ca77f1a73a2f3c62d66091",
+      "snes9x-1.41-1/zlib/zlib.h": "56ff7663df8470fddf2e64a4a57da1d4e17d041f0b895a53ae5fab0d492d7e0b"
+    },
+    "memmap": {
+      "compat/memory.h": "7836d5434524cd8a58fb68f227926c47d9ed2d45414278cd63daf81749dd0f2c",
+      "compat/stdio.h": "842f3332f016fb807687f1bd527dd10e30b1a69c4fc49dc5160b8db206b53eb9",
+      "compat/string.h": "cdba39634f52ee3c9bdb16967f5d1c945fcc24b16d500e313022a5b00fee134f",
+      "gcc-3.2.2/limits.h": "fd2a25a280514de5e7aa3f18464e1c7984733c37af035f7f3840ee0c0ae18956",
+      "gcc-3.2.2/stdarg.h": "a43e740c99baa8b131033c467cbef49ebbf86761df76de321c0b23d893af1901",
+      "gcc-3.2.2/stddef.h": "d46c55c3760cc6120042b58d8ae006d63efc710cd355751f2b130e27208a56c7",
+      "layout/65c816.h": "c68f7fd0118bb735c5509ee8cb4c93695c8f319c3e6a927dc3ab16093486ee11",
+      "layout/MEMMAP.CPP": "134ac471bceb0685409e159ed76d2a165c563f283d505e713fad63087ff717b4",
+      "layout/MEMMAP.H": "2a3cc6205e4fd23c1784aaf4ff7d0f9d68f9bb475a3036a10cd26d92707a5ff9",
+      "layout/SDD1.H": "53273aa59c30eb7a923c73182a7597630d895ac72bef698ba2a1f9b6f541235c",
+      "layout/apu.h": "54761eeecb92202e7e3ccffd574ac03edde958397775920632c188b4764fd6cf",
+      "layout/cheats.h": "d67e0ee2929ef319faaa8b6cfec3967b5b646d7fc6dd0ef48c63db32d1d97f43",
+      "layout/cpuexec.h": "28d8f49fda1aa7298b0a9c8887006a327d95fb4ae39af4cfeff184c7c0b28449",
+      "layout/display.h": "6de57f9f9c54864d9da3422ac2a6c6ac2ca7d3c869273c364c9b9247e34b9433",
+      "layout/dsp1.h": "851a1c9d8aa356496b8b7d1aa66453a3f8a14a66ab2e39d18ab4a0e42dd87b34",
+      "layout/fxemu.h": "5c1a21064aca4e58b5fed16b9965f28540b04f5ad1cfa5dda18eb1e90686f6fe",
+      "layout/getset.h": "aba49a02c02cee4193fbf2a95da1c33916e048e37a040354f78bb7c21346721e",
+      "layout/gfx.h": "2ae885e4f880f2c2684119577030fc68caec06705f1b8ccb7805944d02ce8334",
+      "layout/messages.h": "6ec925df9da8a98826208d76c79e6521e8bcab382a7792a667aa84e79388535c",
+      "layout/obc1.h": "dd97d09f08a6fc840c04fba3c904a404720390a57ce822fd786f98d096ccbc72",
+      "layout/pixform.h": "e6c2e217ffcafa565b11494f3b3d1204fcf1bd00e7622f1e5d78aba4236951e6",
+      "layout/port.h": "b9b12ce623021f733178a3a6059ab628e45079ffe852177f1a33566c838bafd7",
+      "layout/ppu.h": "6a2f7ae5b30c0a610e03d9ea9fbee71014f8542ceed5260939fca67a461cd171",
+      "layout/sa1.h": "f7a5e62940bb3f189148a357bf6560ecc446766a4b496d31dbb5f1a3c7aa88b2",
+      "layout/seta.h": "a79f19b0d11c46308e86d498c49651fb97efdd262745a3485c78bd384c0101a6",
+      "layout/snes9x.h": "c567933f4c63595c9ae71568e68d37afa5201d91164669cdbf108ce2a64ce0b4",
+      "layout/spc700.h": "c916dbe1084d96b3c18d6c912f02350bbd1c6856bc068d9003605f5bf5661b16",
+      "layout/spc7110.h": "a89802fb2d8d801f63a236be6296d7db96d35c47e9c3f4bd73cf021048ebc141",
+      "layout/srtc.h": "680084788c7832e753e32afd43b3e77fa52618e2b43864f7ad036e655a6150d1",
+      "newlib-1.10.0/_ansi.h": "28e788875d4230a2d6fc0e89a0c3f6bd68e30053394701d73a45e5cb7d290946",
+      "newlib-1.10.0/alloca.h": "2d967c8d4adcd11885e47e2c9c046e52d30670672dc10ed9d1e329d9dae902b0",
+      "newlib-1.10.0/ctype.h": "ca9f1c974e36f74bdc490684d0c9dea5afa806e783f769e2fd2d438b6c2d0d3a",
+      "newlib-1.10.0/machine/time.h": "35a025bd950abdb4ef430c6c54c90a3279c55e7c07027d457194d6676180b4db",
+      "newlib-1.10.0/machine/types.h": "f37932e69653c9689a84bdfad058b7de3ebf301a684ffceb052951c88383fc4a",
+      "newlib-1.10.0/stdio.h": "1e39d39272346bf8221f5964315791741ee83f9f9cab7b81f55b3b8c6a9942d0",
+      "newlib-1.10.0/stdlib.h": "36fcb63b18adbdb66c8b6a776a659ff3def7df472ed93cc3e308d5003e3a5af0",
+      "newlib-1.10.0/string.h": "e9a4540a290f8ef178a00bf9e19c86dcf47f2f4386dd42056126580358117f8a",
+      "newlib-1.10.0/sys/_types.h": "71a2a78b9af882aee475b25bc5761f1680d40342097922dd55414513ad8074ca",
+      "newlib-1.10.0/sys/config.h": "ef87d21ce75b61f4f75c84aecd47fc292bea55a83038dcb2da3b788d3655f71d",
+      "newlib-1.10.0/sys/features.h": "2d68fa452e5df46a5185832651c5d016480028a5112f1ba8f64cb9333ec9136f",
+      "newlib-1.10.0/sys/reent.h": "684daf1dc2f4493ec0762f1ee5c6450700e771bf2924840689e0c99c648b6e0f",
+      "newlib-1.10.0/sys/types.h": "ed74234f42e67baaf6cc5e5ed0f6e5c86df718b9ca1837508c93a43f4ed42b54",
+      "newlib-1.10.0/time.h": "79b319dde72f9aea7d4251995a056177bc8a014f50828be14db7f868e1392e04",
+      "snes9x-1.41-1/zlib/zconf.h": "ba5c78fd43ff258e40761d2c98e89a3e125d900b82ca77f1a73a2f3c62d66091",
+      "snes9x-1.41-1/zlib/zlib.h": "56ff7663df8470fddf2e64a4a57da1d4e17d041f0b895a53ae5fab0d492d7e0b"
+    },
+    "ppu": {
+      "compat/memory.h": "7836d5434524cd8a58fb68f227926c47d9ed2d45414278cd63daf81749dd0f2c",
+      "compat/stdio.h": "842f3332f016fb807687f1bd527dd10e30b1a69c4fc49dc5160b8db206b53eb9",
+      "compat/string.h": "cdba39634f52ee3c9bdb16967f5d1c945fcc24b16d500e313022a5b00fee134f",
+      "gcc-3.2.2/limits.h": "fd2a25a280514de5e7aa3f18464e1c7984733c37af035f7f3840ee0c0ae18956",
+      "gcc-3.2.2/stdarg.h": "a43e740c99baa8b131033c467cbef49ebbf86761df76de321c0b23d893af1901",
+      "gcc-3.2.2/stddef.h": "d46c55c3760cc6120042b58d8ae006d63efc710cd355751f2b130e27208a56c7",
+      "layout/65c816.h": "c68f7fd0118bb735c5509ee8cb4c93695c8f319c3e6a927dc3ab16093486ee11",
+      "layout/MEMMAP.H": "2a3cc6205e4fd23c1784aaf4ff7d0f9d68f9bb475a3036a10cd26d92707a5ff9",
+      "layout/SDD1.H": "53273aa59c30eb7a923c73182a7597630d895ac72bef698ba2a1f9b6f541235c",
+      "layout/apu.h": "54761eeecb92202e7e3ccffd574ac03edde958397775920632c188b4764fd6cf",
+      "layout/cpuexec.h": "28d8f49fda1aa7298b0a9c8887006a327d95fb4ae39af4cfeff184c7c0b28449",
+      "layout/display.h": "6de57f9f9c54864d9da3422ac2a6c6ac2ca7d3c869273c364c9b9247e34b9433",
+      "layout/dma.h": "9ab02a14f1f69f7821a59b5f7e48f23bf9dd1b06f26b17086edbaba8fcce4d2f",
+      "layout/fxemu.h": "5c1a21064aca4e58b5fed16b9965f28540b04f5ad1cfa5dda18eb1e90686f6fe",
+      "layout/fxinst.h": "d46944449bf5978cc8aac7c50a8d63747f6101630af4c8b5a14337bb9ffc1480",
+      "layout/gfx.h": "2ae885e4f880f2c2684119577030fc68caec06705f1b8ccb7805944d02ce8334",
+      "layout/messages.h": "6ec925df9da8a98826208d76c79e6521e8bcab382a7792a667aa84e79388535c",
+      "layout/missing.h": "0c45a489a3599629a42a324fff2e3f1d4d575ca403305122eb7a5694730e933b",
+      "layout/netplay.h": "7d0bebb7c1dcc6a858c172b09a9233218d7eec6cf2f90fbb30a32d6b4962475b",
+      "layout/pixform.h": "e6c2e217ffcafa565b11494f3b3d1204fcf1bd00e7622f1e5d78aba4236951e6",
+      "layout/port.h": "b9b12ce623021f733178a3a6059ab628e45079ffe852177f1a33566c838bafd7",
+      "layout/ppu.cpp": "18af9cc3d2feadaabc3c74a01abce54068d9cdc2b76d035c9cedd160efb50de7",
+      "layout/ppu.h": "6a2f7ae5b30c0a610e03d9ea9fbee71014f8542ceed5260939fca67a461cd171",
+      "layout/sa1.h": "f7a5e62940bb3f189148a357bf6560ecc446766a4b496d31dbb5f1a3c7aa88b2",
+      "layout/snes9x.h": "c567933f4c63595c9ae71568e68d37afa5201d91164669cdbf108ce2a64ce0b4",
+      "layout/spc700.h": "c916dbe1084d96b3c18d6c912f02350bbd1c6856bc068d9003605f5bf5661b16",
+      "layout/spc7110.h": "a89802fb2d8d801f63a236be6296d7db96d35c47e9c3f4bd73cf021048ebc141",
+      "layout/srtc.h": "680084788c7832e753e32afd43b3e77fa52618e2b43864f7ad036e655a6150d1",
+      "newlib-1.10.0/_ansi.h": "28e788875d4230a2d6fc0e89a0c3f6bd68e30053394701d73a45e5cb7d290946",
+      "newlib-1.10.0/alloca.h": "2d967c8d4adcd11885e47e2c9c046e52d30670672dc10ed9d1e329d9dae902b0",
+      "newlib-1.10.0/machine/time.h": "35a025bd950abdb4ef430c6c54c90a3279c55e7c07027d457194d6676180b4db",
+      "newlib-1.10.0/machine/types.h": "f37932e69653c9689a84bdfad058b7de3ebf301a684ffceb052951c88383fc4a",
+      "newlib-1.10.0/stdio.h": "1e39d39272346bf8221f5964315791741ee83f9f9cab7b81f55b3b8c6a9942d0",
+      "newlib-1.10.0/stdlib.h": "36fcb63b18adbdb66c8b6a776a659ff3def7df472ed93cc3e308d5003e3a5af0",
+      "newlib-1.10.0/string.h": "e9a4540a290f8ef178a00bf9e19c86dcf47f2f4386dd42056126580358117f8a",
+      "newlib-1.10.0/sys/_types.h": "71a2a78b9af882aee475b25bc5761f1680d40342097922dd55414513ad8074ca",
+      "newlib-1.10.0/sys/config.h": "ef87d21ce75b61f4f75c84aecd47fc292bea55a83038dcb2da3b788d3655f71d",
+      "newlib-1.10.0/sys/features.h": "2d68fa452e5df46a5185832651c5d016480028a5112f1ba8f64cb9333ec9136f",
+      "newlib-1.10.0/sys/reent.h": "684daf1dc2f4493ec0762f1ee5c6450700e771bf2924840689e0c99c648b6e0f",
+      "newlib-1.10.0/sys/types.h": "ed74234f42e67baaf6cc5e5ed0f6e5c86df718b9ca1837508c93a43f4ed42b54",
+      "newlib-1.10.0/time.h": "79b319dde72f9aea7d4251995a056177bc8a014f50828be14db7f868e1392e04",
+      "snes9x-1.41-1/zlib/zconf.h": "ba5c78fd43ff258e40761d2c98e89a3e125d900b82ca77f1a73a2f3c62d66091",
+      "snes9x-1.41-1/zlib/zlib.h": "56ff7663df8470fddf2e64a4a57da1d4e17d041f0b895a53ae5fab0d492d7e0b"
+    },
+    "snaporig": {
+      "compat/memory.h": "7836d5434524cd8a58fb68f227926c47d9ed2d45414278cd63daf81749dd0f2c",
+      "compat/stdio.h": "842f3332f016fb807687f1bd527dd10e30b1a69c4fc49dc5160b8db206b53eb9",
+      "compat/string.h": "cdba39634f52ee3c9bdb16967f5d1c945fcc24b16d500e313022a5b00fee134f",
+      "gcc-3.2.2/limits.h": "fd2a25a280514de5e7aa3f18464e1c7984733c37af035f7f3840ee0c0ae18956",
+      "gcc-3.2.2/stdarg.h": "a43e740c99baa8b131033c467cbef49ebbf86761df76de321c0b23d893af1901",
+      "gcc-3.2.2/stddef.h": "d46c55c3760cc6120042b58d8ae006d63efc710cd355751f2b130e27208a56c7",
+      "layout/65c816.h": "c68f7fd0118bb735c5509ee8cb4c93695c8f319c3e6a927dc3ab16093486ee11",
+      "layout/MEMMAP.H": "2a3cc6205e4fd23c1784aaf4ff7d0f9d68f9bb475a3036a10cd26d92707a5ff9",
+      "layout/apu.h": "54761eeecb92202e7e3ccffd574ac03edde958397775920632c188b4764fd6cf",
+      "layout/cpuexec.h": "28d8f49fda1aa7298b0a9c8887006a327d95fb4ae39af4cfeff184c7c0b28449",
+      "layout/display.h": "6de57f9f9c54864d9da3422ac2a6c6ac2ca7d3c869273c364c9b9247e34b9433",
+      "layout/gfx.h": "2ae885e4f880f2c2684119577030fc68caec06705f1b8ccb7805944d02ce8334",
+      "layout/messages.h": "6ec925df9da8a98826208d76c79e6521e8bcab382a7792a667aa84e79388535c",
+      "layout/pixform.h": "e6c2e217ffcafa565b11494f3b3d1204fcf1bd00e7622f1e5d78aba4236951e6",
+      "layout/port.h": "b9b12ce623021f733178a3a6059ab628e45079ffe852177f1a33566c838bafd7",
+      "layout/ppu.h": "6a2f7ae5b30c0a610e03d9ea9fbee71014f8542ceed5260939fca67a461cd171",
+      "layout/snaporig.cpp": "f399fb8c5255371f79134b6d0e0b0c544efd1cde249273cbc574bd5ea7a92a44",
+      "layout/snaporig.h": "853cc17134d4838556214189f2355daf6a7e7c06e6edd3175bfa3c0474d41598",
+      "layout/snapshot.h": "8ce31eb8b5c701e01428bd7dbf1796e640a10392ca9d4aee6807f1161f763d7f",
+      "layout/snes9x.h": "c567933f4c63595c9ae71568e68d37afa5201d91164669cdbf108ce2a64ce0b4",
+      "layout/soundux.h": "15b32a03eab073fc9382a27c943a41775115977f506f9edc2db076f7a653160a",
+      "layout/spc700.h": "c916dbe1084d96b3c18d6c912f02350bbd1c6856bc068d9003605f5bf5661b16",
+      "newlib-1.10.0/_ansi.h": "28e788875d4230a2d6fc0e89a0c3f6bd68e30053394701d73a45e5cb7d290946",
+      "newlib-1.10.0/alloca.h": "2d967c8d4adcd11885e47e2c9c046e52d30670672dc10ed9d1e329d9dae902b0",
+      "newlib-1.10.0/ctype.h": "ca9f1c974e36f74bdc490684d0c9dea5afa806e783f769e2fd2d438b6c2d0d3a",
+      "newlib-1.10.0/machine/types.h": "f37932e69653c9689a84bdfad058b7de3ebf301a684ffceb052951c88383fc4a",
+      "newlib-1.10.0/stdio.h": "1e39d39272346bf8221f5964315791741ee83f9f9cab7b81f55b3b8c6a9942d0",
+      "newlib-1.10.0/stdlib.h": "36fcb63b18adbdb66c8b6a776a659ff3def7df472ed93cc3e308d5003e3a5af0",
+      "newlib-1.10.0/string.h": "e9a4540a290f8ef178a00bf9e19c86dcf47f2f4386dd42056126580358117f8a",
+      "newlib-1.10.0/sys/_types.h": "71a2a78b9af882aee475b25bc5761f1680d40342097922dd55414513ad8074ca",
+      "newlib-1.10.0/sys/config.h": "ef87d21ce75b61f4f75c84aecd47fc292bea55a83038dcb2da3b788d3655f71d",
+      "newlib-1.10.0/sys/reent.h": "684daf1dc2f4493ec0762f1ee5c6450700e771bf2924840689e0c99c648b6e0f",
+      "newlib-1.10.0/sys/types.h": "ed74234f42e67baaf6cc5e5ed0f6e5c86df718b9ca1837508c93a43f4ed42b54",
+      "snes9x-1.41-1/zlib/zconf.h": "ba5c78fd43ff258e40761d2c98e89a3e125d900b82ca77f1a73a2f3c62d66091",
+      "snes9x-1.41-1/zlib/zlib.h": "56ff7663df8470fddf2e64a4a57da1d4e17d041f0b895a53ae5fab0d492d7e0b"
+    }
+  },
+  "newlib_commit": "bac0006c6302edcf1bdae253799484497b4e5032",
+  "owners": [
+    {
+      "address": 3428448,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "8cfe2f17d5cd6b3198a74b79ed5edbf4508b3b578b56aaea228e30d491c90490",
+      "size": 718920,
+      "source_offset": 0,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "@section:.data",
+      "unit": "globals"
+    },
+    {
+      "address": 4171456,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "6e53624cb4814076155676ed7b1b95a0578f58a04ae242f789e2dad4565a94d8",
+      "size": 3124,
+      "source_offset": 0,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "OrigPPU",
+      "unit": "snaporig"
+    },
+    {
+      "address": 4174584,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "5d89f056865052bcb89c910d2d62872e029fb273c3db03f8968a52a41593c1b5",
+      "size": 192,
+      "source_offset": 3128,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "OrigDMA",
+      "unit": "snaporig"
+    },
+    {
+      "address": 4174776,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+      "size": 16,
+      "source_offset": 3320,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "OrigRegisters",
+      "unit": "snaporig"
+    },
+    {
+      "address": 4174792,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "2ea9ab9198d1638007400cd2c3bef1cc745b864b76011a0e1bc52180ac6452d4",
+      "size": 96,
+      "source_offset": 3336,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "OrigCPU",
+      "unit": "snaporig"
+    },
+    {
+      "address": 4174888,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "6eb69e26de2a26eda48af77d4cec893aa0cf4748a64cbefcfe11a22c1e680ad9",
+      "size": 224,
+      "source_offset": 3432,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "OrigAPU",
+      "unit": "snaporig"
+    },
+    {
+      "address": 4175112,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "42f27c903bd1b4e4bc4846d5e737d750d1145c9068753d0ed0a07e44e53bca1b",
+      "size": 67184,
+      "source_offset": 3656,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "OrigSoundData",
+      "unit": "snaporig"
+    },
+    {
+      "address": 4242296,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+      "size": 8,
+      "source_offset": 70840,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "OrigAPURegisters",
+      "unit": "snaporig"
+    },
+    {
+      "address": 3363696,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "size": 4,
+      "source_offset": 0,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "spc_is_dumping",
+      "unit": "apu"
+    },
+    {
+      "address": 3363700,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "size": 4,
+      "source_offset": 4,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "spc_is_dumping_temp",
+      "unit": "apu"
+    },
+    {
+      "address": 3363704,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+      "size": 256,
+      "source_offset": 8,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "spc_dump_dsp",
+      "unit": "apu"
+    },
+    {
+      "address": 3363960,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "59e0cd7c5cf19bda7c4d38ab93b7cf1ad155d2b4ec3772e1796e3a76ec180603",
+      "size": 128,
+      "source_offset": 264,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "_ZZ14S9xFixEnvelopeihhhE10AttackRate",
+      "unit": "apu"
+    },
+    {
+      "address": 3364088,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "f1983c00de6472f16fc1b57e3b059bcc4cbee4b8b97c3fbc51b1b668c77eab79",
+      "size": 64,
+      "source_offset": 392,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "_ZZ14S9xFixEnvelopeihhhE9DecayRate",
+      "unit": "apu"
+    },
+    {
+      "address": 3364152,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "3d9a27992a4d846a6de102760b761e0d9498e61134e80c68e7875b9238c0d494",
+      "size": 256,
+      "source_offset": 456,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "_ZZ14S9xFixEnvelopeihhhE11SustainRate",
+      "unit": "apu"
+    },
+    {
+      "address": 3364408,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "c63769333eb23c3d6a96a18cca2f4f6beef37e210ba81e90a6c4bfe6dce289bd",
+      "size": 256,
+      "source_offset": 712,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "_ZZ14S9xFixEnvelopeihhhE12IncreaseRate",
+      "unit": "apu"
+    },
+    {
+      "address": 3364664,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "3d9a27992a4d846a6de102760b761e0d9498e61134e80c68e7875b9238c0d494",
+      "size": 256,
+      "source_offset": 968,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "_ZZ14S9xFixEnvelopeihhhE15DecreaseRateExp",
+      "unit": "apu"
+    },
+    {
+      "address": 3395192,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47",
+      "size": 8192,
+      "source_offset": 0,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "CosTable2",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3403384,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47",
+      "size": 8192,
+      "source_offset": 8192,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "SinTable2",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3411858,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 16666,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "Op04Radius",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3412890,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 17698,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "Op0CX1",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3412914,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 17722,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "Op02VVA",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3413068,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "size": 4,
+      "source_offset": 17876,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "ViewerZc",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3413084,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "size": 4,
+      "source_offset": 17892,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "CXdistance",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3413428,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 18236,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "Op14Yr",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3413430,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 18238,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "Op14U",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3413432,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 18240,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "Op14F",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3413526,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 18334,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "Op1CY",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3413532,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 18340,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "Op1CYBR",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3413542,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 18350,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "Op1CX1",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3413546,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 18354,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "Op1CZ1",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3413550,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 18358,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "Op1CY2",
+      "unit": "dsp1"
+    },
+    {
+      "address": 3418680,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "ff662105e12fcc74e80dbc270db8a47b29437318961d1fffa93e08e7e165c211",
+      "size": 2044,
+      "source_offset": 0,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "GSU",
+      "unit": "fxemu"
+    },
+    {
+      "address": 3420736,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "baacf0815578507599fd85d91f81a51057f9de673424143faa5d26436880cc12",
+      "size": 16,
+      "source_offset": 2056,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "_ZZ20fx_readRegisterSpacevE8avHeight",
+      "unit": "fxemu"
+    },
+    {
+      "address": 3420752,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "4e57469ea5fed1d5ab26c6d8ca75c61d0586c4fafc2be1f87ce9c8471297ffbf",
+      "size": 16,
+      "source_offset": 2072,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "_ZZ20fx_readRegisterSpacevE6avMult",
+      "unit": "fxemu"
+    },
+    {
+      "address": 4148216,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "75707c9c46de6955a7af35e37cb46c7a8ae03927d1755b6a41f693589229ff96",
+      "size": 8,
+      "source_offset": 8,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "_ZZ9S9xSetPPUE8IncCount",
+      "unit": "ppu"
+    },
+    {
+      "address": 4148224,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "eb327a6b469ad39e6a34e524c3598285ede0a48c4d208583506b03663913cd64",
+      "size": 8,
+      "source_offset": 16,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "_ZZ9S9xSetPPUE5Shift",
+      "unit": "ppu"
+    },
+    {
+      "address": 1797880,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "12f3e0576d447eb37b36d82ba0c1c5481b8f0d12fdc70347ce4a076b229d4c86",
+      "size": 1024,
+      "source_offset": 3328,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "crc32Table",
+      "unit": "memmap"
+    },
+    {
+      "address": 3365176,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 0,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C4WFXVal",
+      "unit": "c4"
+    },
+    {
+      "address": 3365178,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 2,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C4WFYVal",
+      "unit": "c4"
+    },
+    {
+      "address": 3365180,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 4,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C4WFZVal",
+      "unit": "c4"
+    },
+    {
+      "address": 3365182,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 6,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C4WFX2Val",
+      "unit": "c4"
+    },
+    {
+      "address": 3365184,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 8,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C4WFY2Val",
+      "unit": "c4"
+    },
+    {
+      "address": 3365186,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 10,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C4WFDist",
+      "unit": "c4"
+    },
+    {
+      "address": 3365188,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 12,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C4WFScale",
+      "unit": "c4"
+    },
+    {
+      "address": 3365190,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 14,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C41FXVal",
+      "unit": "c4"
+    },
+    {
+      "address": 3365192,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 16,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C41FYVal",
+      "unit": "c4"
+    },
+    {
+      "address": 3365194,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 18,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C41FAngleRes",
+      "unit": "c4"
+    },
+    {
+      "address": 3365196,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 20,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C41FDist",
+      "unit": "c4"
+    },
+    {
+      "address": 3365198,
+      "claim": "exact typed source-provider interval; not final-link or full-image identity",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2,
+      "source_offset": 22,
+      "status": "HISTORICAL_SOURCE_BYTES_EXACT",
+      "symbol": "C41FDistVal",
+      "unit": "c4"
+    }
+  ],
+  "recipe_sha256": "b456e6081b9fb8c5820f5d6e19932d01d1f0d2b50c65e2d9fcd7469bdd77a785",
+  "relocation_filters": {
+    "memmap": {
+      "pcs": [
+        1386680,
+        1386692
+      ]
+    },
+    "ppu": {
+      "symbols": [
+        "@section:.data"
+      ]
+    }
+  },
+  "replacement_elf": false,
+  "section_anchors": [
+    {
+      "address": 3365194,
+      "source_offset": 18,
+      "symbol": "C41FAngleRes",
+      "unit": "c4",
+      "witnesses": [
+        1097896,
+        1097924,
+        1097928,
+        1098072
+      ]
+    },
+    {
+      "address": 3365198,
+      "source_offset": 22,
+      "symbol": "C41FDistVal",
+      "unit": "c4",
+      "witnesses": [
+        1098320,
+        1098328,
+        1098492
+      ]
+    },
+    {
+      "address": 3365190,
+      "source_offset": 14,
+      "symbol": "C41FXVal",
+      "unit": "c4",
+      "witnesses": [
+        1097884,
+        1097888,
+        1098060,
+        1098240
+      ]
+    },
+    {
+      "address": 3365192,
+      "source_offset": 16,
+      "symbol": "C41FYVal",
+      "unit": "c4",
+      "witnesses": [
+        1097908,
+        1097912,
+        1097960,
+        1097976,
+        1098248,
+        1098252
+      ]
+    },
+    {
+      "address": 3365186,
+      "source_offset": 10,
+      "symbol": "C4WFDist",
+      "unit": "c4",
+      "witnesses": [
+        1096324,
+        1096332,
+        1097116,
+        1097124,
+        1097564,
+        1097568,
+        1097664,
+        1097688,
+        1097804,
+        1097828
+      ]
+    },
+    {
+      "address": 3365188,
+      "source_offset": 12,
+      "symbol": "C4WFScale",
+      "unit": "c4",
+      "witnesses": [
+        1096488,
+        1096492,
+        1097280,
+        1097284
+      ]
+    },
+    {
+      "address": 3365182,
+      "source_offset": 6,
+      "symbol": "C4WFX2Val",
+      "unit": "c4",
+      "witnesses": [
+        1095848,
+        1095940,
+        1096656,
+        1096744,
+        1097424,
+        1097456
+      ]
+    },
+    {
+      "address": 3365176,
+      "source_offset": 0,
+      "symbol": "C4WFXVal",
+      "unit": "c4",
+      "witnesses": [
+        1095984,
+        1095988,
+        1096628,
+        1096632,
+        1096672,
+        1096740,
+        1097400,
+        1097404,
+        1097436,
+        1097452
+      ]
+    },
+    {
+      "address": 3365184,
+      "source_offset": 8,
+      "symbol": "C4WFY2Val",
+      "unit": "c4",
+      "witnesses": [
+        1096168,
+        1096172,
+        1096960,
+        1096964,
+        1097460,
+        1097464
+      ]
+    },
+    {
+      "address": 3365178,
+      "source_offset": 2,
+      "symbol": "C4WFYVal",
+      "unit": "c4",
+      "witnesses": [
+        1095856,
+        1095992,
+        1096636,
+        1096640,
+        1096664,
+        1096748,
+        1097288,
+        1097408,
+        1097444,
+        1097472
+      ]
+    },
+    {
+      "address": 3365180,
+      "source_offset": 4,
+      "symbol": "C4WFZVal",
+      "unit": "c4",
+      "witnesses": [
+        1095944,
+        1095948,
+        1096784,
+        1096800
+      ]
+    },
+    {
+      "address": 3411600,
+      "source_offset": 16408,
+      "symbol": "InvTable",
+      "unit": "dsp1",
+      "witnesses": [
+        1229296,
+        1229304
+      ]
+    },
+    {
+      "address": 3411576,
+      "source_offset": 16384,
+      "symbol": "Op00Multiplicand",
+      "unit": "dsp1",
+      "witnesses": [
+        1229116,
+        1229128
+      ]
+    },
+    {
+      "address": 3411578,
+      "source_offset": 16386,
+      "symbol": "Op00Multiplier",
+      "unit": "dsp1",
+      "witnesses": [
+        1229120,
+        1229124
+      ]
+    },
+    {
+      "address": 3411580,
+      "source_offset": 16388,
+      "symbol": "Op00Result",
+      "unit": "dsp1",
+      "witnesses": [
+        1229136,
+        1229148
+      ]
+    },
+    {
+      "address": 3413560,
+      "source_offset": 18368,
+      "symbol": "Op2FSize",
+      "unit": "dsp1",
+      "witnesses": [
+        1237716,
+        1237724
+      ]
+    },
+    {
+      "address": 3418680,
+      "source_offset": 0,
+      "symbol": "GSU",
+      "unit": "fxemu",
+      "witnesses": [
+        1244916,
+        1244924,
+        1244940,
+        1244948,
+        1245308,
+        1245312
+      ]
+    },
+    {
+      "address": 3420732,
+      "source_offset": 2052,
+      "symbol": "fx_ppfOpcodeTable",
+      "unit": "fxemu",
+      "witnesses": [
+        1245388,
+        1245392
+      ]
+    }
+  ],
+  "source_archive_sha256": "5e8b72c88c889464746e2f2f10449b9b324451c095a343081057f8f7ceb8378b",
+  "target_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
+  "version": 1
+}

@@ -1,8 +1,6 @@
 symbol	category	provider_kind	owner	resolution_gate	requesters
 CDVD_Init	named-external	link-contract	reserved:link-contract	link-identity	app/main_bootstrap.o
 CMemory_LoadROM_001513bc	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
-DAT_001385ec	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_001385ed	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_001b0a58	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_001b0ba0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_001b0ba8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
@@ -1067,25 +1065,7 @@ DAT_003fd5c9	target-address-data	program-data	reserved:target-data.o	program-dat
 DAT_003fd5cc	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_003fd5d0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_003fd5d8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00407fd5	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00407fd6	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00407fd7	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00407fd8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00407fd9	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00407fdc	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00407fdd	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00407fde	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00407fdf	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_0040bb78	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0040ffd5	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0040ffd6	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0040ffd7	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0040ffd8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0040ffd9	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0040ffdc	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0040ffdd	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0040ffde	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0040ffdf	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_004134ec	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_004134f4	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_004134f8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
@@ -1553,23 +1533,14 @@ SifLoadModule	ps2-runtime	historical-archive	PS2LIB kernel/SifLoadModule.o (ps2s
 SifLoadModuleBuffer	ps2-runtime	historical-archive	PS2LIB kernel/SifLoadModuleBuffer.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/load_module_buffer.o
 SifSendCmd	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_send.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc_recovered.o
 SifWriteBackDCache_0019cf10	ps2-runtime	historical-archive	PS2LIB syscall/SifWriteBackDCache.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/libmc_recovered.o
-UNK_00108000	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 UNK_001a6320	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 UNK_001b85c8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 UNK_001ba7e0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-UNK_00208000	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 UNK_003f2ed8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 UNK_003f2ef8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 UNK_003f2f18	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 UNK_003f2f38	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 UNK_003f2f58	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-UNK_00400001	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-UNK_00407fb0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-UNK_00407fb2	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-UNK_00407fc0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-UNK_0040ffb0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-UNK_0040ffb2	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-UNK_0040ffc0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 UNK_00420000	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 _DAT_001baf10	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 _DAT_001bb340	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o

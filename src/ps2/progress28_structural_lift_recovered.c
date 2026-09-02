@@ -13,6 +13,7 @@
 #include <stdint.h>
 
 #include "ee_intrinsics_recovered.h"
+#include "rom_offsets_recovered.h"
 
 #define EI() snes_ee_ei()
 #define SQRT(value) snes_ee_sqrt_trunc(value)
@@ -277,8 +278,6 @@ static void p28_write_piece(
 
 /* Conservative declarations for unresolved absolute target symbols. */
 
-extern uint64_t DAT_001385ec;
-extern uint64_t DAT_001385ed;
 extern uint64_t DAT_001b0ba0;
 extern uint64_t DAT_001b0ba8;
 extern uint64_t DAT_001b0eb8;
@@ -1343,25 +1342,7 @@ extern uint64_t DAT_003fd5c9;
 extern uint64_t DAT_003fd5cc;
 extern uint64_t DAT_003fd5d0;
 extern uint64_t DAT_003fd5d8;
-extern uint64_t DAT_00407fd5;
-extern uint64_t DAT_00407fd6;
-extern uint64_t DAT_00407fd7;
-extern uint64_t DAT_00407fd8;
-extern uint64_t DAT_00407fd9;
-extern uint64_t DAT_00407fdc;
-extern uint64_t DAT_00407fdd;
-extern uint64_t DAT_00407fde;
-extern uint64_t DAT_00407fdf;
 extern uint64_t DAT_0040bb78;
-extern uint64_t DAT_0040ffd5;
-extern uint64_t DAT_0040ffd6;
-extern uint64_t DAT_0040ffd7;
-extern uint64_t DAT_0040ffd8;
-extern uint64_t DAT_0040ffd9;
-extern uint64_t DAT_0040ffdc;
-extern uint64_t DAT_0040ffdd;
-extern uint64_t DAT_0040ffde;
-extern uint64_t DAT_0040ffdf;
 extern uint64_t DAT_004134ec;
 extern uint64_t DAT_004134f4;
 extern uint64_t DAT_004134f8;
@@ -1679,23 +1660,14 @@ extern uint64_t LAB_00185d8c;
 extern uint64_t LAB_001860a8;
 extern uint64_t LAB_00186540;
 extern uint64_t LAB_0018685c;
-extern uint64_t UNK_00108000;
 extern uint64_t UNK_001a6320;
 extern uint64_t UNK_001b85c8;
 extern uint64_t UNK_001ba7e0;
-extern uint64_t UNK_00208000;
 extern uint64_t UNK_003f2ed8;
 extern uint64_t UNK_003f2ef8;
 extern uint64_t UNK_003f2f18;
 extern uint64_t UNK_003f2f38;
 extern uint64_t UNK_003f2f58;
-extern uint64_t UNK_00400001;
-extern uint64_t UNK_00407fb0;
-extern uint64_t UNK_00407fb2;
-extern uint64_t UNK_00407fc0;
-extern uint64_t UNK_0040ffb0;
-extern uint64_t UNK_0040ffb2;
-extern uint64_t UNK_0040ffc0;
 extern uint64_t UNK_00420000;
 extern uint64_t s_THIS_SCRIPT_WAS_STOLEN_001b6ed0;
 
@@ -16996,7 +16968,7 @@ LAB_00151bc8:
           iVar17 = iVar6 * 0x10000;
           iVar21 = iVar6 * 0x8000;
           iVar6 = iVar6 + 1;
-          FUN_0019c4a0(iVar20 + iVar21,&UNK_00108000 + iVar20 + iVar17,0x8000);
+          FUN_0019c4a0(iVar20 + iVar21,P28_ROM_AT(iVar20 + iVar17, 0x00108000u),0x8000);
           FUN_0019c4a0(*(int *)(iVar23 + 4) + iVar21 + 0x80000,
                        *(int *)(iVar23 + 4) + iVar17 + 0x100000,0x8000);
           iVar20 = *(int *)(iVar23 + 4);
@@ -17268,28 +17240,28 @@ undefined param_2;
   DAT_0034e298 = *(undefined4 *)(iVar19 + 0xc);
   FUN_0019c39c(iVar19 + 0xb03f,0,5);
   FUN_0019c39c(iVar19 + 0xb044,0,3);
-  lVar4 = FUN_0019c458(&UNK_0040ffc0 + *(int *)(iVar19 + 4),0x1b65d0,0x14);
+  lVar4 = FUN_0019c458(P28_ROM_AT(*(int *)(iVar19 + 4), 0x0040ffc0u),0x1b65d0,0x14);
   if (lVar4 == 0) {
     DAT_0034e2cc = '\x01';
     DAT_0034e2cd = '\0';
-    DAT_0034e2d4 = (&DAT_0040ffd8)[*(int *)(iVar19 + 4)];
-    FUN_0019c550(iVar19 + 0xb028,&UNK_0040ffc0 + *(int *)(iVar19 + 4),0x16);
+    DAT_0034e2d4 = *P28_ROM_AT(*(int *)(iVar19 + 4), 0x0040ffd8u);
+    FUN_0019c550(iVar19 + 0xb028,P28_ROM_AT(*(int *)(iVar19 + 4), 0x0040ffc0u),0x16);
     iVar18 = *(int *)(iVar19 + 4);
-    *(undefined *)(iVar19 + 0xb047) = (&DAT_0040ffd5)[iVar18];
-    *(undefined *)(iVar19 + 0xb048) = (&DAT_0040ffd6)[iVar18];
-    *(undefined *)(iVar19 + 0xb049) = (&DAT_0040ffd7)[iVar18];
+    *(undefined *)(iVar19 + 0xb047) = *P28_ROM_AT(iVar18, 0x0040ffd5u);
+    *(undefined *)(iVar19 + 0xb048) = *P28_ROM_AT(iVar18, 0x0040ffd6u);
+    *(undefined *)(iVar19 + 0xb049) = *P28_ROM_AT(iVar18, 0x0040ffd7u);
     *(uint *)(iVar19 + 0xb05c) =
-         (uint)(byte)(&DAT_0040ffde)[iVar18] + (uint)(byte)(&DAT_0040ffdf)[iVar18] * 0x100;
+         (uint)*P28_ROM_AT(iVar18, 0x0040ffdeu) + (uint)*P28_ROM_AT(iVar18, 0x0040ffdfu) * 0x100;
     *(uint *)(iVar19 + 0xb060) =
-         (uint)(byte)(&DAT_0040ffdc)[iVar18] + (uint)(byte)(&DAT_0040ffdd)[iVar18] * 0x100;
-    *(undefined *)(iVar19 + 0xd478) = (&DAT_0040ffd9)[iVar18];
-    FUN_0019c4a0(iVar19 + 0xb03f,&UNK_0040ffb2 + iVar18,4);
-    FUN_0019c4a0(iVar19 + 0xb044,&UNK_0040ffb0 + *(int *)(iVar19 + 4),2);
+         (uint)*P28_ROM_AT(iVar18, 0x0040ffdcu) + (uint)*P28_ROM_AT(iVar18, 0x0040ffddu) * 0x100;
+    *(undefined *)(iVar19 + 0xd478) = *P28_ROM_AT(iVar18, 0x0040ffd9u);
+    FUN_0019c4a0(iVar19 + 0xb03f,P28_ROM_AT(iVar18, 0x0040ffb2u),4);
+    FUN_0019c4a0(iVar19 + 0xb044,P28_ROM_AT(*(int *)(iVar19 + 4), 0x0040ffb0u),2);
     param_2 = 0;
     DAT_00345534 = 1;
   }
   else if (DAT_0034e2cc == '\0') {
-    if ((*(undefined **)(iVar19 + 0xb054) < &UNK_00400001) ||
+    if ((*(uint *)(iVar19 + 0xb054) < 0x00400001u) ||
        (lVar4 = FUN_0019c458(*(int *)(iVar19 + 4) + 0x7fc0,0x1b65e8,10), lVar4 == 0)) {
       iVar18 = *(int *)(iVar19 + 4);
       DAT_0034e2cc = '\0';
@@ -17309,18 +17281,18 @@ undefined param_2;
     else {
       iVar18 = *(int *)(iVar19 + 4);
       DAT_0034e2cc = '\0';
-      DAT_0034e2d4 = (&DAT_00407fd8)[iVar18];
-      *(undefined *)(iVar19 + 0xb047) = (&DAT_00407fd5)[iVar18];
-      *(undefined *)(iVar19 + 0xb048) = (&DAT_00407fd6)[iVar18];
-      *(undefined *)(iVar19 + 0xb049) = (&DAT_00407fd7)[iVar18];
+      DAT_0034e2d4 = *P28_ROM_AT(iVar18, 0x00407fd8u);
+      *(undefined *)(iVar19 + 0xb047) = *P28_ROM_AT(iVar18, 0x00407fd5u);
+      *(undefined *)(iVar19 + 0xb048) = *P28_ROM_AT(iVar18, 0x00407fd6u);
+      *(undefined *)(iVar19 + 0xb049) = *P28_ROM_AT(iVar18, 0x00407fd7u);
       *(uint *)(iVar19 + 0xb05c) =
-           (uint)(byte)(&DAT_00407fde)[iVar18] + (uint)(byte)(&DAT_00407fdf)[iVar18] * 0x100;
+           (uint)*P28_ROM_AT(iVar18, 0x00407fdeu) + (uint)*P28_ROM_AT(iVar18, 0x00407fdfu) * 0x100;
       *(uint *)(iVar19 + 0xb060) =
-           (uint)(byte)(&DAT_00407fdc)[iVar18] + (uint)(byte)(&DAT_00407fdd)[iVar18] * 0x100;
-      *(undefined *)(iVar19 + 0xd478) = (&DAT_00407fd9)[iVar18];
-      FUN_0019c4a0(iVar19 + 0xb03f,&UNK_00407fb2 + iVar18,4);
-      FUN_0019c4a0(iVar19 + 0xb044,&UNK_00407fb0 + *(int *)(iVar19 + 4),2);
-      puVar11 = &UNK_00407fc0 + *(int *)(iVar19 + 4);
+           (uint)*P28_ROM_AT(iVar18, 0x00407fdcu) + (uint)*P28_ROM_AT(iVar18, 0x00407fddu) * 0x100;
+      *(undefined *)(iVar19 + 0xd478) = *P28_ROM_AT(iVar18, 0x00407fd9u);
+      FUN_0019c4a0(iVar19 + 0xb03f,P28_ROM_AT(iVar18, 0x00407fb2u),4);
+      FUN_0019c4a0(iVar19 + 0xb044,P28_ROM_AT(*(int *)(iVar19 + 4), 0x00407fb0u),2);
+      puVar11 = P28_ROM_AT(*(int *)(iVar19 + 4), 0x00407fc0u);
     }
     FUN_0019c550(iVar19 + 0xb028,puVar11,0x16);
     DAT_00345540 = p28_read_piece(&DAT_00345520, sizeof(DAT_00345520), 7u, 1u);
@@ -18591,7 +18563,7 @@ int *param_1;
     iVar5 = iVar4 * 0x8000;
     FUN_0019c4a0(iVar11 + iVar7 + 0x200000,iVar11 + iVar5,0x8000);
     iVar4 = iVar4 + 1;
-    FUN_0019c4a0(&UNK_00208000 + param_1[1] + iVar7,param_1[1] + iVar5,0x8000);
+    FUN_0019c4a0(P28_ROM_AT(param_1[1] + iVar7, 0x00208000u),param_1[1] + iVar5,0x8000);
     if (0x3f < iVar4) break;
     iVar11 = param_1[1];
   }
@@ -20233,11 +20205,11 @@ LAB_00157a98:
   }
   lVar5 = FUN_0019c458(param_1 + 0x2c0a,0x1b6c30,0xb);
   if (lVar5 == 0) {
-    if ((&DAT_001385ec)[param_1[1]] == -0x30) {
-      (&DAT_001385ec)[param_1[1]] = 0xea;
+    if (*P28_ROM_AT(param_1[1], 0x001385ecu) == 0xd0u) {
+      *P28_ROM_AT(param_1[1], 0x001385ecu) = 0xeau;
     }
-    if ((&DAT_001385ed)[param_1[1]] == -0x4e) {
-      (&DAT_001385ed)[param_1[1]] = 0xea;
+    if (*P28_ROM_AT(param_1[1], 0x001385edu) == 0xb2u) {
+      *P28_ROM_AT(param_1[1], 0x001385edu) = 0xeau;
     }
   }
   lVar5 = FUN_0019c458(param_1 + 0x2c0a,0x1b6c40,0x15);

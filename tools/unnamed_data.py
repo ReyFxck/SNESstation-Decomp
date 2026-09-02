@@ -22,6 +22,7 @@ from typing import Sequence
 import libgcc_contracts as libgcc
 import named_data
 import ee_dataflow
+import rom_offsets
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "analysis/link_identity/unnamed_data_accesses.tsv"
@@ -31,7 +32,7 @@ FIELDS = ("symbol", "target_address", "status", "extent_hex", "region", "sha256"
           "function_address", "function_extent_hex", "access_address", "access_opcode",
           "base_register", "trace_addresses", "instruction_window_sha256", "callee_address", "callee_sha256",
           "matching_evidence", "matching_evidence_sha256", "requesters",
-          "proof_kind", "function_sha256", "analysis_sha256", "claim")
+          "proof_kind", "function_sha256", "analysis_sha256", "execution_step", "claim")
 # Partial unaligned transfers, atomics, cache instructions and indirect/indexed
 # base addresses are deliberately not converted into object-width claims.
 MEMORY = {
@@ -51,6 +52,7 @@ BRANCHES = {1, 4, 5, 6, 7, 20, 21, 22, 23}
 CLAIM = "minimum directly accessed span; complete object/array extent and final layout unproved"
 LOCAL = "block-local-constant"
 FLOW = "cfg-must-constant"
+PREFIX = "deterministic-prefix"
 
 
 class UnnamedDataError(RuntimeError):
@@ -67,7 +69,8 @@ def digest(payload: bytes) -> str:
 
 def analysis_hash() -> str:
     """Changing either analyzer requires explicit private recapture/review."""
-    return digest(Path(__file__).read_bytes() + b"\0" + Path(ee_dataflow.__file__).read_bytes())
+    return digest(b"\0".join(Path(module).read_bytes() for module in
+                            (__file__, ee_dataflow.__file__, rom_offsets.__file__)))
 
 
 def signed16(value: int) -> int:
@@ -208,11 +211,14 @@ def strict_spans(root: Path = ROOT) -> dict[int, tuple[int, str]]:
 
 def scan_function(body: bytes, base: int) -> list[dict]:
     local = [{**hit, "proof_kind": LOCAL} for hit in scan_body(body, base)]
-    return local + ee_dataflow.scan_body(body, base, MEMORY, CALLS)
+    return local + ee_dataflow.scan_body(body, base, MEMORY, CALLS) + ee_dataflow.scan_prefix(body, base, MEMORY, CALLS)
 
 
 def external_rows(path: Path) -> list[dict[str, str]]:
     rows = [r for r in libgcc.read_table(path, libgcc.EXTERNAL_FIELDS) if r["category"] == "target-address-data"]
+    if {r["symbol"] for r in rows} & rom_offsets.SPEC.keys():
+        fail("ROM offsets must no longer be live image-address contracts")
+    rows += rom_offsets.historical_externals()
     if len(rows) != 1265 or len({r["symbol"] for r in rows}) != 1265:
         fail("Stage-3F must preserve the original 1,265 unique contracts")
     return sorted(rows, key=lambda r: r["symbol"])
@@ -233,9 +239,12 @@ def region_for(address: int, extent: int, layout: dict) -> str:
 
 
 def empty_row(external: dict[str, str]) -> dict[str, str]:
-    return {**{field: "" for field in FIELDS}, "symbol": external["symbol"],
+    row = {**{field: "" for field in FIELDS}, "symbol": external["symbol"],
             "target_address": f"0x{address_of(external['symbol']):08x}", "status": BLOCKED,
             "requesters": external["requesters"], "claim": "indexed/pointer/array/object bounds require separate proof"}
+    if external["symbol"] in rom_offsets.SPEC:
+        row.update(status=rom_offsets.STATUS, claim=rom_offsets.CLAIM)
+    return row
 
 
 def callee_hashes() -> dict[int, str]:
@@ -254,7 +263,7 @@ def callee_hashes() -> dict[int, str]:
 def capture(args: argparse.Namespace) -> list[dict[str, str]]:
     raw = libgcc.load_reference(args.reference)
     external = external_rows(args.external_map)
-    wanted = {address_of(r["symbol"]) for r in external}
+    wanted = {address_of(r["symbol"]) for r in external if r["symbol"] not in rom_offsets.SPEC}
     layout = named_data.load_layout(args.layout_manifest)
     callees = callee_hashes()
     selected = {}
@@ -264,7 +273,8 @@ def capture(args: argparse.Namespace) -> list[dict[str, str]]:
             address = hit["address"]
             if address not in wanted or address + hit["width"] > int(layout["memory_end"]):
                 continue
-            rank = (-hit["width"], hit["proof_kind"] != LOCAL, len(hit["trace"]), hit["pc"], base)
+            rank = (-hit["width"], (LOCAL, FLOW, PREFIX).index(hit["proof_kind"]),
+                    len(hit["trace"]), hit["pc"], base, hit.get("execution_step", 0))
             if address in selected and selected[address][0] <= rank:
                 continue
             selected[address] = (rank, hit, base, size, evidence)
@@ -284,10 +294,12 @@ def capture(args: argparse.Namespace) -> list[dict[str, str]]:
                 "claim": CLAIM, "proof_kind": hit["proof_kind"],
                 "function_sha256": digest(raw[base-libgcc.TARGET_BASE:base-libgcc.TARGET_BASE+size]),
                 "analysis_sha256": analysis_hash()})
-            if hit["proof_kind"] == FLOW:
+            if hit["proof_kind"] in (FLOW, PREFIX):
                 # A CFG proof covers all branch predecessors/backedges. A
                 # linear instruction window alone would omit relevant paths.
                 row["instruction_window_sha256"] = row["function_sha256"]
+            if hit["proof_kind"] == PREFIX:
+                row["execution_step"] = str(hit["execution_step"])
             if "callee" in hit:
                 row.update({"callee_address": f"0x{hit['callee']:08x}", "callee_sha256": callees[hit["callee"]]})
             row["sha256"] = digest(named_data.range_bytes(raw, row, layout))
@@ -309,13 +321,13 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
         address = address_of(row["symbol"])
         if row["target_address"] != f"0x{address:08x}" or row["requesters"] != ext["requesters"]:
             fail(f"Stage-3F address/requester drift: {row['symbol']}")
-        if row["status"] == BLOCKED:
+        if row["status"] in (BLOCKED, rom_offsets.STATUS):
             if row != empty_row(ext):
                 fail("unproved address must not claim extent/bytes or instruction evidence")
             continue
         if row["status"] != PROVED or row["claim"] != CLAIM:
             fail("direct access is not a complete-object identity claim")
-        if row["proof_kind"] not in (LOCAL, FLOW) or row["analysis_sha256"] != profile:
+        if row["proof_kind"] not in (LOCAL, FLOW, PREFIX) or row["analysis_sha256"] != profile:
             fail("access analysis profile/proof kind changed; private recapture required")
         width = int(row["extent_hex"], 0)
         call = bool(row["callee_address"])
@@ -336,7 +348,12 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
         if spans.get(base) != (size, row["matching_evidence"]):
             fail("access witness not inside a strict matched function span")
         trace = tuple(int(x, 0) for x in row["trace_addresses"].split(";"))
-        flow = row["proof_kind"] == FLOW
+        flow = row["proof_kind"] in (FLOW, PREFIX)
+        if row["proof_kind"] == PREFIX:
+            if not row["execution_step"].isdigit() or not 1 <= int(row["execution_step"]) <= ee_dataflow.MAX_PREFIX_STEPS:
+                fail("invalid deterministic prefix occurrence")
+        elif row["execution_step"]:
+            fail("only deterministic-prefix witnesses have an execution occurrence")
         trace_end = base + size if flow else pc + (1 if call else 0)
         if (not trace or len(trace) > (ee_dataflow.MAX_TRACE if flow else 8) or trace != tuple(sorted(set(trace)))
                 or any(x % 4 or not base <= x < trace_end for x in trace)
@@ -359,6 +376,7 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
 
 def statistics(rows: Sequence[dict[str, str]]) -> dict:
     proved = [r for r in rows if r["status"] == PROVED]
+    closed = sum(r["status"] == rom_offsets.STATUS for r in rows)
     intervals = sorted({(int(r["target_address"], 0), int(r["target_address"], 0) + int(r["extent_hex"], 0)) for r in proved})
     clusters = []
     for start, end in intervals:
@@ -367,7 +385,8 @@ def statistics(rows: Sequence[dict[str, str]]) -> dict:
         else:
             clusters.append([start, end])
     return {"contracts_total": len(rows), "direct_access_proved": len(proved),
-            "awaiting_direct_access": len(rows) - len(proved), "unique_addresses": len(intervals),
+            "awaiting_direct_access": len(rows) - len(proved) - closed,
+            "rom_offset_refactors_closed": closed, "unique_addresses": len(intervals),
             "overlap_aware_clusters": len(clusters), "unique_consumed_bytes": sum(b-a for a,b in clusters),
             "access_widths": dict(sorted(Counter(int(r["extent_hex"], 0) for r in proved).items())),
             "constant_call_ranges": sum(bool(r["callee_address"]) for r in proved),
