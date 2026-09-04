@@ -43,11 +43,18 @@ class DataBackingTests(unittest.TestCase):
 
     def test_counts_keep_stage3f_open(self):
         stats = gate.statistics(self.rows, self.sections)
-        for key, expected in {"contracts_total": 1265, "section_backed_addresses": 1197,
-                              "unbacked_addresses": 39, "reused_sections": 66, "new_sections": 104,
-                              "new_backing_bytes": 762372, "new_zero_fill_bytes": 0,
-                              "total_backing_bytes": 992890, "rom_offset_refactors_closed": 29,
-                              "historical_source_sections": 53, "resolved_contracts": 1226}.items():
+        for key, expected in {"contracts_total": 1265, "section_backed_addresses": 1209,
+                              "unbacked_addresses": 0, "reused_sections": 66, "new_sections": 113,
+                              "new_backing_bytes": 764686, "new_zero_fill_bytes": 0,
+                              "total_backing_bytes": 995204, "rom_offset_refactors_closed": 29,
+                              "runtime_code_pointer_refactors_closed": 4,
+                              "pcm_buffer_minimum_extents_closed": 8,
+                              "runtime_member_data_objects_closed": 2,
+                              "runtime_internal_code_labels_closed": 1,
+                              "historical_object_interior_fields_closed": 1,
+                              "target_native_eh_frame_relocation_bytes_closed": 1,
+                              "code_pointer_source_aliases_closed": 10,
+                              "historical_source_sections": 53, "resolved_contracts": 1265}.items():
             self.assertEqual(stats[key], expected, key)
         self.assertFalse(stats["stage3f_closed"])
         self.assertFalse(stats["complete_object_extents_proved"])
@@ -68,10 +75,93 @@ class DataBackingTests(unittest.TestCase):
 
     def test_unbacked_rows_have_no_storage_or_extent(self):
         rows = [r for r in self.rows if r["status"] == gate.UNBACKED]
-        self.assertEqual(len(rows), 39)
+        self.assertEqual(len(rows), 0)
         for row in rows:
             self.assertTrue(all(not row[k] for k in ("section", "section_offset_hex", "access_extent_hex", "coverage_kind")))
             self.assertEqual(row["claim"], gate.UNBACKED_CLAIM)
+
+    def test_runtime_code_pointer_refactors_have_no_storage(self):
+        rows = [r for r in self.rows if r["status"] == gate.runtime_code_pointers.STATUS]
+        self.assertEqual(4, len(rows))
+        self.assertEqual(
+            {"LAB_0012f8a8", "LAB_0012fb78", "LAB_00170138", "LAB_00170194"},
+            {r["symbol"] for r in rows},
+        )
+        for row in rows:
+            self.assertTrue(all(not row[k] for k in
+                                ("section", "section_offset_hex", "access_extent_hex", "coverage_kind")))
+            self.assertEqual(row["claim"], gate.runtime_code_pointers.CLAIM)
+
+    def test_pcm_buffer_minimum_extents_have_no_fake_storage(self):
+        rows = [
+            r for r in self.rows
+            if r["status"] == gate.pcm_buffer_consumed_extent.STATUS
+        ]
+        self.assertEqual(8, len(rows))
+        self.assertEqual(
+            set(gate.pcm_buffer_consumed_extent.SYMBOL_TO_OWNER),
+            {r["symbol"] for r in rows},
+        )
+        for row in rows:
+            self.assertTrue(all(
+                not row[key]
+                for key in (
+                    "section", "section_offset_hex",
+                    "access_extent_hex", "coverage_kind",
+                )
+            ))
+            self.assertEqual(
+                gate.pcm_buffer_consumed_extent.CLAIM,
+                row["claim"],
+            )
+
+    def test_runtime_residual_closures_have_no_fake_storage(self):
+        statuses = {
+            gate.runtime_residual_identities.DATA_STATUS,
+            gate.runtime_residual_identities.CODE_STATUS,
+        }
+        rows = [r for r in self.rows if r["status"] in statuses]
+        self.assertEqual(3, len(rows))
+        self.assertEqual(
+            set(gate.runtime_residual_identities.SPEC),
+            {r["symbol"] for r in rows},
+        )
+        for row in rows:
+            self.assertTrue(all(
+                not row[key]
+                for key in (
+                    "section", "section_offset_hex",
+                    "access_extent_hex", "coverage_kind",
+                )
+            ))
+            self.assertEqual(
+                gate.runtime_residual_identities.SPEC[row["symbol"]]["claim"],
+                row["claim"],
+            )
+
+    def test_final_residual_closures_have_no_fake_storage(self):
+        statuses = {
+            gate.final_residual_identities.RTC_STATUS,
+            gate.final_residual_identities.EH_STATUS,
+        }
+        rows = [r for r in self.rows if r["status"] in statuses]
+        self.assertEqual(2, len(rows))
+        self.assertEqual(
+            set(gate.final_residual_identities.SPEC),
+            {r["symbol"] for r in rows},
+        )
+        for row in rows:
+            self.assertTrue(all(
+                not row[key]
+                for key in (
+                    "section", "section_offset_hex",
+                    "access_extent_hex", "coverage_kind",
+                )
+            ))
+            self.assertEqual(
+                gate.final_residual_identities.SPEC[row["symbol"]]["claim"],
+                row["claim"],
+            )
 
     def test_missing_or_extra_contract_rejected(self):
         self.rows.pop()
@@ -148,19 +238,19 @@ class DataBackingTests(unittest.TestCase):
             gate.fingerprint(b"", row)
 
     def test_new_assembly_has_no_object_sizes_or_globals(self):
-        paths = {r["section"]: Path(self.tmp.name)/f"source {i}.bin" for i, r in enumerate(self.sections) if r["origin"] == gate.HISTORICAL}
+        paths = {r["section"]: Path(self.tmp.name)/f"source {i}.bin" for i, r in enumerate(self.sections) if r["origin"] in (gate.HISTORICAL, gate.RECOVERED)}
         text = gate.render_additions(Path(self.tmp.name)/"reference.bin", self.sections, paths)
-        self.assertEqual(text.count(".incbin"), 104)
-        self.assertEqual(text.count("reference.bin"), 51)
-        self.assertEqual(text.count("source "), 54)  # 53 paths and the explanatory comment
+        self.assertEqual(text.count(".incbin"), 113)
+        self.assertEqual(text.count("reference.bin"), 50)
+        self.assertEqual(text.count("source "), 64)  # 53 paths and the explanatory comment
         self.assertNotIn(".globl", text)
         self.assertNotIn(".size", text)
         self.assertNotIn(".word", text)
 
     def test_rebinding_assigns_inside_output_section(self):
         text = gate.render_rebind(self.rows, self.sections)
-        self.assertEqual(text.count(" = . + "), 1197)
-        self.assertEqual(text.count("KEEP(*("), 170)
+        self.assertEqual(text.count(" = . + "), 1209)
+        self.assertEqual(text.count("KEEP(*("), 179)
         self.assertIn("DAT_0034551c = . + 0x3c;", text)
         self.assertIn(".data.stage3ce.va_003454e0 0 : {", text)
 
@@ -204,9 +294,9 @@ class DataBackingTests(unittest.TestCase):
 
     def test_probe_declares_three_address_relocations_per_alias(self):
         text = gate.render_probe(self.rows)
-        self.assertEqual(text.count(".word "), 1197)
-        self.assertEqual(text.count("%hi("), 1197)
-        self.assertEqual(text.count("%lo("), 1197)
+        self.assertEqual(text.count(".word "), 1209)
+        self.assertEqual(text.count("%hi("), 1209)
+        self.assertEqual(text.count("%lo("), 1209)
         self.assertNotIn(".globl", text)
         placement = gate.render_probe_layout(self.sections)
         self.assertIn("0x00500000", placement)

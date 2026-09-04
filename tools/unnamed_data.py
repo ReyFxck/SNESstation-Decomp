@@ -23,6 +23,7 @@ import libgcc_contracts as libgcc
 import named_data
 import ee_dataflow
 import rom_offsets
+import source_aliases
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "analysis/link_identity/unnamed_data_accesses.tsv"
@@ -53,6 +54,9 @@ CLAIM = "minimum directly accessed span; complete object/array extent and final 
 LOCAL = "block-local-constant"
 FLOW = "cfg-must-constant"
 PREFIX = "deterministic-prefix"
+CODE_ALIAS = "CODE_POINTER_SOURCE_ALIAS_CLOSED"
+CODE_ALIAS_OWNER = "historical:source-address-alias"
+CODE_ALIAS_CLAIM = "historical code-pointer label resolved as a zero-byte alias to proved global text; no data storage claimed"
 
 
 class UnnamedDataError(RuntimeError):
@@ -214,11 +218,33 @@ def scan_function(body: bytes, base: int) -> list[dict]:
     return local + ee_dataflow.scan_body(body, base, MEMORY, CALLS) + ee_dataflow.scan_prefix(body, base, MEMORY, CALLS)
 
 
+def historical_code_aliases(path: Path) -> list[dict[str, str]]:
+    args = argparse.Namespace(
+        external_map=path,
+        defined_map=source_aliases.DEFAULT_DEFINED,
+        progress_manifest=source_aliases.DEFAULT_PROGRESS,
+        manifest=source_aliases.DEFAULT_MANIFEST,
+        reviews=source_aliases.DEFAULT_REVIEWS,
+    )
+    aliases = source_aliases.validate_frozen_manifest(args)
+    return [
+        {"symbol": row["alias"], "category": "target-address-data",
+         "provider_kind": "program-data", "owner": CODE_ALIAS_OWNER,
+         "resolution_gate": "source-address-alias", "requesters": row["requesters"]}
+        for row in aliases
+        if row["status"] == source_aliases.PROVED and row["alias"].startswith("LAB_")
+    ]
+
+
 def external_rows(path: Path) -> list[dict[str, str]]:
     rows = [r for r in libgcc.read_table(path, libgcc.EXTERNAL_FIELDS) if r["category"] == "target-address-data"]
     if {r["symbol"] for r in rows} & rom_offsets.SPEC.keys():
         fail("ROM offsets must no longer be live image-address contracts")
+    code_aliases = historical_code_aliases(path)
+    if {r["symbol"] for r in rows} & {r["symbol"] for r in code_aliases}:
+        fail("closed code-pointer aliases remain live image-address contracts")
     rows += rom_offsets.historical_externals()
+    rows += code_aliases
     if len(rows) != 1265 or len({r["symbol"] for r in rows}) != 1265:
         fail("Stage-3F must preserve the original 1,265 unique contracts")
     return sorted(rows, key=lambda r: r["symbol"])
@@ -244,6 +270,8 @@ def empty_row(external: dict[str, str]) -> dict[str, str]:
             "requesters": external["requesters"], "claim": "indexed/pointer/array/object bounds require separate proof"}
     if external["symbol"] in rom_offsets.SPEC:
         row.update(status=rom_offsets.STATUS, claim=rom_offsets.CLAIM)
+    elif external["owner"] == CODE_ALIAS_OWNER:
+        row.update(status=CODE_ALIAS, claim=CODE_ALIAS_CLAIM)
     return row
 
 
@@ -282,6 +310,9 @@ def capture(args: argparse.Namespace) -> list[dict[str, str]]:
     for item in external:
         row = empty_row(item)
         address = address_of(item["symbol"])
+        if row["status"] in (rom_offsets.STATUS, CODE_ALIAS):
+            rows.append(row)
+            continue
         if address in selected:
             _, hit, base, size, evidence = selected[address]
             width, pc, trace = hit["width"], hit["pc"], hit["trace"]
@@ -321,9 +352,9 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
         address = address_of(row["symbol"])
         if row["target_address"] != f"0x{address:08x}" or row["requesters"] != ext["requesters"]:
             fail(f"Stage-3F address/requester drift: {row['symbol']}")
-        if row["status"] in (BLOCKED, rom_offsets.STATUS):
+        if row["status"] in (BLOCKED, rom_offsets.STATUS, CODE_ALIAS):
             if row != empty_row(ext):
-                fail("unproved address must not claim extent/bytes or instruction evidence")
+                fail("non-storage address must not claim extent/bytes or instruction evidence")
             continue
         if row["status"] != PROVED or row["claim"] != CLAIM:
             fail("direct access is not a complete-object identity claim")
@@ -376,7 +407,9 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
 
 def statistics(rows: Sequence[dict[str, str]]) -> dict:
     proved = [r for r in rows if r["status"] == PROVED]
-    closed = sum(r["status"] == rom_offsets.STATUS for r in rows)
+    rom_closed = sum(r["status"] == rom_offsets.STATUS for r in rows)
+    code_closed = sum(r["status"] == CODE_ALIAS for r in rows)
+    closed = rom_closed + code_closed
     intervals = sorted({(int(r["target_address"], 0), int(r["target_address"], 0) + int(r["extent_hex"], 0)) for r in proved})
     clusters = []
     for start, end in intervals:
@@ -386,7 +419,8 @@ def statistics(rows: Sequence[dict[str, str]]) -> dict:
             clusters.append([start, end])
     return {"contracts_total": len(rows), "direct_access_proved": len(proved),
             "awaiting_direct_access": len(rows) - len(proved) - closed,
-            "rom_offset_refactors_closed": closed, "unique_addresses": len(intervals),
+            "rom_offset_refactors_closed": rom_closed,
+            "code_pointer_source_aliases_closed": code_closed, "unique_addresses": len(intervals),
             "overlap_aware_clusters": len(clusters), "unique_consumed_bytes": sum(b-a for a,b in clusters),
             "access_widths": dict(sorted(Counter(int(r["extent_hex"], 0) for r in proved).items())),
             "constant_call_ranges": sum(bool(r["callee_address"]) for r in proved),
@@ -428,7 +462,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.report.write_text(json.dumps(statistics(rows), indent=2, sort_keys=True) + "\n", encoding="utf-8")
         report = statistics(rows)
         print(f"verified Stage-3F direct accesses: proved={report['direct_access_proved']}/{report['contracts_total']} "
-              f"unproved={report['awaiting_direct_access']} unique_bytes={report['unique_consumed_bytes']} "
+              f"unproved={report['awaiting_direct_access']} rom_refactors={report['rom_offset_refactors_closed']} "
+              f"code_aliases={report['code_pointer_source_aliases_closed']} unique_bytes={report['unique_consumed_bytes']} "
               "(minimum accesses only; Stage 3F remains open)")
         return 0
     except (UnnamedDataError, libgcc.LibgccContractError, named_data.NamedDataError, OSError, KeyError, ValueError) as error:

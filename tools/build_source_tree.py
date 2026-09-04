@@ -366,6 +366,15 @@ def classify_external(
         row = readiness.get(address)
         owner = row["source_files"] if row and row["source_files"] else address
         return "target-function-alias", "source-address-alias", owner, "link-identity"
+    # Ghidra emits LAB_ names for both interior labels and callable entry
+    # points. Promote only exact audited function entries; never infer code
+    # identity from the LAB_ prefix alone.
+    if symbol.startswith("LAB_"):
+        row = readiness.get(address)
+        if (row and row["manifest_status"] == "MATCHING"
+                and row["matching_status"] == "MATCHING"
+                and row["source_files"]):
+            return "target-function-alias", "source-address-alias", row["source_files"], "link-identity"
     if VTABLE_RE.search(symbol):
         return "vtable-or-rtti", "program-data", "reserved:vtable-data.o", "program-data"
     if TARGET_DATA_RE.match(symbol) or symbol.startswith(("DAT_", "_DAT_")):

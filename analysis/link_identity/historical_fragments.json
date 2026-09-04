@@ -1,0 +1,98 @@
+{
+  "claim": "fresh hash-pinned historical source fragment; no whole-TU or replacement-ELF claim",
+  "data_relocations": [
+    2193,
+    2208,
+    2268,
+    2364,
+    2412,
+    2456,
+    2488
+  ],
+  "data_size": 2536,
+  "flags": [
+    "-G0",
+    "-EL",
+    "-pipe",
+    "-w",
+    "-fomit-frame-pointer",
+    "-fstrict-aliasing",
+    "-fno-common",
+    "-fshort-double",
+    "-mlong64",
+    "-mhard-float",
+    "-mno-abicalls",
+    "-march=r5900",
+    "-mtune=r5900",
+    "-DPS2_EE",
+    "-D_EE",
+    "-DLSB_FIRST",
+    "-DVAR_CYCLES",
+    "-DCPU_SHUTDOWN",
+    "-DSPC700_SHUTDOWN",
+    "-DEXECUTE_SUPERFX_PER_LINE",
+    "-DSPC700_C",
+    "-DUNZIP_SUPPORT",
+    "-DNO_INLINE_SET_GET",
+    "-I",
+    "build/historical-fragments/compat",
+    "-I",
+    "build/upstream/PS2DEV-bac0006c/ps2toolchain/soft/newlib-1.10.0/newlib/libc/include",
+    "-I",
+    "build/matching/hunt1041-v75-c4/historical/snes9x-target-layout",
+    "-I",
+    "build/matching/hunt1041-v75-c4/historical/snes9x-target-layout/unzip",
+    "-I",
+    "build/upstream/hunt1000plus-v47-snes/source-1.41-1/snes9x-1.41-1-src/zlib",
+    "-x",
+    "c++",
+    "-Os"
+  ],
+  "owners": [
+    {
+      "address": 3365328,
+      "claim": "fresh hash-pinned historical source fragment; no whole-TU or replacement-ELF claim",
+      "covers": [
+        "DAT_003359d0"
+      ],
+      "sha256": "28863fdec74b4bf16ed8b8b9a4a9dda11712d8152d953a29cbd03c218f9f2e11",
+      "size": 128,
+      "source_offset": 0,
+      "status": "HISTORICAL_SOURCE_FRAGMENT_EXACT",
+      "symbol": "c4emu_prefix",
+      "unit": "snes9x-1.41-1-c4emu"
+    },
+    {
+      "address": 3365456,
+      "claim": "fresh hash-pinned historical source fragment; no whole-TU or replacement-ELF claim",
+      "covers": [
+        "DAT_00335a50"
+      ],
+      "sha256": "e6e2d395dba7391e1ecec1d8f22af307d2cb452feed3d18586c270c48ef15558",
+      "size": 1024,
+      "source_offset": 128,
+      "status": "HISTORICAL_SOURCE_FRAGMENT_EXACT",
+      "symbol": "C4SinTable",
+      "unit": "snes9x-1.41-1-c4emu"
+    },
+    {
+      "address": 3366480,
+      "claim": "fresh hash-pinned historical source fragment; no whole-TU or replacement-ELF claim",
+      "covers": [
+        "DAT_00335e50"
+      ],
+      "sha256": "02f2397a8d9b8c4651c86597695a0a7cc42b0aedc004de708c4618cdf09a88e0",
+      "size": 1024,
+      "source_offset": 1152,
+      "status": "HISTORICAL_SOURCE_FRAGMENT_EXACT",
+      "symbol": "C4CosTable",
+      "unit": "snes9x-1.41-1-c4emu"
+    }
+  ],
+  "replacement_elf": false,
+  "source_archive_sha256": "5e8b72c88c889464746e2f2f10449b9b324451c095a343081057f8f7ceb8378b",
+  "source_sha256": "a06866949a1c2ac1d0396178023ee1f1daa3e65a1355af7cf294ecd947da800d",
+  "status": "HISTORICAL_SOURCE_FRAGMENT_EXACT",
+  "target_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
+  "version": 1
+}

@@ -49,6 +49,8 @@ class BuildSourceTreeTests(unittest.TestCase):
         readiness = MODULE.load_source_readiness()
         cases = {
             "DAT_00341398": ("target-address-data", "program-data"),
+            "LAB_0018428c": ("target-function-alias", "link-identity"),
+            "LAB_0012f8a8": ("target-address-data", "program-data"),
             "FUN_00123456": ("target-function-alias", "link-identity"),
             "snes_vtable_00426c28": ("vtable-or-rtti", "program-data"),
             "embedded_cdvd_irx": ("embedded-binary", "program-data"),

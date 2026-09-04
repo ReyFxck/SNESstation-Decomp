@@ -275,7 +275,7 @@ class SourceAliasTests(unittest.TestCase):
             ),
         )
 
-    def test_frozen_repository_manifest_has_expected_v84_counts(self) -> None:
+    def test_frozen_repository_manifest_has_expected_v99_counts(self) -> None:
         args = argparse.Namespace(
             external_map=DEFAULT_EXTERNAL,
             defined_map=DEFAULT_DEFINED,
@@ -286,15 +286,15 @@ class SourceAliasTests(unittest.TestCase):
         rows = validate_frozen_manifest(args)
         report = summarize(rows)
 
-        self.assertEqual(337, report["aliases_total"])
-        self.assertEqual(323, report["proved"])
+        self.assertEqual(347, report["aliases_total"])
+        self.assertEqual(333, report["proved"])
         self.assertEqual(14, report["blocked"])
-        self.assertEqual(307, report["canonical_targets"])
+        self.assertEqual(317, report["canonical_targets"])
         self.assertEqual(
             {
                 "address-outside-progress-manifest": 6,
                 "progress-name-global-text": 122,
-                "progress-name-recovered-suffix-global-text": 25,
+                "progress-name-recovered-suffix-global-text": 35,
                 "progress-name-snes-p13-prefix-global-text": 5,
                 "progress-name-snes-prefix-global-text": 26,
                 "progress-name-snes-stripped-prefix-global-text": 7,

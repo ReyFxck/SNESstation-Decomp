@@ -28,8 +28,8 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
 - **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
 - **Build-ready EE source ownership:** **97/97 TUs** (96 canonical + 1 alternate)
-- **Source-address aliases:** **323/337 proved**, **14 blocked**
-- **Zero-byte link contracts:** **1,307/1,540 resolved**, **233 blocked** (1,244 address anchors + 63 semantic aliases)
+- **Source-address aliases:** **333/347 proved**, **14 blocked**
+- **Zero-byte link contracts:** **1,297/1,530 resolved**, **233 blocked** (1,234 address anchors + 63 semantic aliases)
 - **Private embedded assets:** **10/10 providers**, **62,736 verified private bytes**, **223 remaining externals**
 - **Source-link provider namespace:** **223/223 resolved**, **0 aggregate externals** (175 anchors + 9 aliases + 39 storage + 0 shims)
 - **Original Stage-3C named data:** **54/54 closed** (**50 exact target ranges + 4 completed source refactors**; 0 address-only remain)
@@ -40,7 +40,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3D runtime contracts:** **53/53 closed**, **0 open**; `puts`/`abort` have 15 named-call witnesses and 104 exact linked bytes
 - **Stage-3F unnamed data access proof:** **872/1,265** consumed spans, **167,659 unique bytes** (146 CFG + 33 deterministic-prefix witnesses); complete object/array extents remain open
 - **Stage-3F historical data:** **49 exact source intervals / 810,542 bytes**, rebuilt from pinned public source
-- **Stage-3F contracts:** **1197 storage-backed + 29 ROM refactors / 1,265**, **39 unresolved**; **762,372 materialized bytes**, not complete-object closure
+- **Stage-3F contracts:** **1209 storage-backed + 29 ROM refactors / 1,265**, **0 unresolved**; **764,686 materialized bytes**, not complete-object closure
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
