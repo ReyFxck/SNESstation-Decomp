@@ -24,6 +24,8 @@
 | Stage-3F address identities | **1265/1265; 0 unresolved** | 1209 section-backed, 29 ROM refactors, 10 source-code aliases, 4 runtime-code refactors, 8 PCM minimum extents and seven runtime/historical metadata identities. The address frontier is closed; complete object/array bounds remain open. |
 | Stage-3G clean link/layout diagnostic | **179/179 fixed VMAs; 155/155 payloads exact; 12/51 image windows exact** | The real ET_REL aggregate links to ELF32/R5900 and applies relocations, but 1,883,867 bytes still differ and entry `0x00111f70` is not target `0x00100008`. This is a diagnostic, not a replacement ELF. |
 | Stage-3G exact startup integration | **entry `0x00100008`; 276/276 startup bytes; 3/3 functions; 27 relocations** | The pinned historical `crt0.s` reproduces `_start`, `_exit`, `_root` and startup BSS geometry exactly. The first remaining difference is `0x00100114`; 39/51 image windows and 1,884,142 bytes still differ. |
+| Stage-3H frontend unwind integration | **18 FDEs; 944 bytes; 23 relocations** | Three semantic GCC 3.2.2 CIE/FDE groups are reconstructed and linked exactly, closing image window 14 without storing target payload. |
+| Stage-3I historical C++ tail integration | **6 source providers; 123,140 bytes; 30 FDEs** | Rebuilt Snes9x data plus semantic unwind records close windows 47–49. The cumulative diagnostic has 16/51 exact windows; 35 and 1,859,772 bytes remain. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -100,6 +102,14 @@ four prior zero-fill anchors. The first application byte still differs, the beha
 lift remains in the aggregate, and the full image still has
 1,884,142 differing bytes. See
 [`V104_EXACT_STARTUP_INTEGRATION.md`](V104_EXACT_STARTUP_INTEGRATION.md).
+V105 reconstructs three frontend unwind groups and the late Snes9x C++ data
+corridor. The frontend gate adds 18 FDEs / 944
+exact bytes, while the tail gate rebuilds 123,140 bytes from pinned public source,
+applies 1,623 source relocations and assembles
+30 more FDEs from explicit semantics. This closes windows 14 and 47–49:
+16/51 now match and
+35 remain. See
+[`V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
 The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
@@ -137,7 +147,9 @@ closure remains frozen in
 12. **Stage-3F address frontier closed:** all 1,265/1,265 contracts now have a proved identity and 0 remain unresolved. Only 872/1,265 have target-instruction/call-consumed spans; 354 still lack such witnesses. Close complete data/object/array extents and zero-fill boundaries; neither minimum access nor address identity is a complete bound.
 13. **Stage-3G clean link diagnostic frozen:** all 179 proved sections land at exact VMAs/sizes, all 155 initialized fixed payloads remain exact, and 12/51 whole-image windows match. Integrate exact implementations/runtime data and reproduce historical section, object, archive and relocation order until the remaining 1,883,867 bytes and entry mismatch close.
 14. **Historical startup integrated:** pinned `_start`/`_exit`/`_root` source produces 276 exact bytes, entry `0x00100008`, 27 applied relocations and exact startup BSS geometry. Continue at the first differing application address `0x00100114`; remove the duplicate behavioral lift only when exact source selection proves its replacement.
-15. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+15. **Frontend unwind metadata integrated:** 18 function extents drive three exact semantic CIE/FDE groups and close image window 14.
+16. **Historical C++ tail data integrated:** 6 public-source providers plus 30 semantic FDEs close image windows 47–49. Continue through the 35 remaining windows; this is not a replacement ELF.
+17. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first

@@ -182,3 +182,19 @@ validation checks hashes, geometry, claim boundaries and match evidence without
 reading the original ELF. The first application byte, exact implementation
 selection, historical order and packing remain open. See
 [`V104_EXACT_STARTUP_INTEGRATION.md`](../../docs/status/V104_EXACT_STARTUP_INTEGRATION.md).
+
+`frontend_eh_frames.json` freezes three semantic GCC 3.2.2 CIE/FDE groups:
+18 public function extents produce 944 exact linked bytes and 23 relocations,
+closing whole-image window 14. The checked assembly contains DWARF directives,
+not target payload. Use `make frontend-eh-frames-public-check` without private
+inputs or `make frontend-eh-frames` for the historical EE/private link gate.
+
+`historical_tail_data.json` freezes six Snes9x 1.41-1 source providers totaling
+123,140 bytes and 1,623 relocations, plus 30 semantic FDEs. Its private gate
+uses the target only to verify non-relocation bytes and resolve final
+`R_MIPS_32` words under ignored `build/`; no target payload is committed. Ten
+smaller fixed sections are replaced by the larger exact source providers while
+157 existing names survive as absolute aliases. Windows 47–49 close, bringing
+the cumulative diagnostic to 16/51 exact with 35 remaining. Use
+`make historical-tail-data-public-check` or `make historical-tail-data`. See
+[`V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](../../docs/status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).

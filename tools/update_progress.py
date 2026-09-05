@@ -25,6 +25,8 @@ import data_backing
 import historical_data
 import link_layout_probe
 import startup_integration
+import frontend_eh_frames
+import historical_tail_data
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
@@ -495,6 +497,10 @@ def main() -> None:
     layout_probe_result = layout_probe["result"]
     startup_gate = startup_integration.validate(startup_integration.parse_args(["validate"]))
     startup_result = startup_gate["result"]
+    frontend_eh_gate = frontend_eh_frames.validate(frontend_eh_frames.parse_args(["validate"]))
+    frontend_eh_result = frontend_eh_gate["result"]
+    historical_tail_gate = historical_tail_data.validate(historical_tail_data.parse_args(["validate"]))
+    historical_tail_result = historical_tail_gate["result"]
     stage3d_closed = len(libgcc_rows) + runtime_closed + member_report["contracts_closed"] + len(override_rows)
     stage3d_remaining = 53 - stage3d_closed
 
@@ -593,6 +599,8 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Stage-3F address identities | **{backing_report['resolved_contracts']}/{backing_report['contracts_total']}; {backing_report['unbacked_addresses']} unresolved** | {backing_report['section_backed_addresses']} section-backed, {backing_report['rom_offset_refactors_closed']} ROM refactors, {backing_report['code_pointer_source_aliases_closed']} source-code aliases, {backing_report['runtime_code_pointer_refactors_closed']} runtime-code refactors, {backing_report['pcm_buffer_minimum_extents_closed']} PCM minimum extents and seven runtime/historical metadata identities. The address frontier is closed; complete object/array bounds remain open. |
 | Stage-3G clean link/layout diagnostic | **{layout_probe_result['fixed_sections']}/{layout_probe_result['fixed_sections']} fixed VMAs; {layout_probe_result['fixed_initialized_sections']}/{layout_probe_result['fixed_initialized_sections']} payloads exact; {layout_probe_result['exact_chunks']}/{layout_probe_result['chunk_count']} image windows exact** | The real ET_REL aggregate links to ELF32/R5900 and applies relocations, but {layout_probe_result['differing_bytes']:,} bytes still differ and entry `0x{layout_probe_result['diagnostic_entry_address']:08x}` is not target `0x{layout_probe_result['target_entry_address']:08x}`. This is a diagnostic, not a replacement ELF. |
 | Stage-3G exact startup integration | **entry `0x{startup_result['integrated_entry_address']:08x}`; {startup_result['startup_exact_bytes']}/{startup_result['startup_exact_bytes']} startup bytes; {startup_result['startup_functions_exact']}/3 functions; {startup_result['startup_relocations_applied']} relocations** | The pinned historical `crt0.s` reproduces `_start`, `_exit`, `_root` and startup BSS geometry exactly. The first remaining difference is `0x{startup_result['first_differing_address']:08x}`; {startup_result['mismatching_chunks']}/{startup_result['chunk_count']} image windows and {startup_result['differing_bytes']:,} bytes still differ. |
+| Stage-3H frontend unwind integration | **{frontend_eh_result['frontend_fdes']} FDEs; {frontend_eh_result['frontend_eh_bytes']:,} bytes; {frontend_eh_result['frontend_eh_relocations']} relocations** | Three semantic GCC 3.2.2 CIE/FDE groups are reconstructed and linked exactly, closing image window 14 without storing target payload. |
+| Stage-3I historical C++ tail integration | **{historical_tail_result['source_providers']} source providers; {historical_tail_result['source_bytes']:,} bytes; {historical_tail_result['semantic_fdes']} FDEs** | Rebuilt Snes9x data plus semantic unwind records close windows 47–49. The cumulative diagnostic has {historical_tail_result['exact_chunks']}/{historical_tail_result['chunk_count']} exact windows; {historical_tail_result['mismatching_chunks']} and {historical_tail_result['differing_bytes']:,} bytes remain. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -669,6 +677,14 @@ four prior zero-fill anchors. The first application byte still differs, the beha
 lift remains in the aggregate, and the full image still has
 {startup_result['differing_bytes']:,} differing bytes. See
 [`V104_EXACT_STARTUP_INTEGRATION.md`](V104_EXACT_STARTUP_INTEGRATION.md).
+V105 reconstructs three frontend unwind groups and the late Snes9x C++ data
+corridor. The frontend gate adds {frontend_eh_result['frontend_fdes']} FDEs / {frontend_eh_result['frontend_eh_bytes']:,}
+exact bytes, while the tail gate rebuilds {historical_tail_result['source_bytes']:,} bytes from pinned public source,
+applies {historical_tail_result['source_relocations']:,} source relocations and assembles
+{historical_tail_result['semantic_fdes']} more FDEs from explicit semantics. This closes windows 14 and 47–49:
+{historical_tail_result['exact_chunks']}/{historical_tail_result['chunk_count']} now match and
+{historical_tail_result['mismatching_chunks']} remain. See
+[`V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
 The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
@@ -706,7 +722,9 @@ closure remains frozen in
 12. **Stage-3F address frontier closed:** all {backing_report['resolved_contracts']:,}/1,265 contracts now have a proved identity and {backing_report['unbacked_addresses']} remain unresolved. Only {unnamed_report['direct_access_proved']}/1,265 have target-instruction/call-consumed spans; {unnamed_report['awaiting_direct_access']} still lack such witnesses. Close complete data/object/array extents and zero-fill boundaries; neither minimum access nor address identity is a complete bound.
 13. **Stage-3G clean link diagnostic frozen:** all {layout_probe_result['fixed_sections']} proved sections land at exact VMAs/sizes, all {layout_probe_result['fixed_initialized_sections']} initialized fixed payloads remain exact, and {layout_probe_result['exact_chunks']}/{layout_probe_result['chunk_count']} whole-image windows match. Integrate exact implementations/runtime data and reproduce historical section, object, archive and relocation order until the remaining {layout_probe_result['differing_bytes']:,} bytes and entry mismatch close.
 14. **Historical startup integrated:** pinned `_start`/`_exit`/`_root` source produces {startup_result['startup_exact_bytes']} exact bytes, entry `0x{startup_result['integrated_entry_address']:08x}`, {startup_result['startup_relocations_applied']} applied relocations and exact startup BSS geometry. Continue at the first differing application address `0x{startup_result['first_differing_address']:08x}`; remove the duplicate behavioral lift only when exact source selection proves its replacement.
-15. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+15. **Frontend unwind metadata integrated:** {frontend_eh_result['frontend_fdes']} function extents drive three exact semantic CIE/FDE groups and close image window 14.
+16. **Historical C++ tail data integrated:** {historical_tail_result['source_providers']} public-source providers plus {historical_tail_result['semantic_fdes']} semantic FDEs close image windows 47–49. Continue through the {historical_tail_result['mismatching_chunks']} remaining windows; this is not a replacement ELF.
+17. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first
@@ -749,6 +767,8 @@ unproven final-ELF stage.
 - **Stage-3F address contracts:** **{backing_report['resolved_contracts']:,}/1,265 resolved**, **{backing_report['unbacked_addresses']} unresolved**; **{backing_report['new_backing_bytes']:,} materialized bytes**, while complete object/array bounds remain open
 - **Stage-3G clean link diagnostic:** **{layout_probe_result['fixed_sections']}/{layout_probe_result['fixed_sections']} fixed sections**, **{layout_probe_result['fixed_initialized_sections']}/{layout_probe_result['fixed_initialized_sections']} initialized payloads exact**, **{layout_probe_result['exact_chunks']}/{layout_probe_result['chunk_count']} whole-image windows exact**; **{layout_probe_result['differing_bytes']:,} bytes still differ**
 - **Stage-3G exact startup:** **entry `0x{startup_result['integrated_entry_address']:08x}`**, **{startup_result['startup_exact_bytes']}/{startup_result['startup_exact_bytes']} bytes**, **{startup_result['startup_functions_exact']}/3 functions**, **{startup_result['startup_relocations_applied']} relocations**; first remaining difference **`0x{startup_result['first_differing_address']:08x}`**
+- **Stage-3H frontend unwind:** **{frontend_eh_result['frontend_fdes']} FDEs**, **{frontend_eh_result['frontend_eh_bytes']:,} exact bytes**, **window 14 closed**
+- **Stage-3I historical C++ tail:** **{historical_tail_result['source_bytes']:,} source bytes**, **{historical_tail_result['semantic_fdes']} semantic FDEs**, **{historical_tail_result['exact_chunks']}/{historical_tail_result['chunk_count']} windows exact**, **{historical_tail_result['mismatching_chunks']} remain**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**

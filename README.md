@@ -43,6 +43,8 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3F address contracts:** **1,265/1,265 resolved**, **0 unresolved**; **764,686 materialized bytes**, while complete object/array bounds remain open
 - **Stage-3G clean link diagnostic:** **179/179 fixed sections**, **155/155 initialized payloads exact**, **12/51 whole-image windows exact**; **1,883,867 bytes still differ**
 - **Stage-3G exact startup:** **entry `0x00100008`**, **276/276 bytes**, **3/3 functions**, **27 relocations**; first remaining difference **`0x00100114`**
+- **Stage-3H frontend unwind:** **18 FDEs**, **944 exact bytes**, **window 14 closed**
+- **Stage-3I historical C++ tail:** **123,140 source bytes**, **30 semantic FDEs**, **16/51 windows exact**, **35 remain**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -108,6 +110,8 @@ make unnamed-data
 make data-backing
 make link-layout-probe
 make startup-integration
+make frontend-eh-frames
+make historical-tail-data
 make layout-oracle
 ```
 
@@ -279,6 +283,13 @@ startup BSS geometry are proved. The first remaining difference is
 `0x00100114`; 39/51 windows and 1,884,142 bytes still differ, so the result is
 not a replacement ELF. See
 [`docs/status/V104_EXACT_STARTUP_INTEGRATION.md`](docs/status/V104_EXACT_STARTUP_INTEGRATION.md).
+
+V105 reconstructs the historical GCC C++ metadata and late Snes9x data
+corridor without committing target payload. Three frontend unwind groups close
+window 14; six rebuilt source providers plus 30 semantic FDEs close windows
+47–49. The cumulative diagnostic now matches **16/51** windows, leaving **35**
+and 1,859,772 differing bytes. See
+[`docs/status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](docs/status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
 
 ## Target fingerprint
 

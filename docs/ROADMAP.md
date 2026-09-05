@@ -137,6 +137,9 @@ complete object/array bounds are not closed.
 - [x] Integrate the pinned historical PS2SDK startup: exact target entry,
   `_start`/`_exit`/`_root`, 276 startup bytes, 27 relocations and the 384-byte
   startup BSS. The first unproved application byte is `0x00100114` (V104).
+- [x] Reconstruct the frontend and late C++ unwind records from explicit DWARF
+  semantics, and rebuild six late Snes9x data providers from pinned source.
+  Close image windows 14 and 47–49; reach 16/51 exact with 35 remaining (V105).
 - [ ] Select and integrate the exact per-function implementations into the
   final object set; compiling the canonical behavioral models is not proof
   that their aggregate code equals the complete target text.

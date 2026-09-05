@@ -1,0 +1,273 @@
+{
+  "claims": {
+    "chunk_14_raw_exact": true,
+    "exact_implementation_selection_complete": false,
+    "frontend_unwind_ranges_raw_exact": true,
+    "frontend_unwind_relocations_applied": true,
+    "frontend_unwind_semantics_reconstructed": true,
+    "historical_link_order_proved": false,
+    "packed_hash_matched": false,
+    "private_target_bytes_stored": false,
+    "replacement_elf": false,
+    "sjcrunch2_packing_reproduced": false,
+    "unpacked_hash_matched": false
+  },
+  "fdes": [
+    {
+      "address": 1068632,
+      "function": "frontend_shutdown_00104e58",
+      "group": 1,
+      "size": 36
+    },
+    {
+      "address": 1068668,
+      "function": "loadModuleBuffer",
+      "group": 1,
+      "size": 156
+    },
+    {
+      "address": 1068824,
+      "function": "main",
+      "group": 1,
+      "size": 1944
+    },
+    {
+      "address": 1070784,
+      "function": "snes_dispatch_001056c0",
+      "group": 1,
+      "size": 32
+    },
+    {
+      "address": 1070928,
+      "function": "build_sram_path_00105750",
+      "group": 1,
+      "size": 172
+    },
+    {
+      "address": 1071100,
+      "function": "snes_p16_001057fc",
+      "group": 1,
+      "size": 156
+    },
+    {
+      "address": 1071256,
+      "function": "snes_p16_00105898",
+      "group": 1,
+      "size": 308
+    },
+    {
+      "address": 1072432,
+      "function": "snes_dispatch_00105d30",
+      "group": 1,
+      "size": 72
+    },
+    {
+      "address": 1072504,
+      "function": "snes_dispatch_00105d78",
+      "group": 1,
+      "size": 140
+    },
+    {
+      "address": 1072644,
+      "function": "snes_dispatch_00105e04",
+      "group": 1,
+      "size": 52
+    },
+    {
+      "address": 1072712,
+      "function": "snes_p17_00105e48",
+      "group": 1,
+      "size": 524
+    },
+    {
+      "address": 1073372,
+      "function": "snes_p16_001060dc",
+      "group": 2,
+      "size": 996
+    },
+    {
+      "address": 1074368,
+      "function": "snes_p16_001064c0",
+      "group": 2,
+      "size": 836
+    },
+    {
+      "address": 1075236,
+      "function": "snes_p12_00106824",
+      "group": 3,
+      "size": 120
+    },
+    {
+      "address": 1075356,
+      "function": "snes_p16_0010689c",
+      "group": 3,
+      "size": 816
+    },
+    {
+      "address": 1076172,
+      "function": "is_sram_extension_00106bcc",
+      "group": 3,
+      "size": 60
+    },
+    {
+      "address": 1076384,
+      "function": "snes_p16_00106ca0",
+      "group": 3,
+      "size": 1720
+    },
+    {
+      "address": 1078104,
+      "function": "snes_p16_00107358",
+      "group": 3,
+      "size": 544
+    }
+  ],
+  "format": "snesstation-stage3h-frontend-eh-frame-integration",
+  "groups": [
+    {
+      "address": 2013936,
+      "cie_augmentation": "zPL",
+      "linked_sha256": "7df126bdea3534f63ead51338f0691f78bf13b2fe983e44f5d866f5769345dc3",
+      "relocations": 13,
+      "section": ".data.stage3h.frontend_eh_1",
+      "size": 544,
+      "unrelocated_sha256": "264888dcb98f386e48d07e5efd5b598ae73f84faca725e5e3c159792423da7e6"
+    },
+    {
+      "address": 2014560,
+      "cie_augmentation": "zPL",
+      "linked_sha256": "282e3ddd331b982d5a590d09c855a80eabb8786fe403bcdb6ecaf6e8d65b4277",
+      "relocations": 4,
+      "section": ".data.stage3h.frontend_eh_2",
+      "size": 140,
+      "unrelocated_sha256": "aec592da90a927aea302192f960ff668f97b498c0bed43b674551e3091242569"
+    },
+    {
+      "address": 2015692,
+      "cie_augmentation": "zP",
+      "linked_sha256": "6f770a317db9f05a09a3d4801d851d026d9c40ae099e3011406ac1d77c1a0099",
+      "relocations": 6,
+      "section": ".data.stage3h.frontend_eh_3",
+      "size": 260,
+      "unrelocated_sha256": "f0f11fa62568aa1550bfa23cf6086c2b7e6b0994d7757734f37b9e907b873e74"
+    }
+  ],
+  "link_symbols": {
+    "stage3h_gxx_personality": 1742632,
+    "stage3h_lsda_00426b71": 4352881,
+    "stage3h_lsda_00426b83": 4352899,
+    "stage3h_pc_00104e58": 1068632,
+    "stage3h_pc_00104e7c": 1068668,
+    "stage3h_pc_00104f18": 1068824,
+    "stage3h_pc_001056c0": 1070784,
+    "stage3h_pc_00105750": 1070928,
+    "stage3h_pc_001057fc": 1071100,
+    "stage3h_pc_00105898": 1071256,
+    "stage3h_pc_00105d30": 1072432,
+    "stage3h_pc_00105d78": 1072504,
+    "stage3h_pc_00105e04": 1072644,
+    "stage3h_pc_00105e48": 1072712,
+    "stage3h_pc_001060dc": 1073372,
+    "stage3h_pc_001064c0": 1074368,
+    "stage3h_pc_00106824": 1075236,
+    "stage3h_pc_0010689c": 1075356,
+    "stage3h_pc_00106bcc": 1076172,
+    "stage3h_pc_00106ca0": 1076384,
+    "stage3h_pc_00107358": 1078104
+  },
+  "result": {
+    "chunk_count": 51,
+    "differing_bytes": 1883635,
+    "equal_bytes": 1421301,
+    "exact_chunk_indices": [
+      12,
+      13,
+      14,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "exact_chunks": 13,
+    "first_differing_address": 1048852,
+    "frontend_eh_bytes": 944,
+    "frontend_eh_groups": 3,
+    "frontend_eh_relocations": 23,
+    "frontend_fdes": 18,
+    "integrated_entry_address": 1048584,
+    "integrated_padded_sha256": "9c88e92f2651a141233ec505135d75c23bb56d69662cf88c8fb82027a11a11b2",
+    "integrated_unpadded_sha256": "fa45d9cdb1569f55bc8a6108f822c938150c3aa1d66d406798181794b60c22aa",
+    "integrated_unpadded_size": 3304836,
+    "mismatching_chunk_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      47,
+      48,
+      49,
+      50
+    ],
+    "mismatching_chunks": 38,
+    "prior_differing_bytes": 1884142,
+    "prior_exact_chunks": 12,
+    "target_entry_address": 1048584,
+    "target_initialized_size": 3304936,
+    "target_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
+    "terminal_zero_padding": 100
+  },
+  "schema_version": 1,
+  "source_contract": {
+    "compile_flags": [
+      "-G0",
+      "-EL",
+      "-mno-abicalls",
+      "-march=r5900",
+      "-mtune=r5900"
+    ],
+    "compiler_base_version": "3.2.2",
+    "compiler_target": "ee",
+    "construction": "semantic DWARF CIE/FDE directives with R_MIPS_32 link relocations",
+    "private_byte_fallback": false,
+    "progress_targets_sha256": "528965a51814d44054dd7d01404c4b2ee428f275d2fb7e8673fb76a57f96e698",
+    "source": "matching/candidates/stage3h_frontend_eh_frames.S",
+    "source_sha256": "8d7d7d809e897666a3d62e27d6302df2d228c298302d5e98138f517bff5c6409",
+    "startup_manifest_sha256": "57476d8864f014a418565e664bb2d7003aed3c6c6386f7e3a5d1ceb352f93a03"
+  }
+}

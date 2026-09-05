@@ -14,7 +14,7 @@
     "units": 90
   },
   "inputs": {
-    "analysis/link_identity/link_layout_probe.json": "cf46052a8da72d64e48c4c696c42d961b308094bb08b52e5bdb75f8b62d935d3",
+    "analysis/link_identity/historical_tail_data.json": "8009b7770c3b9c76dc17c8de73069a40c44242f4716435044c67794a72d9d2a4",
     "analysis/progress_targets.csv": "528965a51814d44054dd7d01404c4b2ee428f275d2fb7e8673fb76a57f96e698",
     "analysis/source_readiness.csv": "3d501952002b33837fc38ae000a66163ec652330df954e67a55d0aad37550573",
     "analysis/source_tree/translation_units.tsv": "b69e90de05aebac109baf8ddb18a6ba58dce28e5e430eb33084316ab6eabc5da"
@@ -27,8 +27,8 @@
   "report_version": 2,
   "schema_version": 1,
   "whole_image_identity": {
-    "exact_chunk_bytes": 786432,
-    "exact_chunks": 12,
+    "exact_chunk_bytes": 1048576,
+    "exact_chunks": 16,
     "replacement_elf": false,
     "target_bytes": 3304936,
     "total_chunks": 51,

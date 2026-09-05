@@ -317,3 +317,21 @@ remove it. The active bottleneck is the historical application object/archive
 composition, runtime member data, complete object bounds and final relocation
 order—not startup or another address anchor. See
 [`status/V104_EXACT_STARTUP_INTEGRATION.md`](status/V104_EXACT_STARTUP_INTEGRATION.md).
+
+## V105 historical C++ tail integration
+
+V105 reconstructs three frontend GCC 3.2.2 CIE/FDE groups (18 FDEs, 944
+bytes, 23 relocations) from explicit semantics and closes window 14. It then
+rebuilds six late Snes9x data providers from the pinned 1.41-1 source: 123,140
+bytes with 1,623 final `R_MIPS_32` values verified against the private oracle.
+Another 30 FDEs / 1,708 bytes are assembled semantically. Ten smaller fixed
+sections are absorbed while all 157 existing global names remain absolute
+aliases, so no duplicate storage or undefined caller is introduced.
+
+Windows 47–49 also become exact. The cumulative diagnostic is **16/51** exact,
+with **35 windows and 1,859,772 bytes still different**. The first difference
+remains `0x00100114`. The bottleneck is now concentrated in exact application
+implementation/object selection, archive-member data, complete bounds and
+historical relocation/link order. Packing is still downstream of the unpacked
+hash. See
+[`status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).

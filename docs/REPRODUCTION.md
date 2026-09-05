@@ -36,6 +36,8 @@ make historical-data   # 49 typed intervals / 810542 exact bytes; EE C++ rebuild
 make data-backing      # 1265/1265 address identities; complete bounds still open
 make link-layout-probe # 179 fixed sections; compare the clean Stage-3G ET_EXEC
 make startup-integration # exact entry + 276-byte historical crt0; app remains open
+make frontend-eh-frames # 18 semantic frontend FDEs; image window 14 exact
+make historical-tail-data # six rebuilt source providers + 30 FDEs; 16/51 exact
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -108,12 +110,17 @@ The final pipeline must prove every layer:
    27 relocations and startup BSS geometry proved. The first remaining
    difference is `0x00100114`; 39/51 image windows remain different. See
    [`status/V104_EXACT_STARTUP_INTEGRATION.md`](status/V104_EXACT_STARTUP_INTEGRATION.md).
-17. **Final link** — select/integrate exact implementation objects, linker script,
+17. **Historical C++ metadata/tail — integrated** — three frontend unwind
+   groups and six rebuilt Snes9x data providers plus 30 semantic FDEs close
+   windows 14 and 47–49. The cumulative diagnostic is 16/51 exact; 35 remain.
+   See
+   [`status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
+18. **Final link** — select/integrate exact implementation objects, linker script,
    section addresses, object order and library order to
    reproduce the unpacked ELF image.
-18. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+19. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
-19. **Final comparison** — section/layout reports and both unpacked and packed
+20. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
 
 The required reference hashes are:
@@ -131,6 +138,8 @@ The current clean Stage-3G link diagnostic is recorded in
 [`status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](status/V102_CLEAN_STAGE3G_LINK_PROBE.md).
 The exact startup integration is recorded in
 [`status/V104_EXACT_STARTUP_INTEGRATION.md`](status/V104_EXACT_STARTUP_INTEGRATION.md).
+The frontend unwind and late historical C++ data integration is recorded in
+[`status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
 The closed Stage-3D libgcc checkpoint is recorded in
 [`status/V91_STAGE3D_LIBGCC_CLOSED.md`](status/V91_STAGE3D_LIBGCC_CLOSED.md).
 The subsequent formatter refactor and its private direct-call proof are in

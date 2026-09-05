@@ -28,6 +28,9 @@ show_status() {
     printf '  - Stage-3G delta: 1,883,867 bytes; entry 0x00111f70 != 0x00100008\n'
     printf '  - Stage-3G exact startup: _start/_exit/_root; 276 bytes; 27 relocations\n'
     printf '  - Stage-3G startup entry: 0x00100008 exact; next difference 0x00100114\n'
+    printf '  - Stage-3H frontend unwind: 18 FDEs / 944 bytes; window 14 exact\n'
+    printf '  - Stage-3I historical tail: 123,140 source bytes + 30 FDEs\n'
+    printf '  - Whole-image diagnostic: 16/51 windows exact; 1,859,772 bytes differ\n'
     printf '\nExact replacement ELF still requires:\n'
     printf '  - final source selection/integration of exact function implementations\n'
     printf '  - complete Stage-3F object/array extents; 354 lack access witnesses\n'
@@ -56,6 +59,8 @@ case "$MODE" in
         make data-backing
         make link-layout-probe-check
         make startup-integration-check
+        make frontend-eh-frames-check
+        make historical-tail-data-check
         make layout-oracle-check
         make elf-status
         ;;
@@ -67,6 +72,8 @@ case "$MODE" in
         make data-backing
         make link-layout-probe-check
         make startup-integration-check
+        make frontend-eh-frames-check
+        make historical-tail-data-check
         make layout-oracle-check
         make elf
         ;;

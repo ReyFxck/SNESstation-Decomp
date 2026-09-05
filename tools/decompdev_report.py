@@ -302,12 +302,12 @@ def _function_units(
 
 
 def _image_units(contract: dict[str, Any]) -> list[dict[str, Any]]:
-    probe = _load_json(ROOT / "analysis" / "link_identity" / "link_layout_probe.json")
+    probe = _load_json(ROOT / "analysis" / "link_identity" / "historical_tail_data.json")
     claims = probe.get("claims", {})
     result = probe.get("result", {})
     frozen = contract["whole_image_identity"]
     if claims.get("replacement_elf") is not False or claims.get("unpacked_hash_matched") is not False:
-        raise DecompDevReportError("Stage-3G probe no longer has the frozen open claims")
+        raise DecompDevReportError("whole-image diagnostic no longer has the frozen open claims")
     for field, probe_field in (
         ("total_chunks", "chunk_count"),
         ("exact_chunks", "exact_chunks"),
