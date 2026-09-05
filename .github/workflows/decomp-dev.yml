@@ -1,0 +1,27 @@
+name: decomp.dev progress report
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate and validate public objdiff v2 report
+        run: make decompdev-report
+      - name: Upload report for decomp.dev
+        uses: actions/upload-artifact@v4
+        with:
+          name: SNES_EMU_report
+          path: build/decompdev/report.json
+          if-no-files-found: error
+          retention-days: 90

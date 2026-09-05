@@ -262,6 +262,14 @@ entry is still `0x00111f70` instead of `0x00100008`, and 1,883,867 bytes still
 differ, so this is deliberately not called a replacement ELF. See
 [`docs/status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](docs/status/V102_CLEAN_STAGE3G_LINK_PROBE.md).
 
+V103 publishes those proof levels to decomp.dev as a deterministic public
+Objdiff Report v2. It reports 1,041/1,041 function matches without marking the
+90 source/historical units link-complete, and counts only the 12/51 wholly
+exact Stage-3G image windows. Generate and validate the same artifact locally
+with `make decompdev-report`. No original executable or extracted private bytes
+enter the report. See
+[`docs/status/V103_DECOMP_DEV_REPORTING.md`](docs/status/V103_DECOMP_DEV_REPORTING.md).
+
 ## Target fingerprint
 
 | Item | Value |

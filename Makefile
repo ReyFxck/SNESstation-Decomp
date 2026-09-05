@@ -107,6 +107,8 @@ DATA_BACKING_REPORT := $(DATA_BACKING_BUILD_DIR)/report.json
 LINK_LAYOUT_PROBE_MANIFEST := analysis/link_identity/link_layout_probe.json
 LINK_LAYOUT_PROBE_BUILD_DIR := $(BUILD_DIR)/link-layout-probe
 LINK_LAYOUT_PROBE_REPORT := $(LINK_LAYOUT_PROBE_BUILD_DIR)/report.json
+DECOMPDEV_REPORT_CONTRACT := analysis/decompdev/report_contract.json
+DECOMPDEV_REPORT := $(BUILD_DIR)/decompdev/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -168,6 +170,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	runtime-members runtime-members-check runtime-members-verify runtime-members-refresh runtime-members-public-check \
 	data-backing data-backing-check data-backing-verify data-backing-refresh data-backing-public-check \
 	link-layout-probe link-layout-probe-check link-layout-probe-refresh link-layout-probe-public-check \
+	decompdev-report decompdev-report-check decompdev-report-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -213,6 +216,7 @@ help:
 	@echo "  make historical-data   rebuild 49 exact typed source-data intervals"
 	@echo "  make data-backing      1209 backed + 29 ROM refactors + 10 code aliases; 0 unresolved"
 	@echo "  make link-layout-probe link the first honest Stage-3G diagnostic and compare all 51 windows"
+	@echo "  make decompdev-report generate the public objdiff v2 progress artifact"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -306,8 +310,19 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check decompdev-report-public-check
 	@echo "repository checks: OK"
+
+decompdev-report:
+	$(PYTHON) tools/decompdev_report.py --contract "$(DECOMPDEV_REPORT_CONTRACT)" generate \
+		--output "$(DECOMPDEV_REPORT)"
+	$(PYTHON) tools/decompdev_report.py --contract "$(DECOMPDEV_REPORT_CONTRACT)" validate \
+		--report "$(DECOMPDEV_REPORT)"
+
+decompdev-report-check: decompdev-report
+
+decompdev-report-public-check:
+	$(PYTHON) tools/decompdev_report.py --contract "$(DECOMPDEV_REPORT_CONTRACT)" validate
 
 reference:
 	bash tools/analyze.sh

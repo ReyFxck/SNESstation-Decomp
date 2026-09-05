@@ -1,0 +1,37 @@
+{
+  "artifact": {
+    "internal_path": "build/decompdev/report.json",
+    "name": "SNES_EMU_report",
+    "version": "SNES_EMU"
+  },
+  "format": "snesstation-decompdev-report-contract",
+  "function_matching": {
+    "code_bytes": 722892,
+    "entries": 1041,
+    "linked_code_bytes": 0,
+    "linked_units": 0,
+    "terminal_function_size": 68,
+    "units": 90
+  },
+  "inputs": {
+    "analysis/link_identity/link_layout_probe.json": "cf46052a8da72d64e48c4c696c42d961b308094bb08b52e5bdb75f8b62d935d3",
+    "analysis/progress_targets.csv": "528965a51814d44054dd7d01404c4b2ee428f275d2fb7e8673fb76a57f96e698",
+    "analysis/source_readiness.csv": "3d501952002b33837fc38ae000a66163ec652330df954e67a55d0aad37550573",
+    "analysis/source_tree/translation_units.tsv": "b69e90de05aebac109baf8ddb18a6ba58dce28e5e430eb33084316ab6eabc5da"
+  },
+  "privacy": {
+    "contains_binary_payloads": false,
+    "requires_private_reference": false,
+    "uses_absolute_local_paths": false
+  },
+  "report_version": 2,
+  "schema_version": 1,
+  "whole_image_identity": {
+    "exact_chunk_bytes": 786432,
+    "exact_chunks": 12,
+    "replacement_elf": false,
+    "target_bytes": 3304936,
+    "total_chunks": 51,
+    "unpacked_hash_matched": false
+  }
+}

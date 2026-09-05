@@ -11,6 +11,7 @@ The most important files are:
 | `source_readiness.csv` | Generated source-form and matching audit |
 | `source_tree/` | Stage-2 EE ABI, TU and defined/external ownership manifests |
 | `link_identity/` | Stage-3 unpacked-layout oracle, aliases, link-contract/provider closure and hash-only named-data/private-provider evidence |
+| `decompdev/` | Frozen public-only contract for the generated Objdiff Report v2 |
 | `progress16_recovered_targets.csv` | Frozen Progress-16 structural universe |
 | `progress17_recovered_targets.csv` | Frozen Progress-17 structural universe |
 | `progress17_rejected_jal_candidates.csv` | Rejected data words from the raw JAL scan |
