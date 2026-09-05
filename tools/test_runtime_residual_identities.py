@@ -53,6 +53,11 @@ class RuntimeResidualIdentityTests(unittest.TestCase):
         for row in self.rows:
             self.assertEqual("4", row["archive_copy_count"])
 
+    def test_archive_roster_is_explicit_not_report_discovery(self):
+        self.assertEqual(4, len(gate.EXPECTED_ARCHIVES))
+        self.assertFalse(hasattr(gate, "PART4D_REPORT"))
+        self.assertEqual(4, len({str(path) for path in gate.EXPECTED_ARCHIVES}))
+
     def test_identity_drift_rejected(self):
         rows = copy.deepcopy(self.rows)
         rows[0]["identity"] = "wrong"

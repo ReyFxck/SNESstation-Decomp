@@ -127,14 +127,21 @@ complete object/array bounds are not closed.
   real backing link (V98). The current audit has 1,197 backed, 29 refactored
   and 39 unresolved contracts. Selected source-provider bounds are not full
   target-wide object/array closure.
+- [x] Close the final 39 Stage-3F address identities through V99–V101 with
+  source literals, exact runtime/historical identities, code refactors and
+  minimum PCM extents. The address ledger is 1,265/1,265 with zero unresolved;
+  address identity is still not a complete object/array bound.
+- [x] Link the real Stage-3F aggregate into the first clean Stage-3G diagnostic.
+  Place 179/179 fixed sections at exact VMAs/sizes, preserve 155/155 initialized
+  payloads and compare all 51 oracle windows (12 exact, 39 different).
 - [ ] Select and integrate the exact per-function implementations into the
   final object set; compiling the canonical behavioral models is not proof
   that their aggregate code equals the complete target text.
 - [ ] Integrate member data and final relocation values; prove original archive
   composition rather than treating local selection containers as historical.
-- [ ] Recover exact ranges, bytes, zero-fill boundaries and overlaps for the
-  39 unresolved Stage-3F addresses and complete object/array bounds for the
-  actual data contracts. The 29 removed ROM offsets are not EE image objects.
+- [ ] Recover complete object/array ranges and zero-fill boundaries for all
+  Stage-3F data contracts. The 29 removed ROM offsets are not EE image objects,
+  and the closed address roster alone is not size evidence.
 - [ ] Recover the application linker script and section alignment.
 - [ ] Recover object order and library order.
 - [ ] Reproduce relocations, string pooling and final unpacked data layout.

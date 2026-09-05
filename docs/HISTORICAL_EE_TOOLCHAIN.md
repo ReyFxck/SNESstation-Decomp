@@ -79,7 +79,7 @@ On Debian/Ubuntu the host prerequisites are:
 apt install git patch make gcc binutils python3
 ```
 
-Four host compatibility changes are deliberately separated from the historical
+Host compatibility changes are deliberately separated from the historical
 PS2 backend patch:
 
 - the old host-side tools are compiled with `_FORTIFY_SOURCE` disabled because
@@ -98,6 +98,11 @@ PS2 backend patch:
 - GCC 3.2.2's `config.gcc` accepts AArch64 as a build/host system while still
   rejecting it as a code-generation target. The compiler target remains the
   historical `mips64r5900el-scei-elf` EE backend.
+- GCC 3.2.2's generated configure script used the invalid pre-C99 probe
+  `foo(){}` when testing host `-c -o`. GCC 14 rejects that probe and caused an
+  empty `OUTPUT_OPTION`, so C++ sources were written to the wrong directory.
+  The tracked patch changes only this host probe to valid ISO C. Existing
+  poisoned build/stamp state is preserved under `recovery/` and reconfigured.
 
 The tracked compatibility patch SHA-256 values are:
 
@@ -106,9 +111,10 @@ The tracked compatibility patch SHA-256 values are:
 | `gcc-3.2.2-modern-host.patch` | `8e799725842a266d8bce883791c7cbf044a9e0753779102ce5d29852496ec8fe` |
 | `gnu-config-aarch64.patch` | `9b083b0d9d3cb7cdb2b394e4ff2535877202dad5c81da9dc1fe24a59185682f6` |
 | `gcc-3.2.2-aarch64-host.patch` | `4ce10fbb0a1545ff8ba57b6f101d9640c559f497bb2a4c5e858f4c1a3c71ab11` |
+| `gcc-3.2.2-c-o-probe.patch` | `1f2be3965380f0f575e9f5e1021dc892f7f61e9ee0e55151d0ea96ce53bade51` |
 
 The exact commands, host identity, archive hashes, patch hash and resulting
-host-specific compiler hash are saved in
+host-specific compiler hash and complete repository patch-set signature are saved in
 `build/toolchains/ee-gcc-3.2.2-stage1/bootstrap-manifest.json`. The complete
 bootstrap passed on an x86_64 Ubuntu host with GCC 13 and produced an `ee-gcc`
 that passes the R5900/ELF32 smoke probe and compiles the isolated `get_tree`
@@ -129,8 +135,18 @@ make match-get-tree EE_CC="$EE_CC"
 ```
 
 This is a **compile-only matching toolchain**. It does not yet build Newlib,
-C++, PS2SDK, the historical application archives, a replacement ELF or the
+C++ by default, PS2SDK, the historical application archives, a replacement ELF or the
 SJCRUNCH2 container.
+
+The exact historical-data gates request the C++ front end separately:
+
+```bash
+make bootstrap-ee-cxx-stage1
+```
+
+That build is also compile-only. The valid `-c/-o` probe and patch-bound stamps
+make it resumable on Debian Trixie/GCC 14 without silently trusting the failed
+V97-era configure cache.
 
 ## The chronology warning
 

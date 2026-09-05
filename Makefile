@@ -104,6 +104,9 @@ DATA_BACKING_SECTIONS := analysis/link_identity/data_backing_sections.tsv
 DATA_BACKING_BUILD_DIR := $(BUILD_DIR)/data-backing
 DATA_BACKING_OUTPUT := $(DATA_BACKING_BUILD_DIR)/source-tree.data-backed.partial.o
 DATA_BACKING_REPORT := $(DATA_BACKING_BUILD_DIR)/report.json
+LINK_LAYOUT_PROBE_MANIFEST := analysis/link_identity/link_layout_probe.json
+LINK_LAYOUT_PROBE_BUILD_DIR := $(BUILD_DIR)/link-layout-probe
+LINK_LAYOUT_PROBE_REPORT := $(LINK_LAYOUT_PROBE_BUILD_DIR)/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -164,6 +167,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	runtime-refactors runtime-refactors-check runtime-refactors-verify runtime-refactors-public-check \
 	runtime-members runtime-members-check runtime-members-verify runtime-members-refresh runtime-members-public-check \
 	data-backing data-backing-check data-backing-verify data-backing-refresh data-backing-public-check \
+	link-layout-probe link-layout-probe-check link-layout-probe-refresh link-layout-probe-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -207,7 +211,8 @@ help:
 	@echo "  make runtime-overrides prove target-selected puts/abort; Stage 3D 53/53"
 	@echo "  make unnamed-data      verify 872 minimum spans with block/CFG/prefix proofs"
 	@echo "  make historical-data   rebuild 49 exact typed source-data intervals"
-	@echo "  make data-backing      1197 backed + 29 ROM refactors + 10 code aliases; 29 unresolved; source data integrated"
+	@echo "  make data-backing      1209 backed + 29 ROM refactors + 10 code aliases; 0 unresolved"
+	@echo "  make link-layout-probe link the first honest Stage-3G diagnostic and compare all 51 windows"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
 	@echo "  make help-legacy     list frozen historical evidence runners"
@@ -301,7 +306,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check
 	@echo "repository checks: OK"
 
 reference:
@@ -943,6 +948,26 @@ data-backing-public-check:
 	$(PYTHON) tools/data_backing.py validate \
 		--manifest "$(DATA_BACKING_MANIFEST)" --sections "$(DATA_BACKING_SECTIONS)"
 
+link-layout-probe: data-backing
+	$(MAKE) link-layout-probe-check EE_CC="$(EE_STAGE1_CC)"
+
+link-layout-probe-check:
+	@test -f "$(DATA_BACKING_OUTPUT)" || { echo "missing $(DATA_BACKING_OUTPUT); run make data-backing-check" >&2; exit 2; }
+	$(PYTHON) tools/link_layout_probe.py probe \
+		--compiler "$(EE_CC)" --reference "$(REFERENCE_RAW)" \
+		--input "$(DATA_BACKING_OUTPUT)" --build-dir "$(LINK_LAYOUT_PROBE_BUILD_DIR)" \
+		--manifest "$(LINK_LAYOUT_PROBE_MANIFEST)"
+
+link-layout-probe-refresh:
+	@test -f "$(DATA_BACKING_OUTPUT)" || { echo "missing $(DATA_BACKING_OUTPUT); run make data-backing-check" >&2; exit 2; }
+	$(PYTHON) tools/link_layout_probe.py capture \
+		--compiler "$(EE_CC)" --reference "$(REFERENCE_RAW)" \
+		--input "$(DATA_BACKING_OUTPUT)" --build-dir "$(LINK_LAYOUT_PROBE_BUILD_DIR)" \
+		--manifest "$(LINK_LAYOUT_PROBE_MANIFEST)"
+
+link-layout-probe-public-check:
+	$(PYTHON) tools/link_layout_probe.py validate --manifest "$(LINK_LAYOUT_PROBE_MANIFEST)"
+
 rom-offsets-public-check:
 	$(PYTHON) tools/rom_offsets.py validate
 
@@ -1213,13 +1238,16 @@ elf-status: audit-source-check
 	@echo "Stage 3D libgcc: CLOSED (4 exact archive members + 3 source refactors)"
 	@echo "Stage 3D runtime contracts: CLOSED (53/53; puts/abort target overrides proved)"
 	@echo "Stage 3F access spans: 872/1265 witnessed (693 local + 146 CFG + 33 prefix); full bounds OPEN"
-	@echo "Stage 3F: 1197 storage-backed + 29 ROM refactors + 10 code aliases; 29 unresolved; 762372 materialized bytes"
+	@echo "Stage 3F address identities: CLOSED (1209 backed + 29 ROM refactors + 10 code aliases + 17 other exact identities; 0 unresolved)"
+	@echo "Stage 3G diagnostic: 179/179 fixed sections; 155/155 initialized payloads exact; 12/51 image windows exact"
+	@echo "Stage 3G diagnostic delta: 1883867 bytes differ; entry 0x00111f70 != target 0x00100008"
 	@echo "Historical backing: 695316 bytes freshly rebuilt from pinned source (not privately extracted)"
 	@echo "Compatibility storage: CLOSED (39 -> 0 exact-range replacements)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"
 	@echo "  - select and integrate exact function implementations into final objects"
-	@echo "  - Stage 3F unnamed data; member data and final relocation values"
-	@echo "  - reproduce data layout, relocations and section alignment"
+	@echo "  - close complete Stage 3F object/array extents (address identity alone is not a bound)"
+	@echo "  - integrate exact matched implementations, runtime member data and final relocations"
+	@echo "  - reproduce the historical linker script, section/object/archive order and target entry"
 	@echo "  - prove exact EE archives, linker script, object order and library order"
 	@echo "  - reproduce SJCRUNCH2 packing and both reference hashes"
 	@echo "See docs/REPRODUCTION.md"

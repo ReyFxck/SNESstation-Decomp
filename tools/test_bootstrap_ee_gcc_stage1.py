@@ -14,9 +14,13 @@ from bootstrap_ee_gcc_stage1 import (
     AARCH64_GCC_HOST_PATCH,
     ARCHIVES,
     BuildFailure,
+    C_O_PROBE_PATCH,
     CXX_MODERN_HOST_PATCH,
     HOST_CFLAGS,
     apply_patch_once,
+    patchset_signature,
+    poisoned_c_o_cache,
+    preserve_poisoned_gcc_build,
     safe_archive_path,
     safe_extract_archive,
 )
@@ -190,6 +194,49 @@ esac
             text = (source / "decl.c").read_text(encoding="utf-8")
             self.assertIn("? &cp_function_chain->bindings", text)
             self.assertIn(": &scope_chain->bindings))", text)
+
+    def test_c_o_probe_patch_uses_valid_iso_c(self) -> None:
+        patch = C_O_PROBE_PATCH.read_text(encoding="utf-8")
+        self.assertIn("int foo(void) { return 0; }", patch)
+        self.assertIn("foo(){}", patch)
+        self.assertEqual(64, len(patchset_signature()))
+
+    def test_empty_output_option_cache_is_detected_and_preserved(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="snesstation-bootstrap-test-") as name:
+            work = Path(name)
+            build = work / "build" / "gcc-ee-stage1"
+            stamps = work / "stamps"
+            build.mkdir(parents=True)
+            stamps.mkdir()
+            (build / "Makefile").write_text(
+                "CC = gcc\nOUTPUT_OPTION =\n", encoding="utf-8"
+            )
+            for step in ("04-gcc-configure", "05-gcc-build", "06-gcc-install"):
+                (stamps / step).write_text("old\n", encoding="utf-8")
+
+            self.assertTrue(poisoned_c_o_cache(build))
+            with redirect_stdout(io.StringIO()):
+                saved = preserve_poisoned_gcc_build(work, build, stamps)
+
+            self.assertIsNotNone(saved)
+            self.assertTrue((saved / "Makefile").is_file())
+            self.assertTrue(build.is_dir())
+            self.assertFalse(any((stamps / step).exists() for step in (
+                "04-gcc-configure", "05-gcc-build", "06-gcc-install"
+            )))
+
+    def test_valid_output_option_cache_is_retained(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="snesstation-bootstrap-test-") as name:
+            work = Path(name)
+            build = work / "build" / "gcc-ee-stage1"
+            build.mkdir(parents=True)
+            (build / "Makefile").write_text(
+                "OUTPUT_OPTION = -o $@\n", encoding="utf-8"
+            )
+            self.assertFalse(poisoned_c_o_cache(build))
+            self.assertIsNone(
+                preserve_poisoned_gcc_build(work, build, work / "stamps")
+            )
 
 
 if __name__ == "__main__":

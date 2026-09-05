@@ -15,15 +15,15 @@ Closures:
       local symbol value 0x660 size 0x28
       status RUNTIME_INTERNAL_CODE_LABEL
 
-The gate verifies the private target, all four local GCC 3.2.2 archive copies,
-the exact FP/runtime target witnesses, and the frozen Part4D HOTFIX2 report.
+The gate verifies the private target, the four exact GCC 3.2.2 build/install
+archives selected by the C and C++ bootstrap trees, and the FP/runtime target
+witnesses.  It never depends on an ignored one-off investigation report.
 """
 from __future__ import annotations
 
 import argparse
 import csv
 import hashlib
-import json
 import struct
 import subprocess
 from collections import Counter
@@ -33,7 +33,12 @@ from typing import Sequence
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REFERENCE = ROOT / "build" / "SNES_EMU.unpacked.bin"
 DEFAULT_MANIFEST = ROOT / "analysis" / "link_identity" / "runtime_residual_identities.tsv"
-PART4D_REPORT = ROOT / "build" / "v101-part4d-hotfix2-runtime-triple" / "report.json"
+EXPECTED_ARCHIVES = (
+    ROOT / "build/toolchains/ee-gcc-3.2.2-stage1/build/gcc-ee-stage1/gcc/libgcc.a",
+    ROOT / "build/toolchains/ee-gcc-3.2.2-stage1/prefix/lib/gcc-lib/ee/3.2.2/libgcc.a",
+    ROOT / "build/toolchains/ee-gcc-3.2.2-cxx-stage1/build/gcc-ee-stage1/gcc/libgcc.a",
+    ROOT / "build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/lib/gcc-lib/ee/3.2.2/libgcc.a",
+)
 
 TARGET_BASE = 0x00100000
 EXPECTED_REFERENCE_SHA256 = "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b"
@@ -160,13 +165,10 @@ def target_slice(raw: bytes, address: int, size: int) -> bytes:
 
 
 def archives() -> list[Path]:
-    found = sorted({
-        p for p in (ROOT / "build" / "toolchains").rglob("libgcc.a")
-        if "3.2.2" in p.as_posix()
-    })
-    if len(found) != 4:
-        fail(f"expected four GCC 3.2.2 libgcc copies, got {len(found)}")
-    return found
+    missing = [path for path in EXPECTED_ARCHIVES if not path.is_file()]
+    if missing:
+        fail("missing expected GCC 3.2.2 libgcc archive(s): " + ", ".join(map(str, missing)))
+    return list(EXPECTED_ARCHIVES)
 
 
 def member_bytes(archive: Path, member: str) -> bytes:
@@ -291,27 +293,8 @@ def pair_value(raw: bytes, hi_pc: int, low_pc: int) -> list[int]:
     return values
 
 
-def verify_part4d_report() -> dict:
-    if not PART4D_REPORT.is_file():
-        fail(f"missing Part4D HOTFIX2 report: {PART4D_REPORT}")
-    report = json.loads(PART4D_REPORT.read_text(encoding="utf-8"))
-    if report.get("triple_closure_ready") is not True:
-        fail("Part4D HOTFIX2 report is not triple_closure_ready")
-    expected = {
-        "dat_001babc8": "__clz_tab",
-        "unk_001ba7e0": "__thenan_df",
-        "unk_001a6320": "fde_unencoded_compare",
-    }
-    for key, identity in expected.items():
-        row = report.get(key, {})
-        if row.get("identity") != identity or row.get("closure_ready") is not True:
-            fail(f"Part4D identity drift for {key}: {row}")
-    return report
-
-
 def verify_private(reference: Path) -> dict:
     raw = load_reference(reference)
-    report = verify_part4d_report()
     ars = archives()
 
     # __clz_tab exact full object.
@@ -390,7 +373,7 @@ def verify_private(reference: Path) -> dict:
                 f"0x{hi_pc:08x}/0x{low_pc:08x}"
             )
 
-    return report
+    return {"archive_copy_count": len(ars), "durable_evidence_only": True}
 
 
 def expected_rows() -> list[dict[str, str]]:

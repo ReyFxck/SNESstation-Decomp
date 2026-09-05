@@ -40,7 +40,8 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3D runtime contracts:** **53/53 closed**, **0 open**; `puts`/`abort` have 15 named-call witnesses and 104 exact linked bytes
 - **Stage-3F unnamed data access proof:** **872/1,265** consumed spans, **167,659 unique bytes** (146 CFG + 33 deterministic-prefix witnesses); complete object/array extents remain open
 - **Stage-3F historical data:** **49 exact source intervals / 810,542 bytes**, rebuilt from pinned public source
-- **Stage-3F contracts:** **1209 storage-backed + 29 ROM refactors / 1,265**, **0 unresolved**; **764,686 materialized bytes**, not complete-object closure
+- **Stage-3F address contracts:** **1,265/1,265 resolved**, **0 unresolved**; **764,686 materialized bytes**, while complete object/array bounds remain open
+- **Stage-3G clean link diagnostic:** **179/179 fixed sections**, **155/155 initialized payloads exact**, **12/51 whole-image windows exact**; **1,883,867 bytes still differ**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -104,6 +105,7 @@ make runtime-members
 make runtime-overrides
 make unnamed-data
 make data-backing
+make link-layout-probe
 make layout-oracle
 ```
 
@@ -251,6 +253,14 @@ CRC providers gain explicit extents. The link preserves **13,619 source
 relocations** and verifies **3,591 isolated address relocations**. It is still
 not the final emulator ELF. See
 [`docs/status/V98_SOURCE_DATA_INTEGRATION.md`](docs/status/V98_SOURCE_DATA_INTEGRATION.md).
+
+V99 through V101 close those final 39 address identities without inventing
+storage. V102 then performs the first clean Stage-3G executable link: all
+179 proved sections land at exact VMAs/sizes, all 155 initialized fixed
+payloads remain exact and 12/51 whole-image windows match. The diagnostic
+entry is still `0x00111f70` instead of `0x00100008`, and 1,883,867 bytes still
+differ, so this is deliberately not called a replacement ELF. See
+[`docs/status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](docs/status/V102_CLEAN_STAGE3G_LINK_PROBE.md).
 
 ## Target fingerprint
 

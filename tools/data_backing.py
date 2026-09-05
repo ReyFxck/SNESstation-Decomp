@@ -311,7 +311,9 @@ def verify_reference(args: argparse.Namespace, sections: Sequence[dict[str, str]
     runtime_code_pointers.verify_reference(args.reference)
     pcm_buffer_consumed_extent.verify_reference(args.reference)
     runtime_residual_identities.verify_reference(args.reference)
-    final_residual_identities.verify_reference(args.reference)
+    final_residual_identities.verify_reference(
+        args.reference, compiler=args.historical_compiler
+    )
     if accesses.capture(access_args(args, "verify")) != accesses.validate_manifest(access_args(args)):
         fail("private access proofs changed")
     return raw

@@ -143,10 +143,11 @@ re-derives consumed data spans from the private target; ordinary validation
 does not update hashes. Both have repository-only `*-public-check` gates.
 See [`V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](../../docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
 
-`data_backing.tsv` preserves the historical 1,265-name roster: 1,197 zero-sized
-section-relative aliases, 29 closed ROM refactors and 39 unresolved anchors.
-`data_backing_sections.tsv` owns 170 nonoverlapping ranges (66 reused,
-104 materialized), with hashes only. Its 113 interior-address-only aliases
+`data_backing.tsv` preserves the historical 1,265-name roster: 1,209
+section-backed addresses, 29 closed ROM refactors, 10 source-code aliases and
+17 evidence-specific runtime/historical identities, with zero unresolved.
+`data_backing_sections.tsv` owns 179 nonoverlapping ranges (66 reused,
+113 materialized), with hashes only. Its 113 interior-address-only aliases
 do not gain access-width or object-bound claims; another 212 aliases have
 typed historical owners. Access proofs comprise 693 local, 146 CFG and 33
 deterministic-prefix witnesses, with full-function/analyzer hashes and prefix
@@ -156,9 +157,17 @@ execution occurrences. ROM-offset records cannot be promoted by RAM overlap.
 private bytes. `make data-backing-verify` verifies the reference hashes and
 instruction evidence without requiring a compiler. `make data-backing` also
 rebuilds and consumes the historical source-data providers in the real aggregate,
-preserving its allocated input sections and all 13,619 affected source relocations.
+preserving its allocated input sections and all 13,671 affected source relocations.
 Historical rows have no fallback to reference extraction; the other minimum-access
-ranges still use the private reference. It proves 3,591 synthetic address relocations in
+ranges still use the private reference. It proves 3,627 synthetic address relocations in
 an isolated data-placement ELF. It does not produce an emulator. Only explicit
 `make data-backing-refresh` replaces the reviewed hash ledger. See
 [`V98_SOURCE_DATA_INTEGRATION.md`](../../docs/status/V98_SOURCE_DATA_INTEGRATION.md).
+
+`link_layout_probe.json` freezes the next whole-program measurement without
+publishing bytes. `make link-layout-probe-check` links the real Stage-3F
+aggregate, fixes all 179 proved section VMAs/sizes, verifies all 155 initialized
+payloads and compares the padded diagnostic across the 51-window oracle. The
+12 exact windows and 1,883,867 differing bytes are a baseline, not a replacement
+ELF claim. See
+[`V102_CLEAN_STAGE3G_LINK_PROBE.md`](../../docs/status/V102_CLEAN_STAGE3G_LINK_PROBE.md).

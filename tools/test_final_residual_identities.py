@@ -64,6 +64,13 @@ class FinalResidualIdentityTests(unittest.TestCase):
         rows[1]["claim"] += " drift"
         self.reject(rows)
 
+    def test_evidence_is_durable_not_an_ignored_part_report(self):
+        self.assertFalse(hasattr(gate, "PART5C_REPORT"))
+        self.assertFalse(hasattr(gate, "PART5D_REPORT"))
+        evidence = " ".join(row["evidence"] for row in self.rows)
+        self.assertIn("fresh pinned V74", evidence)
+        self.assertIn("target-native CIE/FDE", evidence)
+
 
 if __name__ == "__main__":
     unittest.main()

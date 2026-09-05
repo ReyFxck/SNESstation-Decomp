@@ -9,8 +9,8 @@ show_status() {
     python3 tools/project_status.py
     printf '\nImplemented whole-program gates:\n'
     printf '  - unpacked layout oracle: 1 section / 13 blocks / 51 hash windows\n'
-    printf '  - source-address alias tranche: 323/337 proved; 14 explicit blockers\n'
-    printf '  - zero-byte link contracts: 1307/1540 resolved; 233-provider frontier\n'
+    printf '  - source-address alias tranche: 333/347 proved; 14 explicit blockers\n'
+    printf '  - zero-byte link contracts: 1297/1530 resolved; 233-provider frontier\n'
     printf '  - private embedded assets: 10/10 providers; 233 -> 223 frontier\n'
     printf '  - source-link provider namespace: 223/223 resolved; 0 externals\n'
     printf '  - original Stage-3C named data: CLOSED 54/54 (50 ranges + 4 refactors)\n'
@@ -22,12 +22,13 @@ show_status() {
     printf '  - Stage-3D runtime contract ledger: CLOSED 53/53\n'
     printf '  - Stage-3F access spans: 872/1265; 167,659 bytes (146 CFG + 33 prefix proofs)\n'
     printf '  - Stage-3F typed historical providers: 49 intervals / 810,542 exact bytes\n'
-    printf '  - Stage-3F: 1197 storage-backed + 29 ROM refactors; 39 unresolved\n'
+    printf '  - Stage-3F address identities: 1265/1265; 0 unresolved\n'
     printf '  - Real backing link: 695,316 bytes freshly rebuilt from pinned source\n'
+    printf '  - Stage-3G clean link: 179 fixed sections; 155 payloads exact; 12/51 windows exact\n'
+    printf '  - Stage-3G delta: 1,883,867 bytes; entry 0x00111f70 != 0x00100008\n'
     printf '\nExact replacement ELF still requires:\n'
     printf '  - final source selection/integration of exact function implementations\n'
-    printf '  - complete Stage-3F object/array extents; 364 lack access witnesses\n'
-    printf '  - resolution of 39 remaining address contracts; backing alone does not prove bounds\n'
+    printf '  - complete Stage-3F object/array extents; 354 lack access witnesses\n'
     printf '  - historical member data and original whole-archive composition\n'
     printf '  - exact sections, relocations, linker script and link order\n'
     printf '  - reproduced SJCRUNCH2 packing\n'
@@ -51,6 +52,7 @@ case "$MODE" in
         make runtime-overrides
         make unnamed-data
         make data-backing
+        make link-layout-probe-check
         make layout-oracle-check
         make elf-status
         ;;
@@ -60,6 +62,7 @@ case "$MODE" in
         make runtime-overrides
         make unnamed-data
         make data-backing
+        make link-layout-probe-check
         make layout-oracle-check
         make elf
         ;;

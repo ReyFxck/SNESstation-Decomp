@@ -33,7 +33,8 @@ make runtime-members    # prove 43 contracts / 42 PS2LIB member texts
 make runtime-overrides  # two selected runtime overrides; Stage 3D 53/53
 make unnamed-data      # 872 minimum spans; local / CFG / deterministic prefix
 make historical-data   # 49 typed intervals / 810542 exact bytes; EE C++ rebuild
-make data-backing      # 1197 backed + 29 ROM refactors; 39 unresolved; source data integrated
+make data-backing      # 1265/1265 address identities; complete bounds still open
+make link-layout-probe # 179 fixed sections; compare the clean Stage-3G ET_EXEC
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -85,24 +86,28 @@ The final pipeline must prove every layer:
 13. **Stage-3D target overrides — closed** — 15 historical named calls select
    the recovered puts/abort implementations, which link to 104 raw-exact bytes.
    The original runtime contract ledger is 53/53, not a whole-archive pedigree.
-14. **Unnamed data (Stage 3F)** — 872/1,265 contracts have minimum consumed
+14. **Unnamed data/address identities (Stage 3F)** — 872/1,265 contracts have minimum consumed
    spans: 693 local, 146 CFG and 33 bounded deterministic-prefix witnesses.
    Full-function/analyzer hashes bind these proofs; they are not runtime
    coverage or full object bounds. The independent historical-data gate
    compiles 49 typed source intervals and proves 810,542 bytes. The backing
-   gate reuses 66 sections, adds 104 ranges / 762,372 bytes and binds 1,197
-   addresses. Twenty-nine ROM offsets are closed source refactors, never image
-   objects. It preserves 13,619 source relocations and proves 3,591 isolated
+   gate and later V99–V101 closures resolve all 1,265 address identities.
+   Twenty-nine ROM offsets are closed source refactors, never image objects.
+   The current link preserves 13,671 source relocations and proves 3,627 isolated
    address relocations. Historical rows consume 695,316 freshly compiled
-   source bytes with no reference-extraction fallback. Thirty-nine contracts
-   and full object bounds remain open. See
-   [`status/V98_SOURCE_DATA_INTEGRATION.md`](status/V98_SOURCE_DATA_INTEGRATION.md).
-15. **Link** — select/integrate exact implementation objects, linker script,
+   source bytes with no reference-extraction fallback. Full object bounds remain
+   open even though the address frontier is closed.
+15. **Clean Stage-3G link diagnostic — frozen** — the real aggregate produces
+   an ELF32/R5900 `ET_EXEC`; 179/179 fixed sections land exactly and 155/155
+   initialized payloads match. Twelve of 51 image windows match, while
+   1,883,867 bytes and the entry still differ. See
+   [`status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](status/V102_CLEAN_STAGE3G_LINK_PROBE.md).
+16. **Final link** — select/integrate exact implementation objects, linker script,
    section addresses, object order and library order to
    reproduce the unpacked ELF image.
-16. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+17. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
-17. **Final comparison** — section/layout reports and both unpacked and packed
+18. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
 
 The required reference hashes are:
@@ -116,6 +121,8 @@ The Stage-2 evidence and its exact claim boundary are recorded in
 [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
 The first Stage-3 measurement gate is recorded in
 [`status/V82_UNPACKED_LAYOUT_ORACLE.md`](status/V82_UNPACKED_LAYOUT_ORACLE.md).
+The current clean Stage-3G link diagnostic is recorded in
+[`status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](status/V102_CLEAN_STAGE3G_LINK_PROBE.md).
 The closed Stage-3D libgcc checkpoint is recorded in
 [`status/V91_STAGE3D_LIBGCC_CLOSED.md`](status/V91_STAGE3D_LIBGCC_CLOSED.md).
 The subsequent formatter refactor and its private direct-call proof are in

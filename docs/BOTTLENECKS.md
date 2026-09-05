@@ -198,8 +198,9 @@ See [`status/V93_STAGE3D_RUNTIME_MEMBERS.md`](status/V93_STAGE3D_RUNTIME_MEMBERS
 Even after every function is `MATCHING`, an identical ELF still requires:
 
 - original archive composition and historical member data integration;
-- complete Stage-3F data bounds: 705/1,265 names now have minimum access spans,
-  while 560 lack direct witnesses and full object/array extents remain open;
+- complete Stage-3F data bounds: all 1,265 addresses have identities, but only
+  872 have minimum consumed spans; 354 lack access witnesses and full
+  object/array extents remain open;
 - exact application linker script, section placement and object/library order;
 - data/rodata/string-pool/vtable layout and relocations;
 - exact binutils patch level;
@@ -283,3 +284,20 @@ two relocations; it does not assert a single MEMMAP string-pool base.
 Exact function selection, unresolved object bounds, member data, final layout,
 global relocations and packing remain open. See
 [`status/V98_SOURCE_DATA_INTEGRATION.md`](status/V98_SOURCE_DATA_INTEGRATION.md).
+
+## V101 address closure and V102 clean link diagnostic
+
+V99 through V101 close all 39 addresses left by V98 with evidence-specific
+statuses; they do not manufacture backing sections for code, ROM offsets,
+historical fields or linked exception metadata. The Stage-3F address ledger is
+now **1,265/1,265 with zero unresolved**, while complete data bounds remain a
+separate open gate.
+
+V102 links the actual aggregate and places **179/179 fixed sections** at exact
+VMAs/sizes. All **155 initialized fixed payloads** stay byte-exact and all 24
+zero-fill providers stay `NOBITS`. The resulting image matches 12/51 hash
+windows but differs in 1,883,867 bytes; its entry is `0x00111f70`, not the
+target `0x00100008`. Immediate work is exact startup/implementation selection,
+runtime member data and historical link/relocation order—not more address
+anchors. See
+[`status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](status/V102_CLEAN_STAGE3G_LINK_PROBE.md).

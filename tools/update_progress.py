@@ -23,6 +23,7 @@ import runtime_overrides
 import unnamed_data
 import data_backing
 import historical_data
+import link_layout_probe
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
@@ -489,6 +490,8 @@ def main() -> None:
     backing_report = data_backing.statistics(backing_rows, backing_sections)
     historical_report = historical_data.validate()
     historical_bytes = sum(row["size"] for row in historical_report["owners"])
+    layout_probe = link_layout_probe.validate(link_layout_probe.parse_args(["validate"]))
+    layout_probe_result = layout_probe["result"]
     stage3d_closed = len(libgcc_rows) + runtime_closed + member_report["contracts_closed"] + len(override_rows)
     stage3d_remaining = 53 - stage3d_closed
 
@@ -584,7 +587,8 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Stage-3D target runtime overrides | **{len(override_rows)}/2 proved; {stage3d_closed}/53 runtime contracts closed** | {override_report['incoming_named_calls']} historical named calls select `puts`/`abort`; {override_report['provider_bytes']} linked bytes are raw-exact. Original archive origin, member data and global final relocations remain separate. |
 | Stage-3F unnamed data accesses | **{unnamed_report['direct_access_proved']}/{unnamed_report['contracts_total']} with proved consumed spans** | {unnamed_report['unique_consumed_bytes']:,} unique bytes, {unnamed_report['constant_call_ranges']} fixed-count memory-call ranges; {unnamed_report['proof_kinds']['cfg-must-constant']} fixed-point CFG and {unnamed_report['proof_kinds']['deterministic-prefix']} deterministic-prefix witnesses. {unnamed_report['awaiting_direct_access']} lack access witnesses; {unnamed_report['rom_offset_refactors_closed']} ROM-offset refactors are separately closed. These are not complete object/array bounds. |
 | Stage-3F historical data providers | **{len(historical_report['owners'])} exact source intervals / {historical_bytes:,} bytes** | Pinned Snes9x source, typed object/section extents and exact private byte comparison. Fourteen functions reapply all relocations; two explicitly focused proofs reapply only data references. The backing link rebuilds {backing_report['historical_source_bytes']:,} bytes from source; not full-image identity. |
-| Stage-3F section-backed addresses | **{backing_report['section_backed_addresses']} backed + {backing_report['rom_offset_refactors_closed']} ROM refactors + {backing_report['code_pointer_source_aliases_closed']} code aliases / {backing_report['contracts_total']}; {backing_report['unbacked_addresses']} unresolved** | {backing_report['new_sections']} new ranges / {backing_report['new_backing_bytes']:,} additional bytes; {backing_report['coverage_kinds']['interior-address-only']} interior-address aliases do not establish access widths. ROM-relative constants are not image storage. Complete object bounds remain open. |
+| Stage-3F address identities | **{backing_report['resolved_contracts']}/{backing_report['contracts_total']}; {backing_report['unbacked_addresses']} unresolved** | {backing_report['section_backed_addresses']} section-backed, {backing_report['rom_offset_refactors_closed']} ROM refactors, {backing_report['code_pointer_source_aliases_closed']} source-code aliases, {backing_report['runtime_code_pointer_refactors_closed']} runtime-code refactors, {backing_report['pcm_buffer_minimum_extents_closed']} PCM minimum extents and seven runtime/historical metadata identities. The address frontier is closed; complete object/array bounds remain open. |
+| Stage-3G clean link/layout diagnostic | **{layout_probe_result['fixed_sections']}/{layout_probe_result['fixed_sections']} fixed VMAs; {layout_probe_result['fixed_initialized_sections']}/{layout_probe_result['fixed_initialized_sections']} payloads exact; {layout_probe_result['exact_chunks']}/{layout_probe_result['chunk_count']} image windows exact** | The real ET_REL aggregate links to ELF32/R5900 and applies relocations, but {layout_probe_result['differing_bytes']:,} bytes still differ and entry `0x{layout_probe_result['diagnostic_entry_address']:08x}` is not target `0x{layout_probe_result['target_entry_address']:08x}`. This is a diagnostic, not a replacement ELF. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -643,6 +647,15 @@ intervals / {historical_bytes:,} exact bytes and rebuilds {backing_report['histo
 bytes for the real backing link instead of extracting those ranges from the original. The remaining
 {backing_report['unbacked_addresses']} addresses, complete object bounds and final executable
 integration stay explicit in [`V98_SOURCE_DATA_INTEGRATION.md`](V98_SOURCE_DATA_INTEGRATION.md).
+V99 through V101 close the last address identities without inventing storage;
+the final V101 ledger is {backing_report['resolved_contracts']:,}/1,265 with zero unresolved.
+V102 starts Stage 3G with a clean ET_REL-to-ET_EXEC diagnostic: it fixes all
+{layout_probe_result['fixed_sections']} proved provider sections, preserves exact bytes in all
+{layout_probe_result['fixed_initialized_sections']} initialized fixed sections and matches
+{layout_probe_result['exact_chunks']}/{layout_probe_result['chunk_count']} oracle windows. Its
+entry and {layout_probe_result['differing_bytes']:,}-byte delta explicitly prove that exact object
+selection and the historical link still remain. See
+[`V102_CLEAN_STAGE3G_LINK_PROBE.md`](V102_CLEAN_STAGE3G_LINK_PROBE.md).
 The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
@@ -677,8 +690,8 @@ closure remains frozen in
 9. **Original Stage-3E tranche closed:** all 212 historical rows are adjudicated; {named_contract_fingerprinted} target-backed ranges/data aliases are fingerprinted, seven zlib peers are exact text aliases and compatibility storage falls from 39 to zero.
 10. **Stage-3D libgcc subtranche closed:** all seven contracts are adjudicated as four exact archive members plus three completed source refactors.
 11. **Stage-3D runtime contracts closed:** {stage3d_closed}/53 adjudicated, including both target-selected overrides ({override_report['provider_bytes']} exact linked bytes). Original whole-archive composition, member data and final global relocation values remain separate.
-12. **Stage-3F access and backing proof:** {unnamed_report['direct_access_proved']}/1,265 contracts have target-instruction/call-consumed spans; {unnamed_report['awaiting_direct_access']} still lack such witnesses. {backing_report['section_backed_addresses']} addresses bind to storage; {backing_report['rom_offset_refactors_closed']} ROM-offset contracts and {backing_report['code_pointer_source_aliases_closed']} source-code pointer aliases are separately closed; {backing_report['unbacked_addresses']} remain unresolved. Close complete data/object/array extents and zero-fill boundaries; neither minimum-access nor address backing is full Stage-3F closure.
-13. Reproduce data/rodata/bss layout, relocations, section alignment, linker script, object order and library order.
+12. **Stage-3F address frontier closed:** all {backing_report['resolved_contracts']:,}/1,265 contracts now have a proved identity and {backing_report['unbacked_addresses']} remain unresolved. Only {unnamed_report['direct_access_proved']}/1,265 have target-instruction/call-consumed spans; {unnamed_report['awaiting_direct_access']} still lack such witnesses. Close complete data/object/array extents and zero-fill boundaries; neither minimum access nor address identity is a complete bound.
+13. **Stage-3G clean link diagnostic frozen:** all {layout_probe_result['fixed_sections']} proved sections land at exact VMAs/sizes, all {layout_probe_result['fixed_initialized_sections']} initialized fixed payloads remain exact, and {layout_probe_result['exact_chunks']}/{layout_probe_result['chunk_count']} whole-image windows match. Integrate exact implementations/runtime data and reproduce historical section, object, archive and relocation order until the remaining {layout_probe_result['differing_bytes']:,} bytes and entry mismatch close.
 14. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
@@ -719,7 +732,8 @@ unproven final-ELF stage.
 - **Stage-3D runtime contracts:** **{stage3d_closed}/53 closed**, **{stage3d_remaining} open**; `puts`/`abort` have {override_report['incoming_named_calls']} named-call witnesses and {override_report['provider_bytes']} exact linked bytes
 - **Stage-3F unnamed data access proof:** **{unnamed_report['direct_access_proved']}/1,265** consumed spans, **{unnamed_report['unique_consumed_bytes']:,} unique bytes** ({unnamed_report['proof_kinds']['cfg-must-constant']} CFG + {unnamed_report['proof_kinds']['deterministic-prefix']} deterministic-prefix witnesses); complete object/array extents remain open
 - **Stage-3F historical data:** **{len(historical_report['owners'])} exact source intervals / {historical_bytes:,} bytes**, rebuilt from pinned public source
-- **Stage-3F contracts:** **{backing_report['section_backed_addresses']} storage-backed + {backing_report['rom_offset_refactors_closed']} ROM refactors / 1,265**, **{backing_report['unbacked_addresses']} unresolved**; **{backing_report['new_backing_bytes']:,} materialized bytes**, not complete-object closure
+- **Stage-3F address contracts:** **{backing_report['resolved_contracts']:,}/1,265 resolved**, **{backing_report['unbacked_addresses']} unresolved**; **{backing_report['new_backing_bytes']:,} materialized bytes**, while complete object/array bounds remain open
+- **Stage-3G clean link diagnostic:** **{layout_probe_result['fixed_sections']}/{layout_probe_result['fixed_sections']} fixed sections**, **{layout_probe_result['fixed_initialized_sections']}/{layout_probe_result['fixed_initialized_sections']} initialized payloads exact**, **{layout_probe_result['exact_chunks']}/{layout_probe_result['chunk_count']} whole-image windows exact**; **{layout_probe_result['differing_bytes']:,} bytes still differ**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**

@@ -174,3 +174,9 @@ backing with 695,316 freshly compiled source bytes. All 13,619 affected source
 relocations and preexisting allocated input bytes survive the real link.
 This is data-provider integration, not selection of the exact target text
 implementations. See [`V98_SOURCE_DATA_INTEGRATION.md`](V98_SOURCE_DATA_INTEGRATION.md).
+
+V99 through V101 keep the Stage-2 object contract intact while closing the
+remaining Stage-3F address identities. V102 consumes the same real aggregate
+in the first executable diagnostic: 179 fixed sections and 155 initialized
+payloads are exact, but the entry and 1,883,867 bytes still differ. See
+[`V102_CLEAN_STAGE3G_LINK_PROBE.md`](V102_CLEAN_STAGE3G_LINK_PROBE.md).

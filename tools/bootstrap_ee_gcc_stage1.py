@@ -33,6 +33,14 @@ AARCH64_GCC_HOST_PATCH = (
 CXX_MODERN_HOST_PATCH = (
     ROOT / "tools" / "patches" / "gcc-3.2.2-cxx-modern-host.patch"
 )
+C_O_PROBE_PATCH = ROOT / "tools" / "patches" / "gcc-3.2.2-c-o-probe.patch"
+PATCH_FILES = (
+    MODERN_GCC_PATCH,
+    AARCH64_CONFIG_PATCH,
+    AARCH64_GCC_HOST_PATCH,
+    CXX_MODERN_HOST_PATCH,
+    C_O_PROBE_PATCH,
+)
 HOST_CFLAGS = (
     "-O2 -g -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 "
     "-Wno-error=implicit-int "
@@ -361,6 +369,14 @@ def stamp_matches(path: Path, signature: str) -> bool:
     return path.is_file() and path.read_text(encoding="utf-8") == signature
 
 
+def patchset_signature() -> str:
+    """Bind resumable build stamps to every repository-owned host patch."""
+    payload = {path.name: sha256_file(path) for path in PATCH_FILES}
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+
+
 def run_stamped_step(
     name: str,
     command: list[str],
@@ -374,7 +390,12 @@ def run_stamped_step(
         for key in ("CC", "CFLAGS", "CXXFLAGS", "CPPFLAGS", "LDFLAGS", "LC_ALL")
     }
     signature = json.dumps(
-        {"command": command, "cwd": str(cwd), "environment": relevant_environment},
+        {
+            "command": command,
+            "cwd": str(cwd),
+            "environment": relevant_environment,
+            "repository_patchset_sha256": patchset_signature(),
+        },
         sort_keys=True,
         separators=(",", ":"),
     ) + "\n"
@@ -422,7 +443,59 @@ def prepare_sources(work_dir: Path, recipe: Path) -> dict[str, Path]:
         CXX_MODERN_HOST_PATCH,
         ".snesstation-cxx-modern-host-patch",
     )
+    apply_patch_once(
+        result["gcc-3.2.2"],
+        C_O_PROBE_PATCH,
+        ".snesstation-c-o-probe-patch",
+    )
     return result
+
+
+def poisoned_c_o_cache(build: Path) -> bool:
+    """Recognize GCC's false negative for the host compiler's ``-c -o``.
+
+    GCC 14 rejects the pre-C99 ``foo(){}`` configure probe.  GCC 3.2.2 then
+    records an empty OUTPUT_OPTION and C++ objects are written outside cp/.
+    """
+    makefile = build / "Makefile"
+    if not makefile.is_file():
+        return False
+    text = makefile.read_text(encoding="utf-8", errors="replace")
+    rows = [line.split("=", 1)[1].strip() for line in text.splitlines()
+            if line.startswith("OUTPUT_OPTION") and "=" in line]
+    return bool(rows) and all(not value for value in rows)
+
+
+def preserve_poisoned_gcc_build(
+    work_dir: Path, build: Path, stamps: Path
+) -> Path | None:
+    """Move an invalid configured tree aside and invalidate only GCC stamps."""
+    if not poisoned_c_o_cache(build):
+        return None
+    recovery = work_dir / "recovery"
+    recovery.mkdir(parents=True, exist_ok=True)
+    index = 1
+    while True:
+        destination = recovery / f"gcc-ee-stage1-empty-output-option-{index}"
+        if not destination.exists():
+            break
+        index += 1
+    os.replace(build, destination)
+    build.mkdir(parents=True)
+    for name in ("04-gcc-configure", "05-gcc-build", "06-gcc-install"):
+        stamp = stamps / name
+        if stamp.exists():
+            os.replace(stamp, recovery / f"{destination.name}-{name}.stamp")
+    print(f"recovery: preserved invalid GCC -c/-o cache at {destination}")
+    return destination
+
+
+def require_output_option(build: Path) -> None:
+    if poisoned_c_o_cache(build):
+        raise BuildFailure(
+            "GCC configure recorded an empty OUTPUT_OPTION; the host -c/-o "
+            "probe is still invalid"
+        )
 
 
 def clean_host_environment() -> dict[str, str]:
@@ -487,6 +560,8 @@ def build_stage_one(
             + ", ".join(missing)
         )
 
+    preserve_poisoned_gcc_build(work_dir, gcc_build, stamps)
+
     target_environment = clean_host_environment()
     target_environment["PATH"] = str(prefix / "bin") + os.pathsep + target_environment.get(
         "PATH", ""
@@ -506,6 +581,7 @@ def build_stage_one(
         stamps,
         logs,
     )
+    require_output_option(gcc_build)
     # GCC 3.2.2's C++ generator graph has an old parallel-build race: a
     # freshly linked genrecog can be consumed before its executable mode is
     # visible.  Keep binutils parallel, but serialize the C++ GCC stage.
@@ -578,6 +654,8 @@ def verify_and_record(
         "aarch64_config_patch_sha256": sha256_file(AARCH64_CONFIG_PATCH),
         "aarch64_gcc_host_patch_sha256": sha256_file(AARCH64_GCC_HOST_PATCH),
         "cxx_modern_host_patch_sha256": sha256_file(CXX_MODERN_HOST_PATCH),
+        "c_o_probe_patch_sha256": sha256_file(C_O_PROBE_PATCH),
+        "repository_patchset_sha256": patchset_signature(),
         "host_cflags": HOST_CFLAGS,
         "host_architecture": platform.machine() or "unknown",
         "host_gcc": command_first_line(["gcc", "--version"]),

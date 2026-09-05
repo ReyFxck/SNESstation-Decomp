@@ -21,44 +21,25 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
-import json
 import re
 import struct
+import sys
 from io import StringIO
 from pathlib import Path
 from typing import Sequence
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools" / "history" / "research"))
+import hunt1041_v74_spc7110_rtc as v74
+
 DEFAULT_REFERENCE = ROOT / "build" / "SNES_EMU.unpacked.bin"
+DEFAULT_COMPILER = (
+    ROOT / "build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++"
+)
 DEFAULT_MANIFEST = (
     ROOT / "analysis" / "link_identity" / "final_residual_identities.tsv"
 )
 
-PART5C_REPORT = ROOT / "build" / "v101-part5c-final-two" / "report.json"
-PART5D_REPORT = (
-    ROOT
-    / "build"
-    / "v101-part5d-hotfix3-absptr-eh-frame"
-    / "report.json"
-)
-
-RTC_OBJECT = (
-    ROOT
-    / "build"
-    / "matching"
-    / "hunt1041-v74-spc7110-rtc"
-    / "objects"
-    / "spc7110.o"
-)
-RTC_HEADER = (
-    ROOT
-    / "build"
-    / "matching"
-    / "hunt1041-v74-spc7110-rtc"
-    / "historical"
-    / "snes9x-target-layout"
-    / "spc7110.h"
-)
 SPC_MATCH = ROOT / "analysis" / "matching" / "hunt1041-v72-validated-v53-6.tsv"
 GET_MATCH = ROOT / "analysis" / "matching" / "hunt500plus-v33-validated-204.tsv"
 CPP_MATCH = (
@@ -297,46 +278,32 @@ def parse_elf32(data: bytes):
     return sections, symbols
 
 
-def verify_part_reports() -> None:
-    if not PART5C_REPORT.is_file():
-        fail(f"missing Part5C report: {PART5C_REPORT}")
-    if not PART5D_REPORT.is_file():
-        fail(f"missing Part5D HOTFIX3 report: {PART5D_REPORT}")
-
-    p5c = json.loads(PART5C_REPORT.read_text(encoding="utf-8"))
-    p5d = json.loads(PART5D_REPORT.read_text(encoding="utf-8"))
-
-    a = p5c.get("A", {})
-    if a.get("identity") != "rtc_f9.control" or a.get("closure_ready") is not True:
-        fail("Part5C rtc_f9 closure report is not ready")
-
-    if p5d.get("symbol") != EH_NAME or p5d.get("closure_ready") is not True:
-        fail("Part5D HOTFIX3 .eh_frame closure report is not ready")
-
-    fde = p5d.get("fde", {})
-    if (
-        fde.get("address") != FDE_ADDRESS
-        or fde.get("initial_location") != TARGET_FUNCTION
-        or fde.get("address_range") != TARGET_FUNCTION_SIZE
-        or fde.get("lsda_field_start") != LSDA_FIELD_START
-        or fde.get("lsda_field_end") != LSDA_FIELD_END
-        or fde.get("lsda_value") != TARGET_LSDA
-    ):
-        fail("Part5D HOTFIX3 frozen FDE geometry drift")
+def rebuild_rtc_provider(compiler: Path) -> tuple[Path, Path]:
+    compiler = compiler.expanduser().resolve()
+    if not compiler.is_file():
+        fail(f"missing historical EE C++ compiler: {compiler}")
+    try:
+        objects = v74.build_objects(compiler)
+    except SystemExit as exc:
+        fail(f"could not rebuild pinned SPC7110 provider: {exc}")
+    build = objects.get("spc7110")
+    if build is None or not build.path.is_file():
+        fail("pinned V74 rebuild did not produce spc7110.o")
+    header = v74.BUILD / "historical" / "snes9x-target-layout" / "spc7110.h"
+    if not header.is_file():
+        fail(f"pinned V74 rebuild did not produce historical header: {header}")
+    return build.path, header
 
 
-def verify_rtc(raw: bytes) -> None:
+def verify_rtc(raw: bytes, compiler: Path) -> None:
     target_object = target_slice(raw, RTC_OBJECT_ADDRESS, RTC_OBJECT_SIZE)
 
     if sha256(target_object) != RTC_OBJECT_SHA256:
         fail("target rtc_f9 block SHA drift")
 
-    if not RTC_OBJECT.is_file():
-        fail(f"missing historical SPC7110 object: {RTC_OBJECT}")
-    if not RTC_HEADER.is_file():
-        fail(f"missing historical SPC7110 header: {RTC_HEADER}")
+    rtc_object, rtc_header = rebuild_rtc_provider(compiler)
 
-    sections, symbols = parse_elf32(RTC_OBJECT.read_bytes())
+    sections, symbols = parse_elf32(rtc_object.read_bytes())
 
     hits = [
         s for s in symbols
@@ -359,7 +326,7 @@ def verify_rtc(raw: bytes) -> None:
     if payload != target_object:
         fail("rtc_f9 full historical object does not match target block")
 
-    header = RTC_HEADER.read_text(encoding="utf-8", errors="ignore")
+    header = rtc_header.read_text(encoding="utf-8", errors="ignore")
     m = re.search(
         r"(?:typedef\s+)?struct(?:\s+\w+)?\s*\{(?P<body>.*?)\}\s*S7RTC\s*;",
         header,
@@ -578,10 +545,9 @@ def verify_eh_frame(raw: bytes) -> None:
         fail("operator_new linked LSDA left the nearby exception-metadata corridor")
 
 
-def verify_private(reference: Path) -> None:
+def verify_private(reference: Path, compiler: Path = DEFAULT_COMPILER) -> None:
     raw = load_reference(reference)
-    verify_part_reports()
-    verify_rtc(raw)
+    verify_rtc(raw, compiler)
     verify_eh_frame(raw)
 
 
@@ -599,7 +565,7 @@ def expected_rows() -> list[dict[str, str]]:
             "field_offset_hex": "0x12",
             "field_extent_hex": "0x1",
             "evidence": (
-                "Part5C closure_ready; exact full rtc_f9 object payload; "
+                "fresh pinned V74 spc7110.o rebuild; exact full rtc_f9 object payload; "
                 "S7RTC EE ABI32 field layout; strict SPC7110 RTC function identities"
             ),
             "claim": SPEC[RTC_NAME]["claim"],
@@ -616,7 +582,7 @@ def expected_rows() -> list[dict[str, str]]:
             "field_offset_hex": "0x14",
             "field_extent_hex": "0x1",
             "evidence": (
-                "Part5D HOTFIX3 closure_ready; CIE v1 zPL; "
+                "private target-native CIE/FDE decode; CIE v1 zPL; "
                 "DW_EH_PE_absptr/EE-ABI32; unique FDE for operator_new/_Znwj; "
                 "LSDA field 0x0042681d..0x00426821 -> 0x00426bdc"
             ),
@@ -666,9 +632,10 @@ def validate(manifest: Path = DEFAULT_MANIFEST):
 def verify_reference(
     reference: Path = DEFAULT_REFERENCE,
     manifest: Path = DEFAULT_MANIFEST,
+    compiler: Path = DEFAULT_COMPILER,
 ):
     rows = validate(manifest)
-    verify_private(reference)
+    verify_private(reference, compiler)
     return rows
 
 
@@ -677,6 +644,7 @@ def parse_args(argv=None):
     parser.add_argument("command", choices=("capture", "validate", "verify"))
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--reference", type=Path, default=DEFAULT_REFERENCE)
+    parser.add_argument("--compiler", type=Path, default=DEFAULT_COMPILER)
     return parser.parse_args(argv)
 
 
@@ -689,7 +657,7 @@ def main(argv=None):
         else:
             rows = validate(args.manifest)
             if args.command == "verify":
-                verify_private(args.reference.resolve())
+                verify_private(args.reference.resolve(), args.compiler.resolve())
 
         print(
             "verified final Stage-3F residual identities: "
