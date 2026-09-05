@@ -23,6 +23,7 @@
 | Stage-3F historical data providers | **49 exact source intervals / 810,542 bytes** | Pinned Snes9x source, typed object/section extents and exact private byte comparison. Fourteen functions reapply all relocations; two explicitly focused proofs reapply only data references. The backing link rebuilds 695,316 bytes from source; not full-image identity. |
 | Stage-3F address identities | **1265/1265; 0 unresolved** | 1209 section-backed, 29 ROM refactors, 10 source-code aliases, 4 runtime-code refactors, 8 PCM minimum extents and seven runtime/historical metadata identities. The address frontier is closed; complete object/array bounds remain open. |
 | Stage-3G clean link/layout diagnostic | **179/179 fixed VMAs; 155/155 payloads exact; 12/51 image windows exact** | The real ET_REL aggregate links to ELF32/R5900 and applies relocations, but 1,883,867 bytes still differ and entry `0x00111f70` is not target `0x00100008`. This is a diagnostic, not a replacement ELF. |
+| Stage-3G exact startup integration | **entry `0x00100008`; 276/276 startup bytes; 3/3 functions; 27 relocations** | The pinned historical `crt0.s` reproduces `_start`, `_exit`, `_root` and startup BSS geometry exactly. The first remaining difference is `0x00100114`; 39/51 image windows and 1,884,142 bytes still differ. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -90,6 +91,15 @@ V102 starts Stage 3G with a clean ET_REL-to-ET_EXEC diagnostic: it fixes all
 entry and 1,883,867-byte delta explicitly prove that exact object
 selection and the historical link still remain. See
 [`V102_CLEAN_STAGE3G_LINK_PROBE.md`](V102_CLEAN_STAGE3G_LINK_PROBE.md).
+V104 replaces only that diagnostic startup with the pinned historical PS2SDK
+`crt0.s`: all 276 bytes through
+`0x00100114`, three startup functions, the
+target entry and 27 relocations are exact. It also
+integrates the `0x00426e80` startup BSS without duplicating its
+four prior zero-fill anchors. The first application byte still differs, the behavioral startup
+lift remains in the aggregate, and the full image still has
+1,884,142 differing bytes. See
+[`V104_EXACT_STARTUP_INTEGRATION.md`](V104_EXACT_STARTUP_INTEGRATION.md).
 The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
@@ -126,7 +136,8 @@ closure remains frozen in
 11. **Stage-3D runtime contracts closed:** 53/53 adjudicated, including both target-selected overrides (104 exact linked bytes). Original whole-archive composition, member data and final global relocation values remain separate.
 12. **Stage-3F address frontier closed:** all 1,265/1,265 contracts now have a proved identity and 0 remain unresolved. Only 872/1,265 have target-instruction/call-consumed spans; 354 still lack such witnesses. Close complete data/object/array extents and zero-fill boundaries; neither minimum access nor address identity is a complete bound.
 13. **Stage-3G clean link diagnostic frozen:** all 179 proved sections land at exact VMAs/sizes, all 155 initialized fixed payloads remain exact, and 12/51 whole-image windows match. Integrate exact implementations/runtime data and reproduce historical section, object, archive and relocation order until the remaining 1,883,867 bytes and entry mismatch close.
-14. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+14. **Historical startup integrated:** pinned `_start`/`_exit`/`_root` source produces 276 exact bytes, entry `0x00100008`, 27 applied relocations and exact startup BSS geometry. Continue at the first differing application address `0x00100114`; remove the duplicate behavioral lift only when exact source selection proves its replacement.
+15. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first

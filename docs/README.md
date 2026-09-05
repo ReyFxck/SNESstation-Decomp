@@ -11,6 +11,7 @@ They are evidence of how conclusions were reached, not the current scoreboard.
 - [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) — source-model audit and build-readiness invariants.
 - [`status/FUNCTION_FRONTIER_1041_CHECKPOINT.md`](status/FUNCTION_FRONTIER_1041_CHECKPOINT.md) — immutable tag, hashes and clean-checkout gates for the closed 1,041-function frontier.
 - [`status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md) — frozen EE ABI, 97-unit manifest, symbol ownership and canonical partial-link gate.
+- [`status/V104_EXACT_STARTUP_INTEGRATION.md`](status/V104_EXACT_STARTUP_INTEGRATION.md) — pinned historical `_start`/`_exit`/`_root`, exact entry, 276 startup bytes and 27 relocations integrated ahead of the real Stage-3F aggregate.
 - [`status/V103_DECOMP_DEV_REPORTING.md`](status/V103_DECOMP_DEV_REPORTING.md) — deterministic public Objdiff Report v2 and GitHub Actions artifact for honest decomp.dev tracking.
 - [`status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](status/V102_CLEAN_STAGE3G_LINK_PROBE.md) — 1,265/1,265 address identities retained; first clean executable diagnostic with 179 exact fixed sections and 12/51 exact image windows.
 - [`status/V101_PART5E_FINAL_STAGE3F_CLOSURE.md`](status/V101_PART5E_FINAL_STAGE3F_CLOSURE.md) — final two identities and the zero-unresolved Stage-3F address frontier.

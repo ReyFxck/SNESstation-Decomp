@@ -42,6 +42,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3F historical data:** **49 exact source intervals / 810,542 bytes**, rebuilt from pinned public source
 - **Stage-3F address contracts:** **1,265/1,265 resolved**, **0 unresolved**; **764,686 materialized bytes**, while complete object/array bounds remain open
 - **Stage-3G clean link diagnostic:** **179/179 fixed sections**, **155/155 initialized payloads exact**, **12/51 whole-image windows exact**; **1,883,867 bytes still differ**
+- **Stage-3G exact startup:** **entry `0x00100008`**, **276/276 bytes**, **3/3 functions**, **27 relocations**; first remaining difference **`0x00100114`**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -106,6 +107,7 @@ make runtime-overrides
 make unnamed-data
 make data-backing
 make link-layout-probe
+make startup-integration
 make layout-oracle
 ```
 
@@ -137,13 +139,13 @@ fifty-one 64 KiB hash windows. See
 [`docs/status/V82_UNPACKED_LAYOUT_ORACLE.md`](docs/status/V82_UNPACKED_LAYOUT_ORACLE.md).
 
 `make source-aliases` proves and applies the current Stage-3 link-identity
-tranche: 323/337 alternate target-address names bind to 307 canonical global
+tranche: 333/347 alternate target-address names bind to 317 canonical global
 text symbols without changing allocated section bytes. See
 [`docs/status/V84_REVIEWED_SOURCE_ALIASES.md`](docs/status/V84_REVIEWED_SOURCE_ALIASES.md).
 
 `make link-contracts` applies the zero-byte Stage-3 gate to the live
-post-refactor aggregate: 1,244 target-address anchors and 63 semantic text
-aliases resolve 1,307/1,540 live contracts and reduce the provider frontier to
+post-refactor aggregate: 1,234 target-address anchors and 63 semantic text
+aliases resolve 1,297/1,530 live contracts and reduce the provider frontier to
 233, again without changing an allocated section. V90 explains the 20
 target-absent Stage-3E contracts removed from source and the canonical `errno`
 alias; V91 removes three compiler-generated lift artifacts and V92 removes the
@@ -269,6 +271,14 @@ exact Stage-3G image windows. Generate and validate the same artifact locally
 with `make decompdev-report`. No original executable or extracted private bytes
 enter the report. See
 [`docs/status/V103_DECOMP_DEV_REPORTING.md`](docs/status/V103_DECOMP_DEV_REPORTING.md).
+
+V104 integrates the pinned historical PS2SDK startup ahead of the real
+Stage-3F aggregate. The target entry is now exact at `0x00100008`; `_start`,
+`_exit` and `_root`, all 276 startup bytes, 27 relocations and the 384-byte
+startup BSS geometry are proved. The first remaining difference is
+`0x00100114`; 39/51 windows and 1,884,142 bytes still differ, so the result is
+not a replacement ELF. See
+[`docs/status/V104_EXACT_STARTUP_INTEGRATION.md`](docs/status/V104_EXACT_STARTUP_INTEGRATION.md).
 
 ## Target fingerprint
 

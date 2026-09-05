@@ -107,6 +107,9 @@ DATA_BACKING_REPORT := $(DATA_BACKING_BUILD_DIR)/report.json
 LINK_LAYOUT_PROBE_MANIFEST := analysis/link_identity/link_layout_probe.json
 LINK_LAYOUT_PROBE_BUILD_DIR := $(BUILD_DIR)/link-layout-probe
 LINK_LAYOUT_PROBE_REPORT := $(LINK_LAYOUT_PROBE_BUILD_DIR)/report.json
+STARTUP_INTEGRATION_MANIFEST := analysis/link_identity/startup_integration.json
+STARTUP_INTEGRATION_BUILD_DIR := $(BUILD_DIR)/startup-integration
+STARTUP_INTEGRATION_SOURCE_CACHE_ARG := $(if $(strip $(STARTUP_INTEGRATION_SOURCE_CACHE)),--source-cache "$(STARTUP_INTEGRATION_SOURCE_CACHE)",)
 DECOMPDEV_REPORT_CONTRACT := analysis/decompdev/report_contract.json
 DECOMPDEV_REPORT := $(BUILD_DIR)/decompdev/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
@@ -216,6 +219,7 @@ help:
 	@echo "  make historical-data   rebuild 49 exact typed source-data intervals"
 	@echo "  make data-backing      1209 backed + 29 ROM refactors + 10 code aliases; 0 unresolved"
 	@echo "  make link-layout-probe link the first honest Stage-3G diagnostic and compare all 51 windows"
+	@echo "  make startup-integration rebuild and prove exact _start/crt0 at target entry"
 	@echo "  make decompdev-report generate the public objdiff v2 progress artifact"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
@@ -310,7 +314,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check decompdev-report-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check decompdev-report-public-check
 	@echo "repository checks: OK"
 
 decompdev-report:
@@ -982,6 +986,28 @@ link-layout-probe-refresh:
 
 link-layout-probe-public-check:
 	$(PYTHON) tools/link_layout_probe.py validate --manifest "$(LINK_LAYOUT_PROBE_MANIFEST)"
+
+.PHONY: startup-integration startup-integration-check startup-integration-refresh startup-integration-public-check
+
+startup-integration: data-backing
+	$(MAKE) startup-integration-check EE_CC="$(EE_STAGE1_CC)"
+
+startup-integration-check:
+	@test -f "$(DATA_BACKING_OUTPUT)" || { echo "missing $(DATA_BACKING_OUTPUT); run make data-backing-check" >&2; exit 2; }
+	$(PYTHON) tools/startup_integration.py probe \
+		--compiler "$(EE_CC)" --reference "$(REFERENCE_RAW)" \
+		--input "$(DATA_BACKING_OUTPUT)" --build-dir "$(STARTUP_INTEGRATION_BUILD_DIR)" \
+		$(STARTUP_INTEGRATION_SOURCE_CACHE_ARG) --manifest "$(STARTUP_INTEGRATION_MANIFEST)"
+
+startup-integration-refresh:
+	@test -f "$(DATA_BACKING_OUTPUT)" || { echo "missing $(DATA_BACKING_OUTPUT); run make data-backing-check" >&2; exit 2; }
+	$(PYTHON) tools/startup_integration.py capture \
+		--compiler "$(EE_CC)" --reference "$(REFERENCE_RAW)" \
+		--input "$(DATA_BACKING_OUTPUT)" --build-dir "$(STARTUP_INTEGRATION_BUILD_DIR)" \
+		$(STARTUP_INTEGRATION_SOURCE_CACHE_ARG) --manifest "$(STARTUP_INTEGRATION_MANIFEST)"
+
+startup-integration-public-check:
+	$(PYTHON) tools/startup_integration.py validate --manifest "$(STARTUP_INTEGRATION_MANIFEST)"
 
 rom-offsets-public-check:
 	$(PYTHON) tools/rom_offsets.py validate

@@ -134,6 +134,9 @@ complete object/array bounds are not closed.
 - [x] Link the real Stage-3F aggregate into the first clean Stage-3G diagnostic.
   Place 179/179 fixed sections at exact VMAs/sizes, preserve 155/155 initialized
   payloads and compare all 51 oracle windows (12 exact, 39 different).
+- [x] Integrate the pinned historical PS2SDK startup: exact target entry,
+  `_start`/`_exit`/`_root`, 276 startup bytes, 27 relocations and the 384-byte
+  startup BSS. The first unproved application byte is `0x00100114` (V104).
 - [ ] Select and integrate the exact per-function implementations into the
   final object set; compiling the canonical behavioral models is not proof
   that their aggregate code equals the complete target text.

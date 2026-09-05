@@ -180,3 +180,9 @@ remaining Stage-3F address identities. V102 consumes the same real aggregate
 in the first executable diagnostic: 179 fixed sections and 155 initialized
 payloads are exact, but the entry and 1,883,867 bytes still differ. See
 [`V102_CLEAN_STAGE3G_LINK_PROBE.md`](V102_CLEAN_STAGE3G_LINK_PROBE.md).
+
+V104 leaves the 97-TU/96-object source ownership contract unchanged and links
+the pinned historical startup as a separate exact object ahead of that
+aggregate. Entry `0x00100008`, 276 startup bytes and 27 relocations are exact;
+the first remaining application difference is `0x00100114`. See
+[`V104_EXACT_STARTUP_INTEGRATION.md`](V104_EXACT_STARTUP_INTEGRATION.md).

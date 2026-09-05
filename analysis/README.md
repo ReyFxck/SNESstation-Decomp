@@ -24,10 +24,11 @@ Subdirectories:
   decisions, the closed 54-row Stage-3C and 212-row Stage-3E ledgers, the
   closed seven-row Stage-3D libgcc ledger, four formatter-call refactor proofs,
   43 runtime contracts selecting 42 complete PS2LIB member texts, two separately
-  proved target runtime overrides, 824/1,265 minimum unnamed-data access spans
-  (including 131 fixed-point control-flow witnesses), 961 section-backed
-  addresses with explicit physical range ownership,
-  private-provider ranges and the complete source-link provider closure.
+  proved target runtime overrides, 872/1,265 minimum unnamed-data access spans
+  (including 146 fixed-point control-flow and 33 deterministic-prefix witnesses),
+  1,265/1,265 address identities, 179 fixed physical ranges, the clean Stage-3G
+  link probe and the exact 276-byte historical startup integration. Complete
+  object bounds and the replacement ELF remain open.
 - `archive/` — historical validation logs and exploratory sweeps no longer used
   as live inputs.
 

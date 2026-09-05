@@ -35,6 +35,7 @@ make unnamed-data      # 872 minimum spans; local / CFG / deterministic prefix
 make historical-data   # 49 typed intervals / 810542 exact bytes; EE C++ rebuild
 make data-backing      # 1265/1265 address identities; complete bounds still open
 make link-layout-probe # 179 fixed sections; compare the clean Stage-3G ET_EXEC
+make startup-integration # exact entry + 276-byte historical crt0; app remains open
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -50,10 +51,10 @@ The final pipeline must prove every layer:
 3. **Unpacked layout oracle — closed** — one section, thirteen decompressed
    blocks and fifty-one 64 KiB hash windows freeze the target geometry and
    locate the exact first rebuilt-byte difference.
-4. **Source-address aliases — 323/337 proved** — alternate address-shaped
-   names bind to 307 canonical global text symbols with no allocated-byte
+4. **Source-address aliases — 333/347 proved** — alternate address-shaped
+   names bind to 317 canonical global text symbols with no allocated-byte
    changes; 14 evidence blockers remain.
-5. **Zero-byte link contracts — 1,307/1,540 resolved** — 1,244 frozen-address
+5. **Zero-byte link contracts — 1,297/1,530 resolved** — 1,234 frozen-address
    data anchors and 63 semantic aliases reduce the aggregate to 233 real
    providers without allocating code or data.
 6. **Private embedded assets — closed** — five reference-verified bundles
@@ -102,12 +103,17 @@ The final pipeline must prove every layer:
    initialized payloads match. Twelve of 51 image windows match, while
    1,883,867 bytes and the entry still differ. See
    [`status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](status/V102_CLEAN_STAGE3G_LINK_PROBE.md).
-16. **Final link** — select/integrate exact implementation objects, linker script,
+16. **Exact historical startup — integrated** — pinned PS2SDK `crt0.s` produces
+   `_start`, `_exit` and `_root` at the exact target entry, with 276/276 bytes,
+   27 relocations and startup BSS geometry proved. The first remaining
+   difference is `0x00100114`; 39/51 image windows remain different. See
+   [`status/V104_EXACT_STARTUP_INTEGRATION.md`](status/V104_EXACT_STARTUP_INTEGRATION.md).
+17. **Final link** — select/integrate exact implementation objects, linker script,
    section addresses, object order and library order to
    reproduce the unpacked ELF image.
-17. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+18. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
-18. **Final comparison** — section/layout reports and both unpacked and packed
+19. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
 
 The required reference hashes are:
@@ -123,6 +129,8 @@ The first Stage-3 measurement gate is recorded in
 [`status/V82_UNPACKED_LAYOUT_ORACLE.md`](status/V82_UNPACKED_LAYOUT_ORACLE.md).
 The current clean Stage-3G link diagnostic is recorded in
 [`status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](status/V102_CLEAN_STAGE3G_LINK_PROBE.md).
+The exact startup integration is recorded in
+[`status/V104_EXACT_STARTUP_INTEGRATION.md`](status/V104_EXACT_STARTUP_INTEGRATION.md).
 The closed Stage-3D libgcc checkpoint is recorded in
 [`status/V91_STAGE3D_LIBGCC_CLOSED.md`](status/V91_STAGE3D_LIBGCC_CLOSED.md).
 The subsequent formatter refactor and its private direct-call proof are in

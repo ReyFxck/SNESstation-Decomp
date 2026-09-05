@@ -301,3 +301,19 @@ target `0x00100008`. Immediate work is exact startup/implementation selection,
 runtime member data and historical link/relocation order—not more address
 anchors. See
 [`status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](status/V102_CLEAN_STAGE3G_LINK_PROBE.md).
+
+## V104 exact startup integration
+
+V104 rebuilds the pinned PS2SDK `crt0.s` and places it before the real Stage-3F
+aggregate. Entry `0x00100008`, `_start`/`_exit`/`_root`, all 276 initialized
+startup bytes, 27 relocations and `0x00426e80..0x00427000` startup BSS geometry
+are exact. Four earlier zero-fill anchors inside that BSS are absorbed without
+inventing or copying storage; the other 175 fixed sections retain their proofs.
+
+The first remaining difference is now `0x00100114`. The diagnostic still has
+39/51 differing windows and 1,884,142 differing bytes because the behavioral
+startup lift remains in the aggregate until exact implementation selection can
+remove it. The active bottleneck is the historical application object/archive
+composition, runtime member data, complete object bounds and final relocation
+order—not startup or another address anchor. See
+[`status/V104_EXACT_STARTUP_INTEGRATION.md`](status/V104_EXACT_STARTUP_INTEGRATION.md).

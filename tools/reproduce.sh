@@ -26,6 +26,8 @@ show_status() {
     printf '  - Real backing link: 695,316 bytes freshly rebuilt from pinned source\n'
     printf '  - Stage-3G clean link: 179 fixed sections; 155 payloads exact; 12/51 windows exact\n'
     printf '  - Stage-3G delta: 1,883,867 bytes; entry 0x00111f70 != 0x00100008\n'
+    printf '  - Stage-3G exact startup: _start/_exit/_root; 276 bytes; 27 relocations\n'
+    printf '  - Stage-3G startup entry: 0x00100008 exact; next difference 0x00100114\n'
     printf '\nExact replacement ELF still requires:\n'
     printf '  - final source selection/integration of exact function implementations\n'
     printf '  - complete Stage-3F object/array extents; 354 lack access witnesses\n'
@@ -53,6 +55,7 @@ case "$MODE" in
         make unnamed-data
         make data-backing
         make link-layout-probe-check
+        make startup-integration-check
         make layout-oracle-check
         make elf-status
         ;;
@@ -63,6 +66,7 @@ case "$MODE" in
         make unnamed-data
         make data-backing
         make link-layout-probe-check
+        make startup-integration-check
         make layout-oracle-check
         make elf
         ;;

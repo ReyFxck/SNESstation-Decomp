@@ -171,3 +171,14 @@ payloads and compares the padded diagnostic across the 51-window oracle. The
 12 exact windows and 1,883,867 differing bytes are a baseline, not a replacement
 ELF claim. See
 [`V102_CLEAN_STAGE3G_LINK_PROBE.md`](../../docs/status/V102_CLEAN_STAGE3G_LINK_PROBE.md).
+
+`startup_integration.json` freezes the next evidence-backed step. The private
+gate rebuilds PS2SDK `crt0.s` at the pinned 2004 revision with EE GCC 3.2.2,
+applies all 27 text relocations, places its startup BSS and verifies the exact
+target entry plus `0x00100000..0x00100114`. Four previous zero-fill anchors
+inside the startup BSS are represented as absolute symbols instead of duplicate
+storage; the other 175 fixed sections keep their V102 contracts. Public
+validation checks hashes, geometry, claim boundaries and match evidence without
+reading the original ELF. The first application byte, exact implementation
+selection, historical order and packing remain open. See
+[`V104_EXACT_STARTUP_INTEGRATION.md`](../../docs/status/V104_EXACT_STARTUP_INTEGRATION.md).
