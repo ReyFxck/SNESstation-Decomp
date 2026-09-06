@@ -38,6 +38,7 @@ make link-layout-probe # 179 fixed sections; compare the clean Stage-3G ET_EXEC
 make startup-integration # exact entry + 276-byte historical crt0; app remains open
 make frontend-eh-frames # 18 semantic frontend FDEs; image window 14 exact
 make historical-tail-data # six rebuilt source providers + 30 FDEs; 16/51 exact
+make runtime-tail-data # 14 exact TILE/libsupc++ tail sections; window 50 reduced
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -115,10 +116,14 @@ The final pipeline must prove every layer:
    windows 14 and 47–49. The cumulative diagnostic is 16/51 exact; 35 remain.
    See
    [`status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
-18. **Final link** — select/integrate exact implementation objects, linker script,
+18. **Runtime-tail source containers — integrated** — 14 rebuilt `TILE.CPP`
+   and `libsupc++` sections remove 2,353 differences from window 50; 3,173
+   remain there and no false window-closure claim is made. See
+   [`status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md`](status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md).
+19. **Final link** — select/integrate exact implementation objects, linker script,
    section addresses, object order and library order to
    reproduce the unpacked ELF image.
-19. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+20. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
 20. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
@@ -140,6 +145,8 @@ The exact startup integration is recorded in
 [`status/V104_EXACT_STARTUP_INTEGRATION.md`](status/V104_EXACT_STARTUP_INTEGRATION.md).
 The frontend unwind and late historical C++ data integration is recorded in
 [`status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
+The source-derived runtime-tail tranche is recorded in
+[`status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md`](status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md).
 The closed Stage-3D libgcc checkpoint is recorded in
 [`status/V91_STAGE3D_LIBGCC_CLOSED.md`](status/V91_STAGE3D_LIBGCC_CLOSED.md).
 The subsequent formatter refactor and its private direct-call proof are in

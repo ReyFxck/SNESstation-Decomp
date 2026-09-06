@@ -45,6 +45,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3G exact startup:** **entry `0x00100008`**, **276/276 bytes**, **3/3 functions**, **27 relocations**; first remaining difference **`0x00100114`**
 - **Stage-3H frontend unwind:** **18 FDEs**, **944 exact bytes**, **window 14 closed**
 - **Stage-3I historical C++ tail:** **123,140 source bytes**, **30 semantic FDEs**, **16/51 windows exact**, **35 remain**
+- **Stage-3J runtime tail source:** **3,868 bytes**, **56 FDEs**, **73 relocations**; window 50 has **3,173** differences
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**

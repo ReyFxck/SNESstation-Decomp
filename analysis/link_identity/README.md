@@ -198,3 +198,9 @@ smaller fixed sections are replaced by the larger exact source providers while
 the cumulative diagnostic to 16/51 exact with 35 remaining. Use
 `make historical-tail-data-public-check` or `make historical-tail-data`. See
 [`V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](../../docs/status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
+
+`runtime_tail_data.json` freezes the Stage-3J rebuild of 14 additional
+`TILE.CPP` and GCC 3.2.2 `libsupc++` tail sections. Only verified `R_MIPS_32`
+results may come from the private oracle; all other bytes must already match
+the rebuilt public-source objects. See
+[`V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md`](../../docs/status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md).

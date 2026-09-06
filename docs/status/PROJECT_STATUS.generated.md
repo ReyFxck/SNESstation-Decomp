@@ -26,6 +26,7 @@
 | Stage-3G exact startup integration | **entry `0x00100008`; 276/276 startup bytes; 3/3 functions; 27 relocations** | The pinned historical `crt0.s` reproduces `_start`, `_exit`, `_root` and startup BSS geometry exactly. The first remaining difference is `0x00100114`; 39/51 image windows and 1,884,142 bytes still differ. |
 | Stage-3H frontend unwind integration | **18 FDEs; 944 bytes; 23 relocations** | Three semantic GCC 3.2.2 CIE/FDE groups are reconstructed and linked exactly, closing image window 14 without storing target payload. |
 | Stage-3I historical C++ tail integration | **6 source providers; 123,140 bytes; 30 FDEs** | Rebuilt Snes9x data plus semantic unwind records close windows 47–49. The cumulative diagnostic has 16/51 exact windows; 35 and 1,859,772 bytes remain. |
+| Stage-3J runtime tail source integration | **14 exact source sections; 3,868 bytes; 56 FDEs; 73 relocations** | `TILE.CPP` and selected GCC 3.2.2 `libsupc++` containers reduce window 50 to 3,173 differing bytes. The whole diagnostic still has 16/51 exact windows and 1,857,419 differing bytes. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -110,6 +111,11 @@ applies 1,623 source relocations and assembles
 16/51 now match and
 35 remain. See
 [`V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
+V106 rebuilds 14 additional `TILE.CPP`/`libsupc++` sections
+(3,868 bytes, 56 FDEs and
+73 relocations) and reduces window 50 to
+3,173 differing bytes. See
+[`V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md`](V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md).
 The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
@@ -149,7 +155,8 @@ closure remains frozen in
 14. **Historical startup integrated:** pinned `_start`/`_exit`/`_root` source produces 276 exact bytes, entry `0x00100008`, 27 applied relocations and exact startup BSS geometry. Continue at the first differing application address `0x00100114`; remove the duplicate behavioral lift only when exact source selection proves its replacement.
 15. **Frontend unwind metadata integrated:** 18 function extents drive three exact semantic CIE/FDE groups and close image window 14.
 16. **Historical C++ tail data integrated:** 6 public-source providers plus 30 semantic FDEs close image windows 47–49. Continue through the 35 remaining windows; this is not a replacement ELF.
-17. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+17. **Runtime tail source data integrated:** 14 exact `TILE.CPP`/`libsupc++` sections reduce window 50 to 3,173 differing bytes without copying target payload. Continue through the 35 remaining windows; this is not a replacement ELF.
+18. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first

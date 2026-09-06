@@ -335,3 +335,12 @@ implementation/object selection, archive-member data, complete bounds and
 historical relocation/link order. Packing is still downstream of the unpacked
 hash. See
 [`status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
+
+## V106 runtime-tail source integration
+
+V106 rebuilds 14 more `TILE.CPP`/GCC 3.2.2 `libsupc++` source sections:
+3,868 bytes, 56 FDEs and 73 verified relocations. This removes 2,353 differences
+from window 50, leaving 3,173 there and 1,857,419 image-wide. The exact-window
+count remains 16/51 because the unresolved portions of window 50 are not
+filled from the private target. See
+[`status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md`](status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md).

@@ -140,6 +140,9 @@ complete object/array bounds are not closed.
 - [x] Reconstruct the frontend and late C++ unwind records from explicit DWARF
   semantics, and rebuild six late Snes9x data providers from pinned source.
   Close image windows 14 and 47–49; reach 16/51 exact with 35 remaining (V105).
+- [x] Rebuild the easiest remaining `TILE.CPP` and `libsupc++` tail containers;
+  remove 2,353 proved differences from window 50 without a false closure claim
+  (V106).
 - [ ] Select and integrate the exact per-function implementations into the
   final object set; compiling the canonical behavioral models is not proof
   that their aggregate code equals the complete target text.

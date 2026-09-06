@@ -27,6 +27,7 @@ import link_layout_probe
 import startup_integration
 import frontend_eh_frames
 import historical_tail_data
+import runtime_tail_data
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
@@ -501,6 +502,8 @@ def main() -> None:
     frontend_eh_result = frontend_eh_gate["result"]
     historical_tail_gate = historical_tail_data.validate(historical_tail_data.parse_args(["validate"]))
     historical_tail_result = historical_tail_gate["result"]
+    runtime_tail_gate = runtime_tail_data.validate(runtime_tail_data.parse_args(["validate"]))
+    runtime_tail_result = runtime_tail_gate["result"]
     stage3d_closed = len(libgcc_rows) + runtime_closed + member_report["contracts_closed"] + len(override_rows)
     stage3d_remaining = 53 - stage3d_closed
 
@@ -601,6 +604,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Stage-3G exact startup integration | **entry `0x{startup_result['integrated_entry_address']:08x}`; {startup_result['startup_exact_bytes']}/{startup_result['startup_exact_bytes']} startup bytes; {startup_result['startup_functions_exact']}/3 functions; {startup_result['startup_relocations_applied']} relocations** | The pinned historical `crt0.s` reproduces `_start`, `_exit`, `_root` and startup BSS geometry exactly. The first remaining difference is `0x{startup_result['first_differing_address']:08x}`; {startup_result['mismatching_chunks']}/{startup_result['chunk_count']} image windows and {startup_result['differing_bytes']:,} bytes still differ. |
 | Stage-3H frontend unwind integration | **{frontend_eh_result['frontend_fdes']} FDEs; {frontend_eh_result['frontend_eh_bytes']:,} bytes; {frontend_eh_result['frontend_eh_relocations']} relocations** | Three semantic GCC 3.2.2 CIE/FDE groups are reconstructed and linked exactly, closing image window 14 without storing target payload. |
 | Stage-3I historical C++ tail integration | **{historical_tail_result['source_providers']} source providers; {historical_tail_result['source_bytes']:,} bytes; {historical_tail_result['semantic_fdes']} FDEs** | Rebuilt Snes9x data plus semantic unwind records close windows 47–49. The cumulative diagnostic has {historical_tail_result['exact_chunks']}/{historical_tail_result['chunk_count']} exact windows; {historical_tail_result['mismatching_chunks']} and {historical_tail_result['differing_bytes']:,} bytes remain. |
+| Stage-3J runtime tail source integration | **{runtime_tail_result['source_sections']} exact source sections; {runtime_tail_result['source_bytes']:,} bytes; {runtime_tail_result['unwind_fdes']} FDEs; {runtime_tail_result['source_relocations']} relocations** | `TILE.CPP` and selected GCC 3.2.2 `libsupc++` containers reduce window 50 to {runtime_tail_result['chunk50_differing_bytes']:,} differing bytes. The whole diagnostic still has {runtime_tail_result['exact_chunks']}/51 exact windows and {runtime_tail_result['differing_bytes']:,} differing bytes. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -685,6 +689,11 @@ applies {historical_tail_result['source_relocations']:,} source relocations and 
 {historical_tail_result['exact_chunks']}/{historical_tail_result['chunk_count']} now match and
 {historical_tail_result['mismatching_chunks']} remain. See
 [`V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
+V106 rebuilds {runtime_tail_result['source_sections']} additional `TILE.CPP`/`libsupc++` sections
+({runtime_tail_result['source_bytes']:,} bytes, {runtime_tail_result['unwind_fdes']} FDEs and
+{runtime_tail_result['source_relocations']} relocations) and reduces window 50 to
+{runtime_tail_result['chunk50_differing_bytes']:,} differing bytes. See
+[`V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md`](V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md).
 The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
@@ -724,7 +733,8 @@ closure remains frozen in
 14. **Historical startup integrated:** pinned `_start`/`_exit`/`_root` source produces {startup_result['startup_exact_bytes']} exact bytes, entry `0x{startup_result['integrated_entry_address']:08x}`, {startup_result['startup_relocations_applied']} applied relocations and exact startup BSS geometry. Continue at the first differing application address `0x{startup_result['first_differing_address']:08x}`; remove the duplicate behavioral lift only when exact source selection proves its replacement.
 15. **Frontend unwind metadata integrated:** {frontend_eh_result['frontend_fdes']} function extents drive three exact semantic CIE/FDE groups and close image window 14.
 16. **Historical C++ tail data integrated:** {historical_tail_result['source_providers']} public-source providers plus {historical_tail_result['semantic_fdes']} semantic FDEs close image windows 47–49. Continue through the {historical_tail_result['mismatching_chunks']} remaining windows; this is not a replacement ELF.
-17. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+17. **Runtime tail source data integrated:** {runtime_tail_result['source_sections']} exact `TILE.CPP`/`libsupc++` sections reduce window 50 to {runtime_tail_result['chunk50_differing_bytes']:,} differing bytes without copying target payload. Continue through the {runtime_tail_result['mismatching_chunks']} remaining windows; this is not a replacement ELF.
+18. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first
@@ -769,6 +779,7 @@ unproven final-ELF stage.
 - **Stage-3G exact startup:** **entry `0x{startup_result['integrated_entry_address']:08x}`**, **{startup_result['startup_exact_bytes']}/{startup_result['startup_exact_bytes']} bytes**, **{startup_result['startup_functions_exact']}/3 functions**, **{startup_result['startup_relocations_applied']} relocations**; first remaining difference **`0x{startup_result['first_differing_address']:08x}`**
 - **Stage-3H frontend unwind:** **{frontend_eh_result['frontend_fdes']} FDEs**, **{frontend_eh_result['frontend_eh_bytes']:,} exact bytes**, **window 14 closed**
 - **Stage-3I historical C++ tail:** **{historical_tail_result['source_bytes']:,} source bytes**, **{historical_tail_result['semantic_fdes']} semantic FDEs**, **{historical_tail_result['exact_chunks']}/{historical_tail_result['chunk_count']} windows exact**, **{historical_tail_result['mismatching_chunks']} remain**
+- **Stage-3J runtime tail source:** **{runtime_tail_result['source_bytes']:,} bytes**, **{runtime_tail_result['unwind_fdes']} FDEs**, **{runtime_tail_result['source_relocations']} relocations**; window 50 has **{runtime_tail_result['chunk50_differing_bytes']:,}** differences
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**
