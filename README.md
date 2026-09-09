@@ -1,4 +1,4 @@
-# SNESstation-Decomp
+# SNES STATION DECOMPILATION
 
 Preservation-oriented decompilation of **SNES Station v0.23 WIP
 (24 January 2004)** for PlayStation 2.
