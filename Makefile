@@ -121,6 +121,8 @@ TAIL_METADATA_MANIFEST := analysis/link_identity/tail_metadata.json
 TAIL_METADATA_BUILD_DIR := $(BUILD_DIR)/tail-metadata
 WINDOW36_DATA_MANIFEST := analysis/link_identity/window36_data.json
 WINDOW36_DATA_BUILD_DIR := $(BUILD_DIR)/window36-data
+MEDIA_ASSET_MANIFEST := analysis/link_identity/media_assets.json
+MEDIA_ASSET_BUILD_DIR := $(BUILD_DIR)/media-assets
 DECOMPDEV_REPORT_CONTRACT := analysis/decompdev/report_contract.json
 DECOMPDEV_REPORT := $(BUILD_DIR)/decompdev/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
@@ -190,6 +192,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	runtime-tail-data runtime-tail-data-check runtime-tail-data-refresh runtime-tail-data-public-check \
 	tail-metadata tail-metadata-check tail-metadata-refresh tail-metadata-public-check \
 	window36-data window36-data-check window36-data-refresh window36-data-public-check \
+	media-assets media-assets-check media-assets-refresh media-assets-public-check \
 	decompdev-report decompdev-report-check decompdev-report-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
@@ -242,6 +245,7 @@ help:
 	@echo "  make runtime-tail-data rebuild TILE/libsupc++ tail metadata from source"
 	@echo "  make tail-metadata    close image window 50 from public source/semantics"
 	@echo "  make window36-data    close image window 36 from Snes9x source/CFI"
+	@echo "  make media-assets     integrate verified private media; close windows 15-34"
 	@echo "  make decompdev-report generate the public objdiff v2 progress artifact"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
@@ -336,7 +340,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check tail-metadata-public-check window36-data-public-check decompdev-report-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check tail-metadata-public-check window36-data-public-check media-assets-public-check decompdev-report-public-check
 	@echo "repository checks: OK"
 
 decompdev-report:
@@ -1148,6 +1152,30 @@ window36-data-refresh:
 
 window36-data-public-check:
 	$(PYTHON) tools/window36_data.py validate --manifest "$(WINDOW36_DATA_MANIFEST)"
+
+media-assets: window36-data bootstrap-ee-cxx-stage1
+	$(MAKE) media-assets-check EE_STAGE1_CXX="$(EE_STAGE1_CXX)"
+
+media-assets-check:
+	@test -f "$(WINDOW36_DATA_BUILD_DIR)/stage3l-window36-integrated.elf" || { echo "missing Stage-3L output; run make window36-data" >&2; exit 2; }
+	$(PYTHON) tools/media_assets.py probe \
+		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
+		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
+		--stage3i-build "$(HISTORICAL_TAIL_BUILD_DIR)" --stage3j-build "$(RUNTIME_TAIL_BUILD_DIR)" \
+		--stage3k-build "$(TAIL_METADATA_BUILD_DIR)" --stage3l-build "$(WINDOW36_DATA_BUILD_DIR)" \
+		--build-dir "$(MEDIA_ASSET_BUILD_DIR)" --manifest "$(MEDIA_ASSET_MANIFEST)"
+
+media-assets-refresh:
+	@test -f "$(WINDOW36_DATA_BUILD_DIR)/stage3l-window36-integrated.elf" || { echo "missing Stage-3L output; run make window36-data" >&2; exit 2; }
+	$(PYTHON) tools/media_assets.py capture \
+		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
+		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
+		--stage3i-build "$(HISTORICAL_TAIL_BUILD_DIR)" --stage3j-build "$(RUNTIME_TAIL_BUILD_DIR)" \
+		--stage3k-build "$(TAIL_METADATA_BUILD_DIR)" --stage3l-build "$(WINDOW36_DATA_BUILD_DIR)" \
+		--build-dir "$(MEDIA_ASSET_BUILD_DIR)" --manifest "$(MEDIA_ASSET_MANIFEST)"
+
+media-assets-public-check:
+	$(PYTHON) tools/media_assets.py validate --manifest "$(MEDIA_ASSET_MANIFEST)"
 
 rom-offsets-public-check:
 	$(PYTHON) tools/rom_offsets.py validate

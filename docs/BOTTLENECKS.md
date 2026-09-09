@@ -366,3 +366,18 @@ from window 36. The diagnostic is now **18/51** windows exact, with **33
 windows and 1,845,637 bytes still different**. Exact implementation selection
 and historical link composition remain the active bottlenecks. See
 [`status/V108_WINDOW36_SOURCE_INTEGRATION.md`](status/V108_WINDOW36_SOURCE_INTEGRATION.md).
+
+## V109 embedded-media integration
+
+V109 integrates the six large media containers already identified by
+format-derived boundaries and SHA-256: the frontend background, logo, panel
+corner, font, Azazel module and Memory Card icon. Their 1,284,388 asset bytes
+plus six adjacent size words are read only from a verified private reference
+and emitted below ignored `build/`. No media payload enters the repository.
+
+This closes all twenty windows from 15 through 34 and removes 1,184,204
+differences in one tranche. The diagnostic is now **38/51** windows exact,
+with only **13 windows and 661,433 bytes still different**. The remaining
+windows are 0–11 and 35, concentrating the work on exact code/runtime
+implementation selection and link composition. See
+[`status/V109_EMBEDDED_MEDIA_INTEGRATION.md`](status/V109_EMBEDDED_MEDIA_INTEGRATION.md).

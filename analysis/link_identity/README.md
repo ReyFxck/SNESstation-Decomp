@@ -213,3 +213,12 @@ absorbs 43 smaller fixed sections and closes image window 36, bringing the
 cumulative diagnostic to 18/51 exact windows with 33 remaining. Use
 `make window36-data-public-check` or `make window36-data`. See
 [`V108_WINDOW36_SOURCE_INTEGRATION.md`](../../docs/status/V108_WINDOW36_SOURCE_INTEGRATION.md).
+
+`media_assets.json` freezes the Stage-3M integration of the six remaining
+embedded-media containers and their adjacent 32-bit size words. The private
+gate reads 1,284,388 asset bytes only from a hash-verified user-supplied image
+and emits them below ignored `build/`; the tracked manifest contains geometry
+and hashes only. It closes all twenty windows from 15 through 34, bringing the
+cumulative diagnostic to 38/51 exact with 13 remaining. Use
+`make media-assets-public-check` or `make media-assets`. See
+[`V109_EMBEDDED_MEDIA_INTEGRATION.md`](../../docs/status/V109_EMBEDDED_MEDIA_INTEGRATION.md).

@@ -74,6 +74,7 @@ ASSETS = (
         0x96010,
         "4e840cd29cad2d322745ce0e229bcb8ee87ccb9953f258e4085057f43cca9d6c",
         "graphics/frontend_background.iif",
+        0x00290FE0,
     ),
     AssetSpec(
         "frontend_logo_iif",
@@ -82,6 +83,7 @@ ASSETS = (
         0x1A1E0,
         "b77c27f9ecbe25f0f781675e52c7558130f48653b2189b5b027c48c29444a3ad",
         "graphics/frontend_logo.iif",
+        0x002AB1D0,
     ),
     AssetSpec(
         "frontend_panel_corner_iif",
@@ -90,6 +92,7 @@ ASSETS = (
         0x910,
         "7ad58b6011d746fc89b28a78ce41a60c1619d67bf7281fe85e673e46ec39bfb0",
         "graphics/frontend_panel_corner.iif",
+        0x002ABAF0,
     ),
     AssetSpec(
         "frontend_font_bfnt",
@@ -98,6 +101,7 @@ ASSETS = (
         0x40120,
         "65deef51212e1aa73ef78a8991d38dee56125db97c9d272c5ab8baab856f63f6",
         "graphics/frontend_font.bfnt",
+        0x002EBC20,
     ),
     AssetSpec(
         "credits_text",

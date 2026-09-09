@@ -30,6 +30,7 @@ import historical_tail_data
 import runtime_tail_data
 import tail_metadata
 import window36_data
+import media_assets
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
@@ -510,6 +511,8 @@ def main() -> None:
     tail_metadata_result = tail_metadata_gate["result"]
     window36_gate = window36_data.validate(window36_data.parse_args(["validate"]))
     window36_result = window36_gate["result"]
+    media_gate = media_assets.validate(media_assets.parse_args(["validate"]))
+    media_result = media_gate["result"]
     stage3d_closed = len(libgcc_rows) + runtime_closed + member_report["contracts_closed"] + len(override_rows)
     stage3d_remaining = 53 - stage3d_closed
 
@@ -613,6 +616,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Stage-3J runtime tail source integration | **{runtime_tail_result['source_sections']} exact source sections; {runtime_tail_result['source_bytes']:,} bytes; {runtime_tail_result['unwind_fdes']} FDEs; {runtime_tail_result['source_relocations']} relocations** | `TILE.CPP` and selected GCC 3.2.2 `libsupc++` containers reduce window 50 to {runtime_tail_result['chunk50_differing_bytes']:,} differing bytes. The whole diagnostic still has {runtime_tail_result['exact_chunks']}/51 exact windows and {runtime_tail_result['differing_bytes']:,} differing bytes. |
 | Stage-3K final tail metadata integration | **{tail_metadata_result['source_sections']} exact source sections; {tail_metadata_result['source_bytes']:,} source bytes; {tail_metadata_result['semantic_sections']} semantic sections** | SPC7110 unwind, zlib/PS2LIB/libgcc/libsupc++ data, LSDA/RTTI, `sbrk` and MathFP metadata close window 50 exactly. The whole diagnostic has {tail_metadata_result['exact_chunks']}/{tail_metadata_result['chunk_count']} exact windows; {tail_metadata_result['mismatching_chunks']} and {tail_metadata_result['differing_bytes']:,} bytes remain. |
 | Stage-3L window-36 source integration | **{window36_result['source_sections']} source sections; {window36_result['source_bytes']:,} source bytes; {window36_result['semantic_fdes']} semantic FDEs; {window36_result['source_relocations']:,} relocations** | DSP1, CPU opcode tables, `fxemu`, `fxinst` and renderer unwind metadata close window 36 exactly. The diagnostic has {window36_result['exact_chunks']}/{window36_result['chunk_count']} exact windows; {window36_result['mismatching_chunks']} mismatching windows and {window36_result['differing_bytes']:,} bytes remain. |
+| Stage-3M embedded-media integration | **{media_result['media_sections']} media sections; {media_result['media_asset_bytes']:,} asset bytes; {media_result['size_words']} size words** | Hash-verified frontend graphics/font, Azazel music and Memory Card icon close windows 15–34 without publishing private payload. The diagnostic has {media_result['exact_chunks']}/{media_result['chunk_count']} exact windows; {media_result['mismatching_chunks']} mismatching windows and {media_result['differing_bytes']:,} bytes remain. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -715,6 +719,14 @@ bytes, applies {window36_result['source_relocations']:,} source relocations and 
 cumulative diagnostic reaches {window36_result['exact_chunks']}/{window36_result['chunk_count']}
 exact windows with {window36_result['differing_bytes']:,} differing bytes. See
 [`V108_WINDOW36_SOURCE_INTEGRATION.md`](V108_WINDOW36_SOURCE_INTEGRATION.md).
+V109 integrates the six remaining embedded-media containers from a verified,
+user-supplied reference. Their {media_result['media_asset_bytes']:,} asset bytes and
+{media_result['size_words']} checked size words close all {media_result['closed_media_windows']}
+windows from 15 through 34 without storing graphics, audio or icon payload in
+the repository. The cumulative diagnostic jumps to
+{media_result['exact_chunks']}/{media_result['chunk_count']} exact windows with
+{media_result['differing_bytes']:,} differing bytes. See
+[`V109_EMBEDDED_MEDIA_INTEGRATION.md`](V109_EMBEDDED_MEDIA_INTEGRATION.md).
 The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
@@ -757,7 +769,8 @@ closure remains frozen in
 17. **Runtime tail source data integrated:** {runtime_tail_result['source_sections']} exact `TILE.CPP`/`libsupc++` sections reduce window 50 to {runtime_tail_result['chunk50_differing_bytes']:,} differing bytes without copying target payload. Continue through the {runtime_tail_result['mismatching_chunks']} remaining windows; this is not a replacement ELF.
 18. **Final tail metadata integrated:** {tail_metadata_result['source_sections']} public-source sections and {tail_metadata_result['semantic_sections']} semantic sections close window 50 exactly. Continue through the {tail_metadata_result['mismatching_chunks']} remaining windows; this is not a replacement ELF.
 19. **Window 36 source data integrated:** {window36_result['source_sections']} public-source sections, {window36_result['source_relocations']:,} source relocations and {window36_result['semantic_fdes']} semantic FDEs close window 36 exactly. Continue through the {window36_result['mismatching_chunks']} remaining windows; this is not a replacement ELF.
-20. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+20. **Embedded-media corridor integrated:** {media_result['media_sections']} hash-verified private containers plus their size words close windows 15–34. Continue through the {media_result['mismatching_chunks']} remaining windows; no private payload is tracked and this is not a replacement ELF.
+21. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first
@@ -805,6 +818,7 @@ unproven final-ELF stage.
 - **Stage-3J runtime tail source:** **{runtime_tail_result['source_bytes']:,} bytes**, **{runtime_tail_result['unwind_fdes']} FDEs**, **{runtime_tail_result['source_relocations']} relocations**; window 50 has **{runtime_tail_result['chunk50_differing_bytes']:,}** differences
 - **Stage-3K tail metadata:** **{tail_metadata_result['source_bytes']:,} source bytes**, **{tail_metadata_result['semantic_sections']} semantic sections**, **window 50 exact**, **{tail_metadata_result['exact_chunks']}/{tail_metadata_result['chunk_count']} windows exact**, **{tail_metadata_result['differing_bytes']:,} differences remain**
 - **Stage-3L window-36 data:** **{window36_result['source_bytes']:,} source bytes**, **{window36_result['semantic_fdes']} semantic FDEs**, **window 36 exact**, **{window36_result['exact_chunks']}/{window36_result['chunk_count']} windows exact**, **{window36_result['differing_bytes']:,} differences remain**
+- **Stage-3M embedded media:** **{media_result['media_sections']} verified containers**, **{media_result['media_asset_bytes']:,} private asset bytes**, **windows 15–34 exact**, **{media_result['exact_chunks']}/{media_result['chunk_count']} windows exact**, **{media_result['differing_bytes']:,} differences remain**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**

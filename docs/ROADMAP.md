@@ -148,6 +148,9 @@ complete object/array bounds are not closed.
 - [x] Rebuild the DSP1, CPU opcode-table, `fxemu` and `fxinst` data corridor;
   close all 8,609 residual differences in window 36 and reach 18/51 exact
   windows (V108).
+- [x] Integrate all six remaining hash-verified embedded-media containers and
+  their size words without tracking private payload; close windows 15–34 and
+  reach 38/51 exact windows (V109).
 - [ ] Select and integrate the exact per-function implementations into the
   final object set; compiling the canonical behavioral models is not proof
   that their aggregate code equals the complete target text.

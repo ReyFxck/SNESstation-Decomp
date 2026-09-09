@@ -27,8 +27,9 @@ end is exclusive.
 
 The three IIF pointers and the BFNT pointer are stored consecutively at
 `0x001bb310..0x001bb31f`. Function `0x001019a8` uploads them to GS memory. The
-headers independently derive all four boundaries, and the next resource begins
-after only alignment padding. No PNG, JPEG, GIF, TIM2, DDS or other conventional
+headers independently derive all four boundaries. Each container is followed
+by a 32-bit word equal to its exact byte size and then twelve alignment bytes
+before the next resource. No PNG, JPEG, GIF, TIM2, DDS or other conventional
 image signature occurs in the unpacked image.
 
 ## Azazel module
@@ -111,3 +112,10 @@ unpacks the ELF and writes private results to `build/extracted-assets/`:
 `build/` is ignored. Do not force-add the original ELF, extracted IRXs, music,
 graphics or Memory Card icon. Only the extractor, documentation, offsets and
 hashes belong in the public repository.
+
+`make media-assets` uses those format-derived bounds, hashes and adjacent size
+words to integrate the six large frontend/audio/icon containers into the
+Stage-3M diagnostic. It closes windows 15–34 while keeping every payload below
+ignored `build/`; `make media-assets-public-check` validates the byte-free
+contract. See
+[`status/V109_EMBEDDED_MEDIA_INTEGRATION.md`](status/V109_EMBEDDED_MEDIA_INTEGRATION.md).

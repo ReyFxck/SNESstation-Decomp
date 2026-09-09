@@ -87,6 +87,10 @@ class EmbeddedAssetCatalogTests(unittest.TestCase):
             self.assertEqual(item.size, int(row["size_dec"]))
             self.assertEqual(item.sha256, row["sha256"])
             self.assertEqual(item.decoded_sha256 or "", row["decoded_sha256"])
+            self.assertEqual(
+                f"0x{item.size_word_va:08x}" if item.size_word_va is not None else "",
+                row["size_word_va"],
+            )
 
     def test_ranges_are_ordered_and_non_overlapping(self):
         for previous, current in zip(assets.ASSETS, assets.ASSETS[1:]):
