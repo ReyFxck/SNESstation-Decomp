@@ -28,6 +28,7 @@
 | Stage-3I historical C++ tail integration | **6 source providers; 123,140 bytes; 30 FDEs** | Rebuilt Snes9x data plus semantic unwind records close windows 47–49. The cumulative diagnostic has 16/51 exact windows; 35 and 1,859,772 bytes remain. |
 | Stage-3J runtime tail source integration | **14 exact source sections; 3,868 bytes; 56 FDEs; 73 relocations** | `TILE.CPP` and selected GCC 3.2.2 `libsupc++` containers reduce window 50 to 3,173 differing bytes. The whole diagnostic still has 16/51 exact windows and 1,857,419 differing bytes. |
 | Stage-3K final tail metadata integration | **34 exact source sections; 9,428 source bytes; 5 semantic sections** | SPC7110 unwind, zlib/PS2LIB/libgcc/libsupc++ data, LSDA/RTTI, `sbrk` and MathFP metadata close window 50 exactly. The whole diagnostic has 17/51 exact windows; 34 and 1,854,246 bytes remain. |
+| Stage-3L window-36 source integration | **4 source sections; 31,460 source bytes; 27 semantic FDEs; 2,083 relocations** | DSP1, CPU opcode tables, `fxemu`, `fxinst` and renderer unwind metadata close window 36 exactly. The diagnostic has 18/51 exact windows; 33 mismatching windows and 1,845,637 bytes remain. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -123,6 +124,13 @@ bytes and 5 semantic metadata sections. It closes all
 committing private payload bytes; the cumulative diagnostic reaches
 17/51 exact windows. See
 [`V107_TAIL_METADATA_WINDOW50.md`](V107_TAIL_METADATA_WINDOW50.md).
+V108 rebuilds 4 source sections / 31,460
+bytes, applies 2,083 source relocations and emits
+27 semantic FDEs. DSP1, all four CPU opcode tables,
+`fxemu`, `fxinst` and renderer unwind metadata close window 36 exactly; the
+cumulative diagnostic reaches 18/51
+exact windows with 1,845,637 differing bytes. See
+[`V108_WINDOW36_SOURCE_INTEGRATION.md`](V108_WINDOW36_SOURCE_INTEGRATION.md).
 The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
@@ -164,7 +172,8 @@ closure remains frozen in
 16. **Historical C++ tail data integrated:** 6 public-source providers plus 30 semantic FDEs close image windows 47–49. Continue through the 35 remaining windows; this is not a replacement ELF.
 17. **Runtime tail source data integrated:** 14 exact `TILE.CPP`/`libsupc++` sections reduce window 50 to 3,173 differing bytes without copying target payload. Continue through the 35 remaining windows; this is not a replacement ELF.
 18. **Final tail metadata integrated:** 34 public-source sections and 5 semantic sections close window 50 exactly. Continue through the 34 remaining windows; this is not a replacement ELF.
-19. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+19. **Window 36 source data integrated:** 4 public-source sections, 2,083 source relocations and 27 semantic FDEs close window 36 exactly. Continue through the 33 remaining windows; this is not a replacement ELF.
+20. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first

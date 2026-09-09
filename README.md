@@ -47,6 +47,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3I historical C++ tail:** **123,140 source bytes**, **30 semantic FDEs**, **16/51 windows exact**, **35 remain**
 - **Stage-3J runtime tail source:** **3,868 bytes**, **56 FDEs**, **73 relocations**; window 50 has **3,173** differences
 - **Stage-3K tail metadata:** **9,428 source bytes**, **5 semantic sections**, **window 50 exact**, **17/51 windows exact**, **1,854,246 differences remain**
+- **Stage-3L window-36 data:** **31,460 source bytes**, **27 semantic FDEs**, **window 36 exact**, **18/51 windows exact**, **1,845,637 differences remain**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -116,6 +117,7 @@ make frontend-eh-frames
 make historical-tail-data
 make runtime-tail-data
 make tail-metadata
+make window36-data
 make layout-oracle
 ```
 
@@ -298,9 +300,11 @@ and 1,859,772 differing bytes. See
 V106 adds 14 exact `TILE.CPP`/GCC 3.2.2 `libsupc++` sections and reduces
 window 50 to 3,173 differences. V107 then rebuilds the remaining zlib,
 PS2LIB, libgcc/libsupc++ and semantic metadata corridor, closing window 50
-exactly without committing target payload. The cumulative diagnostic is now
-**17/51** windows exact with **1,854,246** differing bytes. See
-[`docs/status/V107_TAIL_METADATA_WINDOW50.md`](docs/status/V107_TAIL_METADATA_WINDOW50.md).
+exactly without committing target payload. V108 rebuilds the DSP1, CPU opcode,
+`fxemu` and `fxinst` data corridor plus semantic unwind metadata, closing
+window 36. The cumulative diagnostic is now **18/51** windows exact with
+**1,845,637** differing bytes. See
+[`docs/status/V108_WINDOW36_SOURCE_INTEGRATION.md`](docs/status/V108_WINDOW36_SOURCE_INTEGRATION.md).
 
 ## Target fingerprint
 

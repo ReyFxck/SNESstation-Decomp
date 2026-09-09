@@ -204,3 +204,12 @@ the cumulative diagnostic to 16/51 exact with 35 remaining. Use
 results may come from the private oracle; all other bytes must already match
 the rebuilt public-source objects. See
 [`V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md`](../../docs/status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md).
+
+`window36_data.json` freezes the Stage-3L rebuild of the DSP1 prefix, four CPU
+opcode tables, complete `fxemu`/`fxinst` data, and 27 semantic DSP1/renderer
+FDEs. The private gate accepts target bytes only at verified `R_MIPS_32`
+relocation sites and requires every other rebuilt byte to match first. It
+absorbs 43 smaller fixed sections and closes image window 36, bringing the
+cumulative diagnostic to 18/51 exact windows with 33 remaining. Use
+`make window36-data-public-check` or `make window36-data`. See
+[`V108_WINDOW36_SOURCE_INTEGRATION.md`](../../docs/status/V108_WINDOW36_SOURCE_INTEGRATION.md).

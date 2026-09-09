@@ -40,6 +40,7 @@ make frontend-eh-frames # 18 semantic frontend FDEs; image window 14 exact
 make historical-tail-data # six rebuilt source providers + 30 FDEs; 16/51 exact
 make runtime-tail-data # 14 exact TILE/libsupc++ tail sections; window 50 reduced
 make tail-metadata    # public source/semantics close window 50; 17/51 exact
+make window36-data    # source data + semantic unwind close window 36; 18/51 exact
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -125,12 +126,17 @@ The final pipeline must prove every layer:
    semantic sections close all 3,173 remaining differences in window 50. The
    cumulative diagnostic is 17/51 exact with 1,854,246 bytes still different.
    See [`status/V107_TAIL_METADATA_WINDOW50.md`](status/V107_TAIL_METADATA_WINDOW50.md).
-20. **Final link** — select/integrate exact implementation objects, linker script,
+20. **Window-36 source data — integrated** — four public-source sections,
+   2,083 source relocations and 27 semantic FDEs close all 8,609 remaining
+   differences in window 36. The cumulative diagnostic is 18/51 exact with
+   1,845,637 bytes still different. See
+   [`status/V108_WINDOW36_SOURCE_INTEGRATION.md`](status/V108_WINDOW36_SOURCE_INTEGRATION.md).
+21. **Final link** — select/integrate exact implementation objects, linker script,
    section addresses, object order and library order to
    reproduce the unpacked ELF image.
-21. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+22. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
-22. **Final comparison** — section/layout reports and both unpacked and packed
+23. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
 
 The required reference hashes are:
@@ -154,6 +160,8 @@ The source-derived runtime-tail tranche is recorded in
 [`status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md`](status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md).
 The final tail-metadata integration and exact window-50 proof are recorded in
 [`status/V107_TAIL_METADATA_WINDOW50.md`](status/V107_TAIL_METADATA_WINDOW50.md).
+The source-derived window-36 integration and exact proof are recorded in
+[`status/V108_WINDOW36_SOURCE_INTEGRATION.md`](status/V108_WINDOW36_SOURCE_INTEGRATION.md).
 The closed Stage-3D libgcc checkpoint is recorded in
 [`status/V91_STAGE3D_LIBGCC_CLOSED.md`](status/V91_STAGE3D_LIBGCC_CLOSED.md).
 The subsequent formatter refactor and its private direct-call proof are in

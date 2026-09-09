@@ -145,6 +145,9 @@ complete object/array bounds are not closed.
   (V106).
 - [x] Rebuild the remaining public-source and semantic tail metadata; close all
   3,173 residual differences in window 50 and reach 17/51 exact windows (V107).
+- [x] Rebuild the DSP1, CPU opcode-table, `fxemu` and `fxinst` data corridor;
+  close all 8,609 residual differences in window 36 and reach 18/51 exact
+  windows (V108).
 - [ ] Select and integrate the exact per-function implementations into the
   final object set; compiling the canonical behavioral models is not proof
   that their aggregate code equals the complete target text.

@@ -1,0 +1,1710 @@
+{
+  "absorbed_fixed_sections": [
+    ".data.stage3f.history.va_0033ce78",
+    ".data.stage3f.history.va_0033ee78",
+    ".data.stage3f.va_00340f90",
+    ".data.stage3f.history.va_00340f92",
+    ".data.stage3f.va_00340f94",
+    ".data.stage3f.va_00341398",
+    ".data.stage3f.history.va_0034139a",
+    ".data.stage3f.va_0034139c",
+    ".data.stage3f.history.va_003413b2",
+    ".data.stage3f.va_003413b4",
+    ".data.stage3f.va_003413cc",
+    ".data.stage3f.va_003413f0",
+    ".data.stage3f.va_00341434",
+    ".data.stage3f.va_0034143c",
+    ".data.stage3f.history.va_0034144c",
+    ".data.stage3f.va_00341450",
+    ".data.stage3f.history.va_0034145c",
+    ".data.stage3f.va_00341460",
+    ".data.stage3f.va_003414b0",
+    ".data.stage3f.va_003414fc",
+    ".data.stage3f.va_003415b0",
+    ".data.stage3f.history.va_003415b4",
+    ".data.stage3f.history.va_003415b6",
+    ".data.stage3f.history.va_003415b8",
+    ".data.stage3f.va_003415ba",
+    ".data.stage3f.va_0034160c",
+    ".data.stage3f.history.va_00341616",
+    ".data.stage3f.va_00341618",
+    ".data.stage3f.history.va_0034161c",
+    ".data.stage3f.va_0034161e",
+    ".data.stage3f.history.va_00341626",
+    ".data.stage3f.va_00341628",
+    ".data.stage3f.history.va_0034162a",
+    ".data.stage3f.va_0034162c",
+    ".data.stage3f.history.va_0034162e",
+    ".data.stage3f.va_00341630",
+    ".data.stage3ce.va_00341658",
+    ".data.stage3f.history.va_00342a38",
+    ".data.stage3f.va_0034323c",
+    ".data.stage3f.history.va_00343240",
+    ".data.stage3f.history.va_00343250",
+    ".data.stage3ce.va_00343b30",
+    ".data.stage3ce.va_00343b44"
+  ],
+  "claims": {
+    "historical_source_sections_rebuilt": true,
+    "non_relocation_bytes_raw_exact": true,
+    "packed_hash_matched": false,
+    "private_oracle_limited_to_r_mips_32_results": true,
+    "private_target_bytes_stored": false,
+    "replacement_elf": false,
+    "unpacked_hash_matched": false,
+    "unwind_semantics_reconstructed": true,
+    "window_36_exact": true
+  },
+  "format": "snesstation-stage3l-window36-data",
+  "historical_data_manifest_sha256": "a8d2be60b444cd806eb8bfde1187a1bc32e2bdf61929c28ebdbb45d549bac912",
+  "internal_functions": [
+    {
+      "address": 1238864,
+      "sha256": "56232184ca0d814f5f2da53bc866a6d6e6a5d754340f9ed700fa78859c8164b6",
+      "size": 4084,
+      "symbol": "_Z11DSP1SetByteht"
+    },
+    {
+      "address": 1242948,
+      "sha256": "05506efd8bd9527d8fb3acfd869c9cc11b9dedca7f71aada0954159d20bdaf37",
+      "size": 356,
+      "symbol": "_Z11DSP1GetBytet"
+    }
+  ],
+  "prior_manifest_sha256": "03698232ac47d9bce1746867481510375e4bea8f15b17f2afc9fe3ab2038816d",
+  "result": {
+    "absorbed_fixed_sections": 43,
+    "chunk_count": 51,
+    "differing_bytes": 1845637,
+    "exact_chunk_indices": [
+      12,
+      13,
+      14,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ],
+    "exact_chunks": 18,
+    "first_differing_address": 1048852,
+    "integrated_padded_sha256": "1a2a611910c3f5588a30f9259b3143e60a9bffa1e3804a5de58aac2525721d89",
+    "internal_functions": 2,
+    "mismatching_chunk_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    "mismatching_chunks": 33,
+    "prior_differing_bytes": 1854246,
+    "semantic_bytes": 1572,
+    "semantic_fdes": 27,
+    "semantic_relocations": 29,
+    "semantic_sections": 2,
+    "source_bytes": 31460,
+    "source_relocations": 2083,
+    "source_sections": 4,
+    "target_initialized_size": 3304936,
+    "target_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
+    "window36_differing_bytes": 0
+  },
+  "schema_version": 1,
+  "semantic_sections": [
+    {
+      "address": 3413604,
+      "fdes": [
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              12
+            ],
+            [
+              "def_cfa_offset",
+              64
+            ],
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "offset_extended_sf",
+              52,
+              -4
+            ],
+            [
+              "advance_loc4",
+              24
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -12
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -8
+            ]
+          ],
+          "pc": 1228636,
+          "size": 208
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "def_cfa_offset",
+              16
+            ],
+            [
+              "advance_loc4",
+              12
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1229532,
+          "size": 188
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              48
+            ],
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -12
+            ],
+            [
+              "advance_loc4",
+              16
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -8
+            ]
+          ],
+          "pc": 1229892,
+          "size": 100
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              96
+            ],
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -12
+            ],
+            [
+              "advance_loc4",
+              12
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ],
+            [
+              "advance_loc4",
+              12
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -16
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -24
+            ]
+          ],
+          "pc": 1229992,
+          "size": 176
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              176
+            ],
+            [
+              "advance_loc4",
+              76
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -44
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -40
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -36
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -32
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -28
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -24
+            ],
+            [
+              "offset_extended_sf",
+              22,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              23,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              30,
+              -12
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              52,
+              -4
+            ],
+            [
+              "offset_extended_sf",
+              54,
+              -3
+            ]
+          ],
+          "pc": 1230168,
+          "size": 1664
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              160
+            ],
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "offset_extended_sf",
+              23,
+              -12
+            ],
+            [
+              "advance_loc4",
+              48
+            ],
+            [
+              "offset_extended_sf",
+              52,
+              -4
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -40
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -36
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -32
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -28
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -24
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              22,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -8
+            ]
+          ],
+          "pc": 1231832,
+          "size": 576
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              112
+            ],
+            [
+              "advance_loc4",
+              44
+            ],
+            [
+              "offset_extended_sf",
+              52,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              54,
+              -7
+            ],
+            [
+              "offset_extended_sf",
+              56,
+              -6
+            ],
+            [
+              "offset_extended_sf",
+              58,
+              -5
+            ],
+            [
+              "offset_extended_sf",
+              60,
+              -4
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -28
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -24
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -12
+            ]
+          ],
+          "pc": 1232408,
+          "size": 580
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              112
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ],
+            [
+              "advance_loc4",
+              16
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -12
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -24
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -28
+            ]
+          ],
+          "pc": 1233716,
+          "size": 376
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              112
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ],
+            [
+              "advance_loc4",
+              16
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -12
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -24
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -28
+            ]
+          ],
+          "pc": 1234092,
+          "size": 376
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              112
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ],
+            [
+              "advance_loc4",
+              16
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -12
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -24
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -28
+            ]
+          ],
+          "pc": 1234468,
+          "size": 376
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              176
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              30,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              23,
+              -12
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              22,
+              -16
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -20
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -24
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -28
+            ],
+            [
+              "advance_loc4",
+              16
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -40
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -36
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -32
+            ]
+          ],
+          "pc": 1235996,
+          "size": 452
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              16
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1236448,
+          "size": 128
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              160
+            ],
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -28
+            ],
+            [
+              "advance_loc4",
+              12
+            ],
+            [
+              "offset_extended_sf",
+              30,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              23,
+              -12
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              22,
+              -16
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -20
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -24
+            ],
+            [
+              "advance_loc4",
+              12
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -40
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -32
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -36
+            ]
+          ],
+          "pc": 1237196,
+          "size": 504
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              16
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1238788,
+          "size": 36
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              16
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1238824,
+          "size": 40
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "def_cfa_offset",
+              32
+            ],
+            [
+              "advance_loc4",
+              24
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1238864,
+          "size": 4084
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "def_cfa_offset",
+              48
+            ],
+            [
+              "advance_loc4",
+              24
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -12
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1242948,
+          "size": 356
+        }
+      ],
+      "linked_sha256": "5de44b838c8884ffc2326d4bb5683b21a964c49f6534fcd5065b95be38f13ca5",
+      "name": "dsp1_unwind",
+      "section": ".data.stage3l.dsp1_unwind",
+      "size": 980,
+      "zero_words": 2
+    },
+    {
+      "address": 3427856,
+      "fdes": [
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              48
+            ],
+            [
+              "advance_loc4",
+              24
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -12
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1321592,
+          "size": 1436
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              32
+            ],
+            [
+              "advance_loc4",
+              16
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1323292,
+          "size": 628
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              48
+            ],
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -12
+            ],
+            [
+              "advance_loc4",
+              16
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1324204,
+          "size": 456
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              224
+            ],
+            [
+              "advance_loc4",
+              80
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -40
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -36
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -32
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -28
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -24
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              22,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              23,
+              -12
+            ],
+            [
+              "offset_extended_sf",
+              30,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1325016,
+          "size": 1700
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              240
+            ],
+            [
+              "advance_loc4",
+              40
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -40
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -36
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -32
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -28
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -24
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              22,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              23,
+              -12
+            ],
+            [
+              "offset_extended_sf",
+              30,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1326716,
+          "size": 1392
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "def_cfa_offset",
+              288
+            ],
+            [
+              "advance_loc4",
+              72
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -40
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -36
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -32
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -28
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -24
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              22,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              23,
+              -12
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ],
+            [
+              "offset_extended_sf",
+              30,
+              -8
+            ]
+          ],
+          "pc": 1328108,
+          "size": 1772
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              240
+            ],
+            [
+              "advance_loc4",
+              48
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -40
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -36
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -32
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -28
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -24
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              22,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              23,
+              -12
+            ],
+            [
+              "offset_extended_sf",
+              30,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ]
+          ],
+          "pc": 1329880,
+          "size": 2008
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              20
+            ],
+            [
+              "def_cfa_offset",
+              240
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -20
+            ],
+            [
+              "advance_loc4",
+              56
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -24
+            ],
+            [
+              "offset_extended_sf",
+              22,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              23,
+              -12
+            ],
+            [
+              "offset_extended_sf",
+              30,
+              -8
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -36
+            ],
+            [
+              "advance_loc4",
+              24
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -40
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -32
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -28
+            ]
+          ],
+          "pc": 1331888,
+          "size": 2392
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              128
+            ],
+            [
+              "advance_loc4",
+              8
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -28
+            ],
+            [
+              "advance_loc4",
+              24
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -32
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -24
+            ],
+            [
+              "advance_loc4",
+              24
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -12
+            ],
+            [
+              "offset_extended_sf",
+              22,
+              -8
+            ]
+          ],
+          "pc": 1368384,
+          "size": 1768
+        },
+        {
+          "ops": [
+            [
+              "advance_loc4",
+              4
+            ],
+            [
+              "def_cfa_offset",
+              144
+            ],
+            [
+              "advance_loc4",
+              16
+            ],
+            [
+              "offset_extended_sf",
+              64,
+              -4
+            ],
+            [
+              "offset_extended_sf",
+              23,
+              -8
+            ],
+            [
+              "advance_loc4",
+              36
+            ],
+            [
+              "offset_extended_sf",
+              16,
+              -36
+            ],
+            [
+              "offset_extended_sf",
+              17,
+              -32
+            ],
+            [
+              "offset_extended_sf",
+              18,
+              -28
+            ],
+            [
+              "offset_extended_sf",
+              19,
+              -24
+            ],
+            [
+              "offset_extended_sf",
+              20,
+              -20
+            ],
+            [
+              "offset_extended_sf",
+              21,
+              -16
+            ],
+            [
+              "offset_extended_sf",
+              22,
+              -12
+            ]
+          ],
+          "pc": 1371220,
+          "size": 6712
+        }
+      ],
+      "linked_sha256": "20f597f0863376774e17e6f063ce375b335cd29fe8d2cf79cf4d1cb91ebe6deb",
+      "name": "gfx_unwind",
+      "section": ".data.stage3l.gfx_unwind",
+      "size": 592,
+      "zero_words": 2
+    }
+  ],
+  "source_hashes": {
+    "CPUOPS.CPP": "85b8849cb5f2b930564f84e82e9fadca427f52f79c05bf0d12e64d62899e45a1",
+    "DSP1.CPP": "4c0046c4bc05565b0638defc450e635a55403ce7d15be536d1a738312b337045",
+    "fxemu.cpp": "021c8b181f3cc5967955a837ffc916f7b30c43adcfef801ee5289e4684ace08e",
+    "fxinst.cpp": "f427773319dfc6412642a160b199d73b1a72203503a391d60b7e425d10e6e801"
+  },
+  "source_sections": [
+    {
+      "address": 3395192,
+      "filename": "DSP1.CPP",
+      "full_sha256": "487b90039e0a84011da12c1dd25f7c260b8448cd30112572a35689a315dd4c1f",
+      "full_size": 19336,
+      "linked_sha256": "a04af52a6e6aec67e49abf77aa14140e5b749743ffcd5a1518cfa4b0380b981b",
+      "name": "dsp1_prefix",
+      "raw_sha256": "2fe5d36180798587ee09150c313e639b212e4c01c02fe7aa8bbc332ff32ba8b8",
+      "relocations": 2,
+      "section": ".data.stage3l.source.dsp1_prefix",
+      "size": 18412,
+      "source_offset": 0,
+      "source_section": ".data"
+    },
+    {
+      "address": 3414584,
+      "filename": "CPUOPS.CPP",
+      "full_sha256": "a3e4198c49d90f7b95e7ca1ad145fa0c1259d2cd2e0c7f6f2014d33a65473064",
+      "full_size": 21048,
+      "linked_sha256": "30beb2e2de4eee974731ecfa3e3f7b63b9ec38ba0e78cee9ae53f124bb5d94f4",
+      "name": "cpu_opcode_tables",
+      "raw_sha256": "a3a1d9b5ffa4fac7ea4ebaa2483f3cf547bb314db75c19534ee2d72610a72d78",
+      "relocations": 1024,
+      "section": ".data.stage3l.source.cpu_opcode_tables",
+      "size": 4096,
+      "source_offset": 0,
+      "source_section": ".data"
+    },
+    {
+      "address": 3418680,
+      "filename": "fxemu.cpp",
+      "full_sha256": "8511be0bbfef2cc57b50c744a607816859b2e7f460ea6260efc27e759d1334ed",
+      "full_size": 2280,
+      "linked_sha256": "8d739827be081d1cf7155d825fbd808227a75560ac6ba6afef247902505b7470",
+      "name": "fxemu_data",
+      "raw_sha256": "8511be0bbfef2cc57b50c744a607816859b2e7f460ea6260efc27e759d1334ed",
+      "relocations": 8,
+      "section": ".data.stage3l.source.fxemu_data",
+      "size": 2280,
+      "source_offset": 0,
+      "source_section": ".data"
+    },
+    {
+      "address": 3420960,
+      "filename": "fxinst.cpp",
+      "full_sha256": "a16f5c06dd2daa0edb6af293c87369ff97093ec4e93566698695a639b7fd4471",
+      "full_size": 6672,
+      "linked_sha256": "66298bc08fb0aa5fadf68ef4b7ada795a3b019c7ff6efab0ca93b5cf51c97483",
+      "name": "fxinst_data",
+      "raw_sha256": "a16f5c06dd2daa0edb6af293c87369ff97093ec4e93566698695a639b7fd4471",
+      "relocations": 1049,
+      "section": ".data.stage3l.source.fxinst_data",
+      "size": 6672,
+      "source_offset": 0,
+      "source_section": ".data"
+    }
+  ]
+}

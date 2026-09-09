@@ -355,3 +355,14 @@ differences from window 50. The diagnostic is now **17/51** windows exact,
 with **34 windows and 1,854,246 bytes still different**. Exact implementation
 selection and historical link composition remain the active bottlenecks. See
 [`status/V107_TAIL_METADATA_WINDOW50.md`](status/V107_TAIL_METADATA_WINDOW50.md).
+
+## V108 window-36 source integration
+
+V108 rebuilds four source sections totaling 31,460 bytes from the pinned
+Snes9x tree, applies 2,083 source relocations and reconstructs 27 FDEs from
+explicit unwind semantics. The DSP1 data, four CPU opcode tables, `fxemu`,
+`fxinst` and renderer unwind corridor remove all 8,609 residual differences
+from window 36. The diagnostic is now **18/51** windows exact, with **33
+windows and 1,845,637 bytes still different**. Exact implementation selection
+and historical link composition remain the active bottlenecks. See
+[`status/V108_WINDOW36_SOURCE_INTEGRATION.md`](status/V108_WINDOW36_SOURCE_INTEGRATION.md).
