@@ -117,6 +117,8 @@ HISTORICAL_TAIL_MANIFEST := analysis/link_identity/historical_tail_data.json
 HISTORICAL_TAIL_BUILD_DIR := $(BUILD_DIR)/historical-tail-data
 RUNTIME_TAIL_MANIFEST := analysis/link_identity/runtime_tail_data.json
 RUNTIME_TAIL_BUILD_DIR := $(BUILD_DIR)/runtime-tail-data
+TAIL_METADATA_MANIFEST := analysis/link_identity/tail_metadata.json
+TAIL_METADATA_BUILD_DIR := $(BUILD_DIR)/tail-metadata
 DECOMPDEV_REPORT_CONTRACT := analysis/decompdev/report_contract.json
 DECOMPDEV_REPORT := $(BUILD_DIR)/decompdev/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
@@ -184,6 +186,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	frontend-eh-frames frontend-eh-frames-check frontend-eh-frames-refresh frontend-eh-frames-public-check \
 	historical-tail-data historical-tail-data-check historical-tail-data-refresh historical-tail-data-public-check \
 	runtime-tail-data runtime-tail-data-check runtime-tail-data-refresh runtime-tail-data-public-check \
+	tail-metadata tail-metadata-check tail-metadata-refresh tail-metadata-public-check \
 	decompdev-report decompdev-report-check decompdev-report-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
@@ -234,6 +237,7 @@ help:
 	@echo "  make frontend-eh-frames rebuild exact frontend GCC C++ unwind metadata"
 	@echo "  make historical-tail-data rebuild exact late Snes9x data and unwind ranges"
 	@echo "  make runtime-tail-data rebuild TILE/libsupc++ tail metadata from source"
+	@echo "  make tail-metadata    close image window 50 from public source/semantics"
 	@echo "  make decompdev-report generate the public objdiff v2 progress artifact"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
@@ -328,7 +332,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check decompdev-report-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check tail-metadata-public-check decompdev-report-public-check
 	@echo "repository checks: OK"
 
 decompdev-report:
@@ -1092,6 +1096,30 @@ runtime-tail-data-refresh:
 
 runtime-tail-data-public-check:
 	$(PYTHON) tools/runtime_tail_data.py validate --manifest "$(RUNTIME_TAIL_MANIFEST)"
+
+tail-metadata: runtime-tail-data runtime-members bootstrap-ee-stage1
+	$(MAKE) tail-metadata-check EE_CC="$(EE_CC)" EE_STAGE1_CXX="$(EE_STAGE1_CXX)"
+
+tail-metadata-check:
+	@test -f "$(RUNTIME_TAIL_BUILD_DIR)/stage3j-runtime-tail-integrated.elf" || { echo "missing runtime-tail output; run make runtime-tail-data" >&2; exit 2; }
+	$(PYTHON) tools/tail_metadata.py probe \
+		--c-compiler "$(EE_CC)" --compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
+		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
+		--stage3i-build "$(HISTORICAL_TAIL_BUILD_DIR)" --stage3j-build "$(RUNTIME_TAIL_BUILD_DIR)" \
+		--runtime-build "$(RUNTIME_MEMBER_BUILD_DIR)" --build-dir "$(TAIL_METADATA_BUILD_DIR)" \
+		--manifest "$(TAIL_METADATA_MANIFEST)"
+
+tail-metadata-refresh:
+	@test -f "$(RUNTIME_TAIL_BUILD_DIR)/stage3j-runtime-tail-integrated.elf" || { echo "missing runtime-tail output; run make runtime-tail-data" >&2; exit 2; }
+	$(PYTHON) tools/tail_metadata.py capture \
+		--c-compiler "$(EE_CC)" --compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
+		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
+		--stage3i-build "$(HISTORICAL_TAIL_BUILD_DIR)" --stage3j-build "$(RUNTIME_TAIL_BUILD_DIR)" \
+		--runtime-build "$(RUNTIME_MEMBER_BUILD_DIR)" --build-dir "$(TAIL_METADATA_BUILD_DIR)" \
+		--manifest "$(TAIL_METADATA_MANIFEST)"
+
+tail-metadata-public-check:
+	$(PYTHON) tools/tail_metadata.py validate --manifest "$(TAIL_METADATA_MANIFEST)"
 
 rom-offsets-public-check:
 	$(PYTHON) tools/rom_offsets.py validate

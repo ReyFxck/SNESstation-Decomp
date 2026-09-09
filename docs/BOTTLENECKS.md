@@ -344,3 +344,14 @@ from window 50, leaving 3,173 there and 1,857,419 image-wide. The exact-window
 count remains 16/51 because the unresolved portions of window 50 are not
 filled from the private target. See
 [`status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md`](status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md).
+
+## V107 final tail-metadata integration
+
+V107 rebuilds 34 source sections from pinned Snes9x, zlib, PS2LIB, GCC 3.2.2
+`libgcc` and `libsupc++` inputs, then emits five semantic metadata sections.
+The latter cover SPC7110 unwind, LSDA/RTTI, the historical `sbrk` initial break
+and selected Newlib MathFP globals. Together they remove the remaining 3,173
+differences from window 50. The diagnostic is now **17/51** windows exact,
+with **34 windows and 1,854,246 bytes still different**. Exact implementation
+selection and historical link composition remain the active bottlenecks. See
+[`status/V107_TAIL_METADATA_WINDOW50.md`](status/V107_TAIL_METADATA_WINDOW50.md).

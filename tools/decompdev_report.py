@@ -5,7 +5,7 @@ This report deliberately exposes two different proof levels:
 
 * the frozen 1,041-function gate is fully matched, but its source units are not
   marked complete/linked;
-* the Stage-3G whole-image gate counts only completely exact 64-KiB chunks.
+* the cumulative Stage-3K whole-image gate counts only completely exact chunks.
 
 No original executable, extracted payload, absolute build path or private hash
 input is needed to generate the report in GitHub Actions.
@@ -302,7 +302,7 @@ def _function_units(
 
 
 def _image_units(contract: dict[str, Any]) -> list[dict[str, Any]]:
-    probe = _load_json(ROOT / "analysis" / "link_identity" / "historical_tail_data.json")
+    probe = _load_json(ROOT / "analysis" / "link_identity" / "tail_metadata.json")
     claims = probe.get("claims", {})
     result = probe.get("result", {})
     frozen = contract["whole_image_identity"]
