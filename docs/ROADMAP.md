@@ -153,6 +153,9 @@ complete object/array bounds are not closed.
   reach 38/51 exact windows (V109).
 - [x] Rebuild the contiguous 2xSaI/APU/C4/CPU/DMA source-data and unwind
   corridor; close window 35 and reach 39/51 exact windows (V110).
+- [x] Rebuild 49 public-source rodata sections/slices in window 11; remove
+  23,469 differences while retaining the honest 2,460-byte residual and the
+  39/51 exact-window count (V111).
 - [ ] Select and integrate the exact per-function implementations into the
   final object set; compiling the canonical behavioral models is not proof
   that their aggregate code equals the complete target text.

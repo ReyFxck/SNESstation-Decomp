@@ -125,6 +125,8 @@ MEDIA_ASSET_MANIFEST := analysis/link_identity/media_assets.json
 MEDIA_ASSET_BUILD_DIR := $(BUILD_DIR)/media-assets
 WINDOW35_DATA_MANIFEST := analysis/link_identity/window35_data.json
 WINDOW35_DATA_BUILD_DIR := $(BUILD_DIR)/window35-data
+WINDOW11_RODATA_MANIFEST := analysis/link_identity/window11_rodata.json
+WINDOW11_RODATA_BUILD_DIR := $(BUILD_DIR)/window11-rodata
 DECOMPDEV_REPORT_CONTRACT := analysis/decompdev/report_contract.json
 DECOMPDEV_REPORT := $(BUILD_DIR)/decompdev/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
@@ -196,6 +198,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	window36-data window36-data-check window36-data-refresh window36-data-public-check \
 	media-assets media-assets-check media-assets-refresh media-assets-public-check \
 	window35-data window35-data-check window35-data-refresh window35-data-public-check \
+	window11-rodata window11-rodata-check window11-rodata-refresh window11-rodata-public-check \
 	decompdev-report decompdev-report-check decompdev-report-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
@@ -250,6 +253,7 @@ help:
 	@echo "  make window36-data    close image window 36 from Snes9x source/CFI"
 	@echo "  make media-assets     integrate verified private media; close windows 15-34"
 	@echo "  make window35-data    close image window 35 from Snes9x source/CFI"
+	@echo "  make window11-rodata  integrate proven public rodata in image window 11"
 	@echo "  make decompdev-report generate the public objdiff v2 progress artifact"
 	@echo "  make match-miner     run the cached three-profile strict match search"
 	@echo "  make elf-status      show remaining exact-ELF blockers"
@@ -344,7 +348,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check tail-metadata-public-check window36-data-public-check media-assets-public-check window35-data-public-check decompdev-report-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check tail-metadata-public-check window36-data-public-check media-assets-public-check window35-data-public-check window11-rodata-public-check decompdev-report-public-check
 	@echo "repository checks: OK"
 
 decompdev-report:
@@ -1207,6 +1211,34 @@ window35-data-refresh:
 window35-data-public-check:
 	$(PYTHON) tools/window35_data.py validate --manifest "$(WINDOW35_DATA_MANIFEST)"
 
+window11-rodata: window35-data bootstrap-ee-cxx-stage1
+	$(MAKE) window11-rodata-check EE_STAGE1_CXX="$(EE_STAGE1_CXX)"
+
+window11-rodata-check:
+	@test -f "$(WINDOW35_DATA_BUILD_DIR)/stage3n-window35-integrated.elf" || { echo "missing Stage-3N output; run make window35-data" >&2; exit 2; }
+	$(PYTHON) tools/window11_rodata.py probe \
+		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
+		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
+		--stage3i-build "$(HISTORICAL_TAIL_BUILD_DIR)" --stage3j-build "$(RUNTIME_TAIL_BUILD_DIR)" \
+		--stage3k-build "$(TAIL_METADATA_BUILD_DIR)" --stage3l-build "$(WINDOW36_DATA_BUILD_DIR)" \
+		--stage3m-build "$(MEDIA_ASSET_BUILD_DIR)" --stage3n-build "$(WINDOW35_DATA_BUILD_DIR)" \
+		--runtime-build "$(RUNTIME_MEMBER_BUILD_DIR)" --source-tree "$(SOURCE_TREE_BUILD_DIR)/objects" \
+		--build-dir "$(WINDOW11_RODATA_BUILD_DIR)" --manifest "$(WINDOW11_RODATA_MANIFEST)"
+
+window11-rodata-refresh:
+	@test -f "$(WINDOW35_DATA_BUILD_DIR)/stage3n-window35-integrated.elf" || { echo "missing Stage-3N output; run make window35-data" >&2; exit 2; }
+	$(PYTHON) tools/window11_rodata.py capture \
+		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
+		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
+		--stage3i-build "$(HISTORICAL_TAIL_BUILD_DIR)" --stage3j-build "$(RUNTIME_TAIL_BUILD_DIR)" \
+		--stage3k-build "$(TAIL_METADATA_BUILD_DIR)" --stage3l-build "$(WINDOW36_DATA_BUILD_DIR)" \
+		--stage3m-build "$(MEDIA_ASSET_BUILD_DIR)" --stage3n-build "$(WINDOW35_DATA_BUILD_DIR)" \
+		--runtime-build "$(RUNTIME_MEMBER_BUILD_DIR)" --source-tree "$(SOURCE_TREE_BUILD_DIR)/objects" \
+		--build-dir "$(WINDOW11_RODATA_BUILD_DIR)" --manifest "$(WINDOW11_RODATA_MANIFEST)"
+
+window11-rodata-public-check:
+	$(PYTHON) tools/window11_rodata.py validate --manifest "$(WINDOW11_RODATA_MANIFEST)"
+
 rom-offsets-public-check:
 	$(PYTHON) tools/rom_offsets.py validate
 
@@ -1480,6 +1512,7 @@ elf-status: audit-source-check
 	@echo "Stage 3F address identities: CLOSED (1209 backed + 29 ROM refactors + 10 code aliases + 17 other exact identities; 0 unresolved)"
 	@echo "Stage 3G diagnostic: 179/179 fixed sections; 155/155 initialized payloads exact; 12/51 image windows exact"
 	@echo "Stage 3G diagnostic delta: 1883867 bytes differ; entry 0x00111f70 != target 0x00100008"
+	@echo "Stage 3O cumulative diagnostic: 39/51 windows exact; 620746 bytes differ; window 11 has 2460 remaining"
 	@echo "Historical backing: 695316 bytes freshly rebuilt from pinned source (not privately extracted)"
 	@echo "Compatibility storage: CLOSED (39 -> 0 exact-range replacements)"
 	@echo "Complete replacement ELF: BLOCKED (honest status)"

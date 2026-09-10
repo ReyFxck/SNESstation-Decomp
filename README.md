@@ -50,6 +50,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3L window-36 data:** **31,460 source bytes**, **27 semantic FDEs**, **window 36 exact**, **18/51 windows exact**, **1,845,637 differences remain**
 - **Stage-3M embedded media:** **6 verified containers**, **1,284,388 private asset bytes**, **windows 15–34 exact**, **38/51 windows exact**, **661,433 differences remain**
 - **Stage-3N window-35 data:** **29,516 source bytes**, **47 semantic FDEs**, **window 35 exact**, **39/51 windows exact**, **644,215 differences remain**
+- **Stage-3O window-11 rodata:** **33,311 public-source bytes**, **1,517 verified relocation words**, **23,469 differences removed**, **window 11 partial (2,460 remain)**, **620,746 global differences remain**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -122,6 +123,7 @@ make tail-metadata
 make window36-data
 make media-assets
 make window35-data
+make window11-rodata
 make layout-oracle
 ```
 
@@ -310,8 +312,11 @@ window 36. V109 then integrates the six remaining hash-verified media
 containers and their size words without publishing payload bytes, closing all
 twenty windows from 15 through 34. V110 rebuilds the adjacent 2xSaI, APU, C4,
 CPU and DMA source/CFI corridor, closing window 35. The cumulative diagnostic
-is now **39/51** windows exact with **644,215** differing bytes. See
-[`docs/status/V110_WINDOW35_SOURCE_DATA.md`](docs/status/V110_WINDOW35_SOURCE_DATA.md).
+then has **39/51** windows exact with **644,215** differing bytes. V111 rebuilds
+49 public-source rodata sections/slices in window 11 and removes 23,469 more
+differences. Window 11 remains explicitly partial with 2,460 differing bytes;
+the cumulative diagnostic has **620,746** differing bytes. See
+[`docs/status/V111_WINDOW11_PUBLIC_RODATA.md`](docs/status/V111_WINDOW11_PUBLIC_RODATA.md).
 
 ## Target fingerprint
 

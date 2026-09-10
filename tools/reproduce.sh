@@ -35,7 +35,8 @@ show_status() {
     printf '  - Stage-3L window 36: 31,460 source bytes; 27 semantic FDEs\n'
     printf '  - Stage-3M media corridor: windows 15-34 exact\n'
     printf '  - Stage-3N window 35: 29,516 source bytes; 47 semantic FDEs\n'
-    printf '  - Whole-image diagnostic: 39/51 windows exact; 644,215 bytes differ\n'
+    printf '  - Stage-3O window 11 rodata: 33,311 source bytes; 2,460 remain in-window\n'
+    printf '  - Whole-image diagnostic: 39/51 windows exact; 620,746 bytes differ\n'
     printf '\nExact replacement ELF still requires:\n'
     printf '  - final source selection/integration of exact function implementations\n'
     printf '  - complete Stage-3F object/array extents; 354 lack access witnesses\n'
@@ -71,6 +72,7 @@ case "$MODE" in
         make window36-data-check
         make media-assets-check
         make window35-data-check
+        make window11-rodata-check
         make layout-oracle-check
         make elf-status
         ;;
@@ -89,6 +91,7 @@ case "$MODE" in
         make window36-data-check
         make media-assets-check
         make window35-data-check
+        make window11-rodata-check
         make layout-oracle-check
         make elf
         ;;
