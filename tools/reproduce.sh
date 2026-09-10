@@ -32,7 +32,10 @@ show_status() {
     printf '  - Stage-3I historical tail: 123,140 source bytes + 30 FDEs\n'
     printf '  - Stage-3J runtime tail: 3,868 source bytes; 56 FDEs; 73 relocations\n'
     printf '  - Stage-3K tail metadata: 9,428 source bytes; window 50 exact\n'
-    printf '  - Whole-image diagnostic: 17/51 windows exact; 1,854,246 bytes differ\n'
+    printf '  - Stage-3L window 36: 31,460 source bytes; 27 semantic FDEs\n'
+    printf '  - Stage-3M media corridor: windows 15-34 exact\n'
+    printf '  - Stage-3N window 35: 29,516 source bytes; 47 semantic FDEs\n'
+    printf '  - Whole-image diagnostic: 39/51 windows exact; 644,215 bytes differ\n'
     printf '\nExact replacement ELF still requires:\n'
     printf '  - final source selection/integration of exact function implementations\n'
     printf '  - complete Stage-3F object/array extents; 354 lack access witnesses\n'
@@ -65,6 +68,9 @@ case "$MODE" in
         make historical-tail-data-check
         make runtime-tail-data-check
         make tail-metadata-check
+        make window36-data-check
+        make media-assets-check
+        make window35-data-check
         make layout-oracle-check
         make elf-status
         ;;
@@ -80,6 +86,9 @@ case "$MODE" in
         make historical-tail-data-check
         make runtime-tail-data-check
         make tail-metadata-check
+        make window36-data-check
+        make media-assets-check
+        make window35-data-check
         make layout-oracle-check
         make elf
         ;;

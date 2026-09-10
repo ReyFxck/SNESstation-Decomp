@@ -30,6 +30,7 @@
 | Stage-3K final tail metadata integration | **34 exact source sections; 9,428 source bytes; 5 semantic sections** | SPC7110 unwind, zlib/PS2LIB/libgcc/libsupc++ data, LSDA/RTTI, `sbrk` and MathFP metadata close window 50 exactly. The whole diagnostic has 17/51 exact windows; 34 and 1,854,246 bytes remain. |
 | Stage-3L window-36 source integration | **4 source sections; 31,460 source bytes; 27 semantic FDEs; 2,083 relocations** | DSP1, CPU opcode tables, `fxemu`, `fxinst` and renderer unwind metadata close window 36 exactly. The diagnostic has 18/51 exact windows; 33 mismatching windows and 1,845,637 bytes remain. |
 | Stage-3M embedded-media integration | **6 media sections; 1,284,388 asset bytes; 6 size words** | Hash-verified frontend graphics/font, Azazel music and Memory Card icon close windows 15–34 without publishing private payload. The diagnostic has 38/51 exact windows; 13 mismatching windows and 661,433 bytes remain. |
+| Stage-3N window-35 source integration | **7 source sections; 29,516 source bytes; 47 semantic FDEs; 1,429 relocations** | 2xSaI, APU, C4, CPU and DMA data/unwind records close window 35 without tracking private payload. The diagnostic has 39/51 exact windows; 12 mismatching windows and 644,215 bytes remain. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -140,6 +141,13 @@ the repository. The cumulative diagnostic jumps to
 38/51 exact windows with
 661,433 differing bytes. See
 [`V109_EMBEDDED_MEDIA_INTEGRATION.md`](V109_EMBEDDED_MEDIA_INTEGRATION.md).
+V110 rebuilds 7 historical source sections /
+29,516 bytes, applies 1,429
+verified source relocations and emits 47 semantic FDEs.
+The contiguous 2xSaI/APU/C4/CPU/DMA corridor closes window 35 exactly; the
+cumulative diagnostic reaches 39/51
+exact windows with 644,215 differing bytes. See
+[`V110_WINDOW35_SOURCE_DATA.md`](V110_WINDOW35_SOURCE_DATA.md).
 The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
@@ -183,7 +191,8 @@ closure remains frozen in
 18. **Final tail metadata integrated:** 34 public-source sections and 5 semantic sections close window 50 exactly. Continue through the 34 remaining windows; this is not a replacement ELF.
 19. **Window 36 source data integrated:** 4 public-source sections, 2,083 source relocations and 27 semantic FDEs close window 36 exactly. Continue through the 33 remaining windows; this is not a replacement ELF.
 20. **Embedded-media corridor integrated:** 6 hash-verified private containers plus their size words close windows 15–34. Continue through the 13 remaining windows; no private payload is tracked and this is not a replacement ELF.
-21. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+21. **Window 35 source data integrated:** 7 public-source sections, 1,429 verified source relocations and 47 semantic FDEs close window 35 exactly. Continue through the 12 application/code windows; this is not a replacement ELF.
+22. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first

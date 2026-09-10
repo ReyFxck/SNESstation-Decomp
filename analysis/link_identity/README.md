@@ -222,3 +222,13 @@ and hashes only. It closes all twenty windows from 15 through 34, bringing the
 cumulative diagnostic to 38/51 exact with 13 remaining. Use
 `make media-assets-public-check` or `make media-assets`. See
 [`V109_EMBEDDED_MEDIA_INTEGRATION.md`](../../docs/status/V109_EMBEDDED_MEDIA_INTEGRATION.md).
+
+`window35_data.json` freezes the Stage-3N rebuild of the contiguous historical
+2xSaI/APU/C4/CPU/DMA data and unwind corridor. Seven source slices are rebuilt
+with EE GCC 3.2.2; the private gate accepts target values only at 1,429 verified
+`R_MIPS_32` sites after all other bytes match. Seven semantic groups describe
+47 FDEs without storing target payload. It absorbs 24 smaller fixed sections
+and closes window 35, bringing the cumulative diagnostic to 39/51 exact with
+12 application/code windows remaining. Use `make window35-data-public-check`
+or `make window35-data`. See
+[`V110_WINDOW35_SOURCE_DATA.md`](../../docs/status/V110_WINDOW35_SOURCE_DATA.md).

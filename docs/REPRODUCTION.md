@@ -42,6 +42,7 @@ make runtime-tail-data # 14 exact TILE/libsupc++ tail sections; window 50 reduce
 make tail-metadata    # public source/semantics close window 50; 17/51 exact
 make window36-data    # source data + semantic unwind close window 36; 18/51 exact
 make media-assets     # verified private media close windows 15-34; 38/51 exact
+make window35-data    # historical source data + semantic CFI close window 35; 39/51 exact
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -137,12 +138,17 @@ The final pipeline must prove every layer:
    34 without publishing target payload. The cumulative diagnostic is 38/51
    exact with 661,433 bytes still different. See
    [`status/V109_EMBEDDED_MEDIA_INTEGRATION.md`](status/V109_EMBEDDED_MEDIA_INTEGRATION.md).
-22. **Final link** — select/integrate exact implementation objects, linker script,
+22. **Window-35 source corridor — integrated** — seven rebuilt historical
+   source sections, 1,429 verified source relocations and 47 semantic FDEs
+   close window 35 without tracking target payload. The cumulative diagnostic
+   is 39/51 exact with 644,215 bytes still different. See
+   [`status/V110_WINDOW35_SOURCE_DATA.md`](status/V110_WINDOW35_SOURCE_DATA.md).
+23. **Final link** — select/integrate exact implementation objects, linker script,
    section addresses, object order and library order to
    reproduce the unpacked ELF image.
-23. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+24. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
-24. **Final comparison** — section/layout reports and both unpacked and packed
+25. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
 
 The required reference hashes are:
@@ -170,6 +176,8 @@ The source-derived window-36 integration and exact proof are recorded in
 [`status/V108_WINDOW36_SOURCE_INTEGRATION.md`](status/V108_WINDOW36_SOURCE_INTEGRATION.md).
 The hash-verified embedded-media integration is recorded in
 [`status/V109_EMBEDDED_MEDIA_INTEGRATION.md`](status/V109_EMBEDDED_MEDIA_INTEGRATION.md).
+The historical window-35 source/CFI integration is recorded in
+[`status/V110_WINDOW35_SOURCE_DATA.md`](status/V110_WINDOW35_SOURCE_DATA.md).
 The closed Stage-3D libgcc checkpoint is recorded in
 [`status/V91_STAGE3D_LIBGCC_CLOSED.md`](status/V91_STAGE3D_LIBGCC_CLOSED.md).
 The subsequent formatter refactor and its private direct-call proof are in

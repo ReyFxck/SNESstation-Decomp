@@ -49,6 +49,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3K tail metadata:** **9,428 source bytes**, **5 semantic sections**, **window 50 exact**, **17/51 windows exact**, **1,854,246 differences remain**
 - **Stage-3L window-36 data:** **31,460 source bytes**, **27 semantic FDEs**, **window 36 exact**, **18/51 windows exact**, **1,845,637 differences remain**
 - **Stage-3M embedded media:** **6 verified containers**, **1,284,388 private asset bytes**, **windows 15–34 exact**, **38/51 windows exact**, **661,433 differences remain**
+- **Stage-3N window-35 data:** **29,516 source bytes**, **47 semantic FDEs**, **window 35 exact**, **39/51 windows exact**, **644,215 differences remain**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -120,6 +121,7 @@ make runtime-tail-data
 make tail-metadata
 make window36-data
 make media-assets
+make window35-data
 make layout-oracle
 ```
 
@@ -306,9 +308,10 @@ exactly without committing target payload. V108 rebuilds the DSP1, CPU opcode,
 `fxemu` and `fxinst` data corridor plus semantic unwind metadata, closing
 window 36. V109 then integrates the six remaining hash-verified media
 containers and their size words without publishing payload bytes, closing all
-twenty windows from 15 through 34. The cumulative diagnostic is now **38/51**
-windows exact with **661,433** differing bytes. See
-[`docs/status/V109_EMBEDDED_MEDIA_INTEGRATION.md`](docs/status/V109_EMBEDDED_MEDIA_INTEGRATION.md).
+twenty windows from 15 through 34. V110 rebuilds the adjacent 2xSaI, APU, C4,
+CPU and DMA source/CFI corridor, closing window 35. The cumulative diagnostic
+is now **39/51** windows exact with **644,215** differing bytes. See
+[`docs/status/V110_WINDOW35_SOURCE_DATA.md`](docs/status/V110_WINDOW35_SOURCE_DATA.md).
 
 ## Target fingerprint
 

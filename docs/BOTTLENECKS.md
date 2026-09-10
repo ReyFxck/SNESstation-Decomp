@@ -381,3 +381,17 @@ with only **13 windows and 661,433 bytes still different**. The remaining
 windows are 0–11 and 35, concentrating the work on exact code/runtime
 implementation selection and link composition. See
 [`status/V109_EMBEDDED_MEDIA_INTEGRATION.md`](status/V109_EMBEDDED_MEDIA_INTEGRATION.md).
+
+## V110 window-35 source integration
+
+V110 rebuilds the contiguous `0x00335284–0x0033ce78` corridor from seven
+pinned Snes9x source sections and seven semantic unwind groups. The private
+gate accepts linked values only at 1,429 verified `R_MIPS_32` sites after all
+other source bytes match, while 47 FDE descriptions reproduce the remaining
+CFI without copying target payload.
+
+This removes all 17,218 differences from window 35. The diagnostic is now
+**39/51** windows exact, with **12 windows and 644,215 bytes still different**.
+All remaining differences are in application/code windows 0–11, so the active
+bottleneck is exact implementation selection and historical link composition.
+See [`status/V110_WINDOW35_SOURCE_DATA.md`](status/V110_WINDOW35_SOURCE_DATA.md).
