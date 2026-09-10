@@ -156,6 +156,9 @@ complete object/array bounds are not closed.
 - [x] Rebuild 49 public-source rodata sections/slices in window 11; remove
   23,469 differences while retaining the honest 2,460-byte residual and the
   39/51 exact-window count (V111).
+- [x] Integrate the proved code corridor in windows 1–6; rebuild
+  393,216 bytes, close all six windows and reach 45/51 exact with 263,765
+  differing bytes (V112).
 - [ ] Select and integrate the exact per-function implementations into the
   final object set; compiling the canonical behavioral models is not proof
   that their aggregate code equals the complete target text.

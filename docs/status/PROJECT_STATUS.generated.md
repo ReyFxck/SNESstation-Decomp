@@ -32,6 +32,7 @@
 | Stage-3M embedded-media integration | **6 media sections; 1,284,388 asset bytes; 6 size words** | Hash-verified frontend graphics/font, Azazel music and Memory Card icon close windows 15–34 without publishing private payload. The diagnostic has 38/51 exact windows; 13 mismatching windows and 661,433 bytes remain. |
 | Stage-3N window-35 source integration | **7 source sections; 29,516 source bytes; 47 semantic FDEs; 1,429 relocations** | 2xSaI, APU, C4, CPU and DMA data/unwind records close window 35 without tracking private payload. The diagnostic has 39/51 exact windows; 12 mismatching windows and 644,215 bytes remain. |
 | Stage-3O window-11 public rodata | **49 source sections/slices; 33,311 source bytes; 1,517 relocations** | Snes9x 1.41-1, zlib 1.1.3 and pinned runtime objects replace 23,469 differing bytes. Window 11 is deliberately still partial at 2,460 differences; the diagnostic remains 39/51 exact windows with 620,746 differing bytes. |
+| Stage-3P proved-source code windows | **6 exact windows; 393,216 source bytes; 7,088 new residual bytes** | Proven historical/recovered objects and labelled exact assembly close windows 1–6. The diagnostic reaches 45/51 exact windows with 263,765 differing bytes; no private payload is tracked. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -156,6 +157,16 @@ R_MIPS_32-controlled words against the private oracle. It removes
 2,460 there and 620,746
 globally. The window is not claimed exact and no private payload is committed. See
 [`V111_WINDOW11_PUBLIC_RODATA.md`](V111_WINDOW11_PUBLIC_RODATA.md).
+V112 integrates 393,216 bytes of proved code across
+windows 1–6. Historical/recovered objects supply 381,272
+bytes, existing V80/V81 exact assembly supplies 4,856,
+and a newly labelled old-GCC scheduling residual supplies the final
+7,088 bytes;
+relocation-controlled bits are privately verified but target payload is not
+committed. The cumulative diagnostic reaches
+45/51 exact windows
+with 263,765 differing bytes. See
+[`V112_CODE_WINDOWS_1_6.md`](V112_CODE_WINDOWS_1_6.md).
 The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
@@ -201,7 +212,8 @@ closure remains frozen in
 20. **Embedded-media corridor integrated:** 6 hash-verified private containers plus their size words close windows 15–34. Continue through the 13 remaining windows; no private payload is tracked and this is not a replacement ELF.
 21. **Window 35 source data integrated:** 7 public-source sections, 1,429 verified source relocations and 47 semantic FDEs close window 35 exactly. Continue through the 12 application/code windows; this is not a replacement ELF.
 22. **Window 11 public rodata integrated:** 49 public-source sections/slices and 1,517 verified relocation words remove 23,469 differences. Close the remaining 2,460 bytes in window 11 and the other application/code windows; this is not a replacement ELF.
-23. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+23. **Code windows 1–6 integrated:** 393,216 proved source bytes close six whole windows and raise the diagnostic to 45/51. Close windows 0 and 7–11 plus final global link identity; this is not a replacement ELF.
+24. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first

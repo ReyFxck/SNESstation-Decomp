@@ -51,6 +51,7 @@ the binary evidence allows. It is not a modern rewrite of the emulator.
 - **Stage-3M embedded media:** **6 verified containers**, **1,284,388 private asset bytes**, **windows 15–34 exact**, **38/51 windows exact**, **661,433 differences remain**
 - **Stage-3N window-35 data:** **29,516 source bytes**, **47 semantic FDEs**, **window 35 exact**, **39/51 windows exact**, **644,215 differences remain**
 - **Stage-3O window-11 rodata:** **33,311 public-source bytes**, **1,517 verified relocation words**, **23,469 differences removed**, **window 11 partial (2,460 remain)**, **620,746 global differences remain**
+- **Stage-3P code windows 1–6:** **393,216 proved source bytes**, **7,088 explicit residual bytes**, **45/51 windows exact**, **263,765 global differences remain**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
@@ -317,6 +318,12 @@ then has **39/51** windows exact with **644,215** differing bytes. V111 rebuilds
 differences. Window 11 remains explicitly partial with 2,460 differing bytes;
 the cumulative diagnostic has **620,746** differing bytes. See
 [`docs/status/V111_WINDOW11_PUBLIC_RODATA.md`](docs/status/V111_WINDOW11_PUBLIC_RODATA.md).
+V112 integrates the next six complete code windows from proved historical and
+recovered objects, existing V80/V81 exact-assembly proofs and a new, clearly
+labelled 7,088-byte EE scheduling residual.
+Windows 1–6 are now exact, taking the cumulative diagnostic to **45/51** exact
+windows with **263,765** differing bytes. No private target payload is tracked.
+See [`docs/status/V112_CODE_WINDOWS_1_6.md`](docs/status/V112_CODE_WINDOWS_1_6.md).
 
 ## Target fingerprint
 

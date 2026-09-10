@@ -18,6 +18,7 @@ They are evidence of how conclusions were reached, not the current scoreboard.
 - [`status/V109_EMBEDDED_MEDIA_INTEGRATION.md`](status/V109_EMBEDDED_MEDIA_INTEGRATION.md) — six hash-verified media containers close windows 15–34 without publishing private payload (38/51 exact; 13 remain).
 - [`status/V110_WINDOW35_SOURCE_DATA.md`](status/V110_WINDOW35_SOURCE_DATA.md) — rebuilt Snes9x source data and 47 semantic FDEs close window 35 (39/51 exact; 12 remain).
 - [`status/V111_WINDOW11_PUBLIC_RODATA.md`](status/V111_WINDOW11_PUBLIC_RODATA.md) — 49 public-source sections/slices remove 23,469 differences from window 11 while preserving its explicit 2,460-byte residual.
+- [`status/V112_CODE_WINDOWS_1_6.md`](status/V112_CODE_WINDOWS_1_6.md) — proved historical/recovered code and a labelled 7,088-byte scheduling residual close windows 1–6 (45/51 exact; 263,765 differences remain).
 - [`status/V104_EXACT_STARTUP_INTEGRATION.md`](status/V104_EXACT_STARTUP_INTEGRATION.md) — pinned historical `_start`/`_exit`/`_root`, exact entry, 276 startup bytes and 27 relocations integrated ahead of the real Stage-3F aggregate.
 - [`status/V103_DECOMP_DEV_REPORTING.md`](status/V103_DECOMP_DEV_REPORTING.md) — deterministic public Objdiff Report v2 and GitHub Actions artifact for honest decomp.dev tracking.
 - [`status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](status/V102_CLEAN_STAGE3G_LINK_PROBE.md) — 1,265/1,265 address identities retained; first clean executable diagnostic with 179 exact fixed sections and 12/51 exact image windows.

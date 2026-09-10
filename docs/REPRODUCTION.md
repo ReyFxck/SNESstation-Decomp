@@ -44,6 +44,7 @@ make window36-data    # source data + semantic unwind close window 36; 18/51 exa
 make media-assets     # verified private media close windows 15-34; 38/51 exact
 make window35-data    # historical source data + semantic CFI close window 35; 39/51 exact
 make window11-rodata  # public rodata removes 23469 differences; window 11 remains partial
+make code-windows     # proved source code closes windows 1-6; 45/51 exact
 make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin
 ```
 
@@ -150,12 +151,17 @@ The final pipeline must prove every layer:
    differences. Window 11 still has 2,460 differing bytes, so the cumulative
    diagnostic remains 39/51 exact with 620,746 bytes different. See
    [`status/V111_WINDOW11_PUBLIC_RODATA.md`](status/V111_WINDOW11_PUBLIC_RODATA.md).
-24. **Final link** — select/integrate exact implementation objects, linker script,
+24. **Code windows 1–6 — integrated** — 393,216 proved source bytes, including
+   a clearly labelled 7,088-byte explicit scheduling residual, close all six
+   windows without tracking private payload. The diagnostic reaches 45/51
+   exact with 263,765 bytes different. See
+   [`status/V112_CODE_WINDOWS_1_6.md`](status/V112_CODE_WINDOWS_1_6.md).
+25. **Final link** — select/integrate exact implementation objects, linker script,
    section addresses, object order and library order to
    reproduce the unpacked ELF image.
-25. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
+26. **Pack** — the correct SJCRUNCH2/LZO revision and parameters reproduce the
    packed container and stub.
-26. **Final comparison** — section/layout reports and both unpacked and packed
+27. **Final comparison** — section/layout reports and both unpacked and packed
    SHA-256 values match the frozen reference.
 
 The required reference hashes are:

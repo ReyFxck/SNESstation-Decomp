@@ -33,6 +33,7 @@ import window36_data
 import media_assets
 import window35_data
 import window11_rodata
+import code_windows
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
@@ -519,6 +520,8 @@ def main() -> None:
     window35_result = window35_gate["result"]
     window11_gate = window11_rodata.validate(window11_rodata.parse_args(["validate"]))
     window11_result = window11_gate["result"]
+    code_window_gate = code_windows.validate(code_windows.parse_args(["validate"]))
+    code_window_result = code_window_gate["result"]
     stage3d_closed = len(libgcc_rows) + runtime_closed + member_report["contracts_closed"] + len(override_rows)
     stage3d_remaining = 53 - stage3d_closed
 
@@ -625,6 +628,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Stage-3M embedded-media integration | **{media_result['media_sections']} media sections; {media_result['media_asset_bytes']:,} asset bytes; {media_result['size_words']} size words** | Hash-verified frontend graphics/font, Azazel music and Memory Card icon close windows 15–34 without publishing private payload. The diagnostic has {media_result['exact_chunks']}/{media_result['chunk_count']} exact windows; {media_result['mismatching_chunks']} mismatching windows and {media_result['differing_bytes']:,} bytes remain. |
 | Stage-3N window-35 source integration | **{window35_result['source_sections']} source sections; {window35_result['source_bytes']:,} source bytes; {window35_result['semantic_fdes']} semantic FDEs; {window35_result['source_relocations']:,} relocations** | 2xSaI, APU, C4, CPU and DMA data/unwind records close window 35 without tracking private payload. The diagnostic has {window35_result['exact_chunks']}/{window35_result['chunk_count']} exact windows; {window35_result['mismatching_chunks']} mismatching windows and {window35_result['differing_bytes']:,} bytes remain. |
 | Stage-3O window-11 public rodata | **{window11_result['source_sections']} source sections/slices; {window11_result['source_bytes']:,} source bytes; {window11_result['source_relocations']:,} relocations** | Snes9x 1.41-1, zlib 1.1.3 and pinned runtime objects replace {window11_result['differences_removed']:,} differing bytes. Window 11 is deliberately still partial at {window11_result['window11_differing_bytes']:,} differences; the diagnostic remains {window11_result['exact_chunks']}/{window11_result['chunk_count']} exact windows with {window11_result['differing_bytes']:,} differing bytes. |
+| Stage-3P proved-source code windows | **{code_window_result['code_windows']} exact windows; {code_window_result['source_bytes']:,} source bytes; {code_window_result['residual_bytes']:,} new residual bytes** | Proven historical/recovered objects and labelled exact assembly close windows 1–6. The diagnostic reaches {code_window_result['exact_chunks']}/{code_window_result['chunk_count']} exact windows with {code_window_result['differing_bytes']:,} differing bytes; no private payload is tracked. |
 | Unpacked layout oracle | **1 section / 13 blocks / 51 windows** | Byte-free hashes freeze the private target geometry and locate the first rebuilt-image difference. |
 | Complete replacement ELF | **No** | Function matching alone does not prove the final linked and packed binary. |
 
@@ -749,6 +753,16 @@ R_MIPS_32-controlled words against the private oracle. It removes
 {window11_result['window11_differing_bytes']:,} there and {window11_result['differing_bytes']:,}
 globally. The window is not claimed exact and no private payload is committed. See
 [`V111_WINDOW11_PUBLIC_RODATA.md`](V111_WINDOW11_PUBLIC_RODATA.md).
+V112 integrates {code_window_result['source_bytes']:,} bytes of proved code across
+windows 1–6. Historical/recovered objects supply {code_window_result['historical_recovered_bytes']:,}
+bytes, existing V80/V81 exact assembly supplies {code_window_result['prior_exact_assembly_bytes']:,},
+and a newly labelled old-GCC scheduling residual supplies the final
+{code_window_result['residual_bytes']:,} bytes;
+relocation-controlled bits are privately verified but target payload is not
+committed. The cumulative diagnostic reaches
+{code_window_result['exact_chunks']}/{code_window_result['chunk_count']} exact windows
+with {code_window_result['differing_bytes']:,} differing bytes. See
+[`V112_CODE_WINDOWS_1_6.md`](V112_CODE_WINDOWS_1_6.md).
 The preceding branch/loop-aware data-access proof is documented in
 [`V96_CONTROL_FLOW_DATA_ACCESSES.md`](V96_CONTROL_FLOW_DATA_ACCESSES.md).
 The initial section-backed data-address gate is documented in
@@ -794,7 +808,8 @@ closure remains frozen in
 20. **Embedded-media corridor integrated:** {media_result['media_sections']} hash-verified private containers plus their size words close windows 15–34. Continue through the {media_result['mismatching_chunks']} remaining windows; no private payload is tracked and this is not a replacement ELF.
 21. **Window 35 source data integrated:** {window35_result['source_sections']} public-source sections, {window35_result['source_relocations']:,} verified source relocations and {window35_result['semantic_fdes']} semantic FDEs close window 35 exactly. Continue through the {window35_result['mismatching_chunks']} application/code windows; this is not a replacement ELF.
 22. **Window 11 public rodata integrated:** {window11_result['source_sections']} public-source sections/slices and {window11_result['source_relocations']:,} verified relocation words remove {window11_result['differences_removed']:,} differences. Close the remaining {window11_result['window11_differing_bytes']:,} bytes in window 11 and the other application/code windows; this is not a replacement ELF.
-23. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
+23. **Code windows 1–6 integrated:** {code_window_result['source_bytes']:,} proved source bytes close six whole windows and raise the diagnostic to {code_window_result['exact_chunks']}/{code_window_result['chunk_count']}. Close windows 0 and 7–11 plus final global link identity; this is not a replacement ELF.
+24. Reproduce SJCRUNCH2 packing and compare both unpacked and packed hashes.
 
 The stable one-command interface is [`make reproduce`](../REPRODUCTION.md).
 It already runs every implemented gate and intentionally stops at the first
@@ -845,6 +860,7 @@ unproven final-ELF stage.
 - **Stage-3M embedded media:** **{media_result['media_sections']} verified containers**, **{media_result['media_asset_bytes']:,} private asset bytes**, **windows 15–34 exact**, **{media_result['exact_chunks']}/{media_result['chunk_count']} windows exact**, **{media_result['differing_bytes']:,} differences remain**
 - **Stage-3N window-35 data:** **{window35_result['source_bytes']:,} source bytes**, **{window35_result['semantic_fdes']} semantic FDEs**, **window 35 exact**, **{window35_result['exact_chunks']}/{window35_result['chunk_count']} windows exact**, **{window35_result['differing_bytes']:,} differences remain**
 - **Stage-3O window-11 rodata:** **{window11_result['source_bytes']:,} public-source bytes**, **{window11_result['source_relocations']:,} verified relocation words**, **{window11_result['differences_removed']:,} differences removed**, **window 11 partial ({window11_result['window11_differing_bytes']:,} remain)**, **{window11_result['differing_bytes']:,} global differences remain**
+- **Stage-3P code windows 1–6:** **{code_window_result['source_bytes']:,} proved source bytes**, **{code_window_result['residual_bytes']:,} explicit residual bytes**, **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']} windows exact**, **{code_window_result['differing_bytes']:,} global differences remain**
 - **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
 - **Complete replacement ELF:** **not yet**
 - **Renderer draw family:** **{pct(len(draw_recon), len(draw)):.1f}% reconstructed / {pct(len(draw_mapped), len(draw)):.1f}% mapped**
