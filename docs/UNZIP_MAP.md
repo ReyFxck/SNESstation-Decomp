@@ -84,11 +84,11 @@ The next object begins at `0x0018f010`. The archive API maps cleanly through
 Reduced1-4, Imploded and Deflated** data, tying the three recovered legacy
 methods back into the public archive API.
 
-V89 removes the provisional `g_unz_ops_recovered` callback table and
-`g_zip_io_recovered` aggregate.  The recovered code now calls the target's
+The final source cleanup removes the provisional `g_unz_ops_recovered`
+callback table and `g_zip_io_recovered` aggregate. The recovered code now calls the target's
 `fioRead`, `fioLseek`, `fioClose`, CRC and inflate entry points directly and
 uses compiler-checked offsets for the split archive/read state, pointer slots
-and legacy-method workspaces.  This closes the Stage-3C data-layout claim;
+and legacy-method workspaces. This closes the named-data layout claim;
 the large stateful routines remain `IDENTIFIED` because function-level source
 identity is a separate claim.
 

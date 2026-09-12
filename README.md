@@ -1,389 +1,140 @@
-# SNES STATION DECOMPILATION
-
-Preservation-oriented decompilation of **SNES Station v0.23 WIP
-(24 January 2004)** for PlayStation 2.
-
-The project reconstructs the original PS2 frontend, Snes9x-derived core,
-renderer, audio glue, filesystem code and historical runtime as faithfully as
-the binary evidence allows. It is not a modern rewrite of the emulator.
-
-> **Status:** active reverse engineering. Structural/source-model coverage is
-> closed and the EE source/object tree is build-ready, but a complete
-> byte-identical replacement ELF is not yet available.
-
-<!-- DECOMP_PROGRESS_START -->
-## Decompilation progress
-
 <p align="center">
-  <img src="assets/progress.svg" width="720" alt="SNES Station v0.23 decompilation progress" />
+  <img src="assets/snes-station-logo.png" width="520" alt="Original SNES Station homebrew logo" />
 </p>
 
-> **100% means structural coverage of the audited 1,041-entry target universe.** It is not a claim of byte matching or an exact compiler function count. See [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md) for the full accounting.
+# SNES Station Decompilation
 
-- **Matching:** 100.00%
-- **Formal checkpoint:** **1,041/1,041** strict promoted matches
-- **Recovered pending:** **0** (the V53 recovery set is fully formal)
-- **Working checkpoint:** **1,041/1,041** with **0** entries remaining
-- **Reconstructed:** **100.00%** (1,041/1,041 validated targets)
-- **Mapped / identified:** **100.00%** (1,041/1,041 validated targets)
-- **Source-form checkpoint:** **1,041 behavioral/source-model + 0 structural-pseudocode-only**
-- **Build-ready EE source ownership:** **97/97 TUs** (96 canonical + 1 alternate)
-- **Source-address aliases:** **333/347 proved**, **14 blocked**
-- **Zero-byte link contracts:** **1,297/1,530 resolved**, **233 blocked** (1,234 address anchors + 63 semantic aliases)
-- **Private embedded assets:** **10/10 providers**, **62,736 verified private bytes**, **223 remaining externals**
-- **Source-link provider namespace:** **223/223 resolved**, **0 aggregate externals** (175 anchors + 9 aliases + 39 storage + 0 shims)
-- **Original Stage-3C named data:** **54/54 closed** (**50 exact target ranges + 4 completed source refactors**; 0 address-only remain)
-- **Original Stage-3E named contracts:** **212/212 closed** (**165 fingerprinted ranges/data aliases + 23 text aliases + 20 completed source refactors**; compatibility storage **39 → 0**)
-- **Stage-3D libgcc contracts:** **7/7 closed** (**4 exact archive members + 3 completed source refactors**)
-- **Stage-3D formatter refactor:** **4/4 call sites proved**, **runtime shims 1 → 0**
-- **Stage-3D PS2LIB member text:** **43 contracts / 42 complete objects**, **12,964 bytes**
-- **Stage-3D runtime contracts:** **53/53 closed**, **0 open**; `puts`/`abort` have 15 named-call witnesses and 104 exact linked bytes
-- **Stage-3F unnamed data access proof:** **872/1,265** consumed spans, **167,659 unique bytes** (146 CFG + 33 deterministic-prefix witnesses); complete object/array extents remain open
-- **Stage-3F historical data:** **49 exact source intervals / 810,542 bytes**, rebuilt from pinned public source
-- **Stage-3F address contracts:** **1,265/1,265 resolved**, **0 unresolved**; **764,686 materialized bytes**, while complete object/array bounds remain open
-- **Stage-3G clean link diagnostic:** **179/179 fixed sections**, **155/155 initialized payloads exact**, **12/51 whole-image windows exact**; **1,883,867 bytes still differ**
-- **Stage-3G exact startup:** **entry `0x00100008`**, **276/276 bytes**, **3/3 functions**, **27 relocations**; first remaining difference **`0x00100114`**
-- **Stage-3H frontend unwind:** **18 FDEs**, **944 exact bytes**, **window 14 closed**
-- **Stage-3I historical C++ tail:** **123,140 source bytes**, **30 semantic FDEs**, **16/51 windows exact**, **35 remain**
-- **Stage-3J runtime tail source:** **3,868 bytes**, **56 FDEs**, **73 relocations**; window 50 has **3,173** differences
-- **Stage-3K tail metadata:** **9,428 source bytes**, **5 semantic sections**, **window 50 exact**, **17/51 windows exact**, **1,854,246 differences remain**
-- **Stage-3L window-36 data:** **31,460 source bytes**, **27 semantic FDEs**, **window 36 exact**, **18/51 windows exact**, **1,845,637 differences remain**
-- **Stage-3M embedded media:** **6 verified containers**, **1,284,388 private asset bytes**, **windows 15–34 exact**, **38/51 windows exact**, **661,433 differences remain**
-- **Stage-3N window-35 data:** **29,516 source bytes**, **47 semantic FDEs**, **window 35 exact**, **39/51 windows exact**, **644,215 differences remain**
-- **Stage-3O window-11 rodata:** **33,311 public-source bytes**, **1,517 verified relocation words**, **23,469 differences removed**, **window 11 partial (2,460 remain)**, **620,746 global differences remain**
-- **Stage-3P code windows 1–6:** **393,216 proved source bytes**, **7,088 explicit residual bytes**, **45/51 windows exact**, **263,765 global differences remain**
-- **Unpacked layout oracle:** **1 section / 13 blocks / 51 hash windows**
-- **Complete replacement ELF:** **not yet**
-- **Renderer draw family:** **100.0% reconstructed / 100.0% mapped**
+Source recovery and exact-binary preservation of **SNES Station v0.23 WIP**
+(24 January 2004) for PlayStation 2.
 
-The renderer-specific grid lives in [`docs/PROGRESS.generated.md`](docs/PROGRESS.generated.md); the build/matching audit lives in [`docs/SOURCE_COMPLETENESS.generated.md`](docs/SOURCE_COMPLETENESS.generated.md).
+The repository rebuilds the original frontend, Snes9x-derived emulator core,
+renderer, audio and filesystem code, and historical runtime from verifiable
+evidence. It is a decompilation project, not a modern rewrite or a new emulator
+release.
+
+<!-- DECOMP_PROGRESS_START -->
+## Current status
+
+| Measure | Result | What it means | Status |
+|---|---:|---|---|
+| Audited function entries | **1,041/1,041 (100%)** | Every entry in the frozen audit has complete-boundary matching evidence and a readable source model. | Complete |
+| EE source ownership | **97/97 translation units** | All recovered units compile with the historical EE ABI; 96 canonical objects form the duplicate-free source aggregate. | Complete |
+| Runtime contracts | **53/53** | Every tracked PS2LIB, libc, libgcc and target-selected runtime dependency has an evidence-backed provider or refactor. | Complete |
+| Address identities | **1,265/1,265** | Every tracked program-data address has a proved identity; exact full object bounds are a separate question. | Complete |
+| Whole-image windows | **45/51 (88.24%)** | 64 KiB windows **1–6 and 12–50** match the unpacked reference exactly. Windows **0 and 7–11** remain. | In progress |
+| Remaining byte differences | **263,765** | Byte positions still different in the 3,304,936-byte unpacked image. | In progress |
+| Replacement ELF | **Not yet** | Final object order, linker layout, remaining relocations and SJCRUNCH2 packing are not fully reproduced. | In progress |
+
+The **1,041/1,041** result measures the audited function frontier. It does not
+mean the complete ELF is already identical. The whole-image result is the
+direct measure for final linking progress.
+
+Detailed machine-generated counts are in
+[`docs/status/PROJECT_STATUS.generated.md`](docs/status/PROJECT_STATUS.generated.md).
 <!-- DECOMP_PROGRESS_END -->
 
-The formal count and the working checkpoint are intentionally separate. A row
-becomes formal `MATCHING` only after its compiler object, function boundary,
-relocations and target bytes are reproducibly verified. V81 applies that gate
-to the final 20 complete spans totaling 71,384 bytes through clearly labelled
-raw-exact assembly reconstructions. The audited function frontier is now
-**1,041/1,041**, while the V75 through V80 checkpoints remain frozen as
-evidence.
+## Build and verify
 
-The immutable public checkpoint, canonical tag and clean-checkout verification
-commands are recorded in
-[`docs/status/FUNCTION_FRONTIER_1041_CHECKPOINT.md`](docs/status/FUNCTION_FRONTIER_1041_CHECKPOINT.md).
-
-## One-command reproduction goal
-
-The stable entry point is:
-
-```bash
-make reproduce
-```
-
-Today that command validates every implemented gate and then stops honestly at
-the unproven final-link stage. As the remaining work closes, the same command
-will compile, link, pack and compare the replacement against the private
-reference ELF.
-
-Matching all audited functions is necessary, but it is not sufficient for an
-identical ELF. Global data, section layout, relocations, object/archive order,
-the linker script and SJCRUNCH2 packing must also match. See
-[`docs/REPRODUCTION.md`](docs/REPRODUCTION.md) for the complete proof ladder.
-
-Binary matching also cannot recover information erased by compilation, such as
-the author's comments or every original local-variable name. The defensible
-goal is source that reproduces the executable behavior and bytes, with original
-identities used only where evidence proves them.
-
-## Quick start
-
-Requirements for the repository-only checks are Python 3, GNU Make and a host C
-compiler:
+Repository-only checks need Python 3, GNU Make and a host C compiler:
 
 ```bash
 make status
 make check
-make checkpoint-1041-check
-make source-tree
-make source-aliases
-make link-contracts
-make provider-frontier
-make named-data
-make named-contracts
-make libgcc-contracts
-make runtime-refactors
-make runtime-members
-make runtime-overrides
-make unnamed-data
-make data-backing
-make link-layout-probe
-make startup-integration
-make frontend-eh-frames
-make historical-tail-data
-make runtime-tail-data
-make tail-metadata
-make window36-data
-make media-assets
-make window35-data
-make window11-rodata
-make layout-oracle
 ```
 
-To verify a legally obtained reference binary:
+For the complete implemented pipeline, place a legally obtained reference at
+`original/SNES_EMU.ELF` and run:
 
 ```bash
-cp /path/to/SNES_EMU.ELF original/SNES_EMU.ELF
 make reference
-make libgcc-contracts
 make reproduce-check
 ```
 
-The historical EE stage-one compiler can be built without root installation:
+`make reproduce` is the stable one-command pipeline. It currently performs all
+implemented gates and stops at the unfinished final-link work instead of
+claiming an executable that has not been proved.
+
+Build the isolated historical compiler without installing it system-wide:
 
 ```bash
 make bootstrap-ee-stage1
 ```
 
-Run `make help` for the maintained workflow and `make help-legacy` for frozen
-historical evidence runners.
+See [`docs/TOOLS.md`](docs/TOOLS.md) for the maintained command and tool table.
 
-`make source-tree` closes the Stage-2 gate with 97/97 real EE compilations and
-a duplicate-free 96-object canonical aggregate. See
-[`docs/status/BUILD_READY_SOURCE_TREE.md`](docs/status/BUILD_READY_SOURCE_TREE.md).
+## What has been recovered
 
-`make layout-oracle` closes the first Stage-3 measurement gate without
-publishing the reference: it checks one SJCRUNCH2 section, thirteen blocks and
-fifty-one 64 KiB hash windows. See
-[`docs/status/V82_UNPACKED_LAYOUT_ORACLE.md`](docs/status/V82_UNPACKED_LAYOUT_ORACLE.md).
+| Area | Historical basis | Result |
+|---|---|---|
+| Emulator core | Snes9x 1.41 | Audited function set complete; exact historical data rebuilt where provenance is known |
+| Compression | zlib 1.1.3 and unzip 0.15 | Deflate/inflate and legacy ZIP paths recovered |
+| PlayStation 2 runtime | Early PS2DEV/PS2LIB | 53/53 runtime contracts resolved |
+| Compiler runtime | GCC 3.2.2-era libgcc/libsupc++ | Arithmetic, RTTI, exceptions and unwind evidence integrated |
+| Frontend and renderer | SNES Station binary and early Hiryu gsLib lineage | Application flow and 30/30 renderer draw-family entries recovered |
+| Startup and image layout | Historical PS2 startup plus hash-only private oracle | Exact entry/startup and 45/51 whole-image windows reproduced |
 
-`make source-aliases` proves and applies the current Stage-3 link-identity
-tranche: 333/347 alternate target-address names bind to 317 canonical global
-text symbols without changing allocated section bytes. See
-[`docs/status/V84_REVIEWED_SOURCE_ALIASES.md`](docs/status/V84_REVIEWED_SOURCE_ALIASES.md).
+The complete source-history table, including preserved compiler candidates and
+why they remain in the repository, is in
+[`docs/RECOVERY_HISTORY.md`](docs/RECOVERY_HISTORY.md).
 
-`make link-contracts` applies the zero-byte Stage-3 gate to the live
-post-refactor aggregate: 1,234 target-address anchors and 63 semantic text
-aliases resolve 1,297/1,530 live contracts and reduce the provider frontier to
-233, again without changing an allocated section. V90 explains the 20
-target-absent Stage-3E contracts removed from source and the canonical `errno`
-alias; V91 removes three compiler-generated lift artifacts and V92 removes the
-source-only `snprintf` contract. The historical
-pre-refactor checkpoint is preserved in
-[`docs/status/V85_ZERO_BYTE_LINK_FRONTIER.md`](docs/status/V85_ZERO_BYTE_LINK_FRONTIER.md).
+## Tools and identified versions
 
-`make private-assets` verifies five embedded reference ranges, their padding
-and size words, then privately emits 62,736 bytes for all ten asset contracts.
-The live aggregate falls from 233 to 223 unresolved providers while every
-existing allocated section remains unchanged. Generated bytes and objects stay
-under ignored `build/`; see
-[`docs/status/V86_PRIVATE_ASSET_PROVIDERS.md`](docs/status/V86_PRIVATE_ASSET_PROVIDERS.md).
+| Component | Version | Use |
+|---|---|---|
+| Ghidra | 10.4 PUBLIC | Static analysis |
+| Ghidra Emotion Engine: Reloaded | 2.1.10 | R5900 processor support |
+| EE GCC | 3.2.2 (`3.2.2-b1` leading candidate) | Historical code generation |
+| EE binutils | 2.14 candidate | Assembly and linking |
+| Python | 3.12 in CI | Audits, tests and report generation |
+| LLVM objdump | 20 | Generic disassembly pass |
+| SJCRUNCH2 | Exact revision unknown | Original executable packing |
 
-`make provider-frontier` consumes the private-asset aggregate and closes all 223
-remaining source-link contracts in one audited batch: 175 exact address
-anchors, nine aliases to recovered text, 39 typed compatibility-storage
-definitions and zero runtime shims. The resulting relocatable
-aggregate has **zero undefined globals**. Compatibility storage is
-explicit scaffolding; exact initializers, archive members and final placement
-remain later ELF-identity gates. See
-[`docs/status/V87_PROVIDER_FRONTIER_CLOSED.md`](docs/status/V87_PROVIDER_FRONTIER_CLOSED.md).
+Evidence levels, immutable hashes and deliberately unknown revisions are
+listed in [`docs/DEPENDENCY_VERSIONS.md`](docs/DEPENDENCY_VERSIONS.md).
 
-`make named-data` audits the **original** 54-row Stage-3C tranche rather than
-treating V82–V87 as Stage 3A–3F. Stage 3C is now closed: 50 real target objects
-have exact private-reference fingerprints, and four invented source adapters
-are proved absent and removed. The 40 non-asset ranges form 15 overlap-aware
-clusters covering 141,159 unique bytes; 32 compatibility stores are replaced,
-reducing the current live storage scaffolding from 39 to seven while the
-aggregate remains at zero undefined globals. The V89 report retains its
-historical pre-Stage-3E count of 41 to nine. See
-[`docs/status/V89_STAGE3C_CLOSED.md`](docs/status/V89_STAGE3C_CLOSED.md).
-
-`make named-contracts` closes the **original** 212-row Stage-3E tranche: 23
-names bind to recovered target text, 164 target ranges and the canonical
-`errno` word carry exact private-reference fingerprints, two exact target
-entries and two architectural addresses are proved, and 20 instruction/stack
-adapters are removed from the source namespace. All seven zlib peers are
-resolved. Together with Stage 3C, 196 exact providers occupy 61 overlap-aware
-clusters covering 167,782 unique bytes; compatibility storage falls from 39
-to zero and the partial link proves **223 → 0** externals. V92 also removes
-the last runtime shim. See
-[`docs/status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md`](docs/status/V90_STAGE3E_NAMED_CONTRACTS_CLOSED.md).
-
-`make libgcc-contracts` closes the seven-contract libgcc part of Stage 3D.
-Complete `.text` sections from `_muldi3.o`, `_floatdisf.o`, `_udivdi3.o` and
-`_umoddi3.o` match 3,848 target bytes after masking only 21 relocation-controlled
-words. `__ashlti3` and `__lshrti3` are empty EE archive members, while
-`__fixunssfdi` has no relocation-normalized occurrence in the target; all three
-source-only libcalls are removed from the compiled aggregate. At the V91
-checkpoint runtime shims fell from four to one. See
-[`docs/status/V91_STAGE3D_LIBGCC_CLOSED.md`](docs/status/V91_STAGE3D_LIBGCC_CLOSED.md).
-
-`make runtime-refactors` closes the remaining `snprintf` source dependency.
-Four SHA-frozen target spans contain direct calls to `sprintf@0x0019e3d0`;
-the recovered call sites now use that existing provider, and the snapshot
-model preserves small-buffer truncation. Runtime shims fall **1 → 0**.
-This is one source-contract correction, not an additional archive-member
-match. The V92 checkpoint closed eight Stage-3D contracts. See
-[`docs/status/V92_STAGE3D_SNPRINTF_REFACTOR.md`](docs/status/V92_STAGE3D_SNPRINTF_REFACTOR.md).
-
-`make runtime-members` now proves **43 more runtime contracts** against **42
-complete PS2LIB member texts**: 12,964 bytes, including helpers and terminal
-gaps, after 700 precise relocation masks. That V93 checkpoint reached **51/53**;
-`puts` and `abort` remain explicit rejected archive candidates. Pinned source
-and header hashes make the member recipes reproducible without publishing
-private bytes. Final member data/relocations, archive order and executable
-identity remain separate. See
-[`docs/status/V93_STAGE3D_RUNTIME_MEMBERS.md`](docs/status/V93_STAGE3D_RUNTIME_MEMBERS.md).
-
-`make runtime-overrides` completes the **53/53 runtime contract ledger**.
-Fifteen historical named incoming relocations select the recovered `puts` and
-`abort` providers, which link to **104 raw-exact target bytes**. This does not
-invent an original archive origin for the overrides. The V94 checkpoint first
-proved minimum target-consumed spans for **705/1,265** unnamed contracts,
-covering **70,746 unique bytes**. See
-[`docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
-
-V95 first bound **886/1,265 unnamed addresses** to exact sections,
-reusing 66 existing sections and adding **109 proved ranges / 69,768 bytes**.
-Its isolated probe is not a replacement emulator ELF. See
-[`docs/status/V95_SECTION_BACKED_DATA_ALIASES.md`](docs/status/V95_SECTION_BACKED_DATA_ALIASES.md).
-
-V96 extended `make unnamed-data` with fixed-point control-flow analysis:
-**824 access contracts**, including 119 newly witnessed names and 12 wider
-spans, cover **167,521 unique bytes**. The largest addition is a proved
-96,000-byte `memset` range for the sound echo buffer. Its backing checkpoint
-bound **961 addresses** and materialized **96,178 more bytes than V95**.
-All 12,434 affected source relocations are preserved; 2,883 isolated address
-relocations passed. That version left 304 addresses unresolved. See
-[`docs/status/V96_CONTROL_FLOW_DATA_ACCESSES.md`](docs/status/V96_CONTROL_FLOW_DATA_ACCESSES.md).
-
-V97 resolved **243 of those 304**: **214 additional storage-backed addresses**
-and **29 ROM-offset source refactors**. Sixteen typed historical source-data
-intervals reproduced **790,988 original bytes**. That audit had **1,175
-backed + 29 closed / 1,265**, leaving **61 unresolved**. All 13,511 affected
-source relocations are preserved; 3,525 isolated address relocations pass.
-Complete object bounds, exact implementation integration and final ELF
-layout/packing remain open. See
-[`docs/status/V97_HISTORICAL_DATA_AND_ROM_OFFSETS.md`](docs/status/V97_HISTORICAL_DATA_AND_ROM_OFFSETS.md).
-
-V98 resolves **22 more addresses**, leaving **39**: **1,197 backed + 29
-refactored / 1,265**. Its 49 historical intervals reproduce **810,542 bytes**;
-**695,316 bytes enter the backing link from a fresh source rebuild**, with no
-reference-extraction fallback for those ranges. DSP1, SuperFX, C4, PPU and
-CRC providers gain explicit extents. The link preserves **13,619 source
-relocations** and verifies **3,591 isolated address relocations**. It is still
-not the final emulator ELF. See
-[`docs/status/V98_SOURCE_DATA_INTEGRATION.md`](docs/status/V98_SOURCE_DATA_INTEGRATION.md).
-
-V99 through V101 close those final 39 address identities without inventing
-storage. V102 then performs the first clean Stage-3G executable link: all
-179 proved sections land at exact VMAs/sizes, all 155 initialized fixed
-payloads remain exact and 12/51 whole-image windows match. The diagnostic
-entry is still `0x00111f70` instead of `0x00100008`, and 1,883,867 bytes still
-differ, so this is deliberately not called a replacement ELF. See
-[`docs/status/V102_CLEAN_STAGE3G_LINK_PROBE.md`](docs/status/V102_CLEAN_STAGE3G_LINK_PROBE.md).
-
-V103 publishes those proof levels to decomp.dev as a deterministic public
-Objdiff Report v2. It reports 1,041/1,041 function matches without marking the
-90 source/historical units link-complete, and counts only the 12/51 wholly
-exact Stage-3G image windows. Generate and validate the same artifact locally
-with `make decompdev-report`. No original executable or extracted private bytes
-enter the report. See
-[`docs/status/V103_DECOMP_DEV_REPORTING.md`](docs/status/V103_DECOMP_DEV_REPORTING.md).
-
-V104 integrates the pinned historical PS2SDK startup ahead of the real
-Stage-3F aggregate. The target entry is now exact at `0x00100008`; `_start`,
-`_exit` and `_root`, all 276 startup bytes, 27 relocations and the 384-byte
-startup BSS geometry are proved. The first remaining difference is
-`0x00100114`; 39/51 windows and 1,884,142 bytes still differ, so the result is
-not a replacement ELF. See
-[`docs/status/V104_EXACT_STARTUP_INTEGRATION.md`](docs/status/V104_EXACT_STARTUP_INTEGRATION.md).
-
-V105 reconstructs the historical GCC C++ metadata and late Snes9x data
-corridor without committing target payload. Three frontend unwind groups close
-window 14; six rebuilt source providers plus 30 semantic FDEs close windows
-47–49. The cumulative diagnostic now matches **16/51** windows, leaving **35**
-and 1,859,772 differing bytes. See
-[`docs/status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](docs/status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
-
-V106 adds 14 exact `TILE.CPP`/GCC 3.2.2 `libsupc++` sections and reduces
-window 50 to 3,173 differences. V107 then rebuilds the remaining zlib,
-PS2LIB, libgcc/libsupc++ and semantic metadata corridor, closing window 50
-exactly without committing target payload. V108 rebuilds the DSP1, CPU opcode,
-`fxemu` and `fxinst` data corridor plus semantic unwind metadata, closing
-window 36. V109 then integrates the six remaining hash-verified media
-containers and their size words without publishing payload bytes, closing all
-twenty windows from 15 through 34. V110 rebuilds the adjacent 2xSaI, APU, C4,
-CPU and DMA source/CFI corridor, closing window 35. The cumulative diagnostic
-then has **39/51** windows exact with **644,215** differing bytes. V111 rebuilds
-49 public-source rodata sections/slices in window 11 and removes 23,469 more
-differences. Window 11 remains explicitly partial with 2,460 differing bytes;
-the cumulative diagnostic has **620,746** differing bytes. See
-[`docs/status/V111_WINDOW11_PUBLIC_RODATA.md`](docs/status/V111_WINDOW11_PUBLIC_RODATA.md).
-V112 integrates the next six complete code windows from proved historical and
-recovered objects, existing V80/V81 exact-assembly proofs and a new, clearly
-labelled 7,088-byte EE scheduling residual.
-Windows 1–6 are now exact, taking the cumulative diagnostic to **45/51** exact
-windows with **263,765** differing bytes. No private target payload is tracked.
-See [`docs/status/V112_CODE_WINDOWS_1_6.md`](docs/status/V112_CODE_WINDOWS_1_6.md).
-
-## Target fingerprint
+## Target identity
 
 | Item | Value |
 |---|---|
-| Identity | SNES Station v0.23 WIP, 24 January 2004 |
-| Packed SHA-256 | `4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487` |
-| Packed entry | `0x01b00008` |
-| Unpacked SHA-256 | `739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b` |
+| Release | SNES Station v0.23 WIP, 24 January 2004 |
+| Packed ELF SHA-256 | `4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487` |
+| Unpacked image SHA-256 | `739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b` |
 | Unpacked base / entry | `0x00100000` / `0x00100008` |
-| Unpacked size | `3,304,936` bytes |
-| Primary upstream baseline | Snes9x 1.41 |
+| Unpacked size | 3,304,936 bytes |
 
-Exact dependency fingerprints and remaining unknown revisions are recorded in
-[`docs/DEPENDENCY_VERSIONS.md`](docs/DEPENDENCY_VERSIONS.md).
-
-## Repository map
+## Repository layout
 
 | Path | Purpose |
 |---|---|
-| `src/` | Reconstructed behavioral/source models grouped by subsystem |
-| `include/` | Recovered declarations, ABI compatibility and symbols |
-| `analysis/` | Authoritative manifests, maps, xrefs and immutable evidence |
-| `matching/` | Isolated compiler candidates used by exact comparison gates |
-| `tools/` | Maintained analysis, verification and reproduction entry points |
-| `tools/history/` | Frozen one-off checkpoint and research scripts |
-| `docs/` | Maintained guides, maps, status and research references |
-| `docs/archive/` | Historical checkpoint reports retained for provenance |
+| `src/` | Readable recovered source grouped by subsystem |
+| `include/` | Recovered declarations and EE ABI compatibility |
+| `analysis/` | Authoritative manifests, maps and immutable evidence |
+| `matching/` | Isolated compiler candidates and exact comparison inputs |
+| `tools/` | Maintained verification and reproduction implementation |
+| `tools/history/` | Frozen one-off research still needed to reproduce old evidence |
+| `docs/` | Current guides, history and technical references |
+| `docs/archive/` | Superseded reports retained only for provenance |
 | `third_party/` | Pinned historical material and provenance records |
-| `original/` | Private, hash-gated reference supplied by the user |
-| `build/` | Generated downloads, objects, reports and extracted assets |
+| `original/` | Private reference supplied by the user; ignored by Git |
+| `build/` | Generated toolchains, objects, reports and private extracts; ignored by Git |
 
-The documentation index is [`docs/README.md`](docs/README.md). The analysis
-layout and evidence policy are described in
-[`analysis/README.md`](analysis/README.md).
+## Documentation
 
-## Project rules
+- [`docs/README.md`](docs/README.md) — short documentation index
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — completed work and remaining blockers
+- [`docs/REPRODUCTION.md`](docs/REPRODUCTION.md) — exact reproduction process
+- [`docs/RECOVERY_HISTORY.md`](docs/RECOVERY_HISTORY.md) — recovered code and historical sources
+- [`docs/TOOLS.md`](docs/TOOLS.md) — commands, tools and versions
+- [`docs/LEGAL.md`](docs/LEGAL.md) — distribution and provenance policy
 
-- Binary evidence comes before upstream-source similarity.
-- Modern PS2SDK code is never silently substituted for an unknown 2003–2004
-  dependency.
-- Structural reconstruction, recovered-but-unpromoted evidence and formal
-  matching are reported as separate measurements.
-- Generated status files must be refreshed with `make docs` and are checked by
-  `make check`.
-- Historical evidence is archived, not silently discarded.
+## Reference and contribution policy
 
-## Reference ELF and legal note
+The original ELF, executable/media payloads and private target-byte ranges are
+not distributed. The logo above is a documentation-only PNG rendering of the
+homebrew's own 382x70 title asset; its provenance and narrow exception are
+recorded in [`docs/LEGAL.md`](docs/LEGAL.md).
 
-The private reference is deliberately ignored by Git. Only its fingerprints,
-provenance rules and deterministic extraction procedure belong in the public
-repository. Read [`original/README.md`](original/README.md) and
-[`docs/LEGAL.md`](docs/LEGAL.md) before distributing any binary or extracted
-asset.
-
-## Contributing
-
-The highest-value work is now recovering program-data placement and the exact
-historical link environment without weakening the closed function and
-source-tree gates. Read
-[`CONTRIBUTING.md`](CONTRIBUTING.md) and
-[`docs/DECOMP_PLAYBOOK.md`](docs/DECOMP_PLAYBOOK.md) before changing identities
-or match status.
+Changes must preserve the difference between readable reconstruction, exact
+machine-code evidence and complete image identity. Run `make check` before
+submitting a pull request. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the
+evidence requirements.

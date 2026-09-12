@@ -3,8 +3,8 @@
 This map covers the binary resources explicitly consumed by the SNES Station
 v0.23 boot, frontend, audio and Memory Card paths. It deliberately does not
 classify ordinary Snes9x lookup tables as artwork or media. Finding an asset
-does not add a function match: the audited matching checkpoint is
-978/1,041 after the V52 machine-code evidence promotion.
+does not add a function match: the audited function frontier is independently
+complete at 1,041/1,041.
 
 The complete hashes and decoded-text hashes are recorded in
 [`analysis/embedded_assets.csv`](../analysis/embedded_assets.csv). The ranges
@@ -92,11 +92,9 @@ make private-assets
 ```
 
 That gate verifies the same private ranges, padding and size words, emits an
-ignored provider object, and reduces the current unresolved partial-link
-frontier from 234 to 224. The frozen V86 report retains its historical
-pre-Stage-3E count of 258 to 248. It does not write standalone asset copies
-into the tracked tree; see
-[`status/V86_PRIVATE_ASSET_PROVIDERS.md`](status/V86_PRIVATE_ASSET_PROVIDERS.md).
+ignored provider object and resolves all ten source-level asset providers. It
+does not write standalone asset copies into the tracked tree; see the
+[frozen private-provider proof](status/V86_PRIVATE_ASSET_PROVIDERS.md).
 
 The `make extract-assets` command verifies both reference SHA-256 values,
 unpacks the ELF and writes private results to `build/extracted-assets/`:
@@ -110,12 +108,14 @@ unpacks the ELF and writes private results to `build/extracted-assets/`:
 - a JSON manifest and `SHA256SUMS.txt`.
 
 `build/` is ignored. Do not force-add the original ELF, extracted IRXs, music,
-graphics or Memory Card icon. Only the extractor, documentation, offsets and
+background/font/panel graphics or Memory Card icon. The one public graphic is
+the 382x70 README logo documented in [`LEGAL.md`](LEGAL.md); all other embedded
+resources remain private. Only the extractor, documentation, offsets and
 hashes belong in the public repository.
 
 `make media-assets` uses those format-derived bounds, hashes and adjacent size
 words to integrate the six large frontend/audio/icon containers into the
-Stage-3M diagnostic. It closes windows 15–34 while keeping every payload below
-ignored `build/`; `make media-assets-public-check` validates the byte-free
-contract. See
-[`status/V109_EMBEDDED_MEDIA_INTEGRATION.md`](status/V109_EMBEDDED_MEDIA_INTEGRATION.md).
+current image diagnostic. It closes windows 15–34 while keeping every payload
+below ignored `build/`; `make media-assets-public-check` validates the
+byte-free contract. See the
+[frozen media-integration proof](status/V109_EMBEDDED_MEDIA_INTEGRATION.md).

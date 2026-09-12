@@ -26,7 +26,7 @@ first two claims separate row by row.
 2. **Audit the structural universe.** `make audit-source` verifies that both
    manifests agree and that all Progress-16/17 pseudocode markers have a
    corresponding validated entry.
-3. **Freeze source ownership.** The Stage-2 manifest compiles every real
+3. **Freeze source ownership.** The EE source manifest compiles every real
    translation unit with EE GCC 3.2.2, rejects duplicate/common definitions and
    records unresolved data/archive/link contracts without inventing providers.
 4. **Reproduce one object.** Compile a small corridor with a recorded compiler,

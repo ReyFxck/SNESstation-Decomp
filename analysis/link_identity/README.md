@@ -1,234 +1,60 @@
-# Link-identity evidence
+# Link and whole-image evidence
 
-This directory contains public, byte-free evidence for the Stage-3 link gate.
+These manifests define how recovered source becomes an exact R5900 image. They
+contain addresses, sizes, hashes, ownership decisions and relocation facts;
+private target payloads are never stored here.
 
-- `unpacked_layout.json` freezes the verified packed/unpacked hashes,
-  SJCRUNCH2 section and block geometry, BSS span and 64 KiB hash windows.
-- `source_address_aliases.tsv` records all 337 Stage-2 address-shaped external
-  names: 323 are proved against canonical global text symbols and 14 retain an
-  explicit evidence blocker.
-- `source_alias_reviews.tsv` freezes three semantic identity proofs and eight
-  deliberately blocked boundary/archive decisions, each with a checked public
-  evidence path and token.
-- `link_contracts.tsv` classifies every one of the 1,540 live post-refactor
-  externals: 1,244 absolute target-address anchors, 63 semantic text aliases
-  and 233 explicit provider blockers.
-- `link_contract_reviews.tsv` freezes four non-mechanical semantic spellings
-  with checked public evidence paths and tokens.
-- `private_asset_providers.tsv` maps five verified private ranges to all ten
-  asset data/size contracts, including padding, alignment and section names;
-  it contains hashes and geometry only.
-- `provider_frontier_closure.tsv` classifies all 223 live names left after the
-  private providers into 175 target-address anchors, nine recovered-text
-  aliases, 39 compatibility storage definitions and zero runtime shims.
-- `named_data.tsv` closes the original 54-row Stage-3C tranche: 50 real target
-  objects carry private-reference fingerprints and four source-only adapters
-  have completed removal records; no address-only rows remain.
-- `named_data_reviews.tsv` records the non-mechanical address, extent and
-  source-refactor decisions with checked public evidence paths and tokens.
-- `stage3c_boundary_proofs.tsv` records the reviewed exclusive-end boundaries
-  for the frontend font object and four-entry vtable address point.
-- `named_contracts.tsv` closes the historical 212-row Stage-3E tranche: 165
-  target-backed ranges/data aliases are fingerprinted, 23 names bind to
-  recovered text, two target entries and two external addresses are proved,
-  and 20 source-only instruction/stack contracts are removed.
-- `libgcc_contracts.tsv` closes the seven-contract Stage-3D libgcc subtranche:
-  four complete GCC 3.2.2 archive-member text sections are exact, and three
-  source-only compiler-libcall artifacts have completed removal records.
-- `runtime_refactors.tsv` closes the `snprintf` source contract: four frozen
-  target spans record direct call addresses, the existing `sprintf` callee,
-  target hashes and immutable matching-evidence hashes.
-- `runtime_members.tsv` adjudicates the remaining 45 runtime contracts: 43
-  select exact complete member text and two historical candidates stay rejected.
-- `runtime_member_objects.tsv` freezes 42 selected and two rejected PS2LIB
-  source recipes, full-text geometry/hashes, dependency hashes and symbol maps.
-- `runtime_member_inputs.tsv` pins 36 source/header inputs from historical
-  PS2LIB migration snapshots plus three historical compiler headers.
-- `runtime_overrides.tsv` and `runtime_override_witnesses.tsv` prove the two
-  target-selected reconstructed overrides via 15 historical named calls and
-  104 exact linked bytes; the original runtime ledger reaches 53/53.
-- `unnamed_data_accesses.tsv` retains all 1,265 historical contracts: 872 have
-  minimum target-consumed spans (167,659 unique bytes), 364 lack witnesses
-  and 29 ROM-offset refactors are separately closed. Complete bounds remain open.
-- `historical_data.json` pins 49 source-provider intervals / 810,542 exact
-  bytes, input closures and solved relocation witnesses. Two explicitly
-  focused data-reference proofs do not claim complete function relocations.
-  The real backing link consumes 695,316 freshly compiled bytes from these
-  providers. The public manifest contains no payload bytes.
-- `rom_offset_refactors.tsv` freezes the four-function evidence for 29 removed
-  ROM-relative pseudo-globals; numerical overlap with EE storage is not identity.
+## Layout and current image result
 
-The manifest deliberately contains no original executable bytes, extracted
-assets, local paths or encoded binary payloads. Regenerate it only from a
-legally obtained private reference with `make layout-oracle-refresh`; ordinary
-verification uses `make layout-oracle` and must leave the tracked file
-unchanged.
+| Manifest | Purpose |
+|---|---|
+| `unpacked_layout.json` | Packed/unpacked target geometry and 51 hash windows |
+| `link_layout_probe.json` | First honest executable-layout diagnostic |
+| `startup_integration.json` | Exact target entry and startup code |
+| `frontend_eh_frames.json` | Frontend C++ unwind metadata |
+| `historical_tail_data.json` | Rebuilt late Snes9x data and unwind records |
+| `runtime_tail_data.json` | Rebuilt runtime tail containers |
+| `tail_metadata.json` | Final source/semantic metadata at the image tail |
+| `window36_data.json` | Exact Snes9x data and CFI in image window 36 |
+| `media_assets.json` | Hash-only private media integration contract |
+| `window35_data.json` | Exact Snes9x data and CFI in image window 35 |
+| `window11_rodata.json` | Public-source read-only data in window 11 |
+| `code_windows.json` | Current 45/51 whole-image result and exact windows 1–6 |
 
-Use `make compare-unpacked CANDIDATE_RAW=/path/to/rebuilt.bin` to write an
-ignored comparison report under `build/layout-oracle/`. A mismatch reports the
-first image offset/load address and all differing hash windows without copying
-either full image into the public tree.
+## Names, providers and data ownership
 
-Use `make source-aliases-public-check` for the compiler-free manifest gate and
-`make source-aliases` to build the Stage-2 aggregate and apply only proved
-`alias=canonical_symbol` relationships. The latter writes ignored artifacts
-under `build/source-aliases/` and verifies that allocated sections are
-unchanged.
+| Manifest group | Purpose |
+|---|---|
+| `source_address_aliases.tsv`, `source_alias_reviews.tsv` | Bind alternate target names to canonical recovered text |
+| `link_contracts.tsv`, `link_contract_reviews.tsv` | Classify address anchors and semantic aliases |
+| `private_asset_providers.tsv`, `provider_frontier_closure.tsv` | Close the source-link provider namespace without publishing assets |
+| `named_data.tsv`, `named_data_reviews.tsv` | Prove named program-data ranges and source refactors |
+| `named_contracts.tsv` | Prove named text/data/external contracts |
+| `unnamed_data_accesses.tsv`, `pcm_buffer_consumed_extents.tsv` | Record instruction-proved minimum data spans |
+| `historical_data.json`, `historical_fragments.json` | Pin public historical source intervals and focused fragments |
+| `data_backing.tsv`, `data_backing_sections.tsv` | Assign all tracked addresses to real sections or proved refactors |
+| `rom_offset_refactors.tsv` | Distinguish ROM-relative constants from false image objects |
+| `runtime_code_pointers.tsv`, `runtime_residual_identities.tsv`, `final_residual_identities.tsv` | Close remaining code-pointer and metadata identities |
 
-Use `make link-contracts-public-check` to verify the complete public contract
-frontier without a target compiler. `make link-contracts` rebuilds the live
-aggregate, applies the 1,307 proved `--defsym` contracts and writes ignored
-reports under `build/link-contracts/`. Absolute address anchors assign values
-only: they do not create storage or reproduce target bytes.
+## Runtime evidence
 
-Use `make private-assets-public-check` to verify the byte-free V86 provider
-map. With a legal reference present, `make private-assets` uses `.incbin` only
-inside ignored `build/private-assets/`, verifies 62,736 contiguous provider
-bytes and reduces the partial-link frontier from 233 to 223. No generated
-assembly, object, report or extracted payload may be committed.
+| Manifest group | Purpose |
+|---|---|
+| `libgcc_contracts.tsv` | GCC helper archive identities and source refactors |
+| `runtime_refactors.tsv` | Source-level runtime dependency corrections |
+| `runtime_members.tsv`, `runtime_member_objects.tsv`, `runtime_member_inputs.tsv` | Complete historical PS2LIB member recipes |
+| `runtime_overrides.tsv`, `runtime_override_witnesses.tsv` | Target-selected runtime providers and incoming call evidence |
 
-Use `make provider-frontier-public-check` to verify the exact live frontier.
-`make provider-frontier` then generates ignored storage sources, partially
-links them after the private providers and proves **223 -> 0** undefined
-globals. This is source-link namespace closure;
-it does not prove target initializers, archive membership or final placement.
+## Claim rules
 
-Use `make named-data-public-check` to validate the byte-free closed ledger and
-the historical 337/54/53/212/1,265 Stage-3 plan. With a legal private
-reference, `make named-data` verifies all 50 target-object fingerprints and
-materializes 40 non-asset ranges in 15 overlap-aware clusters. Their 141,159
-unique bytes, generated assembly and objects stay below ignored
-`build/named-data/`; four completed refactors carry no invented bytes. Stage 3C
-is closed, while final placement belongs to Stage 3G.
+- An address identity does not by itself prove an object's size or bytes.
+- A minimum consumed span does not prove a complete array boundary.
+- A function match does not prove object/archive order or final relocation
+  values.
+- A hash-verified private provider may be generated under `build/`, but its
+  payload must not be committed.
+- A whole-image window counts only when every byte in that 64 KiB region is
+  equal to the reference.
 
-Use `make named-contracts-public-check` to validate the byte-free 212-row
-Stage-3E ledger. With a legal private reference, `make named-contracts`
-rechecks 165 fingerprints and materializes the 164 exact Stage-3E ranges
-together with the 32 exact Stage-3C storage replacements. The combined 196
-provider names form 61 overlap-aware clusters covering 167,782 unique bytes;
-compatibility storage reaches **39 -> 0** and the aggregate reaches **223 ->
-0** undefined globals. Generated bytes remain below ignored
-`build/named-contracts/`; final placement remains Stage 3G. V92 removes the
-last compatibility runtime shim.
-
-Use `make libgcc-contracts-public-check` to validate the seven-row hash-only
-ledger without private files. With the reference and historical EE compiler,
-`make libgcc-contracts` extracts the selected `libgcc.a` members into ignored
-`build/libgcc-contracts/`, compares complete `.text` sections across 3,848
-target bytes after 21 relocations, proves the three refactors remain absent
-from the live aggregate.
-
-Use `make runtime-refactors-public-check` to validate the four-call ledger
-and prove the removed `snprintf` namespace stays absent. `make runtime-refactors`
-runs the full EE/private dependency chain and checks each original direct
-JAL to `sprintf@0x0019e3d0` against the SHA-verified reference. There are zero
-runtime shims; this does not claim whole-function or final-ELF identity for the
-source models.
-
-Use `make runtime-members-public-check` for the 45-contract ledger and
-`make runtime-members` for the full private chain plus historical member
-rebuild. The verifier checks 12,964 complete text bytes after 700 precise
-relocation masks, including internal helpers and padding. The V93 checkpoint
-was 51/53; the separate V94 override gate closes the remaining two contracts
-without selecting the rejected `puts`/`abort` candidates. Pinned migration sources
-are reproducible witnesses, not proof of a particular historical archive
-container. Selected `.a` files and rejected objects stay below ignored
-`build/runtime-members/`; member data, final relocation values and global link
-order remain separate gates. See
-[`V93_STAGE3D_RUNTIME_MEMBERS.md`](../../docs/status/V93_STAGE3D_RUNTIME_MEMBERS.md).
-
-`make runtime-overrides` verifies the complete dependency chain and links the
-two recovered providers at their exact target addresses. `make unnamed-data`
-re-derives consumed data spans from the private target; ordinary validation
-does not update hashes. Both have repository-only `*-public-check` gates.
-See [`V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md`](../../docs/status/V94_RUNTIME_OVERRIDES_AND_DATA_ACCESSES.md).
-
-`data_backing.tsv` preserves the historical 1,265-name roster: 1,209
-section-backed addresses, 29 closed ROM refactors, 10 source-code aliases and
-17 evidence-specific runtime/historical identities, with zero unresolved.
-`data_backing_sections.tsv` owns 179 nonoverlapping ranges (66 reused,
-113 materialized), with hashes only. Its 113 interior-address-only aliases
-do not gain access-width or object-bound claims; another 212 aliases have
-typed historical owners. Access proofs comprise 693 local, 146 CFG and 33
-deterministic-prefix witnesses, with full-function/analyzer hashes and prefix
-execution occurrences. ROM-offset records cannot be promoted by RAM overlap.
-
-`make data-backing-public-check` re-derives that geometry and ownership without
-private bytes. `make data-backing-verify` verifies the reference hashes and
-instruction evidence without requiring a compiler. `make data-backing` also
-rebuilds and consumes the historical source-data providers in the real aggregate,
-preserving its allocated input sections and all 13,671 affected source relocations.
-Historical rows have no fallback to reference extraction; the other minimum-access
-ranges still use the private reference. It proves 3,627 synthetic address relocations in
-an isolated data-placement ELF. It does not produce an emulator. Only explicit
-`make data-backing-refresh` replaces the reviewed hash ledger. See
-[`V98_SOURCE_DATA_INTEGRATION.md`](../../docs/status/V98_SOURCE_DATA_INTEGRATION.md).
-
-`link_layout_probe.json` freezes the next whole-program measurement without
-publishing bytes. `make link-layout-probe-check` links the real Stage-3F
-aggregate, fixes all 179 proved section VMAs/sizes, verifies all 155 initialized
-payloads and compares the padded diagnostic across the 51-window oracle. The
-12 exact windows and 1,883,867 differing bytes are a baseline, not a replacement
-ELF claim. See
-[`V102_CLEAN_STAGE3G_LINK_PROBE.md`](../../docs/status/V102_CLEAN_STAGE3G_LINK_PROBE.md).
-
-`startup_integration.json` freezes the next evidence-backed step. The private
-gate rebuilds PS2SDK `crt0.s` at the pinned 2004 revision with EE GCC 3.2.2,
-applies all 27 text relocations, places its startup BSS and verifies the exact
-target entry plus `0x00100000..0x00100114`. Four previous zero-fill anchors
-inside the startup BSS are represented as absolute symbols instead of duplicate
-storage; the other 175 fixed sections keep their V102 contracts. Public
-validation checks hashes, geometry, claim boundaries and match evidence without
-reading the original ELF. The first application byte, exact implementation
-selection, historical order and packing remain open. See
-[`V104_EXACT_STARTUP_INTEGRATION.md`](../../docs/status/V104_EXACT_STARTUP_INTEGRATION.md).
-
-`frontend_eh_frames.json` freezes three semantic GCC 3.2.2 CIE/FDE groups:
-18 public function extents produce 944 exact linked bytes and 23 relocations,
-closing whole-image window 14. The checked assembly contains DWARF directives,
-not target payload. Use `make frontend-eh-frames-public-check` without private
-inputs or `make frontend-eh-frames` for the historical EE/private link gate.
-
-`historical_tail_data.json` freezes six Snes9x 1.41-1 source providers totaling
-123,140 bytes and 1,623 relocations, plus 30 semantic FDEs. Its private gate
-uses the target only to verify non-relocation bytes and resolve final
-`R_MIPS_32` words under ignored `build/`; no target payload is committed. Ten
-smaller fixed sections are replaced by the larger exact source providers while
-157 existing names survive as absolute aliases. Windows 47–49 close, bringing
-the cumulative diagnostic to 16/51 exact with 35 remaining. Use
-`make historical-tail-data-public-check` or `make historical-tail-data`. See
-[`V105_HISTORICAL_CXX_TAIL_INTEGRATION.md`](../../docs/status/V105_HISTORICAL_CXX_TAIL_INTEGRATION.md).
-
-`runtime_tail_data.json` freezes the Stage-3J rebuild of 14 additional
-`TILE.CPP` and GCC 3.2.2 `libsupc++` tail sections. Only verified `R_MIPS_32`
-results may come from the private oracle; all other bytes must already match
-the rebuilt public-source objects. See
-[`V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md`](../../docs/status/V106_RUNTIME_TAIL_SOURCE_INTEGRATION.md).
-
-`window36_data.json` freezes the Stage-3L rebuild of the DSP1 prefix, four CPU
-opcode tables, complete `fxemu`/`fxinst` data, and 27 semantic DSP1/renderer
-FDEs. The private gate accepts target bytes only at verified `R_MIPS_32`
-relocation sites and requires every other rebuilt byte to match first. It
-absorbs 43 smaller fixed sections and closes image window 36, bringing the
-cumulative diagnostic to 18/51 exact windows with 33 remaining. Use
-`make window36-data-public-check` or `make window36-data`. See
-[`V108_WINDOW36_SOURCE_INTEGRATION.md`](../../docs/status/V108_WINDOW36_SOURCE_INTEGRATION.md).
-
-`media_assets.json` freezes the Stage-3M integration of the six remaining
-embedded-media containers and their adjacent 32-bit size words. The private
-gate reads 1,284,388 asset bytes only from a hash-verified user-supplied image
-and emits them below ignored `build/`; the tracked manifest contains geometry
-and hashes only. It closes all twenty windows from 15 through 34, bringing the
-cumulative diagnostic to 38/51 exact with 13 remaining. Use
-`make media-assets-public-check` or `make media-assets`. See
-[`V109_EMBEDDED_MEDIA_INTEGRATION.md`](../../docs/status/V109_EMBEDDED_MEDIA_INTEGRATION.md).
-
-`window35_data.json` freezes the Stage-3N rebuild of the contiguous historical
-2xSaI/APU/C4/CPU/DMA data and unwind corridor. Seven source slices are rebuilt
-with EE GCC 3.2.2; the private gate accepts target values only at 1,429 verified
-`R_MIPS_32` sites after all other bytes match. Seven semantic groups describe
-47 FDEs without storing target payload. It absorbs 24 smaller fixed sections
-and closes window 35, bringing the cumulative diagnostic to 39/51 exact with
-12 application/code windows remaining. Use `make window35-data-public-check`
-or `make window35-data`. See
-[`V110_WINDOW35_SOURCE_DATA.md`](../../docs/status/V110_WINDOW35_SOURCE_DATA.md).
+Run `make check` for public validation and `make reproduce-check` with a legal
+reference ELF for the private comparisons.

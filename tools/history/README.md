@@ -1,12 +1,15 @@
 # Historical tools
 
-These scripts reproduce or document earlier checkpoints. They are preserved
-for provenance but are not part of the maintained everyday interface.
+These scripts reproduce completed matching experiments still consumed by the
+current evidence gates. They are not part of the everyday interface.
 
-- `progress/` — original shell checkpoint applicators.
-- `generators/` — early Python source/pseudocode generators.
-- `research/` — completed versioned matching experiments.
-- `checkpoints/` — package recovery and migration scripts.
+- `research/` contains the historical compiler/source experiments that
+  `make reproduce-check` can still rerun.
 
-Use root Make targets and the maintained tools listed in [`../README.md`](../README.md)
-for current work.
+Old source-mutating generators, checkpoint applicators and commit/push helpers
+were removed after their results were frozen in the manifests and Git history.
+Keeping those scripts in the working tree offered no reproducibility benefit
+and made the supported workflow harder to identify.
+
+Use root Make targets and the maintained command table in
+[`../../docs/TOOLS.md`](../../docs/TOOLS.md) for current work.

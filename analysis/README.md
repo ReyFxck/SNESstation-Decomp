@@ -1,37 +1,25 @@
 # Analysis data and evidence
 
-The root of this directory contains current machine-readable project state.
-The most important files are:
+This directory contains the machine-readable state behind every public project
+number. Generated documentation is a view of these files, not an independent
+source of truth.
 
-| File | Role |
+| Path | Purpose |
 |---|---|
-| `progress_targets.csv` | Authoritative 1,041-entry formal status manifest |
+| `progress_targets.csv` | Authoritative 1,041-entry function status manifest |
 | `symbols.csv` | Mirrored symbol/status manifest checked row-for-row |
-| `source_promotions.csv` | Typed-source overrides for historical pseudocode |
+| `source_promotions.csv` | Typed-source replacements for early structural models |
 | `source_readiness.csv` | Generated source-form and matching audit |
-| `source_tree/` | Stage-2 EE ABI, TU and defined/external ownership manifests |
-| `link_identity/` | Stage-3 unpacked-layout oracle, aliases, link-contract/provider closure and hash-only named-data/private-provider evidence |
-| `decompdev/` | Frozen public-only contract for the generated Objdiff Report v2 |
-| `progress16_recovered_targets.csv` | Frozen Progress-16 structural universe |
-| `progress17_recovered_targets.csv` | Frozen Progress-17 structural universe |
-| `progress17_rejected_jal_candidates.csv` | Rejected data words from the raw JAL scan |
+| `source_tree/` | EE ABI, translation-unit and symbol-ownership manifests |
+| `link_identity/` | Layout hashes, aliases, data/runtime ownership and whole-image contracts |
+| `matching/` | Immutable strict comparison evidence |
+| `functions/` | Address-anchored assembly and structural snapshots |
+| `decompdev/` | Public-only Objdiff report contract |
+| `archive/` | Superseded sweeps and validation logs |
 
-Subdirectories:
+Do not promote a function by editing one CSV in isolation. Use the evidence
+promotion tools and run `make check`; the audit requires the target and symbol
+manifests to agree exactly.
 
-- `functions/` — committed assembly and structural snapshots anchored by address.
-- `matching/` — immutable strict comparison evidence and small gate manifests.
-- `link_identity/` — hash-only unpacked layout, zero-byte alias/anchor
-  decisions, the closed 54-row Stage-3C and 212-row Stage-3E ledgers, the
-  closed seven-row Stage-3D libgcc ledger, four formatter-call refactor proofs,
-  43 runtime contracts selecting 42 complete PS2LIB member texts, two separately
-  proved target runtime overrides, 872/1,265 minimum unnamed-data access spans
-  (including 146 fixed-point control-flow and 33 deterministic-prefix witnesses),
-  1,265/1,265 address identities, 179 fixed physical ranges, the clean Stage-3G
-  link probe and the exact 276-byte historical startup integration. Complete
-  object bounds and the replacement ELF remain open.
-- `archive/` — historical validation logs and exploratory sweeps no longer used
-  as live inputs.
-
-Do not promote a row by editing only one CSV. Use the evidence promotion tools
-and run `make check`; the audit requires `progress_targets.csv` and
-`symbols.csv` to agree exactly.
+The current human-readable summary is
+[`../docs/status/PROJECT_STATUS.generated.md`](../docs/status/PROJECT_STATUS.generated.md).

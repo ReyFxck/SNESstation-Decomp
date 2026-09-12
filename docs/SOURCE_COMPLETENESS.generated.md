@@ -30,7 +30,7 @@ deliberately separate measurements.
   existing source/evidence file. The source file must explicitly carry the
   promoted address token.
 - No address occurs in both pseudocode checkpoints.
-- The independent Stage-2 gate freezes 97 source boundaries, 96 canonical
+- The independent EE source gate freezes 97 source boundaries, 96 canonical
   objects, the EE ABI and every emitted/unresolved symbol owner. See
   [`docs/status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
 
@@ -40,7 +40,7 @@ The machine-readable row-by-row classification is
 ## Meaning of “complete”
 
 "Nothing left behind" is defensible inside the closed structural universe and
-the manifest-defined Stage-2 source tree: 1,137 raw JAL-shaped targets − 292
+the manifest-defined EE source tree: 1,137 raw JAL-shaped targets − 292
 rejected post-code data patterns + 196 independently mapped non-JAL entries =
 1,041 validated entries, compiled through 97 explicit TUs. It does not prove
 that 1,041 is the mathematically exact number of compiler-created functions,

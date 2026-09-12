@@ -13,7 +13,7 @@ The rejected patterns and their reasons are recorded in [`analysis/progress17_re
 | Metric | Count | Validated universe |
 |---|---:|---:|
 | Matching | 1,041 | **100.00%** |
-| Recovered exact results still pending formal promotion | 0 | V53 recovery set is fully formal; V81 final-frontier proofs included; working checkpoint **1,041/1,041 (100.00%)** |
+| Recovered exact results still pending formal promotion | 0 | All recovered exact results are formal; working result **1,041/1,041 (100.00%)** |
 | Reconstructed / matching | 1,041 | **100.00%** |
 | Mapped (identified + partial + reconstructed) | 1,041 | **100.00%** |
 
@@ -23,7 +23,7 @@ The README graphic is generated to [`assets/progress.svg`](../assets/progress.sv
 
 All 1,041 validated entries now have a behavioral/source-model
 representation and **0** remain only as structural
-pseudocode after typed promotions. The separate Stage-2 gate compiles the
+pseudocode after typed promotions. The separate EE source gate compiles the
 frozen 97-unit tree into 96 canonical EE objects plus one explicit alternate.
 Source form, object ownership and original-source provenance remain distinct
 claims. See

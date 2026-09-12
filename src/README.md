@@ -39,7 +39,8 @@ translation units only when a change preserves:
 ## Naming
 
 - `_recovered.c` means a binary-derived behavioral/source reconstruction.
-- `progressNN_` in a filename records historical provenance, not current status.
+- Legacy numbered prefixes in filenames record historical provenance, not
+  current status or a public project version.
 - `snes_pNN_<address>` and similar address labels remain until a historical
   identity is independently proven.
 - Readable source and exact assembly-only evidence must never be conflated.
@@ -54,7 +55,7 @@ make check
 
 Host syntax parsing is deliberately independent per C file and is only a
 portability/sanity gate. Historical EE compilation, exact function comparison
-and whole-program linking are separate proof stages documented in
+and whole-program linking are separate proof areas documented in
 [`../docs/REPRODUCTION.md`](../docs/REPRODUCTION.md).
 
 Historical source-recovery summaries are retained under

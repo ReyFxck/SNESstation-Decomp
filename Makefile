@@ -219,77 +219,25 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	elf-status elf clean-matching
 
 help:
-	@echo "SNES Station v0.23 preservation workflow"
+	@echo "SNES Station v0.23 decompilation"
 	@echo
-	@echo "  make status          show formal, pending and working checkpoints"
-	@echo "  make check           run manifests, generated docs, links, syntax and tests"
-	@echo "  make checkpoint-1041-check  verify the frozen public 1041/1041 checkpoint"
-	@echo "  make checkpoint-1041-reference-check  rerun its private-reference proof"
-	@echo "  make docs            regenerate all maintained status files"
-	@echo "  make reference       unpack and verify original/SNES_EMU.ELF privately"
-	@echo "  make reproduce-check verify every implemented whole-program gate"
-	@echo "  make reproduce       run the stable full pipeline (final link still blocked)"
-	@echo "  make layout-oracle   verify the private unpacked layout against public hashes"
-	@echo "  make compare-unpacked CANDIDATE_RAW=path  report the first rebuilt-byte difference"
-	@echo "  make bootstrap-ee-stage1  build isolated binutils 2.14 + EE GCC 3.2.2"
-	@echo "  make source-tree     build toolchain and verify the frozen Stage-2 object set"
-	@echo "  make source-tree-check  verify Stage 2 with an available EE compiler"
-	@echo "  make source-aliases  prove and apply zero-byte Stage-3 address aliases"
-	@echo "  make link-contracts  apply the zero-byte Stage-3 link-contract frontier"
-	@echo "  make private-assets  verify and link the five private embedded-asset bundles"
-	@echo "  make provider-frontier  close the post-runtime-refactor 223-name source-link frontier"
-	@echo "  make named-data      verify the closed 54/54 Stage-3C ledger and exact ranges"
-	@echo "  make named-contracts verify the closed 212/212 Stage-3E ledger and exact ranges"
-	@echo "  make libgcc-contracts verify the closed 7/7 Stage-3D libgcc subtranche"
-	@echo "  make runtime-refactors prove four sprintf call sites; close the snprintf lift contract"
-	@echo "  make runtime-members   verify 42 complete PS2LIB member texts; 43 contracts"
-	@echo "  make runtime-overrides prove target-selected puts/abort; Stage 3D 53/53"
-	@echo "  make unnamed-data      verify 872 minimum spans with block/CFG/prefix proofs"
-	@echo "  make historical-data   rebuild 49 exact typed source-data intervals"
-	@echo "  make data-backing      1209 backed + 29 ROM refactors + 10 code aliases; 0 unresolved"
-	@echo "  make link-layout-probe link the first honest Stage-3G diagnostic and compare all 51 windows"
-	@echo "  make startup-integration rebuild and prove exact _start/crt0 at target entry"
-	@echo "  make frontend-eh-frames rebuild exact frontend GCC C++ unwind metadata"
-	@echo "  make historical-tail-data rebuild exact late Snes9x data and unwind ranges"
-	@echo "  make runtime-tail-data rebuild TILE/libsupc++ tail metadata from source"
-	@echo "  make tail-metadata    close image window 50 from public source/semantics"
-	@echo "  make window36-data    close image window 36 from Snes9x source/CFI"
-	@echo "  make media-assets     integrate verified private media; close windows 15-34"
-	@echo "  make window35-data    close image window 35 from Snes9x source/CFI"
-	@echo "  make window11-rodata  integrate proven public rodata in image window 11"
-	@echo "  make code-windows    integrate exact public-source code in image windows 1-6"
-	@echo "  make decompdev-report generate the public objdiff v2 progress artifact"
-	@echo "  make match-miner     run the cached three-profile strict match search"
-	@echo "  make elf-status      show remaining exact-ELF blockers"
-	@echo "  make help-legacy     list frozen historical evidence runners"
+	@echo "  make status          show the current audited counts"
+	@echo "  make check           run every public repository check"
+	@echo "  make docs            regenerate the current status files"
+	@echo "  make reference       verify and unpack original/SNES_EMU.ELF privately"
+	@echo "  make reproduce-check run every implemented public and private gate"
+	@echo "  make reproduce       run the complete maintained pipeline"
+	@echo "  make bootstrap-ee-stage1  build the historical EE C compiler"
+	@echo "  make bootstrap-ee-cxx-stage1  build the historical EE C/C++ compiler"
+	@echo "  make decompdev-report generate the public Objdiff report"
+	@echo "  make elf-status      show the remaining final-ELF blockers"
 	@echo
-	@echo "For matching, run make bootstrap-ee-stage1 or pass EE_CC=/path/to/ee-gcc."
+	@echo "See docs/TOOLS.md for commands and docs/RECOVERY_HISTORY.md for provenance."
 
 help-legacy:
-	@echo "Historical and focused evidence runners"
-	@echo
-	@echo "  make hunt1000plus-v45-evidence ... hunt1041-v52-evidence"
-	@echo "  make hunt1041-v72-evidence  reproduce the six promoted V53 proofs"
-	@echo "  make hunt1041-v73-evidence  reproduce the two PS2-I/O historical proofs"
-	@echo "  make hunt1041-v74-evidence  reproduce the two SPC7110 RTC proofs"
-	@echo "  make hunt1041-v75-evidence  reproduce five C4 proofs plus companion"
-	@echo "  make hunt1041-v76-evidence  reproduce the C4SprDisintegrate proof"
-	@echo "  make hunt1041-v77-evidence  reproduce the C4DrawWireFrame proof"
-	@echo "  make hunt1041-v78-evidence  reproduce the C4BitPlaneWave proof"
-	@echo "  make hunt1041-v79-evidence  reproduce the C4ConvOAM proof"
-	@echo "  make hunt1041-v80-evidence  reproduce the 23 quick-win proofs"
-	@echo "  make hunt1041-v81-evidence  reproduce the final 20 function proofs"
-	@echo "  make match-miner-full"
-	@echo "  make historical-ee-gate"
-	@echo "  make match-get-tree-listing-strict"
-	@echo "  make match-mathfp-listing-strict"
-	@echo "  make match-libgcc-unwind-listing-strict"
-	@echo "  make match-gslib-hw-listing-strict"
-	@echo "  make match-libkernel-leaves-listing-strict"
-	@echo "  make match-libkernel-size-strings-listing-strict"
-	@echo "  make match-libkernel-libc-strings-listing-strict"
-	@echo "  make match-cpp-runtime-small-listing-strict"
-	@echo "  make match-cdvd-rpc-exact-listing-strict"
+	@echo "Historical evidence runners remain available for frozen-manifest verification."
+	@echo "They are implementation details, not the normal project interface."
+	@echo "See tools/history/ and docs/RECOVERY_HISTORY.md."
 
 status:
 	$(PYTHON) tools/project_status.py
@@ -436,94 +384,94 @@ hunt1000plus-v45-historical: reference bootstrap-ee-stage1
 		--compiler "$(EE_STAGE1_CC)"
 
 hunt1000plus-v45-evidence: hunt1000plus-v45-runtime hunt1000plus-v45-historical
-	@echo "HUNT1000+ V45 evidence: OK (50 runtime + 4 historical strict matches)"
+	@echo "Historical runtime/source batch: OK (50 runtime + 4 strict matches)"
 
 hunt1000plus-v46-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1000plus_v46_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)" \
 		--libgcc "$(EE_STAGE1_WORK_DIR)/build/gcc-ee-stage1/gcc/libgcc.a"
-	@echo "HUNT1000+ V46 evidence: OK (42 strict matches)"
+	@echo "Historical compiler batch: OK (42 strict matches)"
 
 hunt1000plus-v47-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1000plus_v47_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1000+ V47 evidence: OK (79 strict matches)"
+	@echo "Historical source batch: OK (79 strict matches)"
 
 hunt1041-v48-evidence: bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v48_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1041 V48 evidence: OK (25 strict matches)"
+	@echo "Strict matching batch: OK (25 matches)"
 
 hunt1041-v49-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v49_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1041 V49 evidence: OK (20 formal-ELF strict matches)"
+	@echo "Strict ELF batch: OK (20 matches)"
 
 hunt1041-v51-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v51_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1041 V51 evidence: OK (16 formal-ELF exact matches)"
+	@echo "Exact ELF batch: OK (16 matches)"
 
 hunt1041-v52-evidence: reference bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v52_closure.py \
 		--cc "$(EE_STAGE1_CC)" \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1041 V52 evidence: OK (17 formal-ELF exact matches)"
+	@echo "Exact ELF batch: OK (17 matches)"
 
 hunt1041-v72-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v72_promote_v53.py \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1041 V72 evidence: OK (6 promoted V53 formal-ELF exact matches)"
+	@echo "Recovered exact batch: OK (6 promoted matches)"
 
 hunt1041-v73-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v73_historical_io.py \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1041 V73 evidence: OK (2 formal-ELF PS2-I/O matches)"
+	@echo "PS2 I/O evidence: OK (2 matches)"
 
 hunt1041-v74-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v74_spc7110_rtc.py \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1041 V74 evidence: OK (2 formal-ELF SPC7110 RTC matches)"
+	@echo "SPC7110 RTC evidence: OK (2 matches)"
 
 hunt1041-v75-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v75_c4.py \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1041 V75 evidence: OK (5 formal C4 matches + 1 exact companion)"
+	@echo "C4 float/math evidence: OK (5 matches + 1 exact companion)"
 
 hunt1041-v76-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v76_c4spr.py \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1041 V76 evidence: OK (1 formal C4SprDisintegrate match)"
+	@echo "C4SprDisintegrate evidence: OK (1 match)"
 
 hunt1041-v77-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v77_c4draw.py \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1041 V77 evidence: OK (1 formal C4DrawWireFrame match)"
+	@echo "C4DrawWireFrame evidence: OK (1 match)"
 
 hunt1041-v78-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v78_c4bit.py \
 		--cxx "$(EE_STAGE1_CXX)"
-	@echo "HUNT1041 V78 evidence: OK (1 formal C4BitPlaneWave match)"
+	@echo "C4BitPlaneWave evidence: OK (1 match)"
 
 hunt1041-v79-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v79_c4conv.py \
 		--assembler "$(EE_CXX_STAGE1_WORK_DIR)/prefix/bin/ee-as"
-	@echo "HUNT1041 V79 evidence: OK (1 formal C4ConvOAM match)"
+	@echo "C4ConvOAM evidence: OK (1 match)"
 
 hunt1041-v80-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v80_quickwins.py \
 		--assembler "$(EE_CXX_STAGE1_WORK_DIR)/prefix/bin/ee-as"
-	@echo "HUNT1041 V80 evidence: OK (23 formal quick-win matches)"
+	@echo "Quick-win evidence: OK (23 matches)"
 
 hunt1041-v81-evidence: reference bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/history/research/hunt1041_v81_final20.py \
 		--assembler "$(EE_CXX_STAGE1_WORK_DIR)/prefix/bin/ee-as"
-	@echo "HUNT1041 V81 evidence: OK (20 final-frontier matches; 1041/1041 closed)"
+	@echo "Final function evidence: OK (20 matches; 1041/1041 closed)"
 
 toolchain-info:
 	@echo "Candidate EE compiler: GCC $(EE_GCC_VERSION)"
@@ -719,7 +667,7 @@ provider-frontier-public-check:
 		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
 		--manifest "$(PROVIDER_FRONTIER_MANIFEST)"
 
-# Stage 3C: verify the closed original 54-row named-data tranche without
+# Verify the closed original 54-row named-data set without
 # publishing bytes from the private reference image.
 named-data: reference bootstrap-ee-stage1
 	$(MAKE) named-data-check EE_CC="$(EE_STAGE1_CC)"
@@ -778,7 +726,7 @@ named-data-public-check:
 		--reviews "$(NAMED_DATA_REVIEWS)" \
 		--manifest "$(NAMED_DATA_MANIFEST)"
 
-# Stage 3E: close the historical 205 named contracts plus seven zlib peers.
+# Close the historical 205 named contracts plus seven zlib peers.
 # Public verification uses only addresses, extents and hashes. Private link
 # verification materializes exact ranges only below ignored build/.
 named-contracts: reference bootstrap-ee-stage1
@@ -840,7 +788,7 @@ named-contracts-public-check:
 		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
 		--manifest "$(NAMED_CONTRACT_MANIFEST)"
 
-# Stage 3D/libgcc: freeze the seven historical compiler-runtime contracts.
+# Freeze the seven historical compiler-runtime contracts.
 # Four contracts select complete archive-member .text sections; three are
 # closed source-lift refactors and therefore must stay absent from externals.
 libgcc-contracts: reference bootstrap-ee-stage1
@@ -890,7 +838,7 @@ libgcc-contracts-public-check:
 		--layout-manifest "$(UNPACKED_LAYOUT_MANIFEST)" \
 		--manifest "$(LIBGCC_CONTRACT_MANIFEST)"
 
-# V92: the four formatter call sites all select the existing sprintf target.
+# The four formatter call sites all select the existing sprintf target.
 # This closes one source-only contract, not another historical archive member.
 runtime-refactors: reference bootstrap-ee-stage1
 	$(MAKE) runtime-refactors-check EE_CC="$(EE_STAGE1_CC)"
@@ -917,7 +865,7 @@ runtime-refactors-public-check:
 		--contracts "$(LINK_CONTRACT_MANIFEST)" \
 		--frontier-manifest "$(PROVIDER_FRONTIER_MANIFEST)"
 
-# V93: reproduce pinned PS2LIB source recipes, archive selection and complete
+# Reproduce pinned PS2LIB source recipes, archive selection and complete
 # member text. Rejected puts/abort candidates stay outside selected archives.
 runtime-members: reference bootstrap-ee-stage1
 	$(MAKE) runtime-members-check EE_CC="$(EE_STAGE1_CC)"
@@ -1145,7 +1093,7 @@ window36-data: tail-metadata bootstrap-ee-cxx-stage1
 	$(MAKE) window36-data-check EE_STAGE1_CXX="$(EE_STAGE1_CXX)"
 
 window36-data-check:
-	@test -f "$(TAIL_METADATA_BUILD_DIR)/stage3k-tail-metadata-integrated.elf" || { echo "missing Stage-3K output; run make tail-metadata" >&2; exit 2; }
+	@test -f "$(TAIL_METADATA_BUILD_DIR)/stage3k-tail-metadata-integrated.elf" || { echo "missing tail-metadata output; run make tail-metadata" >&2; exit 2; }
 	$(PYTHON) tools/window36_data.py probe \
 		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
 		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
@@ -1154,7 +1102,7 @@ window36-data-check:
 		--manifest "$(WINDOW36_DATA_MANIFEST)"
 
 window36-data-refresh:
-	@test -f "$(TAIL_METADATA_BUILD_DIR)/stage3k-tail-metadata-integrated.elf" || { echo "missing Stage-3K output; run make tail-metadata" >&2; exit 2; }
+	@test -f "$(TAIL_METADATA_BUILD_DIR)/stage3k-tail-metadata-integrated.elf" || { echo "missing tail-metadata output; run make tail-metadata" >&2; exit 2; }
 	$(PYTHON) tools/window36_data.py capture \
 		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
 		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
@@ -1169,7 +1117,7 @@ media-assets: window36-data bootstrap-ee-cxx-stage1
 	$(MAKE) media-assets-check EE_STAGE1_CXX="$(EE_STAGE1_CXX)"
 
 media-assets-check:
-	@test -f "$(WINDOW36_DATA_BUILD_DIR)/stage3l-window36-integrated.elf" || { echo "missing Stage-3L output; run make window36-data" >&2; exit 2; }
+	@test -f "$(WINDOW36_DATA_BUILD_DIR)/stage3l-window36-integrated.elf" || { echo "missing window-36 output; run make window36-data" >&2; exit 2; }
 	$(PYTHON) tools/media_assets.py probe \
 		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
 		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
@@ -1178,7 +1126,7 @@ media-assets-check:
 		--build-dir "$(MEDIA_ASSET_BUILD_DIR)" --manifest "$(MEDIA_ASSET_MANIFEST)"
 
 media-assets-refresh:
-	@test -f "$(WINDOW36_DATA_BUILD_DIR)/stage3l-window36-integrated.elf" || { echo "missing Stage-3L output; run make window36-data" >&2; exit 2; }
+	@test -f "$(WINDOW36_DATA_BUILD_DIR)/stage3l-window36-integrated.elf" || { echo "missing window-36 output; run make window36-data" >&2; exit 2; }
 	$(PYTHON) tools/media_assets.py capture \
 		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
 		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
@@ -1193,7 +1141,7 @@ window35-data: media-assets bootstrap-ee-cxx-stage1
 	$(MAKE) window35-data-check EE_STAGE1_CXX="$(EE_STAGE1_CXX)"
 
 window35-data-check:
-	@test -f "$(MEDIA_ASSET_BUILD_DIR)/stage3m-media-integrated.elf" || { echo "missing Stage-3M output; run make media-assets" >&2; exit 2; }
+	@test -f "$(MEDIA_ASSET_BUILD_DIR)/stage3m-media-integrated.elf" || { echo "missing media-assets output; run make media-assets" >&2; exit 2; }
 	$(PYTHON) tools/window35_data.py probe \
 		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
 		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
@@ -1203,7 +1151,7 @@ window35-data-check:
 		--manifest "$(WINDOW35_DATA_MANIFEST)"
 
 window35-data-refresh:
-	@test -f "$(MEDIA_ASSET_BUILD_DIR)/stage3m-media-integrated.elf" || { echo "missing Stage-3M output; run make media-assets" >&2; exit 2; }
+	@test -f "$(MEDIA_ASSET_BUILD_DIR)/stage3m-media-integrated.elf" || { echo "missing media-assets output; run make media-assets" >&2; exit 2; }
 	$(PYTHON) tools/window35_data.py capture \
 		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
 		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
@@ -1219,7 +1167,7 @@ window11-rodata: window35-data bootstrap-ee-cxx-stage1
 	$(MAKE) window11-rodata-check EE_STAGE1_CXX="$(EE_STAGE1_CXX)"
 
 window11-rodata-check:
-	@test -f "$(WINDOW35_DATA_BUILD_DIR)/stage3n-window35-integrated.elf" || { echo "missing Stage-3N output; run make window35-data" >&2; exit 2; }
+	@test -f "$(WINDOW35_DATA_BUILD_DIR)/stage3n-window35-integrated.elf" || { echo "missing window-35 output; run make window35-data" >&2; exit 2; }
 	$(PYTHON) tools/window11_rodata.py probe \
 		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
 		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
@@ -1230,7 +1178,7 @@ window11-rodata-check:
 		--build-dir "$(WINDOW11_RODATA_BUILD_DIR)" --manifest "$(WINDOW11_RODATA_MANIFEST)"
 
 window11-rodata-refresh:
-	@test -f "$(WINDOW35_DATA_BUILD_DIR)/stage3n-window35-integrated.elf" || { echo "missing Stage-3N output; run make window35-data" >&2; exit 2; }
+	@test -f "$(WINDOW35_DATA_BUILD_DIR)/stage3n-window35-integrated.elf" || { echo "missing window-35 output; run make window35-data" >&2; exit 2; }
 	$(PYTHON) tools/window11_rodata.py capture \
 		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
 		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
@@ -1249,7 +1197,7 @@ code-windows: window11-rodata bootstrap-ee-cxx-stage1
 	$(MAKE) code-windows-check EE_STAGE1_CXX="$(EE_STAGE1_CXX)"
 
 code-windows-check:
-	@test -f "$(WINDOW11_RODATA_BUILD_DIR)/stage3o-window11-rodata-integrated.elf" || { echo "missing Stage-3O output; run make window11-rodata" >&2; exit 2; }
+	@test -f "$(WINDOW11_RODATA_BUILD_DIR)/stage3o-window11-rodata-integrated.elf" || { echo "missing window-11 output; run make window11-rodata" >&2; exit 2; }
 	$(PYTHON) tools/code_windows.py probe \
 		--compiler "$(EE_STAGE1_CXX)" --reference "$(REFERENCE_RAW)" \
 		--input "$(DATA_BACKING_OUTPUT)" --startup-object "$(STARTUP_INTEGRATION_BUILD_DIR)/crt0-stage3g.o" \
@@ -1531,30 +1479,22 @@ match-cpp-runtime-small-listing-strict:
 	bash tools/run-cpp-runtime-small-match.sh
 
 elf-status: audit-source-check
-	@echo "Function-code gate: CLOSED (1041/1041 strict matches)"
-	@echo "Build-ready source ownership: CLOSED (97/97 TUs; 96 canonical objects)"
-	@echo "Unpacked layout oracle: CLOSED (1 section; 13 blocks; 51 hash windows)"
-	@echo "Zero-byte link contracts: 1297/1530 resolved (1234 anchors; 63 aliases)"
-	@echo "Private assets: CLOSED (10 providers; 62736 bytes; frontier 233 -> 223)"
-	@echo "Source-link provider namespace: CLOSED (223 -> 0 externals; runtime shims=0)"
-	@echo "Original Stage 3C: CLOSED (50 exact target ranges + 4 removed source adapters)"
-	@echo "Original Stage 3E: CLOSED (212/212; 165 fingerprinted ranges/data aliases)"
-	@echo "Stage 3D libgcc: CLOSED (4 exact archive members + 3 source refactors)"
-	@echo "Stage 3D runtime contracts: CLOSED (53/53; puts/abort target overrides proved)"
-	@echo "Stage 3F access spans: 872/1265 witnessed (693 local + 146 CFG + 33 prefix); full bounds OPEN"
-	@echo "Stage 3F address identities: CLOSED (1209 backed + 29 ROM refactors + 10 code aliases + 17 other exact identities; 0 unresolved)"
-	@echo "Stage 3G diagnostic: 179/179 fixed sections; 155/155 initialized payloads exact; 12/51 image windows exact"
-	@echo "Stage 3G diagnostic delta: 1883867 bytes differ; entry 0x00111f70 != target 0x00100008"
-	@echo "Stage 3O cumulative diagnostic: 39/51 windows exact; 620746 bytes differ; window 11 has 2460 remaining"
-	@echo "Stage 3P cumulative diagnostic: 45/51 windows exact; 263765 bytes differ; windows 1-6 exact"
-	@echo "Historical backing: 695316 bytes freshly rebuilt from pinned source (not privately extracted)"
-	@echo "Compatibility storage: CLOSED (39 -> 0 exact-range replacements)"
-	@echo "Complete replacement ELF: BLOCKED (honest status)"
-	@echo "  - select and integrate exact function implementations into final objects"
-	@echo "  - close complete Stage 3F object/array extents (address identity alone is not a bound)"
-	@echo "  - integrate exact matched implementations, runtime member data and final relocations"
-	@echo "  - reproduce the historical linker script, section/object/archive order and target entry"
-	@echo "  - prove exact EE archives, linker script, object order and library order"
+	@echo "Completed:"
+	@echo "  functions             1041/1041"
+	@echo "  EE source ownership   97/97 translation units"
+	@echo "  runtime contracts     53/53"
+	@echo "  address identities    1265/1265"
+	@echo "  historical backing    695316 public-source bytes"
+	@echo
+	@echo "Whole-image result:"
+	@echo "  exact windows         45/51 (1-6 and 12-50)"
+	@echo "  remaining windows     0 and 7-11"
+	@echo "  remaining differences 263765 bytes"
+	@echo
+	@echo "Complete replacement ELF: NOT YET"
+	@echo "  - close the six remaining image windows"
+	@echo "  - prove complete object/array bounds needed by the link"
+	@echo "  - reproduce final relocations, linker script and object/archive order"
 	@echo "  - reproduce SJCRUNCH2 packing and both reference hashes"
 	@echo "See docs/REPRODUCTION.md"
 

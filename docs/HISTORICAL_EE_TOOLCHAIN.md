@@ -145,8 +145,8 @@ make bootstrap-ee-cxx-stage1
 ```
 
 That build is also compile-only. The valid `-c/-o` probe and patch-bound stamps
-make it resumable on Debian Trixie/GCC 14 without silently trusting the failed
-V97-era configure cache.
+make it resumable on Debian Trixie/GCC 14 without silently trusting an old
+failed configure cache.
 
 ## The chronology warning
 

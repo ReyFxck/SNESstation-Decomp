@@ -14,6 +14,7 @@ TARGETS = ROOT / "analysis" / "progress_targets.csv"
 RECOVERED_SPANS = (
     ROOT / "analysis" / "matching" / "hunt1041-v53-recovered-target-spans.tsv"
 )
+IMAGE_STATUS = ROOT / "analysis" / "link_identity" / "code_windows.json"
 EXPECTED_TARGETS = 1041
 
 
@@ -93,15 +94,32 @@ def load_status(root: Path = ROOT) -> ProjectStatus:
     )
 
 
-def render_terminal(status: ProjectStatus) -> str:
+def load_image_status(root: Path = ROOT) -> dict[str, object]:
+    path = root / IMAGE_STATUS.relative_to(ROOT)
+    document = json.loads(path.read_text(encoding="utf-8"))
+    result = document["result"]
+    required = {
+        "exact_chunks",
+        "chunk_count",
+        "exact_chunk_indices",
+        "mismatching_chunk_indices",
+        "differing_bytes",
+    }
+    if not required.issubset(result):
+        raise ValueError("whole-image status manifest is incomplete")
+    return result
+
+
+def render_terminal(status: ProjectStatus, image: dict[str, object]) -> str:
     return "\n".join(
         (
             "SNESstation-Decomp status",
-            f"  formal MATCHING:       {status.formal_matching}/{status.total} ({status.formal_percent:.2f}%)",
-            f"  recovered, pending:    {status.recovered_pending}",
-            f"  working checkpoint:    {status.working_checkpoint}/{status.total} ({status.working_percent:.2f}%)",
-            f"  working frontier:      {status.working_remaining}",
-            "  replacement ELF:       not yet",
+            f"  audited functions:     {status.formal_matching}/{status.total} ({status.formal_percent:.2f}%) complete",
+            f"  whole-image windows:   {image['exact_chunks']}/{image['chunk_count']} exact",
+            "  exact windows:         1-6 and 12-50",
+            "  remaining windows:     0 and 7-11",
+            f"  differing bytes:       {int(image['differing_bytes']):,}",
+            "  replacement ELF:       not yet (final link and packing remain)",
         )
     )
 
@@ -112,9 +130,11 @@ def main() -> None:
     args = parser.parse_args()
     status = load_status()
     if args.json:
-        print(json.dumps(status.json_dict(), indent=2, sort_keys=True))
+        result = status.json_dict()
+        result["whole_image"] = load_image_status()
+        print(json.dumps(result, indent=2, sort_keys=True))
     else:
-        print(render_terminal(status))
+        print(render_terminal(status, load_image_status()))
 
 
 if __name__ == "__main__":
