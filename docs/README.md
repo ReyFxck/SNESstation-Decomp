@@ -9,7 +9,7 @@ the meaning of each headline number and the normal build commands.
 |---|---|
 | [`status/PROJECT_STATUS.generated.md`](status/PROJECT_STATUS.generated.md) | Machine-generated current scoreboard |
 | [`ROADMAP.md`](ROADMAP.md) | Completed work and remaining final-ELF blockers |
-| [`BOTTLENECKS.md`](BOTTLENECKS.md) | Short list of the six remaining image windows and link work |
+| [`BOTTLENECKS.md`](BOTTLENECKS.md) | Short list of the five remaining image windows and link work |
 | [`RECOVERY_HISTORY.md`](RECOVERY_HISTORY.md) | Historical origin and status of recovered code |
 | [`TOOLS.md`](TOOLS.md) | Supported commands, implementation tools and versions |
 

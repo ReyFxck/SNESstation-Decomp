@@ -611,7 +611,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Complete replacement ELF | **Not yet** | In progress |
 
 The function count and the whole-image count answer different questions.
-**1,041/1,041** means the frozen function audit is closed. **45/51** means 45
+**1,041/1,041** means the frozen function audit is closed. **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']}** means {code_window_result['exact_chunks']}
 complete 64 KiB regions of the rebuilt unpacked image match the target. The
 latter is the relevant number for final linking.
 
@@ -639,8 +639,8 @@ latter is the relevant number for final linking.
 | Measure | Result |
 |---|---:|
 | Unpacked target size | **{code_window_result['target_initialized_size']:,} bytes** |
-| Exact windows | **1–6 and 12–50** |
-| Remaining windows | **0 and 7–11** |
+| Exact windows | **1–6 and 11–50** |
+| Remaining windows | **0 and 7–10** |
 | Exact-window coverage | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']} ({pct(code_window_result['exact_chunks'], code_window_result['chunk_count']):.2f}%)** |
 | Remaining different bytes | **{code_window_result['differing_bytes']:,}** |
 | Proved source integrated across windows 1–6 | **{code_window_result['source_bytes']:,} bytes** |
@@ -648,7 +648,7 @@ latter is the relevant number for final linking.
 
 ## Still open
 
-1. Close image windows 0 and 7–11.
+1. Close image windows 0 and 7–10.
 2. Prove complete data/object bounds needed by the final link.
 3. Reproduce the exact linker script, section placement, object/archive order
    and remaining relocation results.
@@ -673,7 +673,7 @@ user-supplied reference without publishing its bytes.
 | EE source ownership | **97/97 translation units** | All recovered units compile with the historical EE ABI; 96 canonical objects form the duplicate-free source aggregate. | Complete |
 | Runtime contracts | **{stage3d_closed}/53** | Every tracked PS2LIB, libc, libgcc and target-selected runtime dependency has an evidence-backed provider or refactor. | Complete |
 | Address identities | **{backing_report['resolved_contracts']:,}/{backing_report['contracts_total']:,}** | Every tracked program-data address has a proved identity; exact full object bounds are a separate question. | Complete |
-| Whole-image windows | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']} ({pct(code_window_result['exact_chunks'], code_window_result['chunk_count']):.2f}%)** | 64 KiB windows **1–6 and 12–50** match the unpacked reference exactly. Windows **0 and 7–11** remain. | In progress |
+| Whole-image windows | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']} ({pct(code_window_result['exact_chunks'], code_window_result['chunk_count']):.2f}%)** | 64 KiB windows **1–6 and 11–50** match the unpacked reference exactly. Windows **0 and 7–10** remain. | In progress |
 | Remaining byte differences | **{code_window_result['differing_bytes']:,}** | Byte positions still different in the {code_window_result['target_initialized_size']:,}-byte unpacked image. | In progress |
 | Replacement ELF | **Not yet** | Final object order, linker layout, remaining relocations and SJCRUNCH2 packing are not fully reproduced. | In progress |
 

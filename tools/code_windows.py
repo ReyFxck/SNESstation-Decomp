@@ -136,13 +136,13 @@ EXPECTED: dict[str, object] = {
     "chunk_count": 51,
     "code_windows": 6,
     "differences_removed": 356_981,
-    "differing_bytes": 263_765,
-    "exact_chunks": 45,
-    "mismatching_chunks": 6,
+    "differing_bytes": 261_305,
+    "exact_chunks": 46,
+    "mismatching_chunks": 5,
     "first_differing_address": 0x00100114,
     "historical_recovered_bytes": 381_272,
-    "integrated_padded_sha256": "2e85d2d3db52ea3657120ab21a9b6f88cac16f77ef975ad2a40ba959d3db6b44",
-    "prior_differing_bytes": 620_746,
+    "integrated_padded_sha256": "3d1228381452c2fa0b974fc55df9a77f7e4926205b60eeadc1ed5306ef4f7489",
+    "prior_differing_bytes": 618_286,
     "prior_exact_assembly_bytes": 4_856,
     "relocation_fields": 31_010,
     "residual_bytes": 7_088,
@@ -250,7 +250,7 @@ def validate(args: argparse.Namespace) -> dict:
             if document.get("result", {}).get(key) != value:
                 fail(f"frozen metric drift: {key}")
     result = document.get("result", {})
-    if result.get("exact_chunk_indices") != [*range(1, 7), *range(12, 51)]:
+    if result.get("exact_chunk_indices") != [*range(1, 7), *range(11, 51)]:
         fail("exact-window roster drift")
     if result.get("source_bytes") != 6 * WINDOW_SIZE:
         fail("code-window byte coverage drift")
@@ -533,6 +533,7 @@ def probe(args: argparse.Namespace) -> dict:
         args.stage3n_build / "window35-payloads.o",
         args.stage3n_build / "window35-semantics.o",
         args.stage3o_build / "window11-rodata.o",
+        args.stage3o_build / "window11-semantics.o",
     ]
     missing = [str(path) for path in prior_inputs if not path.is_file()]
     if missing:

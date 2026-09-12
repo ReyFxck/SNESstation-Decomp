@@ -7,7 +7,6 @@ whole-image and packed-file identity.
 |---|---|---|
 | Window 0 | Different outside the exact startup range | Rebuild the remaining application code/data and its placement |
 | Windows 7–10 | Different | Select exact implementation objects and reproduce relocations/layout |
-| Window 11 | Partial; 2,460 bytes still differ | Close the remaining code/rodata boundary |
 | Historical link | Incomplete | Exact linker script, section addresses, object/archive order and symbol binding |
 | Complete data bounds | Address identities are 1,265/1,265, but some full object/array extents are still unknown | Prove complete sizes, alignment, zero-fill and ownership where the final link depends on them |
 | Packer | SJCRUNCH2 container understood; exact revision and parameters still unknown | Reproduce stub, 13-block layout and packed bytes |
@@ -16,10 +15,10 @@ Current whole-image result:
 
 | Measure | Result |
 |---|---:|
-| Exact 64 KiB windows | **45/51** |
-| Exact indices | **1–6, 12–50** |
-| Remaining indices | **0, 7–11** |
-| Remaining different bytes | **263,765** |
+| Exact 64 KiB windows | **46/51** |
+| Exact indices | **1–6, 11–50** |
+| Remaining indices | **0, 7–10** |
+| Remaining different bytes | **261,305** |
 | Complete replacement ELF | **Not yet** |
 
 `make reproduce` is the authoritative workflow. `make check` validates the

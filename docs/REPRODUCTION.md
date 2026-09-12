@@ -67,11 +67,11 @@ make reproduce-check
 | Runtime contracts | 53/53 |
 | Program-data address identities | 1,265/1,265 |
 | Exact startup | 276 bytes, 3 functions, 27 relocations |
-| Exact unpacked-image windows | 45/51 |
-| Remaining unpacked-image differences | 263,765 bytes |
+| Exact unpacked-image windows | 46/51 |
+| Remaining unpacked-image differences | 261,305 bytes |
 | Packed replacement ELF | Not yet |
 
-The exact windows are **1–6 and 12–50**. Windows **0 and 7–11** remain. A
+The exact windows are **1–6 and 11–50**. Windows **0 and 7–10** remain. A
 window is counted only when all 65,536 bytes match; partly equal windows add
 zero to this count.
 

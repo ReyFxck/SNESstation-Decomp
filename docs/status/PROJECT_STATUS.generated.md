@@ -10,12 +10,12 @@
 | EE source ownership | **97/97 translation units** | Complete |
 | Runtime contracts | **53/53** | Complete |
 | Program-data address identities | **1,265/1,265** | Complete |
-| Exact 64 KiB image windows | **45/51** | In progress |
-| Remaining image differences | **263,765 bytes** | In progress |
+| Exact 64 KiB image windows | **46/51** | In progress |
+| Remaining image differences | **261,305 bytes** | In progress |
 | Complete replacement ELF | **Not yet** | In progress |
 
 The function count and the whole-image count answer different questions.
-**1,041/1,041** means the frozen function audit is closed. **45/51** means 45
+**1,041/1,041** means the frozen function audit is closed. **46/51** means 46
 complete 64 KiB regions of the rebuilt unpacked image match the target. The
 latter is the relevant number for final linking.
 
@@ -43,16 +43,16 @@ latter is the relevant number for final linking.
 | Measure | Result |
 |---|---:|
 | Unpacked target size | **3,304,936 bytes** |
-| Exact windows | **1–6 and 12–50** |
-| Remaining windows | **0 and 7–11** |
-| Exact-window coverage | **45/51 (88.24%)** |
-| Remaining different bytes | **263,765** |
+| Exact windows | **1–6 and 11–50** |
+| Remaining windows | **0 and 7–10** |
+| Exact-window coverage | **46/51 (90.20%)** |
+| Remaining different bytes | **261,305** |
 | Proved source integrated across windows 1–6 | **393,216 bytes** |
 | Newly labelled exact scheduling residual | **7,088 bytes** |
 
 ## Still open
 
-1. Close image windows 0 and 7–11.
+1. Close image windows 0 and 7–10.
 2. Prove complete data/object bounds needed by the final link.
 3. Reproduce the exact linker script, section placement, object/archive order
    and remaining relocation results.

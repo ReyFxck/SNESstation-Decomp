@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Integrate proven public-source rodata from image window 11.
+"""Integrate proven source and semantic data from image window 11.
 
 Stage 3O rebuilds Snes9x 1.41-1 and zlib 1.1.3 sections and reuses already
-validated PS2 runtime/libgcc/libsupc++ objects.  The private reference is used
-only to verify extents and to supply final R_MIPS_32 words.  Generated payloads
-remain in ignored build storage; no private target payload is committed.
+validated PGEN/gsLib, PS2 runtime, libgcc and libsupc++ objects. The remaining
+constants and unwind records are expressed as semantic assembly. The private
+reference verifies extents and final identity and supplies R_MIPS_32 results
+for public-source slices. Generated payloads remain in ignored build storage;
+no private target payload is committed.
 """
 from __future__ import annotations
 
@@ -42,11 +44,18 @@ DEFAULT_STAGE3N = ROOT / "build/window35-data"
 DEFAULT_RUNTIME = ROOT / "build/runtime-members"
 DEFAULT_SOURCE_TREE = ROOT / "build/source-tree/objects"
 DEFAULT_BUILD = ROOT / "build/window11-rodata"
+DEFAULT_SEMANTIC_SOURCE = ROOT / "matching/candidates/stage3o_window11_semantics.S"
 
 FORMAT = "snesstation-stage3o-window11-public-rodata"
 SCHEMA = 1
 TARGET_BASE = 0x00100000
 TARGET_SHA256 = stage3n.TARGET_SHA256
+SEMANTIC_SOURCE_SHA256 = "fe8d1f03b273f813023c70a476eed61f32700b18347a1ecd132dc2de8c296885"
+PGEN_COMMIT = stage3i.v47.PGEN_COMMIT
+PGEN_GSLIB_SHA256 = "d50c700051c54c05ad2a4e511e794097d0c94b3a48c11f1a6334bdd53833dd4e"
+PGEN_UNZIP_SHA256 = "910f29e60e3837c78eed72810bd1d63722c67215681705cbeff56984b3f013f5"
+DSP_CANDIDATE_SHA256 = "93a258580b65eced6f689f1b3c0757c5d24089e2613288f51dfe20a0af31e1ee"
+MATHFP_CANDIDATE_SHA256 = "9704e19e10f3603fad72458342feb78dd9b3d61177c7832991c855650aa71cb8"
 
 SNES_SOURCE_HASHES = {
     "CHEATS.CPP": "1084dd908f528b8759aaa611e78746c20f2e88e70f852903b9c5d91c7c930316",
@@ -56,6 +65,7 @@ SNES_SOURCE_HASHES = {
     "fxinst.cpp": "f427773319dfc6412642a160b199d73b1a72203503a391d60b7e425d10e6e801",
     "GFX.CPP": "1311d8a596bd9c6e4db6a94708f693f1235c238e2ae3858354f051e02194e622",
     "MEMMAP.CPP": "134ac471bceb0685409e159ed76d2a165c563f283d505e713fad63087ff717b4",
+    "obc1.cpp": "3dd47e57708fdab4921cf85863841c51f7cd0a2ff627ecba8193f9d52b22b94e",
     "ppu.cpp": "18af9cc3d2feadaabc3c74a01abce54068d9cdc2b76d035c9cedd160efb50de7",
     "sa1.cpp": "0c4bd5ad3940820be0fabf6727571936e3c17b9c5a6391238fb2219099f2adb5",
     "seta010.cpp": "a06f4e816bcdb6071fc9595cfaece822f99e3bcb834126838bb230ffc200cd8f",
@@ -201,32 +211,138 @@ SOURCE_SECTIONS = (
       "70b8be5fa9287333d9948cec81983a60bc0ee9b05b4230d08ec0c74f1ed6f9b1", "70b8be5fa9287333d9948cec81983a60bc0ee9b05b4230d08ec0c74f1ed6f9b1", "70b8be5fa9287333d9948cec81983a60bc0ee9b05b4230d08ec0c74f1ed6f9b1"),
     P("rtti_bad_alloc", "supcxx:new_handler", ".gnu.linkonce.r._ZTSSt9bad_alloc", 0, 0x001BAE98, 0x10, 0x10, 0,
       "1313ac91ff83b9bba803981c55dcff4a518c4be9d6438a58c96c86facb9ccca8", "1313ac91ff83b9bba803981c55dcff4a518c4be9d6438a58c96c86facb9ccca8", "1313ac91ff83b9bba803981c55dcff4a518c4be9d6438a58c96c86facb9ccca8"),
+    P("memmap_dispatch", "snes:MEMMAP", ".rodata", 0xB28, 0x001B1C80, 0x1D8, 0x1100, 118,
+      "9137276f30f4eff45412264c0a20379b487f2114b4f037a3aa9ed31ba4816c63", "e1b424591648facd2f94342dfdf4366f2e02c1e7455449982774cccb518e1df6", "716b98d62e6558f51f93141343283290a7cffcb4e3f9273430f2cca084c2874e"),
+    P("dma_memmap_offsets", "snes-inline:DMA", ".rodata", 0xC0, 0x001B1E58, 0x50, 0x198, 20,
+      "5721190cb482d1c22f3eb99489937635b519bb223996e8196b34f7f2ccac45f7", "1174d2fc1e28b9e5ffc4d1b10bdc73a46f539d18bcf8222c58164e22077d1d68", "1174d2fc1e28b9e5ffc4d1b10bdc73a46f539d18bcf8222c58164e22077d1d68"),
+    P("dma_inline_mid", "snes-inline:DMA", ".rodata", 0x38, 0x001B1F58, 0xD8, 0x198, 54,
+      "5721190cb482d1c22f3eb99489937635b519bb223996e8196b34f7f2ccac45f7", "97c34b64b1932dd95f0e7cf7bf8cc588d4c37fd81e23c3e132d1b9dc83e41511", "5bcd78ff452f25c2b29ceaa18dc42f0cab118d3e9548359143a0669549ba3e4f"),
+    P("dsp_normal_constants", "candidate:dsp-normal", ".rodata", 0, 0x001B20B8, 0x20, 0x20, 0,
+      "582fa1a78b32c4bd50337b7fc7580a8ff9efdcdf901bd882a67e16ed7b6a4761", "582fa1a78b32c4bd50337b7fc7580a8ff9efdcdf901bd882a67e16ed7b6a4761", "582fa1a78b32c4bd50337b7fc7580a8ff9efdcdf901bd882a67e16ed7b6a4761"),
+    P("obc1_dispatch", "snes:obc1", ".rodata", 0, 0x001B72F8, 0x20, 0x20, 8,
+      "b1d51b5c037987f2e287a7d031ed3fe8bf0d937767e0250d5211e6a50ed4eaf6", "b1d51b5c037987f2e287a7d031ed3fe8bf0d937767e0250d5211e6a50ed4eaf6", "4436e90555990c48bf1b6192b5fc30b01429a5e930262f3b7631807c0e140439"),
+    P("sound_double_1", "snes-normal:SOUNDUX", ".rodata", 0, 0x001B83E8, 0x8, 0xE0, 0,
+      "53af492d0f68ccdf7e0d1b772787e0fb21ddbe9516eadc0c6293d8ed1fab82b7", "662dd01a16bd59804af881ada35952d5210426e637feb6d611f67abc0a4dee82", "662dd01a16bd59804af881ada35952d5210426e637feb6d611f67abc0a4dee82"),
+    P("sound_double_2_dispatch", "snes-normal:SOUNDUX", ".rodata", 0x18, 0x001B83F0, 0x18, 0xE0, 4,
+      "53af492d0f68ccdf7e0d1b772787e0fb21ddbe9516eadc0c6293d8ed1fab82b7", "936133baab6804100e2cf43e6a173c11a6943ccfea8c328d16d758f87c15c91b", "bcde34c0f7f7903b595eb94c4f3ea7ce773d827d514ce4c8733af878ee0178f6"),
+    P("spc7110_spl4_title", "snes:spc7110", ".rodata", 0x2C8, 0x001B84F0, 0x18, 0x388, 0,
+      "29bcd91b8a188de63cc3a8328234da19486109b976c5577cddd78c29d3cabc34", "c246e28cc4e71b85f7d4427a2e29e0c4d960e032b44166ae20fb836a68a5c9a5", "c246e28cc4e71b85f7d4427a2e29e0c4d960e032b44166ae20fb836a68a5c9a5"),
+    P("spc7110_momotetsu_title", "snes:spc7110", ".rodata", 0x2F8, 0x001B8518, 0x18, 0x388, 0,
+      "29bcd91b8a188de63cc3a8328234da19486109b976c5577cddd78c29d3cabc34", "8c734e72599e82747f12b9107003f8fdc23627b45e47b357b7d8ebe5a8ca37ae", "8c734e72599e82747f12b9107003f8fdc23627b45e47b357b7d8ebe5a8ca37ae"),
+    P("spc7110_tengai_title", "snes:spc7110", ".rodata", 0x320, 0x001B8540, 0x18, 0x388, 0,
+      "29bcd91b8a188de63cc3a8328234da19486109b976c5577cddd78c29d3cabc34", "22d146a43233966f1abf9dd6a0b55b4ab353fffbf93987b516e007353d4ecf0c", "22d146a43233966f1abf9dd6a0b55b4ab353fffbf93987b516e007353d4ecf0c"),
+    P("spc7110_jump_title", "snes:spc7110", ".rodata", 0x348, 0x001B8568, 0x18, 0x388, 0,
+      "29bcd91b8a188de63cc3a8328234da19486109b976c5577cddd78c29d3cabc34", "7b1fd2bd702d97f4626c3c6e1accb84894b6f8d80262cf073e986f1f68255297", "7b1fd2bd702d97f4626c3c6e1accb84894b6f8d80262cf073e986f1f68255297"),
+    P("pgen_unzip", "pgen:unzip", ".rodata", 0, 0x001B88A0, 0x60, 0x60, 9,
+      "a281fa5f2df03bdccf36db0c11e011db020fac7d108f5c076a4d94f86b659e84", "a281fa5f2df03bdccf36db0c11e011db020fac7d108f5c076a4d94f86b659e84", "05f7728c2dbd0f21cd51b0de9e63cf0e5f2a59b78f456840759a195c3b67a9d0"),
+    P("pgen_unzip_version_copy", "pgen:unzip", ".rodata", 0x30, 0x001B8900, 0x8, 0x60, 0,
+      "a281fa5f2df03bdccf36db0c11e011db020fac7d108f5c076a4d94f86b659e84", "ba2daf5af7d8b4ac8f8ed636266734cf6e76057b7497eac7a282db8bb3d9ef1f", "ba2daf5af7d8b4ac8f8ed636266734cf6e76057b7497eac7a282db8bb3d9ef1f"),
+    P("pgen_unzip_version_copy_2", "pgen:unzip", ".rodata", 0x30, 0x001B8908, 0x8, 0x60, 0,
+      "a281fa5f2df03bdccf36db0c11e011db020fac7d108f5c076a4d94f86b659e84", "ba2daf5af7d8b4ac8f8ed636266734cf6e76057b7497eac7a282db8bb3d9ef1f", "ba2daf5af7d8b4ac8f8ed636266734cf6e76057b7497eac7a282db8bb3d9ef1f"),
+    P("gslib_driver", "gslib:gsDriver", ".rodata", 0, 0x001BA248, 0x98, 0x98, 38,
+      "35a13629157ac5023252498d35ea0c22bbc4e1ea421da71c9af6b28d671964fd", "35a13629157ac5023252498d35ea0c22bbc4e1ea421da71c9af6b28d671964fd", "c82d7de0320af4f6b98f03fe8bbeb8a428c1dac7ec7d09df5f962e6d8dbbfd9f"),
+    P("gslib_pipe", "gslib:gsPipe", ".rodata", 0, 0x001BA2E0, 0x128, 0x128, 42,
+      "66a035db2b61814c1c7a2b3df821b1661a9a26ebda527faf07d721dfb7b86ae6", "66a035db2b61814c1c7a2b3df821b1661a9a26ebda527faf07d721dfb7b86ae6", "62fd614828a619a47eaccbae4d5212a07b2e52d993f61d4e084b95f5364410ed"),
+    P("gslib_font", "gslib:gsFont", ".rodata", 0, 0x001BA408, 0x54, 0x54, 21,
+      "e4bc1eaa2964fefda26b50f63d34f85ecd1740961a7a73e93d9f3da0934eac11", "e4bc1eaa2964fefda26b50f63d34f85ecd1740961a7a73e93d9f3da0934eac11", "a8ada467c705deb324357fcca9ab97730c37863b3f421df9726ca4bbde613591"),
+    P("mathfp_cos", "candidate:mathfp", ".rodata", 0, 0x001BA6A8, 0x20, 0x80, 0,
+      "63aa6e2c616dc29cd67b190e119b5870f9a05d85436de3b8a84bee18c3988200", "5b1ada2299c87dd4ada9892ae0a53bca6acd186c8c3dcdfd1e4e61bfe863cf61", "5b1ada2299c87dd4ada9892ae0a53bca6acd186c8c3dcdfd1e4e61bfe863cf61"),
+    P("mathfp_sin", "candidate:mathfp", ".rodata", 0, 0x001BA6C8, 0x20, 0x80, 0,
+      "63aa6e2c616dc29cd67b190e119b5870f9a05d85436de3b8a84bee18c3988200", "5b1ada2299c87dd4ada9892ae0a53bca6acd186c8c3dcdfd1e4e61bfe863cf61", "5b1ada2299c87dd4ada9892ae0a53bca6acd186c8c3dcdfd1e4e61bfe863cf61"),
+    P("mathfp_tan", "candidate:mathfp", ".rodata", 0x28, 0x001BA6E8, 0x18, 0x80, 0,
+      "63aa6e2c616dc29cd67b190e119b5870f9a05d85436de3b8a84bee18c3988200", "abfa56bbdcf50eda7c768f27d2cb1ade46a8b23c4c3d9152666892243c7c71d1", "abfa56bbdcf50eda7c768f27d2cb1ade46a8b23c4c3d9152666892243c7c71d1"),
+    P("mathfp_atan", "candidate:mathfp", ".rodata", 0x40, 0x001BA700, 0x40, 0x80, 0,
+      "63aa6e2c616dc29cd67b190e119b5870f9a05d85436de3b8a84bee18c3988200", "1dcd0dcf26b1cdcaec9d8f2634d824d1c33d5fd3ff5d2f4f90d2d6e538e3f82b", "1dcd0dcf26b1cdcaec9d8f2634d824d1c33d5fd3ff5d2f4f90d2d6e538e3f82b"),
 )
+
+
+def S(name: str, address: int, size: int, relocations: int,
+      raw_sha256: str, linked_sha256: str) -> dict:
+    return {
+        "name": name,
+        "section": f".data.stage3o.semantic.{name}",
+        "address": address,
+        "size": size,
+        "relocations": relocations,
+        "raw_sha256": raw_sha256,
+        "linked_sha256": linked_sha256,
+    }
+
+
+SEMANTIC_SECTIONS = (
+    S("memmap_setword_dispatch", 0x001B1EA8, 0x78, 18,
+      "619fe9c3710ddedd77962ad99c618304e9b15bc7fc1ea0c0f53561fa180a588c", "c64025aac7a5a24a5e2d17c0c3e9ca82b41a566d6d54b172f7711ede152bcd1a"),
+    S("dsp_projection_constants", 0x001B2100, 0x18, 0,
+      "51d2970d31b938042a6a06ced4424dd6db4d1a1be93248ff7c1b9da18fadc728", "51d2970d31b938042a6a06ced4424dd6db4d1a1be93248ff7c1b9da18fadc728"),
+    S("loadzip_assert_literals", 0x001B6398, 0x40, 0,
+      "879250e6378cc84d83bc6853395fadc1e18ac10eb1f93f9485dd7137ad113bf4", "879250e6378cc84d83bc6853395fadc1e18ac10eb1f93f9485dd7137ad113bf4"),
+    S("snes9x_patch_extension", 0x001B83E0, 0x8, 0,
+      "08596ed1a0da1f6bddf423c10086b628579b84317b2885f491806b677e860bd8", "08596ed1a0da1f6bddf423c10086b628579b84317b2885f491806b677e860bd8"),
+    S("spc7110_frontend_paths", 0x001B8818, 0x60, 0,
+      "80058b63c4c365ecb15eb7d8c1ef5c8a0eb2dfbfb85d672d76adae691ac7d81d", "80058b63c4c365ecb15eb7d8c1ef5c8a0eb2dfbfb85d672d76adae691ac7d81d"),
+    S("mathfp_special_values", 0x001BA740, 0x18, 0,
+      "94eb5071c7e8ca3d34f9b4186e7b745a1b85a8501aa3ca2855c86224896d0e6e", "94eb5071c7e8ca3d34f9b4186e7b745a1b85a8501aa3ca2855c86224896d0e6e"),
+    S("inifile_type_name", 0x001BADB8, 0x10, 0,
+      "cff23a7455a7f434aeff0bf6f5eaac45ff4e35e65cd3a2f2f83d907f21f2122a", "cff23a7455a7f434aeff0bf6f5eaac45ff4e35e65cd3a2f2f83d907f21f2122a"),
+    S("frontend_eh_early_a", 0x001BB054, 0x258, 13,
+      "c9cf753822b9596683825ae9593bbb3d3b03d1cdb8e54e5a21bca492ccb07d6d", "1b9021c396f91d05973b4a569ccd95809dc11ba1d4b39c61a543116f38dea280"),
+    S("frontend_identity", 0x001BB2D0, 0x4C, 3,
+      "7b607f1bd87cff04f42074ad278440ad0ef1022c769d4152b5da1ddfa77bbbdb", "8f7ea01f75d6e4101f8e9bbac3b39d967198c68fe998566b9a9730a0ec959bb1"),
+    S("frontend_eh_early_b", 0x001BB880, 0x4A8, 26,
+      "86208a906396ddd6e674a2748461e5f397c45621a2ccef2f418936f6dd5b826e", "3dd6cce651fcc2930414f29403d9b596205d86d0a4cf3850f7cf1736052a8ef1"),
+)
+
+LINK_SYMBOLS = {
+    "stage3o_gxx_personality": 0x001A9728,
+    "stage3o_lsda_00426b20": 0x00426B20,
+    "stage3o_lsda_00426b34": 0x00426B34,
+    "stage3o_lsda_00426b49": 0x00426B49,
+    "stage3o_lsda_00426b5d": 0x00426B5D,
+    "stage3o_pool_001fafd0": 0x001FAFD0,
+    "stage3o_pool_00290ff0": 0x00290FF0,
+    "stage3o_pool_002ab1e0": 0x002AB1E0,
+}
+for _address in (
+    0x00100114, 0x0010038C, 0x001005B0, 0x001005EC, 0x00100870,
+    0x001008DC, 0x00100E78, 0x00101890, 0x001018E0, 0x00101924,
+    0x001019A8, 0x00101B04, 0x00101B64, 0x00101E8C, 0x00101EF0,
+    0x001029C4, 0x00102AB0, 0x00103314, 0x00103B34, 0x00103C7C,
+    0x00103DD4, 0x00104234, 0x001043E4, 0x00104418, 0x00104654,
+    0x00104790, 0x00104998, 0x001049F0, 0x00104A54, 0x00104BBC,
+    0x001AC278, 0x001AC2B8, 0x001AC2F0, 0x001AC328, 0x001AC3A8,
+    0x001AC410, 0x001AC448, 0x001AC498, 0x001AC4F4, 0x001AC530,
+    0x001AC548, 0x001AC580, 0x001AC5B4,
+):
+    LINK_SYMBOLS[f"stage3o_pc_{_address:08x}"] = _address
 
 ABSORBED_FIXED = (
     ".data.stage3ce.va_001b6ed0",
+    ".data.stage3f.va_001b83f0",
     ".data.stage3f.va_001b8440",
     ".data.stage3f.recovered.va_001b85c8",
     ".data.stage3ce.va_001b98c0",
     ".data.stage3ce.va_001ba130",
 )
 
-EXACT_CHUNKS = list(range(12, 51))
+EXACT_CHUNKS = list(range(11, 51))
 EXPECTED = {
-    "source_sections": 49,
-    "source_bytes": 33_311,
-    "source_relocations": 1_517,
-    "absorbed_fixed_sections": 5,
-    "window11_differing_bytes": 2_460,
-    "exact_chunks": 39,
-    "mismatching_chunks": 12,
-    "differing_bytes": 620_746,
+    "source_sections": 70,
+    "source_bytes": 35_067,
+    "source_relocations": 1_831,
+    "semantic_sections": 10,
+    "semantic_bytes": 2_220,
+    "semantic_relocations": 60,
+    "absorbed_fixed_sections": 6,
+    "window11_differing_bytes": 0,
+    "exact_chunks": 40,
+    "mismatching_chunks": 11,
+    "differing_bytes": 618_286,
     "prior_differing_bytes": 644_215,
-    "differences_removed": 23_469,
+    "differences_removed": 25_929,
     "chunk_count": 51,
     "target_initialized_size": 3_304_936,
     "first_differing_address": 0x00100114,
-    "integrated_padded_sha256": "f355fc45cb8b87631cafb982943ea02bb819126d3aef0d6aa847b555710b6180",
+    "integrated_padded_sha256": "58786ddd69f66f0d4bf17f2c0677e09a47fb3bea41a61f30042b9f54445a26a3",
     "target_sha256": TARGET_SHA256,
 }
 
@@ -264,12 +380,17 @@ def source_document() -> list[dict]:
     return [dict(row) for row in SOURCE_SECTIONS]
 
 
+def semantic_document() -> list[dict]:
+    return [dict(row) for row in SEMANTIC_SECTIONS]
+
+
 def claims() -> dict[str, bool]:
     return {
-        "window_11_exact": False,
+        "window_11_exact": True,
         "public_source_sections_rebuilt": True,
+        "semantic_constants_reconstructed": True,
         "non_relocation_bytes_raw_exact": True,
-        "private_oracle_limited_to_r_mips_32_results": True,
+        "private_oracle_used_for_verification_and_relocation_results": True,
         "private_target_bytes_stored": False,
         "replacement_elf": False,
         "unpacked_hash_matched": False,
@@ -284,7 +405,15 @@ def frozen_document(result: dict) -> dict:
         "prior_manifest_sha256": digest(stage3n.DEFAULT_MANIFEST.read_bytes()),
         "snes_source_hashes": SNES_SOURCE_HASHES,
         "zlib_source_hashes": ZLIB_SOURCE_HASHES,
+        "semantic_source_sha256": SEMANTIC_SOURCE_SHA256,
+        "pgen_commit": PGEN_COMMIT,
+        "pgen_gslib_sha256": PGEN_GSLIB_SHA256,
+        "pgen_unzip_sha256": PGEN_UNZIP_SHA256,
+        "dsp_candidate_sha256": DSP_CANDIDATE_SHA256,
+        "mathfp_candidate_sha256": MATHFP_CANDIDATE_SHA256,
         "source_sections": source_document(),
+        "semantic_sections": semantic_document(),
+        "link_symbols": LINK_SYMBOLS,
         "absorbed_fixed_sections": list(ABSORBED_FIXED),
         "result": result,
         "claims": claims(),
@@ -305,8 +434,29 @@ def validate(args: argparse.Namespace) -> dict:
         fail("Snes9x source identity drift")
     if document.get("zlib_source_hashes") != ZLIB_SOURCE_HASHES:
         fail("zlib source identity drift")
+    for path, expected_hash, label in (
+        (args.semantic_source, SEMANTIC_SOURCE_SHA256, "semantic source"),
+        (ROOT / "matching/candidates/hunt1041_v51_dsp.c", DSP_CANDIDATE_SHA256, "DSP candidate"),
+        (ROOT / "matching/candidates/mathfp.c", MATHFP_CANDIDATE_SHA256, "mathfp candidate"),
+    ):
+        if digest(path.read_bytes()) != expected_hash:
+            fail(f"{label} identity drift")
+    for key, value in (
+        ("semantic_source_sha256", SEMANTIC_SOURCE_SHA256),
+        ("pgen_commit", PGEN_COMMIT),
+        ("pgen_gslib_sha256", PGEN_GSLIB_SHA256),
+        ("pgen_unzip_sha256", PGEN_UNZIP_SHA256),
+        ("dsp_candidate_sha256", DSP_CANDIDATE_SHA256),
+        ("mathfp_candidate_sha256", MATHFP_CANDIDATE_SHA256),
+    ):
+        if document.get(key) != value:
+            fail(f"{key} identity drift")
     if document.get("source_sections") != source_document():
         fail("source-section contract drift")
+    if document.get("semantic_sections") != semantic_document():
+        fail("semantic-section contract drift")
+    if document.get("link_symbols") != LINK_SYMBOLS:
+        fail("semantic link-symbol contract drift")
     if document.get("absorbed_fixed_sections") != list(ABSORBED_FIXED):
         fail("absorbed section roster drift")
     for key, value in EXPECTED.items():
@@ -377,6 +527,11 @@ def prepare_objects(args: argparse.Namespace, cxx: Path) -> dict[str, Path]:
                 stage3i.compile_one(cxx, inline_flags, source, obj)
                 objects[f"snes-inline:{stem}"] = obj
 
+        normal_flags = [flag for flag in base_flags if flag != "-fshort-double"]
+        sound_normal = output / "snes-normal-SOUNDUX.o"
+        stage3i.compile_one(cxx, normal_flags, layout / "SOUNDUX.CPP", sound_normal)
+        objects["snes-normal:SOUNDUX"] = sound_normal
+
         zlib = source_root / "zlib"
         zflags = [
             *stage3i.v47.COMMON_FLAGS, "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST",
@@ -394,6 +549,66 @@ def prepare_objects(args: argparse.Namespace, cxx: Path) -> dict[str, Path]:
             objects[f"zlib:{stem}"] = obj
     finally:
         stage3i.v52.BUILD = old_build
+
+    dsp_source = ROOT / "matching/candidates/hunt1041_v51_dsp.c"
+    if digest(dsp_source.read_bytes()) != DSP_CANDIDATE_SHA256:
+        fail("DSP candidate identity drift")
+    normal_double = [
+        flag for flag in stage3i.v47.COMMON_FLAGS if flag != "-fshort-double"
+    ]
+    dsp_object = args.build_dir / "candidate/dsp-normal.o"
+    stage3i.compile_one(
+        cc, [*normal_double, "-Os", *stage3i.v47.PS2_DEFINES],
+        dsp_source, dsp_object,
+    )
+    objects["candidate:dsp-normal"] = dsp_object
+
+    mathfp_source = ROOT / "matching/candidates/mathfp.c"
+    if digest(mathfp_source.read_bytes()) != MATHFP_CANDIDATE_SHA256:
+        fail("mathfp candidate identity drift")
+    mathfp_object = args.build_dir / "candidate/mathfp.o"
+    stage3i.compile_one(
+        cc,
+        [
+            *normal_double, "-O2", *stage3i.v47.PS2_DEFINES,
+            "-ffreestanding", "-fno-builtin", "-fno-align-jumps",
+            "-I", ROOT / "include",
+        ],
+        mathfp_source,
+        mathfp_object,
+    )
+    objects["candidate:mathfp"] = mathfp_object
+
+    stage3i.v47.ensure_git_commit(
+        stage3i.v47.PGEN, stage3i.v47.PGEN_REPO, PGEN_COMMIT
+    )
+    pgen = stage3i.v47.PGEN
+    unzip_source = pgen / "unzip/unzip.c"
+    if digest(unzip_source.read_bytes()) != PGEN_UNZIP_SHA256:
+        fail("PGEN unzip source identity drift")
+    modern_ps2_includes = sorted(
+        path for path in (ps2dev / "ps2sdk").rglob("include") if path.is_dir()
+    )
+    pgen_flags = [
+        *stage3i.v47.COMMON_FLAGS, "-Os", *stage3i.v47.PS2_DEFINES,
+        *stage3i.v47.include_args([
+            pgen, pgen / "ps2", pgen / "unzip", pgen / "zlib", newlib,
+            *modern_ps2_includes,
+        ]),
+    ]
+    unzip_object = args.build_dir / "pgen/unzip.o"
+    stage3i.compile_one(cc, pgen_flags, unzip_source, unzip_object)
+    objects["pgen:unzip"] = unzip_object
+
+    gslib_archive = pgen / "lib/gslib051/lib/libgs.a"
+    if digest(gslib_archive.read_bytes()) != PGEN_GSLIB_SHA256:
+        fail("PGEN GSLIB archive identity drift")
+    gslib_dir = args.build_dir / "pgen-gslib"
+    gslib_dir.mkdir(parents=True, exist_ok=True)
+    ar = cxx.with_name("ee-ar")
+    for member in ("gsDriver.o", "gsPipe.o", "gsFont.o"):
+        run([ar, "x", gslib_archive, member], cwd=gslib_dir)
+        objects[f"gslib:{Path(member).stem}"] = gslib_dir / member
 
     objects.update({
         "runtime:terminate": args.runtime_build / "objects/libc/terminate.o",
@@ -468,6 +683,32 @@ def verify_generated_object(path: Path) -> None:
             fail(f"generated geometry drift: {row['name']}")
 
 
+def prepare_semantic_object(args: argparse.Namespace, cxx: Path) -> Path:
+    if digest(args.semantic_source.read_bytes()) != SEMANTIC_SOURCE_SHA256:
+        fail("semantic source identity drift")
+    output = args.build_dir / "window11-semantics.o"
+    stage3i.compile_one(
+        cxx,
+        ("-G0", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900"),
+        args.semantic_source,
+        output,
+    )
+    elf = ELFFile(output)
+    for spec in SEMANTIC_SECTIONS:
+        item = section(elf, spec["section"])
+        raw = stage3i.section_bytes(elf, item)
+        relocs = historical_data.relocations(elf, item.index)
+        if item.type != 1 or len(raw) != spec["size"]:
+            fail(f"semantic geometry drift: {spec['name']}")
+        if digest(raw) != spec["raw_sha256"]:
+            fail(f"semantic payload drift: {spec['name']}")
+        if len(relocs) != spec["relocations"] or any(
+            kind != 2 for _offset, kind, _name in relocs
+        ):
+            fail(f"semantic relocation roster drift: {spec['name']}")
+    return output
+
+
 def update_linker_script(base_script: str, input_path: Path,
                          sections: Sequence[dict]) -> tuple[str, list[dict]]:
     by_name = {row["section"]: row for row in sections}
@@ -485,7 +726,9 @@ def update_linker_script(base_script: str, input_path: Path,
     marker = "  .bss.stage3g.crt0 0x00426e80"
     insertion = "\n".join(
         f"  {row['section']} 0x{row['address']:08x} : {{ KEEP(*({row['section']})) }}"
-        for row in sorted(SOURCE_SECTIONS, key=lambda item: item["address"])
+        for row in sorted(
+            (*SOURCE_SECTIONS, *SEMANTIC_SECTIONS), key=lambda item: item["address"]
+        )
     )
     if script.count(marker) != 1:
         fail("Stage-3N linker insertion marker drift")
@@ -498,8 +741,14 @@ def update_linker_script(base_script: str, input_path: Path,
     script = script.replace(discard_marker, f"{discarded_text} {discard_marker}", 1)
 
     aliases = stage3n.stage3l.absorbed_aliases(input_path, sections, ABSORBED_FIXED)
+    semantic_assignments = {
+        name: address for name, address in LINK_SYMBOLS.items() if name not in aliases
+    }
+    if len(semantic_assignments) != len(LINK_SYMBOLS):
+        fail("semantic linker symbol collides with prior alias")
     assignments = "".join(
-        f"{name} = 0x{address:08x};\n" for name, address in sorted(aliases.items())
+        f"{name} = 0x{address:08x};\n"
+        for name, address in sorted({**aliases, **semantic_assignments}.items())
     )
     discarded = (
         set(stage3n.stage3l.stage3k.ABSORBED_FIXED)
@@ -548,6 +797,7 @@ def probe(args: argparse.Namespace) -> dict:
 
     args.build_dir.mkdir(parents=True, exist_ok=True)
     objects = prepare_objects(args, cxx)
+    semantic_object = prepare_semantic_object(args, cxx)
     payloads = rebuild_payloads(objects, reference, args.build_dir)
     payload_source = args.build_dir / "window11-rodata.S"
     payload_source.write_text(render_payload_source(payloads), encoding="utf-8")
@@ -566,7 +816,10 @@ def probe(args: argparse.Namespace) -> dict:
     linker_script = args.build_dir / "window11-rodata.ld"
     linker_script.write_text(script, encoding="utf-8")
     output = args.build_dir / "stage3o-window11-rodata-integrated.elf"
-    run([linker, "-EL", "-T", linker_script, "-o", output, *prior_inputs, payload_object])
+    run([
+        linker, "-EL", "-T", linker_script, "-o", output,
+        *prior_inputs, payload_object, semantic_object,
+    ])
 
     elf = ELFFile(output)
     startup.verify_symbols(elf)
@@ -579,6 +832,17 @@ def probe(args: argparse.Namespace) -> dict:
         actual = stage3i.section_bytes(elf, item)
         if item.address != row["address"] or actual != target:
             fail(f"linked window-11 section differs: {row['name']}")
+    for row in SEMANTIC_SECTIONS:
+        item = section(elf, row["section"])
+        target = reference[
+            row["address"] - TARGET_BASE:row["address"] - TARGET_BASE + row["size"]
+        ]
+        actual = stage3i.section_bytes(elf, item)
+        if (
+            item.address != row["address"] or actual != target
+            or digest(actual) != row["linked_sha256"]
+        ):
+            fail(f"linked semantic section differs: {row['name']}")
 
     raw_path = args.build_dir / "stage3o-window11-rodata-integrated.unpadded.bin"
     padded_path = args.build_dir / "stage3o-window11-rodata-integrated.padded.bin"
@@ -594,6 +858,9 @@ def probe(args: argparse.Namespace) -> dict:
         "source_sections": len(SOURCE_SECTIONS),
         "source_bytes": sum(row["size"] for row in SOURCE_SECTIONS),
         "source_relocations": sum(row["relocations"] for row in SOURCE_SECTIONS),
+        "semantic_sections": len(SEMANTIC_SECTIONS),
+        "semantic_bytes": sum(row["size"] for row in SEMANTIC_SECTIONS),
+        "semantic_relocations": sum(row["relocations"] for row in SEMANTIC_SECTIONS),
         "absorbed_fixed_sections": len(ABSORBED_FIXED),
         "window11_differing_bytes": sum(
             a != b for a, b in zip(
@@ -633,6 +900,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--stage3n-build", type=Path, default=DEFAULT_STAGE3N)
     parser.add_argument("--runtime-build", type=Path, default=DEFAULT_RUNTIME)
     parser.add_argument("--source-tree", type=Path, default=DEFAULT_SOURCE_TREE)
+    parser.add_argument("--semantic-source", type=Path, default=DEFAULT_SEMANTIC_SOURCE)
     parser.add_argument("--build-dir", type=Path, default=DEFAULT_BUILD)
     parser.add_argument("--compiler", default="ee-g++")
     parser.add_argument("--ld")
@@ -661,9 +929,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                 fail("private result differs from frozen manifest")
         result = document["result"]
         print(
-            "verified window-11 public rodata: "
+            "verified window-11 data: "
             f"source={result['source_sections']} sections/{result['source_bytes']} bytes; "
-            f"relocations={result['source_relocations']}"
+            f"semantic={result['semantic_sections']} sections/{result['semantic_bytes']} bytes; "
+            f"relocations={result['source_relocations'] + result['semantic_relocations']}"
         )
         print(
             f"window11 remaining={result['window11_differing_bytes']} bytes; "

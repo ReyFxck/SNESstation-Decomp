@@ -36,9 +36,9 @@ class CodeWindowsTests(unittest.TestCase):
         result = self.document["result"]
         self.assertEqual(6 * 65536, result["source_bytes"])
         self.assertEqual(7088, result["residual_bytes"])
-        self.assertEqual((45, 6), (result["exact_chunks"], result["mismatching_chunks"]))
-        self.assertEqual([1, 2, 3, 4, 5, 6, *range(12, 51)], result["exact_chunk_indices"])
-        self.assertEqual([0, 7, 8, 9, 10, 11], result["mismatching_chunk_indices"])
+        self.assertEqual((46, 5), (result["exact_chunks"], result["mismatching_chunks"]))
+        self.assertEqual([1, 2, 3, 4, 5, 6, *range(11, 51)], result["exact_chunk_indices"])
+        self.assertEqual([0, 7, 8, 9, 10], result["mismatching_chunk_indices"])
 
     def test_private_payload_is_not_frozen(self):
         self.assertFalse(self.document["claims"]["private_target_bytes_stored"])
@@ -51,7 +51,7 @@ class CodeWindowsTests(unittest.TestCase):
         changed["claims"]["replacement_elf"] = True
         self.reject(changed)
         changed = copy.deepcopy(self.document)
-        changed["result"]["exact_chunks"] = 46
+        changed["result"]["exact_chunks"] = 45
         self.reject(changed)
 
     def test_evidence_rebuild_preserves_ledger_bytes(self):
