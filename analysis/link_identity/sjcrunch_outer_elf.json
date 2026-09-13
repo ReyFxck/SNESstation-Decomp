@@ -1,0 +1,74 @@
+{
+  "archive": {
+    "sha256": "d9ca63a08757371871569d4723c745cd7ad5aa3b54d0549a241b8300d844e812",
+    "size": 50644,
+    "url": "https://sksapps.haldrie.com/files/ps2/mis/mis/sjcrunch-2.1.zip"
+  },
+  "build": {
+    "container_sha256": "597bdcee162d4f197154eaa58131799643ab2c061bb127bf4c9b7c91e9cce078",
+    "container_size": 714268,
+    "entry_address": 28311560,
+    "output_sha256": "4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487",
+    "output_size": 726968,
+    "start_address": 28311552
+  },
+  "format": "snesstation-sjcrunch2-outer-elf",
+  "linked_inputs": [
+    {
+      "path": "script/crunch_crt0.o",
+      "role": "loader startup object",
+      "sha256": "74dadd2d5648550be1324ef62434adbbeab3b714edef86ac53b92c8f2e8dd2e8",
+      "size": 2592
+    },
+    {
+      "path": "script/libsjcrunch.a",
+      "role": "loader and miniLZO archive",
+      "sha256": "54d8c47dc57547263101010774422cee6c33844dbad55d37d861d6db2ed02987",
+      "size": 16326
+    },
+    {
+      "path": "script/linkfile",
+      "role": "loader linker script",
+      "sha256": "777d45817d1fac3a54a43421d75b48c941437c0f9765be6e36d791bc9e097320",
+      "size": 696
+    }
+  ],
+  "package": {
+    "author": "Sjeep",
+    "name": "SjCRUNCH",
+    "version": "2.1"
+  },
+  "schema_version": 1,
+  "source_evidence": [
+    {
+      "path": "readme.txt",
+      "sha256": "dff676d0936c8c6e2d9bad4e03a7480ca36067ca0e61e3ea147f7a1e4e8b52ea",
+      "size": 2924
+    },
+    {
+      "path": "ee/crt0.s",
+      "sha256": "2c5d1a09abc79342322b885e24e6edd0728d1080c4dabb1dbcf37afe6c403470",
+      "size": 2292
+    },
+    {
+      "path": "ee/main.c",
+      "sha256": "8764efbc2e7eddda01eeddf005cdcf1480911c0d34b68de2abe5562dd9f80f1f",
+      "size": 2915
+    },
+    {
+      "path": "ee/minilzo.c",
+      "sha256": "43e11d443ea0db6555c11802ae93d242ad202dc56a47362642505fc28a012c63",
+      "size": 68503
+    },
+    {
+      "path": "ee/minilzo.h",
+      "sha256": "898082caac1a1b16a5635537f6e73a17d842e419f9fb11e458c457d022e30b1d",
+      "size": 3129
+    },
+    {
+      "path": "pc/sjcrunch_packer.c",
+      "sha256": "6964023389a933fa4560a230342782b2e64c43bfba14bc10ebe01ec09f44e3cd",
+      "size": 8147
+    }
+  ]
+}

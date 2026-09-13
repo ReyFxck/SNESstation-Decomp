@@ -937,7 +937,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             f"window11 remaining={result['window11_differing_bytes']} bytes; "
             f"whole-image chunks={result['exact_chunks']}/51 "
-            f"differing_bytes={result['differing_bytes']}; replacement ELF: not yet"
+            f"differing_bytes={result['differing_bytes']}; complete ELF verified separately"
         )
         return 0
     except (

@@ -8,8 +8,8 @@ the meaning of each headline number and the normal build commands.
 | Document | Purpose |
 |---|---|
 | [`status/PROJECT_STATUS.generated.md`](status/PROJECT_STATUS.generated.md) | Machine-generated current scoreboard |
-| [`ROADMAP.md`](ROADMAP.md) | Completed work and remaining final-ELF blockers |
-| [`BOTTLENECKS.md`](BOTTLENECKS.md) | Short list of the five remaining image windows and link work |
+| [`ROADMAP.md`](ROADMAP.md) | Closed definition of done and optional future research |
+| [`BOTTLENECKS.md`](BOTTLENECKS.md) | Current research frontier after exact ELF completion |
 | [`RECOVERY_HISTORY.md`](RECOVERY_HISTORY.md) | Historical origin and status of recovered code |
 | [`TOOLS.md`](TOOLS.md) | Supported commands, implementation tools and versions |
 
@@ -17,7 +17,7 @@ the meaning of each headline number and the normal build commands.
 
 | Document | Purpose |
 |---|---|
-| [`REPRODUCTION.md`](REPRODUCTION.md) | Public checks, private reference gates and final identity requirements |
+| [`REPRODUCTION.md`](REPRODUCTION.md) | Public checks, private reference gates and exact final artifact |
 | [`MATCHING_WORKFLOW.md`](MATCHING_WORKFLOW.md) | Evidence required for a strict function match |
 | [`DECOMP_PLAYBOOK.md`](DECOMP_PLAYBOOK.md) | Reverse-engineering workflow |
 | [`HISTORICAL_EE_TOOLCHAIN.md`](HISTORICAL_EE_TOOLCHAIN.md) | Reproducible historical compiler build |

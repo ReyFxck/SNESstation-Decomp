@@ -13,6 +13,9 @@ obtained `SNES_EMU.ELF`; generated target bytes remain under ignored `build/`.
 - SJCRUNCH2 reproduction uses a host `liblzo2` exposing
   `lzo1x_999_compress_level`; set `SNESSTATION_LZO_LIBRARY` when it is not in
   the system loader path.
+- The final wrapper uses the public SjCRUNCH 2.1 archive. The pipeline fetches
+  it from the recorded mirror and verifies its archive and member hashes before
+  linking.
 - Private comparison requires the reference ELF whose hash is listed below.
 
 Tool and dependency versions are recorded in [`TOOLS.md`](TOOLS.md) and
@@ -74,8 +77,9 @@ make reproduce-check
 | Remaining unpacked-image differences | 0 bytes |
 | Exact compressed blocks | 13/13 |
 | Exact SJCRUNCH2 container | 714,268/714,268 bytes |
-| Loader stub and outer ELF remaining | 12,700 bytes |
-| Packed replacement ELF | Not yet |
+| Exact loader stub and outer ELF | 12,700/12,700 bytes |
+| Packed replacement ELF | 726,968/726,968 bytes |
+| Packed SHA-256 | `4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487` |
 
 The exact windows are **0–50**. A window is counted only when all 65,536 bytes
 match; the shorter final window is checked to the initialized-image boundary.
@@ -97,11 +101,14 @@ This command runs the maintained sequence:
 6. build the current whole-image candidate and compare all 51 windows;
 7. rebuild and compare all 13 LZO1X-999 level-8 blocks and the complete
    SJCRUNCH2 container;
-8. stop at the unfinished loader-stub/outer-ELF boundary.
+8. fetch and verify the public SjCRUNCH 2.1 source/object archive;
+9. link and strip the historical loader around the exact container;
+10. compare all 726,968 bytes and the final SHA-256 with the private reference.
 
-The final stop is intentional. The compressed payload is exact, but the loader
-stub and outer ELF must still be rebuilt from public source rather than copied
-from the private reference.
+The public archive supplies `crunch_crt0.o`, `libsjcrunch.a`, its matching
+source and the linker script. The build adds the historical empty `.pdr`
+section, whose presence is required for an identical section table. No wrapper
+or metadata bytes are copied from the private reference.
 
 ## Public/private boundary
 
@@ -125,9 +132,9 @@ Private products are written only below ignored `build/`. The manifest checks
 also reject host-specific absolute paths so local proof data cannot leak into a
 commit.
 
-## Final identity requirements
+## Final identity result
 
-The project is complete only when all of the following agree with the target:
+All of the following now agree with the target:
 
 - all 51 unpacked-image windows;
 - entry point and program headers;
@@ -138,6 +145,6 @@ The project is complete only when all of the following agree with the target:
 - SJCRUNCH2/LZO loader stub and outer ELF metadata;
 - packed and unpacked SHA-256 values.
 
-Current priorities are listed in [`ROADMAP.md`](ROADMAP.md). Historical details
-about recovered source and compiler candidates are in
+The resulting file is `build/SNES_EMU.rebuilt.ELF`. Historical details about
+recovered source and compiler candidates are in
 [`RECOVERY_HISTORY.md`](RECOVERY_HISTORY.md).

@@ -40,11 +40,9 @@ show_status() {
     printf '  - Whole-image diagnostic: 51/51 windows exact; 0 bytes differ\n'
     printf '  - SJCRUNCH2 compression: 13/13 LZO1X-999 level-8 blocks exact\n'
     printf '  - SJCRUNCH2 container: 714,268/714,268 bytes exact\n'
-    printf '\nExact replacement ELF still requires:\n'
-    printf '  - complete Stage-3F object/array extents; 354 lack access witnesses\n'
-    printf '  - historical member data and original whole-archive composition\n'
-    printf '  - exact sections, relocations, linker script and link order\n'
-    printf '  - reproduced 12,700-byte loader stub and outer ELF metadata\n'
+    printf '  - SjCRUNCH 2.1 public loader/outer ELF: 12,700/12,700 bytes exact\n'
+    printf '  - complete packed ELF: 726,968/726,968 bytes exact\n'
+    printf '  - packed SHA-256: 4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487\n'
 }
 
 require_reference() {
@@ -62,42 +60,12 @@ case "$MODE" in
     verify)
         make check
         require_reference
-        make runtime-overrides
-        make unnamed-data
-        make data-backing
-        make link-layout-probe-check
-        make startup-integration-check
-        make frontend-eh-frames-check
-        make historical-tail-data-check
-        make runtime-tail-data-check
-        make tail-metadata-check
-        make window36-data-check
-        make media-assets-check
-        make window35-data-check
-        make window11-rodata-check
-        make sjcrunch-packing-check
-        make layout-oracle-check
-        make elf-status
+        make sjcrunch-outer-elf-check layout-oracle-check elf-status
         ;;
     full)
         make check
         require_reference
-        make runtime-overrides
-        make unnamed-data
-        make data-backing
-        make link-layout-probe-check
-        make startup-integration-check
-        make frontend-eh-frames-check
-        make historical-tail-data-check
-        make runtime-tail-data-check
-        make tail-metadata-check
-        make window36-data-check
-        make media-assets-check
-        make window35-data-check
-        make window11-rodata-check
-        make sjcrunch-packing-check
-        make layout-oracle-check
-        make elf
+        make sjcrunch-outer-elf-check layout-oracle-check elf-status
         ;;
     *)
         printf 'Usage: %s [status|verify|full]\n' "$0" >&2

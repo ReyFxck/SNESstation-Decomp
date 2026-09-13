@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Rebuild and verify the public SJCRUNCH2 compressed container.
 
-The loader stub and outer ELF are deliberately outside this tool.  A private
+The loader stub and outer ELF have a separate public-source gate.  A private
 check may compare the generated container with a legally obtained reference,
 but no reference payload is copied into the repository.
 """
@@ -104,12 +104,19 @@ def validate_packing_manifest(manifest: dict[str, object]) -> None:
     trailing_size = require_int(outer_elf, "trailing_size", 1)
     if prefix_size != header_offset:
         raise PackingError("outer ELF prefix does not end at the container")
-    if require_int(outer_elf, "unreproduced_size", 1) != prefix_size + trailing_size:
+    reproduced = outer_elf.get("reproduced")
+    if not isinstance(reproduced, bool):
+        raise PackingError("outer ELF reproduction state must be boolean")
+    expected_remaining = 0 if reproduced else prefix_size + trailing_size
+    if require_int(outer_elf, "unreproduced_size") != expected_remaining:
         raise PackingError("outer ELF unreproduced byte count is inconsistent")
     require_sha256(outer_elf, "prefix_sha256")
     require_sha256(outer_elf, "trailing_sha256")
-    if outer_elf.get("reproduced") is not False:
-        raise PackingError("outer ELF must remain explicitly unreproduced")
+    if reproduced:
+        if require_int(outer_elf, "reproduced_size", 1) != prefix_size + trailing_size:
+            raise PackingError("outer ELF reproduced byte count is inconsistent")
+        if outer_elf.get("reproduction_manifest") != "analysis/link_identity/sjcrunch_outer_elf.json":
+            raise PackingError("outer ELF reproduction manifest is missing")
 
     if evidence.get("embedded_minilzo_version") != "1.08":
         raise PackingError("embedded miniLZO version evidence must remain 1.08")
@@ -364,7 +371,7 @@ def run_pack(args: argparse.Namespace, *, compare_reference: bool) -> None:
     print(f"container_sha256={sha256_bytes(container)}")
     outer = packing["outer_elf"]
     assert isinstance(outer, dict)
-    print(f"outer_elf_remaining={outer['unreproduced_size']} bytes (stub and ELF metadata)")
+    print(f"outer_elf_remaining={outer['unreproduced_size']} bytes")
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:

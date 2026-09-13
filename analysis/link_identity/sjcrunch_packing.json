@@ -108,10 +108,12 @@
   "outer_elf": {
     "prefix_sha256": "534f5f55ff58c12533178fb83e163b8e7789b2a75bb40d3c24231b82184408c5",
     "prefix_size": 12032,
-    "reproduced": false,
+    "reproduced": true,
+    "reproduced_size": 12700,
+    "reproduction_manifest": "analysis/link_identity/sjcrunch_outer_elf.json",
     "trailing_sha256": "6b01709c5833c8090d5ab5da6e2dbbcbaf568f47c4ba4e4598ac331699ecb552",
     "trailing_size": 668,
-    "unreproduced_size": 12700
+    "unreproduced_size": 0
   },
   "schema_version": 1,
   "version_evidence": {

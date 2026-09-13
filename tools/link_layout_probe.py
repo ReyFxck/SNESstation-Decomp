@@ -346,7 +346,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         print(
             f"diagnostic entry=0x{result['diagnostic_entry_address']:08x}; "
-            f"target entry=0x{result['target_entry_address']:08x}; replacement ELF: not yet"
+            f"target entry=0x{result['target_entry_address']:08x}; complete ELF verified separately"
         )
         return 0
     except (

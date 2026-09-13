@@ -51,7 +51,7 @@ matching attempt from silently substituting a modern library.
 | linked `libsupc++` / C++ EH | GCC 3.2.2-era ABI/runtime family | RTTI vtables, EH globals, personality and exception-object layout | Use the historical Itanium ABI implementation; modern libstdc++ is structurally different. |
 | EE libc / allocator / stdio | old PS2LIB/Newlib-era snapshot; exact bundle unknown | Recovered `malloc`, formatter, string/ctype and syscall behavior matches the early PS2DEV corridor, but no global libc version string exists | Treat each archive family separately; the `mathfp` fingerprint below does not prove that every libc object came from Newlib 1.10.0. |
 | Newlib `mathfp` | `1.10.0` source fingerprint | Polynomial tables, function ordering and EE-specific leaf substitutions; official archive hash pinned below | Strong fingerprint, not an embedded version string. Preserve `-mlong64` quirks and compare the target's hardware `sqrtf`/`fabsf` leaves instead of assuming generic upstream bodies. |
-| executable packer | SJCRUNCH2; exact wrapper revision unknown | Deterministic 13-block layout at file offset `0x2f00`; every block and the complete 714,268-byte container reproduce exactly | Compression is closed; rebuild the remaining loader stub and outer ELF from public source. |
+| executable packer | SjCRUNCH `2.1` by Sjeep | The hash-pinned public archive supplies the corresponding source, startup object, loader archive and linker script; with the exact container it emits the frozen packed SHA-256 | Wrapper revision, section geometry and complete packed ELF are closed. |
 | LZO used by SJCRUNCH2 | LZO1X-999 level 8; embedded miniLZO 1.08 | The stub date `12-Jul-2002` identifies miniLZO 1.08; liblzo 2.10 level 8 emits byte-identical compressed data for all 13 blocks | Compression output is stable across the verified versions. The host library is a build dependency, not proof of the lost wrapper revision. |
 | IOP-module compiler | GCC 2-family, exact release unknown | `gcc2_compiled.` / `__gnu_compiled_c` symbols in intact embedded IRXs | Preserve each IRX blob by hash until its original toolchain is independently recovered. |
 
@@ -86,6 +86,7 @@ SJCRUNCH row, which belongs to the packed ELF stub.
 | Embedded AmigaMod IRX | 20,061 bytes (`0x4e5d`) | `0x0f6140` | `25d8b8b8e0a9ec1a28ff944eb2a21f53b87125d4f7f74ddb5f93d4621005a3e3` |
 | Historical Snes9x 1.41 source archive used for validation | 1,012,496 bytes | — | `f24e5761fd91078c124241e8631370a6bd182b8dde9661d24e9761898d1838f3` |
 | Official Newlib 1.10.0 source archive | downloaded by `tools/fetch_upstream.py` | — | `69b62ad4c746a9acaf4f898772549f6da49f228f83a95efce7e88ae1d88c5a84` |
+| Public SjCRUNCH 2.1 source/object archive | 50,644 bytes | — | `d9ca63a08757371871569d4723c745cd7ad5aa3b54d0549a241b8300d844e812` |
 | Official GNU binutils 2.14 source archive | 14,269,432 bytes | — | `ba91202a1aefca79f5eeb534e6c4235c874b220a2975725296712e42e6b91df1` |
 | Official GNU GCC 3.2.2 source archive | 26,664,960 bytes | — | `a0a626b10be8f793349a5309dd054a224c00772c83207d0354499c17e8deb187` |
 

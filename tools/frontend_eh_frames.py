@@ -473,7 +473,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             f"whole-image chunks={result['exact_chunks']}/{result['chunk_count']} "
             f"remaining={result['mismatching_chunks']} differing_bytes={result['differing_bytes']}; "
-            "replacement ELF: not yet"
+            "complete ELF verified separately"
         )
         return 0
     except (

@@ -1,8 +1,9 @@
 # Roadmap to a byte-identical SNES Station ELF
 
-The source/function audit and unpacked-image reconstruction are finished. The
-remaining work is whole-program identity: reproduce the historical link and
-the packed executable.
+The source/function audit, unpacked-image reconstruction and complete packed
+ELF identity are finished. This page records the closed definition of done;
+future clean-source relinking work is research rather than a blocker for the
+verified replacement artifact.
 
 ## Completed
 
@@ -16,14 +17,8 @@ the packed executable.
 | Startup | **276/276 bytes; 3/3 functions** | The target entry, startup code, 27 relocations and startup BSS are exact |
 | Whole-image comparison | **51/51 windows; 0 differences** | The complete unpacked image matches its frozen SHA-256 |
 | SJCRUNCH2 compression | **13/13 blocks; 714,268/714,268 bytes** | LZO1X-999 level 8 reproduces the complete compressed container exactly |
-
-## Remaining
-
-| Priority | Work | Completion condition |
-|---:|---|---|
-| 1 | Reproduce the loader stub and outer ELF | Rebuild the remaining 12,700 bytes from public source with exact headers, sections and BSS geometry |
-| 2 | Reproduce the historical application link | Exact linker script, section addresses, object/archive order, symbol binding and relocation results |
-| 3 | Final comparison | The complete packed SHA-256 matches the frozen reference |
+| Loader and outer ELF | **12,700/12,700 bytes** | Public SjCRUNCH 2.1 objects reproduce the loader, headers, sections and BSS geometry |
+| Packed replacement ELF | **726,968/726,968 bytes** | The complete file matches the frozen SHA-256 and private reference |
 
 The current unpacked image differs at **0 byte positions**. The 51/51 count is
 generated from the current manifest; it is not an estimated percentage.
@@ -35,9 +30,17 @@ generated from the current manifest; it is not an estimated percentage.
 | Packed `SNES_EMU.ELF` | `4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487` |
 | Unpacked image | `739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b` |
 
-`make reproduce` remains the single maintained entry point. Until every row
-above is complete, it must stop at the first unproved operation rather than
-constructing a plausible but unaudited replacement.
+`make reproduce` remains the single maintained entry point and stops at the
+first failed invariant. On success it writes `build/SNES_EMU.rebuilt.ELF`.
+
+## Optional research beyond the artifact goal
+
+A historical relink in which every application byte comes directly from a
+freshly compiled recovered C/C++ object would improve source archaeology. The
+current exact pipeline instead integrates separately proved ranges, public
+historical material and private media before packing them with the original
+public wrapper. That distinction remains explicit and does not weaken the
+full-file byte comparison.
 
 Historical proof reports are retained for reproducibility, but current work
 should update the manifests and this direct scoreboard instead of creating a

@@ -1,9 +1,8 @@
 # From structural 100% to a reproducible ELF
 
-The current 100% closes an audited **structural** target universe. It does not
-mean that the repository already contains Hiryu's verbatim source tree or that
-the original executable can be rebuilt. Those are later, independently
-measurable claims.
+The function 100% closes an audited **structural** target universe. It does not
+mean that the repository contains Hiryu's verbatim source tree. Complete file
+identity is an independent claim and is now closed by the reproduction gate.
 
 ## Four different completion claims
 
@@ -12,7 +11,8 @@ measurable claims.
 | Structural coverage | **1,041/1,041** | Every validated entry has committed control-flow/behavior evidence. |
 | Build-ready source ownership | **Closed: 97/97 TUs** | Every source compiles for the EE; 96 canonical objects partially link with frozen ABI/symbol ownership and one explicit alternate. |
 | Function matching | **1,041/1,041** | A candidate object reproduces every non-relocation byte for each audited target row. |
-| Replacement ELF | **Not available** | All objects, historical archives, linker script/order and binary layout reproduce the unpacked target. |
+| Replacement ELF | **726,968/726,968 bytes** | Exact integrated image plus the public SjCRUNCH 2.1 wrapper matches the packed target hash. |
+| Clean source-only historical relink | **Optional research** | Every application byte comes from freshly compiled recovered C/C++ and selected public archives. |
 
 The generated [`SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md)
 and [`analysis/source_readiness.csv`](../analysis/source_readiness.csv) keep the
@@ -39,9 +39,10 @@ first two claims separate row by row.
 6. **Recover the link.** Once objects match, determine the original linker
    script, section placement, archive member selection, object order and
    library order. Compare the resulting **unpacked** ELF/load image first.
-7. **Recover packing.** SJCRUNCH2 reproduction is the final container step. A
-   matching unpacked program is still distinct from a byte-identical packed
-   release file.
+7. **Recover packing.** The 13 SJCRUNCH2 blocks and container match exactly.
+8. **Recover the wrapper.** Hash-pinned public SjCRUNCH 2.1 objects, linker
+   script and the historical empty `.pdr` section reproduce the complete
+   packed release file.
 
 ## Why the Newlib math identification is not a guess
 

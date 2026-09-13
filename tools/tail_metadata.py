@@ -489,7 +489,7 @@ def main(argv: Sequence[str] | None=None) -> int:
             if args.command=="capture":args.manifest.parent.mkdir(parents=True,exist_ok=True);args.manifest.write_text(json.dumps(doc,indent=2,sort_keys=True)+"\n",encoding="utf-8")
             elif validate(args)!=doc:fail("private result differs from frozen manifest")
         r=doc["result"];print(f"verified tail metadata: source={r['source_sections']} sections/{r['source_bytes']} bytes; semantic={r['semantic_sections']} sections/{r['semantic_bytes']} bytes")
-        print(f"whole-image chunks={r['exact_chunks']}/51 remaining={r['mismatching_chunks']} differing_bytes={r['differing_bytes']} chunk50_differences={r['chunk50_differing_bytes']}; replacement ELF: not yet")
+        print(f"whole-image chunks={r['exact_chunks']}/51 remaining={r['mismatching_chunks']} differing_bytes={r['differing_bytes']} chunk50_differences={r['chunk50_differing_bytes']}; complete ELF verified separately")
         return 0
     except (TailMetadataError,stage3j.RuntimeTailError,stage3i.HistoricalTailError,OSError,ValueError,KeyError,RuntimeError) as exc:
         print(f"tail metadata: FAIL -- {exc}");return 1

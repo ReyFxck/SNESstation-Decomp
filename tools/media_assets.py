@@ -464,7 +464,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"remaining={result['mismatching_chunks']} "
             f"differing_bytes={result['differing_bytes']} "
             f"windows15_34_differences={result['windows15_34_differing_bytes']}; "
-            "replacement ELF: not yet"
+            "complete ELF verified separately"
         )
         return 0
     except (

@@ -19,8 +19,9 @@ history.
 | Public historical data | Pinned Snes9x, zlib, PGEN/gsLib and PS2 runtime source | Tables, constants, strings, vtables, unwind metadata and typed data intervals | 810,542 typed historical bytes plus a final 35,067-source-byte and 2,220-semantic-byte tranche that closes window 11 | `make window11-rodata-check` |
 | Embedded frontend media | Hash-verified private reference | Frontend background/logo/panel, music and Memory Card icon | Six containers integrated; payload remains private and untracked | `make media-assets` |
 | Whole-image code | Historical objects, recovered source, public instruction listings and labelled exact assembly | Complete 64 KiB code regions | 51/51 image windows exact; unpacked image hash matches | `make code-windows` |
-| Executable packing | SJCRUNCH2 and LZO | LZO1X-999 level 8, 13 blocks and exact container geometry | 714,268/714,268 container bytes exact; 12,700 outer ELF/stub bytes remain | `make sjcrunch-packing-check` |
-| Final executable | Historical link and SJCRUNCH2 loader stub | Exact object order, final relocations, linker script, stub and outer ELF metadata | Image and compressed container complete; final ELF identity remains | `make reproduce` |
+| Executable packing | SjCRUNCH 2.1 and LZO | LZO1X-999 level 8, 13 blocks and exact container geometry | 714,268/714,268 container bytes exact | `make sjcrunch-packing-check` |
+| Loader wrapper | Public SjCRUNCH 2.1 source/object archive by Sjeep | Startup object, loader/miniLZO archive, linker script and empty `.pdr` section | 12,700/12,700 wrapper and metadata bytes exact | `make sjcrunch-outer-elf-check` |
+| Final executable | Exact integrated image plus public SjCRUNCH wrapper | Complete packed file and private-reference identity | 726,968/726,968 bytes exact; packed SHA-256 matches | `make reproduce` |
 
 ## Preserved source candidates
 

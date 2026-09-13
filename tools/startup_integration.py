@@ -545,7 +545,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         print(
             f"first remaining difference=0x{result['first_differing_address']:08x}; "
-            f"chunks={result['exact_chunks']}/{result['chunk_count']}; replacement ELF: not yet"
+            f"chunks={result['exact_chunks']}/{result['chunk_count']}; complete ELF verified separately"
         )
         return 0
     except (StartupIntegrationError, data_backing.DataBackingError,

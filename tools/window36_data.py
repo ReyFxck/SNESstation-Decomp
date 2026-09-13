@@ -545,7 +545,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             elif validate(args) != doc: fail("private result differs from frozen manifest")
         result = doc["result"]
         print(f"verified window-36 data: source={result['source_sections']} sections/{result['source_bytes']} bytes/{result['source_relocations']} relocations; semantic={result['semantic_fdes']} FDEs")
-        print(f"whole-image chunks={result['exact_chunks']}/51 remaining={result['mismatching_chunks']} differing_bytes={result['differing_bytes']} window36_differences={result['window36_differing_bytes']}; replacement ELF: not yet")
+        print(f"whole-image chunks={result['exact_chunks']}/51 remaining={result['mismatching_chunks']} differing_bytes={result['differing_bytes']} window36_differences={result['window36_differing_bytes']}; complete ELF verified separately")
         return 0
     except (Window36Error, stage3k.TailMetadataError, stage3i.HistoricalTailError,
             data_backing.DataBackingError, OSError, ValueError, KeyError, RuntimeError) as exc:

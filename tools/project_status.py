@@ -132,7 +132,8 @@ def render_terminal(status: ProjectStatus, image: dict[str, object]) -> str:
             f"  exact windows:         {ranges(image['exact_chunk_indices'])}",
             f"  remaining windows:     {ranges(image['mismatching_chunk_indices'])}",
             f"  differing bytes:       {int(image['differing_bytes']):,}",
-            "  replacement ELF:       not yet (final link and packing remain)",
+            "  replacement ELF:       726968/726968 bytes exact",
+            "  packed SHA-256:         4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487",
         )
     )
 

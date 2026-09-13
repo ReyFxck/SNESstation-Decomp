@@ -195,7 +195,7 @@ def main() -> None:
     print(f"  canonical tag:        {report.tag}")
     print(f"  packed target:        {PACKED_SHA256}")
     print(f"  unpacked target:      {UNPACKED_SHA256}")
-    print("  replacement ELF:      not yet (not claimed by this checkpoint)")
+    print("  replacement ELF:      verified by the separate complete-file gate")
 
 
 if __name__ == "__main__":

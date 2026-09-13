@@ -5,7 +5,9 @@ image from historical/recovered objects, committed public instruction listings
 and explicitly labelled assembly proofs. All **51/51 64 KiB windows** match,
 with **0 differing bytes**.
 
-This remains an integration diagnostic, not the final replacement ELF.
+This gate remains an integration diagnostic by itself. The separate SjCRUNCH
+wrapper gate now consumes its exact image and produces the final replacement
+ELF.
 
 ## Evidence boundary
 
@@ -48,7 +50,8 @@ The public gate validates hashes, geometry, provenance and claim boundaries
 without the private image. The private gate rebuilds the evidence objects,
 links the diagnostic and compares every byte and all 51 hash windows.
 
-## What remains
+## Downstream result
 
-Prove the final section/archive/link identity, then reproduce SJCRUNCH2
-packing. The current diagnostic must not be distributed as a replacement ELF.
+`make reproduce` compresses this exact image, links the public SjCRUNCH 2.1
+wrapper and verifies all 726,968 bytes of the packed replacement ELF. The
+intermediate raw diagnostic should still not be distributed as an executable.

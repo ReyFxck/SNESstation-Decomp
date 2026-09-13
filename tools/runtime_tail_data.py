@@ -427,7 +427,7 @@ def main(argv: Sequence[str] | None = None) -> int:
               f"relocations={result['source_relocations']} fdes={result['unwind_fdes']}")
         print(f"whole-image chunks={result['exact_chunks']}/51 remaining={result['mismatching_chunks']} "
               f"differing_bytes={result['differing_bytes']} chunk50_differences={result['chunk50_differing_bytes']}; "
-              "replacement ELF: not yet")
+              "complete ELF verified separately")
         return 0
     except (RuntimeTailError, prior.HistoricalTailError, OSError, ValueError, KeyError, RuntimeError) as exc:
         print(f"runtime tail data: FAIL -- {exc}")

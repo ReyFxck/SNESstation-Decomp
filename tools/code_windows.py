@@ -985,7 +985,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             f"verified Stage-3P code windows: exact={result['exact_chunks']}/51; "
             f"source={result['source_bytes']} bytes; residual={result['residual_bytes']} bytes; "
-            f"differing_bytes={result['differing_bytes']}; replacement ELF: not yet"
+            f"differing_bytes={result['differing_bytes']}; complete ELF verified separately"
         )
         return 0
     except (CodeWindowsError, stage3o.Window11RodataError, OSError, ValueError, KeyError, RuntimeError) as exc:

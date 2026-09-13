@@ -24,11 +24,11 @@ release.
 | Whole-image windows | **51/51 (100.00%)** | Every 64 KiB window in the unpacked image matches exactly. | Complete |
 | Remaining byte differences | **0** | Byte positions still different in the 3,304,936-byte unpacked image. | Complete |
 | SJCRUNCH2 container | **714,268/714,268 bytes** | All 13 LZO1X-999 level-8 blocks and the complete container match exactly. | Complete |
-| Replacement ELF | **Not yet** | The 12,700-byte loader stub and outer ELF metadata remain to be rebuilt from public source. | In progress |
+| Replacement ELF | **726,968/726,968 bytes** | Public SjCRUNCH 2.1 artifacts rebuild the wrapper; the complete packed SHA-256 matches. | Complete |
 
-The **1,041/1,041** result measures the audited function frontier. It does not
-mean the complete ELF is already identical. The whole-image result is the
-direct measure for final linking progress.
+The **1,041/1,041** result measures the audited function frontier. The
+whole-image and packed-ELF rows are the direct byte-identity measures; both are
+now complete.
 
 Detailed machine-generated counts are in
 [`docs/status/PROJECT_STATUS.generated.md`](docs/status/PROJECT_STATUS.generated.md).
@@ -51,9 +51,9 @@ make reference
 make reproduce-check
 ```
 
-`make reproduce` is the stable one-command pipeline. It currently performs all
-implemented gates and stops at the unfinished final-link work instead of
-claiming an executable that has not been proved.
+`make reproduce` is the stable one-command pipeline. It verifies every public
+and private gate, fetches the hash-pinned public SjCRUNCH 2.1 package and emits
+the byte-identical replacement at `build/SNES_EMU.rebuilt.ELF`.
 
 Build the isolated historical compiler without installing it system-wide:
 
@@ -74,6 +74,7 @@ See [`docs/TOOLS.md`](docs/TOOLS.md) for the maintained command and tool table.
 | Frontend and renderer | SNES Station binary and early Hiryu gsLib lineage | Application flow and 30/30 renderer draw-family entries recovered |
 | Startup and image layout | Historical PS2 startup plus hash-only private oracle | Exact entry/startup and 51/51 whole-image windows reproduced |
 | Executable compression | SJCRUNCH2 plus LZO1X-999 | Level 8 identified; 13/13 blocks and the 714,268-byte container reproduce exactly |
+| Loader and packed ELF | Public SjCRUNCH 2.1 archive plus EE GCC/binutils 3.2.2/2.14 toolchain | Loader, metadata and complete 726,968-byte ELF reproduce exactly |
 
 The complete source-history table, including preserved compiler candidates and
 why they remain in the repository, is in
@@ -89,7 +90,7 @@ why they remain in the repository, is in
 | EE binutils | 2.14 candidate | Assembly and linking |
 | Python | 3.12 in CI | Audits, tests and report generation |
 | LLVM objdump | 20 | Generic disassembly pass |
-| SJCRUNCH2 | LZO1X-999 level 8; miniLZO 1.08 stub | Original executable packing |
+| SjCRUNCH | 2.1; LZO1X-999 level 8; miniLZO 1.08 stub | Original loader and executable packing |
 
 Evidence levels, immutable hashes and deliberately unknown revisions are
 listed in [`docs/DEPENDENCY_VERSIONS.md`](docs/DEPENDENCY_VERSIONS.md).
@@ -123,7 +124,7 @@ listed in [`docs/DEPENDENCY_VERSIONS.md`](docs/DEPENDENCY_VERSIONS.md).
 ## Documentation
 
 - [`docs/README.md`](docs/README.md) — short documentation index
-- [`docs/ROADMAP.md`](docs/ROADMAP.md) — completed work and remaining blockers
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — closed definition of done and optional research
 - [`docs/REPRODUCTION.md`](docs/REPRODUCTION.md) — exact reproduction process
 - [`docs/RECOVERY_HISTORY.md`](docs/RECOVERY_HISTORY.md) — recovered code and historical sources
 - [`docs/TOOLS.md`](docs/TOOLS.md) — commands, tools and versions

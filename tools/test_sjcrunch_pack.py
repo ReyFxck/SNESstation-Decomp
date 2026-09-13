@@ -135,8 +135,9 @@ class SJCrunchPackingTests(unittest.TestCase):
             "597bdcee162d4f197154eaa58131799643ab2c061bb127bf4c9b7c91e9cce078",
             manifest["container"]["sha256"],
         )
-        self.assertFalse(manifest["outer_elf"]["reproduced"])
-        self.assertEqual(12_700, manifest["outer_elf"]["unreproduced_size"])
+        self.assertTrue(manifest["outer_elf"]["reproduced"])
+        self.assertEqual(12_700, manifest["outer_elf"]["reproduced_size"])
+        self.assertEqual(0, manifest["outer_elf"]["unreproduced_size"])
 
 
 if __name__ == "__main__":

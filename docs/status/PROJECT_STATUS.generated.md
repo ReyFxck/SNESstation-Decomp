@@ -13,12 +13,12 @@
 | Exact 64 KiB image windows | **51/51** | Complete |
 | Remaining image differences | **0 bytes** | Complete |
 | Exact SJCRUNCH2 container | **714,268/714,268 bytes** | Complete |
-| Complete replacement ELF | **Not yet** | In progress |
+| Complete replacement ELF | **726,968/726,968 bytes** | Complete |
 
 The function count and the whole-image count answer different questions.
 **1,041/1,041** means the frozen function audit is closed. **51/51** means every
-64 KiB region of the rebuilt unpacked image matches the target. Final ELF
-link identity and packing remain separate gates.
+64 KiB region of the rebuilt unpacked image matches the target. The packed-ELF
+row independently closes the complete file identity.
 
 ## Completed proof areas
 
@@ -39,6 +39,8 @@ link identity and packing remain separate gates.
 | Exact startup | **276 bytes / 3 functions** | Target entry and 27 relocations reproduce exactly |
 | Embedded media | **6 containers / 1,284,388 bytes** | Privately verified and integrated without committing payload data |
 | SJCRUNCH2 compression | **13/13 blocks / 714,268 bytes** | LZO1X-999 level 8 reproduces the complete container byte for byte |
+| Loader and outer ELF | **12,700/12,700 bytes** | Hash-pinned public SjCRUNCH 2.1 objects reproduce the wrapper and ELF metadata |
+| Packed replacement ELF | **726,968/726,968 bytes** | Complete output matches the frozen packed SHA-256 |
 
 ## Whole-image comparison
 
@@ -54,15 +56,17 @@ link identity and packing remain separate gates.
 | Newly labelled exact scheduling residual | **36,340 bytes** |
 | Exact SJCRUNCH2 blocks | **13/13** |
 | Exact SJCRUNCH2 container | **714,268/714,268 bytes** |
-| Loader stub and outer ELF still open | **12,700 bytes** |
+| Exact loader stub and outer ELF | **12,700/12,700 bytes** |
+| Exact complete packed ELF | **726,968/726,968 bytes** |
 
-## Still open
+## Completion result
 
-1. Prove complete data/object bounds needed by the final link.
-2. Reproduce the exact linker script, section placement, object/archive order
-   and remaining relocation results.
-3. Reproduce the 12,700-byte loader stub and outer ELF metadata.
-4. Match the frozen packed target hash.
+The maintained pipeline now rebuilds the complete packed ELF and verifies
+`4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487`. The exact-artifact goal is complete.
+
+A clean historical relink of every application object directly from recovered
+C/C++ remains a distinct research track. It is not substituted for, or confused
+with, the byte-identical evidence integration that produces the verified ELF.
 
 The original ELF and generated private payloads remain ignored. Public status
 is derived only from committed manifests; private checks compare a

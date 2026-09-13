@@ -1,13 +1,14 @@
-# Current bottlenecks
+# Current frontier
 
-Function recovery and unpacked-image identity are complete. The remaining work
-is exact ELF link identity and packed-file identity.
+Function recovery, unpacked-image identity and packed-file identity are
+complete. The remaining items below are optional source-archaeology work; they
+do not block the verified replacement ELF.
 
 | Blocker | Current state | Required result |
 |---|---|---|
-| Historical link | Incomplete | Exact linker script, section addresses, object/archive order and symbol binding |
-| Complete data bounds | Address identities are 1,265/1,265, but some full object/array extents are still unknown | Prove complete sizes, alignment, zero-fill and ownership where the final link depends on them |
-| Loader stub / outer ELF | 12,700 bytes remain outside the now-exact compressed container | Rebuild the stub, ELF/program/section headers and trailing metadata from public source |
+| Clean historical application relink | Optional research | Replace evidence-integrated ranges with freshly compiled recovered objects while preserving exact identity |
+| Complete source-level data bounds | Address identities are 1,265/1,265, but some full object/array extents remain unknown | Improve source archaeology for sizes, alignment, zero-fill and ownership |
+| Loader stub / outer ELF | Closed: 12,700/12,700 bytes exact | Public SjCRUNCH 2.1 startup object, archive and linker script reproduce the wrapper |
 
 Current whole-image result:
 
@@ -19,13 +20,13 @@ Current whole-image result:
 | Remaining different bytes | **0** |
 | Exact compressed blocks | **13/13** |
 | Exact SJCRUNCH2 container | **714,268/714,268 bytes** |
-| Loader stub / outer ELF remaining | **12,700 bytes** |
-| Complete replacement ELF | **Not yet** |
+| Loader stub / outer ELF | **12,700/12,700 bytes** |
+| Complete replacement ELF | **726,968/726,968 bytes** |
 
 `make reproduce` is the authoritative workflow. `make check` validates the
 public evidence without the target, and `make reproduce-check` reruns all
 available private-reference gates.
 
-See [`ROADMAP.md`](ROADMAP.md) for the completion order and
+See [`ROADMAP.md`](ROADMAP.md) for the closed definition of done and
 [`RECOVERY_HISTORY.md`](RECOVERY_HISTORY.md) for what has already been
 recovered.

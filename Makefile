@@ -133,6 +133,10 @@ SJCRUNCH_PACKING_MANIFEST := analysis/link_identity/sjcrunch_packing.json
 SJCRUNCH_PACKING_BUILD_DIR := $(BUILD_DIR)/sjcrunch-packing
 SJCRUNCH_PACKING_OUTPUT := $(SJCRUNCH_PACKING_BUILD_DIR)/container.bin
 SJCRUNCH_LZO_ARG := $(if $(strip $(SNESSTATION_LZO_LIBRARY)),--lzo-library "$(SNESSTATION_LZO_LIBRARY)",)
+SJCRUNCH_OUTER_MANIFEST := analysis/link_identity/sjcrunch_outer_elf.json
+SJCRUNCH_ARCHIVE := $(BUILD_DIR)/upstream/sjcrunch-2.1.zip
+SJCRUNCH_OUTER_BUILD_DIR := $(BUILD_DIR)/sjcrunch-outer-elf
+SJCRUNCH_OUTER_OUTPUT := $(BUILD_DIR)/SNES_EMU.rebuilt.ELF
 DECOMPDEV_REPORT_CONTRACT := analysis/decompdev/report_contract.json
 DECOMPDEV_REPORT := $(BUILD_DIR)/decompdev/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
@@ -207,6 +211,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	window11-rodata window11-rodata-check window11-rodata-refresh window11-rodata-public-check \
 	code-windows code-windows-check code-windows-refresh code-windows-public-check \
 	sjcrunch-packing sjcrunch-packing-check sjcrunch-packing-public-check \
+	sjcrunch-source sjcrunch-outer-elf sjcrunch-outer-elf-check sjcrunch-outer-elf-public-check \
 	decompdev-report decompdev-report-check decompdev-report-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
@@ -232,11 +237,12 @@ help:
 	@echo "  make reference       verify and unpack original/SNES_EMU.ELF privately"
 	@echo "  make reproduce-check run every implemented public and private gate"
 	@echo "  make sjcrunch-packing-check  verify all 13 compressed blocks privately"
-	@echo "  make reproduce       run the complete maintained pipeline"
+	@echo "  make reproduce       build and verify the complete byte-identical ELF"
 	@echo "  make bootstrap-ee-stage1  build the historical EE C compiler"
 	@echo "  make bootstrap-ee-cxx-stage1  build the historical EE C/C++ compiler"
 	@echo "  make decompdev-report generate the public Objdiff report"
-	@echo "  make elf-status      show the remaining final-ELF blockers"
+	@echo "  make elf             rebuild the final ELF from prepared exact inputs"
+	@echo "  make elf-status      show final reproduction status"
 	@echo
 	@echo "See docs/TOOLS.md for commands and docs/RECOVERY_HISTORY.md for provenance."
 
@@ -306,7 +312,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check tail-metadata-public-check window36-data-public-check media-assets-public-check window35-data-public-check window11-rodata-public-check code-windows-public-check sjcrunch-packing-public-check decompdev-report-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check tail-metadata-public-check window36-data-public-check media-assets-public-check window35-data-public-check window11-rodata-public-check code-windows-public-check sjcrunch-packing-public-check sjcrunch-outer-elf-public-check decompdev-report-public-check
 	@echo "repository checks: OK"
 
 decompdev-report:
@@ -1244,6 +1250,27 @@ sjcrunch-packing-public-check:
 	$(PYTHON) tools/sjcrunch_pack.py validate \
 		--layout "$(UNPACKED_LAYOUT_MANIFEST)" --manifest "$(SJCRUNCH_PACKING_MANIFEST)"
 
+sjcrunch-source:
+	$(PYTHON) tools/sjcrunch_outer_elf.py fetch \
+		--manifest "$(SJCRUNCH_OUTER_MANIFEST)" --archive "$(SJCRUNCH_ARCHIVE)"
+
+sjcrunch-outer-elf: sjcrunch-source sjcrunch-packing
+	$(PYTHON) tools/sjcrunch_outer_elf.py build \
+		--manifest "$(SJCRUNCH_OUTER_MANIFEST)" --archive "$(SJCRUNCH_ARCHIVE)" \
+		--container "$(SJCRUNCH_PACKING_OUTPUT)" --compiler "$(EE_STAGE1_CC)" \
+		--build-dir "$(SJCRUNCH_OUTER_BUILD_DIR)" --output "$(SJCRUNCH_OUTER_OUTPUT)"
+
+sjcrunch-outer-elf-check: sjcrunch-source sjcrunch-packing-check
+	@test -f original/SNES_EMU.ELF || { echo "missing private reference: original/SNES_EMU.ELF" >&2; exit 2; }
+	$(PYTHON) tools/sjcrunch_outer_elf.py check \
+		--manifest "$(SJCRUNCH_OUTER_MANIFEST)" --archive "$(SJCRUNCH_ARCHIVE)" \
+		--container "$(SJCRUNCH_PACKING_OUTPUT)" --compiler "$(EE_STAGE1_CC)" \
+		--build-dir "$(SJCRUNCH_OUTER_BUILD_DIR)" --output "$(SJCRUNCH_OUTER_OUTPUT)" \
+		--reference original/SNES_EMU.ELF
+
+sjcrunch-outer-elf-public-check:
+	$(PYTHON) tools/sjcrunch_outer_elf.py validate --manifest "$(SJCRUNCH_OUTER_MANIFEST)"
+
 rom-offsets-public-check:
 	$(PYTHON) tools/rom_offsets.py validate
 
@@ -1516,17 +1543,14 @@ elf-status: audit-source-check
 	@echo "  remaining differences 0 bytes"
 	@echo "  compressed blocks      13/13 exact (LZO1X-999 level 8)"
 	@echo "  SJCRUNCH2 container    714268/714268 bytes exact"
+	@echo "  loader/outer ELF       12700/12700 bytes exact"
 	@echo
-	@echo "Complete replacement ELF: NOT YET"
-	@echo "  - prove complete object/array bounds needed by the link"
-	@echo "  - reproduce final relocations, linker script and object/archive order"
-	@echo "  - reproduce the 12700-byte loader stub/outer ELF and packed hash"
-	@echo "See docs/REPRODUCTION.md"
+	@echo "Complete replacement ELF: 726968/726968 bytes exact"
+	@echo "  SHA-256 4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487"
+	@echo "  output  $(SJCRUNCH_OUTER_OUTPUT)"
+	@echo "See docs/REPRODUCTION.md for the public/private evidence boundary."
 
-elf: elf-status
-	@echo "Refusing to emit a pretend replacement ELF." >&2
-	@echo "Close the recorded evidence gates before implementing this target." >&2
-	@exit 2
+elf: sjcrunch-outer-elf elf-status
 
 clean-matching:
 	rm -rf "$(MATCH_DIR)"
