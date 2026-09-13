@@ -606,14 +606,14 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | EE source ownership | **97/97 translation units** | Complete |
 | Runtime contracts | **{stage3d_closed}/53** | Complete |
 | Program-data address identities | **{backing_report['resolved_contracts']:,}/{backing_report['contracts_total']:,}** | Complete |
-| Exact 64 KiB image windows | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']}** | In progress |
-| Remaining image differences | **{code_window_result['differing_bytes']:,} bytes** | In progress |
+| Exact 64 KiB image windows | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']}** | Complete |
+| Remaining image differences | **{code_window_result['differing_bytes']:,} bytes** | Complete |
 | Complete replacement ELF | **Not yet** | In progress |
 
 The function count and the whole-image count answer different questions.
-**1,041/1,041** means the frozen function audit is closed. **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']}** means {code_window_result['exact_chunks']}
-complete 64 KiB regions of the rebuilt unpacked image match the target. The
-latter is the relevant number for final linking.
+**1,041/1,041** means the frozen function audit is closed. **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']}** means every
+64 KiB region of the rebuilt unpacked image matches the target. Final ELF
+link identity and packing remain separate gates.
 
 ## Completed proof areas
 
@@ -639,21 +639,21 @@ latter is the relevant number for final linking.
 | Measure | Result |
 |---|---:|
 | Unpacked target size | **{code_window_result['target_initialized_size']:,} bytes** |
-| Exact windows | **0–6 and 11–50** |
-| Remaining windows | **7–10** |
+| Exact windows | **0–50** |
+| Remaining windows | **None** |
 | Exact-window coverage | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']} ({pct(code_window_result['exact_chunks'], code_window_result['chunk_count']):.2f}%)** |
 | Remaining different bytes | **{code_window_result['differing_bytes']:,}** |
-| Proved source integrated across windows 0–6 | **{code_window_result['source_bytes']:,} bytes** |
+| Integrated code evidence across windows 0–10 | **{code_window_result['source_bytes']:,} bytes** |
+| Existing public instruction listings reused | **{code_window_result['listing_bytes']:,} bytes** |
 | Newly labelled exact scheduling residual | **{code_window_result['residual_bytes']:,} bytes** |
 
 ## Still open
 
-1. Close image windows 7–10.
-2. Prove complete data/object bounds needed by the final link.
-3. Reproduce the exact linker script, section placement, object/archive order
+1. Prove complete data/object bounds needed by the final link.
+2. Reproduce the exact linker script, section placement, object/archive order
    and remaining relocation results.
-4. Reproduce the SJCRUNCH2/LZO stub and packed container.
-5. Match both frozen target hashes.
+3. Reproduce the SJCRUNCH2/LZO stub and packed container.
+4. Match the frozen packed target hash.
 
 The original ELF and generated private payloads remain ignored. Public status
 is derived only from committed manifests; private checks compare a
@@ -673,8 +673,8 @@ user-supplied reference without publishing its bytes.
 | EE source ownership | **97/97 translation units** | All recovered units compile with the historical EE ABI; 96 canonical objects form the duplicate-free source aggregate. | Complete |
 | Runtime contracts | **{stage3d_closed}/53** | Every tracked PS2LIB, libc, libgcc and target-selected runtime dependency has an evidence-backed provider or refactor. | Complete |
 | Address identities | **{backing_report['resolved_contracts']:,}/{backing_report['contracts_total']:,}** | Every tracked program-data address has a proved identity; exact full object bounds are a separate question. | Complete |
-| Whole-image windows | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']} ({pct(code_window_result['exact_chunks'], code_window_result['chunk_count']):.2f}%)** | 64 KiB windows **0–6 and 11–50** match the unpacked reference exactly. Windows **7–10** remain. | In progress |
-| Remaining byte differences | **{code_window_result['differing_bytes']:,}** | Byte positions still different in the {code_window_result['target_initialized_size']:,}-byte unpacked image. | In progress |
+| Whole-image windows | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']} ({pct(code_window_result['exact_chunks'], code_window_result['chunk_count']):.2f}%)** | Every 64 KiB window in the unpacked image matches exactly. | Complete |
+| Remaining byte differences | **{code_window_result['differing_bytes']:,}** | Byte positions still different in the {code_window_result['target_initialized_size']:,}-byte unpacked image. | Complete |
 | Replacement ELF | **Not yet** | Final object order, linker layout, remaining relocations and SJCRUNCH2 packing are not fully reproduced. | In progress |
 
 The **{project_status.formal_matching:,}/{VALIDATED_TARGETS:,}** result measures the audited function frontier. It does not

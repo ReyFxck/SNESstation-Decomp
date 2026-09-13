@@ -6,7 +6,8 @@
     "private_target_bytes_stored": false,
     "public_proof_sources_rebuilt": true,
     "replacement_elf": false,
-    "unpacked_hash_matched": false,
+    "unpacked_hash_matched": true,
+    "windows_0_through_10_exact": true,
     "windows_0_through_6_exact": true,
     "windows_1_through_6_exact": true
   },
@@ -14,9 +15,9 @@
   "prior_manifest_sha256": "6f2c9d3d1678ba488063da643c064a23802c7645afaa871d45e1dbe017def378",
   "result": {
     "chunk_count": 51,
-    "code_windows": 7,
-    "differences_removed": 415584,
-    "differing_bytes": 202702,
+    "code_windows": 11,
+    "differences_removed": 618286,
+    "differing_bytes": 0,
     "exact_chunk_indices": [
       0,
       1,
@@ -25,6 +26,10 @@
       4,
       5,
       6,
+      7,
+      8,
+      9,
+      10,
       11,
       12,
       13,
@@ -66,23 +71,19 @@
       49,
       50
     ],
-    "exact_chunks": 47,
-    "first_differing_address": 1507328,
-    "historical_recovered_bytes": 413820,
-    "integrated_padded_sha256": "060eb2413e8ac4d4bc4ee9ca0db58a8cc945af3602ef60290eacee2deda1310f",
-    "mismatching_chunk_indices": [
-      7,
-      8,
-      9,
-      10
-    ],
-    "mismatching_chunks": 4,
+    "exact_chunks": 51,
+    "first_differing_address": null,
+    "historical_recovered_bytes": 525460,
+    "integrated_padded_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
+    "listing_bytes": 73192,
+    "mismatching_chunk_indices": [],
+    "mismatching_chunks": 0,
     "prior_differing_bytes": 618286,
-    "prior_exact_assembly_bytes": 36152,
-    "relocation_fields": 33103,
-    "residual_bytes": 8504,
-    "selected_source_contract_sha256": "ed89315e9919ae460afd63ed809e4db6cb06f17f953b5546ba6ba57767311d2e",
-    "selected_source_slices": 213,
+    "prior_exact_assembly_bytes": 85628,
+    "relocation_fields": 39226,
+    "residual_bytes": 36340,
+    "selected_source_contract_sha256": "520cf28fe8c51b9cdeb845bd6b74a808bbd9fb283fd1148b3b23e233f7d9ab87",
+    "selected_source_slices": 568,
     "selected_sources": [
       {
         "address": 1050032,
@@ -2449,6 +2450,2898 @@
         "symbol": "snes_p12_0016fbb4"
       },
       {
+        "address": 1507884,
+        "name": "tsv_0017022c_S9xLoadOrigSnapshot",
+        "new_bytes": 96,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/snaporig.o",
+        "raw_sha256": "259bada778faee9d75de9862799a6731d42b2e30b6fcbce8c76a332b93412e2b",
+        "relocations": 4,
+        "section": ".text",
+        "size": 96,
+        "source_offset": 0,
+        "symbol": "S9xLoadOrigSnapshot"
+      },
+      {
+        "address": 1507980,
+        "name": "tsv_0017028c__Z9ReadBlockPKcPviS1_",
+        "new_bytes": 268,
+        "object": "build/matching/hunt1041-v52-closure/objects/snaporig-short.o",
+        "raw_sha256": "f44cf7d22862a978de715e554bc286b72d6ac54be8f23274eb0134099ead1c61",
+        "relocations": 7,
+        "section": ".text",
+        "size": 268,
+        "source_offset": 0,
+        "symbol": "_Z9ReadBlockPKcPviS1_"
+      },
+      {
+        "address": 1508248,
+        "name": "tsv_00170398__Z16ReadOrigSnapshotPv",
+        "new_bytes": 3528,
+        "object": "build/matching/hunt1041-v52-closure/objects/snaporig-short.o",
+        "raw_sha256": "1a6aa3ee43abd612ffc05e8ebfb1f2ca5658bbd1e3d25f19fcd657098958a1e6",
+        "relocations": 187,
+        "section": ".text",
+        "size": 3528,
+        "source_offset": 0,
+        "symbol": "_Z16ReadOrigSnapshotPv"
+      },
+      {
+        "address": 1511776,
+        "name": "tsv_00171160__Z12S9xFixCyclesv",
+        "new_bytes": 108,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/CPUOPS.o",
+        "raw_sha256": "25026d3f587841d643dc7845198cf2e2696cda8df5ea9ea3d8fb2f0f395c9975",
+        "relocations": 13,
+        "section": ".text",
+        "size": 108,
+        "source_offset": 0,
+        "symbol": "_Z12S9xFixCyclesv"
+      },
+      {
+        "address": 1511912,
+        "name": "tsv_001711e8_S9xFreezeGame",
+        "new_bytes": 72,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SNAPSHOT.o",
+        "raw_sha256": "9230a721fa9f029af579f1b5c5a777a28c5fe560dd96a6913d8e044e82768877",
+        "relocations": 3,
+        "section": ".text",
+        "size": 72,
+        "source_offset": 0,
+        "symbol": "S9xFreezeGame"
+      },
+      {
+        "address": 1512012,
+        "name": "tsv_0017124c_S9xUnfreezeGame",
+        "new_bytes": 252,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SNAPSHOT.o",
+        "raw_sha256": "49f1ee718aed525b2367175316ac3b7552c26a34018239a471f139f8b5abedfc",
+        "relocations": 18,
+        "section": ".text",
+        "size": 252,
+        "source_offset": 0,
+        "symbol": "S9xUnfreezeGame"
+      },
+      {
+        "address": 1512264,
+        "name": "tsv_00171348__Z6FreezePv",
+        "new_bytes": 952,
+        "object": "build/matching/hunt1041-v52-closure/objects/snapshot-short.o",
+        "raw_sha256": "2c9a2cbae2e15f59fa605e58d25a1e6d4d78d4e961f044b75c8ade61c02083e0",
+        "relocations": 121,
+        "section": ".text",
+        "size": 952,
+        "source_offset": 0,
+        "symbol": "_Z6FreezePv"
+      },
+      {
+        "address": 1513216,
+        "name": "tsv_00171700__Z8UnfreezePv",
+        "new_bytes": 1768,
+        "object": "build/matching/hunt1041-v52-closure/objects/snapshot-short.o",
+        "raw_sha256": "80354f4c3fe45b751d974866ccaf2f59592504f5860a839f42ecebea0240e1e2",
+        "relocations": 182,
+        "section": ".text",
+        "size": 1768,
+        "source_offset": 0,
+        "symbol": "_Z8UnfreezePv"
+      },
+      {
+        "address": 1514984,
+        "name": "tsv_00171de8__Z10FreezeSizeii",
+        "new_bytes": 36,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SNAPSHOT.o",
+        "raw_sha256": "bf40d75d99de83dcb61ddb92185efa15624c94f3c8471e354d2a57dce7260f28",
+        "relocations": 0,
+        "section": ".text",
+        "size": 36,
+        "source_offset": 0,
+        "symbol": "_Z10FreezeSizeii"
+      },
+      {
+        "address": 1515020,
+        "name": "tsv_00171e0c__Z12FreezeStructP7__sFILEPcPvP10FreezeDatai",
+        "new_bytes": 872,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SNAPSHOT.o",
+        "raw_sha256": "5421ab2818be5f4665dbad174e922519d6fd45b1e59a52dfa2065b78af3ea8a2",
+        "relocations": 6,
+        "section": ".text",
+        "size": 872,
+        "source_offset": 0,
+        "symbol": "_Z12FreezeStructP7__sFILEPcPvP10FreezeDatai"
+      },
+      {
+        "address": 1515892,
+        "name": "tsv_00172174_v48_00172174",
+        "new_bytes": 120,
+        "object": "build/matching/hunt1041-v48-closure/recovered/objects/o2/matching_candidates_hunt1041_v48.c-7406be02c459577a.o",
+        "raw_sha256": "af895825ccce9d29a20d017949f8d10479c9547217af34b321fe12a4f5cff42e",
+        "relocations": 6,
+        "section": ".text",
+        "size": 120,
+        "source_offset": 0,
+        "symbol": "v48_00172174"
+      },
+      {
+        "address": 1516012,
+        "name": "tsv_001721ec__Z14UnfreezeStructP7__sFILEPcPvP10FreezeDatai",
+        "new_bytes": 960,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SNAPSHOT.o",
+        "raw_sha256": "af3264f0f657f0a951911c102b17f9f8f9d90b4b8897a6e300448a53bc77fd62",
+        "relocations": 7,
+        "section": ".text",
+        "size": 960,
+        "source_offset": 0,
+        "symbol": "_Z14UnfreezeStructP7__sFILEPcPvP10FreezeDatai"
+      },
+      {
+        "address": 1516972,
+        "name": "tsv_001725ac__Z13UnfreezeBlockPvPcPhi",
+        "new_bytes": 320,
+        "object": "build/matching/hunt1041-v52-closure/objects/snapshot-short.o",
+        "raw_sha256": "bab541f285944aab511a568cac3c8c44f68e4484fb8294416bfb8ed2a316e0b6",
+        "relocations": 10,
+        "section": ".text",
+        "size": 320,
+        "source_offset": 0,
+        "symbol": "_Z13UnfreezeBlockPvPcPhi"
+      },
+      {
+        "address": 1517292,
+        "name": "tsv_001726ec_S9xSPCDump",
+        "new_bytes": 488,
+        "object": "build/matching/hunt1041-v73-historical-io/objects/snapshot.o",
+        "raw_sha256": "f3dcb289e1b4f59f25a6420eaca950f9b5c6c5126e21f11c7cb5883ce69b46fa",
+        "relocations": 33,
+        "section": ".text",
+        "size": 488,
+        "source_offset": 0,
+        "symbol": "S9xSPCDump"
+      },
+      {
+        "address": 1517780,
+        "name": "tsv_001728d4_v81_001728d4",
+        "new_bytes": 4944,
+        "object": "build/matching/hunt1041-v81-final20/objects/hunt1041_v81_final20_exact.o",
+        "raw_sha256": "08b41eb6d82dac36f0b2a2893c5e445e5cad09e295d46c69bcbaa147546f0352",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4944,
+        "source_offset": 0,
+        "symbol": "v81_001728d4"
+      },
+      {
+        "address": 1522724,
+        "name": "tsv_00173c24__Z12S9xFixCyclesv",
+        "new_bytes": 108,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/CPUOPS.o",
+        "raw_sha256": "25026d3f587841d643dc7845198cf2e2696cda8df5ea9ea3d8fb2f0f395c9975",
+        "relocations": 13,
+        "section": ".text",
+        "size": 108,
+        "source_offset": 0,
+        "symbol": "_Z12S9xFixCyclesv"
+      },
+      {
+        "address": 1523196,
+        "name": "tsv_00173dfc__Z20S9xAPUSetEndOfSampleiP7Channel",
+        "new_bytes": 80,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "af7dc65b4c824d80dd26c25579fb4ed62bc268c055313671e61056fd232e61f8",
+        "relocations": 2,
+        "section": ".text",
+        "size": 80,
+        "source_offset": 0,
+        "symbol": "_Z20S9xAPUSetEndOfSampleiP7Channel"
+      },
+      {
+        "address": 1523276,
+        "name": "tsv_00173e4c__Z13S9xAPUSetEndXi",
+        "new_bytes": 32,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "bdfb035e559b159c391de513ace756c2ae3a8dd998b609abb7f18597dee9f22f",
+        "relocations": 2,
+        "section": ".text",
+        "size": 32,
+        "source_offset": 0,
+        "symbol": "_Z13S9xAPUSetEndXi"
+      },
+      {
+        "address": 1523308,
+        "name": "tsv_00173e6c__Z13S9xSetEnvRateP7Channelmii",
+        "new_bytes": 184,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "30326d3e4ab6e86f74b563e7914cd30bf7fbe246324785c47851980aaff2bed6",
+        "relocations": 6,
+        "section": ".text",
+        "size": 184,
+        "source_offset": 0,
+        "symbol": "_Z13S9xSetEnvRateP7Channelmii"
+      },
+      {
+        "address": 1523492,
+        "name": "tsv_00173f24__Z18S9xSetEnvelopeRateimii",
+        "new_bytes": 44,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "ebef1be368df095511787970088122e31d635c7ec068938ec52d1993615864fa",
+        "relocations": 3,
+        "section": ".text",
+        "size": 44,
+        "source_offset": 0,
+        "symbol": "_Z18S9xSetEnvelopeRateimii"
+      },
+      {
+        "address": 1523536,
+        "name": "tsv_00173f50__Z17S9xSetSoundVolumeiss",
+        "new_bytes": 160,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "4f02582b514502c996f5e19bb600a1e8ef6004f2a96d89737ce354699a40745e",
+        "relocations": 4,
+        "section": ".text",
+        "size": 160,
+        "source_offset": 0,
+        "symbol": "_Z17S9xSetSoundVolumeiss"
+      },
+      {
+        "address": 1523696,
+        "name": "tsv_00173ff0__Z18S9xSetMasterVolumess",
+        "new_bytes": 172,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "4b3ffdc05c0e33001c324886af364874ca9f8ffc7781d8acd31a94538fd0d169",
+        "relocations": 8,
+        "section": ".text",
+        "size": 172,
+        "source_offset": 0,
+        "symbol": "_Z18S9xSetMasterVolumess"
+      },
+      {
+        "address": 1523868,
+        "name": "tsv_0017409c__Z16S9xSetEchoVolumess",
+        "new_bytes": 132,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "af5c2d8445ec2fbd32d5623237db81239edf92b6c7e8f85bdd54b08f36177871",
+        "relocations": 6,
+        "section": ".text",
+        "size": 132,
+        "source_offset": 0,
+        "symbol": "_Z16S9xSetEchoVolumess"
+      },
+      {
+        "address": 1524000,
+        "name": "tsv_00174120__Z16S9xSetEchoEnableh",
+        "new_bytes": 228,
+        "object": "build/matching/hunt1041-v52-closure/objects/sound-normal.o",
+        "raw_sha256": "adb5cfe3557d4c1e2fa3618ef6ac8d7c0e3011a39784acf9b020ec15570aa591",
+        "relocations": 21,
+        "section": ".text",
+        "size": 228,
+        "source_offset": 0,
+        "symbol": "_Z16S9xSetEchoEnableh"
+      },
+      {
+        "address": 1524228,
+        "name": "tsv_00174204__Z18S9xSetEchoFeedbacki",
+        "new_bytes": 40,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "b126fcc682e70e4463cdd875788248c9458c2caf33958d474f5ad3cafc8de102",
+        "relocations": 2,
+        "section": ".text",
+        "size": 40,
+        "source_offset": 0,
+        "symbol": "_Z18S9xSetEchoFeedbacki"
+      },
+      {
+        "address": 1524268,
+        "name": "tsv_0017422c__Z15S9xSetEchoDelayi",
+        "new_bytes": 136,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "cee1f12629b37cb9c9fa44167e8b36a1c444301a915828e13593edbdf8e5c6db",
+        "relocations": 7,
+        "section": ".text",
+        "size": 136,
+        "source_offset": 0,
+        "symbol": "_Z15S9xSetEchoDelayi"
+      },
+      {
+        "address": 1524404,
+        "name": "tsv_001742b4__Z21S9xSetEchoWriteEnableh",
+        "new_bytes": 52,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "ff979bb271e0bab64bf4d07ebbde23ccd13d03dfdbbb9c9cf10d7b2be728bbb2",
+        "relocations": 5,
+        "section": ".text",
+        "size": 52,
+        "source_offset": 0,
+        "symbol": "_Z21S9xSetEchoWriteEnableh"
+      },
+      {
+        "address": 1524456,
+        "name": "tsv_001742e8__Z31S9xSetFrequencyModulationEnableh",
+        "new_bytes": 16,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "596a7f409ad34a207175b154193484f91509be4b4f3ead6d1b8ff9cbf6b04978",
+        "relocations": 2,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "_Z31S9xSetFrequencyModulationEnableh"
+      },
+      {
+        "address": 1524472,
+        "name": "tsv_001742f8__Z17S9xSetSoundKeyOffi",
+        "new_bytes": 88,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "4ad36c034564abd6df144288b131db46c3bf6e461bd0ff4f9326677a7e76fd2b",
+        "relocations": 3,
+        "section": ".text",
+        "size": 88,
+        "source_offset": 0,
+        "symbol": "_Z17S9xSetSoundKeyOffi"
+      },
+      {
+        "address": 1524560,
+        "name": "tsv_00174350__Z28S9xFixSoundAfterSnapshotLoadv",
+        "new_bytes": 384,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "5d994771bd364feee3a0264a5133c453dff83dc3a67ac4fe55c622f21402867e",
+        "relocations": 22,
+        "section": ".text",
+        "size": 384,
+        "source_offset": 0,
+        "symbol": "_Z28S9xFixSoundAfterSnapshotLoadv"
+      },
+      {
+        "address": 1524944,
+        "name": "tsv_001744d0__Z23S9xSetFilterCoefficientii",
+        "new_bytes": 148,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "65c459f56b20d5f5916417fee84d8df993b99e0dd840ae355669a3c5b2acbbe0",
+        "relocations": 12,
+        "section": ".text",
+        "size": 148,
+        "source_offset": 0,
+        "symbol": "_Z23S9xSetFilterCoefficientii"
+      },
+      {
+        "address": 1525092,
+        "name": "tsv_00174564__Z15S9xSetSoundADSRiiiiii",
+        "new_bytes": 180,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "eb8fd3dc5747f06949085dccf21596ff70d02694c86c6386e7f8f5099a1657b8",
+        "relocations": 3,
+        "section": ".text",
+        "size": 180,
+        "source_offset": 0,
+        "symbol": "_Z15S9xSetSoundADSRiiiiii"
+      },
+      {
+        "address": 1525272,
+        "name": "tsv_00174618__Z20S9xSetEnvelopeHeightii",
+        "new_bytes": 140,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "4b2c265332881b0f3a43093918d399518a536fe4648d35dee95eb714b62efce6",
+        "relocations": 3,
+        "section": ".text",
+        "size": 140,
+        "source_offset": 0,
+        "symbol": "_Z20S9xSetEnvelopeHeightii"
+      },
+      {
+        "address": 1525412,
+        "name": "tsv_001746a4__Z20S9xGetEnvelopeHeighti",
+        "new_bytes": 124,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "323159927bc0d153e0bdb579133ebafa119a5c824a2486836987a8bd59e4eb5b",
+        "relocations": 10,
+        "section": ".text",
+        "size": 124,
+        "source_offset": 0,
+        "symbol": "_Z20S9xGetEnvelopeHeighti"
+      },
+      {
+        "address": 1525536,
+        "name": "tsv_00174720__Z17S9xSetSoundSampleit",
+        "new_bytes": 8,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "_Z17S9xSetSoundSampleit"
+      },
+      {
+        "address": 1525544,
+        "name": "tsv_00174728__Z20S9xSetSoundFrequencyii",
+        "new_bytes": 264,
+        "object": "build/matching/hunt1041-v52-closure/objects/sound-normal.o",
+        "raw_sha256": "8acb07e34e3a35034de2097238adb06b79c0d60ab0c94f755e48858b67847500",
+        "relocations": 16,
+        "section": ".text",
+        "size": 264,
+        "source_offset": 0,
+        "symbol": "_Z20S9xSetSoundFrequencyii"
+      },
+      {
+        "address": 1525808,
+        "name": "tsv_00174830__Z16S9xSetSoundHertzii",
+        "new_bytes": 48,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "eb4f04f230211b3ef5625e2860991fdf5366d6e96e78e4f3ceb4bd4a16fc582b",
+        "relocations": 3,
+        "section": ".text",
+        "size": 48,
+        "source_offset": 0,
+        "symbol": "_Z16S9xSetSoundHertzii"
+      },
+      {
+        "address": 1525856,
+        "name": "tsv_00174860__Z15S9xSetSoundTypeii",
+        "new_bytes": 28,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "1286a5d105eccdebfaa37cfec8fe6cc40f3723943dfc078ad358a91fb9b44be4",
+        "relocations": 2,
+        "section": ".text",
+        "size": 28,
+        "source_offset": 0,
+        "symbol": "_Z15S9xSetSoundTypeii"
+      },
+      {
+        "address": 1525884,
+        "name": "tsv_0017487c__Z15S9xSetSoundMuteh",
+        "new_bytes": 28,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "14457e805371e5b9d8f2c125771cbc25436d09c2acff52ec45544e1bbe2daa87",
+        "relocations": 2,
+        "section": ".text",
+        "size": 28,
+        "source_offset": 0,
+        "symbol": "_Z15S9xSetSoundMuteh"
+      },
+      {
+        "address": 1525912,
+        "name": "tsv_00174898__Z14AltDecodeBlockP7Channel",
+        "new_bytes": 764,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "c30ee62e3565dc803d6788357950d626b735566e19e79693d254a1f181345d0e",
+        "relocations": 3,
+        "section": ".text",
+        "size": 764,
+        "source_offset": 0,
+        "symbol": "_Z14AltDecodeBlockP7Channel"
+      },
+      {
+        "address": 1526676,
+        "name": "tsv_00174b94__Z15AltDecodeBlock2P7Channel",
+        "new_bytes": 1104,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "74eea5481371b8bd48b7e4f5f595d50da78f5e1c94279467e57f117fbef8a373",
+        "relocations": 3,
+        "section": ".text",
+        "size": 1104,
+        "source_offset": 0,
+        "symbol": "_Z15AltDecodeBlock2P7Channel"
+      },
+      {
+        "address": 1527780,
+        "name": "tsv_00174fe4__Z11DecodeBlockP7Channel",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1041-v52-closure/objects/sound-normal.o",
+        "raw_sha256": "54376c849d9fd946011cfd79abb5e166118c1a75ca298362255b3b4bb8472d39",
+        "relocations": 16,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z11DecodeBlockP7Channel"
+      },
+      {
+        "address": 1528576,
+        "name": "tsv_00175300_v81_00175300",
+        "new_bytes": 2484,
+        "object": "build/matching/hunt1041-v81-final20/objects/hunt1041_v81_final20_exact.o",
+        "raw_sha256": "a4009eee1ef43aa647aa6ccf7781cca84920b09ee285bf39976d883bdd218a99",
+        "relocations": 0,
+        "section": ".text",
+        "size": 2484,
+        "source_offset": 0,
+        "symbol": "v81_00175300"
+      },
+      {
+        "address": 1531060,
+        "name": "tsv_00175cb4_v81_00175cb4",
+        "new_bytes": 2244,
+        "object": "build/matching/hunt1041-v81-final20/objects/hunt1041_v81_final20_exact.o",
+        "raw_sha256": "4cb1aeeb75582d57cf95dbc1fc161b32ddc3f49ef5dad5a3efd530037de67260",
+        "relocations": 0,
+        "section": ".text",
+        "size": 2244,
+        "source_offset": 0,
+        "symbol": "v81_00175cb4"
+      },
+      {
+        "address": 1533304,
+        "name": "tsv_00176578_S9xMixSamples",
+        "new_bytes": 28,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "1a5484dfd0d37bf9dfbbe36dcb0f006fad2021f4dc759c80982fbbf660398cd9",
+        "relocations": 1,
+        "section": ".text",
+        "size": 28,
+        "source_offset": 0,
+        "symbol": "S9xMixSamples"
+      },
+      {
+        "address": 1533332,
+        "name": "tsv_00176594_v81_00176594",
+        "new_bytes": 5360,
+        "object": "build/matching/hunt1041-v81-final20/objects/hunt1041_v81_final20_exact.o",
+        "raw_sha256": "76cbd25624054031c5351b8aa7106bc1ef76bd07ad7367dc0d557d5f2821e9a0",
+        "relocations": 0,
+        "section": ".text",
+        "size": 5360,
+        "source_offset": 0,
+        "symbol": "v81_00176594"
+      },
+      {
+        "address": 1538692,
+        "name": "tsv_00177a84_v80_00177a84",
+        "new_bytes": 616,
+        "object": "build/matching/hunt1041-v80-quickwins/objects/hunt1041_v80_quickwins_exact.o",
+        "raw_sha256": "49c5bb585ba22d0ff11502960680ab301902d8df4315aa7ba86f4095b1134542",
+        "relocations": 0,
+        "section": ".text",
+        "size": 616,
+        "source_offset": 0,
+        "symbol": "v80_00177a84"
+      },
+      {
+        "address": 1539308,
+        "name": "tsv_00177cec_S9xInitSound",
+        "new_bytes": 196,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "287bd5935d2131ad7f1314dd83fd138c2dbfb9c909942e5bc60f29939070df05",
+        "relocations": 11,
+        "section": ".text",
+        "size": 196,
+        "source_offset": 0,
+        "symbol": "S9xInitSound"
+      },
+      {
+        "address": 1539504,
+        "name": "tsv_00177db0__Z15S9xSetSoundModeii",
+        "new_bytes": 172,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+        "raw_sha256": "77ddac42bab2b8a8b197201636fe35d21b8481a95acabdca97dbb2a7b5af04cb",
+        "relocations": 4,
+        "section": ".text",
+        "size": 172,
+        "source_offset": 0,
+        "symbol": "_Z15S9xSetSoundModeii"
+      },
+      {
+        "address": 1539692,
+        "name": "tsv_00177e6c_v81_00177e6c",
+        "new_bytes": 28088,
+        "object": "build/matching/hunt1041-v81-final20/objects/hunt1041_v81_final20_exact.o",
+        "raw_sha256": "bba365ad79c5d0c571e2100ed75f01bfbc79befa7cc2efb8b75700995a7b288c",
+        "relocations": 0,
+        "section": ".text",
+        "size": 28088,
+        "source_offset": 0,
+        "symbol": "v81_00177e6c"
+      },
+      {
+        "address": 1567780,
+        "name": "tsv_0017ec24__Z5Apu9Fv",
+        "new_bytes": 40,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SPC700.o",
+        "raw_sha256": "730d00dcee2ac2f4718003f79b8f61386637b6245b3ea641e4176c3778d45c2f",
+        "relocations": 2,
+        "section": ".text",
+        "size": 40,
+        "source_offset": 16,
+        "symbol": "_Z5Apu9Fv"
+      },
+      {
+        "address": 1574564,
+        "name": "tsv_001806a4_v81_001806a4",
+        "new_bytes": 1244,
+        "object": "build/matching/hunt1041-v81-final20/objects/hunt1041_v81_final20_exact.o",
+        "raw_sha256": "5afc4b93158bfd754044add95c60a6029d2981f535515d6aae19576c064c6f0a",
+        "relocations": 0,
+        "section": ".text",
+        "size": 1244,
+        "source_offset": 0,
+        "symbol": "v81_001806a4"
+      },
+      {
+        "address": 1575808,
+        "name": "tsv_00180b80_v81_00180b80",
+        "new_bytes": 2160,
+        "object": "build/matching/hunt1041-v81-final20/objects/hunt1041_v81_final20_exact.o",
+        "raw_sha256": "1d3f4d0bc13f82fa410aab4dbf1a8da280f143aa8da7957091dcb3a7864682f5",
+        "relocations": 0,
+        "section": ".text",
+        "size": 2160,
+        "source_offset": 0,
+        "symbol": "v81_00180b80"
+      },
+      {
+        "address": 1577968,
+        "name": "tsv_001813f0_S9xGetSPC7110",
+        "new_bytes": 1980,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/spc7110.o",
+        "raw_sha256": "680ec1a6e959485a60a34d09dcd3e3f0480176a7ac803508df28b97430b4a3c8",
+        "relocations": 121,
+        "section": ".text",
+        "size": 1980,
+        "source_offset": 0,
+        "symbol": "S9xGetSPC7110"
+      },
+      {
+        "address": 1579948,
+        "name": "tsv_00181bac__Z13S9xSetSPC7110ht",
+        "new_bytes": 2480,
+        "object": "build/matching/hunt1041-v72-v53-promotion/objects/spc7110.o",
+        "raw_sha256": "d71ce49bd549518ac8151b78037e21db032d4639a84eb73f992c7a232ddc27e4",
+        "relocations": 129,
+        "section": ".text",
+        "size": 2480,
+        "source_offset": 0,
+        "symbol": "_Z13S9xSetSPC7110ht"
+      },
+      {
+        "address": 1582428,
+        "name": "tsv_0018255c_S9xGetSPC7110Byte",
+        "new_bytes": 136,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/spc7110.o",
+        "raw_sha256": "d4049c9d08117d1041bd2f9c9f5aaa0f9c6d98f7220ed2044e8426932caf41db",
+        "relocations": 10,
+        "section": ".text",
+        "size": 136,
+        "source_offset": 0,
+        "symbol": "S9xGetSPC7110Byte"
+      },
+      {
+        "address": 1582564,
+        "name": "tsv_001825e4__Z17S9xRTCDaysInMonthii",
+        "new_bytes": 84,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/spc7110.o",
+        "raw_sha256": "d19b93e455c1f554c661d21eb86051dc4e2cf6566ef769ed70be9598895eb7c0",
+        "relocations": 2,
+        "section": ".text",
+        "size": 84,
+        "source_offset": 0,
+        "symbol": "_Z17S9xRTCDaysInMonthii"
+      },
+      {
+        "address": 1582648,
+        "name": "tsv_00182638__Z12S9xUpdateRTCv",
+        "new_bytes": 728,
+        "object": "build/matching/hunt1041-v72-v53-promotion/objects/spc7110.o",
+        "raw_sha256": "82b5da31a2897ff9de72259891732c7a7a5838e98c82ffef7464ffb41e18b905",
+        "relocations": 12,
+        "section": ".text",
+        "size": 728,
+        "source_offset": 0,
+        "symbol": "_Z12S9xUpdateRTCv"
+      },
+      {
+        "address": 1583376,
+        "name": "tsv_00182910_Get7110BasePtr",
+        "new_bytes": 116,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/spc7110.o",
+        "raw_sha256": "dea0718788d2b82f0006d1e8d31194d143a5bf6e8c79ce89d7cbcfe0fd9d7164",
+        "relocations": 8,
+        "section": ".text",
+        "size": 116,
+        "source_offset": 0,
+        "symbol": "Get7110BasePtr"
+      },
+      {
+        "address": 1583492,
+        "name": "tsv_00182984_v81_00182984",
+        "new_bytes": 2336,
+        "object": "build/matching/hunt1041-v81-final20/objects/hunt1041_v81_final20_exact.o",
+        "raw_sha256": "b176d070a26a25e4f8c7d0fce0361ca3734447aa3d6dd2d6b98234e42e0d2ae6",
+        "relocations": 0,
+        "section": ".text",
+        "size": 2336,
+        "source_offset": 0,
+        "symbol": "v81_00182984"
+      },
+      {
+        "address": 1585828,
+        "name": "tsv_001832a4__Z15S9xSpc7110Resetv",
+        "new_bytes": 248,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/spc7110.o",
+        "raw_sha256": "77c6f359ffb700d2f9fffb86b03a792e0eb63d0b2dfecb3a97b39557a08ed225",
+        "relocations": 4,
+        "section": ".text",
+        "size": 248,
+        "source_offset": 0,
+        "symbol": "_Z15S9xSpc7110Resetv"
+      },
+      {
+        "address": 1586084,
+        "name": "tsv_001833a4__Z17S9xSaveSPC7110RTCP10SPC7110RTC",
+        "new_bytes": 332,
+        "object": "build/matching/hunt1041-v74-spc7110-rtc/objects/spc7110.o",
+        "raw_sha256": "575be965f1c51d33072a0f6d6d726e3b02eaa144082084c8e605f1d58046a7fc",
+        "relocations": 14,
+        "section": ".text",
+        "size": 332,
+        "source_offset": 0,
+        "symbol": "_Z17S9xSaveSPC7110RTCP10SPC7110RTC"
+      },
+      {
+        "address": 1586416,
+        "name": "tsv_001834f0__Z17S9xLoadSPC7110RTCP10SPC7110RTC",
+        "new_bytes": 360,
+        "object": "build/matching/hunt1041-v74-spc7110-rtc/objects/spc7110.o",
+        "raw_sha256": "7c35d321b0a6575f8a997d1dba6d7132df25665d4c3b9695519c5f8f6b18c9a2",
+        "relocations": 14,
+        "section": ".text",
+        "size": 360,
+        "source_offset": 0,
+        "symbol": "_Z17S9xLoadSPC7110RTCP10SPC7110RTC"
+      },
+      {
+        "address": 1586784,
+        "name": "tsv_00183660__Z12S9xResetSRTCv",
+        "new_bytes": 24,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/srtc.o",
+        "raw_sha256": "5991e79f14936b36b8a0120e9da2de9a5414812184dfa8368633c95c6b8cf340",
+        "relocations": 2,
+        "section": ".text",
+        "size": 24,
+        "source_offset": 0,
+        "symbol": "_Z12S9xResetSRTCv"
+      },
+      {
+        "address": 1586808,
+        "name": "tsv_00183678__Z16S9xHardResetSRTCv",
+        "new_bytes": 88,
+        "object": "build/matching/hunt1041-v48-closure/historical/snes-srtc.o",
+        "raw_sha256": "d4cb8cc7f580ffe1b074fbc1e7540066be39d904697485b88d7685b95d2fcab6",
+        "relocations": 4,
+        "section": ".text",
+        "size": 88,
+        "source_offset": 0,
+        "symbol": "_Z16S9xHardResetSRTCv"
+      },
+      {
+        "address": 1586896,
+        "name": "tsv_001836d0__Z23S9xSRTCComputeDayOfWeekv",
+        "new_bytes": 168,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/srtc.o",
+        "raw_sha256": "7acd92085baeb8f3c47aea0a961cdc20dfc5d5704111665d69d911d0143dfc2e",
+        "relocations": 4,
+        "section": ".text",
+        "size": 168,
+        "source_offset": 0,
+        "symbol": "_Z23S9xSRTCComputeDayOfWeekv"
+      },
+      {
+        "address": 1587064,
+        "name": "tsv_00183778__Z19S9xSRTCDaysInMmonthii",
+        "new_bytes": 84,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/srtc.o",
+        "raw_sha256": "f733a4ca4ace3625f6f090f4a137d3d2c7f1430de3c94ab867a4f1595486b169",
+        "relocations": 2,
+        "section": ".text",
+        "size": 84,
+        "source_offset": 0,
+        "symbol": "_Z19S9xSRTCDaysInMmonthii"
+      },
+      {
+        "address": 1587148,
+        "name": "tsv_001837cc__Z17S9xUpdateSrtcTimev",
+        "new_bytes": 728,
+        "object": "build/matching/hunt1041-v48-closure/historical/snes-srtc.o",
+        "raw_sha256": "53a2ee3f5d1f6c64dc5d55d414899cbf942379372e524c165fa038ca4f35a1bf",
+        "relocations": 14,
+        "section": ".text",
+        "size": 728,
+        "source_offset": 0,
+        "symbol": "_Z17S9xUpdateSrtcTimev"
+      },
+      {
+        "address": 1587876,
+        "name": "tsv_00183aa4__Z10S9xSetSRTCht",
+        "new_bytes": 312,
+        "object": "build/matching/hunt1041-v48-closure/historical/snes-srtc.o",
+        "raw_sha256": "cd12e821da5f6cb9978f3b1e8f2e2d60e5435b7291bbce08c1ab79fb7dcd315e",
+        "relocations": 9,
+        "section": ".text",
+        "size": 312,
+        "source_offset": 0,
+        "symbol": "_Z10S9xSetSRTCht"
+      },
+      {
+        "address": 1588188,
+        "name": "tsv_00183bdc__Z10S9xGetSRTCt",
+        "new_bytes": 124,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/srtc.o",
+        "raw_sha256": "212fe0e430246c3bfdd63559ca70275b4a0c56b681ece8b5a68f15be753f5b04",
+        "relocations": 3,
+        "section": ".text",
+        "size": 124,
+        "source_offset": 0,
+        "symbol": "_Z10S9xGetSRTCt"
+      },
+      {
+        "address": 1588312,
+        "name": "tsv_00183c58__Z19S9xSRTCPreSaveStatev",
+        "new_bytes": 232,
+        "object": "build/matching/hunt1041-v48-closure/historical/snes-srtc.o",
+        "raw_sha256": "e1e643a9244209a550222a0375ddeeb6f491e88227db9d9a7af3827527f8ad55",
+        "relocations": 17,
+        "section": ".text",
+        "size": 232,
+        "source_offset": 0,
+        "symbol": "_Z19S9xSRTCPreSaveStatev"
+      },
+      {
+        "address": 1588544,
+        "name": "tsv_00183d40__Z20S9xSRTCPostLoadStatev",
+        "new_bytes": 196,
+        "object": "build/matching/hunt1041-v48-closure/historical/snes-srtc.o",
+        "raw_sha256": "0e4324142d0d9705a662ffd2aef822f9834b6b5f7a31053a7a94a07a9cca2e4f",
+        "relocations": 13,
+        "section": ".text",
+        "size": 196,
+        "source_offset": 0,
+        "symbol": "_Z20S9xSRTCPostLoadStatev"
+      },
+      {
+        "address": 1588740,
+        "name": "tsv_00183e04__Z11ConvertTilePhj",
+        "new_bytes": 1160,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "3138b15c19df325a7260d8657099e654c4b8e63d29409d2dd1bc292768e37447",
+        "relocations": 60,
+        "section": ".text",
+        "size": 1160,
+        "source_offset": 0,
+        "symbol": "_Z11ConvertTilePhj"
+      },
+      {
+        "address": 1589900,
+        "name": "tsv_0018428c__Z8DrawTilejjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d2f093c3968292f864730e4f8da5248c9f7db4add17e132ba96a4d4a944c8428",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z8DrawTilejjjj"
+      },
+      {
+        "address": 1590696,
+        "name": "tsv_001845a8__Z15DrawClippedTilejjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "b888748ec9051e448176e60440627b212e721ba6b954b28bf0c51610c342e3f2",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z15DrawClippedTilejjjjjj"
+      },
+      {
+        "address": 1591872,
+        "name": "tsv_00184a40__Z10DrawTilex2jjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "96d13650d5f877ffbcf957e7081783f156bab7c555cf1b1d97530afeb202f14e",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z10DrawTilex2jjjj"
+      },
+      {
+        "address": 1592668,
+        "name": "tsv_00184d5c__Z17DrawClippedTilex2jjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d4aa33884295a0d0ea7b95b35cc2c36d26dc2b24b71d8ac8dfd55cc090dc6907",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z17DrawClippedTilex2jjjjjj"
+      },
+      {
+        "address": 1593844,
+        "name": "tsv_001851f4__Z12DrawTilex2x2jjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "96d13650d5f877ffbcf957e7081783f156bab7c555cf1b1d97530afeb202f14e",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z12DrawTilex2x2jjjj"
+      },
+      {
+        "address": 1594640,
+        "name": "tsv_00185510__Z19DrawClippedTilex2x2jjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d4aa33884295a0d0ea7b95b35cc2c36d26dc2b24b71d8ac8dfd55cc090dc6907",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z19DrawClippedTilex2x2jjjjjj"
+      },
+      {
+        "address": 1595816,
+        "name": "tsv_001859a8__Z14DrawLargePixeljjjjjj",
+        "new_bytes": 996,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "ab3f9bc2e48442ac02ca206dfeb04ea5041cbd4d5adab78ac41e917f54d7d0e6",
+        "relocations": 44,
+        "section": ".text",
+        "size": 996,
+        "source_offset": 0,
+        "symbol": "_Z14DrawLargePixeljjjjjj"
+      },
+      {
+        "address": 1596812,
+        "name": "tsv_00185d8c__Z10DrawTile16jjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d2f093c3968292f864730e4f8da5248c9f7db4add17e132ba96a4d4a944c8428",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z10DrawTile16jjjj"
+      },
+      {
+        "address": 1597608,
+        "name": "tsv_001860a8__Z17DrawClippedTile16jjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "b888748ec9051e448176e60440627b212e721ba6b954b28bf0c51610c342e3f2",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z17DrawClippedTile16jjjjjj"
+      },
+      {
+        "address": 1598784,
+        "name": "tsv_00186540__Z12DrawTile16x2jjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "96d13650d5f877ffbcf957e7081783f156bab7c555cf1b1d97530afeb202f14e",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z12DrawTile16x2jjjj"
+      },
+      {
+        "address": 1599580,
+        "name": "tsv_0018685c__Z19DrawClippedTile16x2jjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d4aa33884295a0d0ea7b95b35cc2c36d26dc2b24b71d8ac8dfd55cc090dc6907",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z19DrawClippedTile16x2jjjjjj"
+      },
+      {
+        "address": 1600756,
+        "name": "tsv_00186cf4__Z14DrawTile16x2x2jjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "96d13650d5f877ffbcf957e7081783f156bab7c555cf1b1d97530afeb202f14e",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z14DrawTile16x2x2jjjj"
+      },
+      {
+        "address": 1601552,
+        "name": "tsv_00187010__Z21DrawClippedTile16x2x2jjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d4aa33884295a0d0ea7b95b35cc2c36d26dc2b24b71d8ac8dfd55cc090dc6907",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z21DrawClippedTile16x2x2jjjjjj"
+      },
+      {
+        "address": 1602728,
+        "name": "tsv_001874a8__Z16DrawLargePixel16jjjjjj",
+        "new_bytes": 1012,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "a0e2ce64c33528d9ebd2de584227c20e3af1de459290f05f096d7887a9f2dc63",
+        "relocations": 36,
+        "section": ".text",
+        "size": 1012,
+        "source_offset": 0,
+        "symbol": "_Z16DrawLargePixel16jjjjjj"
+      },
+      {
+        "address": 1603740,
+        "name": "tsv_0018789c__Z13DrawTile16Addjjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d2f093c3968292f864730e4f8da5248c9f7db4add17e132ba96a4d4a944c8428",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z13DrawTile16Addjjjj"
+      },
+      {
+        "address": 1604536,
+        "name": "tsv_00187bb8__Z20DrawClippedTile16Addjjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "b888748ec9051e448176e60440627b212e721ba6b954b28bf0c51610c342e3f2",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z20DrawClippedTile16Addjjjjjj"
+      },
+      {
+        "address": 1605712,
+        "name": "tsv_00188050__Z16DrawTile16Add1_2jjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d2f093c3968292f864730e4f8da5248c9f7db4add17e132ba96a4d4a944c8428",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z16DrawTile16Add1_2jjjj"
+      },
+      {
+        "address": 1606508,
+        "name": "tsv_0018836c__Z23DrawClippedTile16Add1_2jjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "b888748ec9051e448176e60440627b212e721ba6b954b28bf0c51610c342e3f2",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z23DrawClippedTile16Add1_2jjjjjj"
+      },
+      {
+        "address": 1607684,
+        "name": "tsv_00188804__Z13DrawTile16Subjjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d2f093c3968292f864730e4f8da5248c9f7db4add17e132ba96a4d4a944c8428",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z13DrawTile16Subjjjj"
+      },
+      {
+        "address": 1608480,
+        "name": "tsv_00188b20__Z20DrawClippedTile16Subjjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "b888748ec9051e448176e60440627b212e721ba6b954b28bf0c51610c342e3f2",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z20DrawClippedTile16Subjjjjjj"
+      },
+      {
+        "address": 1609656,
+        "name": "tsv_00188fb8__Z16DrawTile16Sub1_2jjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d2f093c3968292f864730e4f8da5248c9f7db4add17e132ba96a4d4a944c8428",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z16DrawTile16Sub1_2jjjj"
+      },
+      {
+        "address": 1610452,
+        "name": "tsv_001892d4__Z23DrawClippedTile16Sub1_2jjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "b888748ec9051e448176e60440627b212e721ba6b954b28bf0c51610c342e3f2",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z23DrawClippedTile16Sub1_2jjjjjj"
+      },
+      {
+        "address": 1611628,
+        "name": "tsv_0018976c__Z21DrawTile16FixedAdd1_2jjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d2f093c3968292f864730e4f8da5248c9f7db4add17e132ba96a4d4a944c8428",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z21DrawTile16FixedAdd1_2jjjj"
+      },
+      {
+        "address": 1612424,
+        "name": "tsv_00189a88__Z28DrawClippedTile16FixedAdd1_2jjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "b888748ec9051e448176e60440627b212e721ba6b954b28bf0c51610c342e3f2",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z28DrawClippedTile16FixedAdd1_2jjjjjj"
+      },
+      {
+        "address": 1613600,
+        "name": "tsv_00189f20__Z21DrawTile16FixedSub1_2jjjj",
+        "new_bytes": 796,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "d2f093c3968292f864730e4f8da5248c9f7db4add17e132ba96a4d4a944c8428",
+        "relocations": 32,
+        "section": ".text",
+        "size": 796,
+        "source_offset": 0,
+        "symbol": "_Z21DrawTile16FixedSub1_2jjjj"
+      },
+      {
+        "address": 1614396,
+        "name": "tsv_0018a23c__Z28DrawClippedTile16FixedSub1_2jjjjjj",
+        "new_bytes": 1176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "b888748ec9051e448176e60440627b212e721ba6b954b28bf0c51610c342e3f2",
+        "relocations": 40,
+        "section": ".text",
+        "size": 1176,
+        "source_offset": 0,
+        "symbol": "_Z28DrawClippedTile16FixedSub1_2jjjjjj"
+      },
+      {
+        "address": 1615572,
+        "name": "tsv_0018a6d4__Z19DrawLargePixel16Addjjjjjj",
+        "new_bytes": 1764,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "3e39c05b3db7b848abee28f65ab6c12078b43ea57c7de4829e1ac0bc7a8a6305",
+        "relocations": 44,
+        "section": ".text",
+        "size": 1764,
+        "source_offset": 0,
+        "symbol": "_Z19DrawLargePixel16Addjjjjjj"
+      },
+      {
+        "address": 1617336,
+        "name": "tsv_0018adb8__Z22DrawLargePixel16Add1_2jjjjjj",
+        "new_bytes": 1668,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "f97411dafb0d5a1c4e1d73a430d972339acfc1be162764cda8bc1de70ef99068",
+        "relocations": 44,
+        "section": ".text",
+        "size": 1668,
+        "source_offset": 0,
+        "symbol": "_Z22DrawLargePixel16Add1_2jjjjjj"
+      },
+      {
+        "address": 1619004,
+        "name": "tsv_0018b43c__Z19DrawLargePixel16Subjjjjjj",
+        "new_bytes": 1668,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "b5ba3a0e6e24e8386b79a62541ff72a1837959c4e03de804d9e42cfb20b49e11",
+        "relocations": 44,
+        "section": ".text",
+        "size": 1668,
+        "source_offset": 0,
+        "symbol": "_Z19DrawLargePixel16Subjjjjjj"
+      },
+      {
+        "address": 1620672,
+        "name": "tsv_0018bac0__Z22DrawLargePixel16Sub1_2jjjjjj",
+        "new_bytes": 1636,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "70ff1a3351c0d9e7556c32c8a94257e74fc17640a17d6bd3c1ffea796020414c",
+        "relocations": 44,
+        "section": ".text",
+        "size": 1636,
+        "source_offset": 0,
+        "symbol": "_Z22DrawLargePixel16Sub1_2jjjjjj"
+      },
+      {
+        "address": 1628440,
+        "name": "tsv_0018d918_explode",
+        "new_bytes": 840,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/explode.o",
+        "raw_sha256": "98996e0cdde248f8d09f653ad2ab0690993e76a8f1c25774e64956d3bdecc801",
+        "relocations": 42,
+        "section": ".text",
+        "size": 840,
+        "source_offset": 0,
+        "symbol": "explode"
+      },
+      {
+        "address": 1629280,
+        "name": "tsv_0018dc60_ReadByte",
+        "new_bytes": 268,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/explode.o",
+        "raw_sha256": "6d23d748cf0cefd62f8208ee8cf0c8236a07a1199185aa452ec9dba46c10dcd2",
+        "relocations": 9,
+        "section": ".text",
+        "size": 268,
+        "source_offset": 0,
+        "symbol": "ReadByte"
+      },
+      {
+        "address": 1632856,
+        "name": "tsv_0018ea58_unShrink",
+        "new_bytes": 12,
+        "object": "build/matching/hunt1041-v48-closure/historical/pgen-unshrink.o",
+        "raw_sha256": "0797690926ed4b2a686cfc1edd473add7c9ad31ddff8ad3955404b6e179d6dff",
+        "relocations": 2,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "unShrink"
+      },
+      {
+        "address": 1632868,
+        "name": "tsv_0018ea64_unShrink",
+        "new_bytes": 1104,
+        "object": "build/matching/hunt1041-v48-closure/historical/pgen-unshrink.o",
+        "raw_sha256": "3a609d2101b938eb9f97d67def2a2c2e59ee02a04bb366cece4ba8d80109187f",
+        "relocations": 112,
+        "section": ".text",
+        "size": 1104,
+        "source_offset": 12,
+        "symbol": "unShrink"
+      },
+      {
+        "address": 1633972,
+        "name": "tsv_0018eeb4_partial_clear",
+        "new_bytes": 348,
+        "object": "build/matching/hunt1041-v48-closure/historical/pgen-unshrink.o",
+        "raw_sha256": "a5149f64cab45f940addd7ea269950d8102e96fa3f5214bb5bd5d34458c8ff1a",
+        "relocations": 29,
+        "section": ".text",
+        "size": 348,
+        "source_offset": 0,
+        "symbol": "partial_clear"
+      },
+      {
+        "address": 1634320,
+        "name": "tsv_0018f010_unzlocal_getByte",
+        "new_bytes": 96,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+        "raw_sha256": "66dae91d76ffd490a6097b46a0ad82a28d2238491568c6d41ea3c0c8546e3dc4",
+        "relocations": 1,
+        "section": ".text",
+        "size": 96,
+        "source_offset": 0,
+        "symbol": "unzlocal_getByte"
+      },
+      {
+        "address": 1634940,
+        "name": "tsv_0018f27c_unzlocal_SearchCentralDir",
+        "new_bytes": 396,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+        "raw_sha256": "9fbbace00beb8ece2d2c7635294b6368066e4dc6fbd5ef1547d27854755e4ff1",
+        "relocations": 5,
+        "section": ".text",
+        "size": 396,
+        "source_offset": 0,
+        "symbol": "unzlocal_SearchCentralDir"
+      },
+      {
+        "address": 1635336,
+        "name": "tsv_0018f408_unzOpen",
+        "new_bytes": 472,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+        "raw_sha256": "b15211f69cd0c216e5bb1d5f88c95fc291c4f608ea329b11e4347dabe3deb990",
+        "relocations": 14,
+        "section": ".text",
+        "size": 472,
+        "source_offset": 0,
+        "symbol": "unzOpen"
+      },
+      {
+        "address": 1636044,
+        "name": "tsv_0018f6cc_unzlocal_GetCurrentFileInfoInternal",
+        "new_bytes": 984,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+        "raw_sha256": "1ad992d1369b4516e391c69532d101a8ac1ec567556f3cb5893d299eeb051964",
+        "relocations": 23,
+        "section": ".text",
+        "size": 984,
+        "source_offset": 0,
+        "symbol": "unzlocal_GetCurrentFileInfoInternal"
+      },
+      {
+        "address": 1637028,
+        "name": "tsv_0018faa4_unzGetCurrentFileInfo",
+        "new_bytes": 16,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+        "raw_sha256": "ffd576b76a05666c27278b9ae52e559140e68ed04866a4fe3586da8f44da90cb",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "unzGetCurrentFileInfo"
+      },
+      {
+        "address": 1637044,
+        "name": "tsv_0018fab4_unzGetCurrentFileInfo",
+        "new_bytes": 56,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+        "raw_sha256": "b5588c5c4bdf9561e712eaab9db889bdb5c0ed2c04acadb2e6a5c13041cc872c",
+        "relocations": 1,
+        "section": ".text",
+        "size": 56,
+        "source_offset": 16,
+        "symbol": "unzGetCurrentFileInfo"
+      },
+      {
+        "address": 1637612,
+        "name": "tsv_0018fcec_unzlocal_CheckCurrentFileCoherencyHeader",
+        "new_bytes": 640,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+        "raw_sha256": "eb679fba347dd6370e96d5152e819d7cb439fed1bb782a0d5c9bfb476a3d55c0",
+        "relocations": 11,
+        "section": ".text",
+        "size": 640,
+        "source_offset": 0,
+        "symbol": "unzlocal_CheckCurrentFileCoherencyHeader"
+      },
+      {
+        "address": 1638252,
+        "name": "tsv_0018ff6c_unzOpenCurrentFile",
+        "new_bytes": 360,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+        "raw_sha256": "1120558c01febc51952ee8c4b2325957be4ddd05ef7d0c3f5ee1d503ce66ee54",
+        "relocations": 8,
+        "section": ".text",
+        "size": 360,
+        "source_offset": 0,
+        "symbol": "unzOpenCurrentFile"
+      },
+      {
+        "address": 1638612,
+        "name": "tsv_001900d4_unzReadCurrentFile",
+        "new_bytes": 900,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+        "raw_sha256": "3114a3a36cc74c9c88dff7e6af34095dfcb4397a35eab0d2244de95d4a4efe7a",
+        "relocations": 45,
+        "section": ".text",
+        "size": 900,
+        "source_offset": 0,
+        "symbol": "unzReadCurrentFile"
+      },
+      {
+        "address": 1639584,
+        "name": "tsv_001904a0_unzGetLocalExtrafield",
+        "new_bytes": 216,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+        "raw_sha256": "15047c636d241c754393fc4940c14e586e147c1d5da3d5664a6e1f5dd4979bd5",
+        "relocations": 2,
+        "section": ".text",
+        "size": 216,
+        "source_offset": 0,
+        "symbol": "unzGetLocalExtrafield"
+      },
+      {
+        "address": 1639976,
+        "name": "tsv_00190628_unzGetGlobalComment",
+        "new_bytes": 216,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+        "raw_sha256": "870ec2e90243a9a2ab3fb3c79ff00ed64d37b5059f78b6a5452a087cb97a18d2",
+        "relocations": 2,
+        "section": ".text",
+        "size": 216,
+        "source_offset": 0,
+        "symbol": "unzGetGlobalComment"
+      },
+      {
+        "address": 1640684,
+        "name": "tsv_001908ec_deflateInit2_",
+        "new_bytes": 712,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "351bff4ef51fa1483a4c97a15b67113a6165f6af0bfd960ec48feae80024acb9",
+        "relocations": 12,
+        "section": ".text",
+        "size": 712,
+        "source_offset": 0,
+        "symbol": "deflateInit2_"
+      },
+      {
+        "address": 1641396,
+        "name": "tsv_00190bb4_deflateSetDictionary",
+        "new_bytes": 348,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "1a8cfb22da1bca3e01301dcb0b99464ab5a920e539827e1499ebcf86c485929e",
+        "relocations": 2,
+        "section": ".text",
+        "size": 348,
+        "source_offset": 0,
+        "symbol": "deflateSetDictionary"
+      },
+      {
+        "address": 1641744,
+        "name": "tsv_00190d10_deflateReset",
+        "new_bytes": 176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "99c32ef223a5f0d947e83f8c8740558ec80a49e04907b71796b5f143a49417fe",
+        "relocations": 2,
+        "section": ".text",
+        "size": 176,
+        "source_offset": 0,
+        "symbol": "deflateReset"
+      },
+      {
+        "address": 1641920,
+        "name": "tsv_00190dc0_deflateParams",
+        "new_bytes": 264,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "fb5cdbac65fb260f53be48a19a8226de432a893aa0e54865b2ec98b9389f6068",
+        "relocations": 5,
+        "section": ".text",
+        "size": 264,
+        "source_offset": 0,
+        "symbol": "deflateParams"
+      },
+      {
+        "address": 1642184,
+        "name": "tsv_00190ec8_putShortMSB",
+        "new_bytes": 48,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "5cc80ef0654e99563c5bcbb40a295ece94925c9ac807a829c79dc630cb92360f",
+        "relocations": 0,
+        "section": ".text",
+        "size": 48,
+        "source_offset": 0,
+        "symbol": "putShortMSB"
+      },
+      {
+        "address": 1642232,
+        "name": "tsv_00190ef8_flush_pending",
+        "new_bytes": 168,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "70f2e794fcbbca57488fe7f3cec87575ee24f03df3805bbb83d2948c78eb2ce1",
+        "relocations": 1,
+        "section": ".text",
+        "size": 168,
+        "source_offset": 0,
+        "symbol": "flush_pending"
+      },
+      {
+        "address": 1642400,
+        "name": "tsv_00190fa0_deflate",
+        "new_bytes": 872,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "354e95cbcf18d6e9e258fa3f7fb10cb0941c06db004cd485051ec8bcc55b58e9",
+        "relocations": 21,
+        "section": ".text",
+        "size": 872,
+        "source_offset": 0,
+        "symbol": "deflate"
+      },
+      {
+        "address": 1643272,
+        "name": "tsv_00191308_deflateEnd",
+        "new_bytes": 248,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "56d86e4285b58d946d312212dd9ff389f50f173ab009ddbfd2c43878148bcb6b",
+        "relocations": 0,
+        "section": ".text",
+        "size": 248,
+        "source_offset": 0,
+        "symbol": "deflateEnd"
+      },
+      {
+        "address": 1643520,
+        "name": "tsv_00191400_deflateCopy",
+        "new_bytes": 604,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "10c7267c519dea137ff90042dda7383be58766b73aa8b1bdfcc22cb61a83a830",
+        "relocations": 5,
+        "section": ".text",
+        "size": 604,
+        "source_offset": 0,
+        "symbol": "deflateCopy"
+      },
+      {
+        "address": 1644124,
+        "name": "tsv_0019165c_read_buf",
+        "new_bytes": 176,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "fea11b9f7d3cc5c0fe714c38e5aced000089926ecd7af7e9b86c9c3d0263fe5a",
+        "relocations": 2,
+        "section": ".text",
+        "size": 176,
+        "source_offset": 0,
+        "symbol": "read_buf"
+      },
+      {
+        "address": 1644300,
+        "name": "tsv_0019170c_lm_init",
+        "new_bytes": 164,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "d3808a9f5aee25f73f59c54c28774b797a51e84bbf7ed706f1f11bdfe2366ac8",
+        "relocations": 3,
+        "section": ".text",
+        "size": 164,
+        "source_offset": 0,
+        "symbol": "lm_init"
+      },
+      {
+        "address": 1644464,
+        "name": "tsv_001917b0_longest_match",
+        "new_bytes": 500,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "10e68eb4b6805f2e9d4145644af5821e3423149a0cef50d316ae111d25251804",
+        "relocations": 0,
+        "section": ".text",
+        "size": 500,
+        "source_offset": 0,
+        "symbol": "longest_match"
+      },
+      {
+        "address": 1644964,
+        "name": "tsv_001919a4_fill_window",
+        "new_bytes": 448,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "6249e5f470359cec3954bcc4f9338cb275bfcfd59a9e197700409f802b70dd11",
+        "relocations": 2,
+        "section": ".text",
+        "size": 448,
+        "source_offset": 0,
+        "symbol": "fill_window"
+      },
+      {
+        "address": 1645412,
+        "name": "tsv_00191b64_deflate_stored",
+        "new_bytes": 488,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "85cbc7200af460d6e028938cda6782020b7c72af5fb425329a713452ce1efe36",
+        "relocations": 7,
+        "section": ".text",
+        "size": 488,
+        "source_offset": 0,
+        "symbol": "deflate_stored"
+      },
+      {
+        "address": 1645900,
+        "name": "tsv_00191d4c_deflate_fast",
+        "new_bytes": 1116,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "edd0fb8b26c881acfa4f71fd578d03efa96ed529640e3f9dad11fb84912f9196",
+        "relocations": 16,
+        "section": ".text",
+        "size": 1116,
+        "source_offset": 0,
+        "symbol": "deflate_fast"
+      },
+      {
+        "address": 1647016,
+        "name": "tsv_001921a8_deflate_slow",
+        "new_bytes": 1412,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+        "raw_sha256": "4e85bb2411966203cd2b696ba17825c960de49caef2c9e90f2b7d8897e3237a2",
+        "relocations": 18,
+        "section": ".text",
+        "size": 1412,
+        "source_offset": 0,
+        "symbol": "deflate_slow"
+      },
+      {
+        "address": 1651352,
+        "name": "tsv_00193298_gz_open",
+        "new_bytes": 716,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/gzio.o",
+        "raw_sha256": "d7bea42ad563b89e46bef08d3156ae9b098dfd6f6c4af84da569bd73eda1a9f6",
+        "relocations": 26,
+        "section": ".text",
+        "size": 716,
+        "source_offset": 0,
+        "symbol": "gz_open"
+      },
+      {
+        "address": 1653300,
+        "name": "tsv_00193a34_gzread",
+        "new_bytes": 676,
+        "object": "build/matching/hunt1041-v48-closure/historical/pgen-gzio.o",
+        "raw_sha256": "775eb7f57a251fad6372ddc0deddc7ee36caf981a07ff9169250f288ea32a8f8",
+        "relocations": 14,
+        "section": ".text",
+        "size": 676,
+        "source_offset": 0,
+        "symbol": "gzread"
+      },
+      {
+        "address": 1654412,
+        "name": "tsv_00193e8c_gzprintf",
+        "new_bytes": 124,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/gzio.o",
+        "raw_sha256": "0782e5c0303274c9ae51339002707caae7e173e8b928a0c265aa1c3c2662f79b",
+        "relocations": 3,
+        "section": ".text",
+        "size": 124,
+        "source_offset": 0,
+        "symbol": "gzprintf"
+      },
+      {
+        "address": 1654596,
+        "name": "tsv_00193f44_gzputs",
+        "new_bytes": 68,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/gzio.o",
+        "raw_sha256": "79dc9ac8104f0c0cbb2beb0b5ed40433019517317fb094024976863218023ea4",
+        "relocations": 2,
+        "section": ".text",
+        "size": 68,
+        "source_offset": 0,
+        "symbol": "gzputs"
+      },
+      {
+        "address": 1655020,
+        "name": "tsv_001940ec_gzseek",
+        "new_bytes": 488,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/gzio.o",
+        "raw_sha256": "94e487963ba5f6da3ea00493a267d7e70f81f0edacd217296770d32fdd17a2fd",
+        "relocations": 7,
+        "section": ".text",
+        "size": 488,
+        "source_offset": 0,
+        "symbol": "gzseek"
+      },
+      {
+        "address": 1656076,
+        "name": "tsv_0019450c_gzerror",
+        "new_bytes": 284,
+        "object": "build/matching/hunt1000plus-v47-closure/pgen/gzio.o",
+        "raw_sha256": "d2e47f034bc65d7d5cfbec15eb866ee235a6cee48c50e196ec1e25db679211f6",
+        "relocations": 17,
+        "section": ".text",
+        "size": 284,
+        "source_offset": 0,
+        "symbol": "gzerror"
+      },
+      {
+        "address": 1661756,
+        "name": "tsv_00195b3c_inflate_fast",
+        "new_bytes": 4,
+        "object": "build/matching/hunt1041-v48-closure/historical/pgen-inffast.o",
+        "raw_sha256": "b9783f7b0d873c0c606d5d5e937b78a87647832847fac6495769044bea4fbf78",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "inflate_fast"
+      },
+      {
+        "address": 1661760,
+        "name": "tsv_00195b40_inflate_fast",
+        "new_bytes": 1088,
+        "object": "build/matching/hunt1041-v48-closure/historical/pgen-inffast.o",
+        "raw_sha256": "2bd3335714ab48a60be1812f96a3c2c33bef1aea9afc73ff3fe363c0d67e4d89",
+        "relocations": 16,
+        "section": ".text",
+        "size": 1088,
+        "source_offset": 4,
+        "symbol": "inflate_fast"
+      },
+      {
+        "address": 1685488,
+        "name": "tsv_0019b7f0__ZN6gsFont10uploadFontEP9gsFontTexjiii",
+        "new_bytes": 344,
+        "object": "build/matching/hunt1000plus-v46-closure/pgen/gsFont.o",
+        "raw_sha256": "1c3d118877069c0a016c5ec2fe7b62ef5647628b799f7cb51d0a29e3f7529ec5",
+        "relocations": 1,
+        "section": ".text",
+        "size": 344,
+        "source_offset": 0,
+        "symbol": "_ZN6gsFont10uploadFontEP9gsFontTexjiii"
+      },
+      {
+        "address": 1686224,
+        "name": "tsv_0019bad0__ZN6gsFont17GetCurrLineLengthEPKciRiS2_",
+        "new_bytes": 148,
+        "object": "build/matching/hunt1000plus-v46-closure/pgen/gsFont.o",
+        "raw_sha256": "76abb18e5632fb55f9efbbaa8e9712b223782a9236a56088c6e46ad92d8645c8",
+        "relocations": 2,
+        "section": ".text",
+        "size": 148,
+        "source_offset": 0,
+        "symbol": "_ZN6gsFont17GetCurrLineLengthEPKciRiS2_"
+      },
+      {
+        "address": 1686376,
+        "name": "tsv_0019bb68__ZN6gsFont9PrintLineEiiimiPKc",
+        "new_bytes": 460,
+        "object": "build/matching/hunt1000plus-v46-closure/pgen/gsFont.o",
+        "raw_sha256": "a5b3d021f3f4dae8afa228e38037feb82c080cb153157890a531a809c8bedcac",
+        "relocations": 4,
+        "section": ".text",
+        "size": 460,
+        "source_offset": 0,
+        "symbol": "_ZN6gsFont9PrintLineEiiimiPKc"
+      },
+      {
+        "address": 1689036,
+        "name": "tsv_0019c5cc_Snapshot",
+        "new_bytes": 28,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SNAPSHOT.o",
+        "raw_sha256": "efeab6e4686e76aab3201bf30e8045fff9001d7a63efcb37418a20616008bb84",
+        "relocations": 1,
+        "section": ".text",
+        "size": 28,
+        "source_offset": 0,
+        "symbol": "Snapshot"
+      },
+      {
+        "address": 1692228,
+        "name": "tsv_0019d244_fioWrite",
+        "new_bytes": 284,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/fio-write.o",
+        "raw_sha256": "20d764819984ad8d50e4bd2dcafc28bc92a5fae6f0fdba63834d5bc0bca4a0d5",
+        "relocations": 20,
+        "section": ".text",
+        "size": 284,
+        "source_offset": 0,
+        "symbol": "fioWrite"
+      },
+      {
+        "address": 1692848,
+        "name": "tsv_0019d4b0__fio_read_intr",
+        "new_bytes": 132,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/fio-read-intr.o",
+        "raw_sha256": "d3ea9c3c1b000beb799d5229ea6d0638df0a5cec94eac12b2e3a4ec7785b04dd",
+        "relocations": 6,
+        "section": ".text",
+        "size": 132,
+        "source_offset": 0,
+        "symbol": "_fio_read_intr"
+      },
+      {
+        "address": 1693244,
+        "name": "tsv_0019d63c_SifAllocIopHeap",
+        "new_bytes": 124,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/iop-alloc.o",
+        "raw_sha256": "219bb899c8d1fa62a7d42eb5ca8e28b31c648cdc355911ff8cbfff90289798ba",
+        "relocations": 6,
+        "section": ".text",
+        "size": 124,
+        "source_offset": 0,
+        "symbol": "SifAllocIopHeap"
+      },
+      {
+        "address": 1693368,
+        "name": "tsv_0019d6b8_SifFreeIopHeap",
+        "new_bytes": 136,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/iop-free.o",
+        "raw_sha256": "45248c648c93fc7583024c53289a618bc09a7cace34857cd9ebcf226ddcee874",
+        "relocations": 6,
+        "section": ".text",
+        "size": 136,
+        "source_offset": 0,
+        "symbol": "SifFreeIopHeap"
+      },
+      {
+        "address": 1693504,
+        "name": "tsv_0019d740_SifIopReset",
+        "new_bytes": 268,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/iop-reset.o",
+        "raw_sha256": "08905bcbfe7c7590ba1ef2601eec7c376b8b47e81774c174377d03a556f275f7",
+        "relocations": 11,
+        "section": ".text",
+        "size": 268,
+        "source_offset": 0,
+        "symbol": "SifIopReset"
+      },
+      {
+        "address": 1693772,
+        "name": "tsv_0019d84c_append_number",
+        "new_bytes": 860,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/xprintf.o",
+        "raw_sha256": "c027efd7aba79e8353e472b4b07d149b8e606a6ce7e2f63f9790ecbf6aded7e3",
+        "relocations": 2,
+        "section": ".text",
+        "size": 860,
+        "source_offset": 0,
+        "symbol": "append_number"
+      },
+      {
+        "address": 1694632,
+        "name": "tsv_0019dba8_append_string",
+        "new_bytes": 384,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/xprintf.o",
+        "raw_sha256": "3d006ebccc4ac2b05e11cc4f436d3d1af4fa99e90abc0aecd2e2e8b4823f8039",
+        "relocations": 1,
+        "section": ".text",
+        "size": 384,
+        "source_offset": 0,
+        "symbol": "append_string"
+      },
+      {
+        "address": 1695016,
+        "name": "tsv_0019dd28_append_char",
+        "new_bytes": 232,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/xprintf.o",
+        "raw_sha256": "2c7a8d2978b2c9c1b3f2b042180a21889c04c9c2e2a2032c4ef5051e09f75768",
+        "relocations": 0,
+        "section": ".text",
+        "size": 232,
+        "source_offset": 0,
+        "symbol": "append_char"
+      },
+      {
+        "address": 1695248,
+        "name": "tsv_0019de10_xyzprintf",
+        "new_bytes": 1124,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/xprintf.o",
+        "raw_sha256": "708c4fac6d70578195806ca9d42122e925d538931a9c7bf6673881a9b39e414f",
+        "relocations": 18,
+        "section": ".text",
+        "size": 1124,
+        "source_offset": 0,
+        "symbol": "xyzprintf"
+      },
+      {
+        "address": 1696392,
+        "name": "tsv_0019e288_sn_append_char",
+        "new_bytes": 88,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/xprintf.o",
+        "raw_sha256": "3186d461c9d0c704969bfc208b3cf1d7681cded9aa8cbdba3a42288c3525e6fb",
+        "relocations": 1,
+        "section": ".text",
+        "size": 88,
+        "source_offset": 0,
+        "symbol": "sn_append_char"
+      },
+      {
+        "address": 1696480,
+        "name": "tsv_0019e2e0_vsnprintf",
+        "new_bytes": 132,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/xprintf.o",
+        "raw_sha256": "33cc67f13159977c299121fda92090e8068379685d0a191c019b49ad5f7fb8dd",
+        "relocations": 5,
+        "section": ".text",
+        "size": 132,
+        "source_offset": 0,
+        "symbol": "vsnprintf"
+      },
+      {
+        "address": 1696788,
+        "name": "tsv_0019e414_v47_puts_like",
+        "new_bytes": 96,
+        "object": "build/matching/hunt1000plus-v47-closure/app/hunt1000plus_v47.o",
+        "raw_sha256": "f8d0fd0960df179b6d7204f9a40bf3a1a2442ea8144b54ac8dc99613004be6ac",
+        "relocations": 1,
+        "section": ".text",
+        "size": 96,
+        "source_offset": 0,
+        "symbol": "v47_puts_like"
+      },
+      {
+        "address": 1696948,
+        "name": "tsv_0019e4b4_malloc",
+        "new_bytes": 404,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/malloc.o",
+        "raw_sha256": "c8084616f0fdf45ce7e95763561d565c0041ec694ca81724fb50a6e50d599741",
+        "relocations": 20,
+        "section": ".text",
+        "size": 404,
+        "source_offset": 0,
+        "symbol": "malloc"
+      },
+      {
+        "address": 1697352,
+        "name": "tsv_0019e648_calloc",
+        "new_bytes": 80,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/calloc.o",
+        "raw_sha256": "300dd8f26d0d9111789585507b5ad194b03a790ca6934bc7ff6e30896f9923da",
+        "relocations": 2,
+        "section": ".text",
+        "size": 80,
+        "source_offset": 0,
+        "symbol": "calloc"
+      },
+      {
+        "address": 1697432,
+        "name": "tsv_0019e698_memalign",
+        "new_bytes": 236,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/memalign.o",
+        "raw_sha256": "62318f19a7a963f94bc89e463c35139cc18c7fe75212285e015cd29347511e76",
+        "relocations": 2,
+        "section": ".text",
+        "size": 236,
+        "source_offset": 0,
+        "symbol": "memalign"
+      },
+      {
+        "address": 1697668,
+        "name": "tsv_0019e784_free",
+        "new_bytes": 220,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/free.o",
+        "raw_sha256": "27ba55ca23894c659eb791fd4f156a631309a6a23131fe8bbae7705c5770b215",
+        "relocations": 10,
+        "section": ".text",
+        "size": 220,
+        "source_offset": 0,
+        "symbol": "free"
+      },
+      {
+        "address": 1698552,
+        "name": "tsv_0019eaf8_strstr",
+        "new_bytes": 136,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/strstr.o",
+        "raw_sha256": "1467ce2d006d52cdce78eea383098bea3dbf406b7e026a0c3c757b8f6b8a5603",
+        "relocations": 2,
+        "section": ".text",
+        "size": 136,
+        "source_offset": 0,
+        "symbol": "strstr"
+      },
+      {
+        "address": 1698688,
+        "name": "tsv_0019eb80_strtol",
+        "new_bytes": 556,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/strtol.o",
+        "raw_sha256": "9b7641a661d482b5fa55c2fbfa1eb94df85cba027af4445545fd1bb9e63a41af",
+        "relocations": 9,
+        "section": ".text",
+        "size": 556,
+        "source_offset": 0,
+        "symbol": "strtol"
+      },
+      {
+        "address": 1699960,
+        "name": "tsv_0019f078_ps2_sbrk",
+        "new_bytes": 192,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/sbrk.o",
+        "raw_sha256": "020c1ac0acf1013fd69ca59ee00213634d75a58729c327a85f14c34d872fac05",
+        "relocations": 13,
+        "section": ".text",
+        "size": 192,
+        "source_offset": 0,
+        "symbol": "ps2_sbrk"
+      },
+      {
+        "address": 1700584,
+        "name": "tsv_0019f2e8_set_sreg",
+        "new_bytes": 28,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/sif-init.o",
+        "raw_sha256": "221320f98659e9205ac7d7bd6208a9be1560e64af2fd7a29fdf36bbc22890d55",
+        "relocations": 0,
+        "section": ".text",
+        "size": 28,
+        "source_offset": 0,
+        "symbol": "set_sreg"
+      },
+      {
+        "address": 1700612,
+        "name": "tsv_0019f304_SifInitCmd",
+        "new_bytes": 524,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/sif-init.o",
+        "raw_sha256": "ba5fd90d3c6c43b2849b0028be18bc44ee9c55863c8c823eb810a411dc9efe69",
+        "relocations": 37,
+        "section": ".text",
+        "size": 524,
+        "source_offset": 0,
+        "symbol": "SifInitCmd"
+      },
+      {
+        "address": 1701376,
+        "name": "tsv_0019f600_fioInit",
+        "new_bytes": 232,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/fio-main.o",
+        "raw_sha256": "ce69496020b3487bdce25276a54b35de19f779638175c78a75465551b64c59bb",
+        "relocations": 14,
+        "section": ".text",
+        "size": 232,
+        "source_offset": 0,
+        "symbol": "fioInit"
+      },
+      {
+        "address": 1701864,
+        "name": "tsv_0019f7e8__SifLoadModule",
+        "new_bytes": 268,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/load-module.o",
+        "raw_sha256": "bf5e35c96303061d464ded80b2055c33fc1a7f239caab4b79f4d13c19f163cdb",
+        "relocations": 9,
+        "section": ".text",
+        "size": 268,
+        "source_offset": 0,
+        "symbol": "_SifLoadModule"
+      },
+      {
+        "address": 1702132,
+        "name": "tsv_0019f8f4__SifLoadModuleBuffer",
+        "new_bytes": 244,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/load-buffer.o",
+        "raw_sha256": "6d7f2d847517b9086c30bdee2d95f54f812e0eaf778e41fa307f539af1d3e646",
+        "relocations": 8,
+        "section": ".text",
+        "size": 244,
+        "source_offset": 0,
+        "symbol": "_SifLoadModuleBuffer"
+      },
+      {
+        "address": 1702376,
+        "name": "tsv_0019f9e8_SifInitIopHeap",
+        "new_bytes": 192,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/iop-init.o",
+        "raw_sha256": "494d0e386a8f8ba672481f8420a4786aace94ee981c806ad0a97559e14c7f64d",
+        "relocations": 10,
+        "section": ".text",
+        "size": 192,
+        "source_offset": 0,
+        "symbol": "SifInitIopHeap"
+      },
+      {
+        "address": 1703200,
+        "name": "tsv_0019fd20_SifLoadFileInit",
+        "new_bytes": 188,
+        "object": "build/matching/hunt1000plus-v47-closure/kernel/load-init.o",
+        "raw_sha256": "4b49480af677b2fd6cad020ad6210159b52bfbb8fda4923ba5705c4e41a368bb",
+        "relocations": 9,
+        "section": ".text",
+        "size": 188,
+        "source_offset": 0,
+        "symbol": "SifLoadFileInit"
+      },
+      {
+        "address": 1705928,
+        "name": "tsv_001a07c8_mcReadFixAlign",
+        "new_bytes": 164,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "752db345ed5a8bb170580e60f371985a1ecea477d0d8bb7e4e85b36a2e7cc36c",
+        "relocations": 2,
+        "section": ".text",
+        "size": 164,
+        "source_offset": 0,
+        "symbol": "mcReadFixAlign"
+      },
+      {
+        "address": 1706092,
+        "name": "tsv_001a086c_mcStoreDir",
+        "new_bytes": 128,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "50afa4c1a2d8b78f978154b75f67d0455554c7bfadf3963b5854ab9615857086",
+        "relocations": 5,
+        "section": ".text",
+        "size": 128,
+        "source_offset": 0,
+        "symbol": "mcStoreDir"
+      },
+      {
+        "address": 1706220,
+        "name": "tsv_001a08ec_mcInit",
+        "new_bytes": 380,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "d0c03446a91bc550a21df2952d8777073681a447d888ec02648844d383c9ec6d",
+        "relocations": 24,
+        "section": ".text",
+        "size": 380,
+        "source_offset": 0,
+        "symbol": "mcInit"
+      },
+      {
+        "address": 1708812,
+        "name": "tsv_001a130c_mcSetFileInfo",
+        "new_bytes": 368,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "7e411366d1085107e54c563634e2ddbfe8c0a4ef8b5d83d666d29c89a1ed83bb",
+        "relocations": 21,
+        "section": ".text",
+        "size": 368,
+        "source_offset": 0,
+        "symbol": "mcSetFileInfo"
+      },
+      {
+        "address": 1709180,
+        "name": "tsv_001a147c_mcDelete",
+        "new_bytes": 216,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "90f90b207952f2aa4d807ac51c56b9626f60491a0fb75ffbb8822890dc0985c9",
+        "relocations": 18,
+        "section": ".text",
+        "size": 216,
+        "source_offset": 0,
+        "symbol": "mcDelete"
+      },
+      {
+        "address": 1709396,
+        "name": "tsv_001a1554_mcFormat",
+        "new_bytes": 188,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "dd81b1b30a6c4d30822418d64b69a0e96843a8a9778f049b259f36626b0a5d9b",
+        "relocations": 17,
+        "section": ".text",
+        "size": 188,
+        "source_offset": 0,
+        "symbol": "mcFormat"
+      },
+      {
+        "address": 1709584,
+        "name": "tsv_001a1610_mcUnformat",
+        "new_bytes": 188,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "e199b3167a988c53a2a818283f43a9b69fdd96622b5e20c52919a03b12d1931d",
+        "relocations": 17,
+        "section": ".text",
+        "size": 188,
+        "source_offset": 0,
+        "symbol": "mcUnformat"
+      },
+      {
+        "address": 1709772,
+        "name": "tsv_001a16cc_mcGetEntSpace",
+        "new_bytes": 216,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "c1cffdb33d878fe8bcc72c686264ecd98ac36f28b3d5c4cd88d9fb72f947a2fa",
+        "relocations": 18,
+        "section": ".text",
+        "size": 216,
+        "source_offset": 0,
+        "symbol": "mcGetEntSpace"
+      },
+      {
+        "address": 1709988,
+        "name": "tsv_001a17a4_mcRename",
+        "new_bytes": 284,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "859ded8db0462677246cdf4921aed16cca83bf58e164ce58968ec0c541a39008",
+        "relocations": 22,
+        "section": ".text",
+        "size": 284,
+        "source_offset": 0,
+        "symbol": "mcRename"
+      },
+      {
+        "address": 1710272,
+        "name": "tsv_001a18c0_mcChangeThreadPriority",
+        "new_bytes": 180,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "d7900b04396001dd7ba578da26f7ce147513f69d5ddf81c3f7c1b5c866a8d0fd",
+        "relocations": 17,
+        "section": ".text",
+        "size": 180,
+        "source_offset": 0,
+        "symbol": "mcChangeThreadPriority"
+      },
+      {
+        "address": 1710452,
+        "name": "tsv_001a1974_mcSync",
+        "new_bytes": 224,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "4edd66a32d5db40fc751a0c96e6057da2f54fb7f677ff1525294d79f2ac87b98",
+        "relocations": 15,
+        "section": ".text",
+        "size": 224,
+        "source_offset": 0,
+        "symbol": "mcSync"
+      },
+      {
+        "address": 1710676,
+        "name": "tsv_001a1a54_strcpy_sjis",
+        "new_bytes": 160,
+        "object": "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+        "raw_sha256": "8c9823723eb5cec19156660a5f275fca169836b6992e8dc03835bd9b892fc7af",
+        "relocations": 1,
+        "section": ".text",
+        "size": 160,
+        "source_offset": 0,
+        "symbol": "strcpy_sjis"
+      },
+      {
+        "address": 1727680,
+        "name": "tsv_001a5cc0_size_of_encoded_value",
+        "new_bytes": 108,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "fe82a35dfe334c04f1570be672e0d76c4bd91e9d2d3bfa74e3a60c6a34adde6c",
+        "relocations": 1,
+        "section": ".text",
+        "size": 108,
+        "source_offset": 0,
+        "symbol": "size_of_encoded_value"
+      },
+      {
+        "address": 1727792,
+        "name": "tsv_001a5d30_read_uleb128",
+        "new_bytes": 60,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "d8171a1edd817a5d4e83e40c6fbddffceec415a30646725163d1c39ffd54dec1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 60,
+        "source_offset": 0,
+        "symbol": "read_uleb128"
+      },
+      {
+        "address": 1727856,
+        "name": "tsv_001a5d70_read_sleb128",
+        "new_bytes": 96,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "679c893ee45dd8b21f054b6b295becc27c8e7534badc9edfea892c9f79172198",
+        "relocations": 0,
+        "section": ".text",
+        "size": 96,
+        "source_offset": 0,
+        "symbol": "read_sleb128"
+      },
+      {
+        "address": 1727952,
+        "name": "tsv_001a5dd0_read_encoded_value_with_base",
+        "new_bytes": 352,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "487d5ef61e56688dee422a791a5d1a113aa734e3fe43b32498a247e1e050c26c",
+        "relocations": 5,
+        "section": ".text",
+        "size": 352,
+        "source_offset": 0,
+        "symbol": "read_encoded_value_with_base"
+      },
+      {
+        "address": 1728304,
+        "name": "tsv_001a5f30___register_frame_info_bases",
+        "new_bytes": 76,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "5f60e1319409bf91ee72422ba7c5fdde7474dc1a7eefef53d14e5cb9007c1393",
+        "relocations": 3,
+        "section": ".text",
+        "size": 76,
+        "source_offset": 0,
+        "symbol": "__register_frame_info_bases"
+      },
+      {
+        "address": 1728384,
+        "name": "tsv_001a5f80___register_frame_info",
+        "new_bytes": 32,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "46e91295aa443c5bf30cb10f020f4ad44ad4b69a1d0adaf1b864ce9b30c210ca",
+        "relocations": 1,
+        "section": ".text",
+        "size": 32,
+        "source_offset": 0,
+        "symbol": "__register_frame_info"
+      },
+      {
+        "address": 1728416,
+        "name": "tsv_001a5fa0___register_frame",
+        "new_bytes": 76,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "24e1c80d1a910cc2f59cda9d53e15b7583421de73f5e493b873a973683bc59ec",
+        "relocations": 2,
+        "section": ".text",
+        "size": 76,
+        "source_offset": 0,
+        "symbol": "__register_frame"
+      },
+      {
+        "address": 1728496,
+        "name": "tsv_001a5ff0___register_frame_info_table_bases",
+        "new_bytes": 68,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "d6c08cb4a1e9e8c6ce7db0f903e7ea97ccaf302f2775a75d9d8bfe76959e2abb",
+        "relocations": 3,
+        "section": ".text",
+        "size": 68,
+        "source_offset": 0,
+        "symbol": "__register_frame_info_table_bases"
+      },
+      {
+        "address": 1728568,
+        "name": "tsv_001a6038___register_frame_info_table",
+        "new_bytes": 32,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "46e91295aa443c5bf30cb10f020f4ad44ad4b69a1d0adaf1b864ce9b30c210ca",
+        "relocations": 1,
+        "section": ".text",
+        "size": 32,
+        "source_offset": 0,
+        "symbol": "__register_frame_info_table"
+      },
+      {
+        "address": 1728600,
+        "name": "tsv_001a6058___register_frame_table",
+        "new_bytes": 52,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "3499b38816fc1de6f50436f6285192967c084cb91831824d1182e4275a5b3a27",
+        "relocations": 2,
+        "section": ".text",
+        "size": 52,
+        "source_offset": 0,
+        "symbol": "__register_frame_table"
+      },
+      {
+        "address": 1728656,
+        "name": "tsv_001a6090___deregister_frame_info_bases",
+        "new_bytes": 216,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "d043fef7acaf89b12a5c059531e426ca24baee8cbfe18b69d8aac825c73272ad",
+        "relocations": 8,
+        "section": ".text",
+        "size": 216,
+        "source_offset": 0,
+        "symbol": "__deregister_frame_info_bases"
+      },
+      {
+        "address": 1728872,
+        "name": "tsv_001a6168___deregister_frame_info",
+        "new_bytes": 28,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "efeab6e4686e76aab3201bf30e8045fff9001d7a63efcb37418a20616008bb84",
+        "relocations": 1,
+        "section": ".text",
+        "size": 28,
+        "source_offset": 0,
+        "symbol": "__deregister_frame_info"
+      },
+      {
+        "address": 1728960,
+        "name": "tsv_001a61c0_base_from_object",
+        "new_bytes": 128,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "7b76542a8521ec13820aa99e85f5dc0e8a4cfbe9b0a0d6777bde4068026d158d",
+        "relocations": 1,
+        "section": ".text",
+        "size": 128,
+        "source_offset": 0,
+        "symbol": "base_from_object"
+      },
+      {
+        "address": 1729088,
+        "name": "tsv_001a6240_get_cie_encoding",
+        "new_bytes": 224,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "c294dc5cfd238facd6ee2cada5a5cf394e0282d1a0cdcf0c8315fc438f912018",
+        "relocations": 5,
+        "section": ".text",
+        "size": 224,
+        "source_offset": 0,
+        "symbol": "get_cie_encoding"
+      },
+      {
+        "address": 1729768,
+        "name": "tsv_001a64e8_frame_heapsort",
+        "new_bytes": 648,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "301bb06cc700d461c2ea307aa1e6c5fd8792af9893b492454fcb9198c753bbd9",
+        "relocations": 0,
+        "section": ".text",
+        "size": 648,
+        "source_offset": 0,
+        "symbol": "frame_heapsort"
+      },
+      {
+        "address": 1730416,
+        "name": "tsv_001a6770_classify_object_over_fdes",
+        "new_bytes": 384,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "c3556ace4b80cb4dfa561f7c5efe5754c2b1d30afa735c139b51a540555ec21a",
+        "relocations": 4,
+        "section": ".text",
+        "size": 384,
+        "source_offset": 0,
+        "symbol": "classify_object_over_fdes"
+      },
+      {
+        "address": 1730800,
+        "name": "tsv_001a68f0_add_fdes",
+        "new_bytes": 380,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "bc7773ddac83582274abbae1f52f5e0c37a8e11dc1b55b2d674a61e698124d9b",
+        "relocations": 5,
+        "section": ".text",
+        "size": 380,
+        "source_offset": 0,
+        "symbol": "add_fdes"
+      },
+      {
+        "address": 1731184,
+        "name": "tsv_001a6a70_linear_search_fdes",
+        "new_bytes": 424,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "6f13b91ae6190fcaaa961a4b35722f5ffc7a1b20e4b8c0c83e5096ef63b8aeb3",
+        "relocations": 6,
+        "section": ".text",
+        "size": 424,
+        "source_offset": 0,
+        "symbol": "linear_search_fdes"
+      },
+      {
+        "address": 1731608,
+        "name": "tsv_001a6c18_search_object",
+        "new_bytes": 792,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "4f650cdf5dff356f0a11b6fe5066682e2303eea744230389d5d96a08185e4910",
+        "relocations": 10,
+        "section": ".text",
+        "size": 792,
+        "source_offset": 0,
+        "symbol": "search_object"
+      },
+      {
+        "address": 1732400,
+        "name": "tsv_001a6f30__Unwind_Find_FDE",
+        "new_bytes": 400,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "44fd2a90e78aad2d2e5b90b9350438a8341a79cd06aff914fe3461d603aba9a2",
+        "relocations": 15,
+        "section": ".text",
+        "size": 400,
+        "source_offset": 0,
+        "symbol": "_Unwind_Find_FDE"
+      },
+      {
+        "address": 1732800,
+        "name": "tsv_001a70c0_init_object",
+        "new_bytes": 884,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "d44c1478625011ed5cfe6f891352ab02124c10d2cfb02e9e3f56a02b6e6c8983",
+        "relocations": 17,
+        "section": ".text",
+        "size": 884,
+        "source_offset": 0,
+        "symbol": "init_object"
+      },
+      {
+        "address": 1733688,
+        "name": "tsv_001a7438_fde_split",
+        "new_bytes": 324,
+        "object": "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+        "raw_sha256": "8bfa6cd451ea72779fb21cb3cdb4e3e73ff78375426ec280a381fd9600f626f0",
+        "relocations": 2,
+        "section": ".text",
+        "size": 324,
+        "source_offset": 0,
+        "symbol": "fde_split"
+      },
+      {
+        "address": 1750080,
+        "name": "tsv_001ab440__SyncDCache",
+        "new_bytes": 164,
+        "object": "build/matching/hunt1000plus-v46-closure/ps2dev/SyncDCache.o",
+        "raw_sha256": "c0f86abc89f08902f14f584e2bb86fffdab9d4db9bf98b74698d5036480df936",
+        "relocations": 0,
+        "section": ".text",
+        "size": 164,
+        "source_offset": 0,
+        "symbol": "_SyncDCache"
+      },
+      {
+        "address": 1750248,
+        "name": "tsv_001ab4e8__Z16S9xGetMemPointerj",
+        "new_bytes": 340,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/MEMMAP.o",
+        "raw_sha256": "dbc9d07f7486591e4897ec00c417a11dd8fc05d77cba8e88c99e0424c47188d7",
+        "relocations": 27,
+        "section": ".text",
+        "size": 340,
+        "source_offset": 0,
+        "symbol": "_Z16S9xGetMemPointerj"
+      },
+      {
+        "address": 1750588,
+        "name": "tsv_001ab63c__Z10S9xGetBytej",
+        "new_bytes": 708,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/MEMMAP.o",
+        "raw_sha256": "0e803c2aaafecb8bfc19887f9177e909d011156393483cb46d247f148b6e31e4",
+        "relocations": 49,
+        "section": ".text",
+        "size": 708,
+        "source_offset": 0,
+        "symbol": "_Z10S9xGetBytej"
+      },
+      {
+        "address": 1751296,
+        "name": "tsv_001ab900__Z10S9xSetBytehj",
+        "new_bytes": 808,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/MEMMAP.o",
+        "raw_sha256": "aee1e5663189c1dabf13623cfacf9e0a69588872530c4fad01eb2bf29c52e6d2",
+        "relocations": 53,
+        "section": ".text",
+        "size": 808,
+        "source_offset": 0,
+        "symbol": "_Z10S9xSetBytehj"
+      },
+      {
+        "address": 1752104,
+        "name": "tsv_001abc28__Z10S9xGetWordj",
+        "new_bytes": 1020,
+        "object": "build/matching/hunt1041-v48-closure/historical/snes-memmap.o",
+        "raw_sha256": "72691a80bfb220a17b5773e5d96e6805728a23c67cd053330f50e811db07a2f5",
+        "relocations": 62,
+        "section": ".text",
+        "size": 1020,
+        "source_offset": 0,
+        "symbol": "_Z10S9xGetWordj"
+      },
+      {
+        "address": 1753124,
+        "name": "tsv_001ac024__Z12S9xSetPCBasej",
+        "new_bytes": 364,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/MEMMAP.o",
+        "raw_sha256": "a49edabe9071590beacb8a0b54e0d0ed48fd848f41d166906165e3540c8149a8",
+        "relocations": 29,
+        "section": ".text",
+        "size": 364,
+        "source_offset": 0,
+        "symbol": "_Z12S9xSetPCBasej"
+      },
+      {
+        "address": 1753488,
+        "name": "tsv_001ac190__Z10S9xSetWordtj",
+        "new_bytes": 1140,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/MEMMAP.o",
+        "raw_sha256": "d549b1ca0328d942cd9a0ac27411683619ff32ce5e4b2bc1b2bc4112f48c3de3",
+        "relocations": 64,
+        "section": ".text",
+        "size": 1140,
+        "source_offset": 0,
+        "symbol": "_Z10S9xSetWordtj"
+      },
+      {
+        "address": 1754628,
+        "name": "tsv_001ac604__Z11CPUShutdownv",
+        "new_bytes": 304,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/CPUOPS.o",
+        "raw_sha256": "b2ccbfabde8e80f172af5abeade838cb82a1b31bfe120240ab93d9729ba18452",
+        "relocations": 29,
+        "section": ".text",
+        "size": 304,
+        "source_offset": 0,
+        "symbol": "_Z11CPUShutdownv"
+      },
+      {
+        "address": 1754932,
+        "name": "tsv_001ac734__Z14GetBasePointerj",
+        "new_bytes": 260,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/MEMMAP.o",
+        "raw_sha256": "d2fbfd3e4ac3152007df1d1ed56b3b9f43426eece600cd1f22597ffc325e5f5f",
+        "relocations": 22,
+        "section": ".text",
+        "size": 260,
+        "source_offset": 0,
+        "symbol": "_Z14GetBasePointerj"
+      },
+      {
+        "address": 1755192,
+        "name": "tsv_001ac838__Z18SelectTileRendererh",
+        "new_bytes": 348,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/gfx.o",
+        "raw_sha256": "f9f748e190db92302f76e2fb545680b7eb6fcb38c534f32a9efc6071b772954d",
+        "relocations": 66,
+        "section": ".text",
+        "size": 348,
+        "source_offset": 0,
+        "symbol": "_Z18SelectTileRendererh"
+      },
+      {
+        "address": 1755540,
+        "name": "tsv_001ac994__Z14S9xAPUGetByteZh",
+        "new_bytes": 188,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SPC700.o",
+        "raw_sha256": "10320a3420eb43c288237bda094cfeb9fded338d775db46009ff75d3766cbc38",
+        "relocations": 7,
+        "section": ".text",
+        "size": 188,
+        "source_offset": 0,
+        "symbol": "_Z14S9xAPUGetByteZh"
+      },
+      {
+        "address": 1755728,
+        "name": "tsv_001aca50__Z14S9xAPUSetByteZhh",
+        "new_bytes": 236,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SPC700.o",
+        "raw_sha256": "b30fc9b19b510c24f0e2c225f42d5af4fb688e818be74589852f72c895fa1291",
+        "relocations": 12,
+        "section": ".text",
+        "size": 236,
+        "source_offset": 0,
+        "symbol": "_Z14S9xAPUSetByteZhh"
+      },
+      {
+        "address": 1755964,
+        "name": "tsv_001acb3c__Z13S9xAPUGetBytej",
+        "new_bytes": 180,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SPC700.o",
+        "raw_sha256": "14810facfef7851c5081fc6248992d211e83bcd4ba4333b578feb3f9e402b0d2",
+        "relocations": 9,
+        "section": ".text",
+        "size": 180,
+        "source_offset": 0,
+        "symbol": "_Z13S9xAPUGetBytej"
+      },
+      {
+        "address": 1756144,
+        "name": "tsv_001acbf0__Z13S9xAPUSetBytehj",
+        "new_bytes": 276,
+        "object": "build/matching/hunt1000plus-v46-closure/snes/SPC700.o",
+        "raw_sha256": "41633a262af982ce4eaeb76ec415c1c51aad90f388e445bb1cc12d1e577ba728",
+        "relocations": 15,
+        "section": ".text",
+        "size": 276,
+        "source_offset": 0,
+        "symbol": "_Z13S9xAPUSetBytehj"
+      },
+      {
+        "address": 1756420,
+        "name": "tsv_001acd04__Z13WRITE_4PIXELSjPh",
+        "new_bytes": 292,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "b6ca8a5aa80b950e82893f4a67443afeda29d0d59d866aa3adecc059d46258ef",
+        "relocations": 11,
+        "section": ".text",
+        "size": 292,
+        "source_offset": 0,
+        "symbol": "_Z13WRITE_4PIXELSjPh"
+      },
+      {
+        "address": 1756712,
+        "name": "tsv_001ace28__Z21WRITE_4PIXELS_FLIPPEDjPh",
+        "new_bytes": 292,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "17653e04bd43cf39b83a673fe73610c1edeafc18db363af8dc8b96601e7fd75e",
+        "relocations": 11,
+        "section": ".text",
+        "size": 292,
+        "source_offset": 0,
+        "symbol": "_Z21WRITE_4PIXELS_FLIPPEDjPh"
+      },
+      {
+        "address": 1757004,
+        "name": "tsv_001acf4c__Z15WRITE_4PIXELSx2jPh",
+        "new_bytes": 324,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "5018781b0c5311686cb9519dc5872db9acef46ffad79fbddb9d5d2bb05fa91bc",
+        "relocations": 11,
+        "section": ".text",
+        "size": 324,
+        "source_offset": 0,
+        "symbol": "_Z15WRITE_4PIXELSx2jPh"
+      },
+      {
+        "address": 1757328,
+        "name": "tsv_001ad090__Z23WRITE_4PIXELS_FLIPPEDx2jPh",
+        "new_bytes": 324,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "068b8e8a69812ec960bec9a0a035033c1f81e1a177a288513d9434443c800010",
+        "relocations": 11,
+        "section": ".text",
+        "size": 324,
+        "source_offset": 0,
+        "symbol": "_Z23WRITE_4PIXELS_FLIPPEDx2jPh"
+      },
+      {
+        "address": 1757652,
+        "name": "tsv_001ad1d4__Z17WRITE_4PIXELSx2x2jPh",
+        "new_bytes": 452,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "e1f58bede85429ec6270e20dc411c5b3195e994c9c513aaa51b44640ce6117f6",
+        "relocations": 11,
+        "section": ".text",
+        "size": 452,
+        "source_offset": 0,
+        "symbol": "_Z17WRITE_4PIXELSx2x2jPh"
+      },
+      {
+        "address": 1758104,
+        "name": "tsv_001ad398__Z25WRITE_4PIXELS_FLIPPEDx2x2jPh",
+        "new_bytes": 452,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "385b1d4805b8f397769ff33476491cc71049aaee945761260feeecc0c71d3f38",
+        "relocations": 11,
+        "section": ".text",
+        "size": 452,
+        "source_offset": 0,
+        "symbol": "_Z25WRITE_4PIXELS_FLIPPEDx2x2jPh"
+      },
+      {
+        "address": 1758556,
+        "name": "tsv_001ad55c__Z15WRITE_4PIXELS16jPh",
+        "new_bytes": 296,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "4585d99ad2bc8fbaa50c144c0e6495fb617e74c8d5a9ba3116e76dcc658efd2a",
+        "relocations": 11,
+        "section": ".text",
+        "size": 296,
+        "source_offset": 0,
+        "symbol": "_Z15WRITE_4PIXELS16jPh"
+      },
+      {
+        "address": 1758852,
+        "name": "tsv_001ad684__Z23WRITE_4PIXELS16_FLIPPEDjPh",
+        "new_bytes": 296,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "3b0fe70a5939bd3e5c5af1f9aca65a069f6dc30fa8dc057a9fbc68e4c52fb469",
+        "relocations": 11,
+        "section": ".text",
+        "size": 296,
+        "source_offset": 0,
+        "symbol": "_Z23WRITE_4PIXELS16_FLIPPEDjPh"
+      },
+      {
+        "address": 1759148,
+        "name": "tsv_001ad7ac__Z17WRITE_4PIXELS16x2jPh",
+        "new_bytes": 328,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "91e62c302ce4c8c30cc286d3231dc8663cacadfafbc340f539833776af587127",
+        "relocations": 11,
+        "section": ".text",
+        "size": 328,
+        "source_offset": 0,
+        "symbol": "_Z17WRITE_4PIXELS16x2jPh"
+      },
+      {
+        "address": 1759476,
+        "name": "tsv_001ad8f4__Z25WRITE_4PIXELS16_FLIPPEDx2jPh",
+        "new_bytes": 328,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "af308846fa99957305e2cd1d921d6d19fe1ee39c5d68c5c8a8c117f586bfa3b9",
+        "relocations": 11,
+        "section": ".text",
+        "size": 328,
+        "source_offset": 0,
+        "symbol": "_Z25WRITE_4PIXELS16_FLIPPEDx2jPh"
+      },
+      {
+        "address": 1759804,
+        "name": "tsv_001ada3c__Z19WRITE_4PIXELS16x2x2jPh",
+        "new_bytes": 504,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "6e16d12458f9e1e412a0468d9216f1478f59a5187dd12e841cc0e1dfd491451c",
+        "relocations": 13,
+        "section": ".text",
+        "size": 504,
+        "source_offset": 0,
+        "symbol": "_Z19WRITE_4PIXELS16x2x2jPh"
+      },
+      {
+        "address": 1760308,
+        "name": "tsv_001adc34__Z27WRITE_4PIXELS16_FLIPPEDx2x2jPh",
+        "new_bytes": 504,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "9527d5d9c7f40a1d4ead9479996a2f5e313f991e7e87b7a4c7bb59bf28e76500",
+        "relocations": 13,
+        "section": ".text",
+        "size": 504,
+        "source_offset": 0,
+        "symbol": "_Z27WRITE_4PIXELS16_FLIPPEDx2x2jPh"
+      },
+      {
+        "address": 1760812,
+        "name": "tsv_001ade2c__Z19WRITE_4PIXELS16_ADDjPh",
+        "new_bytes": 1172,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "5d525db332b2b43d05be5a1e78d2b5b5c60aad4a0e22df8c41e3d92d8c23a82f",
+        "relocations": 21,
+        "section": ".text",
+        "size": 1172,
+        "source_offset": 0,
+        "symbol": "_Z19WRITE_4PIXELS16_ADDjPh"
+      },
+      {
+        "address": 1761984,
+        "name": "tsv_001ae2c0__Z27WRITE_4PIXELS16_FLIPPED_ADDjPh",
+        "new_bytes": 1172,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "8cb89a1b6fff289a25f459d5f009fb6685f591b28d2ce5ef1f8d497ceeb21b4b",
+        "relocations": 21,
+        "section": ".text",
+        "size": 1172,
+        "source_offset": 0,
+        "symbol": "_Z27WRITE_4PIXELS16_FLIPPED_ADDjPh"
+      },
+      {
+        "address": 1763156,
+        "name": "tsv_001ae754__Z22WRITE_4PIXELS16_ADD1_2jPh",
+        "new_bytes": 1028,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "8e5ada61328fe37123aa05f0a2c13fcbdcfc5748244902e0a648d2679b90b52e",
+        "relocations": 21,
+        "section": ".text",
+        "size": 1028,
+        "source_offset": 0,
+        "symbol": "_Z22WRITE_4PIXELS16_ADD1_2jPh"
+      },
+      {
+        "address": 1764184,
+        "name": "tsv_001aeb58__Z30WRITE_4PIXELS16_FLIPPED_ADD1_2jPh",
+        "new_bytes": 1028,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "ba5aeb6fc394a6b0011996e894467088ccb143cc3f0851bd1188567c2a2ebcc3",
+        "relocations": 21,
+        "section": ".text",
+        "size": 1028,
+        "source_offset": 0,
+        "symbol": "_Z30WRITE_4PIXELS16_FLIPPED_ADD1_2jPh"
+      },
+      {
+        "address": 1765212,
+        "name": "tsv_001aef5c__Z19WRITE_4PIXELS16_SUBjPh",
+        "new_bytes": 948,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "9a49ee3b4d780ae986233cb1d8da3e296e0ff36563a3e833bc18f972f942a30f",
+        "relocations": 21,
+        "section": ".text",
+        "size": 948,
+        "source_offset": 0,
+        "symbol": "_Z19WRITE_4PIXELS16_SUBjPh"
+      },
+      {
+        "address": 1766160,
+        "name": "tsv_001af310__Z27WRITE_4PIXELS16_FLIPPED_SUBjPh",
+        "new_bytes": 948,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "f9b51571974649d9bb02a48fb7964f8c88d4878f48b9385ee128e437c1aa9923",
+        "relocations": 21,
+        "section": ".text",
+        "size": 948,
+        "source_offset": 0,
+        "symbol": "_Z27WRITE_4PIXELS16_FLIPPED_SUBjPh"
+      },
+      {
+        "address": 1767108,
+        "name": "tsv_001af6c4__Z22WRITE_4PIXELS16_SUB1_2jPh",
+        "new_bytes": 964,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "90be73d6075fc2aa211ce28d11714165708bd788d69d840f9ed47e7f96a0820f",
+        "relocations": 19,
+        "section": ".text",
+        "size": 964,
+        "source_offset": 0,
+        "symbol": "_Z22WRITE_4PIXELS16_SUB1_2jPh"
+      },
+      {
+        "address": 1768072,
+        "name": "tsv_001afa88__Z30WRITE_4PIXELS16_FLIPPED_SUB1_2jPh",
+        "new_bytes": 964,
+        "object": "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+        "raw_sha256": "7ec35bde96c85a30989d49a4efe55879a17af5d037a4f035e0387dd95e05e7df",
+        "relocations": 19,
+        "section": ".text",
+        "size": 964,
+        "source_offset": 0,
+        "symbol": "_Z30WRITE_4PIXELS16_FLIPPED_SUB1_2jPh"
+      },
+      {
         "address": 1505988,
         "name": "sdd1_compare",
         "new_bytes": 64,
@@ -2639,9 +5532,1377 @@
         "size": 288,
         "source_offset": 0,
         "symbol": "stage3p_memory_safe"
+      },
+      {
+        "address": 1687152,
+        "name": "listing_cdvd_rpc_0019be70",
+        "new_bytes": 1220,
+        "object": "analysis/functions/cdvd_rpc_0019be70.asm",
+        "raw_sha256": "98a6c20afaa44c28a4a65cea3f2b7a7a75f7593e6e9c880a310928fe979eeb5f",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 1268,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1749952,
+        "name": "listing_core_getset_apumem_001ab3c0",
+        "new_bytes": 128,
+        "object": "analysis/functions/core_getset_apumem_001ab3c0.asm",
+        "raw_sha256": "69ff1bb4f05442cc74b86ee24baadb68e8e009c928c21417a0506e3139faba65",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 128,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1741048,
+        "name": "listing_cpp_eh_personality_001a90f8",
+        "new_bytes": 3448,
+        "object": "analysis/functions/cpp_eh_personality_001a90f8.asm",
+        "raw_sha256": "b1b47a7a80ae767848d06e9cc408204b24ea450324af55cfce315753053b700e",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 3464,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1691584,
+        "name": "listing_fileio_0019cfc0",
+        "new_bytes": 1184,
+        "object": "analysis/functions/fileio_0019cfc0.asm",
+        "raw_sha256": "b3e53c384a7811e830a08126ccf0f74898c6990a836f43de341885de6232a493",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 1600,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1674328,
+        "name": "listing_gslib_gsdriver_00198c58",
+        "new_bytes": 2072,
+        "object": "analysis/functions/gslib_gsdriver_00198c58.asm",
+        "raw_sha256": "59e9b8618ddb73681e0c5f1aa6e379c70fdb13d991e3dcd754ff5d20795cc7c1",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 2088,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1685832,
+        "name": "listing_gslib_gsfont_0019b7f0",
+        "new_bytes": 400,
+        "object": "analysis/functions/gslib_gsfont_0019b7f0.asm",
+        "raw_sha256": "27a7aa4e14260e6b6791b4bf1be409e0d7675bf894e82c0dc05e941d565f4a19",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 1008,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1676416,
+        "name": "listing_gslib_gspipe_core_00199480",
+        "new_bytes": 2824,
+        "object": "analysis/functions/gslib_gspipe_core_00199480.asm",
+        "raw_sha256": "10e9e7d2508c4577fbbc4b84164299e6ee80b679f2a75479276c74b021ddfef0",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 2824,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1681224,
+        "name": "listing_gslib_gspipe_primitives_0019a748",
+        "new_bytes": 4264,
+        "object": "analysis/functions/gslib_gspipe_primitives_0019a748.asm",
+        "raw_sha256": "92f582f57af0abf3be5d8e47ecaea8538ff214643e2f51e181eceba4a77b04d0",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 4264,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1679240,
+        "name": "listing_gslib_gspipe_texture_00199f88",
+        "new_bytes": 1984,
+        "object": "analysis/functions/gslib_gspipe_texture_00199f88.asm",
+        "raw_sha256": "8fb815f13b8130d4d3e56da61d73d15bf76e9e6f8585fe0f909d9b2c58b6c169",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 1984,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1686840,
+        "name": "listing_gslib_hw_0019bd38",
+        "new_bytes": 280,
+        "object": "analysis/functions/gslib_hw_0019bd38.asm",
+        "raw_sha256": "b11701b59f564bf254c380d4e28ecd84e42ea1bc4f0b3900ca076407377ca4bf",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 312,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1697888,
+        "name": "listing_libc_text_0019e860",
+        "new_bytes": 1280,
+        "object": "analysis/functions/libc_text_0019e860.asm",
+        "raw_sha256": "c19319352358c67f7a8dea71ed81e8854798d72246270c41a3ddfa01ffd8e47b",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 1972,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1710848,
+        "name": "listing_libgcc_frontier_001a1b00",
+        "new_bytes": 9680,
+        "object": "analysis/functions/libgcc_frontier_001a1b00.asm",
+        "raw_sha256": "dd5377545052ac1ecb8e464c58830f9213f5c6fcd4662a33b79969970b71449f",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 9728,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1701328,
+        "name": "listing_libkernel_client_init_0019f5d0",
+        "new_bytes": 304,
+        "object": "analysis/functions/libkernel_client_init_0019f5d0.asm",
+        "raw_sha256": "238cde9c71f9c1f50fe80e779a77c0cf558edb64dc685715b1eb7fd0dbc42cbb",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 536,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1696884,
+        "name": "listing_libkernel_heap_0019e474",
+        "new_bytes": 64,
+        "object": "analysis/functions/libkernel_heap_0019e474.asm",
+        "raw_sha256": "976a2ef4e5ace574fe49ac05879156305021241a8de9316ce1cb75d4352154a6",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 64,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1699864,
+        "name": "listing_libkernel_intr_0019f018",
+        "new_bytes": 96,
+        "object": "analysis/functions/libkernel_intr_0019f018.asm",
+        "raw_sha256": "d79f0fca2ad0f49f8766a09f429d15664294db4341d9606c1d65c9857aef7230",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 96,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1688532,
+        "name": "listing_libkernel_libc_strings_0019c3d4",
+        "new_bytes": 496,
+        "object": "analysis/functions/libkernel_libc_strings_0019c3d4.asm",
+        "raw_sha256": "ca50fa32aee9ca4c7064ab8e75bd1423a3baf81734692c974de16774747b9fb6",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 692,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1688420,
+        "name": "listing_libkernel_size_strings_0019c364",
+        "new_bytes": 236,
+        "object": "analysis/functions/libkernel_size_strings_0019c364.asm",
+        "raw_sha256": "97fa7fffc3863ba54a8b02f0c5d4e698ef5c9755826de605a1b09231cbb59dcb",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 684,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1688588,
+        "name": "listing_libkernel_strings_0019c364",
+        "new_bytes": 44,
+        "object": "analysis/functions/libkernel_strings_0019c364.asm",
+        "raw_sha256": "c223d5259a1f76285c9c6f12d9058c4659227c2614003e0e02803f048d8e0455",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 448,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1691232,
+        "name": "listing_libkernel_syscalls_0019ce60",
+        "new_bytes": 176,
+        "object": "analysis/functions/libkernel_syscalls_0019ce60.asm",
+        "raw_sha256": "04293c360069d95f32d708748fa0a26f6c004838c168ea0f0660fdc2e530d385",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 176,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1703120,
+        "name": "listing_libkernel_syscalls_0019fcd0",
+        "new_bytes": 80,
+        "object": "analysis/functions/libkernel_syscalls_0019fcd0.asm",
+        "raw_sha256": "943a6c8dc8199e04153114664a6be143a7427a8ea0cbde65fd8a9c54e7d9f126",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 80,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1705792,
+        "name": "listing_libmc_frontier_001a0740",
+        "new_bytes": 2360,
+        "object": "analysis/functions/libmc_frontier_001a0740.asm",
+        "raw_sha256": "4dad99fbeb772cfc7c953aac081dd45eddca3b7da3d20a256f37a6efcaf4b23b",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 5056,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1737760,
+        "name": "listing_libpad_001a8420",
+        "new_bytes": 3224,
+        "object": "analysis/functions/libpad_001a8420.asm",
+        "raw_sha256": "9846b945942accc5b72b991d1a8cbd57e21dc2c1f0f451ea9d2b3490184c8d5f",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 3288,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1744808,
+        "name": "listing_libsupcxx_rtti_001a9fa8",
+        "new_bytes": 5128,
+        "object": "analysis/functions/libsupcxx_rtti_001a9fa8.asm",
+        "raw_sha256": "c7ac2eee1d6fb1f9cff7115fef68821eecd41860bfba8fe6a735d0686e471ac8",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 5144,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1693184,
+        "name": "listing_loadfile_iop_0019d600",
+        "new_bytes": 60,
+        "object": "analysis/functions/loadfile_iop_0019d600.asm",
+        "raw_sha256": "c4674aa69fa0589d9482d782bcc460765b4b4ccc84de02bb987e30f38af6f2a3",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 60,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1703388,
+        "name": "listing_math_frontier_0019fddc",
+        "new_bytes": 2360,
+        "object": "analysis/functions/math_frontier_0019fddc.asm",
+        "raw_sha256": "41a9424d8a632d2c015150e0c823b29457ff9f5572a9d45baf0b2960b4d29f41",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 2404,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1727576,
+        "name": "listing_progress13_targets",
+        "new_bytes": 1964,
+        "object": "analysis/functions/progress13_targets.asm",
+        "raw_sha256": "c5100130cce74c3da0edffa651cbd827c3bc53079e268937ac7e81c701f60a9e",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 17168,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1696372,
+        "name": "listing_ps2lib_vsnprintf_0019d84c",
+        "new_bytes": 20,
+        "object": "analysis/functions/ps2lib_vsnprintf_0019d84c.asm",
+        "raw_sha256": "997bb19a1ab57341c3e9c3b542b133839278d157a26f79322bf09ddf62f020b5",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 20,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1700152,
+        "name": "listing_sifcmd_0019f138",
+        "new_bytes": 564,
+        "object": "analysis/functions/sifcmd_0019f138.asm",
+        "raw_sha256": "465500baeed2d23cffb87f41bab37838caeea96339a6dce1866b1842001d7ca1",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 1116,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1702656,
+        "name": "listing_sifcmd_irq_0019fb00",
+        "new_bytes": 464,
+        "object": "analysis/functions/sifcmd_irq_0019fb00.asm",
+        "raw_sha256": "11e09e2f96350ded2850709b6aa168673b9c36d9bb2c5ff7080c6a2cad88f04d",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 464,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1689224,
+        "name": "listing_sifrpc_0019c688",
+        "new_bytes": 2176,
+        "object": "analysis/functions/sifrpc_0019c688.asm",
+        "raw_sha256": "89dd0333b41774834a08c40eb454aad23ea2d4b79d41b6aff7eecd7965324356",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 2352,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1769036,
+        "name": "listing_tile_color_math_writers_001ade2c",
+        "new_bytes": 436,
+        "object": "analysis/functions/tile_color_math_writers_001ade2c.asm",
+        "raw_sha256": "504c4e839034106e1f0d804603a994c79fc91a5b0c18886d40661540a0f5456a",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 436,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1586076,
+        "name": "listing_tile_init_and_helpers_00183000",
+        "new_bytes": 16,
+        "object": "analysis/functions/tile_init_and_helpers_00183000.asm",
+        "raw_sha256": "cb5dc2e5b53af1f20c38d6086b79f7dc61792d3881e6f6e8f1b57f851a9b55b4",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 708,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1631424,
+        "name": "listing_unreduce_0018e4c0",
+        "new_bytes": 1432,
+        "object": "analysis/functions/unreduce_0018e4c0.asm",
+        "raw_sha256": "9a78a0359ab4bfd5bb343e864d49762dd0d1233589b861669a49f75cad27d74b",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 1432,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1634416,
+        "name": "listing_unzip_api_0018f010",
+        "new_bytes": 1520,
+        "object": "analysis/functions/unzip_api_0018f010.asm",
+        "raw_sha256": "cfa45f714a889c5134b22c378d5d0bd176546772a75f09f69ff78e8fb291add2",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 5560,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1622308,
+        "name": "listing_unzip_explode_0018c124",
+        "new_bytes": 6120,
+        "object": "analysis/functions/unzip_explode_0018c124.asm",
+        "raw_sha256": "5f3ec03338308b8414e352e51bf9e1bce9069f3686920d1923809870a9bdef30",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 6132,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1629548,
+        "name": "listing_unzip_io_huft_0018dc60",
+        "new_bytes": 1852,
+        "object": "analysis/functions/unzip_io_huft_0018dc60.asm",
+        "raw_sha256": "567783a9db225bd8a020e7601f099ac1a304e92e094e3df34bc895a634fe7723",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 1876,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1702568,
+        "name": "listing_vprintf_0019faa8",
+        "new_bytes": 88,
+        "object": "analysis/functions/vprintf_0019faa8.asm",
+        "raw_sha256": "a79b4b081e07d6323d933779bbd8a51aa13c8f3ebbbf7acca1f4073abc974a07",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 88,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1640192,
+        "name": "listing_zlib_buffer_api_00190700",
+        "new_bytes": 492,
+        "object": "analysis/functions/zlib_buffer_api_00190700.asm",
+        "raw_sha256": "8abd7176efe0253932154a3e83cf9698bc5b87d07de2b1c7a14ab10eb6f6af44",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 492,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1652068,
+        "name": "listing_zlib_gzio_00193298",
+        "new_bytes": 2652,
+        "object": "analysis/functions/zlib_gzio_00193298.asm",
+        "raw_sha256": "7eb73ec1ded814a597ad500212637a0204248b85808f9e8588ac160d8d6fb9ce",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 4008,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1659708,
+        "name": "listing_zlib_infcodes_0019533c",
+        "new_bytes": 2048,
+        "object": "analysis/functions/zlib_infcodes_0019533c.asm",
+        "raw_sha256": "5c2fc4e37ade7bf25f242c0869a29a9616fc2d2cee05858063247ed8ee71ff6a",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 2048,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1656360,
+        "name": "listing_zlib_inflate_blocks_00194628",
+        "new_bytes": 3348,
+        "object": "analysis/functions/zlib_inflate_blocks_00194628.asm",
+        "raw_sha256": "36f7bb49383a28e92c0becc82ead77e8aedb6f250192a6c64fcb6fd19105087b",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 3348,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1662848,
+        "name": "listing_zlib_inftrees_00195f80",
+        "new_bytes": 2552,
+        "object": "analysis/functions/zlib_inftrees_00195f80.asm",
+        "raw_sha256": "441ff445ad55104cc35818ecef9d09a0991ad61b57efce835edd87cea5f3e9cc",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 2568,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1665416,
+        "name": "listing_zlib_trees_start_00196980",
+        "new_bytes": 1576,
+        "object": "analysis/functions/zlib_trees_start_00196980.asm",
+        "raw_sha256": "c06a42f4b93255b17555b9d541fee86a000a755bea64972595fd4e218f57457e",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 1656,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1673840,
+        "name": "listing_zlib_zutil_adler_00198a84",
+        "new_bytes": 480,
+        "object": "analysis/functions/zlib_zutil_adler_00198a84.asm",
+        "raw_sha256": "a4bd04638449add3c31c14f429578cb22fe594132f175f993b1c7a47f19cf898",
+        "relocations": 0,
+        "section": "objdump-byte-columns",
+        "size": 488,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1507328,
+        "name": "stage3p_tail_gap_00170000",
+        "new_bytes": 556,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "e5e4e0b1bfa6e2aa52e87ff160eb4e1a6d1e9c77e731d9236e070ca18925359c",
+        "relocations": 0,
+        "section": ".text",
+        "size": 556,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00170000"
+      },
+      {
+        "address": 1511884,
+        "name": "stage3p_tail_gap_001711cc",
+        "new_bytes": 28,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "29018c462e3068a87134effc2fee19403894145af98d5671b0a86def44316a51",
+        "relocations": 0,
+        "section": ".text",
+        "size": 28,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001711cc"
+      },
+      {
+        "address": 1511984,
+        "name": "stage3p_tail_gap_00171230",
+        "new_bytes": 28,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "aba4ce4734ab5e3d07635c44cd8a39dc8acbb012d1a30d0585f46618882d1838",
+        "relocations": 0,
+        "section": ".text",
+        "size": 28,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00171230"
+      },
+      {
+        "address": 1522832,
+        "name": "stage3p_tail_gap_00173c90",
+        "new_bytes": 364,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "3400b9b3cd1881b255efda9a0c29fbccc97c266a61ea5a66ac67291d70db148e",
+        "relocations": 0,
+        "section": ".text",
+        "size": 364,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00173c90"
+      },
+      {
+        "address": 1539676,
+        "name": "stage3p_tail_gap_00177e5c",
+        "new_bytes": 16,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "343afe66d1d97b4cfa17b2c8a335914af363cb4cec47d4a22f488835c710cb00",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00177e5c"
+      },
+      {
+        "address": 1567820,
+        "name": "stage3p_tail_gap_0017ec4c",
+        "new_bytes": 6744,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "1ea36dc28a541d23599155bde99bf8c67a1766230d97ba6aff8e6f1288789184",
+        "relocations": 0,
+        "section": ".text",
+        "size": 6744,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0017ec4c"
+      },
+      {
+        "address": 1622440,
+        "name": "stage3p_tail_gap_0018c1a8",
+        "new_bytes": 12,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+        "relocations": 0,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0018c1a8"
+      },
+      {
+        "address": 1630512,
+        "name": "stage3p_tail_gap_0018e130",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0018e130"
+      },
+      {
+        "address": 1630564,
+        "name": "stage3p_tail_gap_0018e164",
+        "new_bytes": 16,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0018e164"
+      },
+      {
+        "address": 1648428,
+        "name": "stage3p_tail_gap_0019272c",
+        "new_bytes": 2924,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "ed4a9ba999458dae487376534cce7842cf0ec1dfeaab7fdc34bb71f71db8b83d",
+        "relocations": 0,
+        "section": ".text",
+        "size": 2924,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019272c"
+      },
+      {
+        "address": 1663856,
+        "name": "stage3p_tail_gap_00196370",
+        "new_bytes": 16,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00196370"
+      },
+      {
+        "address": 1665552,
+        "name": "stage3p_tail_gap_00196a10",
+        "new_bytes": 16,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00196a10"
+      },
+      {
+        "address": 1665592,
+        "name": "stage3p_tail_gap_00196a38",
+        "new_bytes": 16,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00196a38"
+      },
+      {
+        "address": 1665632,
+        "name": "stage3p_tail_gap_00196a60",
+        "new_bytes": 16,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00196a60"
+      },
+      {
+        "address": 1666056,
+        "name": "stage3p_tail_gap_00196c08",
+        "new_bytes": 16,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00196c08"
+      },
+      {
+        "address": 1666408,
+        "name": "stage3p_tail_gap_00196d68",
+        "new_bytes": 16,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00196d68"
+      },
+      {
+        "address": 1667072,
+        "name": "stage3p_tail_gap_00197000",
+        "new_bytes": 6768,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "08bb61d399d8f76c9374b11d7a36e43b4e6e18f9257331556b2020ed77202df4",
+        "relocations": 0,
+        "section": ".text",
+        "size": 6768,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00197000"
+      },
+      {
+        "address": 1674236,
+        "name": "stage3p_tail_gap_00198bfc",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00198bfc"
+      },
+      {
+        "address": 1675632,
+        "name": "stage3p_tail_gap_00199170",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00199170"
+      },
+      {
+        "address": 1675912,
+        "name": "stage3p_tail_gap_00199288",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_00199288"
+      },
+      {
+        "address": 1686876,
+        "name": "stage3p_tail_gap_0019bd5c",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019bd5c"
+      },
+      {
+        "address": 1686896,
+        "name": "stage3p_tail_gap_0019bd70",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019bd70"
+      },
+      {
+        "address": 1687064,
+        "name": "stage3p_tail_gap_0019be18",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019be18"
+      },
+      {
+        "address": 1687132,
+        "name": "stage3p_tail_gap_0019be5c",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019be5c"
+      },
+      {
+        "address": 1687220,
+        "name": "stage3p_tail_gap_0019beb4",
+        "new_bytes": 24,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0",
+        "relocations": 0,
+        "section": ".text",
+        "size": 24,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019beb4"
+      },
+      {
+        "address": 1687632,
+        "name": "stage3p_tail_gap_0019c050",
+        "new_bytes": 12,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+        "relocations": 0,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019c050"
+      },
+      {
+        "address": 1687732,
+        "name": "stage3p_tail_gap_0019c0b4",
+        "new_bytes": 12,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+        "relocations": 0,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019c0b4"
+      },
+      {
+        "address": 1691576,
+        "name": "stage3p_tail_gap_0019cfb8",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019cfb8"
+      },
+      {
+        "address": 1696612,
+        "name": "stage3p_tail_gap_0019e364",
+        "new_bytes": 176,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "f307710d81d98e536bd7c418bc54d86fca64c28bcfaeeb40bf9558f19bca3ea8",
+        "relocations": 0,
+        "section": ".text",
+        "size": 176,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019e364"
+      },
+      {
+        "address": 1699860,
+        "name": "stage3p_tail_gap_0019f014",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019f014"
+      },
+      {
+        "address": 1701268,
+        "name": "stage3p_tail_gap_0019f594",
+        "new_bytes": 60,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "cdfb19cd2ed92b4d62c6d1f5d9d5f106be272c7a57f9ad6907893f5d3ec6d633",
+        "relocations": 0,
+        "section": ".text",
+        "size": 60,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_0019f594"
+      },
+      {
+        "address": 1705620,
+        "name": "stage3p_tail_gap_001a0694",
+        "new_bytes": 12,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+        "relocations": 0,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a0694"
+      },
+      {
+        "address": 1705640,
+        "name": "stage3p_tail_gap_001a06a8",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a06a8"
+      },
+      {
+        "address": 1705656,
+        "name": "stage3p_tail_gap_001a06b8",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a06b8"
+      },
+      {
+        "address": 1705684,
+        "name": "stage3p_tail_gap_001a06d4",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a06d4"
+      },
+      {
+        "address": 1705728,
+        "name": "stage3p_tail_gap_001a0700",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a0700"
+      },
+      {
+        "address": 1711248,
+        "name": "stage3p_tail_gap_001a1c90",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a1c90"
+      },
+      {
+        "address": 1717348,
+        "name": "stage3p_tail_gap_001a3464",
+        "new_bytes": 12,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+        "relocations": 0,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a3464"
+      },
+      {
+        "address": 1717400,
+        "name": "stage3p_tail_gap_001a3498",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a3498"
+      },
+      {
+        "address": 1719236,
+        "name": "stage3p_tail_gap_001a3bc4",
+        "new_bytes": 12,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+        "relocations": 0,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a3bc4"
+      },
+      {
+        "address": 1719848,
+        "name": "stage3p_tail_gap_001a3e28",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a3e28"
+      },
+      {
+        "address": 1720576,
+        "name": "stage3p_tail_gap_001a4100",
+        "new_bytes": 7000,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "963e41001ec626f85902dd3f6b88c8ac032d5c7173f28d0f1873fb92a3e1a8c1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 7000,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a4100"
+      },
+      {
+        "address": 1727612,
+        "name": "stage3p_tail_gap_001a5c7c",
+        "new_bytes": 68,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "58368a52a2aa11fc38be9979f1ae5f45cc3d81bc3ae8b98455977f3dc827c480",
+        "relocations": 0,
+        "section": ".text",
+        "size": 68,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a5c7c"
+      },
+      {
+        "address": 1727788,
+        "name": "stage3p_tail_gap_001a5d2c",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a5d2c"
+      },
+      {
+        "address": 1727852,
+        "name": "stage3p_tail_gap_001a5d6c",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a5d6c"
+      },
+      {
+        "address": 1728380,
+        "name": "stage3p_tail_gap_001a5f7c",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a5f7c"
+      },
+      {
+        "address": 1728492,
+        "name": "stage3p_tail_gap_001a5fec",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a5fec"
+      },
+      {
+        "address": 1728564,
+        "name": "stage3p_tail_gap_001a6034",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a6034"
+      },
+      {
+        "address": 1728652,
+        "name": "stage3p_tail_gap_001a608c",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a608c"
+      },
+      {
+        "address": 1728900,
+        "name": "stage3p_tail_gap_001a6184",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a6184"
+      },
+      {
+        "address": 1729312,
+        "name": "stage3p_tail_gap_001a6320",
+        "new_bytes": 456,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "b751f6c59aa6accfbd75162b2fc930333a142e2f7f7ae3c0c1934c62482ae8ad",
+        "relocations": 0,
+        "section": ".text",
+        "size": 456,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a6320"
+      },
+      {
+        "address": 1731180,
+        "name": "stage3p_tail_gap_001a6a6c",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a6a6c"
+      },
+      {
+        "address": 1733684,
+        "name": "stage3p_tail_gap_001a7434",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a7434"
+      },
+      {
+        "address": 1734012,
+        "name": "stage3p_tail_gap_001a757c",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a757c"
+      },
+      {
+        "address": 1734192,
+        "name": "stage3p_tail_gap_001a7630",
+        "new_bytes": 2048,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "28b29fec16ceef2c3878245f75e097d918e27aedb3b613b084d9cbcdb82a2d0f",
+        "relocations": 0,
+        "section": ".text",
+        "size": 2048,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a7630"
+      },
+      {
+        "address": 1736336,
+        "name": "stage3p_tail_gap_001a7e90",
+        "new_bytes": 16,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a7e90"
+      },
+      {
+        "address": 1736904,
+        "name": "stage3p_tail_gap_001a80c8",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a80c8"
+      },
+      {
+        "address": 1737008,
+        "name": "stage3p_tail_gap_001a8130",
+        "new_bytes": 16,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a8130"
+      },
+      {
+        "address": 1737520,
+        "name": "stage3p_tail_gap_001a8330",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a8330"
+      },
+      {
+        "address": 1737940,
+        "name": "stage3p_tail_gap_001a84d4",
+        "new_bytes": 20,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "de47c9b27eb8d300dbb5f2c353e632c393262cf06340c4fa7f1b40c4cbd36f90",
+        "relocations": 0,
+        "section": ".text",
+        "size": 20,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a84d4"
+      },
+      {
+        "address": 1737968,
+        "name": "stage3p_tail_gap_001a84f0",
+        "new_bytes": 12,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+        "relocations": 0,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a84f0"
+      },
+      {
+        "address": 1738036,
+        "name": "stage3p_tail_gap_001a8534",
+        "new_bytes": 20,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "de47c9b27eb8d300dbb5f2c353e632c393262cf06340c4fa7f1b40c4cbd36f90",
+        "relocations": 0,
+        "section": ".text",
+        "size": 20,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a8534"
+      },
+      {
+        "address": 1738064,
+        "name": "stage3p_tail_gap_001a8550",
+        "new_bytes": 12,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+        "relocations": 0,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a8550"
+      },
+      {
+        "address": 1743896,
+        "name": "stage3p_tail_gap_001a9c18",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a9c18"
+      },
+      {
+        "address": 1744000,
+        "name": "stage3p_tail_gap_001a9c80",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a9c80"
+      },
+      {
+        "address": 1744512,
+        "name": "stage3p_tail_gap_001a9e80",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a9e80"
+      },
+      {
+        "address": 1744744,
+        "name": "stage3p_tail_gap_001a9f68",
+        "new_bytes": 64,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "ab43badd654c9b49ff8ccc08cb6f263b2c26bd604a81e3ac06a5e18cb1d327cb",
+        "relocations": 0,
+        "section": ".text",
+        "size": 64,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001a9f68"
+      },
+      {
+        "address": 1748448,
+        "name": "stage3p_tail_gap_001aade0",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001aade0"
+      },
+      {
+        "address": 1749112,
+        "name": "stage3p_tail_gap_001ab078",
+        "new_bytes": 8,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001ab078"
+      },
+      {
+        "address": 1750244,
+        "name": "stage3p_tail_gap_001ab4e4",
+        "new_bytes": 4,
+        "object": "matching/candidates/stage3p_code_residual_exact.S",
+        "raw_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "relocations": 0,
+        "section": ".text",
+        "size": 4,
+        "source_offset": 0,
+        "symbol": "stage3p_tail_gap_001ab4e4"
       }
     ],
-    "source_bytes": 458476,
+    "source_bytes": 720620,
     "target_initialized_size": 3304936,
     "target_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b"
   },
@@ -2884,6 +7145,383 @@
         "symbol": ""
       }
     ],
+    "public_listings": [
+      {
+        "instruction_words": 305,
+        "path": "analysis/functions/cdvd_rpc_0019be70.asm",
+        "sha256": "98a6c20afaa44c28a4a65cea3f2b7a7a75f7593e6e9c880a310928fe979eeb5f"
+      },
+      {
+        "instruction_words": 1615,
+        "path": "analysis/functions/core_getset_apumem_001ab3c0.asm",
+        "sha256": "69ff1bb4f05442cc74b86ee24baadb68e8e009c928c21417a0506e3139faba65"
+      },
+      {
+        "instruction_words": 862,
+        "path": "analysis/functions/cpp_eh_personality_001a90f8.asm",
+        "sha256": "b1b47a7a80ae767848d06e9cc408204b24ea450324af55cfce315753053b700e"
+      },
+      {
+        "instruction_words": 249,
+        "path": "analysis/functions/draw_large_pixel_candidate_001859a8.asm",
+        "sha256": "6d2af9ae7375402307f31ebc22e85f92d89490dc13fa411d0b1dbf3d1dd09952"
+      },
+      {
+        "instruction_words": 400,
+        "path": "analysis/functions/fileio_0019cfc0.asm",
+        "sha256": "b3e53c384a7811e830a08126ccf0f74898c6990a836f43de341885de6232a493"
+      },
+      {
+        "instruction_words": 518,
+        "path": "analysis/functions/gslib_gsdriver_00198c58.asm",
+        "sha256": "59e9b8618ddb73681e0c5f1aa6e379c70fdb13d991e3dcd754ff5d20795cc7c1"
+      },
+      {
+        "instruction_words": 328,
+        "path": "analysis/functions/gslib_gsfont_0019b7f0.asm",
+        "sha256": "27a7aa4e14260e6b6791b4bf1be409e0d7675bf894e82c0dc05e941d565f4a19"
+      },
+      {
+        "instruction_words": 706,
+        "path": "analysis/functions/gslib_gspipe_core_00199480.asm",
+        "sha256": "10e9e7d2508c4577fbbc4b84164299e6ee80b679f2a75479276c74b021ddfef0"
+      },
+      {
+        "instruction_words": 1066,
+        "path": "analysis/functions/gslib_gspipe_primitives_0019a748.asm",
+        "sha256": "92f582f57af0abf3be5d8e47ecaea8538ff214643e2f51e181eceba4a77b04d0"
+      },
+      {
+        "instruction_words": 496,
+        "path": "analysis/functions/gslib_gspipe_texture_00199f88.asm",
+        "sha256": "8fb815f13b8130d4d3e56da61d73d15bf76e9e6f8585fe0f909d9b2c58b6c169"
+      },
+      {
+        "instruction_words": 70,
+        "path": "analysis/functions/gslib_hw_0019bd38.asm",
+        "sha256": "b11701b59f564bf254c380d4e28ecd84e42ea1bc4f0b3900ca076407377ca4bf"
+      },
+      {
+        "instruction_words": 493,
+        "path": "analysis/functions/libc_text_0019e860.asm",
+        "sha256": "c19319352358c67f7a8dea71ed81e8854798d72246270c41a3ddfa01ffd8e47b"
+      },
+      {
+        "instruction_words": 2420,
+        "path": "analysis/functions/libgcc_frontier_001a1b00.asm",
+        "sha256": "dd5377545052ac1ecb8e464c58830f9213f5c6fcd4662a33b79969970b71449f"
+      },
+      {
+        "instruction_words": 664,
+        "path": "analysis/functions/libgcc_softdouble_001a3340.asm",
+        "sha256": "9388a1ecd95e3178ce576aa736891a1cba6bb16c0816f3e9ce79d0a612ceb55d"
+      },
+      {
+        "instruction_words": 333,
+        "path": "analysis/functions/libkernel_client_init_0019f5d0.asm",
+        "sha256": "238cde9c71f9c1f50fe80e779a77c0cf558edb64dc685715b1eb7fd0dbc42cbb"
+      },
+      {
+        "instruction_words": 251,
+        "path": "analysis/functions/libkernel_heap_0019e474.asm",
+        "sha256": "976a2ef4e5ace574fe49ac05879156305021241a8de9316ce1cb75d4352154a6"
+      },
+      {
+        "instruction_words": 24,
+        "path": "analysis/functions/libkernel_intr_0019f018.asm",
+        "sha256": "d79f0fca2ad0f49f8766a09f429d15664294db4341d9606c1d65c9857aef7230"
+      },
+      {
+        "instruction_words": 124,
+        "path": "analysis/functions/libkernel_libc_strings_0019c3d4.asm",
+        "sha256": "ca50fa32aee9ca4c7064ab8e75bd1423a3baf81734692c974de16774747b9fb6"
+      },
+      {
+        "instruction_words": 72,
+        "path": "analysis/functions/libkernel_runtime_0019f018.asm",
+        "sha256": "eaf85b5ed169f655901dc70d4577f0775e61cb3fe87d8941c96e34d9735dd2f7"
+      },
+      {
+        "instruction_words": 59,
+        "path": "analysis/functions/libkernel_size_strings_0019c364.asm",
+        "sha256": "97fa7fffc3863ba54a8b02f0c5d4e698ef5c9755826de605a1b09231cbb59dcb"
+      },
+      {
+        "instruction_words": 201,
+        "path": "analysis/functions/libkernel_strings_0019c364.asm",
+        "sha256": "c223d5259a1f76285c9c6f12d9058c4659227c2614003e0e02803f048d8e0455"
+      },
+      {
+        "instruction_words": 44,
+        "path": "analysis/functions/libkernel_syscalls_0019ce60.asm",
+        "sha256": "04293c360069d95f32d708748fa0a26f6c004838c168ea0f0660fdc2e530d385"
+      },
+      {
+        "instruction_words": 12,
+        "path": "analysis/functions/libkernel_syscalls_0019f5d0.asm",
+        "sha256": "155b44b3f1854efe121a1b993b6a9993a0c0c74d3a5ff468f317ed56d2dad9da"
+      },
+      {
+        "instruction_words": 20,
+        "path": "analysis/functions/libkernel_syscalls_0019fcd0.asm",
+        "sha256": "943a6c8dc8199e04153114664a6be143a7427a8ea0cbde65fd8a9c54e7d9f126"
+      },
+      {
+        "instruction_words": 2595,
+        "path": "analysis/functions/libmc_frontier_001a0740.asm",
+        "sha256": "4dad99fbeb772cfc7c953aac081dd45eddca3b7da3d20a256f37a6efcaf4b23b"
+      },
+      {
+        "instruction_words": 814,
+        "path": "analysis/functions/libpad_001a8420.asm",
+        "sha256": "9846b945942accc5b72b991d1a8cbd57e21dc2c1f0f451ea9d2b3490184c8d5f"
+      },
+      {
+        "instruction_words": 1282,
+        "path": "analysis/functions/libsupcxx_rtti_001a9fa8.asm",
+        "sha256": "c7ac2eee1d6fb1f9cff7115fef68821eecd41860bfba8fe6a735d0686e471ac8"
+      },
+      {
+        "instruction_words": 147,
+        "path": "analysis/functions/loadfile_iop_0019d600.asm",
+        "sha256": "c4674aa69fa0589d9482d782bcc460765b4b4ccc84de02bb987e30f38af6f2a3"
+      },
+      {
+        "instruction_words": 1142,
+        "path": "analysis/functions/math_frontier_0019fddc.asm",
+        "sha256": "41a9424d8a632d2c015150e0c823b29457ff9f5572a9d45baf0b2960b4d29f41"
+      },
+      {
+        "instruction_words": 210,
+        "path": "analysis/functions/memory_init_00151074.asm",
+        "sha256": "37d37e65f031fe384fd7fc52ee97118e5a6ebe543be6b6eb4dfe932e4be5dc4b"
+      },
+      {
+        "instruction_words": 120,
+        "path": "analysis/functions/ppu_vram_cache_invalidate_0012a400.asm",
+        "sha256": "e406fafc09ebf42dd9787ee449bdd77c89366dd0ae8c36e3485e75db0187abd9"
+      },
+      {
+        "instruction_words": 845,
+        "path": "analysis/functions/progress11_short_targets.asm",
+        "sha256": "db7551f58a129ad6916154a259b75cf2117b6aa24aec5b1bfffb307ec318ed73"
+      },
+      {
+        "instruction_words": 691,
+        "path": "analysis/functions/progress12_targets.asm",
+        "sha256": "1312bed9c78d51669e6f2ed182621b596b37e6aa6257f2fb6992e605f28f3447"
+      },
+      {
+        "instruction_words": 2347,
+        "path": "analysis/functions/progress13_targets.asm",
+        "sha256": "c5100130cce74c3da0edffa651cbd827c3bc53079e268937ac7e81c701f60a9e"
+      },
+      {
+        "instruction_words": 94,
+        "path": "analysis/functions/ps2_gs_buffer_queue_00199178.asm",
+        "sha256": "c78715118958e3d72b3ccc4ff31756c8eecf0ac25f8f286656bd365e388de90e"
+      },
+      {
+        "instruction_words": 26,
+        "path": "analysis/functions/ps2_gs_crt_fb_001992f8.asm",
+        "sha256": "0fda770966d82bc5875818d95317e87d5c5ebf6ff6bbcc27bf9d1cd7490305d3"
+      },
+      {
+        "instruction_words": 4,
+        "path": "analysis/functions/ps2_gs_crt_syscall_00199160.asm",
+        "sha256": "2d0c8ecfae558a980915296249c46ef00f2e0339b391c177a20ea8ee5cd5fe7a"
+      },
+      {
+        "instruction_words": 34,
+        "path": "analysis/functions/ps2_gs_display1_00199070.asm",
+        "sha256": "cce9ac5920c05534e2e414b19ffbdd26e41bdb51f6f90c92da8567089ece7330"
+      },
+      {
+        "instruction_words": 26,
+        "path": "analysis/functions/ps2_gs_draw_fb_00199360.asm",
+        "sha256": "cc1dfc1b7e3d76d764aeec77d659aab51635a6372584f538d6cbb4ebf3c2166c"
+      },
+      {
+        "instruction_words": 78,
+        "path": "analysis/functions/ps2_gs_fifo_00199838.asm",
+        "sha256": "cdf3a8a8d01676c011b9a9672ba64c5f43bf1f1d1b53144f30740c84940b16fa"
+      },
+      {
+        "instruction_words": 38,
+        "path": "analysis/functions/ps2_gs_frame1_packet_00199dc0.asm",
+        "sha256": "328860494c0e818593bcdd5a9c4620f9f60d1bb49f8e14dca6f3f29b604130f0"
+      },
+      {
+        "instruction_words": 326,
+        "path": "analysis/functions/ps2_gs_frontier_00198c58.asm",
+        "sha256": "ece1368d83b643bc3c4bd6d548c67a74f87ab40c8d1cb2323fb6cb8afb1c0dec"
+      },
+      {
+        "instruction_words": 710,
+        "path": "analysis/functions/ps2lib_vsnprintf_0019d84c.asm",
+        "sha256": "997bb19a1ab57341c3e9c3b542b133839278d157a26f79322bf09ddf62f020b5"
+      },
+      {
+        "instruction_words": 128,
+        "path": "analysis/functions/renderer_4bpp_setup_00143780.asm",
+        "sha256": "4c38e5db23665158dc03366fd78b1276c6456beafafc4b4f9f517327c3417b82"
+      },
+      {
+        "instruction_words": 176,
+        "path": "analysis/functions/renderer_cache_select_00145240.asm",
+        "sha256": "b480154e7faf9695b843bf0ee970488dad13c7fbee8e39f439329fc9ed13980c"
+      },
+      {
+        "instruction_words": 279,
+        "path": "analysis/functions/sifcmd_0019f138.asm",
+        "sha256": "465500baeed2d23cffb87f41bab37838caeea96339a6dce1866b1842001d7ca1"
+      },
+      {
+        "instruction_words": 136,
+        "path": "analysis/functions/sifcmd_irq_0019fb00.asm",
+        "sha256": "11e09e2f96350ded2850709b6aa168673b9c36d9bb2c5ff7080c6a2cad88f04d"
+      },
+      {
+        "instruction_words": 588,
+        "path": "analysis/functions/sifrpc_0019c688.asm",
+        "sha256": "89dd0333b41774834a08c40eb454aad23ea2d4b79d41b6aff7eecd7965324356"
+      },
+      {
+        "instruction_words": 171,
+        "path": "analysis/functions/sram_00153354.asm",
+        "sha256": "f52fc5f2bc2cee57c7f4b2cb97353660e6b0ce61212892d134655568c59de2b3"
+      },
+      {
+        "instruction_words": 1732,
+        "path": "analysis/functions/tile_16bit_draw_family_00185d8c.asm",
+        "sha256": "d7fef9272daf5f7ef67569ce782293d19e18704c0f3045bbfc6c5bb40d1995fe"
+      },
+      {
+        "instruction_words": 564,
+        "path": "analysis/functions/tile_16bit_writers_001ad55c.asm",
+        "sha256": "44957c1ca59683a67797dcc47806d2f6765de93cc9097fb0bf249dbd998044cc"
+      },
+      {
+        "instruction_words": 2958,
+        "path": "analysis/functions/tile_color_math_draw_family_0018789c.asm",
+        "sha256": "ff5a9b048af1e523b2ca07749a28a9a4f3b5b5ae48666db956212f4ebd9b188d"
+      },
+      {
+        "instruction_words": 2165,
+        "path": "analysis/functions/tile_color_math_writers_001ade2c.asm",
+        "sha256": "504c4e839034106e1f0d804603a994c79fc91a5b0c18886d40661540a0f5456a"
+      },
+      {
+        "instruction_words": 324,
+        "path": "analysis/functions/tile_converter_00183e04.asm",
+        "sha256": "b2ed84ac6f8c52e640485963e92a63de9de85213b972a0f6cc46caa720f3b7ce"
+      },
+      {
+        "instruction_words": 232,
+        "path": "analysis/functions/tile_draw_family_first_00184280.asm",
+        "sha256": "20a5e1a0abfbc3747c25f869e082271b74144189c8716a90d86d43476174710d"
+      },
+      {
+        "instruction_words": 897,
+        "path": "analysis/functions/tile_init_and_helpers_00183000.asm",
+        "sha256": "cb5dc2e5b53af1f20c38d6086b79f7dc61792d3881e6f6e8f1b57f851a9b55b4"
+      },
+      {
+        "instruction_words": 1684,
+        "path": "analysis/functions/tile_large16_color_family_0018a6d4.asm",
+        "sha256": "62104c2cb33b99042f9e03212b73dea69b291ab1c9106c975b15231f2e18234f"
+      },
+      {
+        "instruction_words": 176,
+        "path": "analysis/functions/tile_lookup_init_00142980.asm",
+        "sha256": "d64e3ad84ee5f3132fd4a4a99fc5b5ae5a9ad14ef21d733338b391a71ad58e90"
+      },
+      {
+        "instruction_words": 192,
+        "path": "analysis/functions/tile_pixel_helpers_001acc80.asm",
+        "sha256": "c7e2df9398d9823e92980d8abe732e1c6eab4da92701c134e39358b31bb9b4eb"
+      },
+      {
+        "instruction_words": 161,
+        "path": "analysis/functions/tile_pixel_helpers_x2_001acf4c.asm",
+        "sha256": "aa5fa13e2b408769898d2526a2c38dc95ebd40f5bc1924864fd28e9697a9752c"
+      },
+      {
+        "instruction_words": 226,
+        "path": "analysis/functions/tile_scaled_x2x2_writers_001ad1d4.asm",
+        "sha256": "d35adeac3f8a62df982b4342dc235dbe229730739890b076c6f69c0aaae59571"
+      },
+      {
+        "instruction_words": 320,
+        "path": "analysis/functions/unmapped_block_00176c80.asm",
+        "sha256": "dac97deff3d062e64e85fe6e1cd5d7c9fa8ab81b9169d72156c37942540ecc26"
+      },
+      {
+        "instruction_words": 361,
+        "path": "analysis/functions/unreduce_0018e4c0.asm",
+        "sha256": "9a78a0359ab4bfd5bb343e864d49762dd0d1233589b861669a49f75cad27d74b"
+      },
+      {
+        "instruction_words": 363,
+        "path": "analysis/functions/unshrink_0018ea64.asm",
+        "sha256": "4eb55407ede4a007a427bc01430f432a9e780737bdfa8baec3dcc3abd919dd95"
+      },
+      {
+        "instruction_words": 1462,
+        "path": "analysis/functions/unzip_api_0018f010.asm",
+        "sha256": "cfa45f714a889c5134b22c378d5d0bd176546772a75f09f69ff78e8fb291add2"
+      },
+      {
+        "instruction_words": 1740,
+        "path": "analysis/functions/unzip_explode_0018c124.asm",
+        "sha256": "5f3ec03338308b8414e352e51bf9e1bce9069f3686920d1923809870a9bdef30"
+      },
+      {
+        "instruction_words": 530,
+        "path": "analysis/functions/unzip_io_huft_0018dc60.asm",
+        "sha256": "567783a9db225bd8a020e7601f099ac1a304e92e094e3df34bc895a634fe7723"
+      },
+      {
+        "instruction_words": 22,
+        "path": "analysis/functions/vprintf_0019faa8.asm",
+        "sha256": "a79b4b081e07d6323d933779bbd8a51aa13c8f3ebbbf7acca1f4073abc974a07"
+      },
+      {
+        "instruction_words": 123,
+        "path": "analysis/functions/zlib_buffer_api_00190700.asm",
+        "sha256": "8abd7176efe0253932154a3e83cf9698bc5b87d07de2b1c7a14ab10eb6f6af44"
+      },
+      {
+        "instruction_words": 1252,
+        "path": "analysis/functions/zlib_gzio_00193298.asm",
+        "sha256": "7eb73ec1ded814a597ad500212637a0204248b85808f9e8588ac160d8d6fb9ce"
+      },
+      {
+        "instruction_words": 781,
+        "path": "analysis/functions/zlib_infcodes_0019533c.asm",
+        "sha256": "5c2fc4e37ade7bf25f242c0869a29a9616fc2d2cee05858063247ed8ee71ff6a"
+      },
+      {
+        "instruction_words": 837,
+        "path": "analysis/functions/zlib_inflate_blocks_00194628.asm",
+        "sha256": "36f7bb49383a28e92c0becc82ead77e8aedb6f250192a6c64fcb6fd19105087b"
+      },
+      {
+        "instruction_words": 638,
+        "path": "analysis/functions/zlib_inftrees_00195f80.asm",
+        "sha256": "441ff445ad55104cc35818ecef9d09a0991ad61b57efce835edd87cea5f3e9cc"
+      },
+      {
+        "instruction_words": 396,
+        "path": "analysis/functions/zlib_trees_start_00196980.asm",
+        "sha256": "c06a42f4b93255b17555b9d541fee86a000a755bea64972595fd4e218f57457e"
+      },
+      {
+        "instruction_words": 126,
+        "path": "analysis/functions/zlib_zutil_adler_00198a84.asm",
+        "sha256": "a4bd04638449add3c31c14f429578cb22fe594132f175f993b1c7a47f19cf898"
+      }
+    ],
     "residual_source": "matching/candidates/stage3p_code_residual_exact.S",
     "residual_symbols": [
       {
@@ -2935,6 +7573,358 @@
         "address": 1380180,
         "size": 288,
         "symbol": "stage3p_memory_safe"
+      }
+    ],
+    "tail_residual_symbols": [
+      {
+        "address": 1507328,
+        "size": 556,
+        "symbol": "stage3p_tail_gap_00170000"
+      },
+      {
+        "address": 1511884,
+        "size": 28,
+        "symbol": "stage3p_tail_gap_001711cc"
+      },
+      {
+        "address": 1511984,
+        "size": 28,
+        "symbol": "stage3p_tail_gap_00171230"
+      },
+      {
+        "address": 1522832,
+        "size": 364,
+        "symbol": "stage3p_tail_gap_00173c90"
+      },
+      {
+        "address": 1539676,
+        "size": 16,
+        "symbol": "stage3p_tail_gap_00177e5c"
+      },
+      {
+        "address": 1567820,
+        "size": 6744,
+        "symbol": "stage3p_tail_gap_0017ec4c"
+      },
+      {
+        "address": 1622440,
+        "size": 12,
+        "symbol": "stage3p_tail_gap_0018c1a8"
+      },
+      {
+        "address": 1630512,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_0018e130"
+      },
+      {
+        "address": 1630564,
+        "size": 16,
+        "symbol": "stage3p_tail_gap_0018e164"
+      },
+      {
+        "address": 1648428,
+        "size": 2924,
+        "symbol": "stage3p_tail_gap_0019272c"
+      },
+      {
+        "address": 1663856,
+        "size": 16,
+        "symbol": "stage3p_tail_gap_00196370"
+      },
+      {
+        "address": 1665552,
+        "size": 16,
+        "symbol": "stage3p_tail_gap_00196a10"
+      },
+      {
+        "address": 1665592,
+        "size": 16,
+        "symbol": "stage3p_tail_gap_00196a38"
+      },
+      {
+        "address": 1665632,
+        "size": 16,
+        "symbol": "stage3p_tail_gap_00196a60"
+      },
+      {
+        "address": 1666056,
+        "size": 16,
+        "symbol": "stage3p_tail_gap_00196c08"
+      },
+      {
+        "address": 1666408,
+        "size": 16,
+        "symbol": "stage3p_tail_gap_00196d68"
+      },
+      {
+        "address": 1667072,
+        "size": 6768,
+        "symbol": "stage3p_tail_gap_00197000"
+      },
+      {
+        "address": 1674236,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_00198bfc"
+      },
+      {
+        "address": 1675632,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_00199170"
+      },
+      {
+        "address": 1675912,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_00199288"
+      },
+      {
+        "address": 1686876,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_0019bd5c"
+      },
+      {
+        "address": 1686896,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_0019bd70"
+      },
+      {
+        "address": 1687064,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_0019be18"
+      },
+      {
+        "address": 1687132,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_0019be5c"
+      },
+      {
+        "address": 1687220,
+        "size": 24,
+        "symbol": "stage3p_tail_gap_0019beb4"
+      },
+      {
+        "address": 1687632,
+        "size": 12,
+        "symbol": "stage3p_tail_gap_0019c050"
+      },
+      {
+        "address": 1687732,
+        "size": 12,
+        "symbol": "stage3p_tail_gap_0019c0b4"
+      },
+      {
+        "address": 1691576,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_0019cfb8"
+      },
+      {
+        "address": 1696612,
+        "size": 176,
+        "symbol": "stage3p_tail_gap_0019e364"
+      },
+      {
+        "address": 1699860,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_0019f014"
+      },
+      {
+        "address": 1701268,
+        "size": 60,
+        "symbol": "stage3p_tail_gap_0019f594"
+      },
+      {
+        "address": 1705620,
+        "size": 12,
+        "symbol": "stage3p_tail_gap_001a0694"
+      },
+      {
+        "address": 1705640,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a06a8"
+      },
+      {
+        "address": 1705656,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a06b8"
+      },
+      {
+        "address": 1705684,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a06d4"
+      },
+      {
+        "address": 1705728,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a0700"
+      },
+      {
+        "address": 1711248,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a1c90"
+      },
+      {
+        "address": 1717348,
+        "size": 12,
+        "symbol": "stage3p_tail_gap_001a3464"
+      },
+      {
+        "address": 1717400,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a3498"
+      },
+      {
+        "address": 1719236,
+        "size": 12,
+        "symbol": "stage3p_tail_gap_001a3bc4"
+      },
+      {
+        "address": 1719848,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a3e28"
+      },
+      {
+        "address": 1720576,
+        "size": 7000,
+        "symbol": "stage3p_tail_gap_001a4100"
+      },
+      {
+        "address": 1727612,
+        "size": 68,
+        "symbol": "stage3p_tail_gap_001a5c7c"
+      },
+      {
+        "address": 1727788,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_001a5d2c"
+      },
+      {
+        "address": 1727852,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_001a5d6c"
+      },
+      {
+        "address": 1728380,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_001a5f7c"
+      },
+      {
+        "address": 1728492,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_001a5fec"
+      },
+      {
+        "address": 1728564,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_001a6034"
+      },
+      {
+        "address": 1728652,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_001a608c"
+      },
+      {
+        "address": 1728900,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_001a6184"
+      },
+      {
+        "address": 1729312,
+        "size": 456,
+        "symbol": "stage3p_tail_gap_001a6320"
+      },
+      {
+        "address": 1731180,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_001a6a6c"
+      },
+      {
+        "address": 1733684,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_001a7434"
+      },
+      {
+        "address": 1734012,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_001a757c"
+      },
+      {
+        "address": 1734192,
+        "size": 2048,
+        "symbol": "stage3p_tail_gap_001a7630"
+      },
+      {
+        "address": 1736336,
+        "size": 16,
+        "symbol": "stage3p_tail_gap_001a7e90"
+      },
+      {
+        "address": 1736904,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a80c8"
+      },
+      {
+        "address": 1737008,
+        "size": 16,
+        "symbol": "stage3p_tail_gap_001a8130"
+      },
+      {
+        "address": 1737520,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a8330"
+      },
+      {
+        "address": 1737940,
+        "size": 20,
+        "symbol": "stage3p_tail_gap_001a84d4"
+      },
+      {
+        "address": 1737968,
+        "size": 12,
+        "symbol": "stage3p_tail_gap_001a84f0"
+      },
+      {
+        "address": 1738036,
+        "size": 20,
+        "symbol": "stage3p_tail_gap_001a8534"
+      },
+      {
+        "address": 1738064,
+        "size": 12,
+        "symbol": "stage3p_tail_gap_001a8550"
+      },
+      {
+        "address": 1743896,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a9c18"
+      },
+      {
+        "address": 1744000,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a9c80"
+      },
+      {
+        "address": 1744512,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001a9e80"
+      },
+      {
+        "address": 1744744,
+        "size": 64,
+        "symbol": "stage3p_tail_gap_001a9f68"
+      },
+      {
+        "address": 1748448,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001aade0"
+      },
+      {
+        "address": 1749112,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_001ab078"
+      },
+      {
+        "address": 1750244,
+        "size": 4,
+        "symbol": "stage3p_tail_gap_001ab4e4"
       }
     ],
     "window0_fixed_slices": [

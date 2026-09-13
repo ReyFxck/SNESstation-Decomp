@@ -18,8 +18,8 @@ history.
 | Startup | Historical PS2 `crt0.s` | `_start`, `_exit`, `_root`, entry point and startup BSS | 276/276 bytes, 3/3 functions and 27 relocations exact | `make startup-integration` |
 | Public historical data | Pinned Snes9x, zlib, PGEN/gsLib and PS2 runtime source | Tables, constants, strings, vtables, unwind metadata and typed data intervals | 810,542 typed historical bytes plus a final 35,067-source-byte and 2,220-semantic-byte tranche that closes window 11 | `make window11-rodata-check` |
 | Embedded frontend media | Hash-verified private reference | Frontend background/logo/panel, music and Memory Card icon | Six containers integrated; payload remains private and untracked | `make media-assets` |
-| Whole-image code | Historical objects, recovered source and labelled exact assembly | Complete 64 KiB code regions | Windows 0–6 and 11–50 exact; 7–10 remain | `make code-windows` |
-| Final executable | Historical link and SJCRUNCH2 packing | Exact object order, final relocations, linker script and packed container | In progress; 47/51 image windows exact | `make reproduce` |
+| Whole-image code | Historical objects, recovered source, public instruction listings and labelled exact assembly | Complete 64 KiB code regions | 51/51 image windows exact; unpacked image hash matches | `make code-windows` |
+| Final executable | Historical link and SJCRUNCH2 packing | Exact object order, final relocations, linker script and packed container | Image content complete; final ELF identity and packing remain | `make reproduce` |
 
 ## Preserved source candidates
 

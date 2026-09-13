@@ -1487,12 +1487,11 @@ elf-status: audit-source-check
 	@echo "  historical backing    695316 public-source bytes"
 	@echo
 	@echo "Whole-image result:"
-	@echo "  exact windows         47/51 (0-6 and 11-50)"
-	@echo "  remaining windows     7-10"
-	@echo "  remaining differences 202702 bytes"
+	@echo "  exact windows         51/51"
+	@echo "  remaining windows     none"
+	@echo "  remaining differences 0 bytes"
 	@echo
 	@echo "Complete replacement ELF: NOT YET"
-	@echo "  - close the four remaining image windows"
 	@echo "  - prove complete object/array bounds needed by the link"
 	@echo "  - reproduce final relocations, linker script and object/archive order"
 	@echo "  - reproduce SJCRUNCH2 packing and both reference hashes"

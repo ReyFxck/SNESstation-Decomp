@@ -309,7 +309,11 @@ def prepare_sources(args: argparse.Namespace, cc: Path, cxx: Path) -> dict[str, 
     archive = cc.parents[1] / "lib/gcc-lib/ee/3.2.2/libgcc.a"
     ar = cc.with_name("ee-ar")
     libgcc_dir = args.build_dir / "libgcc"; libgcc_dir.mkdir(parents=True, exist_ok=True)
-    for name in ("_divdi3", "_udivdi3", "_umoddi3", "unwind-dw2", "unwind-dw2-fde", "_moddi3"):
+    # Window 11 consumes _clz's public .rodata table as part of the next
+    # integration tranche.  Extract it alongside the Stage-3K members so a
+    # clean checkout can run the private pipeline without relying on a stale
+    # object left by an earlier research command.
+    for name in ("_divdi3", "_udivdi3", "_umoddi3", "unwind-dw2", "unwind-dw2-fde", "_moddi3", "_clz"):
         run([ar, "x", archive, f"{name}.o"], libgcc_dir); objects[name] = libgcc_dir / f"{name}.o"
 
     for name in ("tinfo", "new_handler"):

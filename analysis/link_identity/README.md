@@ -19,7 +19,7 @@ private target payloads are never stored here.
 | `media_assets.json` | Hash-only private media integration contract |
 | `window35_data.json` | Exact Snes9x data and CFI in image window 35 |
 | `window11_rodata.json` | Public-source read-only data in window 11 |
-| `code_windows.json` | Current 47/51 whole-image result and exact windows 0–6 plus 11–50 |
+| `code_windows.json` | Complete 51/51 whole-image result and matching unpacked-image hash |
 
 ## Names, providers and data ownership
 

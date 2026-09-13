@@ -97,8 +97,8 @@ def load_contract(path: Path = DEFAULT_CONTRACT) -> dict[str, Any]:
     image = contract.get("whole_image_identity", {})
     if image.get("replacement_elf") is not False:
         raise DecompDevReportError("report must not claim a replacement ELF")
-    if image.get("unpacked_hash_matched") is not False:
-        raise DecompDevReportError("report must not claim the unpacked hash")
+    if image.get("unpacked_hash_matched") is not True:
+        raise DecompDevReportError("report must preserve the proved unpacked hash")
 
     for relative, expected in contract.get("inputs", {}).items():
         path = ROOT / relative
@@ -306,8 +306,8 @@ def _image_units(contract: dict[str, Any]) -> list[dict[str, Any]]:
     claims = probe.get("claims", {})
     result = probe.get("result", {})
     frozen = contract["whole_image_identity"]
-    if claims.get("replacement_elf") is not False or claims.get("unpacked_hash_matched") is not False:
-        raise DecompDevReportError("whole-image diagnostic no longer has the frozen open claims")
+    if claims.get("replacement_elf") is not False or claims.get("unpacked_hash_matched") is not True:
+        raise DecompDevReportError("whole-image diagnostic claim drift")
     for field, probe_field in (
         ("total_chunks", "chunk_count"),
         ("exact_chunks", "exact_chunks"),

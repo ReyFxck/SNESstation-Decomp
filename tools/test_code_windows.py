@@ -32,18 +32,21 @@ class CodeWindowsTests(unittest.TestCase):
              patch("subprocess.run", side_effect=AssertionError("process")):
             self.assertEqual(self.document, gate.validate(self.args))
 
-    def test_seven_code_windows_are_exact(self):
+    def test_all_code_windows_are_exact(self):
         result = self.document["result"]
-        self.assertEqual((65536 - 0x114) + 6 * 65536, result["source_bytes"])
-        self.assertEqual(8504, result["residual_bytes"])
-        self.assertEqual((47, 4), (result["exact_chunks"], result["mismatching_chunks"]))
-        self.assertEqual([*range(0, 7), *range(11, 51)], result["exact_chunk_indices"])
-        self.assertEqual([7, 8, 9, 10], result["mismatching_chunk_indices"])
+        self.assertEqual((65536 - 0x114) + 10 * 65536, result["source_bytes"])
+        self.assertEqual(36340, result["residual_bytes"])
+        self.assertEqual(73192, result["listing_bytes"])
+        self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
+        self.assertEqual(list(range(51)), result["exact_chunk_indices"])
+        self.assertEqual([], result["mismatching_chunk_indices"])
 
     def test_private_payload_is_not_frozen(self):
         self.assertFalse(self.document["claims"]["private_target_bytes_stored"])
         self.assertTrue(self.document["claims"]["windows_0_through_6_exact"])
         self.assertTrue(self.document["claims"]["windows_1_through_6_exact"])
+        self.assertTrue(self.document["claims"]["windows_0_through_10_exact"])
+        self.assertTrue(self.document["claims"]["unpacked_hash_matched"])
         self.assertFalse(self.document["claims"]["replacement_elf"])
         self.assertNotIn(".incbin", json.dumps(self.document))
 

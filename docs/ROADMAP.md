@@ -1,7 +1,7 @@
 # Roadmap to a byte-identical SNES Station ELF
 
-The source and function audit is finished. The remaining work is whole-program
-identity: close four image windows, reproduce the historical link and reproduce
+The source/function audit and unpacked-image reconstruction are finished. The
+remaining work is whole-program identity: reproduce the historical link and
 the packed executable.
 
 ## Completed
@@ -14,20 +14,18 @@ the packed executable.
 | Runtime contracts | **53/53** | PS2LIB, libc, libgcc and target-selected runtime behavior is accounted for |
 | Address identities | **1,265/1,265** | Every tracked program-data address has a proved identity |
 | Startup | **276/276 bytes; 3/3 functions** | The target entry, startup code, 27 relocations and startup BSS are exact |
-| Whole-image comparison | **47/51 windows** | Windows 0–6 and 11–50 match the unpacked reference exactly |
+| Whole-image comparison | **51/51 windows; 0 differences** | The complete unpacked image matches its frozen SHA-256 |
 
 ## Remaining
 
 | Priority | Work | Completion condition |
 |---:|---|---|
-| 1 | Close image windows **7–10** | Each 64 KiB hash equals the unpacked reference using proved source, relocations and explicitly labelled exact reconstruction where necessary |
-| 2 | Reproduce the final link | Exact linker script, section addresses, object/archive order, symbol binding and relocation results |
-| 3 | Reproduce packing | Correct SJCRUNCH2/LZO revision, stub and parameters |
-| 4 | Final comparison | Both unpacked and packed SHA-256 values match the frozen reference |
+| 1 | Reproduce the final link | Exact linker script, section addresses, object/archive order, symbol binding and relocation results |
+| 2 | Reproduce packing | Correct SJCRUNCH2/LZO revision, stub and parameters |
+| 3 | Final comparison | The packed SHA-256 matches the frozen reference |
 
-The current unpacked image still differs at **202,702 byte positions**. That
-number and the 47/51 window count are generated from the current manifests;
-they are not estimated percentages.
+The current unpacked image differs at **0 byte positions**. The 51/51 count is
+generated from the current manifest; it is not an estimated percentage.
 
 ## Definition of done
 

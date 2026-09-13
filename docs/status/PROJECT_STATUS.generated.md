@@ -10,14 +10,14 @@
 | EE source ownership | **97/97 translation units** | Complete |
 | Runtime contracts | **53/53** | Complete |
 | Program-data address identities | **1,265/1,265** | Complete |
-| Exact 64 KiB image windows | **47/51** | In progress |
-| Remaining image differences | **202,702 bytes** | In progress |
+| Exact 64 KiB image windows | **51/51** | Complete |
+| Remaining image differences | **0 bytes** | Complete |
 | Complete replacement ELF | **Not yet** | In progress |
 
 The function count and the whole-image count answer different questions.
-**1,041/1,041** means the frozen function audit is closed. **47/51** means 47
-complete 64 KiB regions of the rebuilt unpacked image match the target. The
-latter is the relevant number for final linking.
+**1,041/1,041** means the frozen function audit is closed. **51/51** means every
+64 KiB region of the rebuilt unpacked image matches the target. Final ELF
+link identity and packing remain separate gates.
 
 ## Completed proof areas
 
@@ -43,21 +43,21 @@ latter is the relevant number for final linking.
 | Measure | Result |
 |---|---:|
 | Unpacked target size | **3,304,936 bytes** |
-| Exact windows | **0–6 and 11–50** |
-| Remaining windows | **7–10** |
-| Exact-window coverage | **47/51 (92.16%)** |
-| Remaining different bytes | **202,702** |
-| Proved source integrated across windows 0–6 | **458,476 bytes** |
-| Newly labelled exact scheduling residual | **8,504 bytes** |
+| Exact windows | **0–50** |
+| Remaining windows | **None** |
+| Exact-window coverage | **51/51 (100.00%)** |
+| Remaining different bytes | **0** |
+| Integrated code evidence across windows 0–10 | **720,620 bytes** |
+| Existing public instruction listings reused | **73,192 bytes** |
+| Newly labelled exact scheduling residual | **36,340 bytes** |
 
 ## Still open
 
-1. Close image windows 7–10.
-2. Prove complete data/object bounds needed by the final link.
-3. Reproduce the exact linker script, section placement, object/archive order
+1. Prove complete data/object bounds needed by the final link.
+2. Reproduce the exact linker script, section placement, object/archive order
    and remaining relocation results.
-4. Reproduce the SJCRUNCH2/LZO stub and packed container.
-5. Match both frozen target hashes.
+3. Reproduce the SJCRUNCH2/LZO stub and packed container.
+4. Match the frozen packed target hash.
 
 The original ELF and generated private payloads remain ignored. Public status
 is derived only from committed manifests; private checks compare a
