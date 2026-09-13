@@ -10,6 +10,9 @@ obtained `SNES_EMU.ELF`; generated target bytes remain under ignored `build/`.
 - GNU Make and a host C compiler are required for repository checks.
 - The exact-code gates use the isolated EE GCC 3.2.2 compiler built by the
   repository.
+- SJCRUNCH2 reproduction uses a host `liblzo2` exposing
+  `lzo1x_999_compress_level`; set `SNESSTATION_LZO_LIBRARY` when it is not in
+  the system loader path.
 - Private comparison requires the reference ELF whose hash is listed below.
 
 Tool and dependency versions are recorded in [`TOOLS.md`](TOOLS.md) and
@@ -69,6 +72,9 @@ make reproduce-check
 | Exact startup | 276 bytes, 3 functions, 27 relocations |
 | Exact unpacked-image windows | 51/51 |
 | Remaining unpacked-image differences | 0 bytes |
+| Exact compressed blocks | 13/13 |
+| Exact SJCRUNCH2 container | 714,268/714,268 bytes |
+| Loader stub and outer ELF remaining | 12,700 bytes |
 | Packed replacement ELF | Not yet |
 
 The exact windows are **0–50**. A window is counted only when all 65,536 bytes
@@ -89,10 +95,13 @@ This command runs the maintained sequence:
 5. integrate exact startup, public historical data, runtime metadata and
    hash-verified private media;
 6. build the current whole-image candidate and compare all 51 windows;
-7. stop at the unfinished exact-link boundary.
+7. rebuild and compare all 13 LZO1X-999 level-8 blocks and the complete
+   SJCRUNCH2 container;
+8. stop at the unfinished loader-stub/outer-ELF boundary.
 
-The final stop is intentional. Function equality alone cannot recover archive
-order, section placement, global relocation results or packer parameters.
+The final stop is intentional. The compressed payload is exact, but the loader
+stub and outer ELF must still be rebuilt from public source rather than copied
+from the private reference.
 
 ## Public/private boundary
 
@@ -126,7 +135,7 @@ The project is complete only when all of the following agree with the target:
 - object, archive and library order;
 - symbol binding and every relocation result;
 - uninitialized storage geometry;
-- SJCRUNCH2/LZO stub, block layout and packed bytes;
+- SJCRUNCH2/LZO loader stub and outer ELF metadata;
 - packed and unpacked SHA-256 values.
 
 Current priorities are listed in [`ROADMAP.md`](ROADMAP.md). Historical details

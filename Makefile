@@ -129,6 +129,10 @@ WINDOW11_RODATA_MANIFEST := analysis/link_identity/window11_rodata.json
 WINDOW11_RODATA_BUILD_DIR := $(BUILD_DIR)/window11-rodata
 CODE_WINDOWS_MANIFEST := analysis/link_identity/code_windows.json
 CODE_WINDOWS_BUILD_DIR := $(BUILD_DIR)/code-windows
+SJCRUNCH_PACKING_MANIFEST := analysis/link_identity/sjcrunch_packing.json
+SJCRUNCH_PACKING_BUILD_DIR := $(BUILD_DIR)/sjcrunch-packing
+SJCRUNCH_PACKING_OUTPUT := $(SJCRUNCH_PACKING_BUILD_DIR)/container.bin
+SJCRUNCH_LZO_ARG := $(if $(strip $(SNESSTATION_LZO_LIBRARY)),--lzo-library "$(SNESSTATION_LZO_LIBRARY)",)
 DECOMPDEV_REPORT_CONTRACT := analysis/decompdev/report_contract.json
 DECOMPDEV_REPORT := $(BUILD_DIR)/decompdev/report.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
@@ -202,6 +206,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	window35-data window35-data-check window35-data-refresh window35-data-public-check \
 	window11-rodata window11-rodata-check window11-rodata-refresh window11-rodata-public-check \
 	code-windows code-windows-check code-windows-refresh code-windows-public-check \
+	sjcrunch-packing sjcrunch-packing-check sjcrunch-packing-public-check \
 	decompdev-report decompdev-report-check decompdev-report-public-check \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
@@ -226,6 +231,7 @@ help:
 	@echo "  make docs            regenerate the current status files"
 	@echo "  make reference       verify and unpack original/SNES_EMU.ELF privately"
 	@echo "  make reproduce-check run every implemented public and private gate"
+	@echo "  make sjcrunch-packing-check  verify all 13 compressed blocks privately"
 	@echo "  make reproduce       run the complete maintained pipeline"
 	@echo "  make bootstrap-ee-stage1  build the historical EE C compiler"
 	@echo "  make bootstrap-ee-cxx-stage1  build the historical EE C/C++ compiler"
@@ -300,7 +306,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check tail-metadata-public-check window36-data-public-check media-assets-public-check window35-data-public-check window11-rodata-public-check code-windows-public-check decompdev-report-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check tail-metadata-public-check window36-data-public-check media-assets-public-check window35-data-public-check window11-rodata-public-check code-windows-public-check sjcrunch-packing-public-check decompdev-report-public-check
 	@echo "repository checks: OK"
 
 decompdev-report:
@@ -1220,6 +1226,24 @@ code-windows-refresh:
 code-windows-public-check:
 	$(PYTHON) tools/code_windows.py validate --manifest "$(CODE_WINDOWS_MANIFEST)"
 
+sjcrunch-packing: code-windows
+	$(PYTHON) tools/sjcrunch_pack.py pack \
+		--image "$(CODE_WINDOWS_BUILD_DIR)/stage3p-code-windows-integrated.padded.bin" \
+		--layout "$(UNPACKED_LAYOUT_MANIFEST)" --manifest "$(SJCRUNCH_PACKING_MANIFEST)" \
+		--output "$(SJCRUNCH_PACKING_OUTPUT)" $(SJCRUNCH_LZO_ARG)
+
+sjcrunch-packing-check: code-windows
+	@test -f original/SNES_EMU.ELF || { echo "missing private reference: original/SNES_EMU.ELF" >&2; exit 2; }
+	$(PYTHON) tools/sjcrunch_pack.py check \
+		--image "$(CODE_WINDOWS_BUILD_DIR)/stage3p-code-windows-integrated.padded.bin" \
+		--packed original/SNES_EMU.ELF --layout "$(UNPACKED_LAYOUT_MANIFEST)" \
+		--manifest "$(SJCRUNCH_PACKING_MANIFEST)" --output "$(SJCRUNCH_PACKING_OUTPUT)" \
+		$(SJCRUNCH_LZO_ARG)
+
+sjcrunch-packing-public-check:
+	$(PYTHON) tools/sjcrunch_pack.py validate \
+		--layout "$(UNPACKED_LAYOUT_MANIFEST)" --manifest "$(SJCRUNCH_PACKING_MANIFEST)"
+
 rom-offsets-public-check:
 	$(PYTHON) tools/rom_offsets.py validate
 
@@ -1490,11 +1514,13 @@ elf-status: audit-source-check
 	@echo "  exact windows         51/51"
 	@echo "  remaining windows     none"
 	@echo "  remaining differences 0 bytes"
+	@echo "  compressed blocks      13/13 exact (LZO1X-999 level 8)"
+	@echo "  SJCRUNCH2 container    714268/714268 bytes exact"
 	@echo
 	@echo "Complete replacement ELF: NOT YET"
 	@echo "  - prove complete object/array bounds needed by the link"
 	@echo "  - reproduce final relocations, linker script and object/archive order"
-	@echo "  - reproduce SJCRUNCH2 packing and both reference hashes"
+	@echo "  - reproduce the 12700-byte loader stub/outer ELF and packed hash"
 	@echo "See docs/REPRODUCTION.md"
 
 elf: elf-status

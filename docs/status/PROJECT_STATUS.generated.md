@@ -12,6 +12,7 @@
 | Program-data address identities | **1,265/1,265** | Complete |
 | Exact 64 KiB image windows | **51/51** | Complete |
 | Remaining image differences | **0 bytes** | Complete |
+| Exact SJCRUNCH2 container | **714,268/714,268 bytes** | Complete |
 | Complete replacement ELF | **Not yet** | In progress |
 
 The function count and the whole-image count answer different questions.
@@ -37,6 +38,7 @@ link identity and packing remain separate gates.
 | Historical data | **49 intervals / 810,542 bytes** | 695,316 bytes are freshly rebuilt from pinned public source |
 | Exact startup | **276 bytes / 3 functions** | Target entry and 27 relocations reproduce exactly |
 | Embedded media | **6 containers / 1,284,388 bytes** | Privately verified and integrated without committing payload data |
+| SJCRUNCH2 compression | **13/13 blocks / 714,268 bytes** | LZO1X-999 level 8 reproduces the complete container byte for byte |
 
 ## Whole-image comparison
 
@@ -50,13 +52,16 @@ link identity and packing remain separate gates.
 | Integrated code evidence across windows 0–10 | **720,620 bytes** |
 | Existing public instruction listings reused | **73,192 bytes** |
 | Newly labelled exact scheduling residual | **36,340 bytes** |
+| Exact SJCRUNCH2 blocks | **13/13** |
+| Exact SJCRUNCH2 container | **714,268/714,268 bytes** |
+| Loader stub and outer ELF still open | **12,700 bytes** |
 
 ## Still open
 
 1. Prove complete data/object bounds needed by the final link.
 2. Reproduce the exact linker script, section placement, object/archive order
    and remaining relocation results.
-3. Reproduce the SJCRUNCH2/LZO stub and packed container.
+3. Reproduce the 12,700-byte loader stub and outer ELF metadata.
 4. Match the frozen packed target hash.
 
 The original ELF and generated private payloads remain ignored. Public status

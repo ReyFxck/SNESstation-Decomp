@@ -13,6 +13,7 @@ calling individual Python files unless you are developing a proof tool.
 | `make reference` | Verify and unpack `original/SNES_EMU.ELF` | Yes |
 | `make reproduce-check` | Run every implemented public and private reproduction gate | Yes |
 | `make reproduce` | Run the complete maintained pipeline and stop honestly at unfinished final-link work | Yes |
+| `make sjcrunch-packing-check` | Rebuild and compare all 13 compressed blocks and the complete container | Yes |
 | `make bootstrap-ee-stage1` | Build the pinned historical EE C compiler locally | No |
 | `make bootstrap-ee-cxx-stage1` | Build its C and C++ variant | No |
 
@@ -26,6 +27,7 @@ calling individual Python files unless you are developing a proof tool.
 | `tools/compare_elf_functions.py` | Performs strict function and relocation-aware comparison | Matching targets |
 | `tools/layout_oracle.py` | Checks packed/unpacked geometry and 64 KiB image hashes | `make layout-oracle` |
 | `tools/code_windows.py` | Rebuilds and verifies the currently exact whole-image code windows | `make code-windows` |
+| `tools/sjcrunch_pack.py` | Rebuilds the hash-frozen SJCRUNCH2 container with LZO1X-999 level 8 | `make sjcrunch-packing-check` |
 | `tools/decompdev_report.py` | Produces the public Objdiff Report v2 artifact | `make decompdev-report` |
 | `tools/bootstrap_ee_gcc_stage1.py` | Builds isolated binutils/GCC candidates from pinned sources | Compiler bootstrap targets |
 | `tools/reproduce.sh` | Orders all implemented reproduction gates | `make reproduce-check`, `make reproduce` |
@@ -50,7 +52,7 @@ part of the normal interface.
 | Snes9x | 1.41 | Primary emulator-core source baseline |
 | zlib | 1.1.3 | Compression source baseline |
 | Gilles Vollant unzip | 0.15 | Historical ZIP API baseline |
-| SJCRUNCH2 | Exact revision unknown | Original packed-container format |
+| SJCRUNCH2 | LZO1X-999 level 8; miniLZO 1.08 stub | Original packed-container format |
 
 Exact hashes, confidence levels and unknown revisions are kept in
 [`DEPENDENCY_VERSIONS.md`](DEPENDENCY_VERSIONS.md). Compiler flags and the

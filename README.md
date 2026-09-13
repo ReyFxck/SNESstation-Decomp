@@ -23,7 +23,8 @@ release.
 | Address identities | **1,265/1,265** | Every tracked program-data address has a proved identity; exact full object bounds are a separate question. | Complete |
 | Whole-image windows | **51/51 (100.00%)** | Every 64 KiB window in the unpacked image matches exactly. | Complete |
 | Remaining byte differences | **0** | Byte positions still different in the 3,304,936-byte unpacked image. | Complete |
-| Replacement ELF | **Not yet** | Final object order, linker layout, remaining relocations and SJCRUNCH2 packing are not fully reproduced. | In progress |
+| SJCRUNCH2 container | **714,268/714,268 bytes** | All 13 LZO1X-999 level-8 blocks and the complete container match exactly. | Complete |
+| Replacement ELF | **Not yet** | The 12,700-byte loader stub and outer ELF metadata remain to be rebuilt from public source. | In progress |
 
 The **1,041/1,041** result measures the audited function frontier. It does not
 mean the complete ELF is already identical. The whole-image result is the
@@ -72,6 +73,7 @@ See [`docs/TOOLS.md`](docs/TOOLS.md) for the maintained command and tool table.
 | Compiler runtime | GCC 3.2.2-era libgcc/libsupc++ | Arithmetic, RTTI, exceptions and unwind evidence integrated |
 | Frontend and renderer | SNES Station binary and early Hiryu gsLib lineage | Application flow and 30/30 renderer draw-family entries recovered |
 | Startup and image layout | Historical PS2 startup plus hash-only private oracle | Exact entry/startup and 51/51 whole-image windows reproduced |
+| Executable compression | SJCRUNCH2 plus LZO1X-999 | Level 8 identified; 13/13 blocks and the 714,268-byte container reproduce exactly |
 
 The complete source-history table, including preserved compiler candidates and
 why they remain in the repository, is in
@@ -87,7 +89,7 @@ why they remain in the repository, is in
 | EE binutils | 2.14 candidate | Assembly and linking |
 | Python | 3.12 in CI | Audits, tests and report generation |
 | LLVM objdump | 20 | Generic disassembly pass |
-| SJCRUNCH2 | Exact revision unknown | Original executable packing |
+| SJCRUNCH2 | LZO1X-999 level 8; miniLZO 1.08 stub | Original executable packing |
 
 Evidence levels, immutable hashes and deliberately unknown revisions are
 listed in [`docs/DEPENDENCY_VERSIONS.md`](docs/DEPENDENCY_VERSIONS.md).

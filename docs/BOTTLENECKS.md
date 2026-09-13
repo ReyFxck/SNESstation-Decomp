@@ -7,7 +7,7 @@ is exact ELF link identity and packed-file identity.
 |---|---|---|
 | Historical link | Incomplete | Exact linker script, section addresses, object/archive order and symbol binding |
 | Complete data bounds | Address identities are 1,265/1,265, but some full object/array extents are still unknown | Prove complete sizes, alignment, zero-fill and ownership where the final link depends on them |
-| Packer | SJCRUNCH2 container understood; exact revision and parameters still unknown | Reproduce stub, 13-block layout and packed bytes |
+| Loader stub / outer ELF | 12,700 bytes remain outside the now-exact compressed container | Rebuild the stub, ELF/program/section headers and trailing metadata from public source |
 
 Current whole-image result:
 
@@ -17,6 +17,9 @@ Current whole-image result:
 | Exact indices | **0–50** |
 | Remaining indices | **None** |
 | Remaining different bytes | **0** |
+| Exact compressed blocks | **13/13** |
+| Exact SJCRUNCH2 container | **714,268/714,268 bytes** |
+| Loader stub / outer ELF remaining | **12,700 bytes** |
 | Complete replacement ELF | **Not yet** |
 
 `make reproduce` is the authoritative workflow. `make check` validates the

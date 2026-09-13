@@ -15,14 +15,15 @@ the packed executable.
 | Address identities | **1,265/1,265** | Every tracked program-data address has a proved identity |
 | Startup | **276/276 bytes; 3/3 functions** | The target entry, startup code, 27 relocations and startup BSS are exact |
 | Whole-image comparison | **51/51 windows; 0 differences** | The complete unpacked image matches its frozen SHA-256 |
+| SJCRUNCH2 compression | **13/13 blocks; 714,268/714,268 bytes** | LZO1X-999 level 8 reproduces the complete compressed container exactly |
 
 ## Remaining
 
 | Priority | Work | Completion condition |
 |---:|---|---|
-| 1 | Reproduce the final link | Exact linker script, section addresses, object/archive order, symbol binding and relocation results |
-| 2 | Reproduce packing | Correct SJCRUNCH2/LZO revision, stub and parameters |
-| 3 | Final comparison | The packed SHA-256 matches the frozen reference |
+| 1 | Reproduce the loader stub and outer ELF | Rebuild the remaining 12,700 bytes from public source with exact headers, sections and BSS geometry |
+| 2 | Reproduce the historical application link | Exact linker script, section addresses, object/archive order, symbol binding and relocation results |
+| 3 | Final comparison | The complete packed SHA-256 matches the frozen reference |
 
 The current unpacked image differs at **0 byte positions**. The 51/51 count is
 generated from the current manifest; it is not an estimated percentage.

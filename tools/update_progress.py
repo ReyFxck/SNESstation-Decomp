@@ -34,6 +34,7 @@ import media_assets
 import window35_data
 import window11_rodata
 import code_windows
+import sjcrunch_pack
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "analysis" / "progress_targets.csv"
@@ -522,6 +523,9 @@ def main() -> None:
     window11_result = window11_gate["result"]
     code_window_gate = code_windows.validate(code_windows.parse_args(["validate"]))
     code_window_result = code_window_gate["result"]
+    packing_result = sjcrunch_pack.load_packing_manifest()
+    packing_container = packing_result["container"]
+    packing_outer = packing_result["outer_elf"]
     stage3d_closed = len(libgcc_rows) + runtime_closed + member_report["contracts_closed"] + len(override_rows)
     stage3d_remaining = 53 - stage3d_closed
 
@@ -608,6 +612,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Program-data address identities | **{backing_report['resolved_contracts']:,}/{backing_report['contracts_total']:,}** | Complete |
 | Exact 64 KiB image windows | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']}** | Complete |
 | Remaining image differences | **{code_window_result['differing_bytes']:,} bytes** | Complete |
+| Exact SJCRUNCH2 container | **{packing_container['size']:,}/{packing_container['size']:,} bytes** | Complete |
 | Complete replacement ELF | **Not yet** | In progress |
 
 The function count and the whole-image count answer different questions.
@@ -633,6 +638,7 @@ link identity and packing remain separate gates.
 | Historical data | **{len(historical_report['owners'])} intervals / {historical_bytes:,} bytes** | {backing_report['historical_source_bytes']:,} bytes are freshly rebuilt from pinned public source |
 | Exact startup | **{startup_result['startup_exact_bytes']} bytes / {startup_result['startup_functions_exact']} functions** | Target entry and {startup_result['startup_relocations_applied']} relocations reproduce exactly |
 | Embedded media | **{media_result['media_sections']} containers / {media_result['media_asset_bytes']:,} bytes** | Privately verified and integrated without committing payload data |
+| SJCRUNCH2 compression | **{packing_container['block_count']}/{packing_container['block_count']} blocks / {packing_container['size']:,} bytes** | LZO1X-999 level 8 reproduces the complete container byte for byte |
 
 ## Whole-image comparison
 
@@ -646,13 +652,16 @@ link identity and packing remain separate gates.
 | Integrated code evidence across windows 0–10 | **{code_window_result['source_bytes']:,} bytes** |
 | Existing public instruction listings reused | **{code_window_result['listing_bytes']:,} bytes** |
 | Newly labelled exact scheduling residual | **{code_window_result['residual_bytes']:,} bytes** |
+| Exact SJCRUNCH2 blocks | **{packing_container['block_count']}/{packing_container['block_count']}** |
+| Exact SJCRUNCH2 container | **{packing_container['size']:,}/{packing_container['size']:,} bytes** |
+| Loader stub and outer ELF still open | **{packing_outer['unreproduced_size']:,} bytes** |
 
 ## Still open
 
 1. Prove complete data/object bounds needed by the final link.
 2. Reproduce the exact linker script, section placement, object/archive order
    and remaining relocation results.
-3. Reproduce the SJCRUNCH2/LZO stub and packed container.
+3. Reproduce the {packing_outer['unreproduced_size']:,}-byte loader stub and outer ELF metadata.
 4. Match the frozen packed target hash.
 
 The original ELF and generated private payloads remain ignored. Public status
@@ -675,7 +684,8 @@ user-supplied reference without publishing its bytes.
 | Address identities | **{backing_report['resolved_contracts']:,}/{backing_report['contracts_total']:,}** | Every tracked program-data address has a proved identity; exact full object bounds are a separate question. | Complete |
 | Whole-image windows | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']} ({pct(code_window_result['exact_chunks'], code_window_result['chunk_count']):.2f}%)** | Every 64 KiB window in the unpacked image matches exactly. | Complete |
 | Remaining byte differences | **{code_window_result['differing_bytes']:,}** | Byte positions still different in the {code_window_result['target_initialized_size']:,}-byte unpacked image. | Complete |
-| Replacement ELF | **Not yet** | Final object order, linker layout, remaining relocations and SJCRUNCH2 packing are not fully reproduced. | In progress |
+| SJCRUNCH2 container | **{packing_container['size']:,}/{packing_container['size']:,} bytes** | All {packing_container['block_count']} LZO1X-999 level-8 blocks and the complete container match exactly. | Complete |
+| Replacement ELF | **Not yet** | The {packing_outer['unreproduced_size']:,}-byte loader stub and outer ELF metadata remain to be rebuilt from public source. | In progress |
 
 The **{project_status.formal_matching:,}/{VALIDATED_TARGETS:,}** result measures the audited function frontier. It does not
 mean the complete ELF is already identical. The whole-image result is the

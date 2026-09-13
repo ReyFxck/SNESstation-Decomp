@@ -38,11 +38,13 @@ show_status() {
     printf '  - Stage-3O window 11: 35,067 public-source bytes + 2,220 semantic bytes; exact\n'
     printf '  - Stage-3P code windows: 720,620 evidence bytes integrated\n'
     printf '  - Whole-image diagnostic: 51/51 windows exact; 0 bytes differ\n'
+    printf '  - SJCRUNCH2 compression: 13/13 LZO1X-999 level-8 blocks exact\n'
+    printf '  - SJCRUNCH2 container: 714,268/714,268 bytes exact\n'
     printf '\nExact replacement ELF still requires:\n'
     printf '  - complete Stage-3F object/array extents; 354 lack access witnesses\n'
     printf '  - historical member data and original whole-archive composition\n'
     printf '  - exact sections, relocations, linker script and link order\n'
-    printf '  - reproduced SJCRUNCH2 packing\n'
+    printf '  - reproduced 12,700-byte loader stub and outer ELF metadata\n'
 }
 
 require_reference() {
@@ -73,7 +75,7 @@ case "$MODE" in
         make media-assets-check
         make window35-data-check
         make window11-rodata-check
-        make code-windows
+        make sjcrunch-packing-check
         make layout-oracle-check
         make elf-status
         ;;
@@ -93,7 +95,7 @@ case "$MODE" in
         make media-assets-check
         make window35-data-check
         make window11-rodata-check
-        make code-windows
+        make sjcrunch-packing-check
         make layout-oracle-check
         make elf
         ;;
