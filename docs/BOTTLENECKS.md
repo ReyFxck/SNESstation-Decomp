@@ -5,7 +5,6 @@ whole-image and packed-file identity.
 
 | Blocker | Current state | Required result |
 |---|---|---|
-| Window 0 | Different outside the exact startup range | Rebuild the remaining application code/data and its placement |
 | Windows 7–10 | Different | Select exact implementation objects and reproduce relocations/layout |
 | Historical link | Incomplete | Exact linker script, section addresses, object/archive order and symbol binding |
 | Complete data bounds | Address identities are 1,265/1,265, but some full object/array extents are still unknown | Prove complete sizes, alignment, zero-fill and ownership where the final link depends on them |
@@ -15,10 +14,10 @@ Current whole-image result:
 
 | Measure | Result |
 |---|---:|
-| Exact 64 KiB windows | **46/51** |
-| Exact indices | **1–6, 11–50** |
-| Remaining indices | **0, 7–10** |
-| Remaining different bytes | **261,305** |
+| Exact 64 KiB windows | **47/51** |
+| Exact indices | **0–6, 11–50** |
+| Remaining indices | **7–10** |
+| Remaining different bytes | **202,702** |
 | Complete replacement ELF | **Not yet** |
 
 `make reproduce` is the authoritative workflow. `make check` validates the

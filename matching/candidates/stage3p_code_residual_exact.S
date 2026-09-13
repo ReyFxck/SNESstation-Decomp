@@ -1863,3 +1863,465 @@ stage3p_memory_safe:
     .word 0x1000fffb    # +0x0118
     .word 0xae00e820    # +0x011c
     .size stage3p_memory_safe, .-stage3p_memory_safe
+
+    /* Frontend leaf/control cluster @ 0x00101838..0x00101890
+     * target span SHA-256: fa175269c92ce45bb7ca773cac950d16299080aedd7b1cf7b5c4ab838f8f21ff
+     */
+    .balign 4
+    .globl stage3p_frontend_leaf_cluster_00101838
+    .type stage3p_frontend_leaf_cluster_00101838, @function
+stage3p_frontend_leaf_cluster_00101838:
+    .word 0x27bdfff0
+    .word 0x24040001
+    .word 0xffbf0000
+    .word 0x0c040605
+    .word 0x3405ffff
+    .word 0xdfbf0000
+    .word 0x03e00008
+    .word 0x27bd0010
+    .word 0x03e00008
+    .word 0x00000000
+    .word 0x03e00008
+    .word 0x00000000
+    .word 0x03e00008
+    .word 0x00000000
+    .word 0x03e00008
+    .word 0x00000000
+    .word 0x03e00008
+    .word 0x00000000
+    .word 0x03e00008
+    .word 0x0000102d
+    .word 0x03e00008
+    .word 0x00000000
+    .size stage3p_frontend_leaf_cluster_00101838, .-stage3p_frontend_leaf_cluster_00101838
+
+    /* Frontend dispatch/leaf cluster @ 0x001018e0..0x00101924
+     * target span SHA-256: a7c2ce28b5d4d505465f2a60505ff4bc1d83add6be777dc665707cfdb9d87a8a
+     */
+    .balign 4
+    .globl stage3p_frontend_dispatch_cluster_001018e0
+    .type stage3p_frontend_dispatch_cluster_001018e0, @function
+stage3p_frontend_dispatch_cluster_001018e0:
+    .word 0x27bdfff0
+    .word 0xffbf0000
+    .word 0x0c065126
+    .word 0x00000000
+    .word 0xdfbf0000
+    .word 0x03e00008
+    .word 0x27bd0010
+    .word 0x03e00008
+    .word 0x00000000
+    .word 0x03e00008
+    .word 0x00000000
+    .word 0x03e00008
+    .word 0x00000000
+    .word 0x03e00008
+    .word 0x0000102d
+    .word 0x03e00008
+    .word 0x00000000
+    .size stage3p_frontend_dispatch_cluster_001018e0, .-stage3p_frontend_dispatch_cluster_001018e0
+
+    /* Frontend zero-return leaf @ 0x001019a0..0x001019a8
+     * target span SHA-256: 008d26890102af179c703d77fae42cb7b3f424a11b8db552383dd8e5313f4061
+     */
+    .balign 4
+    .globl stage3p_frontend_leaf_001019a0
+    .type stage3p_frontend_leaf_001019a0, @function
+stage3p_frontend_leaf_001019a0:
+    .word 0x03e00008
+    .word 0x0000102d
+    .size stage3p_frontend_leaf_001019a0, .-stage3p_frontend_leaf_001019a0
+
+    /* Frontend GUI setup schedule @ 0x001029c4..0x00102ab0
+     * target span SHA-256: 538c4ea3db3b400ce46ec0cee175d0209cf64def8b26cc585a65f405f5cb3a4c
+     */
+    .balign 4
+    .globl stage3p_frontend_regalloc_001029c4
+    .type stage3p_frontend_regalloc_001029c4, @function
+stage3p_frontend_regalloc_001029c4:
+    .word 0x27bdffd0
+    .word 0xffbf0020
+    .word 0x0c0406d9
+    .word 0x00000000
+    .word 0x3c04001c
+    .word 0x3c0b001b
+    .word 0x240a0002
+    .word 0x2484b748
+    .word 0x256b0a58
+    .word 0x0000282d
+    .word 0x24060280
+    .word 0x240700dc
+    .word 0x340980ff
+    .word 0x00094c38
+    .word 0x3529ffff
+    .word 0x0c066e52
+    .word 0x24080004
+    .word 0x0c0407a3
+    .word 0x00000000
+    .word 0x0c0670ab
+    .word 0x00000000
+    .word 0x3c02001c
+    .word 0x2403002f
+    .word 0xa443b340
+    .word 0x0000202d
+    .word 0x0c06a22a
+    .word 0x0000282d
+    .word 0x24030006
+    .word 0x10430011
+    .word 0x0000202d
+    .word 0x3c031200
+    .word 0x34631000
+    .word 0xdc620000
+    .word 0x30420008
+    .word 0xfc620000
+    .word 0x3c021200
+    .word 0x34421000
+    .word 0xdc420000
+    .word 0x30420008
+    .word 0x00000000
+    .word 0x00000000
+    .word 0x00000000
+    .word 0x1040fff9
+    .word 0x3c021200
+    .word 0x1000ffec
+    .word 0x0000202d
+    .word 0x0000282d
+    .word 0x0c06a219
+    .word 0x03a0302d
+    .word 0x93a20002
+    .word 0x93a30003
+    .word 0x00021200
+    .word 0x00431027
+    .word 0x30420040
+    .word 0x5040ffe8
+    .word 0x3c031200
+    .word 0xdfbf0020
+    .word 0x03e00008
+    .word 0x27bd0030
+    .size stage3p_frontend_regalloc_001029c4, .-stage3p_frontend_regalloc_001029c4
+
+    /* Frontend control/address leaves @ 0x001041e4..0x00104234
+     * target span SHA-256: be05aaea7d445d83ba29928800a84dcbea7994c525e8a74362c678a0326e5f9d
+     */
+    .balign 4
+    .globl stage3p_frontend_control_001041e4
+    .type stage3p_frontend_control_001041e4, @function
+stage3p_frontend_control_001041e4:
+    .word 0x27bdfff0
+    .word 0x24040001
+    .word 0xffbf0000
+    .word 0x0c041070
+    .word 0x3405ffff
+    .word 0xdfbf0000
+    .word 0x03e00008
+    .word 0x27bd0010
+    .word 0x3c020042
+    .word 0xac800004
+    .word 0x24426c28
+    .word 0xac800008
+    .word 0x03e00008
+    .word 0xac820000
+    .word 0x3c020042
+    .word 0xac800004
+    .word 0x24426c28
+    .word 0xac800008
+    .word 0x03e00008
+    .word 0xac820000
+    .size stage3p_frontend_control_001041e4, .-stage3p_frontend_control_001041e4
+
+    /* Frontend shutdown/module-load bridge @ 0x00104e48..0x00104f18
+     * target span SHA-256: 4db790eec228d78f8d6f342ceb0573036597cffaea42645eddc20308804fc275
+     */
+    .balign 4
+    .globl stage3p_frontend_module_bridge_00104e48
+    .type stage3p_frontend_module_bridge_00104e48, @function
+stage3p_frontend_module_bridge_00104e48:
+    .word 0x03e00008
+    .word 0x0000102d
+    .word 0x03e00008
+    .word 0x0000102d
+    .word 0x3c040035
+    .word 0x27bdfff0
+    .word 0xffbf0000
+    .word 0x0c0544cc
+    .word 0x2484e2b0
+    .word 0x0c042a2f
+    .word 0x00000000
+    .word 0x0c067173
+    .word 0x24040001
+    .word 0x27bdff90
+    .word 0xffb10020
+    .word 0x0080882d
+    .word 0x00a0202d
+    .word 0xffbf0060
+    .word 0xffb40050
+    .word 0x00e0a02d
+    .word 0xffb30040
+    .word 0x00c0982d
+    .word 0xffb20030
+    .word 0xffb00010
+    .word 0x0c06758f
+    .word 0x00a0802d
+    .word 0xafa0000c
+    .word 0x03a0202d
+    .word 0x24050001
+    .word 0xafb00008
+    .word 0x0040902d
+    .word 0xafb10000
+    .word 0x0c0673b8
+    .word 0xafa20004
+    .word 0x0040802d
+    .word 0x0c0673b4
+    .word 0x0200202d
+    .word 0x0441fffd
+    .word 0x0260282d
+    .word 0x0280302d
+    .word 0x0c067588
+    .word 0x0240202d
+    .word 0x0c0675ae
+    .word 0x0240202d
+    .word 0xdfb00010
+    .word 0xdfbf0060
+    .word 0xdfb40050
+    .word 0xdfb30040
+    .word 0xdfb20030
+    .word 0xdfb10020
+    .word 0x03e00008
+    .word 0x27bd0070
+    .size stage3p_frontend_module_bridge_00104e48, .-stage3p_frontend_module_bridge_00104e48
+
+    /* Draw-sync leaf pair @ 0x001056b0..0x001056c0
+     * target span SHA-256: 0545bda3e48da9ffa736f04df8e435f9d6e044bbf4ed99eba3090f71764155fc
+     */
+    .balign 4
+    .globl stage3p_frontend_drawsync_leaf_001056b0
+    .type stage3p_frontend_drawsync_leaf_001056b0, @function
+stage3p_frontend_drawsync_leaf_001056b0:
+    .word 0x03e00008
+    .word 0x00000000
+    .word 0x03e00008
+    .word 0x24020001
+    .size stage3p_frontend_drawsync_leaf_001056b0, .-stage3p_frontend_drawsync_leaf_001056b0
+
+    /* Draw-sync wrapper tail @ 0x001056e0..0x00105718
+     * target span SHA-256: c6c2febbc22b936c7553ed50c8396779c5d0d721a6906b2556da6ec5f33c746a
+     */
+    .balign 4
+    .globl stage3p_frontend_drawsync_tail_001056e0
+    .type stage3p_frontend_drawsync_tail_001056e0, @function
+stage3p_frontend_drawsync_tail_001056e0:
+    .word 0x27bdffe0
+    .word 0x3c05001b
+    .word 0xffb00000
+    .word 0x24a50f70
+    .word 0x3c100043
+    .word 0xffbf0010
+    .word 0x26109288
+    .word 0x0c0678f4
+    .word 0x0200202d
+    .word 0xdfbf0010
+    .word 0x0200102d
+    .word 0xdfb00000
+    .word 0x03e00008
+    .word 0x27bd0020
+    .size stage3p_frontend_drawsync_tail_001056e0, .-stage3p_frontend_drawsync_tail_001056e0
+
+    /* Audio comparison tail @ 0x00105e38..0x00105e48
+     * target span SHA-256: c4be49d90bdc76bff518715da5282e61e011284b42877f9a5a872157ece9a29c
+     */
+    .balign 4
+    .globl stage3p_frontend_audio_tail_00105e38
+    .type stage3p_frontend_audio_tail_00105e38, @function
+stage3p_frontend_audio_tail_00105e38:
+    .word 0x8c820000
+    .word 0x8ca30000
+    .word 0x03e00008
+    .word 0x00431023
+    .size stage3p_frontend_audio_tail_00105e38, .-stage3p_frontend_audio_tail_00105e38
+
+    /* Fatal-spin leaf plus SjPCM_Puts bridge @ 0x00107578..0x0010768c
+     * target span SHA-256: 79a5e12c2ea51cf89b11efa08e4c088030058e746e4a58ee19d7b400f5490a82
+     */
+    .balign 4
+    .globl stage3p_sjpcm_puts_bridge_00107578
+    .type stage3p_sjpcm_puts_bridge_00107578, @function
+stage3p_sjpcm_puts_bridge_00107578:
+    .word 0x1000ffff
+    .word 0x00000000
+    .word 0x27bdff70
+    .word 0x3c02001f
+    .word 0xffbf0020
+    .word 0xffb00010
+    .word 0xffa50058
+    .word 0x8c426100
+    .word 0xffa60060
+    .word 0xffa70068
+    .word 0xffa80070
+    .word 0xffa90078
+    .word 0xffaa0080
+    .word 0xffab0088
+    .word 0xe7ac0048
+    .word 0xe7ae004c
+    .word 0xe7b00050
+    .word 0x14400005
+    .word 0xe7b20054
+    .word 0xdfbf0020
+    .word 0xdfb00010
+    .word 0x03e00008
+    .word 0x27bd0090
+    .word 0x3c100043
+    .word 0x0080302d
+    .word 0x2610b400
+    .word 0x27a70058
+    .word 0x0200202d
+    .word 0x0c0678b8
+    .word 0x24051000
+    .word 0x3c020043
+    .word 0x260300e0
+    .word 0x2442c400
+    .word 0xde040000
+    .word 0xde050008
+    .word 0xde060010
+    .word 0xde070018
+    .word 0xfc440000
+    .word 0xfc450008
+    .word 0xfc460010
+    .word 0xfc470018
+    .word 0x26100020
+    .word 0x00000000
+    .word 0x00000000
+    .word 0x00000000
+    .word 0x1603fff3
+    .word 0x24420020
+    .word 0xde0c0000
+    .word 0xde0d0008
+    .word 0xde0e0010
+    .word 0x8e030018
+    .word 0xfc4c0000
+    .word 0xfc4d0008
+    .word 0xfc4e0010
+    .word 0x3c070043
+    .word 0x24e7c400
+    .word 0x3c040043
+    .word 0xac430018
+    .word 0x2484c500
+    .word 0x24050001
+    .word 0x0000302d
+    .word 0x240800fc
+    .word 0x00e0482d
+    .word 0x240a00fc
+    .word 0x0000582d
+    .word 0x0c0671ec
+    .word 0xafa00000
+    .word 0x1000ffd0
+    .word 0xdfbf0020
+    .size stage3p_sjpcm_puts_bridge_00107578, .-stage3p_sjpcm_puts_bridge_00107578
+
+    /* Amiga module log/copy tail @ 0x00107f84..0x001080cc
+     * target span SHA-256: ac7c8b1b548b93e324f22e8735696136a610151adb72041da47da8ae35ca1a61
+     */
+    .balign 4
+    .globl stage3p_amigamod_log_tail_00107f84
+    .type stage3p_amigamod_log_tail_00107f84, @function
+stage3p_amigamod_log_tail_00107f84:
+    .word 0x27bdffe0
+    .word 0x3c020020
+    .word 0xffbf0010
+    .word 0x8c42afc0
+    .word 0x1040003a
+    .word 0x3c020043
+    .word 0x0080182d
+    .word 0x244cc580
+    .word 0x006c1025
+    .word 0x30420007
+    .word 0x10400037
+    .word 0x248400e0
+    .word 0x0080102d
+    .word 0x68640007
+    .word 0x6c640000
+    .word 0x6865000f
+    .word 0x6c650008
+    .word 0x68660017
+    .word 0x6c660010
+    .word 0x6867001f
+    .word 0x6c670018
+    .word 0xb1840007
+    .word 0xb5840000
+    .word 0xb185000f
+    .word 0xb5850008
+    .word 0xb1860017
+    .word 0xb5860010
+    .word 0xb187001f
+    .word 0xb5870018
+    .word 0x24630020
+    .word 0x00000000
+    .word 0x00000000
+    .word 0x00000000
+    .word 0x1462ffeb
+    .word 0x258c0020
+    .word 0x3c070043
+    .word 0x686d0007
+    .word 0x6c6d0000
+    .word 0x686e000f
+    .word 0x6c6e0008
+    .word 0x686f0017
+    .word 0x6c6f0010
+    .word 0x8862001b
+    .word 0x98620018
+    .word 0xb18d0007
+    .word 0xb58d0000
+    .word 0xb18e000f
+    .word 0xb58e0008
+    .word 0xb18f0017
+    .word 0xb58f0010
+    .word 0xa982001b
+    .word 0x24e7c580
+    .word 0x3c040043
+    .word 0x2484c540
+    .word 0x24050900
+    .word 0x24060001
+    .word 0x240800fc
+    .word 0x00e0482d
+    .word 0x0000502d
+    .word 0x0000582d
+    .word 0xb9820018
+    .word 0x0c0671ec
+    .word 0xafa00000
+    .word 0xdfbf0010
+    .word 0x03e00008
+    .word 0x27bd0020
+    .word 0xdc6d0000
+    .word 0xdc6e0008
+    .word 0xdc6f0010
+    .word 0xdc620018
+    .word 0xfd8d0000
+    .word 0xfd8e0008
+    .word 0xfd8f0010
+    .word 0xfd820018
+    .word 0x24630020
+    .word 0x00000000
+    .word 0x00000000
+    .word 0x00000000
+    .word 0x1464fff3
+    .word 0x258c0020
+    .word 0x1000ffd3
+    .word 0x3c070043
+    .size stage3p_amigamod_log_tail_00107f84, .-stage3p_amigamod_log_tail_00107f84
+
+    /* C4 state-address leaf cluster @ 0x0010e33c..0x0010e360
+     * target span SHA-256: df7b7bd62a6597fac46bbe519e3428f5e43cba2366ef5b3c0e98af2046895c86
+     */
+    .balign 4
+    .globl stage3p_c4_leaf_cluster_0010e33c
+    .type stage3p_c4_leaf_cluster_0010e33c, @function
+stage3p_c4_leaf_cluster_0010e33c:
+    .word 0x3c02001b
+    .word 0x03e00008
+    .word 0x24421b98
+    .word 0x3c02001b
+    .word 0x03e00008
+    .word 0x24421be0
+    .word 0x3c02001b
+    .word 0x03e00008
+    .word 0x24421c00
+    .size stage3p_c4_leaf_cluster_0010e33c, .-stage3p_c4_leaf_cluster_0010e33c

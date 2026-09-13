@@ -32,10 +32,10 @@ class DecompDevReportTests(unittest.TestCase):
     def test_whole_image_reports_only_exact_chunks(self):
         measures = self.categories[gate.IMAGE_CATEGORY]["measures"]
         self.assertEqual(51, measures["total_units"])
-        self.assertEqual(46, measures["complete_units"])
+        self.assertEqual(47, measures["complete_units"])
         self.assertEqual("3304936", measures["total_data"])
-        self.assertEqual("2977256", measures["matched_data"])
-        self.assertEqual("2977256", measures["complete_data"])
+        self.assertEqual("3042792", measures["matched_data"])
+        self.assertEqual("3042792", measures["complete_data"])
 
     def test_every_function_is_present_once(self):
         names = []

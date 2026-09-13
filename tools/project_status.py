@@ -111,13 +111,26 @@ def load_image_status(root: Path = ROOT) -> dict[str, object]:
 
 
 def render_terminal(status: ProjectStatus, image: dict[str, object]) -> str:
+    def ranges(indices: object) -> str:
+        values = [int(value) for value in indices]
+        groups: list[str] = []
+        start = end = values[0]
+        for value in values[1:]:
+            if value == end + 1:
+                end = value
+                continue
+            groups.append(str(start) if start == end else f"{start}-{end}")
+            start = end = value
+        groups.append(str(start) if start == end else f"{start}-{end}")
+        return " and ".join(groups)
+
     return "\n".join(
         (
             "SNESstation-Decomp status",
             f"  audited functions:     {status.formal_matching}/{status.total} ({status.formal_percent:.2f}%) complete",
             f"  whole-image windows:   {image['exact_chunks']}/{image['chunk_count']} exact",
-            "  exact windows:         1-6 and 12-50",
-            "  remaining windows:     0 and 7-11",
+            f"  exact windows:         {ranges(image['exact_chunk_indices'])}",
+            f"  remaining windows:     {ranges(image['mismatching_chunk_indices'])}",
             f"  differing bytes:       {int(image['differing_bytes']):,}",
             "  replacement ELF:       not yet (final link and packing remain)",
         )

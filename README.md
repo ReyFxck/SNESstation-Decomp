@@ -21,8 +21,8 @@ release.
 | EE source ownership | **97/97 translation units** | All recovered units compile with the historical EE ABI; 96 canonical objects form the duplicate-free source aggregate. | Complete |
 | Runtime contracts | **53/53** | Every tracked PS2LIB, libc, libgcc and target-selected runtime dependency has an evidence-backed provider or refactor. | Complete |
 | Address identities | **1,265/1,265** | Every tracked program-data address has a proved identity; exact full object bounds are a separate question. | Complete |
-| Whole-image windows | **46/51 (90.20%)** | 64 KiB windows **1–6 and 11–50** match the unpacked reference exactly. Windows **0 and 7–10** remain. | In progress |
-| Remaining byte differences | **261,305** | Byte positions still different in the 3,304,936-byte unpacked image. | In progress |
+| Whole-image windows | **47/51 (92.16%)** | 64 KiB windows **0–6 and 11–50** match the unpacked reference exactly. Windows **7–10** remain. | In progress |
+| Remaining byte differences | **202,702** | Byte positions still different in the 3,304,936-byte unpacked image. | In progress |
 | Replacement ELF | **Not yet** | Final object order, linker layout, remaining relocations and SJCRUNCH2 packing are not fully reproduced. | In progress |
 
 The **1,041/1,041** result measures the audited function frontier. It does not
@@ -71,7 +71,7 @@ See [`docs/TOOLS.md`](docs/TOOLS.md) for the maintained command and tool table.
 | PlayStation 2 runtime | Early PS2DEV/PS2LIB | 53/53 runtime contracts resolved |
 | Compiler runtime | GCC 3.2.2-era libgcc/libsupc++ | Arithmetic, RTTI, exceptions and unwind evidence integrated |
 | Frontend and renderer | SNES Station binary and early Hiryu gsLib lineage | Application flow and 30/30 renderer draw-family entries recovered |
-| Startup and image layout | Historical PS2 startup plus hash-only private oracle | Exact entry/startup and 46/51 whole-image windows reproduced |
+| Startup and image layout | Historical PS2 startup plus hash-only private oracle | Exact entry/startup and 47/51 whole-image windows reproduced |
 
 The complete source-history table, including preserved compiler candidates and
 why they remain in the repository, is in
