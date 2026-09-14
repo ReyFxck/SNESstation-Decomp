@@ -3,8 +3,8 @@
 
 This report deliberately exposes two different proof levels:
 
-* the frozen 1,041-function gate is fully matched, but its source units are not
-  marked complete/linked;
+* the frozen 1,041-function gate is fully matched and all 90 reported code
+  units are complete in the exact linked image;
 * the cumulative Stage-3P whole-image gate counts only completely exact chunks.
 
 No original executable, extracted payload, absolute build path or private hash
@@ -95,10 +95,21 @@ def load_contract(path: Path = DEFAULT_CONTRACT) -> dict[str, Any]:
         raise DecompDevReportError("privacy contract must remain entirely public")
 
     image = contract.get("whole_image_identity", {})
-    if image.get("replacement_elf") is not False:
-        raise DecompDevReportError("report must not claim a replacement ELF")
+    if image.get("replacement_elf") is not True:
+        raise DecompDevReportError("report must preserve the proved replacement ELF")
     if image.get("unpacked_hash_matched") is not True:
         raise DecompDevReportError("report must preserve the proved unpacked hash")
+    if image.get("packed_hash_matched") is not True:
+        raise DecompDevReportError("report must preserve the proved packed hash")
+    packed_hash = image.get("packed_elf_sha256")
+    if (
+        not isinstance(packed_hash, str)
+        or len(packed_hash) != 64
+        or any(character not in "0123456789abcdef" for character in packed_hash)
+    ):
+        raise DecompDevReportError("packed ELF SHA-256 contract is malformed")
+    if not isinstance(image.get("packed_elf_size"), int) or image["packed_elf_size"] <= 0:
+        raise DecompDevReportError("packed ELF size contract is malformed")
 
     for relative, expected in contract.get("inputs", {}).items():
         path = ROOT / relative
@@ -259,6 +270,16 @@ def _function_units(
             f"function-unit drift: expected {expected_units}, got {len(grouped)}"
         )
 
+    linked_units = contract["function_matching"]["linked_units"]
+    linked_code_bytes = contract["function_matching"]["linked_code_bytes"]
+    total_code_bytes = sum(row["size"] for row in rows)
+    if linked_units not in (0, expected_units):
+        raise DecompDevReportError("only zero or fully linked unit contracts are supported")
+    fully_linked = linked_units == expected_units
+    expected_linked_bytes = total_code_bytes if fully_linked else 0
+    if linked_code_bytes != expected_linked_bytes:
+        raise DecompDevReportError("linked code-byte contract is inconsistent")
+
     units: list[dict[str, Any]] = []
     ordered = sorted(grouped.items(), key=lambda item: min(r["address"] for r in item[1]))
     for unit_name, functions in ordered:
@@ -277,7 +298,7 @@ def _function_units(
                 }
             )
         metadata: dict[str, Any] = {
-            "complete": False,
+            "complete": fully_linked,
             "progress_categories": [FUNCTION_CATEGORY],
         }
         if unit_name.startswith("src/"):
@@ -292,6 +313,8 @@ def _function_units(
                     matched_code=code_bytes,
                     total_functions=len(functions),
                     matched_functions=len(functions),
+                    complete_code=code_bytes if fully_linked else 0,
+                    complete_units=1 if fully_linked else 0,
                 ),
                 "sections": [],
                 "functions": items,
@@ -379,7 +402,7 @@ def build_report(contract_path: Path = DEFAULT_CONTRACT) -> dict[str, Any]:
         "categories": [
             {
                 "id": FUNCTION_CATEGORY,
-                "name": "Function matching (frozen 1041 gate)",
+                "name": "Function matching and linked units (frozen 1041 gate)",
                 "measures": function_measures,
             },
             {
@@ -452,8 +475,10 @@ def validate_report(report: dict[str, Any], contract: dict[str, Any]) -> None:
         raise DecompDevReportError("function total does not match frozen contract")
     if fm["matched_functions"] != frozen_functions["entries"]:
         raise DecompDevReportError("function matching total does not match frozen contract")
-    if int(fm["complete_code"]) != 0 or fm["complete_units"] != 0:
-        raise DecompDevReportError("function matches must not claim complete linked units")
+    if int(fm["complete_code"]) != frozen_functions["linked_code_bytes"]:
+        raise DecompDevReportError("linked function-code total does not match frozen contract")
+    if fm["complete_units"] != frozen_functions["linked_units"]:
+        raise DecompDevReportError("linked function-unit total does not match frozen contract")
 
     im = image["measures"]
     frozen_image = contract["whole_image_identity"]
