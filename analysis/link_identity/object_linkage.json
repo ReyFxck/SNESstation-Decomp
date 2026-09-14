@@ -1,0 +1,37 @@
+{
+  "claims": {
+    "candidate_objects_are_evidence_not_final_link_inputs": true,
+    "exact_whole_image_is_proved": true,
+    "object_native_linkage_complete": false,
+    "private_target_payload_committed": false
+  },
+  "format": "snesstation-object-native-linkage",
+  "inputs": {
+    "code_windows": "analysis/link_identity/code_windows.json",
+    "implementation": "tools/code_windows.py"
+  },
+  "result": {
+    "candidate_elf_object_bytes": 611088,
+    "candidate_elf_object_slices": 432,
+    "candidate_elf_objects": 97,
+    "direct_object_bytes": 0,
+    "direct_object_inputs": 0,
+    "exact_code_bytes": 720620,
+    "historical_recovered_object_bytes": 525460,
+    "listing_bytes": 73192,
+    "listing_sources": 44,
+    "object_native_complete": false,
+    "prior_exact_assembly_bytes": 85628,
+    "remaining_object_native_bytes": 720620,
+    "residual_assembly_bytes": 36340,
+    "residual_assembly_slices": 92,
+    "selected_source_slices": 568,
+    "transport": {
+      "final_code_input": "build/code-windows/code-windows.o",
+      "generated_binary_include": true,
+      "selected_candidate_objects_linked_directly": false,
+      "transport": "generated-incbin-payload-object"
+    }
+  },
+  "schema_version": 1
+}
