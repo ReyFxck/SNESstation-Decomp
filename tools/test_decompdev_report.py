@@ -20,14 +20,14 @@ class DecompDevReportTests(unittest.TestCase):
             {gate.FUNCTION_CATEGORY, gate.IMAGE_CATEGORY}, set(self.categories)
         )
 
-    def test_function_gate_is_matching_but_not_link_complete(self):
+    def test_function_gate_is_matching_and_link_complete(self):
         measures = self.categories[gate.FUNCTION_CATEGORY]["measures"]
         self.assertEqual(1041, measures["total_functions"])
         self.assertEqual(1041, measures["matched_functions"])
         self.assertEqual("722892", measures["matched_code"])
-        self.assertEqual("0", measures["complete_code"])
+        self.assertEqual("722892", measures["complete_code"])
         self.assertEqual(90, measures["total_units"])
-        self.assertEqual(0, measures["complete_units"])
+        self.assertEqual(90, measures["complete_units"])
 
     def test_whole_image_reports_only_exact_chunks(self):
         measures = self.categories[gate.IMAGE_CATEGORY]["measures"]
@@ -78,7 +78,7 @@ class DecompDevReportTests(unittest.TestCase):
 
     def test_false_completion_or_metric_drift_is_rejected(self):
         changed = copy.deepcopy(self.report)
-        changed["categories"][0]["measures"]["complete_units"] = 90
+        changed["categories"][0]["measures"]["complete_units"] = 0
         with self.assertRaises(gate.DecompDevReportError):
             gate.validate_report(changed, self.contract)
 
