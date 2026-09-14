@@ -139,6 +139,7 @@ SJCRUNCH_OUTER_BUILD_DIR := $(BUILD_DIR)/sjcrunch-outer-elf
 SJCRUNCH_OUTER_OUTPUT := $(BUILD_DIR)/SNES_EMU.rebuilt.ELF
 DECOMPDEV_REPORT_CONTRACT := analysis/decompdev/report_contract.json
 DECOMPDEV_REPORT := $(BUILD_DIR)/decompdev/report.json
+OBJECT_LINKAGE_MANIFEST := analysis/link_identity/object_linkage.json
 REFERENCE_RAW := $(BUILD_DIR)/SNES_EMU.unpacked.bin
 ASSET_OUTPUT ?= $(BUILD_DIR)/extracted-assets
 UNPACKED_LAYOUT_MANIFEST := analysis/link_identity/unpacked_layout.json
@@ -213,6 +214,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	sjcrunch-packing sjcrunch-packing-check sjcrunch-packing-public-check \
 	sjcrunch-source sjcrunch-outer-elf sjcrunch-outer-elf-check sjcrunch-outer-elf-public-check \
 	decompdev-report decompdev-report-check decompdev-report-public-check \
+	object-linkage-status object-linkage-public-check object-linkage-required \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -241,6 +243,7 @@ help:
 	@echo "  make bootstrap-ee-stage1  build the historical EE C compiler"
 	@echo "  make bootstrap-ee-cxx-stage1  build the historical EE C/C++ compiler"
 	@echo "  make decompdev-report generate the public Objdiff report"
+	@echo "  make object-linkage-status show strict direct-object linkage progress"
 	@echo "  make elf             rebuild the final ELF from prepared exact inputs"
 	@echo "  make elf-status      show final reproduction status"
 	@echo
@@ -312,7 +315,7 @@ checkpoint-1041-reference-check: checkpoint-1041-check
 	$(MAKE) elf-status
 	@echo "function-frontier-1041-v81 private-reference checkpoint: OK"
 
-check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check tail-metadata-public-check window36-data-public-check media-assets-public-check window35-data-public-check window11-rodata-public-check code-windows-public-check sjcrunch-packing-public-check sjcrunch-outer-elf-public-check decompdev-report-public-check
+check: check-generated check-links host-syntax test-tools checkpoint-1041-audit layout-oracle-public-check source-aliases-public-check link-contracts-public-check private-assets-public-check provider-frontier-public-check named-data-public-check named-contracts-public-check libgcc-contracts-public-check runtime-refactors-public-check runtime-members-public-check runtime-overrides-public-check rom-offsets-public-check historical-data-public-check unnamed-data-public-check data-backing-public-check link-layout-probe-public-check startup-integration-public-check frontend-eh-frames-public-check historical-tail-data-public-check runtime-tail-data-public-check tail-metadata-public-check window36-data-public-check media-assets-public-check window35-data-public-check window11-rodata-public-check code-windows-public-check sjcrunch-packing-public-check sjcrunch-outer-elf-public-check decompdev-report-public-check object-linkage-public-check
 	@echo "repository checks: OK"
 
 decompdev-report:
@@ -325,6 +328,14 @@ decompdev-report-check: decompdev-report
 
 decompdev-report-public-check:
 	$(PYTHON) tools/decompdev_report.py --contract "$(DECOMPDEV_REPORT_CONTRACT)" validate
+
+object-linkage-status:
+	$(PYTHON) tools/object_linkage.py validate --manifest "$(OBJECT_LINKAGE_MANIFEST)"
+
+object-linkage-public-check: object-linkage-status
+
+object-linkage-required:
+	$(PYTHON) tools/object_linkage.py validate --manifest "$(OBJECT_LINKAGE_MANIFEST)" --require-complete
 
 reference:
 	bash tools/analyze.sh
