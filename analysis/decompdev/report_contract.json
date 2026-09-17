@@ -8,13 +8,13 @@
   "function_matching": {
     "code_bytes": 722892,
     "entries": 1041,
-    "linked_code_bytes": 722892,
-    "linked_units": 90,
+    "linked_code_bytes": 0,
+    "linked_units": 0,
     "terminal_function_size": 68,
     "units": 90
   },
   "inputs": {
-    "analysis/link_identity/code_windows.json": "8d5132ec8d702c70e21128f63ed54340444cfc18607d6b784c2de06f833ad7c0",
+    "analysis/link_identity/code_windows.json": "e8c43789676079ba5fe4135cbd9472d2657d3e049e1d0d0b1de0d079541a707e",
     "analysis/progress_targets.csv": "528965a51814d44054dd7d01404c4b2ee428f275d2fb7e8673fb76a57f96e698",
     "analysis/source_readiness.csv": "3d501952002b33837fc38ae000a66163ec652330df954e67a55d0aad37550573",
     "analysis/source_tree/translation_units.tsv": "b69e90de05aebac109baf8ddb18a6ba58dce28e5e430eb33084316ab6eabc5da"
@@ -29,12 +29,9 @@
   "whole_image_identity": {
     "exact_chunk_bytes": 3304936,
     "exact_chunks": 51,
-    "replacement_elf": true,
+    "replacement_elf": false,
     "target_bytes": 3304936,
     "total_chunks": 51,
-    "unpacked_hash_matched": true,
-    "packed_hash_matched": true,
-    "packed_elf_size": 726968,
-    "packed_elf_sha256": "4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487"
+    "unpacked_hash_matched": true
   }
 }
