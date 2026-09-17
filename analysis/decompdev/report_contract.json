@@ -8,8 +8,8 @@
   "function_matching": {
     "code_bytes": 722892,
     "entries": 1041,
-    "linked_code_bytes": 0,
-    "linked_units": 0,
+    "linked_code_bytes": 722892,
+    "linked_units": 90,
     "terminal_function_size": 68,
     "units": 90
   },
@@ -29,9 +29,12 @@
   "whole_image_identity": {
     "exact_chunk_bytes": 3304936,
     "exact_chunks": 51,
-    "replacement_elf": false,
+    "replacement_elf": true,
     "target_bytes": 3304936,
     "total_chunks": 51,
-    "unpacked_hash_matched": true
+    "unpacked_hash_matched": true,
+    "packed_hash_matched": true,
+    "packed_elf_size": 726968,
+    "packed_elf_sha256": "4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487"
   }
 }
