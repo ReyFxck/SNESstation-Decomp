@@ -19,7 +19,6 @@ release.
 |---|---:|---|---|
 | Audited function entries | **1,041/1,041 (100%)** | Every entry in the frozen audit has complete-boundary matching evidence and a readable source model. | Complete |
 | EE source ownership | **97/97 translation units** | All recovered units compile with the historical EE ABI; 96 canonical objects form the duplicate-free source aggregate. | Complete |
-| Object-native code relink | **0/720,620 direct bytes** | The exact code is still transported through one generated `code-windows.o`; selected producer objects are not yet direct `ee-ld` inputs. | In progress |
 | Runtime contracts | **53/53** | Every tracked PS2LIB, libc, libgcc and target-selected runtime dependency has an evidence-backed provider or refactor. | Complete |
 | Address identities | **1,265/1,265** | Every tracked program-data address has a proved identity; exact full object bounds are a separate question. | Complete |
 | Whole-image windows | **51/51 (100.00%)** | Every 64 KiB window in the unpacked image matches exactly. | Complete |
@@ -29,13 +28,29 @@ release.
 
 The **1,041/1,041** result measures the audited function frontier. The
 whole-image and packed-ELF rows are the direct byte-identity measures; both are
-complete. Under the stricter project definition, clean object linkage remains
-open until the selected producer objects replace the generated `.incbin`
-transport. See [the object-native linkage baseline](docs/status/OBJECT_LINKAGE.md).
+now complete.
 
 Detailed machine-generated counts are in
 [`docs/status/PROJECT_STATUS.generated.md`](docs/status/PROJECT_STATUS.generated.md).
 <!-- DECOMP_PROGRESS_END -->
+
+## Strict object-native linkage
+
+The exact-image result is complete, but the stricter object-native link is still
+open: **0/720,620 code bytes** currently come directly from the producer ELF
+objects in the final `ee-ld` invocation. Stage-3P presently verifies 97
+candidate objects, selects exact slices, and transports the completed windows
+through a generated `code-windows.o` using `.incbin`. That is intentionally
+tracked separately from the decomp.dev completion percentage.
+
+The required gate and its frozen public baseline are documented in
+[`docs/status/OBJECT_LINKAGE.md`](docs/status/OBJECT_LINKAGE.md):
+
+```bash
+make object-linkage-status
+make object-linkage-public-check
+make object-linkage-required
+```
 
 ## Build and verify
 
