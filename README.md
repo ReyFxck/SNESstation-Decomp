@@ -34,6 +34,24 @@ Detailed machine-generated counts are in
 [`docs/status/PROJECT_STATUS.generated.md`](docs/status/PROJECT_STATUS.generated.md).
 <!-- DECOMP_PROGRESS_END -->
 
+## Strict object-native linkage
+
+The exact-image result is complete, but the stricter object-native link is still
+open: **0/720,620 code bytes** currently come directly from the producer ELF
+objects in the final `ee-ld` invocation. Stage-3P presently verifies 97
+candidate objects, selects exact slices, and transports the completed windows
+through a generated `code-windows.o` using `.incbin`. That is intentionally
+tracked separately from the decomp.dev completion percentage.
+
+The required gate and its frozen public baseline are documented in
+[`docs/status/OBJECT_LINKAGE.md`](docs/status/OBJECT_LINKAGE.md):
+
+```bash
+make object-linkage-status
+make object-linkage-public-check
+make object-linkage-required
+```
+
 ## Build and verify
 
 Repository-only checks need Python 3, GNU Make and a host C compiler:
