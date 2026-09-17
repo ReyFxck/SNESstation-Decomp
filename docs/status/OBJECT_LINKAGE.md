@@ -2,15 +2,16 @@
 
 The exact-image pipeline and the clean object link are tracked separately.
 
-The current Stage-3P gate proves all **720,620/720,620 code bytes** and the
-complete replacement ELF. It rebuilds and checks 97 candidate ELF objects, but
-then selects verified slices and transports the completed code windows through
-one generated `code-windows.o` whose sections use `.incbin`. Those candidate
-objects are therefore evidence providers, not the final code inputs to
-`ee-ld`.
+Stage-3P currently proves all **720,620/720,620 code bytes** and the complete
+replacement ELF. Four ELF object inputs contribute **122,920 bytes** directly
+through 136 explicitly placed sections: the split residual assembly plus the
+exact V80, V81 and C4 proof sources. The remaining **597,700 bytes** still pass
+through the generated `code-windows.o` transport and its `.incbin` sections.
+The 97 rebuilt candidate objects remain the evidence inventory for the byte
+matches; they are not silently treated as final link inputs.
 
-For the strict project definition, completion requires each selected code range
-to be linked from the ELF object that produced it. A consolidated binary payload
+For the strict project definition, completion requires every selected code range
+to be linked from an ELF object that produced it. A consolidated binary payload
 does not count, even when its final bytes are exact.
 
 ## Current baseline
@@ -25,12 +26,15 @@ does not count, even when its final bytes are exact.
 | Earlier exact-assembly construction bucket | **85,628 bytes** |
 | Explicit residual assembly | **36,340 bytes** |
 | Public listing construction bucket | **73,192 bytes** |
-| Bytes linked directly from selected producer objects | **0/720,620** |
+| Bytes linked directly from producer objects | **122,920/720,620** |
+| Direct ELF object inputs | **4** |
+| Direct placed sections | **136** |
+| Bytes remaining behind generated payload | **597,700** |
 | Strict object-native linkage | **In progress** |
 
-The construction buckets sum to the exact 720,620-byte code region. They
-describe provenance used to assemble the exact image; they do not imply that the
-corresponding producer object is already a direct linker input.
+The provenance buckets sum to the exact 720,620-byte code region. The direct
+object and generated-payload rows describe how that proven region is transported
+into the final link, so they intentionally overlap those provenance buckets.
 
 ## Gates
 

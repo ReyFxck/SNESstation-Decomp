@@ -36,12 +36,12 @@ Detailed machine-generated counts are in
 
 ## Strict object-native linkage
 
-The exact-image result is complete, but the stricter object-native link is still
-open: **0/720,620 code bytes** currently come directly from the producer ELF
-objects in the final `ee-ld` invocation. Stage-3P presently verifies 97
-candidate objects, selects exact slices, and transports the completed windows
-through a generated `code-windows.o` using `.incbin`. That is intentionally
-tracked separately from the decomp.dev completion percentage.
+The exact-image result is complete. The strict object-native link currently has
+**122,920/720,620 code bytes** coming from four ELF object inputs placed by the
+final `ee-ld` invocation: the split residual plus the exact V80, V81 and C4
+proof sources. The remaining **597,700 bytes** still use the generated
+`code-windows.o` transport with `.incbin`; that portion is intentionally
+reported separately from the decomp.dev completion percentage.
 
 The required gate and its frozen public baseline are documented in
 [`docs/status/OBJECT_LINKAGE.md`](docs/status/OBJECT_LINKAGE.md):
