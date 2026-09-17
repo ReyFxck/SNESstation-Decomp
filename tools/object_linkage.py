@@ -36,7 +36,7 @@ def _load_json(path: Path) -> dict[str, Any]:
     return value
 
 
-def _transport_contract(implementation: str) -> dict[str, Any]:
+def _transport_contract(implementation: str, direct_object_bytes: int, incbin_payload_bytes: int) -> dict[str, Any]:
     markers = (
         "def render_payload_source(",
         '.incbin "{path}"',
@@ -49,11 +49,18 @@ def _transport_contract(implementation: str) -> dict[str, Any]:
             "code-window transport changed; refresh the object-linkage audit: "
             + ", ".join(missing)
         )
+    if direct_object_bytes and incbin_payload_bytes:
+        transport = "mixed-direct-objects-and-generated-incbin-payload"
+    elif direct_object_bytes:
+        transport = "direct-producer-objects"
+    else:
+        transport = "generated-incbin-payload-object"
     return {
         "final_code_input": "build/code-windows/code-windows.o",
-        "generated_binary_include": True,
+        "generated_binary_include": incbin_payload_bytes > 0,
         "selected_candidate_objects_linked_directly": False,
-        "transport": "generated-incbin-payload-object",
+        "direct_object_inputs_present": direct_object_bytes > 0,
+        "transport": transport,
     }
 
 
@@ -102,19 +109,32 @@ def derive(
             f"selected-source coverage drift: {covered} != {source_bytes}"
         )
 
-    transport = _transport_contract(implementation)
-    direct_bytes = 0
-    direct_objects = 0
+    direct_bytes = int(result.get("direct_object_bytes", 0))
+    direct_objects = int(result.get("direct_object_inputs", 0))
+    direct_sections = int(result.get("direct_object_sections", 0))
+    incbin_bytes = int(result.get("incbin_payload_bytes", 0))
+    incbin_sections = int(result.get("incbin_payload_sections", 0))
+    if min(direct_bytes, direct_objects, direct_sections, incbin_bytes, incbin_sections) < 0:
+        raise ObjectLinkageError("negative object-linkage metric")
+    if direct_bytes + incbin_bytes != source_bytes:
+        raise ObjectLinkageError(
+            "direct/incbin coverage drift: "
+            f"{direct_bytes} + {incbin_bytes} != {source_bytes}"
+        )
+    transport = _transport_contract(implementation, direct_bytes, incbin_bytes)
     return {
         "candidate_elf_object_bytes": byte_sum(object_rows),
         "candidate_elf_object_slices": len(object_rows),
         "candidate_elf_objects": len({row["object"] for row in object_rows}),
         "direct_object_bytes": direct_bytes,
         "direct_object_inputs": direct_objects,
+        "direct_object_sections": direct_sections,
         "exact_code_bytes": source_bytes,
         "historical_recovered_object_bytes": int(
             result.get("historical_recovered_bytes", -1)
         ),
+        "incbin_payload_bytes": incbin_bytes,
+        "incbin_payload_sections": incbin_sections,
         "listing_bytes": int(result.get("listing_bytes", -1)),
         "listing_sources": len({row["object"] for row in listing_rows}),
         "object_native_complete": (
