@@ -268,6 +268,122 @@ TAIL_RESIDUAL_SYMBOLS = (
     ("stage3p_tail_gap_001ab4e4", 0x001AB4E4, 0x0004),
 )
 
+
+def residual_ranges() -> list[tuple[str, int, int]]:
+    """Return the labelled residual spans in target-address order.
+
+    The source file is intentionally one readable assembly unit, but a single
+    input section cannot represent the historical gaps between these symbols.
+    The probe therefore gives every labelled span its own output section before
+    handing the object to the real linker.
+    """
+    ranges: dict[tuple[str, int], int] = {}
+    for name, address, size in (
+        *RESIDUAL_SYMBOLS,
+        *WINDOW0_RESIDUAL_SYMBOLS,
+        *TAIL_RESIDUAL_SYMBOLS,
+    ):
+        key = (name, address)
+        prior = ranges.get(key)
+        if prior is not None and prior != size:
+            fail(f"conflicting residual span: {name}")
+        ranges[key] = size
+    return sorted(
+        [(name, address, size) for (name, address), size in ranges.items()],
+        key=lambda item: item[1],
+    )
+
+
+def split_symbol_source(
+    source: Path,
+    output: Path,
+    spans: list[tuple[str, int, int]],
+    section_prefix: str,
+) -> list[tuple[str, int, int]]:
+    """Compile labelled assembly functions as addressable ELF sections."""
+    by_name = {name: (address, size) for name, address, size in spans}
+    symbol_re = re.compile(r"^\s*\.globl\s+(\S+)")
+    lines = source.read_text(encoding="utf-8").splitlines()
+    transformed: list[str] = []
+    seen: set[str] = set()
+    for line in lines:
+        match = symbol_re.match(line)
+        if match and match.group(1) in by_name:
+            name = match.group(1)
+            address, _size = by_name[name]
+            if name in seen:
+                fail(f"duplicate residual symbol: {name}")
+            seen.add(name)
+            if transformed and transformed[-1].strip() == ".balign 4":
+                transformed.pop()
+                transformed.append(
+                    f'    .section {section_prefix}.{address:08x},"ax",@progbits'
+                )
+                transformed.append("    .balign 4")
+            else:
+                transformed.append(
+                    f'    .section {section_prefix}.{address:08x},"ax",@progbits'
+                )
+        transformed.append(line)
+    expected = set(by_name)
+    if seen != expected:
+        missing = ", ".join(sorted(expected - seen))
+        extra = ", ".join(sorted(seen - expected))
+        fail(f"residual section roster drift: missing={missing}; extra={extra}")
+    output.write_text("\n".join(transformed) + "\n", encoding="utf-8")
+    return spans
+
+
+def split_residual_source(source: Path, output: Path) -> list[tuple[str, int, int]]:
+    """Compile the labelled residual source as addressable ELF sections."""
+    return split_symbol_source(
+        source, output, residual_ranges(), ".text.stage3p.residual"
+    )
+
+
+DIRECT_ASSEMBLY_GROUPS = (
+    (
+        "v80",
+        "matching/candidates/hunt1041_v80_quickwins_exact.S",
+        "hunt1041_v80_quickwins_exact.o",
+        ".text.stage3p.direct.v80",
+    ),
+    (
+        "v81",
+        "matching/candidates/hunt1041_v81_final20_exact.S",
+        "hunt1041_v81_final20_exact.o",
+        ".text.stage3p.direct.v81",
+    ),
+    (
+        "v79-c4conv",
+        "matching/candidates/c4convoam_exact.S",
+        "c4convoam_exact.o",
+        ".text.stage3p.direct.v79_c4conv",
+    ),
+)
+
+
+def selected_symbol_spans(
+    selected: list[dict], object_name: str
+) -> list[tuple[str, int, int]]:
+    """Extract the proved symbol roster for one exact assembly object."""
+    rows = [row for row in selected if object_name in str(row.get("object", ""))]
+    spans: dict[tuple[str, int], int] = {}
+    for row in rows:
+        symbol = str(row.get("symbol", ""))
+        if not symbol:
+            fail(f"exact assembly row has no symbol: {object_name}")
+        key = (symbol, int(row["address"]))
+        size = int(row["size"])
+        prior = spans.get(key)
+        if prior is not None and prior != size:
+            fail(f"conflicting exact assembly span: {symbol}")
+        spans[key] = size
+    return sorted(
+        [(symbol, address, size) for (symbol, address), size in spans.items()],
+        key=lambda item: item[1],
+    )
+
 EXPECTED: dict[str, object] = {
     "chunk_count": 51,
     "code_windows": 11,
@@ -785,9 +901,57 @@ def assemble_window0(reference: bytes, residual_object: Path) -> tuple[bytes, di
     }
 
 
-def render_payload_source(paths: list[tuple[str, Path]]) -> str:
+def payload_segments(
+    window0: bytes,
+    windows: list[bytes],
+    spans: list[tuple[str, int, int]],
+    build_dir: Path,
+) -> list[tuple[str, Path, int]]:
+    """Write payload gaps while leaving labelled object spans to ``ee-ld``."""
+    regions = [(WINDOW0_START, window0)] + [
+        (WINDOW_START + index * WINDOW_SIZE, data)
+        for index, data in enumerate(windows)
+    ]
+    ranges = [(address, address + size) for _name, address, size in spans]
+    if any(end <= start for start, end in ranges):
+        fail("empty residual span")
+    if any(left + size > right
+           for (_name, left, size), (_other, right, _other_size)
+           in zip(spans, spans[1:])):
+        fail("overlapping residual spans")
+    result: list[tuple[str, Path, int]] = []
+    counter = 0
+    for region_start, data in regions:
+        region_end = region_start + len(data)
+        cursor = region_start
+        for span_start, span_end in ranges:
+            if span_end <= region_start:
+                continue
+            if span_start >= region_end:
+                break
+            overlap_start = max(span_start, region_start)
+            overlap_end = min(span_end, region_end)
+            if overlap_start > cursor:
+                section = f".text.stage3p.payload.{counter:04d}"
+                path = build_dir / f"payload-{counter:04d}.bin"
+                path.write_bytes(
+                    data[cursor - region_start:overlap_start - region_start]
+                )
+                result.append((section, path, cursor))
+                counter += 1
+            cursor = max(cursor, overlap_end)
+        if cursor < region_end:
+            section = f".text.stage3p.payload.{counter:04d}"
+            path = build_dir / f"payload-{counter:04d}.bin"
+            path.write_bytes(data[cursor - region_start:])
+            result.append((section, path, cursor))
+            counter += 1
+    return result
+
+
+def render_payload_source(paths: list[tuple[str, Path, int]]) -> str:
     lines = ["/* Generated Stage-3P payload; ignored build artifact. */", "    .set noreorder"]
-    for section, path in paths:
+    for section, path, _address in paths:
         lines.extend([
             f'    .section {section},"ax",@progbits',
             "    .balign 4",
@@ -796,27 +960,39 @@ def render_payload_source(paths: list[tuple[str, Path]]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def update_linker_script(text: str) -> str:
+def update_linker_script(
+    text: str,
+    payload_parts: list[tuple[str, Path, int]],
+    direct_sections: list[tuple[str, int, int, tuple[str, str] | None]],
+) -> str:
     old = """  .text 0x00100114 : { *(.text) }
   .rodata : { *(.rodata) }
   .data : { *(.data) }
   .bss (NOLOAD) : { *(.bss) *(.bss.stage3.compatibility) }
 """
-    new = """  .text.stage3p.symbols 0x00100114 (NOLOAD) : { *(.text) }
-  .rodata.stage3p.symbols 0x0016d5d0 (NOLOAD) : { *(.rodata) }
-  .text.stage3p.prefix 0x00100114 : { KEEP(*(.text.stage3p.prefix)) }
-  .text.stage3p.window1 0x00110000 : { KEEP(*(.text.stage3p.window1)) }
-  .text.stage3p.window2 0x00120000 : { KEEP(*(.text.stage3p.window2)) }
-  .text.stage3p.window3 0x00130000 : { KEEP(*(.text.stage3p.window3)) }
-  .text.stage3p.window4 0x00140000 : { KEEP(*(.text.stage3p.window4)) }
-  .text.stage3p.window5 0x00150000 : { KEEP(*(.text.stage3p.window5)) }
-  .text.stage3p.window6 0x00160000 : { KEEP(*(.text.stage3p.window6)) }
-  .text.stage3p.window7 0x00170000 : { KEEP(*(.text.stage3p.window7)) }
-  .text.stage3p.window8 0x00180000 : { KEEP(*(.text.stage3p.window8)) }
-  .text.stage3p.window9 0x00190000 : { KEEP(*(.text.stage3p.window9)) }
-  .text.stage3p.window10 0x001a0000 : { KEEP(*(.text.stage3p.window10)) }
-  .data.stage3p.symbols 0x00170148 (NOLOAD) : { *(.data) }
-  .bss.stage3p.symbols 0x001702c0 (NOLOAD) : { *(.bss) *(.bss.stage3.compatibility) }
+    code_rules = [
+        (
+            address,
+            f'  {section} 0x{address:08x} : {{ KEEP(*({section})) }}',
+        )
+        for section, _path, address in payload_parts
+    ]
+    code_rules.extend(
+        (
+            address,
+            f'  {prefix}.{address:08x} 0x{address:08x} : {{ KEEP('
+            f'{selector[0] + "(" + selector[1] + ")" if selector else "*(" + prefix + "." + format(address, "08x") + ")"}'
+            f') }}',
+        )
+        for prefix, address, _size, selector in direct_sections
+    )
+    code_rules.sort(key=lambda item: item[0])
+    code_rules_text = "\n".join(rule for _address, rule in code_rules)
+    new = f"""  .text.stage3p.symbols 0x00100114 (NOLOAD) : {{ *(.text) }}
+  .rodata.stage3p.symbols 0x0016d5d0 (NOLOAD) : {{ *(.rodata) }}
+{code_rules_text}
+  .data.stage3p.symbols 0x00170148 (NOLOAD) : {{ *(.data) }}
+  .bss.stage3p.symbols 0x001702c0 (NOLOAD) : {{ *(.bss) *(.bss.stage3.compatibility) }}
 """
     if text.count(old) != 1:
         fail("Stage-3O linker-script core drift")
@@ -835,10 +1011,12 @@ def probe(args: argparse.Namespace) -> dict:
     objcopy = resolve_tool(args.objcopy) if args.objcopy else cxx.with_name("ee-objcopy")
     args.build_dir.mkdir(parents=True, exist_ok=True)
 
+    residual_source = args.build_dir / "stage3p-residual-sections.S"
+    residual_spans = split_residual_source(args.residual, residual_source)
     residual_object = args.build_dir / "stage3p-residual.o"
     stage3o.stage3i.compile_one(
         cxx, ("-G0", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900"),
-        args.residual, residual_object,
+        residual_source, residual_object,
     )
     window0, window0_metrics = assemble_window0(reference, residual_object)
     windows, metrics = assemble_windows(reference, residual_object)
@@ -859,15 +1037,47 @@ def probe(args: argparse.Namespace) -> dict:
     base_script = args.stage3o_build / "window11-rodata.ld"
     if not prior_padded.is_file() or not base_script.is_file():
         fail("missing Stage-3O dependency; run make window11-rodata")
-    payload_parts = [
-        (".text.stage3p.prefix", window0),
-        *[(f".text.stage3p.window{index}", data) for index, data in enumerate(windows, start=1)],
+    direct_sections = [
+        (".text.stage3p.residual", address, size, None)
+        for _name, address, size in residual_spans
     ]
-    source_paths = []
-    for section_name, data in payload_parts:
-        path = args.build_dir / f"{section_name.rsplit('.', 1)[-1]}.bin"
-        path.write_bytes(data)
-        source_paths.append((section_name, path))
+    direct_objects = [residual_object]
+    for key, source_relative, object_name, section_prefix in DIRECT_ASSEMBLY_GROUPS:
+        spans = selected_symbol_spans(selected_sources, object_name)
+        if not spans:
+            continue
+        source = ROOT / source_relative
+        transformed = args.build_dir / f"stage3p-{key}-sections.S"
+        split_symbol_source(source, transformed, spans, section_prefix)
+        output = args.build_dir / f"stage3p-{key}-sections.o"
+        stage3o.stage3i.compile_one(
+            cxx, ("-G0", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900"),
+            transformed, output,
+        )
+        direct_objects.append(output)
+        direct_sections.extend(
+            (section_prefix, address, size, None)
+            for _name, address, size in spans
+        )
+    direct_sections.sort(key=lambda item: item[1])
+    direct_spans = [
+        (f"direct_{address:08x}", address, size)
+        for _prefix, address, size, _selector in direct_sections
+    ]
+    source_paths = payload_segments(window0, windows, direct_spans, args.build_dir)
+    metrics.update(
+        {
+            "direct_object_bytes": sum(
+                size for _prefix, _address, size, _selector in direct_sections
+            ),
+            "direct_object_inputs": len(direct_objects),
+            "direct_object_sections": len(direct_sections),
+            "incbin_payload_bytes": sum(
+                path.stat().st_size for _section, path, _address in source_paths
+            ),
+            "incbin_payload_sections": len(source_paths),
+        }
+    )
     payload_source = args.build_dir / "code-windows.S"
     payload_source.write_text(render_payload_source(source_paths), encoding="utf-8")
     payload_object = args.build_dir / "code-windows.o"
@@ -877,7 +1087,12 @@ def probe(args: argparse.Namespace) -> dict:
     )
 
     linker_script = args.build_dir / "code-windows.ld"
-    linker_script.write_text(update_linker_script(base_script.read_text(encoding="utf-8")), encoding="utf-8")
+    linker_script.write_text(
+        update_linker_script(
+            base_script.read_text(encoding="utf-8"), source_paths, direct_sections
+        ),
+        encoding="utf-8",
+    )
     prior_inputs = [
         args.startup_object, args.input,
         args.stage3i_build / "frontend-eh-frames.o",
@@ -893,6 +1108,7 @@ def probe(args: argparse.Namespace) -> dict:
         args.stage3n_build / "window35-semantics.o",
         args.stage3o_build / "window11-rodata.o",
         args.stage3o_build / "window11-semantics.o",
+        *direct_objects,
     ]
     missing = [str(path) for path in prior_inputs if not path.is_file()]
     if missing:
