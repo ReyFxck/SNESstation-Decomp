@@ -429,6 +429,19 @@ DIRECT_SAI2_OBJECT = (
     0x00EC,
 )
 
+DIRECT_FXEMU_OBJECT = (
+    "build/matching/hunt1000plus-v46-closure/snes/fxemu.o",
+    ".text.stage3p.direct.fxemu", 0x0012FE5C, 0x0D80,
+    ".data.stage3p.direct.fxemu", 0x00342A38, 0x08E8,
+)
+
+DIRECT_FXINST_OBJECT = (
+    "build/matching/hunt1000plus-v46-closure/snes/fxinst.o",
+    ".text.stage3p.direct.fxinst", 0x00130BDC, 0x11E9C,
+    ".data.stage3p.direct.fxinst", 0x00343320, 0x1A10,
+    ".rodata.stage3p.direct.fxinst", 0x001B4678, 0x0040,
+)
+
 
 def selected_symbol_spans(
     selected: list[dict], object_name: str
@@ -1077,7 +1090,21 @@ def update_linker_script(
     new_sai2 = "  .data.stage3p.direct.sai2 0x00335284 : { KEEP(*(.data.stage3p.direct.sai2)) }\n  /DISCARD/ : { *(.data.stage3n.source.sai2_data_and_cfi) }"
     if updated.count(old_sai2) != 1:
         fail("historical SAI2 data-provider rule drift")
-    return updated.replace(old_sai2, new_sai2)
+    updated = updated.replace(old_sai2, new_sai2)
+    old_fxemu = "  .data.stage3l.source.fxemu_data 0x00342a38 : { KEEP(*(.data.stage3l.source.fxemu_data)) }"
+    new_fxemu = "  .data.stage3p.direct.fxemu 0x00342a38 : { KEEP(*(.data.stage3p.direct.fxemu)) }\n  /DISCARD/ : { *(.data.stage3l.source.fxemu_data) }"
+    if updated.count(old_fxemu) != 1:
+        fail("historical FXEMU data-provider rule drift")
+    updated = updated.replace(old_fxemu, new_fxemu)
+    old_fxinst_data = "  .data.stage3l.source.fxinst_data 0x00343320 : { KEEP(*(.data.stage3l.source.fxinst_data)) }"
+    new_fxinst_data = "  .data.stage3p.direct.fxinst 0x00343320 : { KEEP(*(.data.stage3p.direct.fxinst)) }\n  /DISCARD/ : { *(.data.stage3l.source.fxinst_data) }"
+    old_fxinst_rodata = "  .data.stage3o.source.fxinst 0x001b4678 : { KEEP(*(.data.stage3o.source.fxinst)) }"
+    new_fxinst_rodata = "  .rodata.stage3p.direct.fxinst 0x001b4678 : { KEEP(*(.rodata.stage3p.direct.fxinst)) }\n  /DISCARD/ : { *(.data.stage3o.source.fxinst) }"
+    if updated.count(old_fxinst_data) != 1 or updated.count(old_fxinst_rodata) != 1:
+        fail("historical FXINST data-provider rule drift")
+    return updated.replace(old_fxinst_data, new_fxinst_data).replace(
+        old_fxinst_rodata, new_fxinst_rodata
+    )
 
 
 def probe(args: argparse.Namespace) -> dict:
@@ -1363,6 +1390,179 @@ def probe(args: argparse.Namespace) -> dict:
     run([*sai2_command, ROOT / sai2_source, sai2_output])
     direct_objects.append(sai2_output)
     direct_sections.append((sai2_section, sai2_address, sai2_size, None))
+    (fxemu_source, fxemu_section, fxemu_address, fxemu_size,
+     fxemu_data_section, fxemu_data_address, fxemu_data_size) = DIRECT_FXEMU_OBJECT
+    fxemu = ELFFile(ROOT / fxemu_source)
+    fx_sections = {entry.name: entry for entry in fxemu.sections}
+    if (fx_sections[".text"].size != fxemu_size
+            or fx_sections[".data"].size != fxemu_data_size
+            or fx_sections[".rel.text"].size != 168 * 8
+            or fx_sections[".rel.data"].size != 8 * 8):
+        fail("historical FXEMU object layout drift")
+    fx_code = fxemu.data[fx_sections[".text"].offset:fx_sections[".text"].offset + fxemu_size]
+    fx_data = fxemu.data[fx_sections[".data"].offset:fx_sections[".data"].offset + fxemu_data_size]
+    fx_code_target = reference[fxemu_address - TARGET_BASE:fxemu_address - TARGET_BASE + fxemu_size]
+    fx_data_target = reference[fxemu_data_address - TARGET_BASE:fxemu_data_address - TARGET_BASE + fxemu_data_size]
+    fx_code_masked, fx_data_masked = bytearray(fx_code), bytearray(fx_data)
+    fx_external: dict[str, int] = {}
+    for index in range(8):
+        offset, info = struct.unpack_from(
+            "<II", fxemu.data, fx_sections[".rel.data"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if offset + 4 > fxemu_data_size or kind != 2 or symbol_index >= len(fxemu.symbols):
+            fail("historical FXEMU data-relocation drift")
+        entry = fxemu.symbols[symbol_index]
+        actual = struct.unpack_from("<I", fx_data_target, offset)[0]
+        if entry.section_index == 0 and entry.name:
+            if entry.name in fx_external and fx_external[entry.name] != actual:
+                fail("historical FXEMU external-data ambiguity")
+            fx_external[entry.name] = actual
+        elif (entry.section_index != fx_sections[".text"].index or entry.name
+              or actual != fxemu_address + struct.unpack_from("<I", fx_data, offset)[0]):
+            fail("historical FXEMU local-data relocation drift")
+        fx_data_masked[offset:offset + 4] = fx_data_target[offset:offset + 4]
+    if fx_data_masked != fx_data_target:
+        fail("historical FXEMU data differs outside relocations")
+    for index in range(168):
+        offset, info = struct.unpack_from(
+            "<II", fxemu.data, fx_sections[".rel.text"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if (offset + 4 > fxemu_size or kind not in (4, 5, 6)
+                or symbol_index >= len(fxemu.symbols)):
+            fail("historical FXEMU code-relocation drift")
+        entry = fxemu.symbols[symbol_index]
+        if entry.name == "memset" and entry.section_index == 0 and kind == 4:
+            word = struct.unpack_from("<I", fx_code_target, offset)[0]
+            if (struct.unpack_from("<I", fx_code, offset)[0] != 0x0C000000
+                    or word & 0xFC000000 != 0x0C000000):
+                fail("historical FXEMU memset relocation drift")
+            destination = (word & 0x03FFFFFF) << 2
+            if "memset" in fx_external and fx_external["memset"] != destination:
+                fail("historical FXEMU memset target ambiguity")
+            fx_external["memset"] = destination
+        elif not (entry.section_index in (fx_sections[".text"].index,
+                                          fx_sections[".data"].index)
+                  or entry.name in fx_external):
+            fail("historical FXEMU source-relocation drift")
+        fx_code_masked[offset:offset + 4] = fx_code_target[offset:offset + 4]
+    if fx_code_masked != fx_code_target:
+        fail("historical FXEMU code differs outside relocations")
+    fx_output = args.build_dir / "stage3p-fxemu-direct.o"
+    fx_command = [
+        objcopy,
+        "--rename-section", f".text={fxemu_section}.{fxemu_address:08x}",
+        "--rename-section", f".data={fxemu_data_section}",
+    ]
+    for symbol, destination in sorted(fx_external.items()):
+        alias = f"stage3p_fxemu_target_{symbol}"
+        fx_command.extend(("--redefine-sym", f"{symbol}={alias}"))
+        relocation_targets[alias] = destination
+    for index, entry in enumerate(fxemu.symbols):
+        if (entry.name and entry.info >> 4 == 1
+                and entry.section_index in (fx_sections[".text"].index,
+                                            fx_sections[".data"].index)):
+            fx_command.extend(("--redefine-sym", f"{entry.name}=stage3p_fxemu_direct_{index}"))
+    run([*fx_command, ROOT / fxemu_source, fx_output])
+    direct_objects.append(fx_output)
+    direct_sections.append((fxemu_section, fxemu_address, fxemu_size, None))
+    (fxinst_source, fxinst_section, fxinst_address, fxinst_size,
+     fxinst_data_section, fxinst_data_address, fxinst_data_size,
+     fxinst_rodata_section, fxinst_rodata_address, fxinst_rodata_size) = DIRECT_FXINST_OBJECT
+    fxinst = ELFFile(ROOT / fxinst_source)
+    fi_sections = {entry.name: entry for entry in fxinst.sections}
+    if (fi_sections[".text"].size != fxinst_size
+            or fi_sections[".data"].size != fxinst_data_size
+            or fi_sections[".rodata"].size != fxinst_rodata_size
+            or fi_sections[".rel.text"].size != 1329 * 8
+            or fi_sections[".rel.data"].size != 1049 * 8):
+        fail("historical FXINST object layout drift")
+    fi_code = fxinst.data[fi_sections[".text"].offset:fi_sections[".text"].offset + fxinst_size]
+    fi_data = fxinst.data[fi_sections[".data"].offset:fi_sections[".data"].offset + fxinst_data_size]
+    fi_rodata = fxinst.data[fi_sections[".rodata"].offset:fi_sections[".rodata"].offset + fxinst_rodata_size]
+    fi_target = reference[fxinst_address - TARGET_BASE:fxinst_address - TARGET_BASE + fxinst_size]
+    fi_data_target = reference[fxinst_data_address - TARGET_BASE:fxinst_data_address - TARGET_BASE + fxinst_data_size]
+    if fi_rodata != reference[
+        fxinst_rodata_address - TARGET_BASE:fxinst_rodata_address - TARGET_BASE + fxinst_rodata_size
+    ]:
+        fail("historical FXINST rodata differs from target")
+    fi_code_masked, fi_data_masked = bytearray(fi_code), bytearray(fi_data)
+    fi_external = {
+        "GSU": fxemu_data_address + next(
+            entry.value for entry in fxemu.symbols if entry.name == "GSU"
+        ),
+        "fx_ppfOpcodeTable": fxemu_data_address + next(
+            entry.value for entry in fxemu.symbols if entry.name == "fx_ppfOpcodeTable"
+        ),
+    }
+    for index in range(1049):
+        offset, info = struct.unpack_from(
+            "<II", fxinst.data, fi_sections[".rel.data"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if offset + 4 > fxinst_data_size or kind != 2 or symbol_index >= len(fxinst.symbols):
+            fail("historical FXINST data-relocation drift")
+        symbol = fxinst.symbols[symbol_index]
+        actual = struct.unpack_from("<I", fi_data_target, offset)[0]
+        if symbol.name == "__gxx_personality_v0" and symbol.section_index == 0:
+            fi_external[symbol.name] = actual
+        elif (symbol.name or symbol.section_index != fi_sections[".text"].index
+              or actual != fxinst_address + struct.unpack_from("<I", fi_data, offset)[0]):
+            fail("historical FXINST CFI relocation drift")
+        fi_data_masked[offset:offset + 4] = fi_data_target[offset:offset + 4]
+    if fi_data_masked != fi_data_target:
+        fail("historical FXINST data differs outside relocations")
+    for index in range(1329):
+        offset, info = struct.unpack_from(
+            "<II", fxinst.data, fi_sections[".rel.text"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if (offset + 4 > fxinst_size or kind not in (4, 5, 6)
+                or symbol_index >= len(fxinst.symbols)):
+            fail("historical FXINST code-relocation drift")
+        symbol = fxinst.symbols[symbol_index]
+        if symbol.section_index == 0 and symbol.name not in fi_external:
+            if kind != 4 or symbol.name not in (
+                "puts", "_Z13fx_flushCachev", "_Z24fx_computeScreenPointersv"
+            ):
+                fail("historical FXINST external source drift")
+            raw_word = struct.unpack_from("<I", fi_code, offset)[0]
+            target_word = struct.unpack_from("<I", fi_target, offset)[0]
+            if raw_word != 0x0C000000 or target_word & 0xFC000000 != 0x0C000000:
+                fail("historical FXINST external call drift")
+            fi_external[symbol.name] = (target_word & 0x03FFFFFF) << 2
+        elif (symbol.section_index == 0 and symbol.name in fi_external
+              and kind == 4):
+            destination = (struct.unpack_from("<I", fi_target, offset)[0]
+                           & 0x03FFFFFF) << 2
+            if destination != fi_external[symbol.name]:
+                fail("historical FXINST call target ambiguity")
+        elif not (symbol.name in fi_external
+                  or symbol.section_index in (fi_sections[".text"].index,
+                                              fi_sections[".rodata"].index)):
+            fail("historical FXINST internal source drift")
+        fi_code_masked[offset:offset + 4] = fi_target[offset:offset + 4]
+    if fi_code_masked != fi_target:
+        fail("historical FXINST code differs outside relocations")
+    fi_output = args.build_dir / "stage3p-fxinst-direct.o"
+    fi_command = [
+        objcopy, "--rename-section", f".text={fxinst_section}.{fxinst_address:08x}",
+        "--rename-section", f".data={fxinst_data_section}",
+        "--rename-section", f".rodata={fxinst_rodata_section}",
+    ]
+    for symbol, destination in sorted(fi_external.items()):
+        alias = f"stage3p_fxinst_target_{symbol}"
+        fi_command.extend(("--redefine-sym", f"{symbol}={alias}"))
+        relocation_targets[alias] = destination
+    for index, entry in enumerate(fxinst.symbols):
+        if (entry.name and entry.info >> 4 == 1
+                and entry.section_index in (fi_sections[".text"].index,
+                                            fi_sections[".data"].index)):
+            fi_command.extend(("--redefine-sym", f"{entry.name}=stage3p_fxinst_direct_{index}"))
+    run([*fi_command, ROOT / fxinst_source, fi_output])
+    direct_objects.append(fi_output)
+    direct_sections.append((fxinst_section, fxinst_address, fxinst_size, None))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -1375,7 +1575,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + 1,
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + 3,
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
