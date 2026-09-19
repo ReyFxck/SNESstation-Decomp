@@ -3,14 +3,16 @@
 The exact-image pipeline and the clean object link are tracked separately.
 
 Stage-3P proves all **720,620/720,620 code bytes** and the complete
-replacement ELF. Sixteen ELF inputs provide **296,116 code bytes** directly
-through 147 placed code sections. Eleven are historical candidate objects,
-including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o` and `ppu-short.o`; their
-original data and read-only sections replace the corresponding constructed
-providers at their original addresses. The other 86 candidate objects remain
-evidence sources.
+replacement ELF. Seventeen ELF inputs provide **305,436 code bytes** directly
+through 148 placed code sections. Twelve are historical candidate objects,
+including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o` and `dma.o`.
+Where exact, original data and read-only sections replace constructed providers
+at their historical addresses. The `dma.o` read-only dispatch table is linked
+from the object; its 260-byte data section has one nonrelocation byte mismatch,
+so the proved semantic data provider remains. The other 85 candidate objects
+remain evidence sources.
 
-The remaining **424,504 code bytes** pass through generated `.incbin` sections
+The remaining **415,184 code bytes** pass through generated `.incbin` sections
 in `code-windows.o`. Those bytes match the target but still need to be linked
 from their producer objects.
 
@@ -30,10 +32,10 @@ does not count, even when its final bytes are exact.
 | Earlier exact-assembly construction bucket | **85,628 bytes** |
 | Explicit residual assembly | **36,340 bytes** |
 | Public listing construction bucket | **73,192 bytes** |
-| Bytes linked directly from producer objects | **296,116/720,620** |
-| Direct ELF object inputs | **16** (including **11** historical candidate objects) |
-| Direct placed sections | **147** |
-| Bytes remaining behind generated payload | **424,504** |
+| Bytes linked directly from producer objects | **305,436/720,620** |
+| Direct ELF object inputs | **17** (including **12** historical candidate objects) |
+| Direct placed sections | **148** |
+| Bytes remaining behind generated payload | **415,184** |
 | Strict object-native linkage | **In progress** |
 
 The provenance buckets sum to the exact 720,620-byte code region. The direct

@@ -456,6 +456,13 @@ DIRECT_PPU_OBJECT = (
     ".bss.stage3p.direct.ppu", 0x0042E888, 2,
 )
 
+DIRECT_DMA_OBJECT = (
+    "build/matching/hunt1041-v72-v53-promotion/objects/dma.o",
+    ".text.stage3p.direct.dma", 0x00129AF4, 0x2468,
+    ".rodata.stage3p.direct.dma", 0x001B1F20, 0x38,
+    ".data.stage3p.unlinked.dma", 0x0033CCC8, 0x104,
+)
+
 
 def selected_symbol_spans(
     selected: list[dict], object_name: str
@@ -1130,9 +1137,14 @@ def update_linker_script(
     new_ppu_rodata = "  .rodata.stage3p.direct.ppu 0x001b7318 : { KEEP(*(.rodata.stage3p.direct.ppu)) }\n  .bss.stage3p.direct.ppu 0x0042e888 (NOLOAD) : { *(.bss.stage3p.direct.ppu) }\n  /DISCARD/ : { *(.data.stage3o.source.ppu) }"
     if updated.count(old_ppu_data) != 1 or updated.count(old_ppu_rodata) != 1:
         fail("historical PPU data-provider rule drift")
-    return updated.replace(old_ppu_data, new_ppu_data).replace(
+    updated = updated.replace(old_ppu_data, new_ppu_data).replace(
         old_ppu_rodata, new_ppu_rodata
     )
+    old_dma_rodata = "  .data.stage3o.source.dma_dispatch 0x001b1f20 : { KEEP(*(.data.stage3o.source.dma_dispatch)) }"
+    new_dma_rodata = "  .rodata.stage3p.direct.dma 0x001b1f20 : { KEEP(*(.rodata.stage3p.direct.dma)) }\n  /DISCARD/ : { *(.data.stage3o.source.dma_dispatch) *(.data.stage3p.unlinked.dma) }"
+    if updated.count(old_dma_rodata) != 1:
+        fail("historical DMA read-only provider rule drift")
+    return updated.replace(old_dma_rodata, new_dma_rodata)
 
 
 def probe(args: argparse.Namespace) -> dict:
@@ -1825,6 +1837,149 @@ def probe(args: argparse.Namespace) -> dict:
     run([*ppu_command, ROOT / ppu_source, ppu_output])
     direct_objects.append(ppu_output)
     direct_sections.append((ppu_section, ppu_address, ppu_size, None))
+    (dma_source, dma_section, dma_address, dma_size,
+     dma_rodata_section, dma_rodata_address, dma_rodata_size,
+     dma_unlinked_data_section, dma_data_address, dma_data_size) = DIRECT_DMA_OBJECT
+    dma = ELFFile(ROOT / dma_source)
+    dma_sections = {entry.name: entry for entry in dma.sections}
+    if (dma_sections[".text"].size != dma_size
+            or dma_sections[".rodata"].size != dma_rodata_size
+            or dma_sections[".data"].size != dma_data_size
+            or dma_sections[".rel.text"].size != 351 * 8
+            or dma_sections[".rel.rodata"].size != 14 * 8
+            or dma_sections[".rel.data"].size != 5 * 8):
+        fail("historical DMA object layout drift")
+    dma_raw = dma.data[dma_sections[".text"].offset:dma_sections[".text"].offset + dma_size]
+    dma_target = reference[dma_address - TARGET_BASE:dma_address - TARGET_BASE + dma_size]
+    dma_masked = bytearray(dma_raw)
+    dma_external: dict[str, int] = {}
+    dma_pending: dict[int, list[int]] = {}
+    dma_unpaired_low: set[str] = set()
+
+    def record_dma_target(name: str, value: int) -> None:
+        value &= 0xFFFFFFFF
+        prior = dma_external.get(name)
+        if prior is not None and prior != value:
+            fail(f"historical DMA relocation target ambiguity: {name}")
+        dma_external[name] = value
+
+    for index in range(351):
+        offset, info = struct.unpack_from(
+            "<II", dma.data, dma_sections[".rel.text"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if (offset + 4 > dma_size or kind not in (4, 5, 6)
+                or symbol_index >= len(dma.symbols)):
+            fail("historical DMA code-relocation drift")
+        symbol = dma.symbols[symbol_index]
+        if symbol.section_index == 0:
+            if not symbol.name:
+                fail("historical DMA unnamed external relocation")
+            raw_word = struct.unpack_from("<I", dma_raw, offset)[0]
+            target_word = struct.unpack_from("<I", dma_target, offset)[0]
+            if kind == 4:
+                if raw_word & 0xFC000000 != target_word & 0xFC000000:
+                    fail("historical DMA call opcode drift")
+                record_dma_target(
+                    symbol.name,
+                    ((target_word & 0x03FFFFFF) - (raw_word & 0x03FFFFFF)) << 2,
+                )
+            elif kind == 5:
+                dma_pending.setdefault(symbol_index, []).append(offset)
+            else:
+                highs = dma_pending.pop(symbol_index, [])
+                if not highs:
+                    dma_unpaired_low.add(symbol.name)
+                for high_offset in highs:
+                    raw_high = struct.unpack_from("<I", dma_raw, high_offset)[0] & 0xFFFF
+                    target_high = struct.unpack_from("<I", dma_target, high_offset)[0] & 0xFFFF
+                    record_dma_target(
+                        symbol.name,
+                        (target_high << 16) + signed_short(target_word)
+                        - (raw_high << 16) - signed_short(raw_word),
+                    )
+        elif symbol.section_index not in (
+            dma_sections[".text"].index, dma_sections[".rodata"].index
+        ):
+            fail("historical DMA unsupported internal relocation")
+        dma_masked[offset:offset + 4] = dma_target[offset:offset + 4]
+    if (dma_pending or not dma_unpaired_low.issubset(dma_external)
+            or dma_masked != dma_target):
+        fail("historical DMA code differs outside relocations")
+    dma_rodata = dma.data[
+        dma_sections[".rodata"].offset:dma_sections[".rodata"].offset + dma_rodata_size
+    ]
+    dma_expected_rodata = reference[
+        dma_rodata_address - TARGET_BASE:dma_rodata_address - TARGET_BASE + dma_rodata_size
+    ]
+    dma_rodata_masked = bytearray(dma_rodata)
+    for index in range(14):
+        offset, info = struct.unpack_from(
+            "<II", dma.data, dma_sections[".rel.rodata"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if (kind != 2 or offset + 4 > dma_rodata_size
+                or symbol_index >= len(dma.symbols)
+                or dma.symbols[symbol_index].section_index != dma_sections[".text"].index
+                or struct.unpack_from("<I", dma_expected_rodata, offset)[0]
+                != dma_address + struct.unpack_from("<I", dma_rodata, offset)[0]):
+            fail("historical DMA read-only relocation drift")
+        dma_rodata_masked[offset:offset + 4] = dma_expected_rodata[offset:offset + 4]
+    if dma_rodata_masked != dma_expected_rodata:
+        fail("historical DMA read-only data differs outside relocations")
+    # The original .data has one nonrelocation difference at offset 0x100.
+    # Keep the existing proved semantic provider, and discard this .data.
+    dma_data = dma.data[
+        dma_sections[".data"].offset:dma_sections[".data"].offset + dma_data_size
+    ]
+    dma_expected_data = reference[
+        dma_data_address - TARGET_BASE:dma_data_address - TARGET_BASE + dma_data_size
+    ]
+    dma_data_reloc_offsets: set[int] = set()
+    for index in range(5):
+        offset, info = struct.unpack_from(
+            "<II", dma.data, dma_sections[".rel.data"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if (offset + 4 > dma_data_size or kind != 2
+                or symbol_index >= len(dma.symbols)):
+            fail("historical DMA discarded-data relocation drift")
+        symbol = dma.symbols[symbol_index]
+        expected_word = struct.unpack_from("<I", dma_expected_data, offset)[0]
+        raw_word = struct.unpack_from("<I", dma_data, offset)[0]
+        if symbol.section_index == dma_sections[".text"].index:
+            if expected_word != dma_address + raw_word:
+                fail("historical DMA discarded-data code pointer drift")
+        elif symbol.section_index != 0 or symbol.name != "__gxx_personality_v0":
+            fail("historical DMA unexpected discarded-data relocation")
+        dma_data_reloc_offsets.add(offset)
+    if any(
+        dma_data[offset] != dma_expected_data[offset]
+        for offset in range(dma_data_size)
+        if offset != 0x100
+        and all(not start <= offset < start + 4 for start in dma_data_reloc_offsets)
+    ) or dma_data[0x100] == dma_expected_data[0x100]:
+        fail("historical DMA discarded-data boundary drift")
+    dma_output = args.build_dir / "stage3p-dma-direct.o"
+    dma_command = [
+        objcopy, "--rename-section", f".text={dma_section}.{dma_address:08x}",
+        "--rename-section", f".rodata={dma_rodata_section}",
+        "--rename-section", f".data={dma_unlinked_data_section}",
+    ]
+    for symbol, destination in sorted(dma_external.items()):
+        alias = f"stage3p_dma_target_{symbol}"
+        dma_command.extend(("--redefine-sym", f"{symbol}={alias}"))
+        relocation_targets[alias] = destination
+    for index, entry in enumerate(dma.symbols):
+        if (entry.name and entry.info >> 4 == 1
+                and entry.section_index in (
+                    dma_sections[".text"].index, dma_sections[".rodata"].index,
+                    dma_sections[".data"].index,
+                )):
+            dma_command.extend(("--redefine-sym", f"{entry.name}=stage3p_dma_direct_{index}"))
+    run([*dma_command, ROOT / dma_source, dma_output])
+    direct_objects.append(dma_output)
+    direct_sections.append((dma_section, dma_address, dma_size, None))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -1837,7 +1992,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + 5,
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + 6,
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
