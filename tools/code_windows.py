@@ -418,6 +418,19 @@ DIRECT_CALL_OBJECTS = (
     ("strstr", "build/matching/hunt1000plus-v47-closure/ps2lib/strstr.o", ".text.stage3p.direct.strstr", 0x0019EAF8, 0x0088, "strstr", 2),
 )
 
+# Complete historical runtime objects with external MIPS call and address
+# relocations, but no initialized data or local-section relocations.
+DIRECT_EXTERNAL_RELOC_OBJECTS = (
+    ("fio_write", "kernel/fio-write.o", 0x0019D244, 0x11C, 20),
+    ("fio_read_intr", "kernel/fio-read-intr.o", 0x0019D4B0, 0x084, 6),
+    ("iop_alloc", "kernel/iop-alloc.o", 0x0019D63C, 0x07C, 6),
+    ("iop_free", "kernel/iop-free.o", 0x0019D6B8, 0x088, 6),
+    ("free", "ps2lib/free.o", 0x0019E784, 0x0DC, 10),
+    ("strtol", "ps2lib/strtol.o", 0x0019EB80, 0x22C, 9),
+    ("load_module", "kernel/load-module.o", 0x0019F7E8, 0x10C, 9),
+    ("load_buffer", "kernel/load-buffer.o", 0x0019F8F4, 0x0F4, 8),
+)
+
 
 DIRECT_SAI2_OBJECT = (
     "build/matching/hunt1000plus-v46-closure/snes/2XSAI.o",
@@ -461,6 +474,12 @@ DIRECT_DMA_OBJECT = (
     ".text.stage3p.direct.dma", 0x00129AF4, 0x2468,
     ".rodata.stage3p.direct.dma", 0x001B1F20, 0x38,
     ".data.stage3p.unlinked.dma", 0x0033CCC8, 0x104,
+)
+
+DIRECT_CPUEXEC_OBJECT = (
+    "build/matching/hunt1000plus-v46-closure/snes/CPUEXEC.o",
+    ".text.stage3p.direct.cpuexec", 0x00115DB0, 0x990,
+    ".data.stage3p.direct.cpuexec", 0x00336784, 0x74,
 )
 
 
@@ -1144,7 +1163,12 @@ def update_linker_script(
     new_dma_rodata = "  .rodata.stage3p.direct.dma 0x001b1f20 : { KEEP(*(.rodata.stage3p.direct.dma)) }\n  /DISCARD/ : { *(.data.stage3o.source.dma_dispatch) *(.data.stage3p.unlinked.dma) }"
     if updated.count(old_dma_rodata) != 1:
         fail("historical DMA read-only provider rule drift")
-    return updated.replace(old_dma_rodata, new_dma_rodata)
+    updated = updated.replace(old_dma_rodata, new_dma_rodata)
+    old_cpuexec = "  .data.stage3n.source.cpuexec_cfi 0x00336784 : { KEEP(*(.data.stage3n.source.cpuexec_cfi)) }"
+    new_cpuexec = "  .data.stage3p.direct.cpuexec 0x00336784 : { KEEP(*(.data.stage3p.direct.cpuexec)) }\n  /DISCARD/ : { *(.data.stage3n.source.cpuexec_cfi) }"
+    if updated.count(old_cpuexec) != 1:
+        fail("historical CPUEXEC data-provider rule drift")
+    return updated.replace(old_cpuexec, new_cpuexec)
 
 
 def probe(args: argparse.Namespace) -> dict:
@@ -1980,6 +2004,192 @@ def probe(args: argparse.Namespace) -> dict:
     run([*dma_command, ROOT / dma_source, dma_output])
     direct_objects.append(dma_output)
     direct_sections.append((dma_section, dma_address, dma_size, None))
+    (cx_source, cx_section, cx_address, cx_size,
+     cx_data_section, cx_data_address, cx_data_size) = DIRECT_CPUEXEC_OBJECT
+    cx = ELFFile(ROOT / cx_source)
+    cx_sections = {entry.name: entry for entry in cx.sections}
+    if (cx_sections[".text"].size != cx_size
+            or cx_sections[".data"].size != cx_data_size
+            or cx_sections[".rel.text"].size != 201 * 8
+            or cx_sections[".rel.data"].size != 3 * 8):
+        fail("historical CPUEXEC object layout drift")
+    cx_raw = cx.data[cx_sections[".text"].offset:cx_sections[".text"].offset + cx_size]
+    cx_target = reference[cx_address - TARGET_BASE:cx_address - TARGET_BASE + cx_size]
+    cx_masked = bytearray(cx_raw)
+    cx_external: dict[str, int] = {}
+    cx_pending: dict[int, list[int]] = {}
+    cx_unpaired_low: set[str] = set()
+
+    def record_cpuexec_target(name: str, value: int) -> None:
+        value &= 0xFFFFFFFF
+        prior = cx_external.get(name)
+        if prior is not None and prior != value:
+            fail(f"historical CPUEXEC relocation target ambiguity: {name}")
+        cx_external[name] = value
+
+    for index in range(201):
+        offset, info = struct.unpack_from(
+            "<II", cx.data, cx_sections[".rel.text"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if (offset + 4 > cx_size or kind not in (4, 5, 6)
+                or symbol_index >= len(cx.symbols)):
+            fail("historical CPUEXEC code-relocation drift")
+        symbol = cx.symbols[symbol_index]
+        if symbol.section_index == 0:
+            if not symbol.name:
+                fail("historical CPUEXEC unnamed external relocation")
+            raw_word = struct.unpack_from("<I", cx_raw, offset)[0]
+            target_word = struct.unpack_from("<I", cx_target, offset)[0]
+            if kind == 4:
+                if raw_word & 0xFC000000 != target_word & 0xFC000000:
+                    fail("historical CPUEXEC call opcode drift")
+                record_cpuexec_target(
+                    symbol.name,
+                    ((target_word & 0x03FFFFFF) - (raw_word & 0x03FFFFFF)) << 2,
+                )
+            elif kind == 5:
+                cx_pending.setdefault(symbol_index, []).append(offset)
+            else:
+                highs = cx_pending.pop(symbol_index, [])
+                if not highs:
+                    cx_unpaired_low.add(symbol.name)
+                for high_offset in highs:
+                    raw_high = struct.unpack_from("<I", cx_raw, high_offset)[0] & 0xFFFF
+                    target_high = struct.unpack_from("<I", cx_target, high_offset)[0] & 0xFFFF
+                    record_cpuexec_target(
+                        symbol.name,
+                        (target_high << 16) + signed_short(target_word)
+                        - (raw_high << 16) - signed_short(raw_word),
+                    )
+        elif symbol.section_index != cx_sections[".text"].index:
+            fail("historical CPUEXEC unexpected internal relocation")
+        cx_masked[offset:offset + 4] = cx_target[offset:offset + 4]
+    if (cx_pending or not cx_unpaired_low.issubset(cx_external)
+            or cx_masked != cx_target):
+        fail("historical CPUEXEC code differs outside relocations")
+    cx_data = cx.data[
+        cx_sections[".data"].offset:cx_sections[".data"].offset + cx_data_size
+    ]
+    cx_expected_data = reference[
+        cx_data_address - TARGET_BASE:cx_data_address - TARGET_BASE + cx_data_size
+    ]
+    cx_data_masked = bytearray(cx_data)
+    for index in range(3):
+        offset, info = struct.unpack_from(
+            "<II", cx.data, cx_sections[".rel.data"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if (kind != 2 or offset + 4 > cx_data_size
+                or symbol_index >= len(cx.symbols)):
+            fail("historical CPUEXEC data-relocation drift")
+        symbol = cx.symbols[symbol_index]
+        word = struct.unpack_from("<I", cx_expected_data, offset)[0]
+        addend = struct.unpack_from("<I", cx_data, offset)[0]
+        if symbol.section_index == cx_sections[".text"].index:
+            if word != cx_address + addend:
+                fail("historical CPUEXEC data code pointer drift")
+        elif symbol.section_index == 0 and symbol.name == "__gxx_personality_v0":
+            record_cpuexec_target(symbol.name, word - addend)
+        else:
+            fail("historical CPUEXEC unsupported data relocation")
+        cx_data_masked[offset:offset + 4] = cx_expected_data[offset:offset + 4]
+    if cx_data_masked != cx_expected_data:
+        fail("historical CPUEXEC data differs outside relocations")
+    cx_output = args.build_dir / "stage3p-cpuexec-direct.o"
+    cx_command = [
+        objcopy, "--rename-section", f".text={cx_section}.{cx_address:08x}",
+        "--rename-section", f".data={cx_data_section}",
+    ]
+    for symbol, destination in sorted(cx_external.items()):
+        alias = f"stage3p_cpuexec_target_{symbol}"
+        cx_command.extend(("--redefine-sym", f"{symbol}={alias}"))
+        relocation_targets[alias] = destination
+    for index, entry in enumerate(cx.symbols):
+        if (entry.name and entry.info >> 4 == 1
+                and entry.section_index in (
+                    cx_sections[".text"].index, cx_sections[".data"].index
+                )):
+            cx_command.extend(("--redefine-sym", f"{entry.name}=stage3p_cpuexec_direct_{index}"))
+    run([*cx_command, ROOT / cx_source, cx_output])
+    direct_objects.append(cx_output)
+    direct_sections.append((cx_section, cx_address, cx_size, None))
+    for key, suffix, address, size, reloc_count in DIRECT_EXTERNAL_RELOC_OBJECTS:
+        relative = f"build/matching/hunt1000plus-v47-closure/{suffix}"
+        candidate = ELFFile(ROOT / relative)
+        sections = {entry.name: entry for entry in candidate.sections}
+        if (sections[".text"].size != size
+                or sections[".rel.text"].size != reloc_count * 8
+                or sections[".data"].size != 0
+                or sections[".bss"].size != 0):
+            fail(f"historical {key} runtime object layout drift")
+        raw = candidate.data[sections[".text"].offset:sections[".text"].offset + size]
+        expected = reference[address - TARGET_BASE:address - TARGET_BASE + size]
+        masked = bytearray(raw)
+        external: dict[str, int] = {}
+        pending: dict[int, list[int]] = {}
+        unpaired_low: set[str] = set()
+
+        def record_runtime_target(name: str, destination: int) -> None:
+            destination &= 0xFFFFFFFF
+            previous = external.get(name)
+            if previous is not None and previous != destination:
+                fail(f"historical {key} runtime relocation ambiguity: {name}")
+            external[name] = destination
+
+        for index in range(reloc_count):
+            offset, info = struct.unpack_from(
+                "<II", candidate.data, sections[".rel.text"].offset + index * 8
+            )
+            symbol_index, kind = info >> 8, info & 0xFF
+            if (offset + 4 > size or kind not in (4, 5, 6)
+                    or symbol_index >= len(candidate.symbols)):
+                fail(f"historical {key} runtime code-relocation drift")
+            symbol = candidate.symbols[symbol_index]
+            if not symbol.name or symbol.section_index != 0:
+                fail(f"historical {key} runtime nonexternal relocation")
+            raw_word = struct.unpack_from("<I", raw, offset)[0]
+            target_word = struct.unpack_from("<I", expected, offset)[0]
+            if kind == 4:
+                if raw_word & 0xFC000000 != target_word & 0xFC000000:
+                    fail(f"historical {key} runtime call opcode drift")
+                record_runtime_target(
+                    symbol.name,
+                    ((target_word & 0x03FFFFFF) - (raw_word & 0x03FFFFFF)) << 2,
+                )
+            elif kind == 5:
+                pending.setdefault(symbol_index, []).append(offset)
+            else:
+                highs = pending.pop(symbol_index, [])
+                if not highs:
+                    unpaired_low.add(symbol.name)
+                for high_offset in highs:
+                    raw_high = struct.unpack_from("<I", raw, high_offset)[0] & 0xFFFF
+                    target_high = struct.unpack_from("<I", expected, high_offset)[0] & 0xFFFF
+                    record_runtime_target(
+                        symbol.name,
+                        (target_high << 16) + signed_short(target_word)
+                        - (raw_high << 16) - signed_short(raw_word),
+                    )
+            masked[offset:offset + 4] = expected[offset:offset + 4]
+        if pending or not unpaired_low.issubset(external) or masked != expected:
+            fail(f"historical {key} runtime code differs outside relocations")
+        prefix = f".text.stage3p.direct.{key}"
+        output = args.build_dir / f"stage3p-{key}-direct.o"
+        command = [
+            objcopy, "--rename-section", f".text={prefix}.{address:08x}",
+        ]
+        for symbol, destination in sorted(external.items()):
+            alias = f"stage3p_{key}_target_{symbol}"
+            command.extend(("--redefine-sym", f"{symbol}={alias}"))
+            relocation_targets[alias] = destination
+        for index, entry in enumerate(candidate.symbols):
+            if (entry.name and entry.info >> 4 == 1
+                    and entry.section_index == sections[".text"].index):
+                command.extend(("--redefine-sym", f"{entry.name}=stage3p_{key}_direct_{index}"))
+        run([*command, ROOT / relative, output])
+        direct_objects.append(output)
+        direct_sections.append((prefix, address, size, None))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -1992,7 +2202,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + 6,
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 7,
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
