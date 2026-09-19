@@ -37,11 +37,12 @@ Detailed machine-generated counts are in
 ## Strict object-native linkage
 
 The exact-image result is complete. The strict object-native link currently has
-**125,540/720,620 code bytes** coming from seven ELF object inputs placed by the
+**126,260/720,620 code bytes** coming from eleven ELF object inputs placed by the
 final `ee-ld` invocation: the split residual, exact V80, V81 and C4 assembly,
 a recovered ROM cleanup function, the historical PS2SDK `SyncDCache.o`,
-and historical Newlib `qsort.o` with its self-call relocation.
-The remaining **595,080 bytes** still use the generated
+historical Newlib `qsort.o` with its self-call relocation, and four historical
+PS2LIB/IOP objects with validated external calls.
+The remaining **594,360 bytes** still use the generated
 `code-windows.o` transport with `.incbin`; that portion is intentionally
 reported separately from the decomp.dev completion percentage.
 
