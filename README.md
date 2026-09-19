@@ -37,9 +37,9 @@ Detailed machine-generated counts are in
 ## Strict object-native linkage
 
 The replacement ELF matches byte for byte. The final linker now places
-**296,116/720,620 code bytes** from sixteen ELF objects, including the original
-`2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o` and `ppu-short.o` code and data.
-The remaining **424,504 code bytes** still pass through generated `.incbin`
+**305,436/720,620 code bytes** from seventeen ELF objects, including the original
+`2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o` and `dma.o` code.
+The remaining **415,184 code bytes** still pass through generated `.incbin`
 sections. This is separate from the completed decomp.dev image match.
 
 The required gate and its frozen public baseline are documented in
