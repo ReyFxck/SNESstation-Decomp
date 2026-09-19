@@ -363,6 +363,35 @@ DIRECT_ASSEMBLY_GROUPS = (
 )
 
 
+# This recovered source translation unit contains a proved 0x30-byte function
+# at 0x00151330. Compile just that function so its two external calls can be
+# bound to their proved target addresses without duplicating source-tree
+# symbols in the compatibility input.
+DIRECT_SOURCE_OBJECTS = (
+    (
+        "rom-cleanup",
+        "src/snes9x/memory_cleanup_recovered.c",
+        ".text.stage3p.direct.rom_cleanup",
+        0x00151330,
+        0x0030,
+    ),
+)
+
+
+# The historical PS2SDK assembly object contains the complete function and
+# its four-byte alignment gap. Keep the source object intact in the final link.
+DIRECT_WHOLE_OBJECTS = (
+    (
+        "syncdcache",
+        "build/matching/hunt1000plus-v46-closure/ps2dev/SyncDCache.o",
+        ".text.stage3p.direct.syncdcache",
+        0x001AB440,
+        0x00A8,
+        "_SyncDCache",
+    ),
+)
+
+
 def selected_symbol_spans(
     selected: list[dict], object_name: str
 ) -> list[tuple[str, int, int]]:
@@ -988,9 +1017,12 @@ def update_linker_script(
     )
     code_rules.sort(key=lambda item: item[0])
     code_rules_text = "\n".join(rule for _address, rule in code_rules)
-    new = f"""  .text.stage3p.symbols 0x00100114 (NOLOAD) : {{ *(.text) }}
+    new = f"""  stage3p_target_per_rom_cleanup = 0x00151360;
+  stage3p_target_snes_memory_helper = 0x00150f54;
+  .text.stage3p.symbols 0x00100114 (NOLOAD) : {{ *(.text) }}
   .rodata.stage3p.symbols 0x0016d5d0 (NOLOAD) : {{ *(.rodata) }}
 {code_rules_text}
+  /DISCARD/ : {{ *(.text.stage3p.residual.001ab4e4) }}
   .data.stage3p.symbols 0x00170148 (NOLOAD) : {{ *(.data) }}
   .bss.stage3p.symbols 0x001702c0 (NOLOAD) : {{ *(.bss) *(.bss.stage3.compatibility) }}
 """
@@ -1040,6 +1072,7 @@ def probe(args: argparse.Namespace) -> dict:
     direct_sections = [
         (".text.stage3p.residual", address, size, None)
         for _name, address, size in residual_spans
+        if address != 0x001AB4E4
     ]
     direct_objects = [residual_object]
     for key, source_relative, object_name, section_prefix in DIRECT_ASSEMBLY_GROUPS:
@@ -1059,6 +1092,59 @@ def probe(args: argparse.Namespace) -> dict:
             (section_prefix, address, size, None)
             for _name, address, size in spans
         )
+    for key, source_relative, section_prefix, address, size in DIRECT_SOURCE_OBJECTS:
+        source = ROOT / source_relative
+        compiled = args.build_dir / f"stage3p-{key}-compiled.o"
+        stage3o.stage3i.compile_one(
+            cxx,
+            (
+                "-G0", "-O2", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+                "-ffunction-sections", "-DSNESSTATION_STAGE3P_ROM_ONLY",
+                "-I", ROOT / "include", "-I",
+                ROOT / "include/ee_stage1_compat",
+            ),
+            source,
+            compiled,
+        )
+        output = args.build_dir / f"stage3p-{key}-direct.o"
+        run([
+            objcopy,
+            "--rename-section", f".text.rom_cleanup_00151330={section_prefix}.{address:08x}",
+            "--redefine-sym", "rom_cleanup_00151330=stage3p_rom_cleanup_direct",
+            "--redefine-sym", "per_rom_buffer_cleanup_00151360=stage3p_target_per_rom_cleanup",
+            "--redefine-sym", "snes_memory_helper_00150f54=stage3p_target_snes_memory_helper",
+            compiled, output,
+        ])
+        direct_objects.append(output)
+        direct_sections.append((section_prefix, address, size, None))
+    for key, source_relative, section_prefix, address, size, symbol in DIRECT_WHOLE_OBJECTS:
+        source = ROOT / source_relative
+        historical = ELFFile(source)
+        sections = [section for section in historical.sections if section.name == ".text"]
+        if len(sections) != 1 or sections[0].size != size:
+            fail(f"historical whole object section drift: {source_relative}")
+        section = sections[0]
+        if not any(
+            entry.name == symbol and entry.section_index == section.index
+            and entry.value == 0 and entry.size == size - 4
+            for entry in historical.symbols
+        ):
+            fail(f"historical whole object symbol drift: {source_relative}")
+        if any(item.name in (".rel.text", ".rela.text") for item in historical.sections):
+            fail(f"historical whole object has relocations: {source_relative}")
+        if historical.data[section.offset:section.offset + size] != reference[
+            address - TARGET_BASE:address - TARGET_BASE + size
+        ]:
+            fail(f"historical whole object differs from target: {source_relative}")
+        output = args.build_dir / f"stage3p-{key}-direct.o"
+        run([
+            objcopy,
+            "--rename-section", f".text={section_prefix}.{address:08x}",
+            "--redefine-sym", f"{symbol}=stage3p_{key}_direct",
+            source, output,
+        ])
+        direct_objects.append(output)
+        direct_sections.append((section_prefix, address, size, None))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -1071,6 +1157,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS),
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
