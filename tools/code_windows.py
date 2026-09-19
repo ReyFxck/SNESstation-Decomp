@@ -419,6 +419,17 @@ DIRECT_CALL_OBJECTS = (
 )
 
 
+DIRECT_SAI2_OBJECT = (
+    "build/matching/hunt1000plus-v46-closure/snes/2XSAI.o",
+    ".text.stage3p.direct.sai2",
+    0x00108D58,
+    0x1AE8,
+    ".data.stage3p.direct.sai2",
+    0x00335284,
+    0x00EC,
+)
+
+
 def selected_symbol_spans(
     selected: list[dict], object_name: str
 ) -> list[tuple[str, int, int]]:
@@ -1061,7 +1072,12 @@ def update_linker_script(
 """
     if text.count(old) != 1:
         fail("Stage-3O linker-script core drift")
-    return text.replace(old, new)
+    updated = text.replace(old, new)
+    old_sai2 = "  .data.stage3n.source.sai2_data_and_cfi 0x00335284 : { KEEP(*(.data.stage3n.source.sai2_data_and_cfi)) }"
+    new_sai2 = "  .data.stage3p.direct.sai2 0x00335284 : { KEEP(*(.data.stage3p.direct.sai2)) }\n  /DISCARD/ : { *(.data.stage3n.source.sai2_data_and_cfi) }"
+    if updated.count(old_sai2) != 1:
+        fail("historical SAI2 data-provider rule drift")
+    return updated.replace(old_sai2, new_sai2)
 
 
 def probe(args: argparse.Namespace) -> dict:
@@ -1275,6 +1291,78 @@ def probe(args: argparse.Namespace) -> dict:
         run([*command, source, output])
         direct_objects.append(output)
         direct_sections.append((section_prefix, address, size, None))
+    (sai2_source, sai2_section, sai2_address, sai2_size,
+     sai2_data_section, sai2_data_address, sai2_data_size) = DIRECT_SAI2_OBJECT
+    historical = ELFFile(ROOT / sai2_source)
+    indexed = {entry.name: entry for entry in historical.sections}
+    if (indexed[".text"].size != sai2_size
+            or indexed[".data"].size != sai2_data_size
+            or indexed[".rel.text"].size != 195 * 8
+            or indexed[".rel.data"].size != 4 * 8):
+        fail("historical SAI2 object layout drift")
+    code = historical.data[indexed[".text"].offset:indexed[".text"].offset + sai2_size]
+    data = historical.data[indexed[".data"].offset:indexed[".data"].offset + sai2_data_size]
+    expected_code = reference[sai2_address - TARGET_BASE:sai2_address - TARGET_BASE + sai2_size]
+    expected_data = reference[sai2_data_address - TARGET_BASE:sai2_data_address - TARGET_BASE + sai2_data_size]
+    code_masked, data_masked = bytearray(code), bytearray(data)
+    muldi3_destinations: set[int] = set()
+    for index in range(195):
+        offset, info = struct.unpack_from(
+            "<II", historical.data, indexed[".rel.text"].offset + index * 8
+        )
+        kind, symbol_index = info & 0xFF, info >> 8
+        if (offset + 4 > sai2_size or kind not in (4, 5, 6)
+                or symbol_index >= len(historical.symbols)):
+            fail("historical SAI2 code-relocation drift")
+        entry = historical.symbols[symbol_index]
+        if entry.name == "__muldi3" and kind == 4:
+            target_word = struct.unpack_from("<I", expected_code, offset)[0]
+            if (struct.unpack_from("<I", code, offset)[0] != 0x0C000000
+                    or target_word & 0xFC000000 != 0x0C000000):
+                fail("historical SAI2 external-call drift")
+            muldi3_destinations.add((target_word & 0x03FFFFFF) << 2)
+        elif not (not entry.name and entry.section_index in
+                  (indexed[".text"].index, indexed[".data"].index)):
+            fail("historical SAI2 internal-relocation drift")
+        code_masked[offset:offset + 4] = expected_code[offset:offset + 4]
+    if len(muldi3_destinations) != 1 or code_masked != expected_code:
+        fail("historical SAI2 code differs outside relocations")
+    for index in range(4):
+        offset, info = struct.unpack_from(
+            "<II", historical.data, indexed[".rel.data"].offset + index * 8
+        )
+        entry = historical.symbols[info >> 8]
+        if offset + 4 > sai2_data_size or info & 0xFF != 2:
+            fail("historical SAI2 data-relocation drift")
+        if index == 0:
+            if entry.name != "__gxx_personality_v0" or entry.section_index != 0:
+                fail("historical SAI2 personality drift")
+            relocation_targets["stage3p_sai2_target_personality"] = struct.unpack_from(
+                "<I", expected_data, offset
+            )[0]
+        elif (entry.name or entry.section_index != indexed[".text"].index
+              or struct.unpack_from("<I", expected_data, offset)[0] !=
+              sai2_address + struct.unpack_from("<I", data, offset)[0]):
+            fail("historical SAI2 CFI relocation drift")
+        data_masked[offset:offset + 4] = expected_data[offset:offset + 4]
+    if data_masked != expected_data:
+        fail("historical SAI2 data differs outside relocations")
+    relocation_targets["stage3p_sai2_target_muldi3"] = muldi3_destinations.pop()
+    sai2_output = args.build_dir / "stage3p-sai2-direct.o"
+    sai2_command = [
+        objcopy,
+        "--rename-section", f".text={sai2_section}.{sai2_address:08x}",
+        "--rename-section", f".data={sai2_data_section}",
+        "--redefine-sym", "__muldi3=stage3p_sai2_target_muldi3",
+        "--redefine-sym", "__gxx_personality_v0=stage3p_sai2_target_personality",
+    ]
+    for index, entry in enumerate(historical.symbols):
+        if (entry.name and entry.info >> 4 == 1
+                and entry.section_index in (indexed[".text"].index, indexed[".data"].index)):
+            sai2_command.extend(("--redefine-sym", f"{entry.name}=stage3p_sai2_direct_{index}"))
+    run([*sai2_command, ROOT / sai2_source, sai2_output])
+    direct_objects.append(sai2_output)
+    direct_sections.append((sai2_section, sai2_address, sai2_size, None))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -1287,7 +1375,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS),
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + 1,
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
