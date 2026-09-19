@@ -408,6 +408,17 @@ DIRECT_SELF_RELOC_OBJECTS = (
 )
 
 
+# These complete historical objects have only R_MIPS_26 external calls. Their
+# relocation results are checked against the private reference during the
+# probe; no reference instruction bytes are committed or copied into an input.
+DIRECT_CALL_OBJECTS = (
+    ("iop-reset", "build/matching/hunt1000plus-v47-closure/kernel/iop-reset.o", ".text.stage3p.direct.iop_reset", 0x0019D740, 0x010C, "SifIopReset", 11),
+    ("calloc", "build/matching/hunt1000plus-v47-closure/ps2lib/calloc.o", ".text.stage3p.direct.calloc", 0x0019E648, 0x0050, "calloc", 2),
+    ("memalign", "build/matching/hunt1000plus-v47-closure/ps2lib/memalign.o", ".text.stage3p.direct.memalign", 0x0019E698, 0x00EC, "memalign", 2),
+    ("strstr", "build/matching/hunt1000plus-v47-closure/ps2lib/strstr.o", ".text.stage3p.direct.strstr", 0x0019EAF8, 0x0088, "strstr", 2),
+)
+
+
 def selected_symbol_spans(
     selected: list[dict], object_name: str
 ) -> list[tuple[str, int, int]]:
@@ -1009,6 +1020,7 @@ def update_linker_script(
     text: str,
     payload_parts: list[tuple[str, Path, int]],
     direct_sections: list[tuple[str, int, int, tuple[str, str] | None]],
+    relocation_targets: dict[str, int],
 ) -> str:
     old = """  .text 0x00100114 : { *(.text) }
   .rodata : { *(.rodata) }
@@ -1033,8 +1045,13 @@ def update_linker_script(
     )
     code_rules.sort(key=lambda item: item[0])
     code_rules_text = "\n".join(rule for _address, rule in code_rules)
+    relocation_rules = "\n".join(
+        f"  {name} = 0x{address:08x};"
+        for name, address in sorted(relocation_targets.items())
+    )
     new = f"""  stage3p_target_per_rom_cleanup = 0x00151360;
   stage3p_target_snes_memory_helper = 0x00150f54;
+{relocation_rules}
   .text.stage3p.symbols 0x00100114 (NOLOAD) : {{ *(.text) }}
   .rodata.stage3p.symbols 0x0016d5d0 (NOLOAD) : {{ *(.rodata) }}
 {code_rules_text}
@@ -1091,6 +1108,7 @@ def probe(args: argparse.Namespace) -> dict:
         if address != 0x001AB4E4
     ]
     direct_objects = [residual_object]
+    relocation_targets: dict[str, int] = {}
     for key, source_relative, object_name, section_prefix in DIRECT_ASSEMBLY_GROUPS:
         spans = selected_symbol_spans(selected_sources, object_name)
         if not spans:
@@ -1200,6 +1218,63 @@ def probe(args: argparse.Namespace) -> dict:
         ])
         direct_objects.append(output)
         direct_sections.append((section_prefix, address, size, None))
+    for key, source_relative, section_prefix, address, size, symbol, reloc_count in DIRECT_CALL_OBJECTS:
+        source = ROOT / source_relative
+        historical = ELFFile(source)
+        sections = [entry for entry in historical.sections if entry.name == ".text"]
+        relocations = [entry for entry in historical.sections if entry.name == ".rel.text"]
+        if (len(sections) != 1 or sections[0].size != size
+                or len(relocations) != 1 or relocations[0].size != reloc_count * 8):
+            fail(f"historical call-object layout drift: {source_relative}")
+        section, relocation = sections[0], relocations[0]
+        if not any(
+            entry.name == symbol and entry.section_index == section.index
+            and entry.value == 0 and entry.size == size
+            for entry in historical.symbols
+        ):
+            fail(f"historical call-object symbol drift: {source_relative}")
+        candidate = historical.data[section.offset:section.offset + size]
+        target = reference[address - TARGET_BASE:address - TARGET_BASE + size]
+        if len(target) != size:
+            fail(f"historical call-object target range drift: {source_relative}")
+        masked = bytearray(candidate)
+        expected = bytearray(target)
+        aliases: dict[str, int] = {}
+        for index in range(reloc_count):
+            offset, info = struct.unpack_from(
+                "<II", historical.data, relocation.offset + index * 8
+            )
+            symbol_index, kind = info >> 8, info & 0xFF
+            if (kind != 4 or offset % 4 or offset + 4 > size
+                    or symbol_index >= len(historical.symbols)):
+                fail(f"historical call-object relocation drift: {source_relative}")
+            callee = historical.symbols[symbol_index]
+            if not callee.name or callee.section_index != 0:
+                fail(f"historical call-object callee drift: {source_relative}")
+            if struct.unpack_from("<I", candidate, offset)[0] != 0x0C000000:
+                fail(f"historical call-object instruction drift: {source_relative}")
+            target_word = struct.unpack_from("<I", target, offset)[0]
+            if target_word & 0xFC000000 != 0x0C000000:
+                fail(f"historical call-object target call drift: {source_relative}")
+            destination = (target_word & 0x03FFFFFF) << 2
+            if callee.name in aliases and aliases[callee.name] != destination:
+                fail(f"historical call-object target ambiguity: {source_relative}")
+            aliases[callee.name] = destination
+            masked[offset:offset + 4] = expected[offset:offset + 4]
+        if masked != expected:
+            fail(f"historical call-object differs outside relocations: {source_relative}")
+        output = args.build_dir / f"stage3p-{key}-direct.o"
+        command = [
+            objcopy, "--rename-section", f".text={section_prefix}.{address:08x}",
+            "--redefine-sym", f"{symbol}=stage3p_{key.replace('-', '_')}_direct",
+        ]
+        for callee, destination in sorted(aliases.items()):
+            alias = f"stage3p_{key.replace('-', '_')}_target_{callee}"
+            command.extend(("--redefine-sym", f"{callee}={alias}"))
+            relocation_targets[alias] = destination
+        run([*command, source, output])
+        direct_objects.append(output)
+        direct_sections.append((section_prefix, address, size, None))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -1212,7 +1287,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS),
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS),
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
@@ -1231,7 +1306,8 @@ def probe(args: argparse.Namespace) -> dict:
     linker_script = args.build_dir / "code-windows.ld"
     linker_script.write_text(
         update_linker_script(
-            base_script.read_text(encoding="utf-8"), source_paths, direct_sections
+            base_script.read_text(encoding="utf-8"), source_paths, direct_sections,
+            relocation_targets,
         ),
         encoding="utf-8",
     )
