@@ -36,7 +36,7 @@ def _load_json(path: Path) -> dict[str, Any]:
     return value
 
 
-def _transport_contract(implementation: str, direct_object_bytes: int, incbin_payload_bytes: int) -> dict[str, Any]:
+def _transport_contract(implementation: str, direct_object_bytes: int, incbin_payload_bytes: int, direct_candidate_objects: int) -> dict[str, Any]:
     markers = (
         "def render_payload_source(",
         '.incbin "{path}"',
@@ -58,7 +58,7 @@ def _transport_contract(implementation: str, direct_object_bytes: int, incbin_pa
     return {
         "final_code_input": "build/code-windows/code-windows.o",
         "generated_binary_include": incbin_payload_bytes > 0,
-        "selected_candidate_objects_linked_directly": False,
+        "selected_candidate_objects_linked_directly": direct_candidate_objects > 0,
         "direct_object_inputs_present": direct_object_bytes > 0,
         "transport": transport,
     }
@@ -111,6 +111,7 @@ def derive(
 
     direct_bytes = int(result.get("direct_object_bytes", 0))
     direct_objects = int(result.get("direct_object_inputs", 0))
+    direct_candidate_objects = int(result.get("direct_candidate_object_inputs", 0))
     direct_sections = int(result.get("direct_object_sections", 0))
     incbin_bytes = int(result.get("incbin_payload_bytes", 0))
     incbin_sections = int(result.get("incbin_payload_sections", 0))
@@ -121,11 +122,14 @@ def derive(
             "direct/incbin coverage drift: "
             f"{direct_bytes} + {incbin_bytes} != {source_bytes}"
         )
-    transport = _transport_contract(implementation, direct_bytes, incbin_bytes)
+    if not 0 <= direct_candidate_objects <= direct_objects:
+        raise ObjectLinkageError("invalid direct candidate-object count")
+    transport = _transport_contract(implementation, direct_bytes, incbin_bytes, direct_candidate_objects)
     return {
         "candidate_elf_object_bytes": byte_sum(object_rows),
         "candidate_elf_object_slices": len(object_rows),
         "candidate_elf_objects": len({row["object"] for row in object_rows}),
+        "direct_candidate_object_inputs": direct_candidate_objects,
         "direct_object_bytes": direct_bytes,
         "direct_object_inputs": direct_objects,
         "direct_object_sections": direct_sections,
@@ -159,7 +163,7 @@ def frozen_document(
 ) -> dict[str, Any]:
     return {
         "claims": {
-            "candidate_objects_are_evidence_not_final_link_inputs": True,
+            "candidate_object_inventory_includes_direct_link_inputs": True,
             "exact_whole_image_is_proved": True,
             "object_native_linkage_complete": False,
             "private_target_payload_committed": False,
