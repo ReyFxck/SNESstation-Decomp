@@ -482,6 +482,14 @@ DIRECT_CPUEXEC_OBJECT = (
     ".data.stage3p.direct.cpuexec", 0x00336784, 0x74,
 )
 
+DIRECT_GFX_OBJECT = (
+    "build/matching/hunt1041-v52-closure/objects/gfx-short.o",
+    ".text.stage3p.direct.gfx", 0x00142A78, 0xDC14,
+    ".text.stage3p.direct.gfx_selector", 0x001AC838, 0x15C,
+    ".data.stage3p.direct.gfx", 0x00344D30, 0x330,
+    ".rodata.stage3p.direct.gfx", 0x001B46B8, 0x1CE0,
+)
+
 
 def selected_symbol_spans(
     selected: list[dict], object_name: str
@@ -1168,7 +1176,16 @@ def update_linker_script(
     new_cpuexec = "  .data.stage3p.direct.cpuexec 0x00336784 : { KEEP(*(.data.stage3p.direct.cpuexec)) }\n  /DISCARD/ : { *(.data.stage3n.source.cpuexec_cfi) }"
     if updated.count(old_cpuexec) != 1:
         fail("historical CPUEXEC data-provider rule drift")
-    return updated.replace(old_cpuexec, new_cpuexec)
+    updated = updated.replace(old_cpuexec, new_cpuexec)
+    old_gfx_data = "  .data.stage3ce.va_00344d30 0x00344d30 : { KEEP(*(.data.stage3ce.va_00344d30)) }"
+    new_gfx_data = "  PTR_s_________________00344d30 = 0x00344d30;\n  DAT_00344e08 = 0x00344e08;\n  DAT_00344e0c = 0x00344e0c;\n  .data.stage3p.direct.gfx 0x00344d30 : { KEEP(*(.data.stage3p.direct.gfx)) }\n  /DISCARD/ : { *(.data.stage3ce.va_00344d30) *(.data.stage3f.va_00344e08) *(.data.stage3l.gfx_unwind) }"
+    old_gfx_rodata = "  .data.stage3o.source.gfx 0x001b46b8 : { KEEP(*(.data.stage3o.source.gfx)) }"
+    new_gfx_rodata = "  .rodata.stage3p.direct.gfx 0x001b46b8 : { KEEP(*(.rodata.stage3p.direct.gfx)) }\n  /DISCARD/ : { *(.data.stage3o.source.gfx) }"
+    if updated.count(old_gfx_data) != 1 or updated.count(old_gfx_rodata) != 1:
+        fail("historical GFX provider rule drift")
+    return updated.replace(old_gfx_data, new_gfx_data).replace(
+        old_gfx_rodata, new_gfx_rodata
+    )
 
 
 def probe(args: argparse.Namespace) -> dict:
@@ -2190,6 +2207,157 @@ def probe(args: argparse.Namespace) -> dict:
         run([*command, ROOT / relative, output])
         direct_objects.append(output)
         direct_sections.append((prefix, address, size, None))
+    (gfx_source, gfx_section, gfx_address, gfx_size,
+     gfx_selector_section, gfx_selector_address, gfx_selector_size,
+     gfx_data_section, gfx_data_address, gfx_data_size,
+     gfx_rodata_section, gfx_rodata_address, gfx_rodata_size) = DIRECT_GFX_OBJECT
+    gfx = ELFFile(ROOT / gfx_source)
+    gfx_sections = {entry.name: entry for entry in gfx.sections}
+    gfx_selector_name = ".gnu.linkonce.t._Z18SelectTileRendererh"
+    gfx_reloc_counts = {
+        ".text": 2000, gfx_selector_name: 66,
+        ".data": 65, ".rodata": 6,
+    }
+    if (gfx_sections[".text"].size != gfx_size
+            or gfx_sections[gfx_selector_name].size != gfx_selector_size
+            or gfx_sections[".data"].size != gfx_data_size
+            or gfx_sections[".rodata"].size != gfx_rodata_size
+            or any(gfx_sections[".rel" + name].size != count * 8
+                   for name, count in gfx_reloc_counts.items())):
+        fail("historical GFX object layout drift")
+    gfx_external: dict[str, int] = {}
+    gfx_pending: dict[int, list[int]] = {}
+    gfx_unpaired_low: set[str] = set()
+
+    def record_gfx_target(name: str, value: int) -> None:
+        value &= 0xFFFFFFFF
+        previous = gfx_external.get(name)
+        if previous is not None and previous != value:
+            fail(f"historical GFX relocation target ambiguity: {name}")
+        gfx_external[name] = value
+
+    for source_name, address, size in (
+        (".text", gfx_address, gfx_size),
+        (gfx_selector_name, gfx_selector_address, gfx_selector_size),
+    ):
+        section = gfx_sections[source_name]
+        raw = gfx.data[section.offset:section.offset + size]
+        expected = reference[address - TARGET_BASE:address - TARGET_BASE + size]
+        masked = bytearray(raw)
+        rel = gfx_sections[".rel" + source_name]
+        for index in range(gfx_reloc_counts[source_name]):
+            offset, info = struct.unpack_from("<II", gfx.data, rel.offset + index * 8)
+            symbol_index, kind = info >> 8, info & 0xFF
+            if (offset + 4 > size or kind not in (4, 5, 6)
+                    or symbol_index >= len(gfx.symbols)):
+                fail("historical GFX code-relocation drift")
+            symbol = gfx.symbols[symbol_index]
+            if symbol.section_index == 0:
+                if not symbol.name:
+                    fail("historical GFX unnamed external relocation")
+                raw_word = struct.unpack_from("<I", raw, offset)[0]
+                target_word = struct.unpack_from("<I", expected, offset)[0]
+                if kind == 4:
+                    if raw_word & 0xFC000000 != target_word & 0xFC000000:
+                        fail("historical GFX call opcode drift")
+                    record_gfx_target(
+                        symbol.name,
+                        ((target_word & 0x03FFFFFF)
+                         - (raw_word & 0x03FFFFFF)) << 2,
+                    )
+                elif kind == 5:
+                    gfx_pending.setdefault(symbol_index, []).append(offset + (0 if source_name == ".text" else gfx_size))
+                else:
+                    highs = gfx_pending.pop(symbol_index, [])
+                    if not highs:
+                        gfx_unpaired_low.add(symbol.name)
+                    for encoded in highs:
+                        high_raw = (
+                            gfx.data[gfx_sections[".text"].offset:gfx_sections[".text"].offset + gfx_size]
+                            if encoded < gfx_size else
+                            gfx.data[gfx_sections[gfx_selector_name].offset:gfx_sections[gfx_selector_name].offset + gfx_selector_size]
+                        )
+                        high_expected = (
+                            reference[gfx_address - TARGET_BASE:gfx_address - TARGET_BASE + gfx_size]
+                            if encoded < gfx_size else
+                            reference[gfx_selector_address - TARGET_BASE:gfx_selector_address - TARGET_BASE + gfx_selector_size]
+                        )
+                        high_offset = encoded if encoded < gfx_size else encoded - gfx_size
+                        raw_high = struct.unpack_from("<I", high_raw, high_offset)[0] & 0xFFFF
+                        target_high = struct.unpack_from("<I", high_expected, high_offset)[0] & 0xFFFF
+                        record_gfx_target(
+                            symbol.name,
+                            (target_high << 16) + signed_short(target_word)
+                            - (raw_high << 16) - signed_short(raw_word),
+                        )
+            elif symbol.section_index not in (
+                gfx_sections[".text"].index, gfx_sections[".data"].index,
+                gfx_sections[".rodata"].index,
+                gfx_sections[gfx_selector_name].index,
+            ):
+                fail("historical GFX unsupported internal relocation")
+            masked[offset:offset + 4] = expected[offset:offset + 4]
+        if masked != expected:
+            fail("historical GFX code differs outside relocations")
+    if gfx_pending or not gfx_unpaired_low.issubset(gfx_external):
+        fail("historical GFX unpaired external relocation")
+    for source_name, address, size in (
+        (".data", gfx_data_address, gfx_data_size),
+        (".rodata", gfx_rodata_address, gfx_rodata_size),
+    ):
+        section = gfx_sections[source_name]
+        raw = gfx.data[section.offset:section.offset + size]
+        expected = reference[address - TARGET_BASE:address - TARGET_BASE + size]
+        masked = bytearray(raw)
+        rel = gfx_sections[".rel" + source_name]
+        for index in range(gfx_reloc_counts[source_name]):
+            offset, info = struct.unpack_from("<II", gfx.data, rel.offset + index * 8)
+            symbol_index, kind = info >> 8, info & 0xFF
+            if (offset + 4 > size or kind != 2
+                    or symbol_index >= len(gfx.symbols)):
+                fail("historical GFX data-relocation drift")
+            symbol = gfx.symbols[symbol_index]
+            word = struct.unpack_from("<I", expected, offset)[0]
+            addend = struct.unpack_from("<I", raw, offset)[0]
+            if symbol.section_index == gfx_sections[".text"].index:
+                if word != gfx_address + addend:
+                    fail("historical GFX data code pointer drift")
+            elif symbol.section_index == gfx_sections[".rodata"].index:
+                if word != gfx_rodata_address + addend:
+                    fail("historical GFX data read-only pointer drift")
+            elif symbol.section_index == 0 and symbol.name == "__gxx_personality_v0":
+                record_gfx_target(symbol.name, word - addend)
+            else:
+                fail("historical GFX unsupported data relocation")
+            masked[offset:offset + 4] = expected[offset:offset + 4]
+        if masked != expected:
+            fail("historical GFX data differs outside relocations")
+    gfx_output = args.build_dir / "stage3p-gfx-direct.o"
+    gfx_command = [
+        objcopy, "--rename-section", f".text={gfx_section}.{gfx_address:08x}",
+        "--rename-section", f"{gfx_selector_name}={gfx_selector_section}.{gfx_selector_address:08x}",
+        "--rename-section", f".data={gfx_data_section}",
+        "--rename-section", f".rodata={gfx_rodata_section}",
+    ]
+    for symbol, destination in sorted(gfx_external.items()):
+        alias = f"stage3p_gfx_target_{symbol}"
+        gfx_command.extend(("--redefine-sym", f"{symbol}={alias}"))
+        relocation_targets[alias] = destination
+    for index, entry in enumerate(gfx.symbols):
+        if (entry.name and entry.info >> 4 == 1
+                and entry.section_index in (
+                    gfx_sections[".text"].index,
+                    gfx_sections[gfx_selector_name].index,
+                    gfx_sections[".data"].index,
+                    gfx_sections[".rodata"].index,
+                )):
+            gfx_command.extend(("--redefine-sym", f"{entry.name}=stage3p_gfx_direct_{index}"))
+    run([*gfx_command, ROOT / gfx_source, gfx_output])
+    direct_objects.append(gfx_output)
+    direct_sections.extend((
+        (gfx_section, gfx_address, gfx_size, None),
+        (gfx_selector_section, gfx_selector_address, gfx_selector_size, None),
+    ))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -2202,7 +2370,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 7,
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 8,
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
