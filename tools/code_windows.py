@@ -442,6 +442,12 @@ DIRECT_FXINST_OBJECT = (
     ".rodata.stage3p.direct.fxinst", 0x001B4678, 0x0040,
 )
 
+DIRECT_SA1CPU_OBJECT = (
+    "build/matching/hunt1000plus-v46-closure/snes/SA1CPU.o",
+    ".text.stage3p.direct.sa1cpu", 0x0015F1C8, 0x107E8,
+    ".data.stage3p.direct.sa1cpu", 0x003F5040, 0x5570,
+)
+
 
 def selected_symbol_spans(
     selected: list[dict], object_name: str
@@ -1102,9 +1108,14 @@ def update_linker_script(
     new_fxinst_rodata = "  .rodata.stage3p.direct.fxinst 0x001b4678 : { KEEP(*(.rodata.stage3p.direct.fxinst)) }\n  /DISCARD/ : { *(.data.stage3o.source.fxinst) }"
     if updated.count(old_fxinst_data) != 1 or updated.count(old_fxinst_rodata) != 1:
         fail("historical FXINST data-provider rule drift")
-    return updated.replace(old_fxinst_data, new_fxinst_data).replace(
+    updated = updated.replace(old_fxinst_data, new_fxinst_data).replace(
         old_fxinst_rodata, new_fxinst_rodata
     )
+    old_sa1cpu = "  .data.stage3i.source.sa1cpu 0x003f5040 : { KEEP(*(.data.stage3i.source.sa1cpu)) }"
+    new_sa1cpu = "  .data.stage3p.direct.sa1cpu 0x003f5040 : { KEEP(*(.data.stage3p.direct.sa1cpu)) }\n  /DISCARD/ : { *(.data.stage3i.source.sa1cpu) }"
+    if updated.count(old_sa1cpu) != 1:
+        fail("historical SA1CPU data-provider rule drift")
+    return updated.replace(old_sa1cpu, new_sa1cpu)
 
 
 def probe(args: argparse.Namespace) -> dict:
@@ -1563,6 +1574,112 @@ def probe(args: argparse.Namespace) -> dict:
     run([*fi_command, ROOT / fxinst_source, fi_output])
     direct_objects.append(fi_output)
     direct_sections.append((fxinst_section, fxinst_address, fxinst_size, None))
+    (sa_source, sa_section, sa_address, sa_size,
+     sa_data_section, sa_data_address, sa_data_size) = DIRECT_SA1CPU_OBJECT
+    sa = ELFFile(ROOT / sa_source)
+    sa_sections = {entry.name: entry for entry in sa.sections}
+    if (sa_sections[".text"].size != sa_size
+            or sa_sections[".data"].size != sa_data_size
+            or sa_sections[".rel.text"].size != 5131 * 8
+            or sa_sections[".rel.data"].size != 1411 * 8):
+        fail("historical SA1CPU object layout drift")
+    sa_code = sa.data[sa_sections[".text"].offset:sa_sections[".text"].offset + sa_size]
+    sa_data = sa.data[sa_sections[".data"].offset:sa_sections[".data"].offset + sa_data_size]
+    sa_target = reference[sa_address - TARGET_BASE:sa_address - TARGET_BASE + sa_size]
+    sa_data_target = reference[sa_data_address - TARGET_BASE:sa_data_address - TARGET_BASE + sa_data_size]
+    sa_code_masked, sa_data_masked = bytearray(sa_code), bytearray(sa_data)
+    sa_external: dict[str, int] = {}
+    pending_high: dict[int, list[int]] = {}
+    unresolved_low: set[str] = set()
+
+    def signed_short(value: int) -> int:
+        value &= 0xFFFF
+        return value if value < 0x8000 else value - 0x10000
+
+    def record_sa_target(name: str, value: int) -> None:
+        value &= 0xFFFFFFFF
+        prior = sa_external.get(name)
+        if prior is not None and prior != value:
+            fail(f"historical SA1CPU relocation target ambiguity: {name}")
+        sa_external[name] = value
+
+    for index in range(5131):
+        offset, info = struct.unpack_from(
+            "<II", sa.data, sa_sections[".rel.text"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if (offset + 4 > sa_size or kind not in (4, 5, 6)
+                or symbol_index >= len(sa.symbols)):
+            fail("historical SA1CPU code-relocation drift")
+        symbol = sa.symbols[symbol_index]
+        if symbol.section_index == 0:
+            if not symbol.name:
+                fail("historical SA1CPU unnamed external relocation")
+            raw_word = struct.unpack_from("<I", sa_code, offset)[0]
+            target_word = struct.unpack_from("<I", sa_target, offset)[0]
+            if kind == 4:
+                if raw_word & 0xFC000000 != target_word & 0xFC000000:
+                    fail("historical SA1CPU call opcode drift")
+                record_sa_target(
+                    symbol.name,
+                    ((target_word & 0x03FFFFFF) - (raw_word & 0x03FFFFFF)) << 2,
+                )
+            elif kind == 5:
+                pending_high.setdefault(symbol_index, []).append(offset)
+            else:
+                highs = pending_high.pop(symbol_index, [])
+                if not highs:
+                    unresolved_low.add(symbol.name)
+                for high_offset in highs:
+                    raw_high = struct.unpack_from("<I", sa_code, high_offset)[0] & 0xFFFF
+                    target_high = struct.unpack_from("<I", sa_target, high_offset)[0] & 0xFFFF
+                    record_sa_target(
+                        symbol.name,
+                        ((target_high << 16) + signed_short(target_word)
+                         - (raw_high << 16) - signed_short(raw_word)),
+                    )
+        elif symbol.section_index not in (sa_sections[".text"].index,
+                                         sa_sections[".data"].index):
+            fail("historical SA1CPU internal relocation drift")
+        sa_code_masked[offset:offset + 4] = sa_target[offset:offset + 4]
+    if (pending_high or not unresolved_low.issubset(sa_external)
+            or sa_code_masked != sa_target):
+        fail("historical SA1CPU code differs outside relocations")
+    for index in range(1411):
+        offset, info = struct.unpack_from(
+            "<II", sa.data, sa_sections[".rel.data"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if (offset + 4 > sa_data_size or kind != 2
+                or symbol_index >= len(sa.symbols)):
+            fail("historical SA1CPU data-relocation drift")
+        symbol = sa.symbols[symbol_index]
+        actual = struct.unpack_from("<I", sa_data_target, offset)[0]
+        if symbol.section_index == 0 and symbol.name == "__gxx_personality_v0":
+            record_sa_target(symbol.name, actual - struct.unpack_from("<I", sa_data, offset)[0])
+        elif (symbol.section_index != sa_sections[".text"].index
+              or actual != sa_address + struct.unpack_from("<I", sa_data, offset)[0]):
+            fail("historical SA1CPU CFI relocation drift")
+        sa_data_masked[offset:offset + 4] = sa_data_target[offset:offset + 4]
+    if sa_data_masked != sa_data_target:
+        fail("historical SA1CPU data differs outside relocations")
+    sa_output = args.build_dir / "stage3p-sa1cpu-direct.o"
+    sa_command = [
+        objcopy, "--rename-section", f".text={sa_section}.{sa_address:08x}",
+        "--rename-section", f".data={sa_data_section}",
+    ]
+    for symbol, destination in sorted(sa_external.items()):
+        alias = f"stage3p_sa1cpu_target_{symbol}"
+        sa_command.extend(("--redefine-sym", f"{symbol}={alias}"))
+        relocation_targets[alias] = destination
+    for index, entry in enumerate(sa.symbols):
+        if (entry.name and entry.info >> 4 == 1
+                and entry.section_index in (sa_sections[".text"].index,
+                                            sa_sections[".data"].index)):
+            sa_command.extend(("--redefine-sym", f"{entry.name}=stage3p_sa1cpu_direct_{index}"))
+    run([*sa_command, ROOT / sa_source, sa_output])
+    direct_objects.append(sa_output)
+    direct_sections.append((sa_section, sa_address, sa_size, None))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -1575,7 +1692,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + 3,
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + 4,
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
