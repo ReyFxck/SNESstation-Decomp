@@ -15,6 +15,7 @@ import csv
 import hashlib
 import json
 import re
+import struct
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -388,6 +389,21 @@ DIRECT_WHOLE_OBJECTS = (
         0x001AB440,
         0x00A8,
         "_SyncDCache",
+    ),
+)
+
+
+# Newlib qsort is a complete historical object with one self-call relocation.
+# The linker resolves that relocation from the object's own renamed symbol.
+DIRECT_SELF_RELOC_OBJECTS = (
+    (
+        "qsort",
+        "build/matching/hunt1000plus-v47-closure/newlib/qsort.o",
+        ".text.stage3p.direct.qsort",
+        0x001080CC,
+        0x0968,
+        "qsort",
+        0x04A0,
     ),
 )
 
@@ -1145,6 +1161,45 @@ def probe(args: argparse.Namespace) -> dict:
         ])
         direct_objects.append(output)
         direct_sections.append((section_prefix, address, size, None))
+    for key, source_relative, section_prefix, address, size, symbol, reloc_offset in DIRECT_SELF_RELOC_OBJECTS:
+        source = ROOT / source_relative
+        historical = ELFFile(source)
+        sections = [section for section in historical.sections if section.name == ".text"]
+        if len(sections) != 1 or sections[0].size != size:
+            fail(f"historical self-reloc section drift: {source_relative}")
+        section = sections[0]
+        symbols = [
+            index for index, entry in enumerate(historical.symbols)
+            if entry.name == symbol and entry.section_index == section.index
+            and entry.value == 0 and entry.size == size
+        ]
+        relocations = [
+            entry for entry in historical.sections
+            if entry.name in (".rel.text", ".rela.text")
+        ]
+        if len(symbols) != 1 or len(relocations) != 1 or relocations[0].size != 8:
+            fail(f"historical self-reloc structure drift: {source_relative}")
+        relocation = relocations[0]
+        offset, info = struct.unpack_from("<II", historical.data, relocation.offset)
+        if offset != reloc_offset or info != (symbols[0] << 8) | 4:
+            fail(f"historical self-call relocation drift: {source_relative}")
+        candidate = historical.data[section.offset:section.offset + size]
+        target = reference[address - TARGET_BASE:address - TARGET_BASE + size]
+        if (candidate[:offset] != target[:offset]
+                or candidate[offset + 4:] != target[offset + 4:]
+                or struct.unpack_from("<I", candidate, offset)[0] != 0x0C000000
+                or struct.unpack_from("<I", target, offset)[0] !=
+                (0x0C000000 | ((address >> 2) & 0x03FFFFFF))):
+            fail(f"historical self-reloc object differs from target: {source_relative}")
+        output = args.build_dir / f"stage3p-{key}-direct.o"
+        run([
+            objcopy,
+            "--rename-section", f".text={section_prefix}.{address:08x}",
+            "--redefine-sym", f"{symbol}=stage3p_{key}_direct",
+            source, output,
+        ])
+        direct_objects.append(output)
+        direct_sections.append((section_prefix, address, size, None))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -1157,7 +1212,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS),
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS),
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
