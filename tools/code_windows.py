@@ -448,6 +448,14 @@ DIRECT_SA1CPU_OBJECT = (
     ".data.stage3p.direct.sa1cpu", 0x003F5040, 0x5570,
 )
 
+DIRECT_PPU_OBJECT = (
+    "build/matching/hunt1041-v52-closure/objects/ppu-short.o",
+    ".text.stage3p.direct.ppu", 0x00159058, 0x4894,
+    ".data.stage3p.direct.ppu", 0x003F4BF0, 0x0288,
+    ".rodata.stage3p.direct.ppu", 0x001B7318, 0x0AC0,
+    ".bss.stage3p.direct.ppu", 0x0042E888, 2,
+)
+
 
 def selected_symbol_spans(
     selected: list[dict], object_name: str
@@ -1115,7 +1123,16 @@ def update_linker_script(
     new_sa1cpu = "  .data.stage3p.direct.sa1cpu 0x003f5040 : { KEEP(*(.data.stage3p.direct.sa1cpu)) }\n  /DISCARD/ : { *(.data.stage3i.source.sa1cpu) }"
     if updated.count(old_sa1cpu) != 1:
         fail("historical SA1CPU data-provider rule drift")
-    return updated.replace(old_sa1cpu, new_sa1cpu)
+    updated = updated.replace(old_sa1cpu, new_sa1cpu)
+    old_ppu_data = "  .data.stage3i.source.ppu 0x003f4bf0 : { KEEP(*(.data.stage3i.source.ppu)) }"
+    new_ppu_data = "  .data.stage3p.direct.ppu 0x003f4bf0 : { KEEP(*(.data.stage3p.direct.ppu)) }\n  /DISCARD/ : { *(.data.stage3i.source.ppu) }"
+    old_ppu_rodata = "  .data.stage3o.source.ppu 0x001b7318 : { KEEP(*(.data.stage3o.source.ppu)) }"
+    new_ppu_rodata = "  .rodata.stage3p.direct.ppu 0x001b7318 : { KEEP(*(.rodata.stage3p.direct.ppu)) }\n  .bss.stage3p.direct.ppu 0x0042e888 (NOLOAD) : { *(.bss.stage3p.direct.ppu) }\n  /DISCARD/ : { *(.data.stage3o.source.ppu) }"
+    if updated.count(old_ppu_data) != 1 or updated.count(old_ppu_rodata) != 1:
+        fail("historical PPU data-provider rule drift")
+    return updated.replace(old_ppu_data, new_ppu_data).replace(
+        old_ppu_rodata, new_ppu_rodata
+    )
 
 
 def probe(args: argparse.Namespace) -> dict:
@@ -1680,6 +1697,134 @@ def probe(args: argparse.Namespace) -> dict:
     run([*sa_command, ROOT / sa_source, sa_output])
     direct_objects.append(sa_output)
     direct_sections.append((sa_section, sa_address, sa_size, None))
+    (ppu_source, ppu_section, ppu_address, ppu_size,
+     ppu_data_section, ppu_data_address, ppu_data_size,
+     ppu_rodata_section, ppu_rodata_address, ppu_rodata_size,
+     ppu_bss_section, ppu_bss_address, ppu_bss_size) = DIRECT_PPU_OBJECT
+    ppu = ELFFile(ROOT / ppu_source)
+    ppu_sections = {entry.name: entry for entry in ppu.sections}
+    if (ppu_sections[".text"].size != ppu_size
+            or ppu_sections[".data"].size != ppu_data_size
+            or ppu_sections[".rodata"].size != ppu_rodata_size
+            or ppu_sections[".bss"].size != ppu_bss_size
+            or ppu_sections[".rel.text"].size != 1061 * 8
+            or ppu_sections[".rel.data"].size != 14 * 8
+            or ppu_sections[".rel.rodata"].size != 688 * 8):
+        fail("historical PPU object layout drift")
+    ppu_code = ppu.data[ppu_sections[".text"].offset:ppu_sections[".text"].offset + ppu_size]
+    ppu_target = reference[ppu_address - TARGET_BASE:ppu_address - TARGET_BASE + ppu_size]
+    ppu_code_masked = bytearray(ppu_code)
+    ppu_external: dict[str, int] = {}
+    ppu_pending_high: dict[int, list[int]] = {}
+    ppu_unresolved_low: set[str] = set()
+    ppu_bss_targets: set[int] = set()
+
+    def record_ppu_target(name: str, value: int) -> None:
+        value &= 0xFFFFFFFF
+        prior = ppu_external.get(name)
+        if prior is not None and prior != value:
+            fail(f"historical PPU relocation target ambiguity: {name}")
+        ppu_external[name] = value
+
+    for index in range(1061):
+        offset, info = struct.unpack_from(
+            "<II", ppu.data, ppu_sections[".rel.text"].offset + index * 8
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if (offset + 4 > ppu_size or kind not in (4, 5, 6)
+                or symbol_index >= len(ppu.symbols)):
+            fail("historical PPU code-relocation drift")
+        symbol = ppu.symbols[symbol_index]
+        external = symbol.section_index == 0
+        local_bss = symbol.section_index == ppu_sections[".bss"].index
+        if external or local_bss:
+            name = symbol.name if external else "<ppu-bss>"
+            if not name:
+                fail("historical PPU unnamed external relocation")
+            raw_word = struct.unpack_from("<I", ppu_code, offset)[0]
+            target_word = struct.unpack_from("<I", ppu_target, offset)[0]
+            if kind == 4:
+                if raw_word & 0xFC000000 != target_word & 0xFC000000:
+                    fail("historical PPU call opcode drift")
+                value = ((target_word & 0x03FFFFFF)
+                         - (raw_word & 0x03FFFFFF)) << 2
+                record_ppu_target(name, value)
+            elif kind == 5:
+                ppu_pending_high.setdefault(symbol_index, []).append(offset)
+            else:
+                highs = ppu_pending_high.pop(symbol_index, [])
+                if not highs:
+                    ppu_unresolved_low.add(name)
+                for high_offset in highs:
+                    raw_high = struct.unpack_from("<I", ppu_code, high_offset)[0] & 0xFFFF
+                    target_high = struct.unpack_from("<I", ppu_target, high_offset)[0] & 0xFFFF
+                    record_ppu_target(
+                        name,
+                        (target_high << 16) + signed_short(target_word)
+                        - (raw_high << 16) - signed_short(raw_word),
+                    )
+            if local_bss and name in ppu_external:
+                ppu_bss_targets.add(ppu_external[name])
+        elif symbol.section_index not in (
+            ppu_sections[".text"].index, ppu_sections[".data"].index,
+            ppu_sections[".rodata"].index
+        ):
+            fail("historical PPU internal relocation drift")
+        ppu_code_masked[offset:offset + 4] = ppu_target[offset:offset + 4]
+    ppu_external.pop("<ppu-bss>", None)
+    if (ppu_pending_high or not ppu_unresolved_low.issubset(
+            set(ppu_external) | {"<ppu-bss>"})
+            or ppu_bss_targets != {ppu_bss_address}
+            or ppu_code_masked != ppu_target):
+        fail("historical PPU code differs outside relocations")
+    for source_name, address, length, reloc_count in (
+        (".data", ppu_data_address, ppu_data_size, 14),
+        (".rodata", ppu_rodata_address, ppu_rodata_size, 688),
+    ):
+        source_section = ppu_sections[source_name]
+        content = ppu.data[source_section.offset:source_section.offset + length]
+        expected = reference[address - TARGET_BASE:address - TARGET_BASE + length]
+        masked = bytearray(content)
+        reloc_section = ppu_sections[".rel" + source_name]
+        for index in range(reloc_count):
+            offset, info = struct.unpack_from(
+                "<II", ppu.data, reloc_section.offset + index * 8
+            )
+            symbol_index, kind = info >> 8, info & 0xFF
+            if (offset + 4 > length or kind != 2
+                    or symbol_index >= len(ppu.symbols)):
+                fail("historical PPU data-relocation drift")
+            symbol = ppu.symbols[symbol_index]
+            actual = struct.unpack_from("<I", expected, offset)[0]
+            if symbol.section_index == 0 and symbol.name == "__gxx_personality_v0":
+                record_ppu_target(symbol.name, actual - struct.unpack_from("<I", content, offset)[0])
+            elif (symbol.section_index != ppu_sections[".text"].index
+                  or actual != ppu_address + struct.unpack_from("<I", content, offset)[0]):
+                fail("historical PPU local data relocation drift")
+            masked[offset:offset + 4] = expected[offset:offset + 4]
+        if masked != expected:
+            fail("historical PPU data differs outside relocations")
+    ppu_output = args.build_dir / "stage3p-ppu-direct.o"
+    ppu_command = [
+        objcopy, "--rename-section", f".text={ppu_section}.{ppu_address:08x}",
+        "--rename-section", f".data={ppu_data_section}",
+        "--rename-section", f".rodata={ppu_rodata_section}",
+        "--rename-section", f".bss={ppu_bss_section}",
+    ]
+    for symbol, destination in sorted(ppu_external.items()):
+        alias = f"stage3p_ppu_target_{symbol}"
+        ppu_command.extend(("--redefine-sym", f"{symbol}={alias}"))
+        relocation_targets[alias] = destination
+    for index, entry in enumerate(ppu.symbols):
+        if (entry.name and entry.info >> 4 == 1
+                and entry.section_index in (
+                    ppu_sections[".text"].index, ppu_sections[".data"].index,
+                    ppu_sections[".rodata"].index, ppu_sections[".bss"].index
+                )):
+            ppu_command.extend(("--redefine-sym", f"{entry.name}=stage3p_ppu_direct_{index}"))
+    run([*ppu_command, ROOT / ppu_source, ppu_output])
+    direct_objects.append(ppu_output)
+    direct_sections.append((ppu_section, ppu_address, ppu_size, None))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -1692,7 +1837,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + 4,
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + 5,
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
