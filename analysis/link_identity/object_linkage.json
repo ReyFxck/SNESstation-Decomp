@@ -14,15 +14,15 @@
     "candidate_elf_object_bytes": 611088,
     "candidate_elf_object_slices": 432,
     "candidate_elf_objects": 97,
-    "direct_object_bytes": 125540,
-    "direct_object_inputs": 7,
+    "direct_object_bytes": 126260,
+    "direct_object_inputs": 11,
     "exact_code_bytes": 720620,
     "historical_recovered_object_bytes": 525460,
     "listing_bytes": 73192,
     "listing_sources": 44,
     "object_native_complete": false,
     "prior_exact_assembly_bytes": 85628,
-    "remaining_object_native_bytes": 595080,
+    "remaining_object_native_bytes": 594360,
     "residual_assembly_bytes": 36340,
     "residual_assembly_slices": 92,
     "selected_source_slices": 568,
@@ -33,10 +33,10 @@
       "direct_object_inputs_present": true,
       "transport": "mixed-direct-objects-and-generated-incbin-payload"
     },
-    "direct_object_sections": 138,
-    "incbin_payload_bytes": 595080,
-    "incbin_payload_sections": 110,
-    "direct_candidate_object_inputs": 2
+    "direct_object_sections": 142,
+    "incbin_payload_bytes": 594360,
+    "incbin_payload_sections": 113,
+    "direct_candidate_object_inputs": 6
   },
   "schema_version": 1
 }
