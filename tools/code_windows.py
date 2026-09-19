@@ -490,6 +490,13 @@ DIRECT_GFX_OBJECT = (
     ".rodata.stage3p.direct.gfx", 0x001B46B8, 0x1CE0,
 )
 
+DIRECT_CPUOPS_OBJECT = (
+    "build/matching/hunt1000plus-v46-closure/snes/CPUOPS.o",
+    ".text.stage3p.direct.cpuops", 0x00116740, 0x133B4,
+    ".text.stage3p.direct.cpuops_shutdown", 0x001AC604, 0x130,
+    ".data.stage3p.direct.cpuops", 0x003367F8, 0x518C,
+)
+
 
 def selected_symbol_spans(
     selected: list[dict], object_name: str
@@ -1183,9 +1190,14 @@ def update_linker_script(
     new_gfx_rodata = "  .rodata.stage3p.direct.gfx 0x001b46b8 : { KEEP(*(.rodata.stage3p.direct.gfx)) }\n  /DISCARD/ : { *(.data.stage3o.source.gfx) }"
     if updated.count(old_gfx_data) != 1 or updated.count(old_gfx_rodata) != 1:
         fail("historical GFX provider rule drift")
-    return updated.replace(old_gfx_data, new_gfx_data).replace(
+    updated = updated.replace(old_gfx_data, new_gfx_data).replace(
         old_gfx_rodata, new_gfx_rodata
     )
+    old_cpuops = "  .data.stage3n.source.cpuops_tables_and_cfi 0x003367f8 : { KEEP(*(.data.stage3n.source.cpuops_tables_and_cfi)) }"
+    new_cpuops = "  .data.stage3p.direct.cpuops 0x003367f8 : { KEEP(*(.data.stage3p.direct.cpuops)) }\n  /DISCARD/ : { *(.data.stage3n.source.cpuops_tables_and_cfi) }"
+    if updated.count(old_cpuops) != 1:
+        fail("historical CPUOPS data-provider rule drift")
+    return updated.replace(old_cpuops, new_cpuops)
 
 
 def probe(args: argparse.Namespace) -> dict:
@@ -2358,6 +2370,194 @@ def probe(args: argparse.Namespace) -> dict:
         (gfx_section, gfx_address, gfx_size, None),
         (gfx_selector_section, gfx_selector_address, gfx_selector_size, None),
     ))
+    (ops_source, ops_section, ops_address, ops_size,
+     ops_shutdown_section, ops_shutdown_address, ops_shutdown_size,
+     ops_data_section, ops_data_address, ops_data_prefix_size) = DIRECT_CPUOPS_OBJECT
+    ops_original = ELFFile(ROOT / ops_source)
+    ops_sections = {entry.name: entry for entry in ops_original.sections}
+    shutdown_name = ".gnu.linkonce.t._Z11CPUShutdownv"
+    if (ops_original.elf_class != 1 or ops_original.endian != "<"
+            or ops_sections[".text"].size != ops_size
+            or ops_sections[shutdown_name].size != ops_shutdown_size
+            or ops_sections[".data"].size != 0x5238
+            or ops_sections[".rel.text"].size != 6058 * 8
+            or ops_sections[".rel" + shutdown_name].size != 29 * 8
+            or ops_sections[".rel.data"].size != 1421 * 8):
+        fail("historical CPUOPS object layout drift")
+    # The historical data prefix has 1416 original relocations and is exact.
+    # Its final 0xac CFI bytes are not exact outside relocations; retain the
+    # already proved public semantic CFI provider at the same address.
+    ops_data = ops_original.data[
+        ops_sections[".data"].offset:
+        ops_sections[".data"].offset + ops_sections[".data"].size
+    ]
+    ops_expected_data = reference[
+        ops_data_address - TARGET_BASE:
+        ops_data_address - TARGET_BASE + len(ops_data)
+    ]
+    ops_data_masked = bytearray(ops_data[:ops_data_prefix_size])
+    for index in range(1421):
+        offset, info = struct.unpack_from(
+            "<II", ops_original.data,
+            ops_sections[".rel.data"].offset + index * 8,
+        )
+        symbol_index, kind = info >> 8, info & 0xFF
+        if (kind != 2 or symbol_index >= len(ops_original.symbols)
+                or (index < 1416 and offset + 4 > ops_data_prefix_size)
+                or (index >= 1416 and offset < ops_data_prefix_size)):
+            fail("historical CPUOPS data-relocation partition drift")
+        if index < 1416:
+            ops_data_masked[offset:offset + 4] = ops_expected_data[offset:offset + 4]
+    if ops_data_masked != ops_expected_data[:ops_data_prefix_size]:
+        fail("historical CPUOPS data prefix differs outside relocations")
+    tail_offsets = {
+        off + i
+        for index in range(1416, 1421)
+        for off in (struct.unpack_from(
+            "<I", ops_original.data,
+            ops_sections[".rel.data"].offset + index * 8,
+        )[0],)
+        for i in range(4)
+    }
+    tail_difference_count = sum(
+        ops_data[index] != ops_expected_data[index]
+        for index in range(ops_data_prefix_size, len(ops_data))
+        if index not in tail_offsets
+    )
+    if tail_difference_count != 77:
+        fail("historical CPUOPS semantic CFI boundary drift")
+    ops_source_copy = args.build_dir / "stage3p-cpuops-prefix-source.o"
+    ops_file = bytearray(ops_original.data)
+    section_table = struct.unpack_from("<I", ops_file, 0x20)[0]
+    section_entry_size = struct.unpack_from("<H", ops_file, 0x2E)[0]
+    if section_entry_size < 40:
+        fail("historical CPUOPS ELF section-header drift")
+    struct.pack_into(
+        "<I", ops_file,
+        section_table + ops_sections[".data"].index * section_entry_size + 20,
+        ops_data_prefix_size,
+    )
+    struct.pack_into(
+        "<I", ops_file,
+        section_table + ops_sections[".rel.data"].index * section_entry_size + 20,
+        1416 * 8,
+    )
+    ops_source_copy.write_bytes(ops_file)
+    ops = ELFFile(ops_source_copy)
+    if (ops.sections[ops_sections[".data"].index].size != ops_data_prefix_size
+            or ops.sections[ops_sections[".rel.data"].index].size != 1416 * 8):
+        fail("historical CPUOPS derived prefix-object drift")
+    ops_external: dict[str, int] = {}
+    ops_pending: dict[int, list[tuple[str, int]]] = {}
+    ops_unpaired_low: set[str] = set()
+
+    def record_cpuops_target(name: str, value: int) -> None:
+        value &= 0xFFFFFFFF
+        previous = ops_external.get(name)
+        if previous is not None and previous != value:
+            fail(f"historical CPUOPS relocation target ambiguity: {name}")
+        ops_external[name] = value
+
+    for source_name, address, size, reloc_count in (
+        (".text", ops_address, ops_size, 6058),
+        (shutdown_name, ops_shutdown_address, ops_shutdown_size, 29),
+    ):
+        section = ops_sections[source_name]
+        raw = ops_original.data[section.offset:section.offset + size]
+        expected = reference[address - TARGET_BASE:address - TARGET_BASE + size]
+        masked = bytearray(raw)
+        rel = ops_sections[".rel" + source_name]
+        for index in range(reloc_count):
+            offset, info = struct.unpack_from(
+                "<II", ops_original.data, rel.offset + index * 8
+            )
+            symbol_index, kind = info >> 8, info & 0xFF
+            if (offset + 4 > size or kind not in (4, 5, 6)
+                    or symbol_index >= len(ops_original.symbols)):
+                fail("historical CPUOPS code-relocation drift")
+            symbol = ops_original.symbols[symbol_index]
+            if symbol.section_index == 0:
+                if not symbol.name:
+                    fail("historical CPUOPS unnamed external relocation")
+                raw_word = struct.unpack_from("<I", raw, offset)[0]
+                target_word = struct.unpack_from("<I", expected, offset)[0]
+                if kind == 4:
+                    if raw_word & 0xFC000000 != target_word & 0xFC000000:
+                        fail("historical CPUOPS call opcode drift")
+                    record_cpuops_target(
+                        symbol.name,
+                        ((target_word & 0x03FFFFFF)
+                         - (raw_word & 0x03FFFFFF)) << 2,
+                    )
+                elif kind == 5:
+                    ops_pending.setdefault(symbol_index, []).append((source_name, offset))
+                else:
+                    highs = ops_pending.pop(symbol_index, [])
+                    if not highs:
+                        ops_unpaired_low.add(symbol.name)
+                    for high_name, high_offset in highs:
+                        high_section = ops_sections[high_name]
+                        high_address = ops_address if high_name == ".text" else ops_shutdown_address
+                        raw_high = struct.unpack_from(
+                            "<I", ops_original.data, high_section.offset + high_offset
+                        )[0] & 0xFFFF
+                        target_high = struct.unpack_from(
+                            "<I", reference,
+                            high_address - TARGET_BASE + high_offset
+                        )[0] & 0xFFFF
+                        record_cpuops_target(
+                            symbol.name,
+                            (target_high << 16) + signed_short(target_word)
+                            - (raw_high << 16) - signed_short(raw_word),
+                        )
+            elif symbol.section_index not in (
+                ops_sections[".text"].index, ops_sections[".data"].index,
+                ops_sections[shutdown_name].index,
+            ):
+                fail("historical CPUOPS unsupported internal relocation")
+            masked[offset:offset + 4] = expected[offset:offset + 4]
+        if masked != expected:
+            fail("historical CPUOPS code differs outside relocations")
+    if ops_pending or not ops_unpaired_low.issubset(ops_external):
+        fail("historical CPUOPS unpaired external relocation")
+    for index in range(1416):
+        offset, info = struct.unpack_from(
+            "<II", ops_original.data,
+            ops_sections[".rel.data"].offset + index * 8,
+        )
+        symbol = ops_original.symbols[info >> 8]
+        actual = struct.unpack_from("<I", ops_expected_data, offset)[0]
+        addend = struct.unpack_from("<I", ops_data, offset)[0]
+        if symbol.section_index == ops_sections[".text"].index:
+            if actual != ops_address + addend:
+                fail("historical CPUOPS data code pointer drift")
+        elif symbol.section_index == 0 and symbol.name == "__gxx_personality_v0":
+            record_cpuops_target(symbol.name, actual - addend)
+        else:
+            fail("historical CPUOPS unsupported data relocation")
+    ops_output = args.build_dir / "stage3p-cpuops-direct.o"
+    ops_command = [
+        objcopy, "--rename-section", f".text={ops_section}.{ops_address:08x}",
+        "--rename-section", f"{shutdown_name}={ops_shutdown_section}.{ops_shutdown_address:08x}",
+        "--rename-section", f".data={ops_data_section}",
+    ]
+    for symbol, destination in sorted(ops_external.items()):
+        alias = f"stage3p_cpuops_target_{symbol}"
+        ops_command.extend(("--redefine-sym", f"{symbol}={alias}"))
+        relocation_targets[alias] = destination
+    for index, entry in enumerate(ops.symbols):
+        if (entry.name and entry.info >> 4 == 1
+                and entry.section_index in (
+                    ops_sections[".text"].index, ops_sections[".data"].index,
+                    ops_sections[shutdown_name].index,
+                )):
+            ops_command.extend(("--redefine-sym", f"{entry.name}=stage3p_cpuops_direct_{index}"))
+    run([*ops_command, ops_source_copy, ops_output])
+    direct_objects.append(ops_output)
+    direct_sections.extend((
+        (ops_section, ops_address, ops_size, None),
+        (ops_shutdown_section, ops_shutdown_address, ops_shutdown_size, None),
+    ))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -2370,7 +2570,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 8,
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 9,
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
