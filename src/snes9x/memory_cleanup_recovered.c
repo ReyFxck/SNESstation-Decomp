@@ -15,6 +15,9 @@
  */
 extern void snes_memory_helper_00150f54(void *memory, int mode);
 
+#ifdef SNESSTATION_STAGE3P_ROM_ONLY
+extern void per_rom_buffer_cleanup_00151360(void *memory);
+#else
 void per_rom_buffer_cleanup_00151360(void *memory)
 {
     uint8_t *base = (uint8_t *)memory;
@@ -35,6 +38,7 @@ void per_rom_buffer_cleanup_00151360(void *memory)
         *buffer_b068 = 0;
     }
 }
+#endif
 
 /*
  * Keep this symbol spelling because memory_init_recovered.c already references
