@@ -37,10 +37,10 @@ Detailed machine-generated counts are in
 ## Strict object-native linkage
 
 The replacement ELF matches byte for byte. The final linker now places
-**366,536/720,620 code bytes (50.86%)** from 27 ELF objects, including
-`gfx-short.o`, `CPUEXEC.o`, `dma.o`, `ppu-short.o`, `SA1CPU.o` and eight runtime
-objects. The remaining **354,084 code bytes** still pass through generated
-`.incbin` sections. This is separate from the completed decomp.dev image match.
+**445,612/720,620 code bytes (61.84%)** from 28 ELF objects, including
+`CPUOPS.o`, `gfx-short.o`, `CPUEXEC.o`, `dma.o`, `ppu-short.o`, `SA1CPU.o` and
+eight runtime objects. The remaining **275,008 code bytes** still pass through
+generated `.incbin` sections. This is separate from the completed decomp.dev image match.
 
 The required gate and its frozen public baseline are documented in
 [`docs/status/OBJECT_LINKAGE.md`](docs/status/OBJECT_LINKAGE.md):
