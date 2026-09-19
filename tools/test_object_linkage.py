@@ -14,8 +14,8 @@ class ObjectLinkageAuditTests(unittest.TestCase):
     def test_frozen_manifest_matches_current_transport(self) -> None:
         document = object_linkage.validate()
         self.assertFalse(document["result"]["object_native_complete"])
-        self.assertEqual(document["result"]["direct_object_bytes"], 209_976)
-        self.assertEqual(document["result"]["remaining_object_native_bytes"], 510_644)
+        self.assertEqual(document["result"]["direct_object_bytes"], 277_536)
+        self.assertEqual(document["result"]["remaining_object_native_bytes"], 443_084)
 
     def test_candidate_object_inventory_is_explicit(self) -> None:
         document = object_linkage.validate()
@@ -25,11 +25,11 @@ class ObjectLinkageAuditTests(unittest.TestCase):
         self.assertEqual(result["candidate_elf_object_bytes"], 611_088)
         self.assertEqual(result["listing_bytes"], 73_192)
         self.assertEqual(result["residual_assembly_bytes"], 36_340)
-        self.assertEqual(result["direct_candidate_object_inputs"], 9)
+        self.assertEqual(result["direct_candidate_object_inputs"], 10)
         self.assertTrue(result["transport"]["selected_candidate_objects_linked_directly"])
-        self.assertEqual(result["direct_object_inputs"], 14)
-        self.assertEqual(result["direct_object_sections"], 145)
-        self.assertEqual(result["incbin_payload_bytes"], 510_644)
+        self.assertEqual(result["direct_object_inputs"], 15)
+        self.assertEqual(result["direct_object_sections"], 146)
+        self.assertEqual(result["incbin_payload_bytes"], 443_084)
         self.assertEqual(result["incbin_payload_sections"], 112)
 
     def test_strict_completion_gate_rejects_incbin_transport(self) -> None:
