@@ -14,7 +14,7 @@
     "units": 90
   },
   "inputs": {
-    "analysis/link_identity/code_windows.json": "2d7d3562c4a91778c039545c8b9df3878ab233dfdf8d69e06fe9b7a1872565f8",
+    "analysis/link_identity/code_windows.json": "914d8440fecb62ea3e5926b71a3607907fcbaf08773bc2882a5e71686b0fc29c",
     "analysis/progress_targets.csv": "528965a51814d44054dd7d01404c4b2ee428f275d2fb7e8673fb76a57f96e698",
     "analysis/source_readiness.csv": "3d501952002b33837fc38ae000a66163ec652330df954e67a55d0aad37550573",
     "analysis/source_tree/translation_units.tsv": "b69e90de05aebac109baf8ddb18a6ba58dce28e5e430eb33084316ab6eabc5da"
@@ -29,12 +29,12 @@
   "whole_image_identity": {
     "exact_chunk_bytes": 3304936,
     "exact_chunks": 51,
+    "packed_elf_sha256": "4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487",
+    "packed_elf_size": 726968,
+    "packed_hash_matched": true,
     "replacement_elf": true,
     "target_bytes": 3304936,
     "total_chunks": 51,
-    "unpacked_hash_matched": true,
-    "packed_hash_matched": true,
-    "packed_elf_size": 726968,
-    "packed_elf_sha256": "4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487"
+    "unpacked_hash_matched": true
   }
 }
