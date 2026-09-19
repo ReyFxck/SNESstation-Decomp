@@ -2,18 +2,16 @@
 
 The exact-image pipeline and the clean object link are tracked separately.
 
-Stage-3P currently proves all **720,620/720,620 code bytes** and the complete
-replacement ELF. Twelve ELF object inputs contribute **133,148 bytes** directly
-through 143 explicitly placed code sections: the split residual assembly, exact
-V80, V81 and C4 proof sources, a compiled ROM cleanup function, historical
-PS2SDK `SyncDCache.o`, historical Newlib `qsort.o`, four historical PS2LIB/IOP objects, and the complete historical `2XSAI.o`.
-The final linker resolves their proved relocations; `2XSAI.o` also replaces a
-236-byte data and CFI provider with its original section. The remaining
-**587,472 bytes** still pass
-through the generated `code-windows.o` transport and its `.incbin` sections.
-The 97 rebuilt candidate objects form the evidence inventory for the byte
-matches. Seven whole historical candidate objects are now final link inputs; the other
-90 candidates remain proof sources.
+Stage-3P proves all **720,620/720,620 code bytes** and the complete
+replacement ELF. Fourteen ELF inputs provide **209,976 code bytes** directly
+through 145 placed code sections. Nine are historical candidate objects,
+including `2XSAI.o`, `fxemu.o` and `fxinst.o`; their data sections also
+replace the corresponding constructed providers at their original addresses.
+The other 88 candidate objects remain evidence sources.
+
+The remaining **510,644 code bytes** pass through generated `.incbin` sections
+in `code-windows.o`. Those bytes match the target but still need to be linked
+from their producer objects.
 
 For the strict project definition, completion requires every selected code range
 to be linked from an ELF object that produced it. A consolidated binary payload
@@ -31,10 +29,10 @@ does not count, even when its final bytes are exact.
 | Earlier exact-assembly construction bucket | **85,628 bytes** |
 | Explicit residual assembly | **36,340 bytes** |
 | Public listing construction bucket | **73,192 bytes** |
-| Bytes linked directly from producer objects | **133,148/720,620** |
-| Direct ELF object inputs | **12** (including **7** historical candidate objects) |
-| Direct placed sections | **143** |
-| Bytes remaining behind generated payload | **587,472** |
+| Bytes linked directly from producer objects | **209,976/720,620** |
+| Direct ELF object inputs | **14** (including **9** historical candidate objects) |
+| Direct placed sections | **145** |
+| Bytes remaining behind generated payload | **510,644** |
 | Strict object-native linkage | **In progress** |
 
 The provenance buckets sum to the exact 720,620-byte code region. The direct
