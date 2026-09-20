@@ -516,6 +516,32 @@ DIRECT_APU_CODE_OBJECT = (
      (".bss", 0x0042C800)),
 )
 
+DIRECT_C4_CODE_OBJECT = (
+    "build/matching/hunt1041-v75-c4/objects/c4.o",
+    0x0010B8A4, 0x0A5C,
+    ((".data", 0x00335938), (".rodata", 0x001B18D0),
+     (".bss", 0x0042C804)),
+)
+
+DIRECT_OBC1_CODE_OBJECT = (
+    "build/matching/hunt1041-v72-v53-promotion/objects/obc1.o",
+    0x00158B5C, 0x04FC,
+    ((".data", 0x003F4BE8), (".rodata", 0x001B72F8),
+     (".bss", 0x0042C800)),
+)
+
+DIRECT_SA1_SHORT_CODE_OBJECT = (
+    "build/window11-rodata/source-objects/snes-sa1.o",
+    0x0015D8EC, 0x18DC,
+    ((".rodata", 0x001B7DD8),),
+)
+
+DIRECT_CHEATS_SUFFIX_OBJECT = (
+    "build/window11-rodata/source-objects/snes-CHEATS.o",
+    0x0010E360, 0x5D80,
+    ((".rodata", 0x001B1AE8),),
+)
+
 
 def selected_symbol_spans(
     selected: list[dict], object_name: str
@@ -1224,47 +1250,58 @@ def update_linker_script(
     return updated.replace(old_tile, new_tile)
 
 
-def link_historical_apu_code(
+def link_historical_code(
     reference: bytes, build_dir: Path, objcopy: Path,
     relocation_targets: dict[str, int],
+    *, tag: str, specification: tuple, expected_relocations: int,
+    expected_layout: dict[str, int], named_data_symbols: frozenset[str],
+    expected_bss_fixes: int = 0, source_offset: int = 0,
 ) -> tuple[Path, tuple[str, int, int, None]]:
-    """Link original APU instructions while retaining proved data providers.
+    """Link original code instructions while retaining proved data providers.
 
-    The original read-only table lies inside a larger earlier provider. Only
-    code is promoted here: section-relative relocations are redirected to the
+    Only code is promoted here: section-relative relocations are redirected to the
     proved existing addresses in a derived ELF. No oracle bytes enter the ELF.
     """
-    source, address, size, provider_rows = DIRECT_APU_CODE_OBJECT
+    source, address, size, provider_rows = specification
     providers = dict(provider_rows)
-    apu = ELFFile(ROOT / source)
-    sections = {section.name: section for section in apu.sections}
-    if (apu.elf_class != 1 or apu.endian != "<"
-            or sections[".text"].size != size
-            or sections[".rel.text"].size != 258 * 8
-            or sections[".data"].size != 0x5C8
-            or sections[".rel.data"].size != 6 * 8
-            or sections[".rodata"].size != 0x3E0
-            or sections[".rel.rodata"].size != 245 * 8
-            or sections[".bss"].size != 4):
-        fail("historical APU code-object layout drift")
-    raw = apu.data[sections[".text"].offset:sections[".text"].offset + size]
+    original = ELFFile(ROOT / source)
+    sections = {section.name: section for section in original.sections}
+    if (original.elf_class != 1 or original.endian != "<"
+            or sections[".text"].size != size + source_offset
+            or (not source_offset and
+                sections[".rel.text"].size != expected_relocations * 8)
+            or any(sections[name].size != expected_size
+                   for name, expected_size in expected_layout.items())):
+        fail(f"historical {tag} code-object layout drift")
+    raw = original.data[
+        sections[".text"].offset + source_offset:
+        sections[".text"].offset + source_offset + size
+    ]
     expected = reference[address - TARGET_BASE:address - TARGET_BASE + size]
     masked = bytearray(raw)
-    derived = bytearray(apu.data)
+    derived = bytearray(original.data)
     rel = sections[".rel.text"]
+    rel_entries = []
+    for index in range(rel.size // 8):
+        offset, info = struct.unpack_from("<II", original.data, rel.offset + index * 8)
+        if offset < source_offset:
+            if offset + 4 > source_offset:
+                fail(f"historical {tag} relocation crosses selected code")
+            continue
+        if offset + 4 > source_offset + size:
+            fail(f"historical {tag} relocation exceeds selected code")
+        rel_entries.append((offset - source_offset, info))
+    if len(rel_entries) != expected_relocations:
+        fail(f"historical {tag} selected relocation count drift")
     named_data = {
         index: (symbol.name, providers[".data"] + symbol.value)
-        for index, symbol in enumerate(apu.symbols)
+        for index, symbol in enumerate(original.symbols)
         if symbol.section_index == sections[".data"].index
-        and symbol.name in (
-            "spc_is_dumping", "spc_is_dumping_temp", "spc_dump_dsp"
-        )
+        and symbol.name in named_data_symbols
     }
-    if (len(named_data) != 3 or
-            {name for name, _target in named_data.values()} != {
-                "spc_is_dumping", "spc_is_dumping_temp", "spc_dump_dsp"
-            }):
-        fail("historical APU named data relocation drift")
+    if (len(named_data) != len(named_data_symbols) or
+            {name for name, _target in named_data.values()} != named_data_symbols):
+        fail(f"historical {tag} named data relocation drift")
     externals: dict[str, int] = {}
     pending: dict[int, list[int]] = {}
     unmatched_lows: set[str] = set()
@@ -1273,47 +1310,46 @@ def link_historical_apu_code(
     def record(name: str, value: int) -> None:
         value &= 0xFFFFFFFF
         if name in externals and externals[name] != value:
-            fail(f"historical APU target ambiguity: {name}")
+            fail(f"historical {tag} target ambiguity: {name}")
         externals[name] = value
 
     def signed(value: int) -> int:
         return (value & 0xFFFF) - ((value & 0x8000) << 1)
 
-    for index in range(258):
-        offset, info = struct.unpack_from("<II", apu.data, rel.offset + index * 8)
+    for index, (offset, info) in enumerate(rel_entries):
         symbol_index, kind = info >> 8, info & 0xFF
         if (offset + 4 > size or kind not in (4, 5, 6)
-                or symbol_index >= len(apu.symbols)):
-            fail("historical APU code-relocation drift")
-        symbol = apu.symbols[symbol_index]
+                or symbol_index >= len(original.symbols)):
+            fail(f"historical {tag} code-relocation drift")
+        symbol = original.symbols[symbol_index]
         section_name = (
-            apu.sections[symbol.section_index].name
-            if symbol.section_index < len(apu.sections) else "<special>"
+            original.sections[symbol.section_index].name
+            if symbol.section_index < len(original.sections) else "<special>"
         )
         if symbol.section_index == 0:
             if not symbol.name:
-                fail("historical APU unnamed external relocation")
+                fail(f"historical {tag} unnamed external relocation")
             name = symbol.name
         elif section_name in providers:
             if section_name == ".data" and symbol.name:
                 if symbol_index not in named_data:
-                    fail("historical APU unsupported named data relocation")
+                    fail(f"historical {tag} unsupported named data relocation")
                 name = symbol.name
             else:
                 if symbol.name:
-                    fail("historical APU unsupported local section relocation")
-                name = f"stage3p_apu_{section_name[1:]}"
+                    fail(f"historical {tag} unsupported local section relocation")
+                name = f"stage3p_{tag}_{section_name[1:]}"
         elif section_name == ".text" and kind == 4:
             masked[offset:offset + 4] = expected[offset:offset + 4]
             continue
         else:
-            fail("historical APU unsupported code relocation")
+            fail(f"historical {tag} unsupported code relocation")
 
         raw_word = struct.unpack_from("<I", raw, offset)[0]
         target_word = struct.unpack_from("<I", expected, offset)[0]
         if kind == 4:
             if raw_word & 0xFC000000 != target_word & 0xFC000000:
-                fail("historical APU call opcode drift")
+                fail(f"historical {tag} call opcode drift")
             record(name, ((target_word & 0x03FFFFFF)
                           - (raw_word & 0x03FFFFFF)) << 2)
         elif kind == 5:
@@ -1323,12 +1359,12 @@ def link_historical_apu_code(
             if not highs:
                 unmatched_lows.add(name)
             corrected_word = raw_word
-            if section_name == ".bss" and raw_word & 0xFFFF == 2:
+            if expected_bss_fixes and section_name == ".bss" and raw_word & 0xFFFF == 2:
                 if target_word & 0xFFFF != 0xC801:
-                    fail("historical APU BSS addend drift")
+                    fail(f"historical {tag} BSS addend drift")
                 corrected_word = (raw_word & 0xFFFF0000) | 1
                 struct.pack_into(
-                    "<I", derived, sections[".text"].offset + offset,
+                    "<I", derived, sections[".text"].offset + source_offset + offset,
                     corrected_word,
                 )
                 patched_bss_lows += 1
@@ -1339,53 +1375,80 @@ def link_historical_apu_code(
                        - (raw_high << 16) - signed(corrected_word))
         masked[offset:offset + 4] = expected[offset:offset + 4]
     if (pending or not unmatched_lows.issubset(externals)
-            or masked != expected or patched_bss_lows != 8):
-        fail("historical APU code proof or BSS addends drift")
+            or masked != expected or patched_bss_lows != expected_bss_fixes):
+        fail(f"historical {tag} code proof or BSS addends drift")
     for name, expected_address in (
-        ("stage3p_apu_data", providers[".data"]),
-        ("stage3p_apu_rodata", providers[".rodata"]),
-        ("stage3p_apu_bss", providers[".bss"]),
+        *((f"stage3p_{tag}_{section_name[1:]}", address)
+          for section_name, address in provider_rows),
         *named_data.values(),
     ):
-        if externals.get(name) != expected_address:
-            fail(f"historical APU provider target drift: {name}")
+        if name in externals and externals[name] != expected_address:
+            fail(f"historical {tag} provider target drift: {name}")
+    if not set(named_data_symbols).issubset(externals):
+        fail(f"historical {tag} named provider missing")
 
     # EE binutils 2.14 cannot add symbols. Extend ELF32 symtab/strtab in the
-    # derived copy, leaving every historical instruction untouched except the
-    # eight proved relocation addends above.
+    # derived copy, leaving instructions untouched except proved relocation
+    # addends explicitly required by that object's layout.
     symtab = sections[".symtab"]
     strtab = sections[".strtab"]
     symbol_count = symtab.size // 16
-    source_symbols = bytearray(apu.data[symtab.offset:symtab.offset + symtab.size])
-    source_strings = bytearray(apu.data[strtab.offset:strtab.offset + strtab.size])
+    source_symbols = bytearray(original.data[symtab.offset:symtab.offset + symtab.size])
+    source_strings = bytearray(original.data[strtab.offset:strtab.offset + strtab.size])
+    if source_offset:
+        for index, symbol in enumerate(original.symbols):
+            if symbol.section_index != sections[".text"].index:
+                continue
+            if symbol.value < source_offset:
+                struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
+                struct.pack_into("<H", source_symbols, index * 16 + 14, 0)
+            else:
+                struct.pack_into("<I", source_symbols, index * 16 + 4,
+                                 symbol.value - source_offset)
     synthetic_indices: dict[str, int] = {}
-    for section_name in (".data", ".rodata", ".bss"):
-        name = f"stage3p_apu_{section_name[1:]}"
+    for section_name in providers:
+        name = f"stage3p_{tag}_{section_name[1:]}"
         synthetic_indices[section_name] = symbol_count + len(synthetic_indices)
         source_symbols.extend(struct.pack(
             "<IIIBBH", len(source_strings), 0, 0, 0x10, 0, 0
         ))
         source_strings.extend(name.encode("ascii") + b"\0")
         relocation_targets[name] = providers[section_name]
-    for index in range(258):
-        offset, info = struct.unpack_from("<II", apu.data, rel.offset + index * 8)
-        original_symbol = apu.symbols[info >> 8]
+    selected_relocations = bytearray().join(
+        struct.pack("<II", offset, info) for offset, info in rel_entries
+    )
+    for index, (offset, info) in enumerate(rel_entries):
+        original_symbol = original.symbols[info >> 8]
         section_name = (
-            apu.sections[original_symbol.section_index].name
-            if original_symbol.section_index < len(apu.sections) else "<special>"
+            original.sections[original_symbol.section_index].name
+            if original_symbol.section_index < len(original.sections) else "<special>"
         )
         if section_name in synthetic_indices and not original_symbol.name:
             struct.pack_into(
-                "<I", derived, rel.offset + index * 8 + 4,
+                "<I", selected_relocations, index * 8 + 4,
                 (synthetic_indices[section_name] << 8) | (info & 0xFF),
             )
+    if not source_offset:
+        derived[rel.offset:rel.offset + rel.size] = selected_relocations
     for index in named_data:
         struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
         struct.pack_into("<H", source_symbols, index * 16 + 14, 0)
     table_offset = struct.unpack_from("<I", derived, 0x20)[0]
     entry_size = struct.unpack_from("<H", derived, 0x2E)[0]
     if entry_size < 40 or symtab.size % 16:
-        fail("historical APU ELF32 symbol-table drift")
+        fail(f"historical {tag} ELF32 symbol-table drift")
+    if source_offset:
+        text_header = table_offset + sections[".text"].index * entry_size
+        struct.pack_into("<I", derived, text_header + 16,
+                         sections[".text"].offset + source_offset)
+        struct.pack_into("<I", derived, text_header + 20, size)
+        rel_header = table_offset + rel.index * entry_size
+        while len(derived) % 4:
+            derived.append(0)
+        struct.pack_into("<I", derived, rel_header + 16, len(derived))
+        struct.pack_into("<I", derived, rel_header + 20,
+                         len(selected_relocations))
+        derived.extend(selected_relocations)
     while len(derived) % 4:
         derived.append(0)
     symbols_offset = len(derived)
@@ -1399,30 +1462,30 @@ def link_historical_apu_code(
         header = table_offset + section.index * entry_size
         struct.pack_into("<I", derived, header + 16, start)
         struct.pack_into("<I", derived, header + 20, length)
-    source_copy = build_dir / "stage3p-apu-code-source.o"
+    source_copy = build_dir / f"stage3p-{tag}-code-source.o"
     source_copy.write_bytes(derived)
     converted = ELFFile(source_copy)
-    if (len(converted.symbols) != symbol_count + 3
-            or any(converted.symbols[index].name != f"stage3p_apu_{name[1:]}"
+    if (len(converted.symbols) != symbol_count + len(providers)
+            or any(converted.symbols[index].name != f"stage3p_{tag}_{name[1:]}"
                    or converted.symbols[index].section_index != 0
                    for name, index in synthetic_indices.items())):
-        fail("historical APU derived-symbol validation failed")
-    prefix = ".text.stage3p.direct.apu"
+        fail(f"historical {tag} derived-symbol validation failed")
+    prefix = f".text.stage3p.direct.{tag}"
     command = [objcopy, "--rename-section", f".text={prefix}.{address:08x}"]
     for section_name in (".data", ".rodata", ".bss"):
         command.extend(("--remove-section", section_name))
     for name, destination in sorted(externals.items()):
-        if name.startswith("stage3p_apu_"):
+        if name.startswith(f"stage3p_{tag}_"):
             relocation_targets[name] = destination
         else:
-            alias = f"stage3p_apu_target_{name}"
+            alias = f"stage3p_{tag}_target_{name}"
             command.extend(("--redefine-sym", f"{name}={alias}"))
             relocation_targets[alias] = destination
-    for index, entry in enumerate(apu.symbols):
+    for index, entry in enumerate(original.symbols):
         if (entry.name and entry.info >> 4 == 1
                 and entry.section_index == sections[".text"].index):
-            command.extend(("--redefine-sym", f"{entry.name}=stage3p_apu_direct_{index}"))
-    output = build_dir / "stage3p-apu-direct.o"
+            command.extend(("--redefine-sym", f"{entry.name}=stage3p_{tag}_direct_{index}"))
+    output = build_dir / f"stage3p-{tag}-direct.o"
     run([*command, source_copy, output])
     return output, (prefix, address, size, None)
 
@@ -2977,11 +3040,65 @@ def probe(args: argparse.Namespace) -> dict:
         (ops_section, ops_address, ops_size, None),
         (ops_shutdown_section, ops_shutdown_address, ops_shutdown_size, None),
     ))
-    apu_output, apu_section = link_historical_apu_code(
+    apu_output, apu_section = link_historical_code(
         reference, args.build_dir, objcopy, relocation_targets,
+        tag="apu", specification=DIRECT_APU_CODE_OBJECT,
+        expected_relocations=258,
+        expected_layout={".data": 0x5C8, ".rel.data": 6 * 8,
+                         ".rodata": 0x3E0, ".rel.rodata": 245 * 8,
+                         ".bss": 4},
+        named_data_symbols=frozenset((
+            "spc_is_dumping", "spc_is_dumping_temp", "spc_dump_dsp",
+        )),
+        expected_bss_fixes=8,
     )
     direct_objects.append(apu_output)
     direct_sections.append(apu_section)
+    c4_output, c4_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="c4", specification=DIRECT_C4_CODE_OBJECT,
+        expected_relocations=268,
+        expected_layout={".data": 0x160, ".rel.data": 5 * 8,
+                         ".rodata": 0x28, ".bss": 0x1C},
+        named_data_symbols=frozenset((
+            "C4WFX2Val", "C4WFZVal", "C4WFXVal", "C4WFYVal",
+            "C4WFY2Val", "C4WFDist", "C4WFScale", "C41FXVal",
+            "C41FYVal", "C41FAngleRes", "C41FDist", "C41FDistVal",
+        )),
+    )
+    direct_objects.append(c4_output)
+    direct_sections.append(c4_section)
+    obc1_output, obc1_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="obc1", specification=DIRECT_OBC1_CODE_OBJECT,
+        expected_relocations=70,
+        expected_layout={".data": 4, ".rodata": 0x20,
+                         ".rel.rodata": 8 * 8, ".bss": 0},
+        named_data_symbols=frozenset(),
+    )
+    direct_objects.append(obc1_output)
+    direct_sections.append(obc1_section)
+    sa1_output, sa1_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="sa1short", specification=DIRECT_SA1_SHORT_CODE_OBJECT,
+        expected_relocations=322,
+        expected_layout={".data": 0x1C4, ".rel.data": 10 * 8,
+                         ".rodata": 0x278, ".rel.rodata": 142 * 8,
+                         ".bss": 0},
+        named_data_symbols=frozenset(),
+    )
+    direct_objects.append(sa1_output)
+    direct_sections.append(sa1_section)
+    cheats_output, cheats_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="cheats", specification=DIRECT_CHEATS_SUFFIX_OBJECT,
+        expected_relocations=15,
+        expected_layout={".data": 8, ".rel.data": 2 * 8,
+                         ".rodata": 408, ".bss": 0},
+        named_data_symbols=frozenset(), source_offset=0x400,
+    )
+    direct_objects.append(cheats_output)
+    direct_sections.append(cheats_section)
     tile_output, tile_sections = link_historical_tile(
         selected_sources, reference, args.build_dir, objcopy, relocation_targets,
     )
@@ -2999,7 +3116,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 11,
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 15,
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths

@@ -37,10 +37,10 @@ Detailed machine-generated counts are in
 ## Strict object-native linkage
 
 The replacement ELF matches byte for byte. The final linker now places
-**497,020/720,620 code bytes (68.97%)** from 32 ELF objects, including
+**531,248/720,620 code bytes (73.72%)** from 36 ELF objects, including
 `CPU.o`, `seta.o`, `tile.o`, `CPUOPS.o`, `gfx-short.o`, `CPUEXEC.o`, `dma.o`,
-`ppu-short.o`, `apu-short.o`,
-`SA1CPU.o` and eight runtime objects. The remaining **223,600 code bytes**
+`ppu-short.o`, `apu-short.o`, `c4.o`, `obc1.o`, `snes-sa1.o`, `snes-CHEATS.o`,
+`SA1CPU.o` and eight runtime objects. The remaining **189,372 code bytes**
 still pass through generated `.incbin` sections. This is separate from the
 completed decomp.dev image match.
 

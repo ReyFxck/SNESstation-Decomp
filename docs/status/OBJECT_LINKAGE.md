@@ -3,15 +3,15 @@
 The exact-image pipeline and the clean object link are tracked separately.
 
 Stage-3P proves all **720,620/720,620 code bytes** and the complete
-replacement ELF. Thirty-two ELF inputs provide **497,020 code bytes** directly
-through 185 placed code sections. Twenty-seven are historical candidate objects,
+replacement ELF. Thirty-six ELF inputs provide **531,248 code bytes** directly
+through 189 placed code sections. Thirty-one are historical candidate objects,
 including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o`,
 `CPU.o`, `seta.o`, `CPUEXEC.o`, `dma.o`, `gfx-short.o`, `CPUOPS.o`, `tile.o`,
-`apu-short.o` and eight original runtime objects.
+`apu-short.o`, `c4.o`, `obc1.o`, `snes-sa1.o`, `snes-CHEATS.o` and eight original runtime objects.
 Where exact, original data and read-only sections replace constructed providers
 at their historical addresses. The `dma.o` read-only dispatch table is linked
 from the object; its 260-byte data section has one nonrelocation byte mismatch,
-so the proved semantic data provider remains. The other 70 candidate objects
+so the proved semantic data provider remains. The other 66 candidate objects
 remain evidence sources. `CPUOPS.o` supplies its original code and the exact
 20,876-byte data prefix; its 172-byte CFI tail differs outside relocations and
 continues to use the proved semantic provider. `tile.o` contributes 33,568 bytes
@@ -26,9 +26,17 @@ complete 4,196-byte code section; original data and read-only references bind
 to proved addresses while the existing semantic data providers remain. Its
 derived object's eight BSS relocation addends are adjusted to the original
 address (the candidate's local BSS starts one byte later), without changing
-target code bytes or committing private reference data.
+target code bytes or committing private reference data. `c4.o` contributes its
+complete 2,652-byte code section, `obc1.o` its complete 1,276-byte code
+section and `snes-sa1.o` its complete 6,364-byte code section, with their
+relocations checked against proved data providers. The final 108 bytes in
+`snes-sa1.o` also match an earlier CPUOPS candidate slice. `snes-CHEATS.o`
+supplies the verified 23,936-byte suffix of its code section. Its first 1,024
+bytes differ outside relocations, so the derived ELF excludes that prefix;
+the linker still receives the original producer's proven suffix and only its
+15 selected relocations.
 
-The remaining **223,600 code bytes** pass through generated `.incbin` sections
+The remaining **189,372 code bytes** pass through generated `.incbin` sections
 in `code-windows.o`. Those bytes match the target but still need to be linked
 from their producer objects.
 
@@ -48,10 +56,10 @@ does not count, even when its final bytes are exact.
 | Earlier exact-assembly construction bucket | **85,628 bytes** |
 | Explicit residual assembly | **36,340 bytes** |
 | Public listing construction bucket | **73,192 bytes** |
-| Bytes linked directly from producer objects | **497,020/720,620 (68.97%)** |
-| Direct ELF object inputs | **32** (including **27** historical candidate objects) |
-| Direct placed sections | **185** |
-| Bytes remaining behind generated payload | **223,600** |
+| Bytes linked directly from producer objects | **531,248/720,620 (73.72%)** |
+| Direct ELF object inputs | **36** (including **31** historical candidate objects) |
+| Direct placed sections | **189** |
+| Bytes remaining behind generated payload | **189,372** |
 | Strict object-native linkage | **In progress** |
 
 The provenance buckets sum to the exact 720,620-byte code region. The direct
