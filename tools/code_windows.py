@@ -418,9 +418,15 @@ DIRECT_CALL_OBJECTS = (
     ("strstr", "build/matching/hunt1000plus-v47-closure/ps2lib/strstr.o", ".text.stage3p.direct.strstr", 0x0019EAF8, 0x0088, "strstr", 2),
 )
 
-# Complete historical runtime objects with external MIPS call and address
-# relocations, but no initialized data or local-section relocations.
+# Historical code sections with proved MIPS calls and address relocations.
+# CPU retains its own code calls; CPU and SETA keep previously proved data
+# providers in place instead of linking their data sections a second time.
 DIRECT_EXTERNAL_RELOC_OBJECTS = (
+    # CPU's unwind data remains at its already proved semantic provider. Its
+    # complete code has only external relocations, so the producer's original
+    # text section can be linked independently.
+    ("cpu", "build/matching/hunt1000plus-v46-closure/snes/CPU.o", 0x001159F4, 0x03BC, 61),
+    ("seta", "build/matching/hunt1000plus-v46-closure/snes/seta.o", 0x0016FC48, 0x0048, 4),
     ("fio_write", "kernel/fio-write.o", 0x0019D244, 0x11C, 20),
     ("fio_read_intr", "kernel/fio-read-intr.o", 0x0019D4B0, 0x084, 6),
     ("iop_alloc", "kernel/iop-alloc.o", 0x0019D63C, 0x07C, 6),
@@ -2317,12 +2323,37 @@ def probe(args: argparse.Namespace) -> dict:
     direct_objects.append(cx_output)
     direct_sections.append((cx_section, cx_address, cx_size, None))
     for key, suffix, address, size, reloc_count in DIRECT_EXTERNAL_RELOC_OBJECTS:
-        relative = f"build/matching/hunt1000plus-v47-closure/{suffix}"
-        candidate = ELFFile(ROOT / relative)
+        relative = (suffix if suffix.startswith("build/") else
+                    f"build/matching/hunt1000plus-v47-closure/{suffix}")
+        code_only = key in ("cpu", "seta")
+        source_path = ROOT / relative
+        if key == "seta":
+            # Two local data names occur in code relocations. Redirect them
+            # through independently proved absolute addresses while retaining
+            # the existing data provider; leave the source ELF untouched.
+            original = ELFFile(source_path)
+            original_sections = {entry.name: entry for entry in original.sections}
+            derived = bytearray(original.data)
+            table = original_sections[".symtab"]
+            for name, offset in (("SetSETA", 0), ("GetSETA", 4)):
+                matches = [index for index, symbol in enumerate(original.symbols)
+                           if symbol.name == name
+                           and symbol.section_index == original_sections[".data"].index
+                           and symbol.value == offset]
+                if len(matches) != 1:
+                    fail("historical SETA local data-symbol drift")
+                position = table.offset + matches[0] * 16
+                struct.pack_into("<I", derived, position + 4, 0)
+                struct.pack_into("<H", derived, position + 14, 0)
+            source_path = args.build_dir / "stage3p-seta-code-source.o"
+            source_path.write_bytes(derived)
+        candidate = ELFFile(source_path)
         sections = {entry.name: entry for entry in candidate.sections}
         if (sections[".text"].size != size
                 or sections[".rel.text"].size != reloc_count * 8
-                or sections[".data"].size != 0
+                or sections[".data"].size != (0xCC if key == "cpu" else
+                                               0x64 if key == "seta" else 0)
+                or (code_only and sections[".rel.data"].size != 5 * 8)
                 or sections[".bss"].size != 0):
             fail(f"historical {key} runtime object layout drift")
         raw = candidate.data[sections[".text"].offset:sections[".text"].offset + size]
@@ -2348,6 +2379,9 @@ def probe(args: argparse.Namespace) -> dict:
                     or symbol_index >= len(candidate.symbols)):
                 fail(f"historical {key} runtime code-relocation drift")
             symbol = candidate.symbols[symbol_index]
+            if code_only and kind == 4 and symbol.section_index == sections[".text"].index:
+                masked[offset:offset + 4] = expected[offset:offset + 4]
+                continue
             if not symbol.name or symbol.section_index != 0:
                 fail(f"historical {key} runtime nonexternal relocation")
             raw_word = struct.unpack_from("<I", raw, offset)[0]
@@ -2381,6 +2415,8 @@ def probe(args: argparse.Namespace) -> dict:
         command = [
             objcopy, "--rename-section", f".text={prefix}.{address:08x}",
         ]
+        if code_only:
+            command.extend(("--remove-section", ".data"))
         for symbol, destination in sorted(external.items()):
             alias = f"stage3p_{key}_target_{symbol}"
             command.extend(("--redefine-sym", f"{symbol}={alias}"))
@@ -2389,7 +2425,7 @@ def probe(args: argparse.Namespace) -> dict:
             if (entry.name and entry.info >> 4 == 1
                     and entry.section_index == sections[".text"].index):
                 command.extend(("--redefine-sym", f"{entry.name}=stage3p_{key}_direct_{index}"))
-        run([*command, ROOT / relative, output])
+        run([*command, source_path, output])
         direct_objects.append(output)
         direct_sections.append((prefix, address, size, None))
     (gfx_source, gfx_section, gfx_address, gfx_size,
