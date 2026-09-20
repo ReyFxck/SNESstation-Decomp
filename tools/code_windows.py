@@ -542,6 +542,47 @@ DIRECT_CHEATS_SUFFIX_OBJECT = (
     ((".rodata", 0x001B1AE8),),
 )
 
+DIRECT_XPRINTF_CODE_OBJECT = (
+    "build/matching/hunt1000plus-v47-closure/ps2lib/xprintf.o",
+    0x0019D84C, 0x0B18,
+    ((".text", 0x0019D84C), (".rodata", 0x001BA478)),
+)
+
+DIRECT_UNWIND_FDE_CODE_OBJECT = (
+    "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
+    0x001A5CC0, 0x18C0,
+    ((".text", 0x001A5CC0), (".rodata", 0x001BAB90),
+     (".bss", 0x00447750)),
+)
+
+DIRECT_DEFLATE_CODE_OBJECT = (
+    "build/matching/hunt1000plus-v47-closure/snes/deflate-1.41.o",
+    0x001908BC, 0x1E70,
+    ((".text", 0x001908BC), (".data", 0x00424858),
+     (".rodata", 0x001B8910)),
+)
+
+DIRECT_UNZIP_CODE_OBJECT = (
+    "build/matching/hunt1000plus-v47-closure/pgen/unzip.o",
+    0x0018F010, 0x16F0,
+    ((".text", 0x0018F010), (".data", 0x00424850),
+     (".rodata", 0x001B88A0)),
+)
+
+DIRECT_LIBMC_CODE_OBJECT = (
+    "build/matching/hunt1000plus-v47-closure/ps2lib/libmc.o",
+    0x001A0740, 0x13B4,
+    ((".text", 0x001A0740), (".data", 0x00425AC8),
+     (".rodata", 0x001BA758), (".bss", 0x004464C0)),
+)
+
+DIRECT_SNAPORIG_CODE_OBJECT = (
+    "build/matching/hunt1041-v52-closure/objects/snaporig-short.o",
+    0x0017022C, 0x0FA0,
+    ((".text", 0x0017022C), (".data", 0x003FA6C0),
+     (".rodata", 0x001B80F0)),
+)
+
 
 def selected_symbol_spans(
     selected: list[dict], object_name: str
@@ -1326,6 +1367,9 @@ def link_historical_code(
             original.sections[symbol.section_index].name
             if symbol.section_index < len(original.sections) else "<special>"
         )
+        if section_name == ".text" and kind == 4 and symbol.section_index != 0:
+            masked[offset:offset + 4] = expected[offset:offset + 4]
+            continue
         if symbol.section_index == 0:
             if not symbol.name:
                 fail(f"historical {tag} unnamed external relocation")
@@ -1339,9 +1383,6 @@ def link_historical_code(
                 if symbol.name:
                     fail(f"historical {tag} unsupported local section relocation")
                 name = f"stage3p_{tag}_{section_name[1:]}"
-        elif section_name == ".text" and kind == 4:
-            masked[offset:offset + 4] = expected[offset:offset + 4]
-            continue
         else:
             fail(f"historical {tag} unsupported code relocation")
 
@@ -3099,11 +3140,108 @@ def probe(args: argparse.Namespace) -> dict:
     )
     direct_objects.append(cheats_output)
     direct_sections.append(cheats_section)
+    xprintf_output, xprintf_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="xprintf", specification=DIRECT_XPRINTF_CODE_OBJECT,
+        expected_relocations=27,
+        expected_layout={".data": 0, ".rodata": 560,
+                         ".rel.rodata": 121 * 8, ".bss": 0},
+        named_data_symbols=frozenset(),
+    )
+    direct_objects.append(xprintf_output)
+    direct_sections.append(xprintf_section)
+    unwind_output, unwind_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="unwindfde", specification=DIRECT_UNWIND_FDE_CODE_OBJECT,
+        expected_relocations=103,
+        expected_layout={".data": 1060, ".rel.data": 19 * 8,
+                         ".rodata": 52, ".rel.rodata": 13 * 8,
+                         ".bss": 12},
+        named_data_symbols=frozenset(),
+    )
+    direct_objects.append(unwind_output)
+    direct_sections.append(unwind_section)
+    deflate_output, deflate_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="deflate", specification=DIRECT_DEFLATE_CODE_OBJECT,
+        expected_relocations=97,
+        expected_layout={".data": 4, ".rel.data": 8,
+                         ".rodata": 184, ".rel.rodata": 10 * 8,
+                         ".bss": 0},
+        named_data_symbols=frozenset(),
+    )
+    direct_objects.append(deflate_output)
+    direct_sections.append(deflate_section)
+    unzip_output, unzip_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="unzip", specification=DIRECT_UNZIP_CODE_OBJECT,
+        expected_relocations=133,
+        expected_layout={".data": 8, ".rodata": 96,
+                         ".rel.rodata": 9 * 8, ".bss": 0},
+        named_data_symbols=frozenset(("pUnzip", "pfile_in_zip_read_info")),
+    )
+    direct_objects.append(unzip_output)
+    direct_sections.append(unzip_section)
+    libmc_output, libmc_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="libmc", specification=DIRECT_LIBMC_CODE_OBJECT,
+        expected_relocations=382,
+        expected_layout={".data": 12, ".rodata": 136,
+                         ".bss": 4672},
+        named_data_symbols=frozenset(),
+    )
+    direct_objects.append(libmc_output)
+    direct_sections.append(libmc_section)
+    snaporig_output, snaporig_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="snaporig", specification=DIRECT_SNAPORIG_CODE_OBJECT,
+        expected_relocations=211,
+        expected_layout={".data": 72072, ".rel.data": 4 * 8,
+                         ".rodata": 208, ".bss": 0},
+        named_data_symbols=frozenset((
+            "OrigCPU", "OrigRegisters", "OrigPPU", "OrigDMA",
+            "OrigAPU", "OrigAPURegisters", "OrigSoundData",
+        )),
+    )
+    direct_objects.append(snaporig_output)
+    direct_sections.append(snaporig_section)
     tile_output, tile_sections = link_historical_tile(
         selected_sources, reference, args.build_dir, objcopy, relocation_targets,
     )
     direct_objects.append(tile_output)
     direct_sections.extend(tile_sections)
+    # A complete producer section can cover assembly labels that previously
+    # filled gaps between selected functions. Keep the oracle proof of those
+    # labels above, then remove their redundant sections from the linker input.
+    promoted = [
+        (address, address + size)
+        for prefix, address, size, _selector in direct_sections
+        if prefix != ".text.stage3p.residual"
+    ]
+    redundant = set()
+    for _name, address, size in residual_spans:
+        if address == 0x001AB4E4:
+            continue
+        overlap = [
+            (start, end) for start, end in promoted
+            if start < address + size and address < end
+        ]
+        if overlap:
+            if len(overlap) != 1 or not (
+                    overlap[0][0] <= address and address + size <= overlap[0][1]):
+                fail(f"direct object partially overlaps residual @ 0x{address:08x}")
+            redundant.add(address)
+    if redundant:
+        linked_residual = args.build_dir / "stage3p-residual-linked.o"
+        run([objcopy, *(
+            option for address in sorted(redundant)
+            for option in ("--remove-section", f".text.stage3p.residual.{address:08x}")
+        ), residual_object, linked_residual])
+        direct_objects[0] = linked_residual
+        direct_sections = [
+            row for row in direct_sections
+            if row[0] != ".text.stage3p.residual" or row[1] not in redundant
+        ]
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -3116,7 +3254,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 15,
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 21,
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
