@@ -583,6 +583,102 @@ DIRECT_SNAPORIG_CODE_OBJECT = (
      (".rodata", 0x001B80F0)),
 )
 
+DIRECT_MEMMAP_CORE_OBJECT = (
+    "build/matching/hunt1041-v52-closure/objects/memmap-short.o",
+    0x00151360, 0x7170,
+    ((".data", 0x003F4910), (".rodata", 0x001B63D8),
+     (".bss", 0x0042C820)),
+)
+
+DIRECT_DSP_CORE_OBJECT = (
+    "build/matching/hunt1000plus-v46-closure/snes/DSP1.o",
+    0x0012D334, 0x2534,
+    ((".data", 0x0033CE78), (".rodata", 0x001B2120)),
+)
+
+DIRECT_SPC7110_CORE_OBJECT = (
+    "build/matching/hunt1041-v72-v53-promotion/objects/spc7110.o",
+    0x001813F0, 0x1594,
+    ((".data", 0x004134E8), (".rodata", 0x001B8580)),
+)
+
+DIRECT_GZIO_CORE_OBJECT = (
+    "build/matching/hunt1041-v48-closure/historical/pgen-gzio.o",
+    0x00193298, 0x1148,
+    ((".data", 0x00424860), (".rodata", 0x001B9280)),
+)
+
+DIRECT_SRTC_CODE_OBJECT = (
+    "build/matching/hunt1041-v48-closure/historical/snes-srtc.o",
+    0x00183660, 1956,
+    ((".data", 0x00423858), (".rodata", 0x001B8878)),
+)
+
+DIRECT_SNAPSHOT_CORE_OBJECT = (
+    "build/matching/hunt1041-v52-closure/objects/snapshot-short.o",
+    0x0017124C, 0x14C8,
+    ((".data", 0x0040C048), (".rodata", 0x001B81F0),
+     (".bss", 0x0042E890)),
+)
+
+DIRECT_SOUND_CORE_OBJECT = (
+    "build/matching/hunt1041-v52-closure/objects/sound-normal.o",
+    0x00173DFC, 3480,
+    ((".data", 0x00410F00), (".rodata", 0x001B83E8)),
+)
+
+DIRECT_SMALL_CODE_OBJECTS = (
+    ("unshrink", ("build/matching/hunt1041-v48-closure/historical/pgen-unshrink.o",
+                  0x0018EA58, 1464, ((".data", 0x00426E3C),)),
+     143, {".data": 16, ".bss": 0},
+     {"maxcodemax": 0x00426E34, "free_ent": 0x00426E38}),
+    ("inffast", ("build/matching/hunt1041-v48-closure/historical/pgen-inffast.o",
+                 0x00195B3C, 1092, ((".rodata", 0x001B9410),)),
+     16, {".data": 0, ".rodata": 56, ".bss": 0}, {}),
+    ("mtap", ("build/matching/hunt1000plus-v46-closure/ps2dev/libmtap.o",
+              0x00108A9C, 700,
+              ((".data", 0x00335280), (".bss", 0x0042C6C0))),
+     40, {".data": 4, ".bss": 320}, {}),
+    ("malloc", ("build/matching/hunt1000plus-v47-closure/ps2lib/malloc.o",
+                0x0019E474, 468, ((".data", 0x00425A74),)),
+     20, {".data": 12, ".bss": 0}, {}),
+    ("gsfont", ("build/matching/hunt1000plus-v46-closure/pgen/gsFont.o",
+                0x0019B7F0, 1352, ((".rodata", 0x001BA408),)),
+     12, {".data": 0, ".rodata": 84,
+          ".rel.rodata": 168, ".bss": 0}, {}),
+)
+
+DIRECT_LOADZIP_CODE_OBJECT = (
+    "build/matching/hunt1041-v72-v53-promotion/objects/loadzip.o",
+    0x0015068C, 1168, ((".rodata", 0x001B6398),),
+)
+
+DIRECT_SJPCM_CODE_OBJECT = (
+    "build/matching/hunt1000plus-v46-closure/pgen/sjpcm.o",
+    0x0010768C, 1264,
+    ((".data", 0x00426DF8), (".bss", 0x0042B400)),
+)
+
+DIRECT_EXPLODE_TAIL_OBJECT = (
+    "build/matching/hunt1000plus-v47-closure/pgen/explode.o",
+    0x0018D914, 1252, ((".data", 0x00424158),),
+)
+
+DIRECT_SETA010_PREFIX_OBJECT = (
+    "build/matching/hunt1000plus-v46-closure/snes/seta010.o",
+    0x0016FC90, 880, ((".rodata", 0x001B8058),),
+)
+
+DIRECT_CHEATS2_TAIL_OBJECT = (
+    "build/matching/hunt1041-v73-historical-io/objects/cheats2.o",
+    0x00114328, 844, (),
+)
+
+DIRECT_GZIO_SUFFIX_OBJECT = (
+    "build/matching/hunt1041-v48-closure/historical/pgen-gzio.o",
+    0x00194404, 548, ((".rodata", 0x001B9280),),
+)
+
 
 def selected_symbol_spans(
     selected: list[dict], object_name: str
@@ -1295,8 +1391,12 @@ def link_historical_code(
     reference: bytes, build_dir: Path, objcopy: Path,
     relocation_targets: dict[str, int],
     *, tag: str, specification: tuple, expected_relocations: int,
-    expected_layout: dict[str, int], named_data_symbols: frozenset[str],
+    expected_layout: dict[str, int], named_data_symbols: frozenset[str] | None,
     expected_bss_fixes: int = 0, source_offset: int = 0,
+    source_tail: int = 0,
+    relocation_addends: dict[int, tuple[int, int]] | None = None,
+    unpaired_highs: dict[int, tuple[str, int]] | None = None,
+    named_data_targets: dict[str, int] | None = None,
 ) -> tuple[Path, tuple[str, int, int, None]]:
     """Link original code instructions while retaining proved data providers.
 
@@ -1308,8 +1408,8 @@ def link_historical_code(
     original = ELFFile(ROOT / source)
     sections = {section.name: section for section in original.sections}
     if (original.elf_class != 1 or original.endian != "<"
-            or sections[".text"].size != size + source_offset
-            or (not source_offset and
+            or sections[".text"].size != size + source_offset + source_tail
+            or (not source_offset and not source_tail and
                 sections[".rel.text"].size != expected_relocations * 8)
             or any(sections[name].size != expected_size
                    for name, expected_size in expected_layout.items())):
@@ -1329,13 +1429,61 @@ def link_historical_code(
             if offset + 4 > source_offset:
                 fail(f"historical {tag} relocation crosses selected code")
             continue
+        if offset >= source_offset + size and source_tail:
+            continue
         if offset + 4 > source_offset + size:
             fail(f"historical {tag} relocation exceeds selected code")
         rel_entries.append((offset - source_offset, info))
     if len(rel_entries) != expected_relocations:
         fail(f"historical {tag} selected relocation count drift")
+    unpaired_highs = unpaired_highs or {}
+    if unpaired_highs:
+        remaining = []
+        found = set()
+        for offset, info in rel_entries:
+            original_offset = source_offset + offset
+            if original_offset not in unpaired_highs:
+                remaining.append((offset, info))
+                continue
+            name, target_address = unpaired_highs[original_offset]
+            symbol = original.symbols[info >> 8]
+            raw_word = struct.unpack_from("<I", raw, offset)[0]
+            expected_word = struct.unpack_from("<I", expected, offset)[0]
+            patched_word = (raw_word & 0xFFFF0000) | (
+                ((target_address + 0x8000) >> 16) & 0xFFFF
+            )
+            local_data = (symbol.section_index == sections[".data"].index
+                          and providers.get(".data", -1) + symbol.value == target_address)
+            local_provider = (symbol.section_index == sections[".rodata"].index
+                              and not symbol.name
+                              and name == f"stage3p_{tag}_rodata"
+                              and providers.get(".rodata") == target_address)
+            if (info & 0xFF != 5 or not (symbol.section_index == 0
+                                         or local_data or local_provider)
+                    or (symbol.name or f"stage3p_{tag}_rodata") != name
+                    or raw_word & 0xFFFF
+                    or patched_word != expected_word):
+                fail(f"historical {tag} unmatched HI16 proof drift")
+            struct.pack_into(
+                "<I", derived, sections[".text"].offset + original_offset,
+                patched_word,
+            )
+            masked[offset:offset + 4] = expected[offset:offset + 4]
+            found.add(original_offset)
+        if found != set(unpaired_highs):
+            fail(f"historical {tag} unmatched HI16 roster drift")
+        rel_entries = remaining
+    if named_data_symbols is None:
+        named_data_symbols = frozenset(
+            original.symbols[info >> 8].name
+            for _offset, info in rel_entries
+            if (original.symbols[info >> 8].section_index
+                == sections[".data"].index
+                and original.symbols[info >> 8].name)
+        ) | frozenset(name for name, _target in unpaired_highs.values())
     named_data = {
-        index: (symbol.name, providers[".data"] + symbol.value)
+        index: (symbol.name, (named_data_targets or {}).get(
+            symbol.name, providers[".data"] + symbol.value))
         for index, symbol in enumerate(original.symbols)
         if symbol.section_index == sections[".data"].index
         and symbol.name in named_data_symbols
@@ -1347,6 +1495,8 @@ def link_historical_code(
     pending: dict[int, list[int]] = {}
     unmatched_lows: set[str] = set()
     patched_bss_lows = 0
+    excluded_text: set[str] = set()
+    outside_text_relocations: dict[int, str] = {}
 
     def record(name: str, value: int) -> None:
         value &= 0xFFFFFFFF
@@ -1368,11 +1518,36 @@ def link_historical_code(
             if symbol.section_index < len(original.sections) else "<special>"
         )
         if section_name == ".text" and kind == 4 and symbol.section_index != 0:
-            masked[offset:offset + 4] = expected[offset:offset + 4]
-            continue
-        if symbol.section_index == 0:
+            raw_word = struct.unpack_from("<I", raw, offset)[0]
+            target_word = struct.unpack_from("<I", expected, offset)[0]
+            local_target = (raw_word & 0x03FFFFFF) << 2
+            if symbol.info & 0xF == 3 and source_offset <= local_target < source_offset + size:
+                if (address + local_target - source_offset) & 0x0FFFFFFF != (target_word & 0x03FFFFFF) << 2:
+                    fail(f"historical {tag} local section call drift")
+                patched_word = (raw_word & 0xFC000000) | ((local_target - source_offset) >> 2)
+                struct.pack_into("<I", derived,
+                                 sections[".text"].offset + source_offset + offset,
+                                 patched_word)
+                masked[offset:offset + 4] = expected[offset:offset + 4]
+                continue
+            if (symbol.value >= source_offset and symbol.value < source_offset + size
+                    and symbol.info & 0xF != 3):
+                masked[offset:offset + 4] = expected[offset:offset + 4]
+                continue
+            if not symbol.name:
+                if symbol.info & 0xF != 3:
+                    fail(f"historical {tag} unnamed excluded code target")
+                name = f"stage3p_{tag}_outside_{symbol_index}"
+                outside_text_relocations[index] = name
+            else:
+                excluded_text.add(symbol.name)
+                name = symbol.name
+        elif symbol.section_index == 0:
             if not symbol.name:
                 fail(f"historical {tag} unnamed external relocation")
+            name = symbol.name
+        elif section_name.startswith(".gnu.linkonce.t.") and kind == 4 and symbol.name:
+            excluded_text.add(symbol.name)
             name = symbol.name
         elif section_name in providers:
             if section_name == ".data" and symbol.name:
@@ -1400,6 +1575,16 @@ def link_historical_code(
             if not highs:
                 unmatched_lows.add(name)
             corrected_word = raw_word
+            if relocation_addends and source_offset + offset in relocation_addends:
+                old_addend, new_addend = relocation_addends[source_offset + offset]
+                if (raw_word & 0xFFFF != old_addend
+                        or section_name != ".rodata"):
+                    fail(f"historical {tag} relocation addend drift")
+                corrected_word = (raw_word & 0xFFFF0000) | new_addend
+                struct.pack_into(
+                    "<I", derived, sections[".text"].offset + source_offset + offset,
+                    corrected_word,
+                )
             if expected_bss_fixes and section_name == ".bss" and raw_word & 0xFFFF == 2:
                 if target_word & 0xFFFF != 0xC801:
                     fail(f"historical {tag} BSS addend drift")
@@ -1415,6 +1600,11 @@ def link_historical_code(
                 record(name, (target_high << 16) + signed(target_word)
                        - (raw_high << 16) - signed(corrected_word))
         masked[offset:offset + 4] = expected[offset:offset + 4]
+    for _offset, (name, target_address) in unpaired_highs.items():
+        if name not in externals:
+            record(name, target_address)
+        if externals[name] != target_address:
+            fail(f"historical {tag} unmatched HI16 target drift: {name}")
     if (pending or not unmatched_lows.issubset(externals)
             or masked != expected or patched_bss_lows != expected_bss_fixes):
         fail(f"historical {tag} code proof or BSS addends drift")
@@ -1436,11 +1626,14 @@ def link_historical_code(
     symbol_count = symtab.size // 16
     source_symbols = bytearray(original.data[symtab.offset:symtab.offset + symtab.size])
     source_strings = bytearray(original.data[strtab.offset:strtab.offset + strtab.size])
-    if source_offset:
+    if source_offset or source_tail:
         for index, symbol in enumerate(original.symbols):
             if symbol.section_index != sections[".text"].index:
                 continue
-            if symbol.value < source_offset:
+            if symbol.info & 0xF == 3:
+                continue
+            if (symbol.value < source_offset
+                    or symbol.value >= source_offset + size):
                 struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
                 struct.pack_into("<H", source_symbols, index * 16 + 14, 0)
             else:
@@ -1455,6 +1648,12 @@ def link_historical_code(
         ))
         source_strings.extend(name.encode("ascii") + b"\0")
         relocation_targets[name] = providers[section_name]
+    for name in sorted(set(outside_text_relocations.values())):
+        synthetic_indices[name] = symbol_count + len(synthetic_indices)
+        source_symbols.extend(struct.pack(
+            "<IIIBBH", len(source_strings), 0, 0, 0x10, 0, 0
+        ))
+        source_strings.extend(name.encode("ascii") + b"\0")
     selected_relocations = bytearray().join(
         struct.pack("<II", offset, info) for offset, info in rel_entries
     )
@@ -1464,21 +1663,32 @@ def link_historical_code(
             original.sections[original_symbol.section_index].name
             if original_symbol.section_index < len(original.sections) else "<special>"
         )
-        if section_name in synthetic_indices and not original_symbol.name:
+        if index in outside_text_relocations:
+            target_symbol = synthetic_indices[outside_text_relocations[index]]
+            struct.pack_into(
+                "<I", selected_relocations, index * 8 + 4,
+                (target_symbol << 8) | (info & 0xFF),
+            )
+        elif section_name in synthetic_indices and not original_symbol.name:
             struct.pack_into(
                 "<I", selected_relocations, index * 8 + 4,
                 (synthetic_indices[section_name] << 8) | (info & 0xFF),
             )
-    if not source_offset:
+    if not source_offset and not source_tail:
         derived[rel.offset:rel.offset + rel.size] = selected_relocations
     for index in named_data:
         struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
         struct.pack_into("<H", source_symbols, index * 16 + 14, 0)
+    for index, symbol in enumerate(original.symbols):
+        if (symbol.name in excluded_text and symbol.section_index < len(original.sections)
+                and original.sections[symbol.section_index].name.startswith(".gnu.linkonce.t.")):
+            struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
+            struct.pack_into("<H", source_symbols, index * 16 + 14, 0)
     table_offset = struct.unpack_from("<I", derived, 0x20)[0]
     entry_size = struct.unpack_from("<H", derived, 0x2E)[0]
     if entry_size < 40 or symtab.size % 16:
         fail(f"historical {tag} ELF32 symbol-table drift")
-    if source_offset:
+    if source_offset or source_tail:
         text_header = table_offset + sections[".text"].index * entry_size
         struct.pack_into("<I", derived, text_header + 16,
                          sections[".text"].offset + source_offset)
@@ -1506,15 +1716,19 @@ def link_historical_code(
     source_copy = build_dir / f"stage3p-{tag}-code-source.o"
     source_copy.write_bytes(derived)
     converted = ELFFile(source_copy)
-    if (len(converted.symbols) != symbol_count + len(providers)
+    if (len(converted.symbols) != symbol_count + len(synthetic_indices)
             or any(converted.symbols[index].name != f"stage3p_{tag}_{name[1:]}"
                    or converted.symbols[index].section_index != 0
-                   for name, index in synthetic_indices.items())):
+                   for name, index in synthetic_indices.items()
+                   if name.startswith("."))):
         fail(f"historical {tag} derived-symbol validation failed")
     prefix = f".text.stage3p.direct.{tag}"
     command = [objcopy, "--rename-section", f".text={prefix}.{address:08x}"]
     for section_name in (".data", ".rodata", ".bss"):
         command.extend(("--remove-section", section_name))
+    for section in original.sections:
+        if section.name.startswith(".gnu.linkonce.t."):
+            command.extend(("--remove-section", section.name))
     for name, destination in sorted(externals.items()):
         if name.startswith(f"stage3p_{tag}_"):
             relocation_targets[name] = destination
@@ -1524,7 +1738,8 @@ def link_historical_code(
             relocation_targets[alias] = destination
     for index, entry in enumerate(original.symbols):
         if (entry.name and entry.info >> 4 == 1
-                and entry.section_index == sections[".text"].index):
+                and entry.section_index == sections[".text"].index
+                and entry.name not in excluded_text):
             command.extend(("--redefine-sym", f"{entry.name}=stage3p_{tag}_direct_{index}"))
     output = build_dir / f"stage3p-{tag}-direct.o"
     run([*command, source_copy, output])
@@ -3205,6 +3420,180 @@ def probe(args: argparse.Namespace) -> dict:
     )
     direct_objects.append(snaporig_output)
     direct_sections.append(snaporig_section)
+    memmap_output, memmap_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="memmapcore", specification=DIRECT_MEMMAP_CORE_OBJECT,
+        expected_relocations=1126,
+        expected_layout={".data": 968, ".rel.data": 38 * 8,
+                         ".rodata": 4352, ".rel.rodata": 118 * 8,
+                         ".bss": 8288},
+        named_data_symbols=frozenset(), source_offset=0x8EC,
+        source_tail=0x170C,
+        relocation_addends={0x1E50: (0x0D00, 0x0B20)},
+        unpaired_highs={
+            0x1C34: ("Memory", 0x0034E2B0),
+            0x1C58: ("Memory", 0x0034E2B0),
+            0x1DE4: ("Memory", 0x0034E2B0),
+            0x6830: ("SA1", 0x00345AF8),
+            0x74A8: ("SA1", 0x00345AF8),
+        },
+    )
+    direct_objects.append(memmap_output)
+    direct_sections.append(memmap_section)
+    dsp_output, dsp_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="dspcore", specification=DIRECT_DSP_CORE_OBJECT,
+        expected_relocations=878,
+        expected_layout={".data": 19336, ".rel.data": 152,
+                         ".rodata": 2944, ".rel.rodata": 1776, ".bss": 0},
+        named_data_symbols=None, source_offset=0x1294,
+        source_tail=832 + 64,
+        unpaired_highs={0x2534: ("DSP2Op0DInLen", 0x00341654)},
+    )
+    direct_objects.append(dsp_output)
+    direct_sections.append(dsp_section)
+    spc_output, spc_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="spc7110core", specification=DIRECT_SPC7110_CORE_OBJECT,
+        expected_relocations=282,
+        expected_layout={".data": 66320, ".rel.data": 120,
+                         ".rodata": 904, ".rel.rodata": 1136,
+                         ".bss": 16},
+        named_data_symbols=None, source_offset=0xC84,
+        source_tail=4772,
+        unpaired_highs={
+            0x14D8: ("Copy7110", 0x004134F4),
+            0x1678: ("s7r", 0x00413508),
+        },
+    )
+    direct_objects.append(spc_output)
+    direct_sections.append(spc_section)
+    gzio_output, gzio_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="gziocore", specification=DIRECT_GZIO_CORE_OBJECT,
+        expected_relocations=98,
+        expected_layout={".data": 16, ".rodata": 56, ".bss": 0},
+        named_data_symbols=None, source_offset=8, source_tail=584,
+        named_data_targets={"errno": 0x00425A70},
+    )
+    direct_objects.append(gzio_output)
+    direct_sections.append(gzio_section)
+    srtc_output, srtc_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="srtc", specification=DIRECT_SRTC_CODE_OBJECT,
+        expected_relocations=68,
+        expected_layout={".data": 80, ".rodata": 40,
+                         ".rel.rodata": 80, ".bss": 0},
+        named_data_symbols=frozenset(("rtc",)),
+    )
+    direct_objects.append(srtc_output)
+    direct_sections.append(srtc_section)
+    snapshot_output, snapshot_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="snapshotcore", specification=DIRECT_SNAPSHOT_CORE_OBJECT,
+        expected_relocations=351,
+        expected_layout={".data": 20072, ".rel.data": 104,
+                         ".rodata": 464, ".bss": 1024},
+        named_data_symbols=frozenset(), source_offset=0x80,
+        source_tail=5464,
+        unpaired_highs={
+            0x29C: ("Registers", 0x003453A8),
+            0x334: ("SRAM", 0x0034E298),
+            0x410: ("SA1Registers", 0x00345AE8),
+            0x6AC: ("Registers", 0x003453A8),
+            0x834: ("IAPU", 0x00345498),
+            0x2C0: ("PPU", 0x0035B788),
+        },
+    )
+    direct_objects.append(snapshot_output)
+    direct_sections.append(snapshot_section)
+    sound_output, sound_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="soundcore", specification=DIRECT_SOUND_CORE_OBJECT,
+        expected_relocations=147,
+        expected_layout={".data": 264, ".rel.data": 40,
+                         ".rodata": 224, ".rel.rodata": 288, ".bss": 0},
+        named_data_symbols=frozenset(), source_tail=12484,
+        unpaired_highs={
+            0x70C: ("SoundData", 0x0034DB50),
+            0x718: ("SoundData", 0x0034DB50),
+        },
+    )
+    direct_objects.append(sound_output)
+    direct_sections.append(sound_section)
+    for tag, specification, rel_count, layout, overrides in DIRECT_SMALL_CODE_OBJECTS:
+        small_output, small_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag, specification=specification,
+            expected_relocations=rel_count, expected_layout=layout,
+            named_data_symbols=None, named_data_targets=overrides,
+        )
+        direct_objects.append(small_output)
+        direct_sections.append(small_section)
+    loadzip_output, loadzip_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="loadzip", specification=DIRECT_LOADZIP_CODE_OBJECT,
+        expected_relocations=53,
+        expected_layout={".data": 104, ".rel.data": 16,
+                         ".rodata": 128, ".bss": 0},
+        named_data_symbols=frozenset(),
+        relocation_addends={0x2C0: (0x78, 0x38)},
+    )
+    direct_objects.append(loadzip_output)
+    direct_sections.append(loadzip_section)
+    sjpcm_output, sjpcm_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="sjpcm", specification=DIRECT_SJPCM_CODE_OBJECT,
+        expected_relocations=93,
+        expected_layout={".data": 16, ".bss": 4416},
+        named_data_symbols=None, source_offset=0xC0,
+        named_data_targets={"sjpcm_inited": 0x001F6100,
+                            "pcmbufl": 0x00426E08},
+    )
+    direct_objects.append(sjpcm_output)
+    direct_sections.append(sjpcm_section)
+    explode_output, explode_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="explode", specification=DIRECT_EXPLODE_TAIL_OBJECT,
+        expected_relocations=52,
+        expected_layout={".data": 33496, ".bss": 0},
+        named_data_symbols=None, source_offset=0x17E0,
+        source_tail=1760,
+        named_data_targets={"hufts": 0x00426E18},
+    )
+    direct_objects.append(explode_output)
+    direct_sections.append(explode_section)
+    seta010_output, seta010_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="seta010", specification=DIRECT_SETA010_PREFIX_OBJECT,
+        expected_relocations=26,
+        expected_layout={".data": 40, ".rodata": 88,
+                         ".rel.rodata": 64, ".bss": 0},
+        named_data_symbols=frozenset(), source_tail=312,
+        unpaired_highs={0x1E0: ("stage3p_seta010_rodata", 0x001B8058)},
+    )
+    direct_objects.append(seta010_output)
+    direct_sections.append(seta010_section)
+    cheats2_output, cheats2_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="cheats2", specification=DIRECT_CHEATS2_TAIL_OBJECT,
+        expected_relocations=34,
+        expected_layout={".data": 440, ".rel.data": 88,
+                         ".rodata": 8, ".bss": 0},
+        named_data_symbols=frozenset(), source_offset=0x250,
+        source_tail=352,
+    )
+    direct_objects.append(cheats2_output)
+    direct_sections.append(cheats2_section)
+    gzio_suffix_output, gzio_suffix_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="gziosuffix", specification=DIRECT_GZIO_SUFFIX_OBJECT,
+        expected_relocations=25,
+        expected_layout={".data": 16, ".rodata": 56, ".bss": 0},
+        named_data_symbols=frozenset(), source_offset=0x1174,
+    )
+    direct_objects.append(gzio_suffix_output)
+    direct_sections.append(gzio_suffix_section)
     tile_output, tile_sections = link_historical_tile(
         selected_sources, reference, args.build_dir, objcopy, relocation_targets,
     )
@@ -3254,7 +3643,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 21,
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 34 + len(DIRECT_SMALL_CODE_OBJECTS),
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
