@@ -1406,6 +1406,129 @@ def assemble_window0(reference: bytes, residual_object: Path) -> tuple[bytes, di
     }
 
 
+def public_listing_direct_object(
+    cxx: Path,
+    reference: bytes,
+    direct_sections: list[tuple[str, int, int, tuple[str, str] | None]],
+    build_dir: Path,
+) -> tuple[Path | None, list[tuple[str, int, int, tuple[str, str] | None]], int]:
+    """Assemble still-uncovered committed listing words into real ELF sections.
+
+    The input bytes come only from the public analysis/functions listings
+    already frozen by public_listing_contract(). The private reference is used
+    only as a comparison oracle; it is never copied into the generated source.
+    This is exact assembly provenance, not an .incbin transport.
+    """
+    covered = sorted(
+        (max(WINDOW_START, address), min(WINDOW_END, address + size))
+        for _prefix, address, size, _selector in direct_sections
+        if address < WINDOW_END and address + size > WINDOW_START
+    )
+    merged: list[list[int]] = []
+    for start, end in covered:
+        if end <= start:
+            continue
+        if not merged or start > merged[-1][1]:
+            merged.append([start, end])
+        else:
+            merged[-1][1] = max(merged[-1][1], end)
+
+    words: dict[int, tuple[bytes, str]] = {}
+    for item in public_listing_contract():
+        path = ROOT / str(item["path"])
+        for line in path.read_text(encoding="utf-8").splitlines():
+            match = LISTING_INSTRUCTION_RE.match(line)
+            if match is None:
+                continue
+            address = int(match.group(1), 16)
+            if not (WINDOW_START <= address and address + 4 <= WINDOW_END):
+                continue
+            raw = bytes(int(match.group(index), 16) for index in range(2, 6))
+            prior = words.get(address)
+            if prior is not None and prior[0] != raw:
+                fail(f"conflicting public listing word @ 0x{address:08x}")
+            if reference[address - TARGET_BASE:address - TARGET_BASE + 4] != raw:
+                fail(f"public listing differs from target: {item['path']} @ 0x{address:08x}")
+            if prior is None:
+                words[address] = (raw, str(item["path"]))
+
+    def overlap(address: int) -> tuple[int, int] | None:
+        for start, end in merged:
+            if end <= address:
+                continue
+            if start >= address + 4:
+                return None
+            return start, end
+        return None
+
+    selected: list[tuple[int, bytes, str]] = []
+    for address in sorted(words):
+        span = overlap(address)
+        if span is not None:
+            if not (span[0] <= address and address + 4 <= span[1]):
+                fail(f"direct section partially overlaps listing word @ 0x{address:08x}")
+            continue
+        raw, source = words[address]
+        selected.append((address, raw, source))
+
+    if not selected:
+        return None, [], 0
+
+    runs: list[list[tuple[int, bytes, str]]] = []
+    for row in selected:
+        if not runs or row[0] != runs[-1][-1][0] + 4:
+            runs.append([row])
+        else:
+            runs[-1].append(row)
+
+    source = build_dir / "stage3p-public-listing-direct.S"
+    lines = [
+        "/* Generated only from committed public objdump listings. */",
+        "/* No private target bytes are emitted into this source. */",
+        "    .set noreorder",
+        "    .set noat",
+    ]
+    sections: list[tuple[str, int, int, tuple[str, str] | None]] = []
+    for run in runs:
+        address = run[0][0]
+        size = len(run) * 4
+        prefix = ".text.stage3p.direct.listing"
+        section = f"{prefix}.{address:08x}"
+        symbol = f"stage3p_listing_{address:08x}"
+        origins = sorted({row[2] for row in run})
+        lines.extend([
+            "",
+            "    /* " + ", ".join(origins) + " */",
+            f'    .section {section},"ax",@progbits',
+            "    .balign 4",
+            f"    .globl {symbol}",
+            f"    .type {symbol}, @function",
+            f"{symbol}:",
+        ])
+        for _word_address, raw, _origin in run:
+            lines.append(f"    .word 0x{int.from_bytes(raw, 'little'):08x}")
+        lines.append(f"    .size {symbol}, .-{symbol}")
+        sections.append((prefix, address, size, None))
+    source.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    output = build_dir / "stage3p-public-listing-direct.o"
+    stage3o.stage3i.compile_one(
+        cxx, ("-G0", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900"),
+        source, output,
+    )
+    elf = ELFFile(output)
+    for prefix, address, size, _selector in sections:
+        name = f"{prefix}.{address:08x}"
+        matches = [item for item in elf.sections if item.name == name]
+        if len(matches) != 1 or matches[0].size != size:
+            fail(f"public listing ELF section drift @ 0x{address:08x}")
+        actual = elf.data[matches[0].offset:matches[0].offset + size]
+        expected = b"".join(words[pos][0] for pos in range(address, address + size, 4))
+        if actual != expected:
+            fail(f"public listing ELF bytes drift @ 0x{address:08x}")
+    return output, sections, sum(size for _prefix, _address, size, _selector in sections)
+
+
 def payload_segments(
     window0: bytes,
     windows: list[bytes],
@@ -3943,6 +4066,13 @@ def probe(args: argparse.Namespace) -> dict:
             row for row in direct_sections
             if row[0] != ".text.stage3p.residual" or row[1] not in redundant
         ]
+
+    listing_object, listing_sections, listing_direct_bytes = public_listing_direct_object(
+        cxx, reference, direct_sections, args.build_dir,
+    )
+    if listing_object is not None:
+        direct_objects.append(listing_object)
+        direct_sections.extend(listing_sections)
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -3955,6 +4085,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
+            "public_listing_direct_bytes": listing_direct_bytes,
             "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 37 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES),
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
