@@ -548,6 +548,12 @@ DIRECT_XPRINTF_CODE_OBJECT = (
     ((".text", 0x0019D84C), (".rodata", 0x001BA478)),
 )
 
+DIRECT_UNWIND_DW2_CODE_OBJECT = (
+    "build/tail-metadata/libgcc/unwind-dw2.o",
+    0x001A3DC0, 0x1F00,
+    ((".data", 0x00425BD8),),
+)
+
 DIRECT_UNWIND_FDE_CODE_OBJECT = (
     "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
     0x001A5CC0, 0x18C0,
@@ -3557,6 +3563,15 @@ def probe(args: argparse.Namespace) -> dict:
     )
     direct_objects.append(xprintf_output)
     direct_sections.append(xprintf_section)
+    unwind_dw2_output, unwind_dw2_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="unwinddw2", specification=DIRECT_UNWIND_DW2_CODE_OBJECT,
+        expected_relocations=105,
+        expected_layout={".data": 0x4CC, ".rel.data": 17 * 8},
+        named_data_symbols=None,
+    )
+    direct_objects.append(unwind_dw2_output)
+    direct_sections.append(unwind_dw2_section)
     unwind_output, unwind_section = link_historical_code(
         reference, args.build_dir, objcopy, relocation_targets,
         tag="unwindfde", specification=DIRECT_UNWIND_FDE_CODE_OBJECT,
@@ -3940,7 +3955,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 36 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES),
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 37 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES),
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
