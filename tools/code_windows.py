@@ -769,6 +769,8 @@ DIRECT_LIBGCC_SLICES = (
      {".data": 0, ".bss": 0}, 168),
     ("gccfloatdidf", "_floatdidf.o", 0x001A7580, 0, 176, 6,
      {".data": 0, ".bss": 0}, 184),
+    ("gccmod", "_moddi3.o", 0x001A7638, 0, 2040, 7,
+     {".data": 92, ".rel.data": 16, ".bss": 0}, 2040),
     ("gccfpcmp", "_fpcmp_parts_df.o", 0x001A81B8, 0, 264, 0,
      {".data": 0, ".bss": 0}, 264),
     ("gccpackdf", "_pack_df.o", 0x001A7F40, 0, 392, 0,
