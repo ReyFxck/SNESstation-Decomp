@@ -664,6 +664,11 @@ DIRECT_EXPLODE_TAIL_OBJECT = (
     0x0018D914, 1252, ((".data", 0x00424158),),
 )
 
+DIRECT_EXPLODE_EARLY_SLICES = (
+    ("explodemiddle", 0x0018C480, 0x35C, 84, 0),
+    ("explodebit", 0x0018C538, 0x414, 84, 0),
+)
+
 DIRECT_SETA010_PREFIX_OBJECT = (
     "build/matching/hunt1000plus-v46-closure/snes/seta010.o",
     0x0016FC90, 880, ((".rodata", 0x001B8058),),
@@ -677,6 +682,181 @@ DIRECT_CHEATS2_TAIL_OBJECT = (
 DIRECT_GZIO_SUFFIX_OBJECT = (
     "build/matching/hunt1041-v48-closure/historical/pgen-gzio.o",
     0x00194404, 548, ((".rodata", 0x001B9280),),
+)
+
+DIRECT_C4_BITPLANE_OBJECT = (
+    "build/matching/hunt1041-v78-c4bit/objects/c4emu.o",
+    0x0010D2A8, 1332,
+    ((".data", 0x003359D0), (".rodata", 0x001B18F8)),
+)
+
+DIRECT_GSPIPE_OBJECT = (
+    "build/window11-rodata/pgen-gslib/gsPipe.o",
+    0x00199480, 9072,
+    ((".rodata", 0x001BA2E0), (".bss", 0x0043ECD0)),
+)
+
+DIRECT_GSDRIVER_SLICES = (
+    ("gsdriverprefix", 0x00198C58, 0, 1304, 27,
+     ((".rodata", 0x001BA248),)),
+    ("gsdrivermiddle", 0x00199178, 0x520, 272, 4, ()),
+    ("gsdrivertail", 0x00199290, 0x638, 496, 7, ()),
+)
+
+DIRECT_ZLIB_OBJECT_SLICES = (
+    ("infcodes", "zlib-infcodes.o", 0x0019533C, 0, 2048, 23,
+     ((".rodata", 0x001B93B0),),
+     {".data": 0, ".rodata": 96, ".rel.rodata": 80, ".bss": 0}, 2048),
+    ("inftreespre", "zlib-inftrees.o", 0x00195F80, 0, 1008, 0,
+     (), {".data": 4360, ".rodata": 800, ".bss": 0}, 2152),
+    ("inftreespost", "zlib-inftrees.o", 0x00196380, 0x400, 1128, 34,
+     ((".data", 0x00424868), (".rodata", 0x001B9448)),
+     {".data": 4360, ".rodata": 800, ".bss": 0}, 2152),
+    ("infblockpre", "zlib-infblock.o", 0x00194628, 0, 504, 2,
+     (), {".data": 0, ".rodata": 248,
+          ".rel.rodata": 80, ".bss": 0}, 3360),
+    ("infblockmid", "zlib-infblock.o", 0x0019483C, 0x214, 696, 9,
+     ((".rodata", 0x001B92B8),),
+     {".data": 0, ".rodata": 248,
+      ".rel.rodata": 80, ".bss": 0}, 3360),
+    ("treespre", "zlib-trees.o", 0x00196980, 0, 144, 8,
+     ((".data", 0x004259B8),),
+     {".data": 72, ".rel.data": 40, ".rodata": 2624, ".bss": 0}, 8408),
+    ("treesmid1", "zlib-trees.o", 0x00196A70, 0xF0, 408, 0,
+     (), {".data": 72, ".rel.data": 40, ".rodata": 2624,
+          ".bss": 0}, 8408),
+    ("treesmid2", "zlib-trees.o", 0x00196C18, 0x298, 336, 2,
+     (), {".data": 72, ".rel.data": 40, ".rodata": 2624,
+          ".bss": 0}, 8408),
+    ("treespost", "zlib-trees.o", 0x00196D78, 0x3F8, 648, 3,
+     (), {".data": 72, ".rel.data": 40, ".rodata": 2624,
+          ".bss": 0}, 8408),
+)
+
+# Archive members from the pinned EE GCC 3.2.2 producer. Keep each member's
+# code and relocations; extract it on demand from the original libgcc archive.
+LIBGCC_ARCHIVE = "build/toolchains/ee-gcc-3.2.2-stage1/prefix/lib/gcc-lib/ee/3.2.2/libgcc.a"
+LIBGCC_ARCHIVE_SHA256 = "9a74637b90785200af2a7293f3e8b4ad379b29f4a9f9eb52252cf92a918d668e"
+DIRECT_LIBGCC_SLICES = (
+    ("gccfixuns", "_fixunsdfdi.o", 0x001A1C98, 0, 288, 11, {}, 288),
+    ("gccdiv", "_divdi3.o", 0x001A1DB8, 0, 2040, 7,
+     {".data": 92, ".rel.data": 16, ".bss": 0}, 2040),
+    ("gccudiv", "_udivdi3.o", 0x001A25B0, 0, 1736, 7,
+     {".data": 84, ".rel.data": 16, ".bss": 0}, 1736),
+    ("gccumod", "_umoddi3.o", 0x001A2C78, 0, 1736, 7,
+     {".data": 84, ".rel.data": 16, ".bss": 0}, 1736),
+    ("gccsftodf", "_sf_to_df.o", 0x001A3340, 0, 64, 2,
+     {".data": 0, ".bss": 0}, 64),
+    ("gccaddpre", "_addsub_df.o", 0x001A3380, 0, 228, 2,
+     {".data": 0, ".bss": 0}, 768),
+    ("gccaddmid", "_addsub_df.o", 0x001A3470, 0xF0, 40, 0,
+     {".data": 0, ".bss": 0}, 768),
+    ("gccaddpost", "_addsub_df.o", 0x001A34A0, 0x120, 480, 8,
+     {".data": 0, ".bss": 0}, 768),
+    ("gccmuldf", "_mul_df.o", 0x001A3680, 0, 720, 7,
+     {".data": 0, ".bss": 0}, 720),
+    ("gccdivdf", "_div_df.o", 0x001A3950, 0, 392, 6,
+     {".data": 0, ".bss": 0}, 392),
+    ("gcccmpdf", "_compare_df.o", 0x001A3AD8, 0, 88, 3,
+     {".data": 0, ".bss": 0}, 88),
+    ("gccfloatdisf", "_floatdisf.o", 0x001A1B98, 0, 248, 7,
+     {".data": 0, ".bss": 0}, 256),
+    ("gccdftosf", "_df_to_sf.o", 0x001A3CC0, 0, 88, 2,
+     {".data": 0, ".bss": 0}, 88),
+    ("gccdftosi", "_df_to_si.o", 0x001A3BF0, 0, 160, 1,
+     {".data": 0, ".bss": 0}, 160),
+    ("gccdftousi", "_df_to_usi.o", 0x001A3D18, 0, 168, 1,
+     {".data": 0, ".bss": 0}, 168),
+    ("gccfloatdidf", "_floatdidf.o", 0x001A7580, 0, 176, 6,
+     {".data": 0, ".bss": 0}, 184),
+    ("gccfpcmp", "_fpcmp_parts_df.o", 0x001A81B8, 0, 264, 0,
+     {".data": 0, ".bss": 0}, 264),
+    ("gccpackdf", "_pack_df.o", 0x001A7F40, 0, 392, 0,
+     {".data": 0, ".bss": 0}, 400),
+    ("gccpacksfpre", "_pack_sf.o", 0x001A82C0, 0, 112, 0,
+     {".data": 0, ".bss": 0}, 352),
+    ("gccpacksfpost", "_pack_sf.o", 0x001A8338, 0x78, 232, 0,
+     {".data": 0, ".bss": 0}, 352),
+    ("gcclitodfpre", "_si_to_df.o", 0x001A3B30, 0, 148, 1,
+     {".data": 0, ".bss": 0}, 192),
+    ("gcclitodfpost", "_si_to_df.o", 0x001A3BD0, 0xA0, 32, 0,
+     {".data": 0, ".bss": 0}, 192),
+    ("gccunpackdfpre", "_unpack_df.o", 0x001A80D0, 0, 96, 0,
+     {".data": 0, ".bss": 0}, 232),
+    ("gccunpackdfpost", "_unpack_df.o", 0x001A8140, 0x70, 120, 0,
+     {".data": 0, ".bss": 0}, 232),
+    ("gccunpacksfpre", "_unpack_sf.o", 0x001A7E30, 0, 96, 0,
+     {".data": 0, ".bss": 0}, 224),
+    ("gccunpacksfpost", "_unpack_sf.o", 0x001A7EA0, 0x70, 112, 0,
+     {".data": 0, ".bss": 0}, 224),
+)
+
+# Historical PS2LIB runtime members already verified by the runtime-members
+# gate. The attached section providers are established by the data contracts.
+DIRECT_RUNTIME_OBJECTS = (
+    ("rtmemmove", "libc/memmove.o", 0x0019C4A0, 136, 0, (),
+     {".data": 0, ".bss": 0}),
+    ("rtbind", "kernel/SifBindRpc.o", 0x0019C688, 296, 8, (),
+     {".data": 0, ".bss": 0}),
+    ("rtcall", "kernel/SifCallRpc.o", 0x0019C7B0, 432, 10, (),
+     {".data": 0, ".bss": 0}),
+    ("rtrpc", "kernel/SifRpcMain.o", 0x0019C960, 1040, 37,
+     ((".text", 0x0019C960), (".data", 0x00425A40),
+      (".bss", 0x00443940)),
+     {".data": 48, ".rel.data": 24, ".bss": 6144}),
+    ("rtfioopen", "kernel/fio_open.o", 0x0019CFC0, 208, 18, (),
+     {".data": 0, ".bss": 0}),
+    ("rtfioclose", "kernel/fio_close.o", 0x0019D090, 144, 11, (),
+     {".data": 0, ".bss": 0}),
+    ("rtfioread", "kernel/fio_read.o", 0x0019D120, 292, 22, (),
+     {".data": 0, ".bss": 0}),
+    ("rtfiolseek", "kernel/fio_lseek.o", 0x0019D360, 176, 11, (),
+     {".data": 0, ".bss": 0}),
+    ("rtsifsend", "kernel/sif_cmd_send.o", 0x0019F138, 420, 8, (),
+     {".data": 0, ".bss": 0}),
+    ("rtsifcmd", "kernel/sif_cmd_main.o", 0x0019F2DC, 616, 43,
+     ((".text", 0x0019F2DC), (".data", 0x00425A88)),
+     {".data": 40, ".rel.data": 40, ".bss": 832}),
+    ("rtfiomain", "kernel/fio_main.o", 0x0019F600, 488, 34,
+     ((".data", 0x00425AB0),), {".data": 4, ".bss": 0}),
+    ("rtiopinit", "kernel/SifInitIopHeap.o", 0x0019F9E8, 192, 10,
+     ((".data", 0x00425AB4),), {".data": 4, ".bss": 0}),
+    ("rtloadinit", "kernel/SifLoadFileInit.o", 0x0019FD20, 188, 9,
+     ((".data", 0x00425AB8),), {".data": 4, ".bss": 0}),
+)
+
+
+def extract_libgcc_members(build_dir: Path) -> None:
+    archive = ROOT / LIBGCC_ARCHIVE
+    if not archive.is_file() or digest(archive.read_bytes()) != LIBGCC_ARCHIVE_SHA256:
+        fail("pinned EE GCC libgcc archive identity drift")
+    destination = build_dir / "libgcc-candidates"
+    destination.mkdir(parents=True, exist_ok=True)
+    for basename in sorted({row[1] for row in DIRECT_LIBGCC_SLICES}):
+        result = subprocess.run(
+            ["ar", "p", str(archive), basename],
+            capture_output=True, check=True,
+        )
+        (destination / basename).write_bytes(result.stdout)
+
+# Original MEMMAP.o functions in the late compatibility tail are interleaved
+# differently from their producer object. Each function is linked from its own
+# proved .text slice; section references use the matching read-only provider.
+DIRECT_MEMMAP_TAIL_SLICES = (
+    ("memgetpointer", 0x001AB4E8, 0x9048, 340, 0x001B0EC0, 27, {}),
+    ("memgetbyte", 0x001AB63C, 0x80E8, 708, 0x001B1150, 49,
+     {0x8204: ("OpenBus", 0x0035B768),
+      0x8220: ("CPU", 0x00345340),
+      0x8224: ("Memory", 0x0034E2B0),
+      0x8250: ("OpenBus", 0x0035B768)}),
+    ("memsetbyte", 0x001AB900, 0x87A8, 808, 0x001B1108, 53,
+     {0x89A4: ("Memory", 0x0034E2B0)}),
+    ("memsetpc", 0x001AC024, 0x919C, 364, 0x001B1080, 29, {}),
+    ("memsetword", 0x001AC190, 0x8AD0, 1140, 0x001B12A0, 64, {}),
+    ("memgetbase", 0x001AC734, 0x8F44, 260, 0x001B13E0, 22,
+     {0x8FF0: ("Memory", 0x0034E2B0),
+      0x8FFC: ("Memory", 0x0034E2B0),
+      0x903C: ("Memory", 0x0034E2B0)}),
 )
 
 
@@ -1410,6 +1590,7 @@ def link_historical_code(
     if (original.elf_class != 1 or original.endian != "<"
             or sections[".text"].size != size + source_offset + source_tail
             or (not source_offset and not source_tail and
+                sections.get(".rel.text") is not None and
                 sections[".rel.text"].size != expected_relocations * 8)
             or any(sections[name].size != expected_size
                    for name, expected_size in expected_layout.items())):
@@ -1421,9 +1602,11 @@ def link_historical_code(
     expected = reference[address - TARGET_BASE:address - TARGET_BASE + size]
     masked = bytearray(raw)
     derived = bytearray(original.data)
-    rel = sections[".rel.text"]
+    rel = sections.get(".rel.text")
     rel_entries = []
-    for index in range(rel.size // 8):
+    if rel is None and expected_relocations:
+        fail(f"historical {tag} missing code relocations")
+    for index in range(rel.size // 8 if rel else 0):
         offset, info = struct.unpack_from("<II", original.data, rel.offset + index * 8)
         if offset < source_offset:
             if offset + 4 > source_offset:
@@ -1537,12 +1720,12 @@ def link_historical_code(
             if not symbol.name:
                 if symbol.info & 0xF != 3:
                     fail(f"historical {tag} unnamed excluded code target")
-                name = f"stage3p_{tag}_outside_{symbol_index}"
+                name = f"stage3p_{tag}_outside_{symbol_index}_{index}"
                 outside_text_relocations[index] = name
             else:
                 excluded_text.add(symbol.name)
                 name = symbol.name
-        elif symbol.section_index == 0:
+        elif symbol.section_index in (0, 0xFFF2):  # undefined or SHN_COMMON
             if not symbol.name:
                 fail(f"historical {tag} unnamed external relocation")
             name = symbol.name
@@ -1674,12 +1857,18 @@ def link_historical_code(
                 "<I", selected_relocations, index * 8 + 4,
                 (synthetic_indices[section_name] << 8) | (info & 0xFF),
             )
-    if not source_offset and not source_tail:
+    if rel is not None and not source_offset and not source_tail:
         derived[rel.offset:rel.offset + rel.size] = selected_relocations
     for index in named_data:
         struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
         struct.pack_into("<H", source_symbols, index * 16 + 14, 0)
     for index, symbol in enumerate(original.symbols):
+        if symbol.section_index == 0xFFF2:
+            # The historical linker already owns these COMMON storage slots.
+            # Keep only their proved references in this code-only member.
+            struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
+            struct.pack_into("<I", source_symbols, index * 16 + 8, 0)
+            struct.pack_into("<H", source_symbols, index * 16 + 14, 0)
         if (symbol.name in excluded_text and symbol.section_index < len(original.sections)
                 and original.sections[symbol.section_index].name.startswith(".gnu.linkonce.t.")):
             struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
@@ -1693,13 +1882,14 @@ def link_historical_code(
         struct.pack_into("<I", derived, text_header + 16,
                          sections[".text"].offset + source_offset)
         struct.pack_into("<I", derived, text_header + 20, size)
-        rel_header = table_offset + rel.index * entry_size
-        while len(derived) % 4:
-            derived.append(0)
-        struct.pack_into("<I", derived, rel_header + 16, len(derived))
-        struct.pack_into("<I", derived, rel_header + 20,
-                         len(selected_relocations))
-        derived.extend(selected_relocations)
+        if rel is not None:
+            rel_header = table_offset + rel.index * entry_size
+            while len(derived) % 4:
+                derived.append(0)
+            struct.pack_into("<I", derived, rel_header + 16, len(derived))
+            struct.pack_into("<I", derived, rel_header + 20,
+                             len(selected_relocations))
+            derived.extend(selected_relocations)
     while len(derived) % 4:
         derived.append(0)
     symbols_offset = len(derived)
@@ -3563,6 +3753,21 @@ def probe(args: argparse.Namespace) -> dict:
     )
     direct_objects.append(explode_output)
     direct_sections.append(explode_section)
+    for tag, address, start, size, rel_count in DIRECT_EXPLODE_EARLY_SLICES:
+        explode_early_output, explode_early_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(
+                "build/matching/hunt1000plus-v47-closure/pgen/explode.o",
+                address, size, ((".data", 0x00424158),),
+            ),
+            expected_relocations=rel_count,
+            expected_layout={".data": 33496, ".bss": 0},
+            named_data_symbols=None, source_offset=start,
+            source_tail=9124 - start - size,
+        )
+        direct_objects.append(explode_early_output)
+        direct_sections.append(explode_early_section)
     seta010_output, seta010_section = link_historical_code(
         reference, args.build_dir, objcopy, relocation_targets,
         tag="seta010", specification=DIRECT_SETA010_PREFIX_OBJECT,
@@ -3594,6 +3799,96 @@ def probe(args: argparse.Namespace) -> dict:
     )
     direct_objects.append(gzio_suffix_output)
     direct_sections.append(gzio_suffix_section)
+    c4bit_output, c4bit_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="c4bitplane", specification=DIRECT_C4_BITPLANE_OBJECT,
+        expected_relocations=39,
+        expected_layout={".data": 2536, ".rel.data": 56,
+                         ".rodata": 604, ".rel.rodata": 1208, ".bss": 0},
+        named_data_symbols=frozenset(), source_offset=0xF40,
+        source_tail=2804,
+    )
+    direct_objects.append(c4bit_output)
+    direct_sections.append(c4bit_section)
+    gspipe_output, gspipe_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="gspipe", specification=DIRECT_GSPIPE_OBJECT,
+        expected_relocations=104,
+        expected_layout={".data": 0, ".rodata": 296,
+                         ".rel.rodata": 336, ".bss": 20},
+        named_data_symbols=frozenset(),
+    )
+    direct_objects.append(gspipe_output)
+    direct_sections.append(gspipe_section)
+    for tag, address, start, size, rel_count, provider_rows in DIRECT_GSDRIVER_SLICES:
+        driver_output, driver_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=("build/window11-rodata/pgen-gslib/gsDriver.o",
+                           address, size, provider_rows),
+            expected_relocations=rel_count,
+            expected_layout={".data": 0, ".rodata": 152,
+                             ".rel.rodata": 304, ".bss": 0},
+            named_data_symbols=frozenset(), source_offset=start,
+            source_tail=2088 - start - size,
+        )
+        direct_objects.append(driver_output)
+        direct_sections.append(driver_section)
+    for (tag, basename, address, start, size, rel_count, provider_rows,
+         layout, original_size) in DIRECT_ZLIB_OBJECT_SLICES:
+        zlib_output, zlib_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(f"build/window11-rodata/source-objects/{basename}",
+                           address, size, provider_rows),
+            expected_relocations=rel_count, expected_layout=layout,
+            named_data_symbols=frozenset(), source_offset=start,
+            source_tail=original_size - start - size,
+        )
+        direct_objects.append(zlib_output)
+        direct_sections.append(zlib_section)
+    for tag, basename, address, size, rel_count, providers, layout in DIRECT_RUNTIME_OBJECTS:
+        runtime_output, runtime_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(f"build/runtime-members/objects/{basename}",
+                           address, size, providers),
+            expected_relocations=rel_count, expected_layout=layout,
+            named_data_symbols=None,
+        )
+        direct_objects.append(runtime_output)
+        direct_sections.append(runtime_section)
+    extract_libgcc_members(args.build_dir)
+    for tag, basename, address, start, size, rel_count, layout, original_size in DIRECT_LIBGCC_SLICES:
+        gcc_output, gcc_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(f"build/code-windows/libgcc-candidates/{basename}",
+                           address, size, ()),
+            expected_relocations=rel_count, expected_layout=layout,
+            named_data_symbols=frozenset(), source_offset=start,
+            source_tail=original_size - start - size,
+        )
+        direct_objects.append(gcc_output)
+        direct_sections.append(gcc_section)
+    for tag, address, start, size, rodata, rel_count, orphan_highs in DIRECT_MEMMAP_TAIL_SLICES:
+        tail_output, tail_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(
+                "build/matching/hunt1000plus-v46-closure/snes/MEMMAP.o",
+                address, size, ((".rodata", rodata),),
+            ),
+            expected_relocations=rel_count,
+            expected_layout={".data": 1120, ".rel.data": 328,
+                             ".rodata": 4360, ".rel.rodata": 944,
+                             ".bss": 8288},
+            named_data_symbols=frozenset(), source_offset=start,
+            source_tail=37640 - start - size,
+            unpaired_highs=orphan_highs,
+        )
+        direct_objects.append(tail_output)
+        direct_sections.append(tail_section)
     tile_output, tile_sections = link_historical_tile(
         selected_sources, reference, args.build_dir, objcopy, relocation_targets,
     )
@@ -3643,7 +3938,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 34 + len(DIRECT_SMALL_CODE_OBJECTS),
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 36 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES),
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
