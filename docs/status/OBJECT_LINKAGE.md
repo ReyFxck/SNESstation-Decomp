@@ -3,17 +3,19 @@
 The exact-image pipeline and the clean object link are tracked separately.
 
 Stage-3P proves all **720,620/720,620 code bytes** and the complete
-replacement ELF. Forty-two ELF inputs provide **562,636 code bytes** directly
-through 184 placed code sections. Thirty-seven are historical candidate objects,
+replacement ELF. Sixty ELF inputs provide **632,936 code bytes** directly
+through 202 placed code sections. Fifty-five inputs come from historical
+candidate objects (the same `pgen-gzio.o` contributes two separate sections),
 including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o`,
 `CPU.o`, `seta.o`, `CPUEXEC.o`, `dma.o`, `gfx-short.o`, `CPUOPS.o`, `tile.o`,
 `apu-short.o`, `c4.o`, `obc1.o`, `snes-sa1.o`, `snes-CHEATS.o`,
 `deflate-1.41.o`, `unzip.o`, `xprintf.o`, `libmc.o`, `unwind-dw2-fde.o`,
-`snaporig-short.o` and eight original runtime objects.
+`snaporig-short.o`, `memmap-short.o`, `DSP1.o`, `spc7110.o`,
+`snapshot-short.o`, `sound-normal.o`, `gsFont.o` and eight original runtime objects.
 Where exact, original data and read-only sections replace constructed providers
 at their historical addresses. The `dma.o` read-only dispatch table is linked
 from the object; its 260-byte data section has one nonrelocation byte mismatch,
-so the proved semantic data provider remains. The other 60 candidate objects
+so the proved semantic data provider remains. The other 43 candidate objects
 remain evidence sources. `CPUOPS.o` supplies its original code and the exact
 20,876-byte data prefix; its 172-byte CFI tail differs outside relocations and
 continues to use the proved semantic provider. `tile.o` contributes 33,568 bytes
@@ -43,9 +45,21 @@ complete historical code sections: `xprintf.o` (2,840 bytes),
 Their original data and read-only section references resolve to existing
 proved providers. Eleven old residual assembly sections (496 bytes) are
 covered by the verified `unwind-dw2-fde.o` section and removed from the
-derived residual linker input, so the net direct-byte increase is 31,388.
+derived residual linker input. That earlier batch increased strict linkage by
+31,388 bytes.
 
-The remaining **157,984 code bytes** pass through generated `.incbin` sections
+Eighteen further historical ELF inputs add **70,300 directly linked code
+bytes**. The largest comes from a 29,040-byte internal corridor of
+`memmap-short.o`; `DSP1.o`, `spc7110.o`, `snapshot-short.o`, `pgen-gzio.o` and
+`sound-normal.o` provide more exact corridors. Smaller verified sections come
+from `snes-srtc.o`, `pgen-unshrink.o`, `pgen-inffast.o`, `libmtap.o`,
+`malloc.o`, `gsFont.o`, `loadzip.o`, `sjpcm.o`, `explode.o`, `seta010.o` and
+`cheats2.o`; `pgen-gzio.o` also supplies a separate 548-byte suffix. Derived
+objects trim unproved prefixes and tails and redirect their original
+relocations to proved addresses. The private reference verifies relocation
+results and whole-image identity; its instruction payload is not committed.
+
+The remaining **87,684 code bytes** pass through generated `.incbin` sections
 in `code-windows.o`. Those bytes match the target but still need to be linked
 from their producer objects.
 
@@ -65,10 +79,10 @@ does not count, even when its final bytes are exact.
 | Earlier exact-assembly construction bucket | **85,628 bytes** |
 | Explicit residual assembly | **36,340 bytes** |
 | Public listing construction bucket | **73,192 bytes** |
-| Bytes linked directly from producer objects | **562,636/720,620 (78.08%)** |
-| Direct ELF object inputs | **42** (including **37** historical candidate objects) |
-| Direct placed sections | **184** |
-| Bytes remaining behind generated payload | **157,984** |
+| Bytes linked directly from producer objects | **632,936/720,620 (87.83%)** |
+| Direct ELF object inputs | **60** (including **55** historical candidate inputs) |
+| Direct placed sections | **202** |
+| Bytes remaining behind generated payload | **87,684** |
 | Strict object-native linkage | **In progress** |
 
 The provenance buckets sum to the exact 720,620-byte code region. The direct
