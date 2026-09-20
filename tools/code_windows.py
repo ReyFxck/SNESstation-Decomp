@@ -497,6 +497,12 @@ DIRECT_CPUOPS_OBJECT = (
     ".data.stage3p.direct.cpuops", 0x003367F8, 0x518C,
 )
 
+DIRECT_TILE_OBJECT = (
+    "build/matching/hunt1000plus-v47-closure/snes/tile.o",
+    0x00183E04, 0x8320,
+    0x004238A8, 0x08AC,
+)
+
 
 def selected_symbol_spans(
     selected: list[dict], object_name: str
@@ -1197,7 +1203,174 @@ def update_linker_script(
     new_cpuops = "  .data.stage3p.direct.cpuops 0x003367f8 : { KEEP(*(.data.stage3p.direct.cpuops)) }\n  /DISCARD/ : { *(.data.stage3n.source.cpuops_tables_and_cfi) }"
     if updated.count(old_cpuops) != 1:
         fail("historical CPUOPS data-provider rule drift")
-    return updated.replace(old_cpuops, new_cpuops)
+    updated = updated.replace(old_cpuops, new_cpuops)
+    old_tile = "  .data.stage3j.tile_unwind 0x004238a8 : { KEEP(*(.data.stage3j.tile_unwind)) }"
+    new_tile = "  .data.stage3p.direct.tile 0x004238a8 : { KEEP(*(.data.stage3p.direct.tile)) }\n  /DISCARD/ : { *(.data.stage3j.tile_unwind) }"
+    if updated.count(old_tile) != 1:
+        fail("historical TILE unwind-provider rule drift")
+    return updated.replace(old_tile, new_tile)
+
+
+def link_historical_tile(
+    selected: list[dict], reference: bytes, build_dir: Path, objcopy: Path,
+    relocation_targets: dict[str, int],
+) -> tuple[Path, list[tuple[str, int, int, None]]]:
+    """Place the original TILE.CPP code, inline renderers, and unwind data."""
+    source, code_address, code_size, data_address, data_size = DIRECT_TILE_OBJECT
+    tile = ELFFile(ROOT / source)
+    sections = {section.name: section for section in tile.sections}
+    rows = [row for row in selected if row.get("object") == source]
+    inline = [section for section in tile.sections
+              if section.name.startswith(".gnu.linkonce.t.")]
+    selected_inline = {
+        section.name: row["address"]
+        for section in inline
+        for row in rows
+        if section.name.removeprefix(".gnu.linkonce.t.") == row["symbol"]
+        and section.size == row["size"]
+    }
+    if (tile.elf_class != 1 or tile.endian != "<" or len(rows) != 51
+            or len(inline) != 24 or len(selected_inline) != 20
+            or sections[".text"].size != code_size
+            or sections[".data"].size != data_size
+            or sections[".rel.text"].size != 1180 * 8
+            or sections[".rel.data"].size != 31 * 8
+            or sum(row["size"] for row in rows
+                   if row["address"] < code_address + code_size) != code_size):
+        fail("historical TILE object or source roster drift")
+    placements = {".text": (code_address, code_size)}
+    placements.update((name, (address, sections[name].size))
+                      for name, address in selected_inline.items())
+    excluded = {section.name for section in inline} - set(selected_inline)
+    if len(excluded) != 4:
+        fail("historical TILE inline-section boundary drift")
+    externals: dict[str, int] = {}
+    pending: dict[int, list[tuple[str, int]]] = {}
+    unpaired_low: set[str] = set()
+
+    def record(name: str, value: int) -> None:
+        value &= 0xFFFFFFFF
+        if name in externals and externals[name] != value:
+            fail(f"historical TILE relocation target ambiguity: {name}")
+        externals[name] = value
+
+    for section_name, (address, size) in placements.items():
+        section = sections[section_name]
+        raw = tile.data[section.offset:section.offset + size]
+        expected = reference[address - TARGET_BASE:address - TARGET_BASE + size]
+        masked = bytearray(raw)
+        relocations = sections[".rel" + section_name]
+        for index in range(relocations.size // 8):
+            offset, info = struct.unpack_from(
+                "<II", tile.data, relocations.offset + index * 8
+            )
+            symbol_index, kind = info >> 8, info & 0xFF
+            if (offset + 4 > size or kind not in (4, 5, 6)
+                    or symbol_index >= len(tile.symbols)):
+                fail("historical TILE code-relocation drift")
+            symbol = tile.symbols[symbol_index]
+            target_section = tile.sections[symbol.section_index].name
+            if symbol.section_index == 0 or target_section in excluded:
+                if not symbol.name:
+                    fail("historical TILE unnamed external relocation")
+                raw_word = struct.unpack_from("<I", raw, offset)[0]
+                target_word = struct.unpack_from("<I", expected, offset)[0]
+                if kind == 4:
+                    if raw_word & 0xFC000000 != target_word & 0xFC000000:
+                        fail("historical TILE call opcode drift")
+                    record(symbol.name, ((target_word & 0x03FFFFFF)
+                                         - (raw_word & 0x03FFFFFF)) << 2)
+                elif kind == 5:
+                    pending.setdefault(symbol_index, []).append((section_name, offset))
+                else:
+                    highs = pending.pop(symbol_index, [])
+                    if not highs:
+                        unpaired_low.add(symbol.name)
+                    for high_name, high_offset in highs:
+                        high_section = sections[high_name]
+                        raw_high = struct.unpack_from(
+                            "<I", tile.data, high_section.offset + high_offset
+                        )[0] & 0xFFFF
+                        high_address = placements[high_name][0]
+                        target_high = struct.unpack_from(
+                            "<I", reference,
+                            high_address - TARGET_BASE + high_offset,
+                        )[0] & 0xFFFF
+                        def signed(value: int) -> int:
+                            return (value & 0xFFFF) - ((value & 0x8000) << 1)
+                        record(symbol.name, (target_high << 16) + signed(target_word)
+                               - (raw_high << 16) - signed(raw_word))
+            elif target_section not in placements:
+                fail("historical TILE unsupported local relocation")
+            masked[offset:offset + 4] = expected[offset:offset + 4]
+        if masked != expected:
+            fail(f"historical TILE {section_name} differs outside relocations")
+    if pending or not unpaired_low.issubset(externals):
+        fail("historical TILE unpaired external relocation")
+    data = sections[".data"]
+    raw = tile.data[data.offset:data.offset + data_size]
+    expected = reference[data_address - TARGET_BASE:data_address - TARGET_BASE + data_size]
+    masked = bytearray(raw)
+    rel = sections[".rel.data"]
+    for index in range(31):
+        offset, info = struct.unpack_from("<II", tile.data, rel.offset + index * 8)
+        symbol = tile.symbols[info >> 8]
+        if offset + 4 > data_size or info & 0xFF != 2:
+            fail("historical TILE data-relocation drift")
+        addend = struct.unpack_from("<I", raw, offset)[0]
+        actual = struct.unpack_from("<I", expected, offset)[0]
+        if symbol.section_index == sections[".text"].index:
+            if actual != code_address + addend:
+                fail("historical TILE unwind code-pointer drift")
+        elif symbol.section_index == 0 and symbol.name == "__gxx_personality_v0":
+            record(symbol.name, actual - addend)
+        else:
+            fail("historical TILE unsupported data relocation")
+        masked[offset:offset + 4] = expected[offset:offset + 4]
+    if masked != expected:
+        fail("historical TILE unwind differs outside relocations")
+
+    # Four original inline functions belong to a later image corridor. Keep
+    # their already proved provider there and turn calls to them into external
+    # relocations in a derived object; the historical candidate stays intact.
+    derived = bytearray(tile.data)
+    symbol_table = sections[".symtab"]
+    excluded_symbols = set()
+    for index, symbol in enumerate(tile.symbols):
+        if symbol.section_index < len(tile.sections) and tile.sections[symbol.section_index].name in excluded:
+            if not symbol.name:
+                continue
+            if symbol.name not in externals:
+                fail("historical TILE excluded inline target not proved")
+            struct.pack_into("<H", derived, symbol_table.offset + index * 16 + 14, 0)
+            excluded_symbols.add(symbol.name)
+    if len(excluded_symbols) != 4:
+        fail("historical TILE excluded-symbol roster drift")
+    source_copy = build_dir / "stage3p-tile-selected-source.o"
+    source_copy.write_bytes(derived)
+    prefix = ".text.stage3p.direct.tile"
+    command = [objcopy, "--rename-section", f".text={prefix}.{code_address:08x}",
+               "--rename-section", ".data=.data.stage3p.direct.tile"]
+    for name, address in sorted(selected_inline.items(), key=lambda item: item[1]):
+        command.extend(("--rename-section", f"{name}={prefix}.{address:08x}"))
+    for name in sorted(excluded):
+        command.extend(("--remove-section", name))
+    for symbol, destination in sorted(externals.items()):
+        alias = f"stage3p_tile_target_{symbol}"
+        command.extend(("--redefine-sym", f"{symbol}={alias}"))
+        relocation_targets[alias] = destination
+    for index, entry in enumerate(tile.symbols):
+        if (entry.name and entry.info >> 4 == 1
+                and entry.section_index < len(tile.sections)
+                and tile.sections[entry.section_index].name in placements):
+            command.extend(("--redefine-sym", f"{entry.name}=stage3p_tile_direct_{index}"))
+    output = build_dir / "stage3p-tile-direct.o"
+    run([*command, source_copy, output])
+    direct_sections = [
+        (prefix, address, size, None)
+        for address, size in sorted(placements.values())
+    ]
+    return output, direct_sections
 
 
 def probe(args: argparse.Namespace) -> dict:
@@ -2558,6 +2731,11 @@ def probe(args: argparse.Namespace) -> dict:
         (ops_section, ops_address, ops_size, None),
         (ops_shutdown_section, ops_shutdown_address, ops_shutdown_size, None),
     ))
+    tile_output, tile_sections = link_historical_tile(
+        selected_sources, reference, args.build_dir, objcopy, relocation_targets,
+    )
+    direct_objects.append(tile_output)
+    direct_sections.extend(tile_sections)
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -2570,7 +2748,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 9,
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 10,
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
