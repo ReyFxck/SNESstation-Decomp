@@ -3,9 +3,9 @@
 The exact-image pipeline and the clean object link are tracked separately.
 
 Stage-3P proves all **720,620/720,620 code bytes** and the complete
-replacement ELF. Sixty ELF inputs provide **632,936 code bytes** directly
-through 202 placed code sections. Fifty-five inputs come from historical
-candidate objects (the same `pgen-gzio.o` contributes two separate sections),
+replacement ELF. 121 ELF inputs provide **671,004 code bytes** directly
+through 263 placed code sections. 116 inputs use historical producer code;
+multiple inputs may derive from distinct slices of the same original object,
 including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o`,
 `CPU.o`, `seta.o`, `CPUEXEC.o`, `dma.o`, `gfx-short.o`, `CPUOPS.o`, `tile.o`,
 `apu-short.o`, `c4.o`, `obc1.o`, `snes-sa1.o`, `snes-CHEATS.o`,
@@ -48,7 +48,7 @@ covered by the verified `unwind-dw2-fde.o` section and removed from the
 derived residual linker input. That earlier batch increased strict linkage by
 31,388 bytes.
 
-Eighteen further historical ELF inputs add **70,300 directly linked code
+Eighteen further historical ELF inputs added **70,300 directly linked code
 bytes**. The largest comes from a 29,040-byte internal corridor of
 `memmap-short.o`; `DSP1.o`, `spc7110.o`, `snapshot-short.o`, `pgen-gzio.o` and
 `sound-normal.o` provide more exact corridors. Smaller verified sections come
@@ -59,7 +59,15 @@ objects trim unproved prefixes and tails and redirect their original
 relocations to proved addresses. The private reference verifies relocation
 results and whole-image identity; its instruction payload is not committed.
 
-The remaining **87,684 code bytes** pass through generated `.incbin` sections
+Further checked slices use `c4emu.o`, `MEMMAP.o`, original zlib `infcodes.o`,
+`inftrees.o`, `infblock.o` and `trees.o`, PGEN `gsPipe.o` and `gsDriver.o`,
+and early `explode.o` instructions. The original EE GCC 3.2.2 `libgcc.a`
+members supply divide and floating-point runtime instructions; the archive
+identity is pinned and members are extracted only into the ignored build tree.
+Verified PS2LIB runtime members supply SIF RPC, command and file I/O code.
+Relocations bind to previously proved data and BSS locations.
+
+The remaining **49,616 code bytes** pass through generated `.incbin` sections
 in `code-windows.o`. Those bytes match the target but still need to be linked
 from their producer objects.
 
@@ -79,10 +87,10 @@ does not count, even when its final bytes are exact.
 | Earlier exact-assembly construction bucket | **85,628 bytes** |
 | Explicit residual assembly | **36,340 bytes** |
 | Public listing construction bucket | **73,192 bytes** |
-| Bytes linked directly from producer objects | **632,936/720,620 (87.83%)** |
-| Direct ELF object inputs | **60** (including **55** historical candidate inputs) |
-| Direct placed sections | **202** |
-| Bytes remaining behind generated payload | **87,684** |
+| Bytes linked directly from producer objects | **671,004/720,620 (93.11%)** |
+| Direct ELF object inputs | **121** (including **116** historical producer slices) |
+| Direct placed sections | **263** |
+| Bytes remaining behind generated payload | **49,616** |
 | Strict object-native linkage | **In progress** |
 
 The provenance buckets sum to the exact 720,620-byte code region. The direct
