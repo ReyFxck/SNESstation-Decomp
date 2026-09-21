@@ -676,6 +676,17 @@ DIRECT_EXPLODE_EARLY_SLICES = (
     ("explodebit", 0x0018C538, 0x414, 84, 0),
 )
 
+DIRECT_EXPLODE_LATE_SLICES = (
+    ("explodetree", 0x0018E054, 0x1F30, 120, 3),
+    ("explodecopy", 0x0018E0D0, 0x1FAC, 96, 0),
+    ("explodebits", 0x0018E174, 0x2050, 96, 0),
+    ("explodelate", 0x0018E1E8, 0x20C4, 304, 2),
+)
+
+DIRECT_UNREDUCE_SLICES = (
+    ("unreducetail", 0x0018E908, 0x444, 336, 34),
+)
+
 DIRECT_SETA010_PREFIX_OBJECT = (
     "build/matching/hunt1000plus-v46-closure/snes/seta010.o",
     0x0016FC90, 880, ((".rodata", 0x001B8058),),
@@ -726,6 +737,30 @@ DIRECT_ZLIB_OBJECT_SLICES = (
      ((".rodata", 0x001B92B8),),
      {".data": 0, ".rodata": 248,
       ".rel.rodata": 80, ".bss": 0}, 3360),
+    ("infblocktail0", "zlib-infblock.o", 0x00194C20, 0x5FC, 112, 0,
+     (), {".data": 0, ".rodata": 248, ".rel.rodata": 80,
+          ".bss": 0}, 3360),
+    ("infblocktail1", "zlib-infblock.o", 0x00194C94, 0x670, 64, 0,
+     (), {".data": 0, ".rodata": 248, ".rel.rodata": 80,
+          ".bss": 0}, 3360),
+    ("infblocktail2", "zlib-infblock.o", 0x00194CD8, 0x6B4, 304, 6,
+     ((".rodata", 0x001B92B8),),
+     {".data": 0, ".rodata": 248, ".rel.rodata": 80,
+      ".bss": 0}, 3360),
+    ("infblocktail3", "zlib-infblock.o", 0x00194E0C, 0x7E8, 296, 4,
+     ((".rodata", 0x001B92B8),),
+     {".data": 0, ".rodata": 248, ".rel.rodata": 80,
+      ".bss": 0}, 3360),
+    ("infblocktail4", "zlib-infblock.o", 0x00194F38, 0x914, 156, 2,
+     (), {".data": 0, ".rodata": 248, ".rel.rodata": 80,
+          ".bss": 0}, 3360),
+    ("infblocktail5", "zlib-infblock.o", 0x001950B4, 0xA90, 288, 4,
+     ((".rodata", 0x001B92B8),),
+     {".data": 0, ".rodata": 248, ".rel.rodata": 80,
+      ".bss": 0}, 3360),
+    ("infblocktail6", "zlib-infblock.o", 0x0019527C, 0xC58, 128, 1,
+     (), {".data": 0, ".rodata": 248, ".rel.rodata": 80,
+          ".bss": 0}, 3360),
     ("treespre", "zlib-trees.o", 0x00196980, 0, 144, 8,
      ((".data", 0x004259B8),),
      {".data": 72, ".rel.data": 40, ".rodata": 2624, ".bss": 0}, 8408),
@@ -3870,6 +3905,34 @@ def probe(args: argparse.Namespace) -> dict:
         )
         direct_objects.append(explode_early_output)
         direct_sections.append(explode_early_section)
+    for tag, address, start, size, rel_count in DIRECT_EXPLODE_LATE_SLICES:
+        late_output, late_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=("build/tail-metadata/source-objects/explode.o",
+                           address, size, ((".data", 0x00424158),)),
+            expected_relocations=rel_count,
+            expected_layout={".data": 33496, ".bss": 0},
+            named_data_symbols=None, source_offset=start,
+            source_tail=9132 - start - size,
+            named_data_targets={"hufts": 0x00426E18},
+        )
+        direct_objects.append(late_output)
+        direct_sections.append(late_section)
+    for tag, address, start, size, rel_count in DIRECT_UNREDUCE_SLICES:
+        reduce_output, reduce_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=("build/tail-metadata/source-objects/unreduce.o",
+                           address, size, ((".data", 0x00424400),)),
+            expected_relocations=rel_count,
+            expected_layout={".data": 1368, ".rel.data": 8, ".bss": 0},
+            named_data_symbols=None, source_offset=start,
+            source_tail=1428 - start - size,
+            named_data_targets={"Slen": 0x00450210},
+        )
+        direct_objects.append(reduce_output)
+        direct_sections.append(reduce_section)
     seta010_output, seta010_section = link_historical_code(
         reference, args.build_dir, objcopy, relocation_targets,
         tag="seta010", specification=DIRECT_SETA010_PREFIX_OBJECT,
@@ -3946,6 +4009,10 @@ def probe(args: argparse.Namespace) -> dict:
             expected_relocations=rel_count, expected_layout=layout,
             named_data_symbols=frozenset(), source_offset=start,
             source_tail=original_size - start - size,
+            unpaired_highs=(
+                {0x7E0: ("inflate_mask", 0x00425970)}
+                if tag == "infblocktail2" else None
+            ),
         )
         direct_objects.append(zlib_output)
         direct_sections.append(zlib_section)
@@ -4099,7 +4166,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 37 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES) + len(DIRECT_PAD_SLICES) + len(DIRECT_EH_OBJECT_SLICES),
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 37 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES) + len(DIRECT_EXPLODE_LATE_SLICES) + len(DIRECT_UNREDUCE_SLICES) + len(DIRECT_PAD_SLICES) + len(DIRECT_EH_OBJECT_SLICES),
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
