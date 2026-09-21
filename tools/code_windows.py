@@ -551,7 +551,8 @@ DIRECT_XPRINTF_CODE_OBJECT = (
 DIRECT_UNWIND_DW2_CODE_OBJECT = (
     "build/tail-metadata/libgcc/unwind-dw2.o",
     0x001A3DC0, 0x1F00,
-    ((".data", 0x00425BD8),),
+    ((".data", 0x00425BD8), (".rodata", 0x001BA7F8),
+     (".bss", 0x00447700)),
 )
 
 DIRECT_UNWIND_FDE_CODE_OBJECT = (
@@ -832,6 +833,76 @@ DIRECT_RUNTIME_OBJECTS = (
     ("rtloadinit", "kernel/SifLoadFileInit.o", 0x0019FD20, 188, 9,
      ((".data", 0x00425AB8),), {".data": 4, ".bss": 0}),
 )
+
+DIRECT_PAD_SLICES = (
+    ("padpost", 0x001A8BE0, 0x800, 1304, 47),
+    ("padmid", 0x001A8880, 0x4A0, 860, 30),
+    ("padread", 0x001A8824, 0x444, 88, 3),
+)
+
+DIRECT_EH_OBJECT_SLICES = (
+    ("ehpersonality", "eh_personality.o", 0x001A9138, 0, 2784, 52,
+     ((".rodata", 0x001BAD78),),
+     {".data": 384, ".rel.data": 64, ".rodata": 52,
+      ".rel.rodata": 104, ".bss": 0}, 2928),
+    ("ehthrow", "eh_throw.o", 0x001A9D58, 0, 296, 16,
+     ((".text", 0x001A9D58),),
+     {".data": 144, ".rel.data": 32, ".bss": 0}, 304),
+    ("ehcatch", "eh_catch.o", 0x001AB0F0, 0, 312, 5,
+     (), {".data": 68, ".rel.data": 16, ".bss": 0}, 312),
+    ("tinfotail", "tinfo.o", 0x001AADE8, 0xE40, 464, 0,
+     (), {".data": 520, ".rel.data": 80, ".bss": 0}, 4112),
+    ("tinfohead", "tinfo.o", 0x001A9FA8, 0, 3640, 59,
+     ((".gnu.linkonce.d._ZTVSt9type_info", 0x00426D00),
+      (".gnu.linkonce.d._ZTVSt8bad_cast", 0x00426CE8),
+      (".gnu.linkonce.d._ZTVSt10bad_typeid", 0x00426CD0),
+      (".gnu.linkonce.d._ZTVN10__cxxabiv117__class_type_infoE", 0x00426CA0),
+      (".gnu.linkonce.d._ZTVN10__cxxabiv120__si_class_type_infoE", 0x00426C70),
+      (".gnu.linkonce.d._ZTVN10__cxxabiv121__vmi_class_type_infoE", 0x00426C40)),
+     {".data": 520, ".rel.data": 80, ".bss": 0}, 4112),
+)
+
+PAD_SOURCE = "matching/candidates/progress67/libpad-newpadman-p63-os.c.txt"
+PAD_SOURCE_SHA256 = "ea6129f89fb58f682d24244c5a37ad9a2b17dc59aa7f9d4220243f3e2f0e2d2b"
+PAD_SECTION_SHA256 = {
+    ".text": "cf333d4f36924efcc634e5df6bc98fe7329f9b18cfad6dbb2a24f77c56476302",
+    ".rel.text": "c378f72413894d1967275ff624ac7b51053ab29ecba8ae162a3202d84e1ec8d8",
+    ".data": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+    ".rodata": "aca55aff32d5fb65b777fafe4dfadfa179ff1e4b3c2bb8c37eaed1cba6d6a845",
+}
+
+
+def compile_pad_candidate(build_dir: Path, compiler: Path) -> None:
+    """Rebuild the proved public libpad variant with the pinned PS2DEV headers."""
+    source = ROOT / PAD_SOURCE
+    ps2dev = stage3o.stage3i.v47.PS2DEV
+    if not source.is_file() or digest(source.read_bytes()) != PAD_SOURCE_SHA256:
+        fail("historical libpad source identity drift")
+    if run(["git", "-C", ps2dev, "rev-parse", "HEAD"]) != stage3o.stage3i.v47.PS2DEV_COMMIT:
+        fail("pinned PS2DEV libpad headers unavailable")
+    include_roots = sorted(path for path in (ps2dev / "ps2sdk").rglob("include")
+                           if path.is_dir())
+    if not include_roots:
+        fail("historical libpad header set unavailable")
+    output_dir = build_dir / "pad-candidates"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output = output_dir / "progress67.o"
+    cc = compiler.with_name("ee-gcc")
+    run([
+        cc, "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DALIGN_DWORD",
+        "-DCODE_PLATFORM=3", "-Os",
+        *(flag for path in include_roots for flag in ("-I", str(path))),
+        "-x", "c", "-c", source, "-o", output,
+    ])
+    elf = ELFFile(output)
+    sections = {section.name: section for section in elf.sections}
+    for name, expected in PAD_SECTION_SHA256.items():
+        section = sections[name]
+        if digest(elf.data[section.offset:section.offset + section.size]) != expected:
+            fail(f"historical libpad {name} compiler output drift")
 
 
 def extract_libgcc_members(build_dir: Path) -> None:
@@ -1406,129 +1477,6 @@ def assemble_window0(reference: bytes, residual_object: Path) -> tuple[bytes, di
     }
 
 
-def public_listing_direct_object(
-    cxx: Path,
-    reference: bytes,
-    direct_sections: list[tuple[str, int, int, tuple[str, str] | None]],
-    build_dir: Path,
-) -> tuple[Path | None, list[tuple[str, int, int, tuple[str, str] | None]], int]:
-    """Assemble still-uncovered committed listing words into real ELF sections.
-
-    The input bytes come only from the public analysis/functions listings
-    already frozen by public_listing_contract(). The private reference is used
-    only as a comparison oracle; it is never copied into the generated source.
-    This is exact assembly provenance, not an .incbin transport.
-    """
-    covered = sorted(
-        (max(WINDOW_START, address), min(WINDOW_END, address + size))
-        for _prefix, address, size, _selector in direct_sections
-        if address < WINDOW_END and address + size > WINDOW_START
-    )
-    merged: list[list[int]] = []
-    for start, end in covered:
-        if end <= start:
-            continue
-        if not merged or start > merged[-1][1]:
-            merged.append([start, end])
-        else:
-            merged[-1][1] = max(merged[-1][1], end)
-
-    words: dict[int, tuple[bytes, str]] = {}
-    for item in public_listing_contract():
-        path = ROOT / str(item["path"])
-        for line in path.read_text(encoding="utf-8").splitlines():
-            match = LISTING_INSTRUCTION_RE.match(line)
-            if match is None:
-                continue
-            address = int(match.group(1), 16)
-            if not (WINDOW_START <= address and address + 4 <= WINDOW_END):
-                continue
-            raw = bytes(int(match.group(index), 16) for index in range(2, 6))
-            prior = words.get(address)
-            if prior is not None and prior[0] != raw:
-                fail(f"conflicting public listing word @ 0x{address:08x}")
-            if reference[address - TARGET_BASE:address - TARGET_BASE + 4] != raw:
-                fail(f"public listing differs from target: {item['path']} @ 0x{address:08x}")
-            if prior is None:
-                words[address] = (raw, str(item["path"]))
-
-    def overlap(address: int) -> tuple[int, int] | None:
-        for start, end in merged:
-            if end <= address:
-                continue
-            if start >= address + 4:
-                return None
-            return start, end
-        return None
-
-    selected: list[tuple[int, bytes, str]] = []
-    for address in sorted(words):
-        span = overlap(address)
-        if span is not None:
-            if not (span[0] <= address and address + 4 <= span[1]):
-                fail(f"direct section partially overlaps listing word @ 0x{address:08x}")
-            continue
-        raw, source = words[address]
-        selected.append((address, raw, source))
-
-    if not selected:
-        return None, [], 0
-
-    runs: list[list[tuple[int, bytes, str]]] = []
-    for row in selected:
-        if not runs or row[0] != runs[-1][-1][0] + 4:
-            runs.append([row])
-        else:
-            runs[-1].append(row)
-
-    source = build_dir / "stage3p-public-listing-direct.S"
-    lines = [
-        "/* Generated only from committed public objdump listings. */",
-        "/* No private target bytes are emitted into this source. */",
-        "    .set noreorder",
-        "    .set noat",
-    ]
-    sections: list[tuple[str, int, int, tuple[str, str] | None]] = []
-    for run in runs:
-        address = run[0][0]
-        size = len(run) * 4
-        prefix = ".text.stage3p.direct.listing"
-        section = f"{prefix}.{address:08x}"
-        symbol = f"stage3p_listing_{address:08x}"
-        origins = sorted({row[2] for row in run})
-        lines.extend([
-            "",
-            "    /* " + ", ".join(origins) + " */",
-            f'    .section {section},"ax",@progbits',
-            "    .balign 4",
-            f"    .globl {symbol}",
-            f"    .type {symbol}, @function",
-            f"{symbol}:",
-        ])
-        for _word_address, raw, _origin in run:
-            lines.append(f"    .word 0x{int.from_bytes(raw, 'little'):08x}")
-        lines.append(f"    .size {symbol}, .-{symbol}")
-        sections.append((prefix, address, size, None))
-    source.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-    output = build_dir / "stage3p-public-listing-direct.o"
-    stage3o.stage3i.compile_one(
-        cxx, ("-G0", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900"),
-        source, output,
-    )
-    elf = ELFFile(output)
-    for prefix, address, size, _selector in sections:
-        name = f"{prefix}.{address:08x}"
-        matches = [item for item in elf.sections if item.name == name]
-        if len(matches) != 1 or matches[0].size != size:
-            fail(f"public listing ELF section drift @ 0x{address:08x}")
-        actual = elf.data[matches[0].offset:matches[0].offset + size]
-        expected = b"".join(words[pos][0] for pos in range(address, address + size, 4))
-        if actual != expected:
-            fail(f"public listing ELF bytes drift @ 0x{address:08x}")
-    return output, sections, sum(size for _prefix, _address, size, _selector in sections)
-
-
 def payload_segments(
     window0: bytes,
     windows: list[bytes],
@@ -1810,6 +1758,7 @@ def link_historical_code(
     unmatched_lows: set[str] = set()
     patched_bss_lows = 0
     excluded_text: set[str] = set()
+    excluded_provider_data: set[str] = set()
     outside_text_relocations: dict[int, str] = {}
 
     def record(name: str, value: int) -> None:
@@ -1867,6 +1816,10 @@ def link_historical_code(
             if section_name == ".data" and symbol.name:
                 if symbol_index not in named_data:
                     fail(f"historical {tag} unsupported named data relocation")
+                name = symbol.name
+            elif (section_name.startswith(".gnu.linkonce.d.")
+                  and symbol.name and symbol.value == 0):
+                excluded_provider_data.add(symbol.name)
                 name = symbol.name
             else:
                 if symbol.name:
@@ -1931,6 +1884,11 @@ def link_historical_code(
             fail(f"historical {tag} provider target drift: {name}")
     if not set(named_data_symbols).issubset(externals):
         fail(f"historical {tag} named provider missing")
+    for symbol in original.symbols:
+        if symbol.name in excluded_provider_data:
+            section_name = original.sections[symbol.section_index].name
+            if externals.get(symbol.name) != providers[section_name] + symbol.value:
+                fail(f"historical {tag} named provider target drift")
 
     # EE binutils 2.14 cannot add symbols. Extend ELF32 symtab/strtab in the
     # derived copy, leaving instructions untouched except proved relocation
@@ -1994,6 +1952,9 @@ def link_historical_code(
         struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
         struct.pack_into("<H", source_symbols, index * 16 + 14, 0)
     for index, symbol in enumerate(original.symbols):
+        if symbol.name in excluded_provider_data:
+            struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
+            struct.pack_into("<H", source_symbols, index * 16 + 14, 0)
         if symbol.section_index == 0xFFF2:
             # The historical linker already owns these COMMON storage slots.
             # Keep only their proved references in this code-only member.
@@ -2045,10 +2006,11 @@ def link_historical_code(
         fail(f"historical {tag} derived-symbol validation failed")
     prefix = f".text.stage3p.direct.{tag}"
     command = [objcopy, "--rename-section", f".text={prefix}.{address:08x}"]
-    for section_name in (".data", ".rodata", ".bss"):
+    for section_name in (".data", ".rodata", ".bss", ".gcc_except_table"):
         command.extend(("--remove-section", section_name))
     for section in original.sections:
-        if section.name.startswith(".gnu.linkonce.t."):
+        if section.name.startswith((".gnu.linkonce.t.",
+                                    ".gnu.linkonce.d.", ".gnu.linkonce.r.")):
             command.extend(("--remove-section", section.name))
     for name, destination in sorted(externals.items()):
         if name.startswith(f"stage3p_{tag}_"):
@@ -3998,6 +3960,39 @@ def probe(args: argparse.Namespace) -> dict:
         )
         direct_objects.append(runtime_output)
         direct_sections.append(runtime_section)
+    for (tag, basename, address, start, size, rel_count,
+         providers, layout, original_size) in DIRECT_EH_OBJECT_SLICES:
+        eh_output, eh_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(f"build/runtime-tail-data/source-objects/{basename}",
+                           address, size, providers),
+            expected_relocations=rel_count, expected_layout=layout,
+            named_data_symbols=frozenset(), source_offset=start,
+            source_tail=original_size - start - size,
+            unpaired_highs=(
+                {0xAD8: ("_ZTISt13bad_exception", 0x00426DB0)}
+                if tag == "ehpersonality" else None
+            ),
+        )
+        direct_objects.append(eh_output)
+        direct_sections.append(eh_section)
+    compile_pad_candidate(args.build_dir, cxx)
+    for tag, address, start, size, rel_count in DIRECT_PAD_SLICES:
+        pad_output, pad_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=("build/code-windows/pad-candidates/progress67.o",
+                           address, size,
+                           ((".bss", 0x00447780),
+                            (".rodata", 0x001BACC8))),
+            expected_relocations=rel_count,
+            expected_layout={".data": 8, ".rodata": 176, ".bss": 576},
+            named_data_symbols=frozenset(), source_offset=start,
+            source_tail=3352 - start - size,
+        )
+        direct_objects.append(pad_output)
+        direct_sections.append(pad_section)
     extract_libgcc_members(args.build_dir)
     for tag, basename, address, start, size, rel_count, layout, original_size in DIRECT_LIBGCC_SLICES:
         gcc_output, gcc_section = link_historical_code(
@@ -4043,6 +4038,7 @@ def probe(args: argparse.Namespace) -> dict:
         if prefix != ".text.stage3p.residual"
     ]
     redundant = set()
+    moddi3_zero_prefix = False
     for _name, address, size in residual_spans:
         if address == 0x001AB4E4:
             continue
@@ -4051,6 +4047,13 @@ def probe(args: argparse.Namespace) -> dict:
             if start < address + size and address < end
         ]
         if overlap:
+            if (address == 0x001A7630 and size == 0x800
+                    and overlap == [(0x001A7638, 0x001A7E30)]):
+                # The original _moddi3.o starts after two public zero words.
+                # Replace only the code portion, preserving its exact padding.
+                redundant.add(address)
+                moddi3_zero_prefix = True
+                continue
             if len(overlap) != 1 or not (
                     overlap[0][0] <= address and address + size <= overlap[0][1]):
                 fail(f"direct object partially overlaps residual @ 0x{address:08x}")
@@ -4066,13 +4069,24 @@ def probe(args: argparse.Namespace) -> dict:
             row for row in direct_sections
             if row[0] != ".text.stage3p.residual" or row[1] not in redundant
         ]
-
-    listing_object, listing_sections, listing_direct_bytes = public_listing_direct_object(
-        cxx, reference, direct_sections, args.build_dir,
-    )
-    if listing_object is not None:
-        direct_objects.append(listing_object)
-        direct_sections.extend(listing_sections)
+    if moddi3_zero_prefix:
+        prefix_address = 0x001A7630
+        if reference[prefix_address - TARGET_BASE:prefix_address - TARGET_BASE + 8] != b"\0" * 8:
+            fail("historical _moddi3.o public zero prefix drift")
+        source = args.build_dir / "stage3p-moddi3-zero-prefix.S"
+        source.write_text(
+            ".set noreorder\n"
+            ".section .text.stage3p.residual.001a7630,\"ax\",@progbits\n"
+            ".word 0, 0\n",
+            encoding="ascii",
+        )
+        output = args.build_dir / "stage3p-moddi3-zero-prefix.o"
+        stage3o.stage3i.compile_one(
+            cxx, ("-G0", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900"),
+            source, output,
+        )
+        direct_objects.append(output)
+        direct_sections.append((".text.stage3p.residual", prefix_address, 8, None))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -4085,8 +4099,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "public_listing_direct_bytes": listing_direct_bytes,
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 37 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES),
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 37 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES) + len(DIRECT_PAD_SLICES) + len(DIRECT_EH_OBJECT_SLICES),
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
