@@ -3,8 +3,8 @@
 The exact-image pipeline and the clean object link are tracked separately.
 
 Stage-3P proves all **720,620/720,620 code bytes** and the complete
-replacement ELF. 132 ELF inputs provide **681,612 code bytes** directly
-through 270 placed code sections. 126 inputs use historical producer code;
+replacement ELF. 144 ELF inputs provide **683,912 code bytes** directly
+through 282 placed code sections. 138 inputs use historical producer code;
 multiple inputs may derive from distinct slices of the same original object,
 including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o`,
 `CPU.o`, `seta.o`, `CPUEXEC.o`, `dma.o`, `gfx-short.o`, `CPUOPS.o`, `tile.o`,
@@ -73,9 +73,11 @@ code section. A verified public `libpad` source variant contributes exact
 NEW_PADMAN code slices, compiled with the pinned EE toolchain and PS2DEV
 headers. Original `eh_personality.o`, `eh_throw.o`, `eh_catch.o` and `tinfo.o`
 sections supply further C++ runtime code. Their original relocations resolve
-to the already proved read-only, vtable and BSS providers.
+to the already proved read-only, vtable and BSS providers. Additional exact
+`explode.o`, `unreduce.o` and zlib `infblock.o` slices link from their historical
+objects after checking source layouts, relocation targets and byte identity.
 
-The remaining **39,008 code bytes** pass through generated `.incbin` sections
+The remaining **36,708 code bytes** pass through generated `.incbin` sections
 in `code-windows.o`. Those bytes match the target but still need to be linked
 from their producer objects.
 
@@ -95,10 +97,10 @@ does not count, even when its final bytes are exact.
 | Earlier exact-assembly construction bucket | **85,628 bytes** |
 | Explicit residual assembly | **36,340 bytes** |
 | Public listing construction bucket | **73,192 bytes** |
-| Bytes linked directly from producer objects | **681,612/720,620 (94.59%)** |
-| Direct ELF object inputs | **132** (including **126** historical producer slices) |
-| Direct placed sections | **270** |
-| Bytes remaining behind generated payload | **39,008** |
+| Bytes linked directly from producer objects | **683,912/720,620 (94.91%)** |
+| Direct ELF object inputs | **144** (including **138** historical producer slices) |
+| Direct placed sections | **282** |
+| Bytes remaining behind generated payload | **36,708** |
 | Strict object-native linkage | **In progress** |
 
 The provenance buckets sum to the exact 720,620-byte code region. The direct

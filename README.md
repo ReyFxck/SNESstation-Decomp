@@ -37,7 +37,7 @@ Detailed machine-generated counts are in
 ## Strict object-native linkage
 
 The replacement ELF matches byte for byte. The final linker now places
-**681,612/720,620 code bytes (94.59%)** from 132 ELF inputs, including
+**683,912/720,620 code bytes (94.91%)** from 144 ELF inputs, including
 `CPU.o`, `seta.o`, `tile.o`, `CPUOPS.o`, `gfx-short.o`, `CPUEXEC.o`, `dma.o`,
 `ppu-short.o`, `apu-short.o`, `c4.o`, `obc1.o`, `snes-sa1.o`, `snes-CHEATS.o`,
 `SA1CPU.o`, `deflate-1.41.o`, `unzip.o`, `xprintf.o`, `libmc.o`,
@@ -45,7 +45,7 @@ The replacement ELF matches byte for byte. The final linker now places
 `spc7110.o`, `snapshot-short.o`, `sound-normal.o`, `gsFont.o`, `gsPipe.o`,
 original zlib objects, historical PS2LIB runtime members, EE GCC 3.2.2
 `libgcc.a` members and historical C++ exception/RTTI objects. The remaining
-**39,008 code bytes**
+**36,708 code bytes**
 still pass through generated `.incbin` sections. This is separate from the
 completed decomp.dev image match.
 
