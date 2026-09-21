@@ -548,6 +548,13 @@ DIRECT_XPRINTF_CODE_OBJECT = (
     ((".text", 0x0019D84C), (".rodata", 0x001BA478)),
 )
 
+DIRECT_UNWIND_DW2_CODE_OBJECT = (
+    "build/tail-metadata/libgcc/unwind-dw2.o",
+    0x001A3DC0, 0x1F00,
+    ((".data", 0x00425BD8), (".rodata", 0x001BA7F8),
+     (".bss", 0x00447700)),
+)
+
 DIRECT_UNWIND_FDE_CODE_OBJECT = (
     "build/matching/hunt1000plus-v46-closure/gcc/unwind-dw2-fde.o",
     0x001A5CC0, 0x18C0,
@@ -769,6 +776,8 @@ DIRECT_LIBGCC_SLICES = (
      {".data": 0, ".bss": 0}, 168),
     ("gccfloatdidf", "_floatdidf.o", 0x001A7580, 0, 176, 6,
      {".data": 0, ".bss": 0}, 184),
+    ("gccmod", "_moddi3.o", 0x001A7638, 0, 2040, 7,
+     {".data": 92, ".rel.data": 16, ".bss": 0}, 2040),
     ("gccfpcmp", "_fpcmp_parts_df.o", 0x001A81B8, 0, 264, 0,
      {".data": 0, ".bss": 0}, 264),
     ("gccpackdf", "_pack_df.o", 0x001A7F40, 0, 392, 0,
@@ -824,6 +833,76 @@ DIRECT_RUNTIME_OBJECTS = (
     ("rtloadinit", "kernel/SifLoadFileInit.o", 0x0019FD20, 188, 9,
      ((".data", 0x00425AB8),), {".data": 4, ".bss": 0}),
 )
+
+DIRECT_PAD_SLICES = (
+    ("padpost", 0x001A8BE0, 0x800, 1304, 47),
+    ("padmid", 0x001A8880, 0x4A0, 860, 30),
+    ("padread", 0x001A8824, 0x444, 88, 3),
+)
+
+DIRECT_EH_OBJECT_SLICES = (
+    ("ehpersonality", "eh_personality.o", 0x001A9138, 0, 2784, 52,
+     ((".rodata", 0x001BAD78),),
+     {".data": 384, ".rel.data": 64, ".rodata": 52,
+      ".rel.rodata": 104, ".bss": 0}, 2928),
+    ("ehthrow", "eh_throw.o", 0x001A9D58, 0, 296, 16,
+     ((".text", 0x001A9D58),),
+     {".data": 144, ".rel.data": 32, ".bss": 0}, 304),
+    ("ehcatch", "eh_catch.o", 0x001AB0F0, 0, 312, 5,
+     (), {".data": 68, ".rel.data": 16, ".bss": 0}, 312),
+    ("tinfotail", "tinfo.o", 0x001AADE8, 0xE40, 464, 0,
+     (), {".data": 520, ".rel.data": 80, ".bss": 0}, 4112),
+    ("tinfohead", "tinfo.o", 0x001A9FA8, 0, 3640, 59,
+     ((".gnu.linkonce.d._ZTVSt9type_info", 0x00426D00),
+      (".gnu.linkonce.d._ZTVSt8bad_cast", 0x00426CE8),
+      (".gnu.linkonce.d._ZTVSt10bad_typeid", 0x00426CD0),
+      (".gnu.linkonce.d._ZTVN10__cxxabiv117__class_type_infoE", 0x00426CA0),
+      (".gnu.linkonce.d._ZTVN10__cxxabiv120__si_class_type_infoE", 0x00426C70),
+      (".gnu.linkonce.d._ZTVN10__cxxabiv121__vmi_class_type_infoE", 0x00426C40)),
+     {".data": 520, ".rel.data": 80, ".bss": 0}, 4112),
+)
+
+PAD_SOURCE = "matching/candidates/progress67/libpad-newpadman-p63-os.c.txt"
+PAD_SOURCE_SHA256 = "ea6129f89fb58f682d24244c5a37ad9a2b17dc59aa7f9d4220243f3e2f0e2d2b"
+PAD_SECTION_SHA256 = {
+    ".text": "cf333d4f36924efcc634e5df6bc98fe7329f9b18cfad6dbb2a24f77c56476302",
+    ".rel.text": "c378f72413894d1967275ff624ac7b51053ab29ecba8ae162a3202d84e1ec8d8",
+    ".data": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+    ".rodata": "aca55aff32d5fb65b777fafe4dfadfa179ff1e4b3c2bb8c37eaed1cba6d6a845",
+}
+
+
+def compile_pad_candidate(build_dir: Path, compiler: Path) -> None:
+    """Rebuild the proved public libpad variant with the pinned PS2DEV headers."""
+    source = ROOT / PAD_SOURCE
+    ps2dev = stage3o.stage3i.v47.PS2DEV
+    if not source.is_file() or digest(source.read_bytes()) != PAD_SOURCE_SHA256:
+        fail("historical libpad source identity drift")
+    if run(["git", "-C", ps2dev, "rev-parse", "HEAD"]) != stage3o.stage3i.v47.PS2DEV_COMMIT:
+        fail("pinned PS2DEV libpad headers unavailable")
+    include_roots = sorted(path for path in (ps2dev / "ps2sdk").rglob("include")
+                           if path.is_dir())
+    if not include_roots:
+        fail("historical libpad header set unavailable")
+    output_dir = build_dir / "pad-candidates"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output = output_dir / "progress67.o"
+    cc = compiler.with_name("ee-gcc")
+    run([
+        cc, "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DALIGN_DWORD",
+        "-DCODE_PLATFORM=3", "-Os",
+        *(flag for path in include_roots for flag in ("-I", str(path))),
+        "-x", "c", "-c", source, "-o", output,
+    ])
+    elf = ELFFile(output)
+    sections = {section.name: section for section in elf.sections}
+    for name, expected in PAD_SECTION_SHA256.items():
+        section = sections[name]
+        if digest(elf.data[section.offset:section.offset + section.size]) != expected:
+            fail(f"historical libpad {name} compiler output drift")
 
 
 def extract_libgcc_members(build_dir: Path) -> None:
@@ -1679,6 +1758,7 @@ def link_historical_code(
     unmatched_lows: set[str] = set()
     patched_bss_lows = 0
     excluded_text: set[str] = set()
+    excluded_provider_data: set[str] = set()
     outside_text_relocations: dict[int, str] = {}
 
     def record(name: str, value: int) -> None:
@@ -1736,6 +1816,10 @@ def link_historical_code(
             if section_name == ".data" and symbol.name:
                 if symbol_index not in named_data:
                     fail(f"historical {tag} unsupported named data relocation")
+                name = symbol.name
+            elif (section_name.startswith(".gnu.linkonce.d.")
+                  and symbol.name and symbol.value == 0):
+                excluded_provider_data.add(symbol.name)
                 name = symbol.name
             else:
                 if symbol.name:
@@ -1800,6 +1884,11 @@ def link_historical_code(
             fail(f"historical {tag} provider target drift: {name}")
     if not set(named_data_symbols).issubset(externals):
         fail(f"historical {tag} named provider missing")
+    for symbol in original.symbols:
+        if symbol.name in excluded_provider_data:
+            section_name = original.sections[symbol.section_index].name
+            if externals.get(symbol.name) != providers[section_name] + symbol.value:
+                fail(f"historical {tag} named provider target drift")
 
     # EE binutils 2.14 cannot add symbols. Extend ELF32 symtab/strtab in the
     # derived copy, leaving instructions untouched except proved relocation
@@ -1863,6 +1952,9 @@ def link_historical_code(
         struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
         struct.pack_into("<H", source_symbols, index * 16 + 14, 0)
     for index, symbol in enumerate(original.symbols):
+        if symbol.name in excluded_provider_data:
+            struct.pack_into("<I", source_symbols, index * 16 + 4, 0)
+            struct.pack_into("<H", source_symbols, index * 16 + 14, 0)
         if symbol.section_index == 0xFFF2:
             # The historical linker already owns these COMMON storage slots.
             # Keep only their proved references in this code-only member.
@@ -1914,10 +2006,11 @@ def link_historical_code(
         fail(f"historical {tag} derived-symbol validation failed")
     prefix = f".text.stage3p.direct.{tag}"
     command = [objcopy, "--rename-section", f".text={prefix}.{address:08x}"]
-    for section_name in (".data", ".rodata", ".bss"):
+    for section_name in (".data", ".rodata", ".bss", ".gcc_except_table"):
         command.extend(("--remove-section", section_name))
     for section in original.sections:
-        if section.name.startswith(".gnu.linkonce.t."):
+        if section.name.startswith((".gnu.linkonce.t.",
+                                    ".gnu.linkonce.d.", ".gnu.linkonce.r.")):
             command.extend(("--remove-section", section.name))
     for name, destination in sorted(externals.items()):
         if name.startswith(f"stage3p_{tag}_"):
@@ -3555,6 +3648,15 @@ def probe(args: argparse.Namespace) -> dict:
     )
     direct_objects.append(xprintf_output)
     direct_sections.append(xprintf_section)
+    unwind_dw2_output, unwind_dw2_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="unwinddw2", specification=DIRECT_UNWIND_DW2_CODE_OBJECT,
+        expected_relocations=105,
+        expected_layout={".data": 0x4CC, ".rel.data": 17 * 8},
+        named_data_symbols=None,
+    )
+    direct_objects.append(unwind_dw2_output)
+    direct_sections.append(unwind_dw2_section)
     unwind_output, unwind_section = link_historical_code(
         reference, args.build_dir, objcopy, relocation_targets,
         tag="unwindfde", specification=DIRECT_UNWIND_FDE_CODE_OBJECT,
@@ -3858,6 +3960,39 @@ def probe(args: argparse.Namespace) -> dict:
         )
         direct_objects.append(runtime_output)
         direct_sections.append(runtime_section)
+    for (tag, basename, address, start, size, rel_count,
+         providers, layout, original_size) in DIRECT_EH_OBJECT_SLICES:
+        eh_output, eh_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(f"build/runtime-tail-data/source-objects/{basename}",
+                           address, size, providers),
+            expected_relocations=rel_count, expected_layout=layout,
+            named_data_symbols=frozenset(), source_offset=start,
+            source_tail=original_size - start - size,
+            unpaired_highs=(
+                {0xAD8: ("_ZTISt13bad_exception", 0x00426DB0)}
+                if tag == "ehpersonality" else None
+            ),
+        )
+        direct_objects.append(eh_output)
+        direct_sections.append(eh_section)
+    compile_pad_candidate(args.build_dir, cxx)
+    for tag, address, start, size, rel_count in DIRECT_PAD_SLICES:
+        pad_output, pad_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=("build/code-windows/pad-candidates/progress67.o",
+                           address, size,
+                           ((".bss", 0x00447780),
+                            (".rodata", 0x001BACC8))),
+            expected_relocations=rel_count,
+            expected_layout={".data": 8, ".rodata": 176, ".bss": 576},
+            named_data_symbols=frozenset(), source_offset=start,
+            source_tail=3352 - start - size,
+        )
+        direct_objects.append(pad_output)
+        direct_sections.append(pad_section)
     extract_libgcc_members(args.build_dir)
     for tag, basename, address, start, size, rel_count, layout, original_size in DIRECT_LIBGCC_SLICES:
         gcc_output, gcc_section = link_historical_code(
@@ -3903,6 +4038,7 @@ def probe(args: argparse.Namespace) -> dict:
         if prefix != ".text.stage3p.residual"
     ]
     redundant = set()
+    moddi3_zero_prefix = False
     for _name, address, size in residual_spans:
         if address == 0x001AB4E4:
             continue
@@ -3911,6 +4047,13 @@ def probe(args: argparse.Namespace) -> dict:
             if start < address + size and address < end
         ]
         if overlap:
+            if (address == 0x001A7630 and size == 0x800
+                    and overlap == [(0x001A7638, 0x001A7E30)]):
+                # The original _moddi3.o starts after two public zero words.
+                # Replace only the code portion, preserving its exact padding.
+                redundant.add(address)
+                moddi3_zero_prefix = True
+                continue
             if len(overlap) != 1 or not (
                     overlap[0][0] <= address and address + size <= overlap[0][1]):
                 fail(f"direct object partially overlaps residual @ 0x{address:08x}")
@@ -3926,6 +4069,24 @@ def probe(args: argparse.Namespace) -> dict:
             row for row in direct_sections
             if row[0] != ".text.stage3p.residual" or row[1] not in redundant
         ]
+    if moddi3_zero_prefix:
+        prefix_address = 0x001A7630
+        if reference[prefix_address - TARGET_BASE:prefix_address - TARGET_BASE + 8] != b"\0" * 8:
+            fail("historical _moddi3.o public zero prefix drift")
+        source = args.build_dir / "stage3p-moddi3-zero-prefix.S"
+        source.write_text(
+            ".set noreorder\n"
+            ".section .text.stage3p.residual.001a7630,\"ax\",@progbits\n"
+            ".word 0, 0\n",
+            encoding="ascii",
+        )
+        output = args.build_dir / "stage3p-moddi3-zero-prefix.o"
+        stage3o.stage3i.compile_one(
+            cxx, ("-G0", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900"),
+            source, output,
+        )
+        direct_objects.append(output)
+        direct_sections.append((".text.stage3p.residual", prefix_address, 8, None))
     direct_sections.sort(key=lambda item: item[1])
     direct_spans = [
         (f"direct_{address:08x}", address, size)
@@ -3938,7 +4099,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects),
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 36 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES),
+            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 37 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES) + len(DIRECT_PAD_SLICES) + len(DIRECT_EH_OBJECT_SLICES),
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": sum(
                 path.stat().st_size for _section, path, _address in source_paths
