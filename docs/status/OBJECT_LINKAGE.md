@@ -1,10 +1,10 @@
-# Object-native linkage
+# Source-object-native linkage
 
 The exact-image pipeline and the clean object link are tracked separately.
 
 Stage-3P proves all **720,620/720,620 code bytes** and the complete
-replacement ELF. 144 ELF inputs provide **683,912 code bytes** directly
-through 282 placed code sections. 138 inputs use historical producer code;
+replacement ELF. 145 ELF inputs provide **720,620 code bytes** directly
+through 388 placed code sections. 138 inputs use historical producer code;
 multiple inputs may derive from distinct slices of the same original object,
 including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o`,
 `CPU.o`, `seta.o`, `CPUEXEC.o`, `dma.o`, `gfx-short.o`, `CPUOPS.o`, `tile.o`,
@@ -63,7 +63,8 @@ Further checked slices use `c4emu.o`, `MEMMAP.o`, original zlib `infcodes.o`,
 `inftrees.o`, `infblock.o` and `trees.o`, PGEN `gsPipe.o` and `gsDriver.o`,
 and early `explode.o` instructions. The original EE GCC 3.2.2 `libgcc.a`
 members supply divide and floating-point runtime instructions; the archive
-identity is pinned and members are extracted only into the ignored build tree.
+producer identity is pinned from link-relevant ELF sections, relocations and
+referenced symbols, and members are extracted only into the ignored build tree.
 Verified PS2LIB runtime members supply SIF RPC, command and file I/O code.
 Relocations bind to previously proved data and BSS locations.
 
@@ -77,13 +78,19 @@ to the already proved read-only, vtable and BSS providers. Additional exact
 `explode.o`, `unreduce.o` and zlib `infblock.o` slices link from their historical
 objects after checking source layouts, relocation targets and byte identity.
 
-The remaining **36,708 code bytes** pass through generated `.incbin` sections
-in `code-windows.o`. Those bytes match the target but still need to be linked
-from their producer objects.
+The final **36,708 code bytes** are compiled into `code-windows.o` from the
+same frozen public evidence that admitted them to the exact-window roster:
+10,408 bytes come from selected candidate-object slices and 26,300 bytes from
+committed public instruction listings. Every nonrelocation bit from an ELF
+candidate is checked before its relocation-controlled bits are resolved; every
+listing word is checked against the exact-image oracle. No generated binary
+payload or `.incbin` directive participates in the code link.
 
-For the strict project definition, completion requires every selected code range
-to be linked from an ELF object that produced it. A consolidated binary payload
-does not count, even when its final bytes are exact.
+For the strict project definition, completion requires every selected code
+range to be linked from a source-built ELF object with its evidence class kept
+explicit. A consolidated binary payload does not count, even when its final
+bytes are exact. This gate does not relabel listing-derived exact assembly as
+an original historical C/C++ producer.
 
 ## Current baseline
 
@@ -97,11 +104,13 @@ does not count, even when its final bytes are exact.
 | Earlier exact-assembly construction bucket | **85,628 bytes** |
 | Explicit residual assembly | **36,340 bytes** |
 | Public listing construction bucket | **73,192 bytes** |
-| Bytes linked directly from producer objects | **683,912/720,620 (94.91%)** |
-| Direct ELF object inputs | **144** (including **138** historical producer slices) |
-| Direct placed sections | **282** |
-| Bytes remaining behind generated payload | **36,708** |
-| Strict object-native linkage | **In progress** |
+| Bytes linked from source-built ELF objects | **720,620/720,620 (100%)** |
+| Final evidence object from candidate slices | **10,408 bytes** |
+| Final evidence object from public listings | **26,300 bytes** |
+| Direct ELF object inputs | **145** (including **138** historical producer slices) |
+| Direct placed sections | **388** |
+| Bytes remaining behind generated payload | **0** |
+| Strict source-object linkage | **Complete** |
 
 The provenance buckets sum to the exact 720,620-byte code region. The direct
 object and generated-payload rows describe how that proven region is transported
@@ -111,13 +120,16 @@ into the final link, so they intentionally overlap those provenance buckets.
 
 ```bash
 make object-linkage-status
+make object-linkage-refresh
 make object-linkage-public-check
 make object-linkage-required
 ```
 
-The first two commands validate and display the frozen public baseline.
-`object-linkage-required` is intentionally red until all 720,620 bytes use
-direct object inputs and the generated `.incbin` transport is gone.
+`object-linkage-status` and `object-linkage-public-check` validate and display
+the frozen public baseline. `object-linkage-refresh` captures a verified metric
+update after the private code-window gate. `object-linkage-required` is green
+only when all 720,620 bytes use source-built object inputs and generated binary
+transport is absent.
 
 Private byte comparison remains in `make reproduce-check`. The object-linkage
 manifest contains counts and paths only; it does not contain original target

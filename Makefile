@@ -214,7 +214,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	sjcrunch-packing sjcrunch-packing-check sjcrunch-packing-public-check \
 	sjcrunch-source sjcrunch-outer-elf sjcrunch-outer-elf-check sjcrunch-outer-elf-public-check \
 	decompdev-report decompdev-report-check decompdev-report-public-check \
-	object-linkage-status object-linkage-public-check object-linkage-required \
+	object-linkage-status object-linkage-refresh object-linkage-public-check object-linkage-required \
 	hunt1000plus-v45-runtime hunt1000plus-v45-historical hunt1000plus-v45-evidence \
 	hunt1000plus-v46-evidence hunt1000plus-v47-evidence hunt1041-v48-evidence hunt1041-v49-evidence hunt1041-v51-evidence hunt1041-v52-evidence hunt1041-v72-evidence hunt1041-v73-evidence hunt1041-v74-evidence hunt1041-v75-evidence hunt1041-v76-evidence hunt1041-v77-evidence hunt1041-v78-evidence hunt1041-v79-evidence hunt1041-v80-evidence hunt1041-v81-evidence \
 	toolchain-info toolchain-probe check-ee-compiler \
@@ -331,6 +331,9 @@ decompdev-report-public-check:
 
 object-linkage-status:
 	$(PYTHON) tools/object_linkage.py validate --manifest "$(OBJECT_LINKAGE_MANIFEST)"
+
+object-linkage-refresh:
+	$(PYTHON) tools/object_linkage.py capture --manifest "$(OBJECT_LINKAGE_MANIFEST)"
 
 object-linkage-public-check: object-linkage-status
 

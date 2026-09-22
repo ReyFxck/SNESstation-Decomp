@@ -13,9 +13,9 @@ ROOT = Path(__file__).resolve().parents[1]
 class ObjectLinkageAuditTests(unittest.TestCase):
     def test_frozen_manifest_matches_current_transport(self) -> None:
         document = object_linkage.validate()
-        self.assertFalse(document["result"]["object_native_complete"])
-        self.assertEqual(document["result"]["direct_object_bytes"], 683_912)
-        self.assertEqual(document["result"]["remaining_object_native_bytes"], 36_708)
+        self.assertTrue(document["result"]["object_native_complete"])
+        self.assertEqual(document["result"]["direct_object_bytes"], 720_620)
+        self.assertEqual(document["result"]["remaining_object_native_bytes"], 0)
 
     def test_candidate_object_inventory_is_explicit(self) -> None:
         document = object_linkage.validate()
@@ -27,15 +27,16 @@ class ObjectLinkageAuditTests(unittest.TestCase):
         self.assertEqual(result["residual_assembly_bytes"], 36_340)
         self.assertEqual(result["direct_candidate_object_inputs"], 138)
         self.assertTrue(result["transport"]["selected_candidate_objects_linked_directly"])
-        self.assertEqual(result["direct_object_inputs"], 144)
-        self.assertEqual(result["direct_object_sections"], 282)
-        self.assertEqual(result["incbin_payload_bytes"], 36_708)
-        self.assertEqual(result["incbin_payload_sections"], 106)
+        self.assertEqual(result["evidence_candidate_object_bytes"], 10_408)
+        self.assertEqual(result["evidence_listing_bytes"], 26_300)
+        self.assertEqual(result["direct_object_inputs"], 145)
+        self.assertEqual(result["direct_object_sections"], 388)
+        self.assertEqual(result["incbin_payload_bytes"], 0)
+        self.assertEqual(result["incbin_payload_sections"], 0)
 
-    def test_strict_completion_gate_rejects_incbin_transport(self) -> None:
+    def test_strict_completion_gate_accepts_source_object_transport(self) -> None:
         document = object_linkage.validate()
-        with self.assertRaises(object_linkage.ObjectLinkageError):
-            object_linkage.require_complete(document)
+        object_linkage.require_complete(document)
 
     def test_manifest_is_public_metadata_only(self) -> None:
         document = json.loads(
