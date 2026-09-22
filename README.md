@@ -34,26 +34,30 @@ Detailed machine-generated counts are in
 [`docs/status/PROJECT_STATUS.generated.md`](docs/status/PROJECT_STATUS.generated.md).
 <!-- DECOMP_PROGRESS_END -->
 
-## Strict object-native linkage
+## Strict source-object linkage
 
 The replacement ELF matches byte for byte. The final linker now places
-**683,912/720,620 code bytes (94.91%)** from 144 ELF inputs, including
+**720,620/720,620 code bytes (100%)** from 145 ELF inputs, including
 `CPU.o`, `seta.o`, `tile.o`, `CPUOPS.o`, `gfx-short.o`, `CPUEXEC.o`, `dma.o`,
 `ppu-short.o`, `apu-short.o`, `c4.o`, `obc1.o`, `snes-sa1.o`, `snes-CHEATS.o`,
 `SA1CPU.o`, `deflate-1.41.o`, `unzip.o`, `xprintf.o`, `libmc.o`,
 `unwind-dw2-fde.o`, `snaporig-short.o`, `memmap-short.o`, `DSP1.o`,
 `spc7110.o`, `snapshot-short.o`, `sound-normal.o`, `gsFont.o`, `gsPipe.o`,
 original zlib objects, historical PS2LIB runtime members, EE GCC 3.2.2
-`libgcc.a` members and historical C++ exception/RTTI objects. The remaining
-**36,708 code bytes**
-still pass through generated `.incbin` sections. This is separate from the
-completed decomp.dev image match.
+`libgcc.a` members and historical C++ exception/RTTI objects. The last
+**36,708 code bytes** are now compiled into a normal ELF input from already
+selected evidence: 10,408 bytes from checked candidate-object slices and
+26,300 bytes from committed public instruction listings. No code byte passes
+through a generated `.incbin` section. The audit preserves this distinction;
+listing-derived assembly is exact recovery evidence, not a claim that an
+unavailable historical C/C++ file was found.
 
 The required gate and its frozen public baseline are documented in
 [`docs/status/OBJECT_LINKAGE.md`](docs/status/OBJECT_LINKAGE.md):
 
 ```bash
 make object-linkage-status
+make object-linkage-refresh
 make object-linkage-public-check
 make object-linkage-required
 ```

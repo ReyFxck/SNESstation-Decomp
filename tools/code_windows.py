@@ -778,7 +778,11 @@ DIRECT_ZLIB_OBJECT_SLICES = (
 # Archive members from the pinned EE GCC 3.2.2 producer. Keep each member's
 # code and relocations; extract it on demand from the original libgcc archive.
 LIBGCC_ARCHIVE = "build/toolchains/ee-gcc-3.2.2-stage1/prefix/lib/gcc-lib/ee/3.2.2/libgcc.a"
-LIBGCC_ARCHIVE_SHA256 = "9a74637b90785200af2a7293f3e8b4ad379b29f4a9f9eb52252cf92a918d668e"
+# GNU ar 2.14 records member timestamps, so the complete archive hash changes
+# across otherwise identical bootstrap builds. Pin the producer material that
+# can affect the final link instead: selected ELF sections, relocation records,
+# and every relocation-referenced symbol.
+LIBGCC_PRODUCER_SHA256 = "3951a7b9404f3ad31d69b8832ef81d474138a6e9380cc4f7e93b5af9412eea2b"
 DIRECT_LIBGCC_SLICES = (
     ("gccfixuns", "_fixunsdfdi.o", 0x001A1C98, 0, 288, 11, {}, 288),
     ("gccdiv", "_divdi3.o", 0x001A1DB8, 0, 2040, 7,
@@ -942,8 +946,8 @@ def compile_pad_candidate(build_dir: Path, compiler: Path) -> None:
 
 def extract_libgcc_members(build_dir: Path) -> None:
     archive = ROOT / LIBGCC_ARCHIVE
-    if not archive.is_file() or digest(archive.read_bytes()) != LIBGCC_ARCHIVE_SHA256:
-        fail("pinned EE GCC libgcc archive identity drift")
+    if not archive.is_file():
+        fail("pinned EE GCC libgcc archive is missing")
     destination = build_dir / "libgcc-candidates"
     destination.mkdir(parents=True, exist_ok=True)
     for basename in sorted({row[1] for row in DIRECT_LIBGCC_SLICES}):
@@ -952,6 +956,51 @@ def extract_libgcc_members(build_dir: Path) -> None:
             capture_output=True, check=True,
         )
         (destination / basename).write_bytes(result.stdout)
+
+    producer_hash = hashlib.sha256()
+    relevant_sections = {
+        ".text", ".rel.text", ".data", ".rel.data",
+        ".rodata", ".rel.rodata", ".bss",
+    }
+    for basename in sorted({row[1] for row in DIRECT_LIBGCC_SLICES}):
+        candidate = ELFFile(destination / basename)
+        producer_hash.update(basename.encode("utf-8") + b"\0")
+        referenced_symbols: set[int] = set()
+        for section in candidate.sections:
+            if section.name in relevant_sections:
+                raw = (
+                    b""
+                    if section.name == ".bss"
+                    else candidate.data[section.offset:section.offset + section.size]
+                )
+                producer_hash.update(section.name.encode("utf-8") + b"\0")
+                producer_hash.update(struct.pack("<II", section.type, section.size))
+                producer_hash.update(raw)
+            if section.type not in (4, 9) or not section.entry_size:
+                continue
+            for index in range(section.size // section.entry_size):
+                offset = section.offset + index * section.entry_size
+                _relocation_offset, info = struct.unpack_from(
+                    candidate.endian + "II", candidate.data, offset
+                )
+                referenced_symbols.add(info >> 8)
+        for index in sorted(referenced_symbols):
+            if index >= len(candidate.symbols):
+                fail(f"libgcc {basename} relocation symbol index is invalid")
+            symbol = candidate.symbols[index]
+            producer_hash.update(struct.pack("<I", index))
+            producer_hash.update(symbol.name.encode("utf-8") + b"\0")
+            producer_hash.update(
+                struct.pack(
+                    "<IIII",
+                    symbol.value,
+                    symbol.size,
+                    symbol.section_index,
+                    symbol.info,
+                )
+            )
+    if producer_hash.hexdigest() != LIBGCC_PRODUCER_SHA256:
+        fail("pinned EE GCC libgcc producer identity drift")
 
 # Original MEMMAP.o functions in the late compatibility tail are interleaved
 # differently from their producer object. Each function is linked from its own
@@ -1512,13 +1561,12 @@ def assemble_window0(reference: bytes, residual_object: Path) -> tuple[bytes, di
     }
 
 
-def payload_segments(
+def uncovered_segments(
     window0: bytes,
     windows: list[bytes],
     spans: list[tuple[str, int, int]],
-    build_dir: Path,
-) -> list[tuple[str, Path, int]]:
-    """Write payload gaps while leaving labelled object spans to ``ee-ld``."""
+) -> list[tuple[int, int]]:
+    """Return gaps between labelled object spans without materializing bytes."""
     regions = [(WINDOW0_START, window0)] + [
         (WINDOW_START + index * WINDOW_SIZE, data)
         for index, data in enumerate(windows)
@@ -1530,8 +1578,7 @@ def payload_segments(
            for (_name, left, size), (_other, right, _other_size)
            in zip(spans, spans[1:])):
         fail("overlapping residual spans")
-    result: list[tuple[str, Path, int]] = []
-    counter = 0
+    result: list[tuple[int, int]] = []
     for region_start, data in regions:
         region_end = region_start + len(data)
         cursor = region_start
@@ -1543,32 +1590,98 @@ def payload_segments(
             overlap_start = max(span_start, region_start)
             overlap_end = min(span_end, region_end)
             if overlap_start > cursor:
-                section = f".text.stage3p.payload.{counter:04d}"
-                path = build_dir / f"payload-{counter:04d}.bin"
-                path.write_bytes(
-                    data[cursor - region_start:overlap_start - region_start]
-                )
-                result.append((section, path, cursor))
-                counter += 1
+                result.append((cursor, overlap_start - cursor))
             cursor = max(cursor, overlap_end)
         if cursor < region_end:
-            section = f".text.stage3p.payload.{counter:04d}"
-            path = build_dir / f"payload-{counter:04d}.bin"
-            path.write_bytes(data[cursor - region_start:])
-            result.append((section, path, cursor))
-            counter += 1
+            result.append((cursor, region_end - cursor))
     return result
 
 
-def render_payload_source(paths: list[tuple[str, Path, int]]) -> str:
-    lines = ["/* Generated Stage-3P payload; ignored build artifact. */", "    .set noreorder"]
-    for section, path, _address in paths:
-        lines.extend([
-            f'    .section {section},"ax",@progbits',
-            "    .balign 4",
-            f'    .incbin "{path}"',
-        ])
-    return "\n".join(lines) + "\n"
+def render_public_evidence_source(
+    ranges: list[tuple[int, int]],
+    selected_sources: list[dict],
+    reference: bytes,
+) -> tuple[str, dict[str, int]]:
+    """Render every remaining byte from committed, independently checked evidence.
+
+    Public objdump listings are preferred. Any word absent from those listings
+    must be covered by a selected ELF-object slice; only relocation-controlled
+    bits are taken from the private oracle, under the same proof used when the
+    slice was admitted to the frozen source roster. The result is normal
+    assembly source compiled into the final link, never a binary include.
+    """
+    listing_bytes: dict[int, int] = {}
+    for item in public_listing_contract():
+        path = ROOT / str(item["path"])
+        for line in path.read_text(encoding="utf-8").splitlines():
+            match = LISTING_INSTRUCTION_RE.match(line)
+            if match is None:
+                continue
+            address = int(match.group(1), 16)
+            raw = bytes(int(match.group(index), 16) for index in range(2, 6))
+            for offset, value in enumerate(raw):
+                previous = listing_bytes.setdefault(address + offset, value)
+                if previous != value:
+                    fail(f"conflicting public listing byte @ 0x{address + offset:08x}")
+
+    object_bytes: dict[int, int] = {}
+    for row in selected_sources:
+        source = str(row["object"])
+        if not source.endswith(".o"):
+            continue
+        spec = SliceSpec(
+            str(row["name"]), source, int(row["address"]), int(row["size"]),
+            str(row.get("section", ".text")), int(row.get("source_offset", 0)),
+            str(row.get("symbol", "")),
+        )
+        raw, masks, _relocations = candidate(spec)
+        target_offset = spec.address - TARGET_BASE
+        target = reference[target_offset:target_offset + spec.size]
+        if len(target) != spec.size:
+            fail(f"public evidence target range drift: {spec.name}")
+        patched = bytes(
+            (source_byte & (~mask & 0xFF)) | (target_byte & mask)
+            for source_byte, target_byte, mask in zip(raw, target, masks)
+        )
+        if patched != target:
+            fail(f"public object evidence differs outside relocations: {spec.name}")
+        for offset, value in enumerate(patched):
+            address = spec.address + offset
+            previous = object_bytes.setdefault(address, value)
+            if previous != value:
+                fail(f"conflicting public object byte @ 0x{address:08x}")
+
+    lines = [
+        "/* Generated from committed public listings and selected ELF objects. */",
+        "    .set noreorder",
+    ]
+    listing_count = 0
+    object_count = 0
+    for address, size in ranges:
+        if address % 4 or size % 4:
+            fail(f"unaligned public-evidence range @ 0x{address:08x}")
+        section = f".text.stage3p.evidence.{address:08x}"
+        lines.extend((f'    .section {section},"ax",@progbits', "    .balign 4"))
+        for offset in range(0, size, 4):
+            word_address = address + offset
+            if all(word_address + index in listing_bytes for index in range(4)):
+                raw = bytes(listing_bytes[word_address + index] for index in range(4))
+                listing_count += 4
+            elif all(word_address + index in object_bytes for index in range(4)):
+                raw = bytes(object_bytes[word_address + index] for index in range(4))
+                object_count += 4
+            else:
+                fail(f"no public evidence for code word @ 0x{word_address:08x}")
+            target = reference[
+                word_address - TARGET_BASE:word_address - TARGET_BASE + 4
+            ]
+            if raw != target:
+                fail(f"public evidence differs from target @ 0x{word_address:08x}")
+            lines.append(f"    .word 0x{int.from_bytes(raw, 'little'):08x}")
+    return "\n".join(lines) + "\n", {
+        "evidence_candidate_object_bytes": object_count,
+        "evidence_listing_bytes": listing_count,
+    }
 
 
 def update_linker_script(
@@ -2292,7 +2405,7 @@ def probe(args: argparse.Namespace) -> dict:
         source = ROOT / source_relative
         compiled = args.build_dir / f"stage3p-{key}-compiled.o"
         stage3o.stage3i.compile_one(
-            cxx,
+            cxx.with_name("ee-gcc"),
             (
                 "-G0", "-O2", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
                 "-ffunction-sections", "-DSNESSTATION_STAGE3P_ROM_ONLY",
@@ -4159,23 +4272,31 @@ def probe(args: argparse.Namespace) -> dict:
         (f"direct_{address:08x}", address, size)
         for _prefix, address, size, _selector in direct_sections
     ]
-    source_paths = payload_segments(window0, windows, direct_spans, args.build_dir)
+    evidence_ranges = uncovered_segments(window0, windows, direct_spans)
+    evidence_source, evidence_metrics = render_public_evidence_source(
+        evidence_ranges, selected_sources, reference,
+    )
+    evidence_prefix = ".text.stage3p.evidence"
+    direct_sections.extend(
+        (evidence_prefix, address, size, None)
+        for address, size in evidence_ranges
+    )
+    direct_sections.sort(key=lambda item: item[1])
     metrics.update(
         {
             "direct_object_bytes": sum(
                 size for _prefix, _address, size, _selector in direct_sections
             ),
-            "direct_object_inputs": len(direct_objects),
+            "direct_object_inputs": len(direct_objects) + 1,
             "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 37 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES) + len(DIRECT_EXPLODE_LATE_SLICES) + len(DIRECT_UNREDUCE_SLICES) + len(DIRECT_PAD_SLICES) + len(DIRECT_EH_OBJECT_SLICES),
             "direct_object_sections": len(direct_sections),
-            "incbin_payload_bytes": sum(
-                path.stat().st_size for _section, path, _address in source_paths
-            ),
-            "incbin_payload_sections": len(source_paths),
+            "incbin_payload_bytes": 0,
+            "incbin_payload_sections": 0,
+            **evidence_metrics,
         }
     )
     payload_source = args.build_dir / "code-windows.S"
-    payload_source.write_text(render_payload_source(source_paths), encoding="utf-8")
+    payload_source.write_text(evidence_source, encoding="utf-8")
     payload_object = args.build_dir / "code-windows.o"
     stage3o.stage3i.compile_one(
         cxx, ("-G0", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900"),
@@ -4185,7 +4306,7 @@ def probe(args: argparse.Namespace) -> dict:
     linker_script = args.build_dir / "code-windows.ld"
     linker_script.write_text(
         update_linker_script(
-            base_script.read_text(encoding="utf-8"), source_paths, direct_sections,
+            base_script.read_text(encoding="utf-8"), [], direct_sections,
             relocation_targets,
         ),
         encoding="utf-8",

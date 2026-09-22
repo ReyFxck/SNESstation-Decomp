@@ -113,6 +113,8 @@ def load_image_status(root: Path = ROOT) -> dict[str, object]:
 def render_terminal(status: ProjectStatus, image: dict[str, object]) -> str:
     def ranges(indices: object) -> str:
         values = [int(value) for value in indices]
+        if not values:
+            return "none"
         groups: list[str] = []
         start = end = values[0]
         for value in values[1:]:

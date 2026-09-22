@@ -2,8 +2,9 @@
   "claims": {
     "candidate_object_inventory_includes_direct_link_inputs": true,
     "exact_whole_image_is_proved": true,
-    "object_native_linkage_complete": false,
-    "private_target_payload_committed": false
+    "object_native_linkage_complete": true,
+    "private_target_payload_committed": false,
+    "public_assembly_provenance_distinguished": true
   },
   "format": "snesstation-object-native-linkage",
   "inputs": {
@@ -15,27 +16,29 @@
     "candidate_elf_object_slices": 432,
     "candidate_elf_objects": 97,
     "direct_candidate_object_inputs": 138,
-    "direct_object_bytes": 683912,
-    "direct_object_inputs": 144,
-    "direct_object_sections": 282,
+    "direct_object_bytes": 720620,
+    "direct_object_inputs": 145,
+    "direct_object_sections": 388,
+    "evidence_candidate_object_bytes": 10408,
+    "evidence_listing_bytes": 26300,
     "exact_code_bytes": 720620,
     "historical_recovered_object_bytes": 525460,
-    "incbin_payload_bytes": 36708,
-    "incbin_payload_sections": 106,
+    "incbin_payload_bytes": 0,
+    "incbin_payload_sections": 0,
     "listing_bytes": 73192,
     "listing_sources": 44,
-    "object_native_complete": false,
+    "object_native_complete": true,
     "prior_exact_assembly_bytes": 85628,
-    "remaining_object_native_bytes": 36708,
+    "remaining_object_native_bytes": 0,
     "residual_assembly_bytes": 36340,
     "residual_assembly_slices": 92,
     "selected_source_slices": 568,
     "transport": {
       "direct_object_inputs_present": true,
       "final_code_input": "build/code-windows/code-windows.o",
-      "generated_binary_include": true,
+      "generated_binary_include": false,
       "selected_candidate_objects_linked_directly": true,
-      "transport": "mixed-direct-objects-and-generated-incbin-payload"
+      "transport": "direct-source-objects"
     }
   },
   "schema_version": 1
