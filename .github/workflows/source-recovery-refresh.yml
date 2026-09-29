@@ -1,5 +1,5 @@
 name: Source recovery ledger refresh
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO promotion and reviewed aliases included.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO and IOPHEAP promotions included.
 
 on:
   push:
