@@ -121,6 +121,26 @@ try_profile o2-no-ifconv2 \
   -fno-if-conversion2
 
 # Optimization-level controls.
+# Progress 54 proved that -Os is the key historical fingerprint for six of the
+# eight CDVD functions, so keep a focused -Os family in the live frontier.
+try_profile os \
+  -Os -fomit-frame-pointer -fstrict-aliasing -fno-common
+
+try_profile os-no-strict \
+  -Os -fomit-frame-pointer -fno-strict-aliasing -fno-common
+
+try_profile os-no-sched1 \
+  -Os -fomit-frame-pointer -fstrict-aliasing -fno-common \
+  -fno-schedule-insns
+
+try_profile os-no-sched2 \
+  -Os -fomit-frame-pointer -fstrict-aliasing -fno-common \
+  -fno-schedule-insns2
+
+try_profile os-no-sched12 \
+  -Os -fomit-frame-pointer -fstrict-aliasing -fno-common \
+  -fno-schedule-insns -fno-schedule-insns2
+
 try_profile o1 \
   -O1 -fomit-frame-pointer -fstrict-aliasing -fno-common
 
