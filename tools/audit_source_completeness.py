@@ -26,6 +26,13 @@ EXPECTED_P16_PSEUDOCODE = 165
 EXPECTED_P17_PSEUDOCODE = 74
 MARKER_RE = re.compile(r"^/\* ===== (0x[0-9a-fA-F]{8}) ===== \*/$", re.MULTILINE)
 
+EXACT_SOURCE_TRACES = (
+    (
+        ROOT / "analysis" / "functions" / "libkernel_leaf_exact_508.tsv",
+        "src/ps2/kernel.S",
+    ),
+)
+
 
 def read_csv(path: Path) -> list[dict[str, str]]:
     with path.open(encoding="utf-8", newline="") as stream:
@@ -57,17 +64,38 @@ def pseudocode_markers(path: Path) -> set[str]:
 def explicit_source_references(addresses: set[str]) -> tuple[dict[str, list[str]], int]:
     """Return conservative address-to-source traceability, not ownership proof."""
     references: dict[str, list[str]] = defaultdict(list)
-    translation_units = sorted((ROOT / "src").rglob("*.c"))
+    translation_units = sorted(
+        path
+        for pattern in ("*.c", "*.S")
+        for path in (ROOT / "src").rglob(pattern)
+    )
     address_by_hex = {address[2:]: address for address in addresses}
 
-    for path in translation_units:
-        text = path.read_text(encoding="utf-8", errors="replace").lower()
-        relative = path.relative_to(ROOT).as_posix()
+    for source_path in translation_units:
+        text = source_path.read_text(encoding="utf-8", errors="replace").lower()
+        relative = source_path.relative_to(ROOT).as_posix()
         for token, address in address_by_hex.items():
             if token in text:
                 references[address].append(relative)
 
-    return dict(references), len(translation_units)
+    # Exact historical sources do not need recovery-only address comments added
+    # to their byte-identical source text.  Reviewed sidecars can therefore pin
+    # source traceability for selected target entries.
+    for table, source in EXACT_SOURCE_TRACES:
+        if not (ROOT / source).is_file():
+            fail(f"missing exact traced source {source}")
+        with table.open(encoding="utf-8", newline="") as stream:
+            for row in csv.DictReader(stream, delimiter="\t"):
+                address = row["address"].lower()
+                if address not in addresses:
+                    fail(f"exact source trace address outside target universe: {address}")
+                references[address].append(source)
+
+    normalized = {
+        address: sorted(set(files))
+        for address, files in references.items()
+    }
+    return normalized, len(translation_units)
 
 
 def render_csv(
