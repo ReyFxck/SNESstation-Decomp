@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-snprintf-refactor 223-name source-link provider frontier.
+"""Close the post-FILEIO-recovery 219-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -123,11 +123,6 @@ SEMANTIC_ALIASES = {
     "S9xSync_SetVolume": "SjPCM_Setvol_001078f8",
     "abort": "snes_fatal_spin_00107578",
     "operator_new_u32": "snes_p13_operator_new",
-    # FILEIO exact-source promotion: bind reviewed aliases to historical symbols.
-    "snes_p12_fio_close": "fioClose",
-    "snes_p12_fio_open": "fioOpen",
-    "snes_p12_fio_read": "fioRead",
-    "snes_p12_fio_write": "fioWrite",
     "snes_p12_qsort": "snes_qsort_001080cc",
 }
 
@@ -261,8 +256,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 223:
-        fail(f"expected exact post-snprintf-refactor frontier of 223 symbols, found {len(active)}")
+    if len(active) != 219:
+        fail(f"expected exact post-FILEIO-recovery frontier of 219 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
