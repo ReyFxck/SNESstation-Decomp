@@ -99,9 +99,10 @@ def validate_live_contracts(
         for label, rows in (("externals", external), ("contracts", contracts), ("frontier", frontier)):
             if any(row["symbol"] == symbol for row in rows):
                 fail(f"{symbol} returned to live {label}")
-    # Exact XPRINTF and ALLOC promotion now provide formatter/heap symbols
-    # directly from canonical historical source.
-    if (len(external), len(contracts), len(frontier)) != (1839, 1508, 219):
+    # Exact XPRINTF, ALLOC and LIBKERNEL promotions now provide their symbols
+    # directly from canonical historical source.  kernel.S makes iSifSetDChain
+    # canonical, collapsing the former address-qualified external/contract pair.
+    if (len(external), len(contracts), len(frontier)) != (1838, 1507, 219):
         fail("post-refactor namespace count drift")
     if any(row["resolution_kind"] == "compatibility-runtime-shim" for row in frontier):
         fail("compatibility runtime shim returned")
