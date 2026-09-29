@@ -35,6 +35,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "memcpy_exact_56.tsv",
         "src/ps2/memcpy.S",
     ),
+    (
+        ROOT / "analysis" / "functions" / "memset_exact_56.tsv",
+        "src/ps2/memset.S",
+    ),
 )
 
 
