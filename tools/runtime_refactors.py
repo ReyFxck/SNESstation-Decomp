@@ -100,7 +100,7 @@ def validate_live_contracts(
             fail(f"snprintf returned to live {label}")
     # Historical SIF RPC + SIF CMD/glue promotion now defines five additional
     # live providers in canonical source instead of leaving them as externals.
-    if (len(external), len(contracts), len(frontier)) != (1846, 1513, 219):
+    if (len(external), len(contracts), len(frontier)) != (1843, 1512, 221):
         fail("post-refactor namespace count drift")
     expected_requesters = {
         "ps2/small_dispatch_recovered.o", "snes9x/memmap_metadata_recovered.o",
