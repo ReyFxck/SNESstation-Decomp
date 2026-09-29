@@ -23,6 +23,12 @@ on:
       - src/ps2/iop_reset_recovered.c
       - include/iopcontrol_legacy_compat.h
       - tools/run-iopcontrol-source-recovery.py
+      - src/ps2/xprintf.c
+      - include/xprintf_legacy_compat.h
+      - tools/run-xprintf-source-recovery.py
+      - .github/workflows/xprintf-source-recovery.yml
+      - src/ps2/ps2lib_formatter_recovered.c
+      - src/ps2/stdio_wrappers_recovered.c
       - include/loadfile_legacy_compat.h
       - tools/run-loadfile-source-recovery.py
       - include/iopheap_legacy_compat.h
@@ -82,6 +88,7 @@ jobs:
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
           python3 tools/run-iopcontrol-source-recovery.py
+          python3 tools/run-xprintf-source-recovery.py
 
       - name: Refresh source ownership ledgers
         run: |
