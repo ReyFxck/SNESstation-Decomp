@@ -64,10 +64,10 @@ _Static_assert(offsetof(P22FileBufferTarget, data_ee) == 4,
 _Static_assert(offsetof(P22FileBufferTarget, size) == 8,
                "0x00104234 size offset");
 
-extern int fioOpen_0019cfc0(const char *path, int mode);
-extern int fioLseek_0019d360(int fd, int offset, int whence);
-extern int fioClose_0019d090(int fd);
-extern int fioRead_0019d120(int fd, void *buffer, int size);
+extern int fioOpen(const char *path, int mode);
+extern int fioLseek(int fd, int offset, int whence);
+extern int fioClose(int fd);
+extern int fioRead(int fd, void *buffer, int size);
 extern void *memalign_0019e698(size_t alignment, size_t size);
 
 int snes_p22_00104234(P22FileBufferTarget *state, const char *path)
@@ -77,14 +77,14 @@ int snes_p22_00104234(P22FileBufferTarget *state, const char *path)
     int rounded;
     void *buffer;
 
-    fd = fioOpen_0019cfc0(path, 1);
+    fd = fioOpen(path, 1);
     if (fd < 0)
         return 2;
 
-    size = fioLseek_0019d360(fd, 0, 2);
+    size = fioLseek(fd, 0, 2);
     state->size = size;
     if (size == 0) {
-        (void)fioClose_0019d090(fd);
+        (void)fioClose(fd);
         return 2;
     }
 
@@ -97,10 +97,10 @@ int snes_p22_00104234(P22FileBufferTarget *state, const char *path)
     state->data_ee = (uint32_t)(uintptr_t)buffer;
     (void)memset(buffer, 0xff, (size_t)rounded);
 
-    (void)fioLseek_0019d360(fd, 0, 0);
-    (void)fioRead_0019d120(fd, buffer, state->size);
+    (void)fioLseek(fd, 0, 0);
+    (void)fioRead(fd, buffer, state->size);
     ((uint8_t *)buffer)[state->size] = 0;
-    (void)fioClose_0019d090(fd);
+    (void)fioClose(fd);
     return 1;
 }
 
