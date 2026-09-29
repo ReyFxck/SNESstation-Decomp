@@ -1,8 +1,8 @@
 order	source	subsystem	language	link_role	object	replaces	rationale
-0	src/app/main_bootstrap.c	app	c	canonical	app/main_bootstrap.o		Canonical recovered translation unit.
-1	src/app/main_flow_recovered.c	app	c	canonical	app/main_flow_recovered.o		Canonical recovered translation unit.
-2	src/ps2/address_leaf_recovered.c	ps2	c	canonical	ps2/address_leaf_recovered.o		Canonical recovered translation unit.
-3	src/ps2/audio_rpc_recovered.c	ps2	c	canonical	ps2/audio_rpc_recovered.o		Canonical recovered translation unit.
+1	src/app/main_bootstrap.c	app	c	canonical	app/main_bootstrap.o		Canonical recovered translation unit.
+2	src/app/main_flow_recovered.c	app	c	canonical	app/main_flow_recovered.o		Canonical recovered translation unit.
+3	src/ps2/address_leaf_recovered.c	ps2	c	canonical	ps2/address_leaf_recovered.o		Canonical recovered translation unit.
+4	src/ps2/audio_rpc_recovered.c	ps2	c	canonical	ps2/audio_rpc_recovered.o		Canonical recovered translation unit.
 5	src/ps2/cdvd_rpc.c	ps2	c	canonical	ps2/cdvd_rpc.o		Byte-exact recovered historical libcdvd EE RPC translation unit.
 6	src/ps2/cpp_runtime_recovered.c	ps2	c	canonical	ps2/cpp_runtime_recovered.o		Canonical recovered translation unit.
 7	src/ps2/ee_cache_recovered.c	ps2	c	canonical	ps2/ee_cache_recovered.o		Canonical recovered translation unit.
