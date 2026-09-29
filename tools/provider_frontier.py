@@ -123,6 +123,7 @@ SEMANTIC_ALIASES = {
     "S9xSync_SetVolume": "SjPCM_Setvol_001078f8",
     "abort": "snes_fatal_spin_00107578",
     "operator_new_u32": "snes_p13_operator_new",
+    # FILEIO exact-source promotion: bind reviewed aliases to historical symbols.
     "snes_p12_fio_close": "fioClose",
     "snes_p12_fio_open": "fioOpen",
     "snes_p12_fio_read": "fioRead",
