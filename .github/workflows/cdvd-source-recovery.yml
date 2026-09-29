@@ -34,6 +34,8 @@ jobs:
           key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
 
       - name: Build historical EE compiler
+        env:
+          MAKEFLAGS: MAKEINFO=true
         run: make bootstrap-ee-stage1
 
       - name: Compare recovered CDVD C with target
