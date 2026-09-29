@@ -68,7 +68,7 @@ jobs:
           make source-aliases-refresh
           make link-contracts-refresh
           make provider-frontier-refresh
-          make runtime-members-refresh EE_CC="$EE_CC"
+
           make docs
 
       - name: Refresh decomp.dev public input hashes
