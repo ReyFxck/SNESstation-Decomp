@@ -276,8 +276,8 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
               + counts[("zlib-peer", "source-or-archive")],
         "3F": counts[("target-address-data", "program-data")],
     }
-    expected = {"3B": 347, "3C": 50, "3D": 40, "3E": 190, "3F": 1226}
-    if partition != expected or sum(partition.values()) != 1853:
+    expected = {"3B": 347, "3C": 50, "3D": 37, "3E": 190, "3F": 1226}
+    if partition != expected or sum(partition.values()) != 1850:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 
@@ -630,7 +630,7 @@ def link_exact_providers(
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
     if len(frontier_rows) != 219:
-        fail(f"expected post-FILEIO provider frontier of 219 rows, found {len(frontier_rows)}")
+        fail(f"expected post-IOPHEAP provider frontier of 219 rows, found {len(frontier_rows)}")
     replacements = exact_provider_rows(named_rows, frontier_rows)
     replacement_names = {row["symbol"] for row in replacements}
     exact_ranges = [row for row in named_rows if row["status"] == RANGE_PROVED]

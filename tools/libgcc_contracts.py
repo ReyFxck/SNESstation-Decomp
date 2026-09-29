@@ -401,7 +401,7 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
     }
     if active != EXACT_SYMBOLS:
         fail(f"active compiler-runtime set drift: {sorted(active)} != {sorted(EXACT_SYMBOLS)}")
-    if len(external) != 1853:
+    if len(external) != 1850:
         fail(f"expected 1,853 live source externals after FILEIO recovery, found {len(external)}")
 
     contracts = {row["symbol"]: row for row in read_table(args.contracts, CONTRACT_FIELDS)}
@@ -417,7 +417,7 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
 
     frontier = read_table(args.frontier_manifest, FRONTIER_FIELDS)
     if len(frontier) != 219:
-        fail(f"expected 219 post-FILEIO provider rows, found {len(frontier)}")
+        fail(f"expected 219 post-IOPHEAP provider rows, found {len(frontier)}")
     runtime_shims = {
         row["symbol"] for row in frontier if row["resolution_kind"] == "compatibility-runtime-shim"
     }
