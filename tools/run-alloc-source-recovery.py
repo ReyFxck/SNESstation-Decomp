@@ -163,9 +163,16 @@ SECTIONS
 
   /* F_malloc owns the three allocator globals in this exact target order. */
   . = 0x00425a74;
-  .bss (NOLOAD) : { *(.bss) *(COMMON) }
+  .alloc_globals (NOLOAD) :
+  {
+    *(.data)
+    *(.sdata)
+    *(.bss)
+    *(.sbss)
+    *(COMMON)
+  }
 
-  /DISCARD/ : { *(.data) *(.comment) *(.mdebug*) *(.pdr) }
+  /DISCARD/ : { *(.comment) *(.mdebug*) *(.pdr) }
 }
 """,
         encoding="utf-8",
