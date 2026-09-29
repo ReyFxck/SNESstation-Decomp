@@ -437,8 +437,8 @@ def fingerprint_rows(
 def validate_manifest(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str, int | str]]:
     expected, layout = derive_rows(args)
     actual = read_table(args.manifest, MANIFEST_FIELDS)
-    if len(actual) != 212:
-        fail(f"named-contract manifest must contain 212 rows, found {len(actual)}")
+    if len(actual) != 211:
+        fail(f"named-contract manifest must contain 211 rows, found {len(actual)}")
     actual_by_symbol = unique(actual, "symbol", "named-contract row")
     if set(actual_by_symbol) != {row["symbol"] for row in expected}:
         fail("named-contract manifest symbol set drift")
