@@ -123,10 +123,10 @@ SEMANTIC_ALIASES = {
     "S9xSync_SetVolume": "SjPCM_Setvol_001078f8",
     "abort": "snes_fatal_spin_00107578",
     "operator_new_u32": "snes_p13_operator_new",
-    "snes_p12_fio_close": "fioClose_0019d090",
-    "snes_p12_fio_open": "fioOpen_0019cfc0",
-    "snes_p12_fio_read": "fioRead_0019d120",
-    "snes_p12_fio_write": "fioWrite_0019d244",
+    "snes_p12_fio_close": "fioClose",
+    "snes_p12_fio_open": "fioOpen",
+    "snes_p12_fio_read": "fioRead",
+    "snes_p12_fio_write": "fioWrite",
     "snes_p12_qsort": "snes_qsort_001080cc",
 }
 
