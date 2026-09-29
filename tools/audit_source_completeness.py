@@ -31,6 +31,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "libkernel_leaf_exact_508.tsv",
         "src/ps2/kernel.S",
     ),
+    (
+        ROOT / "analysis" / "functions" / "memcpy_exact_56.tsv",
+        "src/ps2/memcpy.S",
+    ),
 )
 
 

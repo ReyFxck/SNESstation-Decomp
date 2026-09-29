@@ -54,6 +54,13 @@ DEFAULT_CFLAGS = (
 # kernel.S is the exact historical selector-based PS2SDK source.  Keep the
 # source byte-identical and select only the members owned by this canonical TU
 # at compile time instead of adding recovery-only #defines to the source.
+SOURCE_FLAGS = {
+    # The selected PS2LIB libc/memcpy.o was built with the historical -Os
+    # profile.  Appending -Os after the source-tree's general -O2 reproduces
+    # the compiler-defined __OPTIMIZE_SIZE__ path without modifying memcpy.S.
+    "src/ps2/memcpy.S": ("-Os",),
+}
+
 SOURCE_DEFINES = {
     "src/ps2/kernel.S": (
         "F_iWakeupThread",
@@ -523,8 +530,10 @@ def compile_one(
     log = build_dir / "logs" / Path(unit.object).with_suffix(".log")
     output.parent.mkdir(parents=True, exist_ok=True)
     defines = ["-D" + name for name in SOURCE_DEFINES.get(unit.source, ())]
+    source_flags = list(SOURCE_FLAGS.get(unit.source, ()))
     command = [
-        str(compiler), *cflags, *defines, "-c", unit.source, "-o", str(output)
+        str(compiler), *cflags, *source_flags, *defines,
+        "-c", unit.source, "-o", str(output)
     ]
     run(command, log_path=log)
     validate_elf_object(output)

@@ -277,8 +277,8 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
               + counts[("zlib-peer", "source-or-archive")],
         "3F": counts[("target-address-data", "program-data")],
     }
-    expected = {"3B": 345, "3C": 50, "3D": 27, "3E": 190, "3F": 1226}
-    if partition != expected or sum(partition.values()) != 1838:
+    expected = {"3B": 345, "3C": 50, "3D": 26, "3E": 190, "3F": 1226}
+    if partition != expected or sum(partition.values()) != 1837:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 

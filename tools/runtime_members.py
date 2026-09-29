@@ -207,6 +207,7 @@ DETAILS = {
 # canonical source tree now defines promoted runtime symbols directly from the
 # recovered historical SIF, FILEIO, XPRINTF and ALLOC sources.
 PROMOTED_SOURCE_RUNTIME = {
+    "memcpy": ("memcpy", "ps2/alloc.o;ps2/cdvd_rpc.o;ps2/fileio.o;ps2/gcc_fde_runtime_recovered.o;ps2/gcc_unwind_pe_recovered.o;ps2/gs_fifo_recovered.o;ps2/gsfont_recovered.o;ps2/gspipe_recovered.o;ps2/libgcc_runtime_recovered.o;ps2/libmc_recovered.o;ps2/libpad_recovered.o;ps2/loadfile.o;ps2/newlib_mathfp_recovered.o;ps2/progress12_io_state_recovered.o;ps2/progress13_cpp_eh_recovered.o;ps2/progress15_pad_init_recovered.o;ps2/progress23_audio_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o;snes9x/progress11_core_recovered.o;snes9x/progress13_frontend_more_recovered.o;snes9x/progress13_runtime_more_recovered.o;unzip/explode_recovered.o;unzip/unreduce_recovered.o;zlib/deflate_state_recovered.o;zlib/gzio_recovered.o"),
     "malloc": ("malloc", "ps2/gcc_fde_runtime_recovered.o;ps2/libsupcxx_rtti_recovered.o;snes9x/apu_alloc_recovered.o;snes9x/memory_init_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o"),
     "calloc": ("calloc", "zlib/zutil_adler_recovered.o"),
     "free": ("free", "ps2/gcc_fde_runtime_recovered.o;ps2/libsupcxx_rtti_recovered.o;snes9x/apu_alloc_recovered.o;snes9x/memory_cleanup_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o;zlib/zutil_adler_recovered.o"),
@@ -301,7 +302,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
     # Exact kernel.S makes iSifSetDChain canonical, removing one unrelated
     # address-qualified external from the global source-tree namespace.
-    if set(active) != expected_external or len(external) != 1838:
+    if set(active) != expected_external or len(external) != 1837:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):

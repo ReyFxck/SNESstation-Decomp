@@ -97,3 +97,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 96	src/zlib/zutil_adler_recovered.c	zlib	c	canonical	zlib/zutil_adler_recovered.o		Canonical recovered translation unit.
 97	src/ps2/iopheap.c	ps2	c	canonical	ps2/iopheap.o		Recovered historical PS2LIB IOP heap translation unit; exact gate covers SifInitIopHeap, SifAllocIopHeap and SifFreeIopHeap.
 98	src/ps2/loadfile.c	ps2	c	canonical	ps2/loadfile.o		Byte-exact historical PS2LIB LOADFILE translation unit; five target members pass raw linked equality.
+99	src/ps2/memcpy.S	ps2	asm-cpp	canonical	ps2/memcpy.o		Exact historical ps2sdk@694100b7 memcpy.S; 1/1 object and 56/56 target bytes proved.

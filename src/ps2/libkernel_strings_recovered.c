@@ -5,16 +5,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-/* 0x0019c364 */
-void *sn_memcpy_0019c364(void *dst, const void *src, size_t n)
-{
-    uint8_t *d = dst;
-    const uint8_t *s = src;
-    while (n-- != 0)
-        *d++ = *s++;
-    return dst;
-}
-
 /* 0x0019c39c */
 void *sn_memset_0019c39c(void *dst, int value, size_t n)
 {
