@@ -23,14 +23,13 @@ class BuildSourceTreeTests(unittest.TestCase):
         units = MODULE.read_manifest(
             ROOT / "analysis" / "source_tree" / "translation_units.tsv"
         )
-        self.assertEqual(97, len(units))
+        self.assertEqual(96, len(units))
         self.assertEqual(96, sum(unit.canonical for unit in units))
         alternate = [unit for unit in units if not unit.canonical]
-        self.assertEqual(1, len(alternate))
-        self.assertEqual("src/ps2/cdvd_rpc_recovered.c", alternate[0].source)
-        self.assertEqual(
-            "src/ps2/cdvd_rpc_historical_recovered.c", alternate[0].replaces
-        )
+        self.assertEqual([], alternate)
+        cdvd = [unit for unit in units if unit.source == "src/ps2/cdvd_rpc.c"]
+        self.assertEqual(1, len(cdvd))
+        self.assertTrue(cdvd[0].canonical)
 
     def test_abi_contract_records_the_nonstandard_ee_widths(self) -> None:
         text = (ROOT / "analysis" / "source_tree" / "ee_abi_contract.c").read_text(
