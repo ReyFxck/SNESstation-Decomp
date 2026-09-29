@@ -192,7 +192,7 @@ def live_contracts(args: argparse.Namespace) -> dict[str, dict[str, str]]:
         defined = list(csv.DictReader(stream, delimiter="\t"))
     # Exact kernel.S makes iSifSetDChain canonical, collapsing one
     # address-qualified external and its link contract.
-    if len(external) != 1836 or len(contracts) != 1505 or len(frontier) != 219:
+    if len(external) != 1835 or len(contracts) != 1504 or len(frontier) != 219:
         fail("runtime override namespace count drift")
     for symbol, (address, size, canonical, source, _) in SPECS.items():
         row = external.get(symbol, {})

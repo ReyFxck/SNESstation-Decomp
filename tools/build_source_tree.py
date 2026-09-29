@@ -60,6 +60,7 @@ SOURCE_FLAGS = {
     # the compiler-defined __OPTIMIZE_SIZE__ path without modifying memcpy.S.
     "src/ps2/memcpy.S": ("-Os",),
     "src/ps2/memset.S": ("-Os",),
+    "src/ps2/memmove.S": ("-Os",),
 }
 
 SOURCE_DEFINES = {

@@ -1,5 +1,5 @@
 name: Source recovery ledger refresh
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY and MEMSET promotions included.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET and MEMMOVE promotions included.
 
 on:
   push:
@@ -33,6 +33,10 @@ on:
       - analysis/functions/memset_exact_56.tsv
       - tools/run-memset-source-recovery.py
       - .github/workflows/memset-source-recovery.yml
+      - src/ps2/memmove.S
+      - analysis/functions/memmove_exact_136.tsv
+      - tools/run-memmove-source-recovery.py
+      - .github/workflows/memmove-source-recovery.yml
       - include/alloc_legacy_compat.h
       - tools/run-alloc-source-recovery.py
       - .github/workflows/alloc-source-recovery.yml
@@ -109,6 +113,7 @@ jobs:
           python3 tools/run-libkernel-leaf-source-recovery.py
           python3 tools/run-memcpy-source-recovery.py
           python3 tools/run-memset-source-recovery.py
+          python3 tools/run-memmove-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
           python3 tools/run-iopcontrol-source-recovery.py
