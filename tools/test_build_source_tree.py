@@ -23,7 +23,7 @@ class BuildSourceTreeTests(unittest.TestCase):
         units = MODULE.read_manifest(
             ROOT / "analysis" / "source_tree" / "translation_units.tsv"
         )
-        self.assertEqual(96, len(units))
+        self.assertEqual(97, len(units))
         self.assertEqual(96, sum(unit.canonical for unit in units))
         alternate = [unit for unit in units if not unit.canonical]
         self.assertEqual([], alternate)
@@ -106,7 +106,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             counts[row["kind"]] = counts.get(row["kind"], 0) + 1
             self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(
-            {"translation-unit": 96, "abi-contract": 1, "canonical-aggregate": 1},
+            {"translation-unit": 97, "abi-contract": 1, "canonical-aggregate": 1},
             counts,
         )
 
