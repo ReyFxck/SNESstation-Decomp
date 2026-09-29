@@ -1,4 +1,5 @@
 name: ALLOC C source recovery
+# This gate compiles src/ps2/alloc.c directly.
 
 on:
   push:
