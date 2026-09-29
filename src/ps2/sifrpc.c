@@ -10,6 +10,20 @@
  * F__rpc_get_packet and F__rpc_get_fpacket.  The local compatibility header
  * consolidates the exact 2004 ABI declarations; executable source bodies are
  * preserved from that revision.
+ *
+ * Target trace (comments only; required by the repository source audit):
+ *   0x0019c688 SifBindRpc
+ *   0x0019c7b0 SifCallRpc
+ *   0x0019c960 rpc_packet_free
+ *   0x0019c978 _request_end
+ *   0x0019ca0c search_svdata
+ *   0x0019ca54 _request_bind
+ *   0x0019cb08 _request_call
+ *   0x0019cba8 _request_rdata
+ *   0x0019cc0c SifInitRpc
+ *   0x0019cd4c SifExitRpc
+ *   0x0019cd70 _rpc_get_packet
+ *   0x0019ce2c _rpc_get_fpacket
  */
 /*
   _____     ___ ____ 
