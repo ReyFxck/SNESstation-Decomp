@@ -93,7 +93,11 @@ void *_rpc_get_packet(struct rpc_data *rpc_data)
 	if (len > 0) {
 		packet = (SifRpcPktHeader_t *)rpc_data->pkt_table;
 
+#ifdef SNESSTATION_HOST_SYNTAX
+		for (rid = 0; rid < len; rid++, packet = (SifRpcPktHeader_t *)((u8 *)packet + 64)) {
+#else
 		for (rid = 0; rid < len; rid++, (u8 *)packet += 64) {
+#endif
 			if (!(packet->rec_id & PACKET_F_ALLOC))
 				break;
 		}
