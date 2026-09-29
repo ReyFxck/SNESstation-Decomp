@@ -30,6 +30,7 @@ on:
       - tools/named_data.py
       - analysis/link_identity/runtime_members.tsv
       - tools/named_contracts.py
+      - tools/provider_frontier.py
       - analysis/link_identity/named_contracts.tsv
       - analysis/link_identity/link_contract_reviews.tsv
 
