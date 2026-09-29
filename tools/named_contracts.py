@@ -64,6 +64,7 @@ DEFAULT_REFERENCE = ROOT / "build" / "SNES_EMU.unpacked.bin"
 DEFAULT_INPUT = ROOT / "build" / "private-assets" / "source-tree.private-assets.partial.o"
 DEFAULT_BUILD = ROOT / "build" / "named-contracts"
 DEFAULT_OUTPUT = DEFAULT_BUILD / "source-tree.named-contracts.partial.o"
+LIBKERNEL_EXACT = ROOT / "analysis" / "functions" / "libkernel_leaf_exact_508.tsv"
 DEFAULT_REPORT = DEFAULT_BUILD / "report.json"
 
 EXTERNAL_FIELDS = (
@@ -178,6 +179,23 @@ ERRNO_ALIAS = {
     "canonical_symbol": "ps2lib_errno_00425a70",
 }
 
+# Historical Stage-3E contract that left the live external namespace when the
+# exact ps2sdk kernel.S source became canonical.  Keep it in the historical
+# 212-row ledger instead of pretending the original contract never existed.
+PROMOTED_EXACT_SOURCE = {
+    "symbol": "iSifSetDChain",
+    "category": "named-external",
+    "status": TEXT_ALIAS_PROVED,
+    "target_address": "0x0019fd10",
+    "extent_hex": "",
+    "region": "text",
+    "sha256": "",
+    "canonical_symbol": "iSifSetDChain",
+    "evidence": "exact-historical-source-target-entry",
+    "requesters": "ps2/sifcmd.o",
+    "detail": "exact historical kernel.S source provides the target entry directly;evidence=analysis/functions/libkernel_leaf_exact_508.tsv#iSifSetDChain",
+}
+
 
 class NamedContractError(RuntimeError):
     pass
@@ -271,12 +289,28 @@ def verify_refactor_evidence() -> None:
                 fail(f"Stage-3E source-refactor evidence drift: {symbol} ({relative}#{token})")
 
 
+def verify_promoted_exact_source(defined_rows: Sequence[dict[str, str]]) -> None:
+    matches = [
+        row for row in defined_rows
+        if row["symbol"] == PROMOTED_EXACT_SOURCE["symbol"]
+        and row["source"] == "src/ps2/kernel.S"
+        and row["object"] == "ps2/kernel.o"
+        and row["binding"] == "global"
+        and row["section_class"] == "text"
+    ]
+    if len(matches) != 1:
+        fail("promoted iSifSetDChain source ownership drift")
+    token = "iSifSetDChain\t0x0019fd10\t0x10\t"
+    if not LIBKERNEL_EXACT.is_file() or token not in LIBKERNEL_EXACT.read_text(encoding="utf-8"):
+        fail("promoted iSifSetDChain exact-source evidence drift")
+
+
 def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str, int | str]]:
     external_rows = read_table(args.external_map, EXTERNAL_FIELDS)
     stage3c.stage3_partition(external_rows)
     live = sorted((row for row in external_rows if is_stage3e(row)), key=lambda row: row["symbol"])
-    if len(live) != 191:
-        fail(f"expected 191 live Stage-3E contracts after exact source promotions, found {len(live)}")
+    if len(live) != 190:
+        fail(f"expected 190 live Stage-3E contracts after exact source promotions, found {len(live)}")
 
     contracts = unique(read_table(args.contracts, CONTRACT_FIELDS), "symbol", "link contract")
     frontier = unique(read_table(args.frontier_manifest, FRONTIER_FIELDS), "symbol", "provider row")
@@ -284,6 +318,7 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
     source_aliases = read_table(args.source_alias_manifest, SOURCE_ALIAS_FIELDS)
     layout = stage3c.load_layout(args.layout_manifest)
     verify_refactor_evidence()
+    verify_promoted_exact_source(defined_rows)
 
     errno_definitions = [
         row for row in defined_rows
@@ -363,6 +398,8 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
             "requesters": external["requesters"],
             "detail": detail,
         })
+
+    result.append(dict(PROMOTED_EXACT_SOURCE))
 
     result.append({
         "symbol": ERRNO_ALIAS["symbol"],

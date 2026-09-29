@@ -31,12 +31,25 @@ class NamedContractTests(unittest.TestCase):
             named_contracts.DEFAULT_EXTERNAL, named_contracts.EXTERNAL_FIELDS
         )
         self.assertEqual(
-            {"3B": 345, "3C": 50, "3D": 27, "3E": 191, "3F": 1226},
+            {"3B": 345, "3C": 50, "3D": 27, "3E": 190, "3F": 1226},
             named_data.stage3_partition(external),
         )
         live_names = {row["symbol"] for row in external}
         self.assertTrue(set(named_contracts.CLOSED_SOURCE_REFACTORS).isdisjoint(live_names))
         self.assertNotIn("errno", live_names)
+        self.assertNotIn("iSifSetDChain", live_names)
+
+        rows = {
+            row["symbol"]: row
+            for row in named_contracts.read_table(
+                named_contracts.DEFAULT_MANIFEST, named_contracts.MANIFEST_FIELDS
+            )
+        }
+        self.assertEqual("iSifSetDChain", rows["iSifSetDChain"]["canonical_symbol"])
+        self.assertEqual(
+            "exact-historical-source-target-entry",
+            rows["iSifSetDChain"]["evidence"],
+        )
 
     def test_all_seven_zlib_peers_bind_to_recovered_text(self):
         rows = named_contracts.read_table(
