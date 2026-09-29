@@ -441,11 +441,11 @@ def main() -> None:
             combined_clusters[-1][1] = max(combined_clusters[-1][1], end_address)
     combined_cluster_bytes = sum(end - start for start, end in combined_clusters)
     if (
-        len(named_contract_rows) != 212
-        or len({row["symbol"] for row in named_contract_rows}) != 212
+        len(named_contract_rows) != 211
+        or len({row["symbol"] for row in named_contract_rows}) != 211
         or named_contract_statuses
         != {
-            "TEXT_ALIAS_PROVED": 23,
+            "TEXT_ALIAS_PROVED": 22,
             "TARGET_RANGE_PROVED": 164,
             "TARGET_ENTRY_PROVED": 2,
             "EXTERNAL_ADDRESS_PROVED": 2,
@@ -453,7 +453,7 @@ def main() -> None:
             "SOURCE_REFACTOR_CLOSED": 20,
         }
         or named_contract_fingerprinted != 165
-        or named_contract_addressed != 192
+        or named_contract_addressed != 191
         or named_contract_zlib != 7
         or len(stage3e_exact_storage) != 7
         or len(stage3e_clusters) != 49
