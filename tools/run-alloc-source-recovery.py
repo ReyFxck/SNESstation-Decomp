@@ -156,15 +156,16 @@ def main() -> None:
 PROVIDE(ps2_sbrk = 0x0019f078);
 PROVIDE(memset = 0x0019c39c);
 
-PROVIDE(__alloc_heap_base = 0x00425a74);
-PROVIDE(__alloc_heap_head = 0x00425a78);
-PROVIDE(__alloc_heap_tail = 0x00425a7c);
-
 SECTIONS
 {
   . = 0x0019e474;
   .text : { *(.text) }
-  /DISCARD/ : { *(.data) *(.bss) *(COMMON) *(.comment) *(.mdebug*) *(.pdr) }
+
+  /* F_malloc owns the three allocator globals in this exact target order. */
+  . = 0x00425a74;
+  .bss (NOLOAD) : { *(.bss) *(COMMON) }
+
+  /DISCARD/ : { *(.data) *(.comment) *(.mdebug*) *(.pdr) }
 }
 """,
         encoding="utf-8",
