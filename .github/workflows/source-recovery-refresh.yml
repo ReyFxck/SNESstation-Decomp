@@ -12,6 +12,8 @@ on:
       - src/ps2/progress22_more_small_helpers_recovered.c
       - tools/test_progress43_cdvd_historical.py
       - tools/test_build_source_tree.py
+      - tools/named_contracts.py
+      - analysis/link_identity/named_contracts.tsv
 
 permissions:
   contents: write
@@ -49,6 +51,7 @@ jobs:
           make source-aliases-refresh
           make link-contracts-refresh
           make provider-frontier-refresh
+          python3 tools/named_contracts.py validate
 
       - name: Refresh decomp.dev public input hashes
         run: |
