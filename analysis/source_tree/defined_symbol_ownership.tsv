@@ -282,7 +282,7 @@ packet_store	local	text	0x28	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
 prim_begin	local	text	0x78	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
 texture_qwords	local	text	0x90	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
 texture_transfer	local	text	0x2a8	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
-SifIopReset_0019d740	global	text	0x124	src/ps2/iop_reset_recovered.c	ps2/iop_reset_recovered.o
+SifIopReset	global	text	0x114	src/ps2/iopcontrol.c	ps2/iopcontrol.o
 SifAllocIopHeap	global	text	0x7c	src/ps2/iopheap.c	ps2/iopheap.o
 SifFreeIopHeap	global	text	0x88	src/ps2/iopheap.c	ps2/iopheap.o
 SifInitIopHeap	global	text	0xc8	src/ps2/iopheap.c	ps2/iopheap.o

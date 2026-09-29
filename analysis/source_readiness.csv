@@ -699,10 +699,10 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019ceb0,FlushCache,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gs_fifo_recovered.c;src/ps2/libkernel_leaf_recovered.c;src/ps2/libmc_recovered.c,MATCHING
 0x0019cec0,iFlushCache,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gs_fifo_recovered.c;src/ps2/libkernel_leaf_recovered.c,MATCHING
 0x0019ced0,SifDmaStat,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c;src/ps2/load_module_buffer.c,MATCHING
-0x0019cee0,SifSetDma,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/iop_reset_recovered.c;src/ps2/libkernel_leaf_recovered.c;src/ps2/load_module_buffer.c,MATCHING
-0x0019cef0,SifSetReg,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/iop_reset_recovered.c;src/ps2/libkernel_leaf_recovered.c,MATCHING
-0x0019cf00,SifGetReg,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/iop_reset_recovered.c;src/ps2/libkernel_leaf_recovered.c,MATCHING
-0x0019cf10,SifWriteBackDCache,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/iop_reset_recovered.c;src/ps2/libkernel_leaf_recovered.c;src/ps2/libmc_recovered.c,MATCHING
+0x0019cee0,SifSetDma,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c;src/ps2/load_module_buffer.c,MATCHING
+0x0019cef0,SifSetReg,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c,MATCHING
+0x0019cf00,SifGetReg,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c,MATCHING
+0x0019cf10,SifWriteBackDCache,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c;src/ps2/libmc_recovered.c,MATCHING
 0x0019cfc0,fioOpen,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,MATCHING
 0x0019d090,fioClose,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,MATCHING
 0x0019d120,fioRead,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c,MATCHING
@@ -716,7 +716,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019d620,SifLoadModuleBuffer,loadfile,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/load_module_buffer.c;src/ps2/loadfile.c,MATCHING
 0x0019d63c,SifAllocIopHeap,iop,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/iopheap.c;src/ps2/load_module_buffer.c,MATCHING
 0x0019d6b8,SifFreeIopHeap,iop,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/iopheap.c;src/ps2/load_module_buffer.c,MATCHING
-0x0019d740,SifIopReset,iop,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_bootstrap.c;src/ps2/iop_reset_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x0019d740,SifIopReset,iop,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_bootstrap.c;src/ps2/iopcontrol.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0019d84c,fmtint,stdio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ps2lib_formatter_recovered.c;src/ps2/stdio_wrappers_recovered.c,MATCHING
 0x0019dba8,fmtstr,stdio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ps2lib_formatter_recovered.c,MATCHING
 0x0019dd28,fmtchar,stdio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ps2lib_formatter_recovered.c,MATCHING
@@ -767,7 +767,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019f5a0,AddDmacHandler,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c,MATCHING
 0x0019f5b0,RemoveDmacHandler,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c,MATCHING
 0x0019f5c0,EndOfHeap,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_heap_runtime_recovered.c,MATCHING
-0x0019f5d0,SifStopDma,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/iop_reset_recovered.c;src/ps2/libkernel_leaf_recovered.c,MATCHING
+0x0019f5d0,SifStopDma,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c,MATCHING
 0x0019f5e0,iSifSetDma,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c,MATCHING
 0x0019f5f0,SifSetDChain,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_leaf_recovered.c,MATCHING
 0x0019f600,fioInit,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio.c;src/ps2/libkernel_client_init_recovered.c,MATCHING

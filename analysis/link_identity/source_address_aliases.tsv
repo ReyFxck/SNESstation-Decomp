@@ -219,7 +219,7 @@ FUN_0019d244	0x0019d244	PROVED	fioWrite	progress-name-global-text	src/ps2/fileio
 FUN_0019d360	0x0019d360	PROVED	fioLseek	progress-name-global-text	src/ps2/fileio.c	ps2/fileio.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019d410	0x0019d410	PROVED	fioMkdir	progress-name-global-text	src/ps2/fileio.c	ps2/fileio.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019d600	0x0019d600	PROVED	SifLoadModule	progress-name-global-text	src/ps2/loadfile.c	ps2/loadfile.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0019d740	0x0019d740	PROVED	SifIopReset_0019d740	unique-address-suffix-global-text	src/ps2/iop_reset_recovered.c	ps2/iop_reset_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019d740	0x0019d740	PROVED	SifIopReset	progress-name-global-text	src/ps2/iopcontrol.c	ps2/iopcontrol.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019e388	0x0019e388	PROVED	printf_recovered	progress-name-recovered-suffix-global-text	src/ps2/stdio_wrappers_recovered.c	ps2/stdio_wrappers_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019e3d0	0x0019e3d0	PROVED	sprintf_recovered	progress-name-recovered-suffix-global-text	src/ps2/stdio_wrappers_recovered.c	ps2/stdio_wrappers_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019e414	0x0019e414	PROVED	puts_like_recovered	progress-name-recovered-suffix-global-text	src/ps2/stdio_wrappers_recovered.c	ps2/stdio_wrappers_recovered.o	ps2/progress28_structural_lift_recovered.o	
