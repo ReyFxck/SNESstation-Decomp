@@ -76,7 +76,32 @@ jobs:
           make source-aliases-refresh
           make link-contracts-refresh
           make provider-frontier-refresh
-          make docs
+
+      - name: Commit regenerated ownership ledgers before docs
+        run: |
+          set -eux
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            analysis/source_readiness.csv \
+            docs/SOURCE_COMPLETENESS.generated.md \
+            analysis/source_tree/defined_symbol_ownership.tsv \
+            analysis/source_tree/external_symbol_ownership.tsv \
+            analysis/source_tree/object_fingerprints.tsv \
+            analysis/link_identity/source_address_aliases.tsv \
+            analysis/link_identity/link_contracts.tsv \
+            analysis/link_identity/provider_frontier_closure.tsv
+          if git diff --cached --quiet; then
+            echo "No pre-doc ledger changes."
+          else
+            git commit -m "refresh generated source recovery ledgers"
+            git pull --rebase origin source-recovery-file-by-file
+            git push origin HEAD:source-recovery-file-by-file
+          fi
+
+      - name: Refresh generated docs
+        run: make docs
+
       - name: Refresh decomp.dev public input hashes
         run: |
           python3 - <<'PY'
