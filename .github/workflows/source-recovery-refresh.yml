@@ -18,6 +18,9 @@ on:
       - src/ps2/sifcmd_recovered.c
       - src/ps2/fileio.c
       - src/ps2/iopheap.c
+      - src/ps2/loadfile.c
+      - include/loadfile_legacy_compat.h
+      - tools/run-loadfile-source-recovery.py
       - include/iopheap_legacy_compat.h
       - tools/run-iopheap-source-recovery.py
       - src/ps2/fileio_recovered.c
@@ -73,6 +76,7 @@ jobs:
           python3 tools/run-glue-source-recovery.py
           python3 tools/run-fileio-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
+          python3 tools/run-loadfile-source-recovery.py
 
       - name: Refresh source ownership ledgers
         run: |
