@@ -381,7 +381,6 @@ ee_status_recovered	local	text	0xc	src/ps2/libkernel_heap_runtime_recovered.c	ps
 program_break_00425a80	local	bss	0x0	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_heap_runtime_recovered.o
 ps2_sbrk_0019f078	global	text	0xcc	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_heap_runtime_recovered.o
 sn_memcmp_0019c458	global	text	0x44	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
-sn_strcat_0019c3d4	global	text	0x58	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
 sn_strchr_0019c610	global	text	0x28	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
 sn_strcmp_0019c648	global	text	0x58	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
 sn_strcpy_0019c528	global	text	0x30	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
@@ -973,6 +972,7 @@ snes_dispatch_00183678	global	text	0x3c	src/ps2/small_dispatch_recovered.c	ps2/s
 snes_dispatch_0018faa4	global	text	0x68	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
 snes_dispatch_0019c5cc	global	text	0x28	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
 snes_dispatch_001a51d0	global	text	0x6c	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
+strcat	global	weak-text	0x38	src/ps2/strcat.S	ps2/strcat.o
 append_char	local	text	0xd8	src/ps2/xprintf.c	ps2/xprintf.o
 append_number	local	text	0x360	src/ps2/xprintf.c	ps2/xprintf.o
 append_string	local	text	0x190	src/ps2/xprintf.c	ps2/xprintf.o

@@ -1368,7 +1368,7 @@ FUN_0019c0d0	target-function-alias	source-address-alias	src/ps2/cdvd_rpc.c;src/p
 FUN_0019c2ac	target-function-alias	source-address-alias	src/ps2/cdvd_rpc.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c364	target-function-alias	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/memcpy.S;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c39c	target-function-alias	source-address-alias	src/ps2/memset.S;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c3d4	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c3d4	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strcat.S	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c458	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c4a0	target-function-alias	source-address-alias	src/ps2/memmove.S;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c528	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1709,10 +1709,9 @@ snes_udivmoddi4_001a7788	target-address-symbol	source-address-alias	src/ps2/prog
 snes_vtable_00426c28	vtable-or-rtti	program-data	reserved:vtable-data.o	program-data	ps2/address_leaf_recovered.o
 sqrtf	named-external	link-contract	reserved:link-contract	link-identity	ps2/newlib_mathfp_recovered.o
 strcasecmp	named-external	link-contract	reserved:link-contract	link-identity	ps2/audio_rpc_recovered.o
-strcat	c-runtime	historical-archive	PS2LIB libc/strcat.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/path_helpers_recovered.o;zlib/gzio_recovered.o
 strchr	c-runtime	historical-archive	PS2LIB libc/strchr.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
 strcmp	c-runtime	historical-archive	PS2LIB libc/strcmp.o (ps2sdk@694100b7 source)	runtime-member-text-identity	unzip/unzip_api_recovered.o
-strcpy	c-runtime	historical-archive	PS2LIB libc/strcpy.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/libpad_recovered.o;ps2/path_helpers_recovered.o;snes9x/memmap_metadata_recovered.o;zlib/gzio_recovered.o
+strcpy	c-runtime	historical-archive	PS2LIB libc/strcpy.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/libpad_recovered.o;ps2/path_helpers_recovered.o;ps2/strcat.o;snes9x/memmap_metadata_recovered.o;zlib/gzio_recovered.o
 strlen	c-runtime	historical-archive	PS2LIB libc/strlen.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/iopcontrol.o;ps2/libmc_recovered.o;ps2/path_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o;ps2/xprintf.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o
 strncpy	c-runtime	historical-archive	PS2LIB libc/strncpy.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/cdvd_rpc.o;ps2/fileio.o;ps2/iopcontrol.o;ps2/libmc_recovered.o;ps2/loadfile.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
 strrchr	c-runtime	historical-archive	PS2LIB libc/strrchr.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/audio_rpc_recovered.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
