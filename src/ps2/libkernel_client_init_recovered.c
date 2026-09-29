@@ -1,7 +1,7 @@
 /*
  * Recovered initialization helpers for libkernel RPC clients used by
  * SNES Station v0.23. These are outside the contiguous call-site wrappers
- * but are directly reached by fio/loadfile paths.
+ * but are directly reached by the remaining fio path.
  */
 #include <stdint.h>
 #include <string.h>
@@ -14,11 +14,9 @@ extern int CreateSema(const ee_sema32 *);
 extern int iSignalSema(int);
 
 SifRpcClientData32 fio_cd_recovered;
-SifRpcClientData32 lf_cd_recovered;
 int fio_init_recovered;
 int fio_completion_sema_recovered = -1;
 int fio_block_mode_recovered;
-static int lf_init_recovered;
 
 static void bind_delay_recovered(void)
 {
@@ -62,22 +60,4 @@ void fio_intr_0019f6e8(void *unused)
 {
     (void)unused;
     (void)iSignalSema(fio_completion_sema_recovered);
-}
-
-/* 0x0019fd20 */
-int SifLoadFileInit_0019fd20(void)
-{
-    int res;
-    if (lf_init_recovered)
-        return 0;
-    SifInitRpc(0);
-    do {
-        res = SifBindRpc(&lf_cd_recovered, (int)0x80000006u, 0);
-        if (res < 0)
-            return -0xd612;
-        if (lf_cd_recovered.server == 0)
-            bind_delay_recovered();
-    } while (lf_cd_recovered.server == 0);
-    lf_init_recovered = 1;
-    return 0;
 }
