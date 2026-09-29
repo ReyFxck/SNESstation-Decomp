@@ -1,0 +1,42 @@
+name: SIF CMD C source recovery
+
+on:
+  push:
+    branches:
+      - source-recovery-file-by-file
+    paths:
+      - "tools/run-sifcmd-source-recovery.py"
+      - ".github/workflows/sifcmd-source-recovery.yml"
+      - "src/ps2/sifcmd.c"
+      - "include/sifcmd_legacy_compat.h"
+      - "analysis/functions/sifcmd_0019f138.asm"
+      - "analysis/functions/sifcmd_irq_0019fb00.asm"
+      - "analysis/link_identity/runtime_member_inputs.tsv"
+      - "tools/runtime_members.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  match:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache EE GCC 3.2.2 stage1
+        uses: actions/cache@v4
+        with:
+          path: build/toolchains/ee-gcc-3.2.2-stage1
+          key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+
+      - name: Build historical EE compiler
+        env:
+          MAKEFLAGS: MAKEINFO=true
+        run: make bootstrap-ee-stage1
+
+      - name: Prove historical SIF CMD source
+        run: python3 tools/run-sifcmd-source-recovery.py
