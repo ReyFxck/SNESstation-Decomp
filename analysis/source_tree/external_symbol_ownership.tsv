@@ -1516,21 +1516,18 @@ S9xSync_PeriodPrevious	named-external	link-contract	reserved:link-contract	link-
 S9xSync_PeriodValue	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 S9xSync_SetVolume	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 Settings_SkipFrames	named-program-data	program-data	reserved:program-data.o	program-data	ps2/path_helpers_recovered.o
-SifAddCmdHandler	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_addhandler.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc_recovered.o
+SifAddCmdHandler	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_addhandler.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc.o
 SifAllocIopHeap	ps2-runtime	historical-archive	PS2LIB kernel/SifAllocIopHeap.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/load_module_buffer.o
-SifBindRpc	ps2-runtime	historical-archive	PS2LIB kernel/SifBindRpc.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/cdvd_rpc.o
-SifCallRpc	ps2-runtime	historical-archive	PS2LIB kernel/SifCallRpc.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/cdvd_rpc.o;ps2/fileio_recovered.o;ps2/loadfile_iop_recovered.o
-SifExitCmd	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_main.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc_recovered.o
+SifExitCmd	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_main.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc.o
 SifFreeIopHeap	ps2-runtime	historical-archive	PS2LIB kernel/SifFreeIopHeap.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/load_module_buffer.o
-SifGetSreg	ps2-runtime	historical-archive	PS2LIB kernel/sif_sreg_get.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc_recovered.o
-SifInitCmd	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_main.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc_recovered.o
+SifGetSreg	ps2-runtime	historical-archive	PS2LIB kernel/sif_sreg_get.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc.o
+SifInitCmd	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_main.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc.o
 SifInitIopHeap_recovered	ps2-runtime	historical-archive	PS2LIB kernel/SifInitIopHeap.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/loadfile_iop_recovered.o
-SifInitRpc	ps2-runtime	historical-archive	PS2LIB kernel/SifRpcMain.o (ps2sdk@a80df908 source)	runtime-member-text-identity	app/main_bootstrap.o
 SifIopReset	ps2-runtime	historical-archive	PS2LIB kernel/SifIopReset.o (ps2sdk@a80df908 source)	runtime-member-text-identity	app/main_bootstrap.o
 SifLoadFileInit_recovered	ps2-runtime	historical-archive	PS2LIB kernel/SifLoadFileInit.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/loadfile_iop_recovered.o
 SifLoadModule	ps2-runtime	historical-archive	PS2LIB kernel/SifLoadModule.o (ps2sdk@a80df908 source)	runtime-member-text-identity	app/main_bootstrap.o
 SifLoadModuleBuffer	ps2-runtime	historical-archive	PS2LIB kernel/SifLoadModuleBuffer.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/load_module_buffer.o
-SifSendCmd	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_send.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc_recovered.o
+SifSendCmd	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_send.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc.o
 SifWriteBackDCache_0019cf10	ps2-runtime	historical-archive	PS2LIB syscall/SifWriteBackDCache.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/libmc_recovered.o
 UNK_001a6320	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 UNK_001b85c8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
@@ -1692,7 +1689,7 @@ iRam0043ecc0	named-external	link-contract	reserved:link-contract	link-identity	p
 iRam0043ecc4	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iRam0043ecc8	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iRam0043eccc	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-iSifSendCmd	named-external	link-contract	reserved:link-contract	link-identity	ps2/sifrpc_recovered.o
+iSifSendCmd	named-external	link-contract	reserved:link-contract	link-identity	ps2/sifrpc.o
 inflateEnd_00192784	zlib-peer	source-or-archive	zlib object family	link-identity	unzip/unzip_api_recovered.o;zlib/zlib_buffer_api_recovered.o
 inflateInit__00192948	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/zlib_buffer_api_recovered.o
 inflate_0019296c	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/zlib_buffer_api_recovered.o
