@@ -215,6 +215,9 @@ PROMOTED_SOURCE_RUNTIME = {
     "SifGetSreg": ("SifGetSreg", "ps2/sifrpc.o"),
     "SifSendCmd": ("SifSendCmd", "ps2/sifrpc.o"),
     "fioInit_recovered": ("fioInit", ""),
+    "SifAllocIopHeap": ("SifAllocIopHeap", "ps2/load_module_buffer.o"),
+    "SifFreeIopHeap": ("SifFreeIopHeap", "ps2/load_module_buffer.o"),
+    "SifInitIopHeap_recovered": ("SifInitIopHeap", ""),
 }
 
 # Address-suffixed FILEIO names are now source-address aliases to the canonical
@@ -225,6 +228,9 @@ PROMOTED_SOURCE_ALIASES = {
     "fioOpen_0019cfc0",
     "fioRead_0019d120",
     "fioWrite_0019d244",
+    "SifAllocIopHeap_0019d63c",
+    "SifFreeIopHeap_0019d6b8",
+    "SifInitIopHeap_0019f9e8",
 }
 
 
