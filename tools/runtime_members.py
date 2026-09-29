@@ -204,8 +204,15 @@ DETAILS = {
 }
 
 # These PS2LIB members remain byte-exact historical source witnesses, while the
-# canonical source tree now defines the promoted SIF RPC and SIF CMD symbols.
+# canonical source tree now defines promoted runtime symbols directly from the
+# recovered historical SIF, FILEIO, XPRINTF and ALLOC sources.
 PROMOTED_SOURCE_RUNTIME = {
+    "malloc": ("malloc", "ps2/gcc_fde_runtime_recovered.o;ps2/libsupcxx_rtti_recovered.o;snes9x/apu_alloc_recovered.o;snes9x/memory_init_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o"),
+    "calloc": ("calloc", "zlib/zutil_adler_recovered.o"),
+    "free": ("free", "ps2/gcc_fde_runtime_recovered.o;ps2/libsupcxx_rtti_recovered.o;snes9x/apu_alloc_recovered.o;snes9x/memory_cleanup_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o;zlib/zutil_adler_recovered.o"),
+    "vsprintf": ("vsprintf", "zlib/gzio_recovered.o"),
+    "printf": ("printf", "ps2/gspipe_recovered.o"),
+    "sprintf": ("sprintf", "ps2/path_helpers_recovered.o;ps2/progress12_io_state_recovered.o;ps2/small_dispatch_recovered.o;snes9x/memmap_metadata_recovered.o;zlib/gzio_recovered.o"),
     "SifBindRpc": ("SifBindRpc", "ps2/cdvd_rpc.o"),
     "SifCallRpc": ("SifCallRpc", "ps2/cdvd_rpc.o;ps2/fileio_recovered.o;ps2/loadfile_iop_recovered.o"),
     "SifInitRpc": ("SifInitRpc", "app/main_bootstrap.o"),
@@ -292,7 +299,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
               and r["provider_kind"] in ("historical-archive", "recovered-runtime")
               and r["symbol"] not in PROMOTED_SOURCE_ALIASES}
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
-    if set(active) != expected_external or len(external) != 1846:
+    if set(active) != expected_external or len(external) != 1839:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):
