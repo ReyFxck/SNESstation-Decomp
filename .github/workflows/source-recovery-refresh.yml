@@ -1,0 +1,81 @@
+name: Source recovery ledger refresh
+
+on:
+  push:
+    branches:
+      - source-recovery-file-by-file
+    paths:
+      - .github/workflows/source-recovery-refresh.yml
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: source-recovery-file-by-file
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore EE GCC 3.2.2
+        uses: actions/cache@v4
+        with:
+          path: build/toolchains/ee-gcc-3.2.2-stage1
+          key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+
+      - name: Ensure historical EE compiler
+        env:
+          MAKEFLAGS: MAKEINFO=true
+        run: make bootstrap-ee-stage1
+
+      - name: Refresh source ownership ledgers
+        run: |
+          set -eux
+          EE_CC="$PWD/build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
+          make audit-source
+          make source-tree-refresh EE_CC="$EE_CC"
+          make source-aliases-refresh
+          make link-contracts-refresh
+          make provider-frontier-refresh
+
+      - name: Refresh decomp.dev public input hashes
+        run: |
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path(".")
+          path = root / "analysis/decompdev/report_contract.json"
+          data = json.loads(path.read_text())
+          for rel in list(data.get("inputs", {})):
+              p = root / rel
+              data["inputs"][rel] = hashlib.sha256(p.read_bytes()).hexdigest()
+          path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+          PY
+
+      - name: Commit generated ledgers to recovery branch
+        run: |
+          set -eux
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            analysis/source_readiness.csv \
+            docs/SOURCE_COMPLETENESS.generated.md \
+            analysis/source_tree/defined_symbol_ownership.tsv \
+            analysis/source_tree/external_symbol_ownership.tsv \
+            analysis/source_tree/object_fingerprints.tsv \
+            analysis/link_identity/source_address_aliases.tsv \
+            analysis/link_identity/link_contracts.tsv \
+            analysis/link_identity/provider_frontier_closure.tsv \
+            analysis/decompdev/report_contract.json
+          if git diff --cached --quiet; then
+            echo "No generated ledger changes."
+          else
+            git commit -m "refresh ledgers after exact CDVD source recovery"
+            git push origin HEAD:source-recovery-file-by-file
+          fi
