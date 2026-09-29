@@ -1,19 +1,10 @@
 /*
  * Remaining small libkernel/libc routines linked into SNES Station v0.23.
- * The exact memcpy provider now lives in historical memcpy.S.
- * Remaining target corridor starts at 0x0019c39c.
+ * Exact memcpy/memset providers now live in their historical assembly sources.
+ * Remaining target corridor starts at 0x0019c3d4.
  */
 #include <stddef.h>
 #include <stdint.h>
-
-/* 0x0019c39c */
-void *sn_memset_0019c39c(void *dst, int value, size_t n)
-{
-    uint8_t *d = dst;
-    while (n-- != 0)
-        *d++ = (uint8_t)value;
-    return dst;
-}
 
 /* 0x0019c3d4 */
 char *sn_strcat_0019c3d4(char *dst, const char *src)

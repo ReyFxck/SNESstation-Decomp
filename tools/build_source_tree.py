@@ -59,6 +59,7 @@ SOURCE_FLAGS = {
     # profile.  Appending -Os after the source-tree's general -O2 reproduces
     # the compiler-defined __OPTIMIZE_SIZE__ path without modifying memcpy.S.
     "src/ps2/memcpy.S": ("-Os",),
+    "src/ps2/memset.S": ("-Os",),
 }
 
 SOURCE_DEFINES = {
