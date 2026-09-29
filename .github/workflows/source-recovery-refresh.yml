@@ -53,6 +53,7 @@ on:
       - src/ps2/stdio_wrappers_recovered.c
       - tools/test_progress43_cdvd_historical.py
       - tools/test_build_source_tree.py
+      - tools/audit_source_completeness.py
       - tools/runtime_refactors.py
       - tools/runtime_overrides.py
       - tools/runtime_members.py
