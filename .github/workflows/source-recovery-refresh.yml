@@ -51,7 +51,6 @@ jobs:
           make source-aliases-refresh
           make link-contracts-refresh
           make provider-frontier-refresh
-          python3 tools/named_contracts.py validate
           make docs
 
       - name: Refresh decomp.dev public input hashes
