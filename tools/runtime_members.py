@@ -214,6 +214,17 @@ PROMOTED_SOURCE_RUNTIME = {
     "SifInitCmd": ("SifInitCmd", "ps2/sifrpc.o"),
     "SifGetSreg": ("SifGetSreg", "ps2/sifrpc.o"),
     "SifSendCmd": ("SifSendCmd", "ps2/sifrpc.o"),
+    "fioInit_recovered": ("fioInit", ""),
+}
+
+# Address-suffixed FILEIO names are now source-address aliases to the canonical
+# historical functions in src/ps2/fileio.c, not independent runtime members.
+PROMOTED_SOURCE_ALIASES = {
+    "fioClose_0019d090",
+    "fioLseek_0019d360",
+    "fioOpen_0019cfc0",
+    "fioRead_0019d120",
+    "fioWrite_0019d244",
 }
 
 
@@ -264,7 +275,8 @@ def validate_inputs(path: Path) -> list[dict[str, str]]:
 def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], dict[str, str]]:
     external = libgcc.read_table(args.external_map, libgcc.EXTERNAL_FIELDS)
     active = {r["symbol"]: r for r in external if r["category"] in ("c-runtime", "ps2-runtime")
-              and r["provider_kind"] in ("historical-archive", "recovered-runtime")}
+              and r["provider_kind"] in ("historical-archive", "recovered-runtime")
+              and r["symbol"] not in PROMOTED_SOURCE_ALIASES}
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
     if set(active) != expected_external or len(external) != 1858:
         fail("live runtime contract universe drift")
