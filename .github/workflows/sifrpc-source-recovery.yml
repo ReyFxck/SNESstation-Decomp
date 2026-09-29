@@ -69,6 +69,8 @@ jobs:
           if git diff --cached --quiet; then
             echo "No derived source-tree changes."
           else
-            git commit -m "refresh source-tree maps after SIF RPC recovery"
-            git push
+            git commit -m "refresh source metadata after SIF RPC recovery"
+            git fetch origin source-recovery-file-by-file
+            git rebase origin/source-recovery-file-by-file
+            git push origin HEAD:source-recovery-file-by-file
           fi
