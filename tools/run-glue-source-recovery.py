@@ -36,7 +36,7 @@ def main():
     inc=[]
     for rev,rel in rm.INCLUDE_DIRS: inc += ["-I",str(args.build_dir/"inputs"/rev/rel)]
     inc += ["-I",subprocess.check_output([str(cc),"-print-file-name=include"],text=True).strip()]
-    historical=args.build_dir/"inputs"/rm.APR18/"ee/kernel/src/glue.c"
+    historical=ROOT/"third_party/historical_refs/ps2lib-kernel-lineage/glue.c"
     source=ROOT/"src/ps2/glue.c"
     use_local=source.is_file()
     if not use_local: source=historical
