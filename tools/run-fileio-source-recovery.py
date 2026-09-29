@@ -90,7 +90,7 @@ def main() -> None:
     )
     rm.materialize_inputs(args, compiler)
 
-    include_flags: list[str] = []
+    include_flags: list[str] = ["-I", str(ROOT / "include")]
     for revision, relative in rm.INCLUDE_DIRS:
         include_flags += ["-I", str(args.build_dir / "inputs" / revision / relative)]
     gcc_include = Path(
@@ -98,51 +98,11 @@ def main() -> None:
     ).resolve()
     include_flags += ["-I", str(gcc_include)]
 
-    source = args.build_dir / "inputs" / rm.APR18 / "ee/kernel/src/fileio.c"
-
-    # The target carries one small SNES Station-era change to fioGets compared
-    # with the pinned PS2SDK snapshot.  Recover that source shape explicitly:
-    # on newline seek by i-read, advance i, terminate at buff[i], and return the
-    # advanced index.  Every other F_* body remains byte-for-byte historical.
-    source_text = source.read_text(encoding="utf-8")
-    block_start = source_text.index("#ifdef F_fio_gets")
-    block_end = source_text.index("#endif", block_start) + len("#endif")
-    recovered_gets = """#ifdef F_fio_gets
-int fioGets(int fd, char* buff, int n)
-{
-    int read;
-    int i;
-
-    read = fioRead(fd, buff, n);
-
-    for (i=0; i<(read-1); i++)
-    {
-        switch (buff[i])
-        {
-        case '\\n':
-            fioLseek(fd, i-read, SEEK_CUR);
-            i++;
-            buff[i]=0;
-            return i;
-
-        case 0:
-            fioLseek(fd, i-read, SEEK_CUR);
-            return i;
-        }
-    }
-
-    return i;
-}
-#endif"""
-    recovered_source = BUILD / "fileio_recovered_candidate.c"
-    recovered_source.write_text(
-        source_text[:block_start] + recovered_gets + source_text[block_end:],
-        encoding="utf-8",
-    )
+    source = ROOT / "src" / "ps2" / "fileio.c"
 
     target = target_corridor()
 
-    print(f"source: ps2dev/ps2sdk@{rm.APR18} ee/kernel/src/fileio.c")
+    print("source: src/ps2/fileio.c (promoted historical source)")
     print(f"compiler: {machine} gcc {version}")
     print(f"main target corridor: 0x{CORRIDOR_BASE:08x}..0x{CORRIDOR_END - 1:08x}")
     print()
@@ -151,10 +111,9 @@ int fioGets(int fd, char* buff, int n)
     objects: list[Path] = []
     for name, define, address, expected_size in SPECS:
         obj = BUILD / name
-        compile_source = recovered_source if name == "fio_gets.o" else source
         run([
             compiler, *rm.FLAGS, *include_flags, "-D" + define,
-            "-c", compile_source, "-o", obj,
+            "-c", source, "-o", obj,
         ])
         objects.append(obj)
         image, masks, normalized = rm.libgcc.text_image(obj)
