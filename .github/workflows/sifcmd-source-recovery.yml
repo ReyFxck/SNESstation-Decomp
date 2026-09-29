@@ -6,6 +6,9 @@ on:
       - source-recovery-file-by-file
     paths:
       - "tools/run-sifcmd-source-recovery.py"
+      - "tools/run-glue-source-recovery.py"
+      - "src/ps2/glue.c"
+      - "include/glue_legacy_compat.h"
       - ".github/workflows/sifcmd-source-recovery.yml"
       - "src/ps2/sifcmd.c"
       - "include/sifcmd_legacy_compat.h"
@@ -40,3 +43,6 @@ jobs:
 
       - name: Prove historical SIF CMD source
         run: python3 tools/run-sifcmd-source-recovery.py
+
+      - name: Prove historical DMAC glue source
+        run: python3 tools/run-glue-source-recovery.py
