@@ -193,7 +193,7 @@ def _canonical_sources() -> set[str]:
     canonical = {row["source"] for row in rows if row["link_role"] == "canonical"}
     if len(canonical) != 96:
         raise DecompDevReportError(
-            f"expected 96 canonical source units, found {len(canonical)}"
+            f"expected 97 canonical source units, found {len(canonical)}"
         )
     return canonical
 
