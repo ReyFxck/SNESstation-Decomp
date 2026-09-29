@@ -1377,11 +1377,11 @@ FUN_0019c5e8	target-function-alias	source-address-alias	src/ps2/libc_text_recove
 FUN_0019c610	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c688	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019cc0c	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019cfc0	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d090	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d120	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/unzip/explode_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019cfc0	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d090	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d120	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019d244	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/stdio_wrappers_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d360	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/unzip/explode_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d360	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019d410	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019d600	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/loadfile_iop_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019d740	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/loadfile_iop_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1616,13 +1616,9 @@ fRam0042c810	named-external	link-contract	reserved:link-contract	link-identity	p
 fRam0042c814	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 fRam0042c818	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 fRam0042c81c	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-fioClose_0019d090	ps2-runtime	historical-archive	PS2SDK runtime archives	archive-identity	ps2/progress22_more_small_helpers_recovered.o;unzip/unzip_api_recovered.o
 fioClose_like	ps2-runtime	historical-archive	PS2LIB kernel/fio_close.o (ps2sdk@a80df908 source)	runtime-member-text-identity	snes9x/sram_recovered.o;zlib/gzio_recovered.o
-fioLseek_0019d360	ps2-runtime	historical-archive	PS2SDK runtime archives	archive-identity	ps2/progress22_more_small_helpers_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o
-fioOpen_0019cfc0	ps2-runtime	historical-archive	PS2SDK runtime archives	archive-identity	ps2/progress22_more_small_helpers_recovered.o
 fioOpen_like	ps2-runtime	historical-archive	PS2LIB kernel/fio_open.o (ps2sdk@a80df908 source)	runtime-member-text-identity	snes9x/sram_recovered.o;zlib/gzio_recovered.o
 fioPutc_like_0019d534	ps2-runtime	historical-archive	PS2LIB kernel/fio_putc.o (ps2sdk@a80df908 source)	runtime-member-text-identity	zlib/gzio_recovered.o
-fioRead_0019d120	ps2-runtime	historical-archive	PS2SDK runtime archives	archive-identity	ps2/progress22_more_small_helpers_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o
 fioRead_like	ps2-runtime	historical-archive	PS2LIB kernel/fio_read.o (ps2sdk@a80df908 source)	runtime-member-text-identity	snes9x/sram_recovered.o;zlib/gzio_recovered.o
 fioSeek_like_0019d360	ps2-runtime	historical-archive	PS2LIB kernel/fio_lseek.o (ps2sdk@a80df908 source)	runtime-member-text-identity	zlib/gzio_recovered.o
 fioWrite_0019d244	ps2-runtime	historical-archive	PS2SDK runtime archives	archive-identity	ps2/stdio_wrappers_recovered.o
