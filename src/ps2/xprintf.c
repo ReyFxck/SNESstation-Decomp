@@ -541,7 +541,7 @@ int snprintf (char *str, size_t sz, const char *format, ...)
  * provider does not append a newline and returns the measured string length.
  */
 __attribute__((weak))
-int puts(const char *str)
+int puts_like_recovered(const char *str)
 {
 	const char *cursor = str;
 	int len = 0;
