@@ -394,10 +394,10 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
         })
 
     result.sort(key=lambda row: row["symbol"])
-    if len(result) != 211 or len({row["symbol"] for row in result}) != 211:
+    if len(result) != 212 or len({row["symbol"] for row in result}) != 212:
         fail("historical Stage-3E 212-row ledger drift")
     expected_counts = {
-        TEXT_ALIAS_PROVED: 22,
+        TEXT_ALIAS_PROVED: 23,
         TARGET_RANGE_PROVED: 164,
         TARGET_ENTRY_PROVED: 2,
         EXTERNAL_ADDRESS_PROVED: 2,
@@ -437,8 +437,8 @@ def fingerprint_rows(
 def validate_manifest(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str, int | str]]:
     expected, layout = derive_rows(args)
     actual = read_table(args.manifest, MANIFEST_FIELDS)
-    if len(actual) != 211:
-        fail(f"named-contract manifest must contain 211 rows, found {len(actual)}")
+    if len(actual) != 212:
+        fail(f"named-contract manifest must contain 212 rows, found {len(actual)}")
     actual_by_symbol = unique(actual, "symbol", "named-contract row")
     if set(actual_by_symbol) != {row["symbol"] for row in expected}:
         fail("named-contract manifest symbol set drift")
