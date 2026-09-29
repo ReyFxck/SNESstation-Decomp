@@ -148,13 +148,7 @@ PROVIDE(SifGetSreg = 0x0019f57c);
 SECTIONS
 {
   . = 0x0019c688;
-  .text : {
-    SifBindRpc.o(.text)
-    SifCallRpc.o(.text)
-    SifRpcMain.o(.text)
-    _rpc_get_packet.o(.text)
-    _rpc_get_fpacket.o(.text)
-  }
+  .text : { *(.text) }
 
   . = 0x00425a40;
   .data : { *(.data) }
