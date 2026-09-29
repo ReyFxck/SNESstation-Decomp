@@ -527,10 +527,16 @@ def verify_link_result(
         target = output_defined.get(row["canonical_symbol"])
         if alias is None or target is None:
             fail(f"linker did not define both names for {row['alias']}")
-        if alias.value != target.value or alias.type_code.upper() != target.type_code.upper():
+        alias_type = alias.type_code.upper()
+        target_type = target.type_code.upper()
+        text_alias_types_ok = (
+            alias_type in {"T", "W"} and target_type in {"T", "W"}
+        )
+        if alias.value != target.value or not text_alias_types_ok:
             fail(
                 f"alias value/type differs from canonical symbol: "
-                f"{row['alias']} != {row['canonical_symbol']}"
+                f"{row['alias']}({alias_type}@{alias.value}) != "
+                f"{row['canonical_symbol']}({target_type}@{target.value})"
             )
     return len(input_undefined), len(output_undefined)
 
