@@ -1,6 +1,7 @@
 /*
- * Small libkernel/libc routines linked into SNES Station v0.23.
- * Target corridor: 0x0019c364..0x0019c687.
+ * Remaining small libkernel/libc routines linked into SNES Station v0.23.
+ * The exact memcpy provider now lives in historical memcpy.S.
+ * Remaining target corridor starts at 0x0019c39c.
  */
 #include <stddef.h>
 #include <stdint.h>
