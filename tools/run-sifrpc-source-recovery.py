@@ -118,6 +118,76 @@ def main() -> None:
     print()
     print("SIF RPC historical-source gate: 5/5 MATCH")
 
+    # Stronger gate: resolve the five historical objects at their target text,
+    # data and BSS addresses, then require raw equality for the whole corridor.
+    ld = compiler.with_name("ee-ld")
+    objcopy = compiler.with_name("ee-objcopy")
+    linker = BUILD / "sifrpc_target.ld"
+    linked = BUILD / "sifrpc.target-linked.elf"
+    linked_text = BUILD / "sifrpc.target-linked.text.bin"
+    linker.write_text(
+        """ENTRY(SifBindRpc)
+
+PROVIDE(iWakeupThread = 0x0019ce60);
+PROVIDE(CreateSema = 0x0019ce70);
+PROVIDE(DeleteSema = 0x0019ce80);
+PROVIDE(iSignalSema = 0x0019ce90);
+PROVIDE(WaitSema = 0x0019cea0);
+PROVIDE(SifSetReg = 0x0019cef0);
+PROVIDE(SifGetReg = 0x0019cf00);
+PROVIDE(SifWriteBackDCache = 0x0019cf10);
+PROVIDE(DIntr = 0x0019f018);
+PROVIDE(EIntr = 0x0019f060);
+PROVIDE(SifSendCmd = 0x0019f264);
+PROVIDE(iSifSendCmd = 0x0019f2a0);
+PROVIDE(SifInitCmd = 0x0019f304);
+PROVIDE(SifExitCmd = 0x0019f510);
+PROVIDE(SifAddCmdHandler = 0x0019f544);
+PROVIDE(SifGetSreg = 0x0019f57c);
+
+SECTIONS
+{
+  . = 0x0019c688;
+  .text : {
+    SifBindRpc.o(.text)
+    SifCallRpc.o(.text)
+    SifRpcMain.o(.text)
+    _rpc_get_packet.o(.text)
+    _rpc_get_fpacket.o(.text)
+  }
+
+  . = 0x00425a40;
+  .data : { *(.data) }
+
+  . = 0x00443940;
+  .bss (NOLOAD) : { *(.bss) *(COMMON) }
+
+  /DISCARD/ : {
+    *(.comment)
+    *(.mdebug*)
+    *(.pdr)
+  }
+}
+""",
+        encoding="utf-8",
+    )
+
+    objects = [BUILD / spec[0] for spec in SPECS]
+    run([ld, "-T", linker, *objects, "-o", linked])
+    run([objcopy, "-j", ".text", "-O", "binary", linked, linked_text])
+    raw = linked_text.read_bytes()
+    if raw != target:
+        first = next((i for i, (a, b) in enumerate(zip(raw, target)) if a != b), None)
+        raise SystemExit(
+            f"SIF RPC raw linked gate: FAIL bytes={len(raw)}/{len(target)} "
+            f"first_diff={('-' if first is None else hex(first))}"
+        )
+
+    import hashlib
+    digest = hashlib.sha256(raw).hexdigest()
+    print(f"SIF RPC raw linked gate: MATCH {len(raw)}/{len(target)} bytes")
+    print(f"raw sha256: {digest}")
+
 
 if __name__ == "__main__":
     main()
