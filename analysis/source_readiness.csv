@@ -714,8 +714,8 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019d558,fioGets,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio.c,MATCHING
 0x0019d600,SifLoadModule,loadfile,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_bootstrap.c;src/ps2/loadfile_iop_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0019d620,SifLoadModuleBuffer,loadfile,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/load_module_buffer.c;src/ps2/loadfile_iop_recovered.c,MATCHING
-0x0019d63c,SifAllocIopHeap,iop,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/load_module_buffer.c;src/ps2/loadfile_iop_recovered.c,MATCHING
-0x0019d6b8,SifFreeIopHeap,iop,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/load_module_buffer.c;src/ps2/loadfile_iop_recovered.c,MATCHING
+0x0019d63c,SifAllocIopHeap,iop,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/iopheap.c;src/ps2/load_module_buffer.c,MATCHING
+0x0019d6b8,SifFreeIopHeap,iop,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/iopheap.c;src/ps2/load_module_buffer.c,MATCHING
 0x0019d740,SifIopReset,iop,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_bootstrap.c;src/ps2/loadfile_iop_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0019d84c,fmtint,stdio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ps2lib_formatter_recovered.c;src/ps2/stdio_wrappers_recovered.c,MATCHING
 0x0019dba8,fmtstr,stdio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ps2lib_formatter_recovered.c,MATCHING
@@ -774,7 +774,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019f6e8,_fio_intr,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio.c;src/ps2/libkernel_client_init_recovered.c,MATCHING
 0x0019f7e8,_SifLoadModule,loadfile,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/loadfile_iop_recovered.c,MATCHING
 0x0019f8f4,_SifLoadModuleBuffer,loadfile,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/loadfile_iop_recovered.c,MATCHING
-0x0019f9e8,SifInitIopHeap,iop,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_client_init_recovered.c;src/ps2/loadfile_iop_recovered.c,MATCHING
+0x0019f9e8,SifInitIopHeap,iop,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/iopheap.c,MATCHING
 0x0019faa8,vprintf,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/stdio_wrappers_recovered.c,MATCHING
 0x0019fb00,EnableDmac,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/glue.c,MATCHING
 0x0019fb78,DisableDmac,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/glue.c,MATCHING

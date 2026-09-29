@@ -282,6 +282,11 @@ packet_store	local	text	0x28	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
 prim_begin	local	text	0x78	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
 texture_qwords	local	text	0x90	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
 texture_transfer	local	text	0x2a8	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
+SifAllocIopHeap	global	text	0x7c	src/ps2/iopheap.c	ps2/iopheap.o
+SifFreeIopHeap	global	text	0x88	src/ps2/iopheap.c	ps2/iopheap.o
+SifInitIopHeap	global	text	0xc8	src/ps2/iopheap.c	ps2/iopheap.o
+_ih_caps	global	data	0x4	src/ps2/iopheap.c	ps2/iopheap.o
+_ih_cd	global	data	0x28	src/ps2/iopheap.c	ps2/iopheap.o
 snes_fatal_spin_00107578	global	text	0x8	src/ps2/libc_misc_recovered.c	ps2/libc_misc_recovered.o
 snes_qsort_001080cc	global	text	0x104	src/ps2/libc_misc_recovered.c	ps2/libc_misc_recovered.o
 snes_rand_00108a34	global	text	0x58	src/ps2/libc_misc_recovered.c	ps2/libc_misc_recovered.o
@@ -327,7 +332,6 @@ snes_dptoul	global	text	0xc4	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runti
 snes_fptodp	global	text	0x1c	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o
 snes_litodp	global	text	0x28	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o
 udivmod64	local	text	0x84	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o
-SifInitIopHeap_0019f9e8	global	text	0x98	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 SifLoadFileInit_0019fd20	global	text	0x94	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 bind_delay_recovered	local	text	0x3c	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 fioInit_0019f600	global	text	0xc0	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
@@ -336,8 +340,6 @@ fio_cd_recovered	global	data	0x28	src/ps2/libkernel_client_init_recovered.c	ps2/
 fio_completion_sema_recovered	global	data	0x4	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 fio_init_recovered	global	data	0x4	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 fio_intr_0019f6e8	global	text	0x20	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
-ih_caps_recovered	local	bss	0x0	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
-ih_cd_recovered	global	data	0x28	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 lf_cd_recovered	global	data	0x28	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 lf_init_recovered	local	bss	0x0	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 alloc_heap_base	local	bss	0x0	src/ps2/libkernel_heap_recovered.c	ps2/libkernel_heap_recovered.o
@@ -527,8 +529,6 @@ snes_vmi_class_type_info_dtor_D0	global	text	0x2c	src/ps2/libsupcxx_rtti_recover
 snes_vmi_class_type_info_dtor_D1	global	text	0x20	src/ps2/libsupcxx_rtti_recovered.c	ps2/libsupcxx_rtti_recovered.o
 snes_vmi_class_type_info_dtor_D2	global	text	0x20	src/ps2/libsupcxx_rtti_recovered.c	ps2/libsupcxx_rtti_recovered.o
 loadModuleBuffer	global	text	0x9c	src/ps2/load_module_buffer.c	ps2/load_module_buffer.o
-SifAllocIopHeap_0019d63c	global	text	0x6c	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o
-SifFreeIopHeap_0019d6b8	global	text	0x78	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o
 SifIopReset_0019d740	global	text	0x124	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o
 SifLoadModuleBuffer_0019d620	global	text	0x1c	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o
 SifLoadModule_0019d600	global	text	0x20	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o

@@ -1516,9 +1516,6 @@ S9xSync_PeriodPrevious	named-external	link-contract	reserved:link-contract	link-
 S9xSync_PeriodValue	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 S9xSync_SetVolume	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 Settings_SkipFrames	named-program-data	program-data	reserved:program-data.o	program-data	ps2/path_helpers_recovered.o
-SifAllocIopHeap	ps2-runtime	historical-archive	PS2LIB kernel/SifAllocIopHeap.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/load_module_buffer.o
-SifFreeIopHeap	ps2-runtime	historical-archive	PS2LIB kernel/SifFreeIopHeap.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/load_module_buffer.o
-SifInitIopHeap_recovered	ps2-runtime	historical-archive	PS2LIB kernel/SifInitIopHeap.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/loadfile_iop_recovered.o
 SifIopReset	ps2-runtime	historical-archive	PS2LIB kernel/SifIopReset.o (ps2sdk@a80df908 source)	runtime-member-text-identity	app/main_bootstrap.o
 SifLoadFileInit_recovered	ps2-runtime	historical-archive	PS2LIB kernel/SifLoadFileInit.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/loadfile_iop_recovered.o
 SifLoadModule	ps2-runtime	historical-archive	PS2LIB kernel/SifLoadModule.o (ps2sdk@a80df908 source)	runtime-member-text-identity	app/main_bootstrap.o
