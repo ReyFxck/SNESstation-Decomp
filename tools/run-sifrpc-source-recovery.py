@@ -64,25 +64,11 @@ def main() -> None:
     if (version, machine) != ("3.2.2", "ee"):
         raise SystemExit(f"unexpected compiler: {machine} gcc {version}")
 
-    args = SimpleNamespace(
-        inputs=(ROOT / "analysis" / "link_identity" / "runtime_member_inputs.tsv").resolve(),
-        source_cache=None,
-        build_dir=(BUILD / "runtime-inputs").resolve(),
-    )
-    rm.materialize_inputs(args, compiler)
-
-    include_flags: list[str] = []
-    for revision, relative in rm.INCLUDE_DIRS:
-        include_flags += ["-I", str(args.build_dir / "inputs" / revision / relative)]
-    gcc_include = Path(
-        subprocess.check_output([str(compiler), "-print-file-name=include"], text=True).strip()
-    ).resolve()
-    include_flags += ["-I", str(gcc_include)]
-
-    source = args.build_dir / "inputs" / rm.APR18 / "ee/kernel/src/sifrpc.c"
+    include_flags = ["-I", str(ROOT / "include")]
+    source = ROOT / "src" / "ps2" / "sifrpc.c"
     target = target_bytes()
 
-    print(f"source: ps2dev/ps2sdk@{rm.APR18} ee/kernel/src/sifrpc.c")
+    print(f"source: {source.relative_to(ROOT)} (historical ps2sdk@{rm.APR18})")
     print(f"compiler: {machine} gcc {version}")
     print(f"target corridor checked here: 0x{BASE:08x}..0x{END - 1:08x}")
     print()
