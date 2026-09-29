@@ -6,6 +6,8 @@ on:
       - source-recovery-file-by-file
     paths:
       - "tools/run-alloc-source-recovery.py"
+      - "src/ps2/alloc.c"
+      - "include/alloc_legacy_compat.h"
       - ".github/workflows/alloc-source-recovery.yml"
       - "analysis/functions/libkernel_heap_0019e474.asm"
       - "analysis/link_identity/runtime_member_inputs.tsv"
