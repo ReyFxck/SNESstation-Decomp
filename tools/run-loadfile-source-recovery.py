@@ -171,7 +171,9 @@ PROVIDE(strncpy = 0x0019c550);
   . = 0x00450bf0;
   .common : { *(COMMON) *(.scommon) }
 """
-            extra_provides = ""
+            extra_provides = """
+PROVIDE(_lf_init = 0x00425ab8);
+"""
         else:
             data_layout = ""
             extra_provides = """
