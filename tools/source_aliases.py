@@ -231,7 +231,7 @@ def derive_rows(
     global_text = [
         row
         for row in defined_rows
-        if row["binding"] == "global" and row["section_class"] == "text"
+        if row["binding"] == "global" and row["section_class"] in {"text", "weak-text"}
     ]
     by_name: dict[str, dict[str, str]] = {}
     by_suffix: dict[int, list[dict[str, str]]] = defaultdict(list)

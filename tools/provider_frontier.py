@@ -262,7 +262,7 @@ def derive_rows(
     canonical_text = {
         row["symbol"]
         for row in defined_rows
-        if row["binding"] == "global" and row["section_class"] == "text"
+        if row["binding"] == "global" and row["section_class"] in {"text", "weak-text"}
     }
     missing_canonical = sorted(set(SEMANTIC_ALIASES.values()) - canonical_text)
     if missing_canonical:

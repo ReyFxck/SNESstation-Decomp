@@ -275,7 +275,7 @@ def derive_rows(
     global_text_by_name: dict[str, dict[str, str]] = {}
     global_text_by_suffix: dict[int, list[dict[str, str]]] = defaultdict(list)
     for row in defined_rows:
-        if row["binding"] != "global" or row["section_class"] != "text":
+        if row["binding"] != "global" or row["section_class"] not in {"text", "weak-text"}:
             continue
         symbol = row["symbol"]
         if symbol in global_text_by_name:
