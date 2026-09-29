@@ -46,12 +46,11 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 45	src/ps2/progress26_dsp_runtime_batch_recovered.c	ps2	c	canonical	ps2/progress26_dsp_runtime_batch_recovered.o		Canonical recovered translation unit.
 46	src/ps2/progress27_large_state_cpu_batch_recovered.c	ps2	c	canonical	ps2/progress27_large_state_cpu_batch_recovered.o		Canonical recovered translation unit.
 47	src/ps2/progress28_structural_lift_recovered.c	ps2	c	canonical	ps2/progress28_structural_lift_recovered.o		Canonical recovered translation unit.
-48	src/ps2/ps2lib_formatter_recovered.c	ps2	c	canonical	ps2/ps2lib_formatter_recovered.o		Canonical recovered translation unit.
+48	src/ps2/xprintf.c	ps2	c	canonical	ps2/xprintf.o		Recovered PS2LIB xprintf lineage; formatter core and target wrappers are byte-exact, with the target no-newline puts override.
 49	src/ps2/glue.c	ps2	c	canonical	ps2/glue.o		Byte-exact historical PS2LIB DMAC glue wrappers recovered from ps2sdk@a80df908.
 50	src/ps2/sifcmd.c	ps2	c	canonical	ps2/sifcmd.o		Byte-exact historical PS2LIB SIF command source recovered from ps2sdk@a80df908.
 51	src/ps2/sifrpc.c	ps2	c	canonical	ps2/sifrpc.o		Historical PS2LIB SIF RPC source recovered byte-exact from ps2sdk@a80df908; combined canonical TU preserves original F_* object bodies.
 52	src/ps2/small_dispatch_recovered.c	ps2	c	canonical	ps2/small_dispatch_recovered.o		Canonical recovered translation unit.
-53	src/ps2/stdio_wrappers_recovered.c	ps2	c	canonical	ps2/stdio_wrappers_recovered.o		Canonical recovered translation unit.
 54	src/snes9x/apu_alloc_recovered.c	snes9x	c	canonical	snes9x/apu_alloc_recovered.o		Canonical recovered translation unit.
 55	src/snes9x/apumem_recovered.c	snes9x	c	canonical	snes9x/apumem_recovered.o		Canonical recovered translation unit.
 56	src/snes9x/cpu_shutdown_renderer_select_recovered.c	snes9x	c	canonical	snes9x/cpu_shutdown_renderer_select_recovered.o		Canonical recovered translation unit.
