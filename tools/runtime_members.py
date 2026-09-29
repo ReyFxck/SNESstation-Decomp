@@ -266,7 +266,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     active = {r["symbol"]: r for r in external if r["category"] in ("c-runtime", "ps2-runtime")
               and r["provider_kind"] in ("historical-archive", "recovered-runtime")}
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
-    if set(active) != expected_external or len(external) != 1854:
+    if set(active) != expected_external or len(external) != 1858:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):
