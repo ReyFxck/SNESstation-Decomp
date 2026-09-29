@@ -13,7 +13,7 @@ EE_CC="${EE_CC:-$ROOT/build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc}"
 BUILD="$ROOT/build/matching/cdvd-source-recovery"
 TARGET="$BUILD/cdvd_rpc_target.bin"
 OBJECT="$BUILD/cdvd_rpc.os.o"
-SOURCE="$ROOT/matching/candidates/cdvd_rpc.c"
+SOURCE="$ROOT/src/ps2/cdvd_rpc.c"
 MANIFEST="$ROOT/analysis/matching/cdvd_rpc_listing.csv"
 
 mkdir -p "$BUILD"
@@ -25,7 +25,7 @@ python3 tools/objdump_listing_to_binary.py \
   --end-address 0x0019c364 >/dev/null
 
 "$EE_CC" \
-  -Imatching/ee_abi_compat -I- \
+  -Iinclude -I- \
   -G0 -Os -EL -pipe \
   -fomit-frame-pointer -fstrict-aliasing -fno-common \
   -fshort-double -mlong64 -mhard-float -mno-abicalls \
