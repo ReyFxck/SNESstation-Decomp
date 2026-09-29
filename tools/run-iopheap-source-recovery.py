@@ -104,27 +104,37 @@ def main() -> None:
         ])
 
         image, masks, normalized = rm.libgcc.text_image(obj)
-        target = listing_bytes(listing, address, expected_size)
-        differing = rm.libgcc.differing_unmasked(target, image, masks)
-        normalized_target = rm.libgcc.normalize_target(target, masks)
         row = frozen[member]
-
-        ok = (
+        frozen_ok = (
             row["status"] == "MEMBER_TEXT_EXACT"
             and row["source_revision"] == rm.APR18
             and row["source"] == "ee/kernel/src/iopheap.c"
             and row["define"] == define
             and len(image) == expected_size
-            and differing == 0
-            and normalized == normalized_target
             and hashlib.sha256(normalized).hexdigest() == row["normalized_sha256"]
             and len(masks) == int(row["relocation_count"])
         )
 
+        # The public client-init listing abbreviates 32 bytes inside
+        # SifInitIopHeap with "...".  For that one member, chain our compiled
+        # object to the already-frozen MEMBER_TEXT_EXACT witness instead of
+        # fabricating the omitted target bytes.  The other two members are
+        # compared directly against every available target byte.
+        direct = define != "F_SifInitIopHeap"
+        if direct:
+            target = listing_bytes(listing, address, expected_size)
+            differing = rm.libgcc.differing_unmasked(target, image, masks)
+            normalized_target = rm.libgcc.normalize_target(target, masks)
+            ok = frozen_ok and differing == 0 and normalized == normalized_target
+            evidence = f"diff={differing}"
+        else:
+            ok = frozen_ok
+            evidence = "frozen=MEMBER_TEXT_EXACT"
+
         print(
             f"{'MATCH' if ok else 'DIFF':5} {define:20} "
             f"target=0x{address:08x} bytes={len(image)}/{expected_size} "
-            f"relocs={len(masks)} diff={differing}"
+            f"relocs={len(masks)} {evidence}"
         )
         failed |= not ok
 
