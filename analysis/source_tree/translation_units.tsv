@@ -21,7 +21,7 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 20	src/ps2/libkernel_client_init_recovered.c	ps2	c	canonical	ps2/libkernel_client_init_recovered.o		Canonical recovered translation unit.
 21	src/ps2/alloc.c	ps2	c	canonical	ps2/alloc.o		Historical PS2LIB alloc.c recovered byte-exact from ps2sdk@694100b7; target allocator corridor 1004/1004 raw bytes.
 22	src/ps2/libkernel_heap_runtime_recovered.c	ps2	c	canonical	ps2/libkernel_heap_runtime_recovered.o		Canonical recovered translation unit.
-23	src/ps2/libkernel_leaf_recovered.c	ps2	c	canonical	ps2/libkernel_leaf_recovered.o		Canonical recovered translation unit.
+23	src/ps2/kernel.S	ps2	asm-cpp	canonical	ps2/kernel.o		Exact historical ps2sdk@a80df908 kernel.S; 22/22 selected members and 508/508 target bytes proved.
 24	src/ps2/libkernel_strings_recovered.c	ps2	c	canonical	ps2/libkernel_strings_recovered.o		Canonical recovered translation unit.
 25	src/ps2/libmc_recovered.c	ps2	c	canonical	ps2/libmc_recovered.o		Canonical recovered translation unit.
 26	src/ps2/libmtap_recovered.c	ps2	c	canonical	ps2/libmtap_recovered.o		Canonical recovered translation unit.

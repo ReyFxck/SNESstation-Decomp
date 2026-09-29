@@ -33,6 +33,11 @@ class BuildSourceTreeTests(unittest.TestCase):
         sifrpc = [unit for unit in units if unit.source == "src/ps2/sifrpc.c"]
         self.assertEqual(1, len(sifrpc))
         self.assertTrue(sifrpc[0].canonical)
+        kernel = [unit for unit in units if unit.source == "src/ps2/kernel.S"]
+        self.assertEqual(1, len(kernel))
+        self.assertTrue(kernel[0].canonical)
+        self.assertEqual("asm-cpp", kernel[0].language)
+        self.assertEqual("ps2/kernel.o", kernel[0].object)
 
     def test_abi_contract_records_the_nonstandard_ee_widths(self) -> None:
         text = (ROOT / "analysis" / "source_tree" / "ee_abi_contract.c").read_text(

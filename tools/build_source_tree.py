@@ -51,6 +51,36 @@ DEFAULT_CFLAGS = (
     "-Iinclude -Iinclude/ee_stage1_compat -w"
 )
 
+# kernel.S is the exact historical selector-based PS2SDK source.  Keep the
+# source byte-identical and select only the members owned by this canonical TU
+# at compile time instead of adding recovery-only #defines to the source.
+SOURCE_DEFINES = {
+    "src/ps2/kernel.S": (
+        "F_iWakeupThread",
+        "F_CreateSema",
+        "F_DeleteSema",
+        "F_iSignalSema",
+        "F_WaitSema",
+        "F_FlushCache",
+        "F_iFlushCache",
+        "F_SifDmaStat",
+        "F_SifSetDma",
+        "F_SifSetReg",
+        "F_SifGetReg",
+        "F_SifWriteBackDCache",
+        "F_AddDmacHandler",
+        "F_RemoveDmacHandler",
+        "F_SifStopDma",
+        "F_iSifSetDma",
+        "F_SifSetDChain",
+        "F_iSifSetDChain",
+        "F__EnableDmac",
+        "F__DisableDmac",
+        "F_SignalSema",
+        "F_PollSema",
+    ),
+}
+
 MANIFEST_FIELDS = (
     "order",
     "source",
@@ -262,8 +292,15 @@ def read_manifest(path: Path) -> list[TranslationUnit]:
             fail(f"duplicate source in manifest: {unit.source}")
         if unit.object in objects:
             fail(f"duplicate object in manifest: {unit.object}")
-        if unit.language != "c":
+        if unit.language not in {"c", "asm-cpp"}:
             fail(f"unsupported language for {unit.source}: {unit.language}")
+        suffix = Path(unit.source).suffix
+        expected_language = {".c": "c", ".S": "asm-cpp"}.get(suffix)
+        if expected_language != unit.language:
+            fail(
+                f"source/language mismatch for {unit.source}: "
+                f"{unit.language} != {expected_language}"
+            )
         if unit.link_role not in {"canonical", "alternate"}:
             fail(f"invalid link role for {unit.source}: {unit.link_role}")
         if not (ROOT / unit.source).is_file():
@@ -274,7 +311,8 @@ def read_manifest(path: Path) -> list[TranslationUnit]:
 
     actual = {
         path.relative_to(ROOT).as_posix()
-        for path in (ROOT / "src").rglob("*.c")
+        for pattern in ("*.c", "*.S")
+        for path in (ROOT / "src").rglob(pattern)
     }
     if sources != actual:
         missing = sorted(actual - sources)
@@ -484,7 +522,10 @@ def compile_one(
     output = build_dir / "objects" / unit.object
     log = build_dir / "logs" / Path(unit.object).with_suffix(".log")
     output.parent.mkdir(parents=True, exist_ok=True)
-    command = [str(compiler), *cflags, "-c", unit.source, "-o", str(output)]
+    defines = ["-D" + name for name in SOURCE_DEFINES.get(unit.source, ())]
+    command = [
+        str(compiler), *cflags, *defines, "-c", unit.source, "-o", str(output)
+    ]
     run(command, log_path=log)
     validate_elf_object(output)
     return unit, output
