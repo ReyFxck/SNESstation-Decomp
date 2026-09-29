@@ -127,6 +127,15 @@ def main() -> None:
             f"{'MATCH' if ok else 'DIFF':5} {name:20} {define:18} "
             f"bytes={len(image)}/{expected_size} relocs={len(masks)} diff={differing}"
         )
+        if not ok and name == "fio_gets.o":
+            objdump = compiler.with_name("ee-objdump")
+            dis = subprocess.run(
+                [str(objdump), "-dr", str(obj)],
+                cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+            )
+            print("--- fio_gets candidate disassembly ---")
+            print(dis.stdout)
+            print("--- end fio_gets candidate disassembly ---")
         failed |= not ok
 
     main_name, main_define, _main_address, main_size = MAIN
