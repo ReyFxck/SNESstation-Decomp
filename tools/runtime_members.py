@@ -203,6 +203,14 @@ DETAILS = {
     "abort": "pinned terminate.o prints and calls _exit; rejected as selected provider; its weak abort body is only a puts caller witness",
 }
 
+# These three PS2LIB members remain byte-exact historical source witnesses, but
+# the canonical source tree now defines the symbols directly in src/ps2/sifrpc.c.
+PROMOTED_SOURCE_RUNTIME = {
+    "SifBindRpc": ("SifBindRpc", "ps2/cdvd_rpc.o"),
+    "SifCallRpc": ("SifCallRpc", "ps2/cdvd_rpc.o;ps2/fileio_recovered.o;ps2/loadfile_iop_recovered.o"),
+    "SifInitRpc": ("SifInitRpc", "app/main_bootstrap.o"),
+}
+
 
 def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
@@ -252,7 +260,8 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     external = libgcc.read_table(args.external_map, libgcc.EXTERNAL_FIELDS)
     active = {r["symbol"]: r for r in external if r["category"] in ("c-runtime", "ps2-runtime")
               and r["provider_kind"] in ("historical-archive", "recovered-runtime")}
-    if set(active) != set(CONTRACT_BY_SYMBOL) or len(external) != 1862:
+    expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
+    if set(active) != expected_external or len(external) != 1859:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):
@@ -265,7 +274,9 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     for spec in CONTRACTS:
         if progress.get(spec.address, {}).get("status") != "MATCHING":
             fail(f"runtime target missing from frozen function universe: {spec.symbol}")
-        if spec.symbol == "abort":
+        if spec.symbol in PROMOTED_SOURCE_RUNTIME:
+            bindings[spec.symbol] = PROMOTED_SOURCE_RUNTIME[spec.symbol][0]
+        elif spec.symbol == "abort":
             row = frontier.get("abort", {})
             if (row.get("resolution_kind"), row.get("target_symbol")) != ("semantic-text-alias", "snes_fatal_spin_00107578"):
                 fail("abort source alias drift")
@@ -284,7 +295,8 @@ def fixed_contract(spec: Contract, active: dict[str, dict[str, str]], bindings: 
         "member_symbol": spec.member_symbol, "target_address": f"0x{spec.address:08x}",
         "member_offset_hex": hex(spec.offset), "target_symbol_size_hex": hex(spec.target_size),
         "member_symbol_size_hex": hex(spec.member_size), "canonical_symbol": bindings[spec.symbol],
-        "requesters": active[spec.symbol]["requesters"],
+        "requesters": (active[spec.symbol]["requesters"] if spec.symbol in active
+                       else PROMOTED_SOURCE_RUNTIME[spec.symbol][1]),
         "detail": DETAILS.get(spec.symbol, "complete member text and symbol offset; final relocation values/data placement remain separate"),
     }
 
