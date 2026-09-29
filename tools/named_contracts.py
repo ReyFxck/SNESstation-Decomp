@@ -275,8 +275,8 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
     external_rows = read_table(args.external_map, EXTERNAL_FIELDS)
     stage3c.stage3_partition(external_rows)
     live = sorted((row for row in external_rows if is_stage3e(row)), key=lambda row: row["symbol"])
-    if len(live) != 191:
-        fail(f"expected 191 live Stage-3E contracts after source cleanup, found {len(live)}")
+    if len(live) != 190:
+        fail(f"expected 190 live Stage-3E contracts after exact CDVD source recovery, found {len(live)}")
 
     contracts = unique(read_table(args.contracts, CONTRACT_FIELDS), "symbol", "link contract")
     frontier = unique(read_table(args.frontier_manifest, FRONTIER_FIELDS), "symbol", "provider row")
@@ -394,10 +394,10 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
         })
 
     result.sort(key=lambda row: row["symbol"])
-    if len(result) != 212 or len({row["symbol"] for row in result}) != 212:
+    if len(result) != 211 or len({row["symbol"] for row in result}) != 211:
         fail("historical Stage-3E 212-row ledger drift")
     expected_counts = {
-        TEXT_ALIAS_PROVED: 23,
+        TEXT_ALIAS_PROVED: 22,
         TARGET_RANGE_PROVED: 164,
         TARGET_ENTRY_PROVED: 2,
         EXTERNAL_ADDRESS_PROVED: 2,
