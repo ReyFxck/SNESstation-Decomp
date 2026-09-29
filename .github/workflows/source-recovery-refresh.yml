@@ -54,6 +54,11 @@ jobs:
           MAKEFLAGS: MAKEINFO=true
         run: make bootstrap-ee-stage1
 
+      - name: Reprove exact SIF CMD and glue sources
+        run: |
+          python3 tools/run-sifcmd-source-recovery.py
+          python3 tools/run-glue-source-recovery.py
+
       - name: Refresh source ownership ledgers
         run: |
           set -eux
