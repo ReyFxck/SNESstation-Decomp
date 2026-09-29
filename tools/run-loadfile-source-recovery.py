@@ -52,8 +52,11 @@ def target_bytes() -> dict[int, int]:
         fields = line.split("\t")
         if len(fields) < 4:
             continue
-        start = int(fields[0], 16)
-        end = int(fields[1], 16)
+        try:
+            start = int(fields[0], 16)
+            end = int(fields[1], 16)
+        except ValueError:
+            continue
         source = fields[3]
         if source != "analysis/functions/libkernel_client_init_0019f5d0.asm":
             continue
