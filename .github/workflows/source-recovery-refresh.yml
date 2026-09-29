@@ -8,6 +8,8 @@ on:
       - .github/workflows/source-recovery-refresh.yml
       - src/ps2/cdvd_rpc.c
       - include/cdvd_legacy_compat.h
+      - src/ps2/sifrpc.c
+      - include/sifrpc_legacy_compat.h
       - analysis/source_tree/translation_units.tsv
       - src/ps2/progress22_more_small_helpers_recovered.c
       - tools/test_progress43_cdvd_historical.py
@@ -86,6 +88,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No generated ledger changes."
           else
-            git commit -m "refresh ledgers after exact CDVD source recovery"
+            git commit -m "refresh ledgers after exact source recovery"
+            git pull --rebase origin source-recovery-file-by-file
             git push origin HEAD:source-recovery-file-by-file
           fi
