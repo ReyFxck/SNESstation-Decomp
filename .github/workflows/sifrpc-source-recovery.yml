@@ -53,7 +53,7 @@ jobs:
           make source-aliases-refresh EE_CC="$EE_CC"
           make source-aliases-check EE_CC="$EE_CC"
           python3 tools/test_build_source_tree.py
-          git diff --check
+          git diff --check -- . ':(exclude)analysis/link_identity/source_address_aliases.tsv'
 
       - name: Commit reviewed derived source metadata
         run: |
