@@ -1653,7 +1653,7 @@ g_state_003454e0	named-program-data	program-data	reserved:program-data.o	program
 g_tail_mask	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_16bit_recovered.o;snes9x/tile_color_math_recovered.o;snes9x/tile_draw_clipped_recovered.o;snes9x/tile_scaled_remaining_recovered.o
 g_tile_cache_state	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/memory_init_recovered.o
 gzopen	zlib-peer	source-or-archive	zlib object family	link-identity	ps2/small_dispatch_recovered.o
-iFlushCache_0019cec0	target-address-symbol	source-address-alias	src/ps2/gs_fifo_recovered.c;src/ps2/libkernel_leaf_recovered.c	link-identity	ps2/gs_fifo_recovered.o
+iFlushCache_0019cec0	target-address-symbol	source-address-alias	src/ps2/gs_fifo_recovered.c;src/ps2/kernel.S	link-identity	ps2/gs_fifo_recovered.o
 iRam00426e2c	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iRam00426e34	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iRam00426e38	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1673,7 +1673,6 @@ iRam0043ecc0	named-external	link-contract	reserved:link-contract	link-identity	p
 iRam0043ecc4	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iRam0043ecc8	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iRam0043eccc	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-iSifSetDChain	named-external	link-contract	reserved:link-contract	link-identity	ps2/sifcmd.o
 inflateEnd_00192784	zlib-peer	source-or-archive	zlib object family	link-identity	unzip/unzip_api_recovered.o;zlib/zlib_buffer_api_recovered.o
 inflateInit__00192948	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/zlib_buffer_api_recovered.o
 inflate_0019296c	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/zlib_buffer_api_recovered.o
