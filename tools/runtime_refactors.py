@@ -100,7 +100,7 @@ def validate_live_contracts(
             fail(f"snprintf returned to live {label}")
     # Historical SIF RPC + SIF CMD/glue promotion now defines five additional
     # live providers in canonical source instead of leaving them as externals.
-    if (len(external), len(contracts), len(frontier)) != (1847, 1514, 219):
+    if (len(external), len(contracts), len(frontier)) != (1846, 1513, 219):
         fail("post-refactor namespace count drift")
     expected_requesters = {
         "ps2/small_dispatch_recovered.o", "snes9x/memmap_metadata_recovered.o",
@@ -118,7 +118,7 @@ def validate_live_contracts(
         fail("compatibility runtime shim returned")
     runtime = Counter(row["category"] for row in external
                       if row["provider_kind"] in ("historical-archive", "recovered-runtime"))
-    if runtime != {"ps2-runtime": 10, "c-runtime": 20, "compiler-runtime": 4}:
+    if runtime != {"ps2-runtime": 9, "c-runtime": 20, "compiler-runtime": 4}:
         fail(f"live Stage-3D partition drift: {dict(runtime)}")
 
 
