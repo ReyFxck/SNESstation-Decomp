@@ -42,8 +42,8 @@ uint64_t g_legacy_zip_bitbuf;
 int g_legacy_zip_bits_left;
 uint8_t g_legacy_zip_zipeof;
 
-extern int fioRead_0019d120(int file, void *dst, int size);
-extern int fioLseek_0019d360(int file, int offset, int whence);
+extern int fioRead(int file, void *dst, int size);
+extern int fioLseek(int file, int offset, int whence);
 extern uint64_t crc32_recovered(uint64_t crc, const uint8_t *data,
                                 uint32_t size);
 
@@ -62,12 +62,12 @@ int ReadByte_recovered(uint16_t *out)
             want = (uint32_t)state->rest_read_compressed;
         if (want == 0)
             return 0;
-        if (fioLseek_0019d360(
+        if (fioLseek(
                 state->file,
                 (int)(state->pos_in_zipfile + state->byte_before_zipfile),
                 0) != 0)
             return -1;
-        got = fioRead_0019d120(state->file, legacy_zip_read_buffer(state),
+        got = fioRead(state->file, legacy_zip_read_buffer(state),
                                (int)want);
         if (got != (int)want)
             return -1;
