@@ -16,7 +16,7 @@ from compare_elf_functions import ELFFile
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build" / "matching" / "xprintf-source-recovery"
-SOURCE = ROOT / "matching" / "candidates" / "xprintf_recovery.c"
+SOURCE = ROOT / "src" / "ps2" / "xprintf.c"
 CORE_LISTING = ROOT / "analysis" / "functions" / "ps2lib_vsnprintf_0019d84c.asm"
 VPRINTF_LISTING = ROOT / "analysis" / "functions" / "vprintf_0019faa8.asm"
 WRAPPER_ASM = ROOT / "matching" / "candidates" / "stage3p_code_residual_exact.S"
@@ -180,7 +180,7 @@ def main() -> None:
     ).resolve()
     include_flags += ["-I", str(gcc_include)]
 
-    print("source: matching/candidates/xprintf_recovery.c")
+    print("source: src/ps2/xprintf.c (promoted target source)")
     print(f"lineage: ps2dev/ps2sdk@{rm.APR15} ee/libc/src/xprintf.c + target puts override")
     print(f"compiler: {machine} gcc {version}")
     print()
@@ -266,7 +266,7 @@ def main() -> None:
         compiler, include_flags, "F_puts", "xprintf-puts.o", flags=ro.FLAGS
     )
     elf = ELFFile(puts_obj)
-    symbols = [s for s in elf.symbols if s.name == "puts" and s.section_index != 0]
+    symbols = [s for s in elf.symbols if s.name == "puts_like_recovered" and s.section_index != 0]
     if len(symbols) != 1:
         raise SystemExit("XPRINTF target puts symbol missing/ambiguous")
     symbol = symbols[0]
@@ -291,7 +291,7 @@ def main() -> None:
     script.write_text(
         """fioWrite = 0x0019d244;
 SECTIONS {
-  .text.puts 0x0019e414 : { *(.text.puts) }
+  .text.puts_like_recovered 0x0019e414 : { *(.text.puts_like_recovered) }
   /DISCARD/ : {
     *(.text) *(.data*) *(.bss*) *(COMMON) *(.rodata*) *(.reginfo) *(.pdr)
     *(.mdebug*) *(.comment) *(.note*)
@@ -301,7 +301,7 @@ SECTIONS {
         encoding="utf-8",
     )
     run([ld, "-EL", "-T", script, "-o", linked, puts_obj])
-    run([objcopy, "-j", ".text.puts", "-O", "binary", linked, raw_path])
+    run([objcopy, "-j", ".text.puts_like_recovered", "-O", "binary", linked, raw_path])
     puts_raw = raw_path.read_bytes()
     puts_sha = hashlib.sha256(puts_raw).hexdigest()
     if len(puts_raw) != 0x60 or puts_sha != row["linked_sha256"]:
