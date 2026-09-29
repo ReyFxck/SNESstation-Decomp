@@ -7,7 +7,7 @@
 | Measure | Result | Status |
 |---|---:|---|
 | Audited function entries | **1,041/1,041 (100%)** | Complete |
-| EE source ownership | **97/97 translation units** | Complete |
+| EE source ownership | **98/98 translation units** | Complete |
 | Runtime contracts | **53/53** | Complete |
 | Program-data address identities | **1,265/1,265** | Complete |
 | Exact 64 KiB image windows | **51/51** | Complete |
@@ -26,9 +26,9 @@ row independently closes the complete file identity.
 |---|---:|---|
 | Function matching | **1,041/1,041** | Complete-boundary compiler/object evidence for every audited entry |
 | Readable source models | **1,041/1,041** | Every audited entry has a behavioral/source representation |
-| Source ownership | **96/96 units** | 96 canonical EE objects compile with the frozen ABI |
+| Source ownership | **98/98 units** | 98 canonical EE objects compile with the frozen ABI |
 | Source-address aliases | **333/347 proved** | 14 intentionally blocked names remain outside the alias claim |
-| Zero-byte link contracts | **1,291/1,520** | 1,234 address anchors and 57 semantic aliases |
+| Zero-byte link contracts | **1,288/1,517** | 1,234 address anchors and 54 semantic aliases |
 | Source-link providers | **219/219** | The recovered relocatable aggregate has zero undefined globals |
 | Named data | **54/54** | 50 exact target ranges and 4 completed source refactors |
 | Named link contracts | **211/211** | 165 fingerprinted ranges/data aliases and 20 completed source refactors |
