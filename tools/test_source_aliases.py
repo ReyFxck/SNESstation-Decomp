@@ -302,7 +302,7 @@ class SourceAliasTests(unittest.TestCase):
             ),
         )
 
-    def test_frozen_repository_manifest_has_expected_memcpy_promotion_counts(self) -> None:
+    def test_frozen_repository_manifest_has_expected_libc_asm_promotion_counts(self) -> None:
         args = argparse.Namespace(
             external_map=DEFAULT_EXTERNAL,
             defined_map=DEFAULT_DEFINED,
@@ -320,7 +320,7 @@ class SourceAliasTests(unittest.TestCase):
         self.assertEqual(
             {
                 "address-outside-progress-manifest": 6,
-                "progress-name-global-text": 142,
+                "progress-name-global-text": 144,
                 "progress-name-recovered-suffix-global-text": 33,
                 "progress-name-snes-p13-prefix-global-text": 5,
                 "progress-name-snes-prefix-global-text": 26,
@@ -328,7 +328,7 @@ class SourceAliasTests(unittest.TestCase):
                 "reviewed-historical-archive-blocker": 7,
                 "reviewed-semantic-identity-global-text": 3,
                 "reviewed-source-boundary-blocker": 1,
-                "unique-address-suffix-global-text": 115,
+                "unique-address-suffix-global-text": 113,
             },
             report["evidence_counts"],
         )
