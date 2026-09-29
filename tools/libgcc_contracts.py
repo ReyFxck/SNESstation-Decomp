@@ -416,8 +416,8 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
             fail(f"source-refactored libgcc name returned to link contracts: {spec.symbol}")
 
     frontier = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier) != 223:
-        fail(f"expected 223 post-snprintf provider rows, found {len(frontier)}")
+    if len(frontier) != 219:
+        fail(f"expected 219 post-FILEIO provider rows, found {len(frontier)}")
     runtime_shims = {
         row["symbol"] for row in frontier if row["resolution_kind"] == "compatibility-runtime-shim"
     }
