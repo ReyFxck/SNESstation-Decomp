@@ -16,7 +16,7 @@ extern gsFontRecovered g_frontend_font_001bb748;
 
 extern void *operator_new_001a9e88(size_t size);
 extern void sub_001019a8(void);
-extern void CDVD_Stop_0019c0d0(void);
+extern void CDVD_Stop(void);
 extern void sub_00101b64(void);
 extern void snes_p20_00101e8c(void);
 
@@ -31,7 +31,7 @@ void snes_p22_00103b34(const char *text, int travel)
     }
 
     sub_001019a8();
-    CDVD_Stop_0019c0d0();
+    CDVD_Stop();
 
     if (limit < 0x186) {
         do {
