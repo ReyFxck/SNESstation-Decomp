@@ -118,7 +118,7 @@ def validate_live_contracts(
         fail("compatibility runtime shim returned")
     runtime = Counter(row["category"] for row in external
                       if row["provider_kind"] in ("historical-archive", "recovered-runtime"))
-    if runtime != {"ps2-runtime": 17, "c-runtime": 20, "compiler-runtime": 4}:
+    if runtime != {"ps2-runtime": 21, "c-runtime": 20, "compiler-runtime": 4}:
         fail(f"live Stage-3D partition drift: {dict(runtime)}")
 
 
