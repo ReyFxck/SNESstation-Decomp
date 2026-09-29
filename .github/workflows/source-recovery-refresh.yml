@@ -1,5 +1,5 @@
 name: Source recovery ledger refresh
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO and IOPHEAP promotions included.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP and ALLOC promotions included.
 
 on:
   push:
@@ -17,6 +17,11 @@ on:
       - include/glue_legacy_compat.h
       - src/ps2/sifcmd_recovered.c
       - src/ps2/fileio.c
+      - src/ps2/alloc.c
+      - src/ps2/libkernel_heap_recovered.c
+      - include/alloc_legacy_compat.h
+      - tools/run-alloc-source-recovery.py
+      - .github/workflows/alloc-source-recovery.yml
       - src/ps2/iopheap.c
       - src/ps2/loadfile.c
       - src/ps2/iopcontrol.c
@@ -85,6 +90,7 @@ jobs:
           python3 tools/run-sifcmd-source-recovery.py
           python3 tools/run-glue-source-recovery.py
           python3 tools/run-fileio-source-recovery.py
+          python3 tools/run-alloc-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
           python3 tools/run-iopcontrol-source-recovery.py
