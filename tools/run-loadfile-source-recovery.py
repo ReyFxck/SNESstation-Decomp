@@ -167,9 +167,9 @@ PROVIDE(strncpy = 0x0019c550);
         if name == "SifLoadFileInit.o":
             data_layout = """
   . = 0x00425ab8;
-  .bss : { *(.bss) }
+  .bss : { *(.bss) *(.sbss) }
   . = 0x00450bf0;
-  .common : { *(COMMON) }
+  .common : { *(COMMON) *(.scommon) }
 """
             extra_provides = ""
         else:
