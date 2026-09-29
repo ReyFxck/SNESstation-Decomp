@@ -24,7 +24,7 @@ The README graphic is generated to [`assets/progress.svg`](../assets/progress.sv
 All 1,041 validated entries now have a behavioral/source-model
 representation and **0** remain only as structural
 pseudocode after typed promotions. The separate EE source gate compiles the
-frozen 98-unit tree into 98 canonical EE objects with no alternate objects.
+frozen 99-unit tree into 99 canonical EE objects with no alternate objects.
 Source form, object ownership and original-source provenance remain distinct
 claims. See
 [`docs/SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) for
