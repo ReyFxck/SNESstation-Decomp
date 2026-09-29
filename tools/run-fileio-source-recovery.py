@@ -32,9 +32,9 @@ SPECS = (
 MAIN = ("fio_main.o", "F_fio_main", 0x0019F600, 0x1E8)
 
 INSN = re.compile(
-    r"^\\s*([0-9A-Fa-f]+):\\s+"
-    r"([0-9A-Fa-f]{2})\\s+([0-9A-Fa-f]{2})\\s+"
-    r"([0-9A-Fa-f]{2})\\s+([0-9A-Fa-f]{2})(?:\\s|$)"
+    r"^\s*([0-9A-Fa-f]+):\s+"
+    r"([0-9A-Fa-f]{2})\s+([0-9A-Fa-f]{2})\s+"
+    r"([0-9A-Fa-f]{2})\s+([0-9A-Fa-f]{2})(?:\s|$)"
 )
 
 
