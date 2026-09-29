@@ -19,6 +19,10 @@ on:
       - src/ps2/fileio.c
       - src/ps2/iopheap.c
       - src/ps2/loadfile.c
+      - src/ps2/iopcontrol.c
+      - src/ps2/iop_reset_recovered.c
+      - include/iopcontrol_legacy_compat.h
+      - tools/run-iopcontrol-source-recovery.py
       - include/loadfile_legacy_compat.h
       - tools/run-loadfile-source-recovery.py
       - include/iopheap_legacy_compat.h
@@ -77,6 +81,7 @@ jobs:
           python3 tools/run-fileio-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
+          python3 tools/run-iopcontrol-source-recovery.py
 
       - name: Refresh source ownership ledgers
         run: |
