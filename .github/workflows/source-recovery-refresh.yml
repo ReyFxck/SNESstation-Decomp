@@ -52,6 +52,7 @@ jobs:
           make link-contracts-refresh
           make provider-frontier-refresh
           python3 tools/named_contracts.py validate
+          make docs
 
       - name: Refresh decomp.dev public input hashes
         run: |
@@ -75,6 +76,7 @@ jobs:
           git add \
             analysis/source_readiness.csv \
             docs/SOURCE_COMPLETENESS.generated.md \
+            docs/status/PROJECT_STATUS.generated.md \
             analysis/source_tree/defined_symbol_ownership.tsv \
             analysis/source_tree/external_symbol_ownership.tsv \
             analysis/source_tree/object_fingerprints.tsv \
