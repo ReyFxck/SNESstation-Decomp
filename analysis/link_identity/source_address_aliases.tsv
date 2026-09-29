@@ -198,9 +198,9 @@ FUN_0019adf8	0x0019adf8	PROVED	gsPipe_RectFlat_0019adf8	unique-address-suffix-gl
 FUN_0019b028	0x0019b028	PROVED	gsPipe_RectTexture_0019b028	unique-address-suffix-global-text	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019b7f0	0x0019b7f0	PROVED	gsFont_uploadFont_0019b7f0	unique-address-suffix-global-text	src/ps2/gsfont_recovered.c	ps2/gsfont_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019b948	0x0019b948	PROVED	gsFont_Print_0019b948	unique-address-suffix-global-text	src/ps2/gsfont_recovered.c	ps2/gsfont_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0019be70	0x0019be70	PROVED	CDVD_Init_0019be70	unique-address-suffix-global-text	src/ps2/cdvd_rpc_historical_recovered.c	ps2/cdvd_rpc_historical_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0019c0d0	0x0019c0d0	PROVED	CDVD_Stop_0019c0d0	unique-address-suffix-global-text	src/ps2/cdvd_rpc_historical_recovered.c	ps2/cdvd_rpc_historical_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0019c2ac	0x0019c2ac	PROVED	CDVD_FlushCache_0019c2ac	unique-address-suffix-global-text	src/ps2/cdvd_rpc_historical_recovered.c	ps2/cdvd_rpc_historical_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019be70	0x0019be70	PROVED	CDVD_Init	progress-name-global-text	src/ps2/cdvd_rpc.c	ps2/cdvd_rpc.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019c0d0	0x0019c0d0	PROVED	CDVD_Stop	progress-name-global-text	src/ps2/cdvd_rpc.c	ps2/cdvd_rpc.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019c2ac	0x0019c2ac	PROVED	CDVD_FlushCache	progress-name-global-text	src/ps2/cdvd_rpc.c	ps2/cdvd_rpc.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019c364	0x0019c364	PROVED	sn_memcpy_0019c364	unique-address-suffix-global-text	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019c39c	0x0019c39c	PROVED	sn_memset_0019c39c	unique-address-suffix-global-text	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019c3d4	0x0019c3d4	PROVED	sn_strcat_0019c3d4	unique-address-suffix-global-text	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o	ps2/progress28_structural_lift_recovered.o	
