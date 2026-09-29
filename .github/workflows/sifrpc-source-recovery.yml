@@ -28,7 +28,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: build/toolchains/ee-gcc-3.2.2-stage1
-          key: sifrpc-ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+          key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
 
       - name: Build historical EE compiler
         env:
