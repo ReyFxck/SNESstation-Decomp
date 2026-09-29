@@ -95,3 +95,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 94	src/zlib/trees_recovered.c	zlib	c	canonical	zlib/trees_recovered.o		Canonical recovered translation unit.
 95	src/zlib/zlib_buffer_api_recovered.c	zlib	c	canonical	zlib/zlib_buffer_api_recovered.o		Canonical recovered translation unit.
 96	src/zlib/zutil_adler_recovered.c	zlib	c	canonical	zlib/zutil_adler_recovered.o		Canonical recovered translation unit.
+97	src/ps2/sifcmd.c	ps2	c	alternate	ps2/sifcmd_historical.o	src/ps2/sifcmd_recovered.c	Byte-exact historical PS2LIB SIF command source; alternate until glue.c wrappers are separated.
