@@ -27,7 +27,6 @@ typedef char recovered_assert_lf_module_buffer_size[(sizeof(lf_module_buffer_arg
 extern int SifCallRpc(SifRpcClientData32 *, int, int,
                       void *, int, void *, int, void (*)(void *), void *);
 extern int SifLoadFileInit_recovered(void);   /* 0x0019fd20 */
-extern int SifInitIopHeap_recovered(void);    /* 0x0019f9e8 */
 extern void SifStopDma(void);                 /* 0x0019f5d0 */
 extern uint32_t SifGetReg(uint32_t);          /* 0x0019cf00 */
 extern void SifSetReg(uint32_t, uint32_t);    /* 0x0019cef0 */
@@ -35,7 +34,6 @@ extern int SifSetDma(SifDmaTransfer32 *, int); /* 0x0019cee0 */
 extern void SifWriteBackDCache(void *, int);  /* 0x0019cf10 */
 
 extern SifRpcClientData32 lf_cd_recovered;
-extern SifRpcClientData32 ih_cd_recovered;
 
 /* 0x0019f7e8 -- older five-argument _SifLoadModule variant. */
 int _SifLoadModule_0019f7e8(const char *path, int arg_len, const char *args,
@@ -97,7 +95,9 @@ int _SifLoadModuleBuffer_0019f8f4(void *ptr, int arg_len, const char *args,
 int SifLoadModuleBuffer_0019d620(void *ptr, int arg_len, const char *args)
 {
     return _SifLoadModuleBuffer_0019f8f4(ptr, arg_len, args, NULL);
-}\n\n/* 0x0019d740 -- target is the old SifIopReset packet path.
+}
+
+/* 0x0019d740 -- target is the old SifIopReset packet path.
  * Unlike a later 2003 PS2SDK revision, this binary does not increment an
  * _iop_reboot_count before SifStopDma; that later-source behavior is omitted.
  */

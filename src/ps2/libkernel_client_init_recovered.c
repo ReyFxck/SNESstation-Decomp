@@ -15,12 +15,10 @@ extern int iSignalSema(int);
 
 SifRpcClientData32 fio_cd_recovered;
 SifRpcClientData32 lf_cd_recovered;
-SifRpcClientData32 ih_cd_recovered;
 int fio_init_recovered;
 int fio_completion_sema_recovered = -1;
 int fio_block_mode_recovered;
 static int lf_init_recovered;
-static int ih_caps_recovered;
 
 static void bind_delay_recovered(void)
 {
@@ -82,4 +80,4 @@ int SifLoadFileInit_0019fd20(void)
     } while (lf_cd_recovered.server == 0);
     lf_init_recovered = 1;
     return 0;
-}\n
+}
