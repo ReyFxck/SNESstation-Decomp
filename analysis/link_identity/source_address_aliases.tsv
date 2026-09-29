@@ -210,8 +210,8 @@ FUN_0019c528	0x0019c528	PROVED	sn_strcpy_0019c528	unique-address-suffix-global-t
 FUN_0019c550	0x0019c550	PROVED	sn_strncpy_0019c550	unique-address-suffix-global-text	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019c5e8	0x0019c5e8	PROVED	sn_strlen_0019c5e8	unique-address-suffix-global-text	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019c610	0x0019c610	PROVED	sn_strchr_0019c610	unique-address-suffix-global-text	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0019c688	0x0019c688	PROVED	SifBindRpc_0019c688	unique-address-suffix-global-text	src/ps2/sifrpc_recovered.c	ps2/sifrpc_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0019cc0c	0x0019cc0c	PROVED	SifInitRpc_0019cc0c	unique-address-suffix-global-text	src/ps2/sifrpc_recovered.c	ps2/sifrpc_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019c688	0x0019c688	PROVED	SifBindRpc	progress-name-global-text	src/ps2/sifrpc.c	ps2/sifrpc.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019cc0c	0x0019cc0c	PROVED	SifInitRpc	progress-name-global-text	src/ps2/sifrpc.c	ps2/sifrpc.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019cfc0	0x0019cfc0	PROVED	fioOpen_0019cfc0	unique-address-suffix-global-text	src/ps2/fileio_recovered.c	ps2/fileio_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019d090	0x0019d090	PROVED	fioClose_0019d090	unique-address-suffix-global-text	src/ps2/fileio_recovered.c	ps2/fileio_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019d120	0x0019d120	PROVED	fioRead_0019d120	unique-address-suffix-global-text	src/ps2/fileio_recovered.c	ps2/fileio_recovered.o	ps2/progress28_structural_lift_recovered.o	
