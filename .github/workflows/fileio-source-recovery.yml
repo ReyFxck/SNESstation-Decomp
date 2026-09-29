@@ -6,6 +6,8 @@ on:
       - source-recovery-file-by-file
     paths:
       - "tools/run-fileio-source-recovery.py"
+      - "src/ps2/fileio.c"
+      - "include/fileio_legacy_compat.h"
       - ".github/workflows/fileio-source-recovery.yml"
       - "analysis/functions/fileio_0019cfc0.asm"
       - "analysis/link_identity/runtime_member_objects.tsv"
