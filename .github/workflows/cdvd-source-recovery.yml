@@ -5,6 +5,8 @@ on:
     branches:
       - source-recovery-file-by-file
     paths:
+      - src/ps2/cdvd_rpc.c
+      - include/cdvd_legacy_compat.h
       - matching/candidates/cdvd_rpc.c
       - matching/ee_abi_compat/cdvd_legacy_compat.h
       - tools/run-cdvd-source-recovery.sh
