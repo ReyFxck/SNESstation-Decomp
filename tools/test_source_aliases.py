@@ -320,15 +320,15 @@ class SourceAliasTests(unittest.TestCase):
         self.assertEqual(
             {
                 "address-outside-progress-manifest": 6,
-                "progress-name-global-text": 136,
-                "progress-name-recovered-suffix-global-text": 35,
+                "progress-name-global-text": 140,
+                "progress-name-recovered-suffix-global-text": 33,
                 "progress-name-snes-p13-prefix-global-text": 5,
                 "progress-name-snes-prefix-global-text": 26,
                 "progress-name-snes-stripped-prefix-global-text": 7,
                 "reviewed-historical-archive-blocker": 7,
                 "reviewed-semantic-identity-global-text": 3,
                 "reviewed-source-boundary-blocker": 1,
-                "unique-address-suffix-global-text": 119,
+                "unique-address-suffix-global-text": 117,
             },
             report["evidence_counts"],
         )
