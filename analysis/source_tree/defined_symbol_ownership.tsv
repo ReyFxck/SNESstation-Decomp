@@ -282,6 +282,7 @@ packet_store	local	text	0x28	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
 prim_begin	local	text	0x78	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
 texture_qwords	local	text	0x90	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
 texture_transfer	local	text	0x2a8	src/ps2/gspipe_recovered.c	ps2/gspipe_recovered.o
+SifIopReset_0019d740	global	text	0x124	src/ps2/iop_reset_recovered.c	ps2/iop_reset_recovered.o
 SifAllocIopHeap	global	text	0x7c	src/ps2/iopheap.c	ps2/iopheap.o
 SifFreeIopHeap	global	text	0x88	src/ps2/iopheap.c	ps2/iopheap.o
 SifInitIopHeap	global	text	0xc8	src/ps2/iopheap.c	ps2/iopheap.o
@@ -332,7 +333,6 @@ snes_dptoul	global	text	0xc4	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runti
 snes_fptodp	global	text	0x1c	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o
 snes_litodp	global	text	0x28	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o
 udivmod64	local	text	0x84	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o
-SifLoadFileInit_0019fd20	global	text	0x94	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 bind_delay_recovered	local	text	0x3c	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 fioInit_0019f600	global	text	0xc0	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 fio_block_mode_recovered	global	data	0x4	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
@@ -340,8 +340,6 @@ fio_cd_recovered	global	data	0x28	src/ps2/libkernel_client_init_recovered.c	ps2/
 fio_completion_sema_recovered	global	data	0x4	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 fio_init_recovered	global	data	0x4	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 fio_intr_0019f6e8	global	text	0x20	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
-lf_cd_recovered	global	data	0x28	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
-lf_init_recovered	local	bss	0x0	src/ps2/libkernel_client_init_recovered.c	ps2/libkernel_client_init_recovered.o
 alloc_heap_base	local	bss	0x0	src/ps2/libkernel_heap_recovered.c	ps2/libkernel_heap_recovered.o
 alloc_heap_head	local	bss	0x0	src/ps2/libkernel_heap_recovered.c	ps2/libkernel_heap_recovered.o
 alloc_heap_tail	local	bss	0x0	src/ps2/libkernel_heap_recovered.c	ps2/libkernel_heap_recovered.o
@@ -529,11 +527,13 @@ snes_vmi_class_type_info_dtor_D0	global	text	0x2c	src/ps2/libsupcxx_rtti_recover
 snes_vmi_class_type_info_dtor_D1	global	text	0x20	src/ps2/libsupcxx_rtti_recovered.c	ps2/libsupcxx_rtti_recovered.o
 snes_vmi_class_type_info_dtor_D2	global	text	0x20	src/ps2/libsupcxx_rtti_recovered.c	ps2/libsupcxx_rtti_recovered.o
 loadModuleBuffer	global	text	0x9c	src/ps2/load_module_buffer.c	ps2/load_module_buffer.o
-SifIopReset_0019d740	global	text	0x124	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o
-SifLoadModuleBuffer_0019d620	global	text	0x1c	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o
-SifLoadModule_0019d600	global	text	0x20	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o
-_SifLoadModuleBuffer_0019f8f4	global	text	0xe0	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o
-_SifLoadModule_0019f7e8	global	text	0x104	src/ps2/loadfile_iop_recovered.c	ps2/loadfile_iop_recovered.o
+SifLoadFileInit	global	text	0xc4	src/ps2/loadfile.c	ps2/loadfile.o
+SifLoadModule	global	text	0x20	src/ps2/loadfile.c	ps2/loadfile.o
+SifLoadModuleBuffer	global	text	0x1c	src/ps2/loadfile.c	ps2/loadfile.o
+_SifLoadModule	global	text	0x10c	src/ps2/loadfile.c	ps2/loadfile.o
+_SifLoadModuleBuffer	global	text	0xf4	src/ps2/loadfile.c	ps2/loadfile.o
+_lf_cd	global	data	0x28	src/ps2/loadfile.c	ps2/loadfile.o
+_lf_init	global	data	0x4	src/ps2/loadfile.c	ps2/loadfile.o
 angle.1	local	rodata	0x10	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 atanf_001a045c	global	text	0x1cc	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 cosf_0019fddc	global	text	0x1c	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
