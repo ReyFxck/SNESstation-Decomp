@@ -9,6 +9,8 @@
  *   0x0019d63c SifAllocIopHeap
  *   0x0019d6b8 SifFreeIopHeap
  *   0x0019f9e8 SifInitIopHeap
+ *
+ * Exact-source gate: 3/3 historical members match with EE GCC 3.2.2 -Os.
  */
 
 #include "iopheap_legacy_compat.h"
