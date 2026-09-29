@@ -35,7 +35,6 @@
 #if !defined(F_sif_cmd_send) && !defined(F__sif_cmd_int_handler) && \
     !defined(F_sif_cmd_main) && !defined(F_sif_cmd_addhandler) && \
     !defined(F_sif_sreg_get)
-#define SNESSTATION_COMBINED_SIFCMD 1
 #define F_sif_cmd_send
 #define F__sif_cmd_int_handler
 #define F_sif_cmd_main
@@ -336,52 +335,5 @@ int SifGetSreg(int sreg)
 	struct cmd_data *cmd_data = &_sif_cmd_data;
 
 	return cmd_data->sregs[sreg];
-}
-#endif
-
-
-#ifdef SNESSTATION_COMBINED_SIFCMD
-/*
- * Repository-only compatibility names for the previous recovered TU.
- * These wrappers are excluded whenever a historical F_* selector is supplied,
- * so the byte-exact per-object proof remains the original PS2LIB source.
- */
-u32 SifSendCmd_0019f264(int command, void *send_data, int send_len,
-                        void *extra_from, void *extra_dest, int extra_len)
-{
-    return SifSendCmd(command, send_data, send_len,
-                      extra_from, extra_dest, extra_len);
-}
-
-u32 iSifSendCmd_0019f2a0(int command, void *send_data, int send_len,
-                         void *extra_from, void *extra_dest, int extra_len)
-{
-    return iSifSendCmd(command, send_data, send_len,
-                       extra_from, extra_dest, extra_len);
-}
-
-void SifInitCmd_0019f304(void)
-{
-    SifInitCmd();
-}
-
-void SifExitCmd_0019f510(void)
-{
-    SifExitCmd();
-}
-
-void SifAddCmdHandler_0019f544(int cid, SifCmdHandler_t handler, void *harg)
-{
-    SifAddCmdHandler(cid, handler, harg);
-}
-
-int SifGetSreg_0019f57c(int sreg)
-{
-    return SifGetSreg(sreg);
-}
-
-int _SifCmdIntHandler_0019fbf0(void)
-{
-    return _SifCmdIntHandler();
 }
 #endif
