@@ -14,7 +14,7 @@ these measurements remain deliberately distinct.
 | Structural pseudocode only | **0/1,041 (0.00%)** | Historical structural-only backlog after promotions: 0 remaining from Progress 16 and 0 remaining from Progress 17. |
 | Typed promotions from P16/P17 snapshots | **239** | Historical pseudocode evidence is retained while newer typed source overrides the readiness classification. |
 | Explicit address trace in `src/` | **1,018/1,041 (97.79%)** | A conservative text-level traceability check; corridor files may cover additional entries without repeating every address. |
-| Build-ready EE source ownership | **100/100 TUs** | `make source-tree` compiles every unit with EE GCC 3.2.2 and verifies the frozen canonical partial-link/ownership maps. |
+| Build-ready EE source ownership | **101/101 TUs** | `make source-tree` compiles every unit with EE GCC 3.2.2 and verifies the frozen canonical partial-link/ownership maps. |
 | Relocation-normalized machine-code matches | **1,041/1,041 (100.00%)** | No function is promoted to `MATCHING` without generated-object evidence. |
 | Complete replacement ELF | **Yes: 726,968/726,968 bytes** | The independent whole-image, compression and public SjCRUNCH wrapper gates close full-file identity. |
 

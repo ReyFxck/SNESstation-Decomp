@@ -381,7 +381,6 @@ ee_status_recovered	local	text	0xc	src/ps2/libkernel_heap_runtime_recovered.c	ps
 program_break_00425a80	local	bss	0x0	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_heap_runtime_recovered.o
 ps2_sbrk_0019f078	global	text	0xcc	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_heap_runtime_recovered.o
 sn_memcmp_0019c458	global	text	0x44	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
-sn_memmove_0019c4a0	global	text	0x98	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
 sn_strcat_0019c3d4	global	text	0x58	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
 sn_strchr_0019c610	global	text	0x28	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
 sn_strcmp_0019c648	global	text	0x58	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
@@ -533,6 +532,7 @@ _SifLoadModuleBuffer	global	text	0xf4	src/ps2/loadfile.c	ps2/loadfile.o
 _lf_cd	global	data	0x28	src/ps2/loadfile.c	ps2/loadfile.o
 _lf_init	global	data	0x4	src/ps2/loadfile.c	ps2/loadfile.o
 memcpy	global	weak-text	0x38	src/ps2/memcpy.S	ps2/memcpy.o
+memmove	global	weak-text	0x88	src/ps2/memmove.S	ps2/memmove.o
 memset	global	weak-text	0x38	src/ps2/memset.S	ps2/memset.o
 angle.1	local	rodata	0x10	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 atanf_001a045c	global	text	0x1cc	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
