@@ -45,6 +45,7 @@
     !defined(F_fio_read) && !defined(F_fio_write) && !defined(F_fio_lseek) && \
     !defined(F_fio_mkdir) && !defined(F__fio_read_intr) && \
     !defined(F_fio_putc) && !defined(F_fio_gets)
+#define SNESSTATION_COMBINED_FILEIO 1
 #define F_fio_main
 #define F_fio_open
 #define F_fio_close
@@ -715,3 +716,35 @@ int fioFormat(const char *name)
 }
 #endif
 
+
+#ifdef SNESSTATION_COMBINED_FILEIO
+/*
+ * Compatibility names retained for behavioral TUs recovered before the
+ * historical FILEIO source was promoted.  Exact per-member F_* builds exclude
+ * these wrappers, so they do not participate in the byte-matching proof.
+ */
+int fioOpen_0019cfc0(const char *name, int mode)
+{
+    return fioOpen(name, mode);
+}
+
+int fioClose_0019d090(int fd)
+{
+    return fioClose(fd);
+}
+
+int fioRead_0019d120(int fd, void *ptr, int size)
+{
+    return fioRead(fd, ptr, size);
+}
+
+int fioWrite_0019d244(int fd, void *ptr, int size)
+{
+    return fioWrite(fd, ptr, size);
+}
+
+int fioLseek_0019d360(int fd, int offset, int whence)
+{
+    return fioLseek(fd, offset, whence);
+}
+#endif
