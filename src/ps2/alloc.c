@@ -11,6 +11,8 @@
 #include "alloc_legacy_compat.h"
 
 /*
+ * The recovery gate compiles this local file directly.
+ *
  * SNES Station target trace:
  *   0x0019e474 _heap_mem_fit
  *   0x0019e4b4 malloc
