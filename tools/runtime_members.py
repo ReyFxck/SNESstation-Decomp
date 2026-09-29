@@ -218,6 +218,9 @@ PROMOTED_SOURCE_RUNTIME = {
     "SifAllocIopHeap": ("SifAllocIopHeap", "ps2/load_module_buffer.o"),
     "SifFreeIopHeap": ("SifFreeIopHeap", "ps2/load_module_buffer.o"),
     "SifInitIopHeap_recovered": ("SifInitIopHeap", ""),
+    "SifLoadFileInit_recovered": ("SifLoadFileInit", ""),
+    "SifLoadModule": ("SifLoadModule", "app/main_bootstrap.o"),
+    "SifLoadModuleBuffer": ("SifLoadModuleBuffer", "ps2/load_module_buffer.o"),
 }
 
 # Address-suffixed FILEIO names are now source-address aliases to the canonical
@@ -231,6 +234,9 @@ PROMOTED_SOURCE_ALIASES = {
     "SifAllocIopHeap_0019d63c",
     "SifFreeIopHeap_0019d6b8",
     "SifInitIopHeap_0019f9e8",
+    "SifLoadFileInit_0019fd20",
+    "SifLoadModule_0019d600",
+    "SifLoadModuleBuffer_0019d620",
 }
 
 
@@ -284,7 +290,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
               and r["provider_kind"] in ("historical-archive", "recovered-runtime")
               and r["symbol"] not in PROMOTED_SOURCE_ALIASES}
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
-    if set(active) != expected_external or len(external) != 1850:
+    if set(active) != expected_external or len(external) != 1847:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):
