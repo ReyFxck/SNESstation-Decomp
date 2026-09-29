@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-FILEIO-recovery 219-name source-link provider frontier.
+"""Close the post-XPRINTF-recovery 221-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -256,8 +256,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 219:
-        fail(f"expected exact post-FILEIO-recovery frontier of 219 symbols, found {len(active)}")
+    if len(active) != 221:
+        fail(f"expected exact post-XPRINTF-recovery frontier of 221 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
