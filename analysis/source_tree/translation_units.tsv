@@ -28,7 +28,7 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 27	src/ps2/libpad_recovered.c	ps2	c	canonical	ps2/libpad_recovered.o		Canonical recovered translation unit.
 28	src/ps2/libsupcxx_rtti_recovered.c	ps2	c	canonical	ps2/libsupcxx_rtti_recovered.o		Canonical recovered translation unit.
 29	src/ps2/load_module_buffer.c	ps2	c	canonical	ps2/load_module_buffer.o		Canonical recovered translation unit.
-30	src/ps2/iop_reset_recovered.c	ps2	c	canonical	ps2/iop_reset_recovered.o		Recovered source-model remainder for the target SifIopReset packet path.
+30	src/ps2/iopcontrol.c	ps2	c	canonical	ps2/iopcontrol.o		Recovered historical PS2LIB IOP control translation unit; SifIopReset is byte-exact 268/268.
 31	src/ps2/newlib_mathfp_recovered.c	ps2	c	canonical	ps2/newlib_mathfp_recovered.o		Canonical recovered translation unit.
 32	src/ps2/path_helpers_recovered.c	ps2	c	canonical	ps2/path_helpers_recovered.o		Canonical recovered translation unit.
 33	src/ps2/progress11_frontend_recovered.c	ps2	c	canonical	ps2/progress11_frontend_recovered.o		Canonical recovered translation unit.
