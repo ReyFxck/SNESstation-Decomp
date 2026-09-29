@@ -14,6 +14,10 @@ on:
       - src/ps2/progress22_more_small_helpers_recovered.c
       - tools/test_progress43_cdvd_historical.py
       - tools/test_build_source_tree.py
+      - tools/runtime_refactors.py
+      - tools/runtime_members.py
+      - tools/named_data.py
+      - analysis/link_identity/runtime_members.tsv
       - tools/named_contracts.py
       - analysis/link_identity/named_contracts.tsv
 
