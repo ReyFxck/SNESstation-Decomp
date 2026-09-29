@@ -161,6 +161,8 @@ class PrivateAssetProviderTests(unittest.TestCase):
         with DEFAULT_CONTRACTS.open(encoding="utf-8", newline="") as stream:
             contracts = list(csv.DictReader(stream, delimiter="\t"))
         report = summarize(rows, contracts)
+        # FILEIO recovery resolves four formerly blocked aliases before the
+        # private-asset tranche, so the live frontier is now 229 -> 219.
         self.assertEqual(
             {
                 "bundles": 5,
