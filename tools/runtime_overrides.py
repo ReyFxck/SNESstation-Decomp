@@ -35,7 +35,7 @@ FLAGS = ("-G0", "-EL", "-pipe", "-w", "-Os", "-fomit-frame-pointer",
 SPECS = {
     "abort": (0x107578, 8, "snes_fatal_spin_00107578", "src/ps2/libc_misc_recovered.c",
               "analysis/matching/hunt1000plus-v41-validated-28.tsv"),
-    "puts": (0x19E414, 96, "puts_like_recovered", "src/ps2/stdio_wrappers_recovered.c",
+    "puts": (0x19E414, 96, "puts_like_recovered", "src/ps2/xprintf.c",
              "analysis/matching/hunt1000plus-v47-validated-79.tsv"),
 }
 # The termination witness is one complete 36-byte weak function, NOT a whole
