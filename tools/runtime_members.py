@@ -299,7 +299,9 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
               and r["provider_kind"] in ("historical-archive", "recovered-runtime")
               and r["symbol"] not in PROMOTED_SOURCE_ALIASES}
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
-    if set(active) != expected_external or len(external) != 1839:
+    # Exact kernel.S makes iSifSetDChain canonical, removing one unrelated
+    # address-qualified external from the global source-tree namespace.
+    if set(active) != expected_external or len(external) != 1838:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):
