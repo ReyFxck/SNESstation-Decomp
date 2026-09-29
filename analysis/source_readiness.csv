@@ -668,7 +668,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019c2ac,CDVD_FlushCache,cdvd,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/cdvd_rpc.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0019c304,CDVD_GetSize,cdvd,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/cdvd_rpc.c,MATCHING
 0x0019c364,memcpy,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/gspipe_recovered.c;src/ps2/memcpy.S;src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x0019c39c,memset,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x0019c39c,memset,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/memset.S;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0019c3d4,strcat,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0019c410,strncmp,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libc_text_recovered.c;src/ps2/libkernel_strings_recovered.c,MATCHING
 0x0019c458,memcmp,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING

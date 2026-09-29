@@ -202,7 +202,7 @@ FUN_0019be70	0x0019be70	PROVED	CDVD_Init	progress-name-global-text	src/ps2/cdvd_
 FUN_0019c0d0	0x0019c0d0	PROVED	CDVD_Stop	progress-name-global-text	src/ps2/cdvd_rpc.c	ps2/cdvd_rpc.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019c2ac	0x0019c2ac	PROVED	CDVD_FlushCache	progress-name-global-text	src/ps2/cdvd_rpc.c	ps2/cdvd_rpc.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019c364	0x0019c364	PROVED	memcpy	progress-name-global-text	src/ps2/memcpy.S	ps2/memcpy.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0019c39c	0x0019c39c	PROVED	sn_memset_0019c39c	unique-address-suffix-global-text	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019c39c	0x0019c39c	PROVED	memset	progress-name-global-text	src/ps2/memset.S	ps2/memset.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019c3d4	0x0019c3d4	PROVED	sn_strcat_0019c3d4	unique-address-suffix-global-text	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019c458	0x0019c458	PROVED	sn_memcmp_0019c458	unique-address-suffix-global-text	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019c4a0	0x0019c4a0	PROVED	sn_memmove_0019c4a0	unique-address-suffix-global-text	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o	ps2/progress28_structural_lift_recovered.o	
