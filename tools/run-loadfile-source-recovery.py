@@ -82,7 +82,7 @@ def main() -> None:
     )
     rm.materialize_inputs(args, compiler)
 
-    include_flags: list[str] = []
+    include_flags: list[str] = ["-I", str(ROOT / "include")]
     for revision, relative in rm.INCLUDE_DIRS:
         include_flags += ["-I", str(args.build_dir / "inputs" / revision / relative)]
     gcc_include = Path(
@@ -90,10 +90,11 @@ def main() -> None:
     ).resolve()
     include_flags += ["-I", str(gcc_include)]
 
-    source = args.build_dir / "inputs" / rm.APR18 / "ee/kernel/src/loadfile.c"
+    source = ROOT / "src" / "ps2" / "loadfile.c"
     target = target_bytes()
 
-    print(f"source: ps2dev/ps2sdk@{rm.APR18} ee/kernel/src/loadfile.c")
+    print("source: src/ps2/loadfile.c (promoted historical source)")
+    print(f"lineage: ps2dev/ps2sdk@{rm.APR18} ee/kernel/src/loadfile.c")
     print(f"compiler: {machine} gcc {version}")
     print()
 
