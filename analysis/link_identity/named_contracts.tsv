@@ -1,5 +1,4 @@
 symbol	category	status	target_address	extent_hex	region	sha256	canonical_symbol	evidence	requesters	detail
-CDVD_Init	named-external	TEXT_ALIAS_PROVED	0x0019be70		text		CDVD_Init_0019be70	exact-progress-name+unique-recovered-global-text	app/main_bootstrap.o	progress=CDVD_Init
 EI	named-external	SOURCE_REFACTOR_CLOSED			source-refactor-closed			reviewed-target-absent-source-contract	ps2/progress28_structural_lift_recovered.o	source-local instruction/stack contract; evidence=src/ps2/progress28_structural_lift_recovered.c##define EI()
 PTR_DAT_001bb31c	named-external	TARGET_RANGE_PROVED	0x001bb31c	0x8	initialized	a8b798898feea8e593b28d96208f2198d8907abd41643044baa2d77ec0fed6e5		target-address+reviewed-consumed-extent	ps2/progress28_structural_lift_recovered.o	exact private-reference range; final placement remains Stage 3G
 PTR_DAT_003f4918	named-external	TARGET_RANGE_PROVED	0x003f4918	0x40	initialized	9773bd3fa40f95bb6d219a898054d092b498cec392a324d9bc2fda6804ef6f8e		target-address+reviewed-consumed-extent	ps2/progress28_structural_lift_recovered.o	exact private-reference range; final placement remains Stage 3G
