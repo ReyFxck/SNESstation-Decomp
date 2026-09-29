@@ -629,8 +629,8 @@ def link_exact_providers(
         fail("private unpacked reference is missing or does not match the layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 223:
-        fail(f"expected post-snprintf-refactor provider frontier of 223 rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 219:
+        fail(f"expected post-FILEIO provider frontier of 219 rows, found {len(frontier_rows)}")
     replacements = exact_provider_rows(named_rows, frontier_rows)
     replacement_names = {row["symbol"] for row in replacements}
     exact_ranges = [row for row in named_rows if row["status"] == RANGE_PROVED]
