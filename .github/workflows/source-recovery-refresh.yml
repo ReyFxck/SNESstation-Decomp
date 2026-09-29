@@ -1,4 +1,5 @@
 name: Source recovery ledger refresh
+# Exact source gates must pass before generated ledgers are refreshed.
 
 on:
   push:
