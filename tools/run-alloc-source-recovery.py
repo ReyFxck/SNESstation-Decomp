@@ -99,10 +99,10 @@ def main() -> None:
     ).resolve()
     include_flags += ["-I", str(gcc_include)]
 
-    source = args.build_dir / "inputs" / rm.APR15 / "ee/libc/src/alloc.c"
+    source = ROOT / "src" / "ps2" / "alloc.c"
     target = target_bytes()
 
-    print(f"source: ps2dev/ps2sdk@{rm.APR15} ee/libc/src/alloc.c")
+    print(f"source: src/ps2/alloc.c (historical ps2sdk@{rm.APR15} lineage)")
     print(f"compiler: {machine} gcc {version}")
     print(f"target corridor: 0x{TARGET_BASE:08x}..0x{TARGET_END - 1:08x}")
     print()
