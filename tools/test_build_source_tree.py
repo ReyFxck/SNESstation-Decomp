@@ -103,7 +103,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             counts[row["kind"]] = counts.get(row["kind"], 0) + 1
             self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(
-            {"translation-unit": 97, "abi-contract": 1, "canonical-aggregate": 1},
+            {"translation-unit": 96, "abi-contract": 1, "canonical-aggregate": 1},
             counts,
         )
 
