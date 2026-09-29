@@ -22,6 +22,9 @@ on:
       - tools/run-fileio-source-recovery.py
       - analysis/source_tree/translation_units.tsv
       - src/ps2/progress22_more_small_helpers_recovered.c
+      - src/unzip/unzip_api_recovered.c
+      - src/unzip/explode_recovered.c
+      - src/ps2/stdio_wrappers_recovered.c
       - tools/test_progress43_cdvd_historical.py
       - tools/test_build_source_tree.py
       - tools/runtime_refactors.py
