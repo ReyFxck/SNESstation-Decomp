@@ -33,7 +33,7 @@ int DIntr()
 {
 	int eie, res;
 
-	asm volatile ("mfc0\t%0, $12" : "=r" (eie));
+	__asm__ volatile ("mfc0\t%0, $12" : "=r" (eie));
 	eie &= 0x10000;
 	res = eie != 0;
 
@@ -42,9 +42,9 @@ int DIntr()
 
 	asm (".p2align 3");
 	do {
-		asm volatile ("di");
-		asm volatile ("sync.p");
-		asm volatile ("mfc0\t%0, $12" : "=r" (eie));
+		__asm__ volatile ("di");
+		__asm__ volatile ("sync.p");
+		__asm__ volatile ("mfc0\t%0, $12" : "=r" (eie));
 		eie &= 0x10000;
 	} while (eie);
 
@@ -57,9 +57,9 @@ int EIntr()
 {
 	int eie;
 
-	asm volatile ("mfc0\t%0, $12" : "=r" (eie));
+	__asm__ volatile ("mfc0\t%0, $12" : "=r" (eie));
 	eie &= 0x10000;
-	asm volatile ("ei");
+	__asm__ volatile ("ei");
 
 	return eie != 0;
 }
@@ -70,7 +70,7 @@ int EnableIntc(int intc)
 {
 	int eie, res;
 
-	asm volatile ("mfc0\t%0, $12" : "=r" (eie));
+	__asm__ volatile ("mfc0\t%0, $12" : "=r" (eie));
 	eie &= 0x10000;
 
 	if (eie)
@@ -91,7 +91,7 @@ int DisableIntc(int intc)
 {
 	int eie, res;
 
-	asm volatile ("mfc0\t%0, $12" : "=r" (eie));
+	__asm__ volatile ("mfc0\t%0, $12" : "=r" (eie));
 	eie &= 0x10000;
 
 	if (eie)
@@ -112,7 +112,7 @@ int EnableDmac(int dmac)
 {
 	int eie, res;
 
-	asm volatile ("mfc0\t%0, $12" : "=r" (eie));
+	__asm__ volatile ("mfc0\t%0, $12" : "=r" (eie));
 	eie &= 0x10000;
 
 	if (eie)
@@ -133,7 +133,7 @@ int DisableDmac(int dmac)
 {
 	int eie, res;
 
-	asm volatile ("mfc0\t%0, $12" : "=r" (eie));
+	__asm__ volatile ("mfc0\t%0, $12" : "=r" (eie));
 	eie &= 0x10000;
 
 	if (eie)
@@ -194,7 +194,7 @@ void SyncDCache(void *start, void *end)
 {
 	int eie;
 
-	asm volatile ("mfc0\t%0, $12" : "=r" (eie));
+	__asm__ volatile ("mfc0\t%0, $12" : "=r" (eie));
 	eie &= 0x10000;
 
 	if (eie)
@@ -219,7 +219,7 @@ void InvalidDCache(void *start, void *end)
 {
 	int eie;
 
-	asm volatile ("mfc0\t%0, $12" : "=r" (eie));
+	__asm__ volatile ("mfc0\t%0, $12" : "=r" (eie));
 	eie &= 0x10000;
 
 	if (eie)
