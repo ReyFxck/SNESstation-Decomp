@@ -35,7 +35,7 @@ int sprintf_recovered(char *dst, const char *fmt, ...)
     return result;
 }
 
-extern int fioWrite_0019d244(int fd, const void *ptr, int size);
+extern int fioWrite(int fd, const void *ptr, int size);
 
 /*
  * Target: 0x0019faa8.
@@ -50,7 +50,7 @@ int vprintf_recovered(const char *fmt, va_list ap)
                                              sizeof(stdout_buffer),
                                              fmt, ap);
 
-    (void)fioWrite_0019d244(1, stdout_buffer, length);
+    (void)fioWrite(1, stdout_buffer, length);
     return length;
 }
 
@@ -81,7 +81,7 @@ int puts_like_recovered(const char *text)
     while (text[length] != '\0')
         length++;
 
-    (void)fioWrite_0019d244(1, text, length);
+    (void)fioWrite(1, text, length);
     return length;
 }
 
