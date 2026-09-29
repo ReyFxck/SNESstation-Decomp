@@ -31,21 +31,23 @@ SPECS = (
 )
 MAIN = ("fio_main.o", "F_fio_main", 0x0019F600, 0x1E8)
 
-INSN = re.compile(
-    r"^\s*([0-9A-Fa-f]+):\s+"
-    r"([0-9A-Fa-f]{2})\s+([0-9A-Fa-f]{2})\s+"
-    r"([0-9A-Fa-f]{2})\s+([0-9A-Fa-f]{2})(?:\s|$)"
-)
-
-
 def target_corridor() -> bytes:
     byte_map: dict[int, int] = {}
     for line in CORRIDOR_ASM.read_text(encoding="utf-8", errors="replace").splitlines():
-        m = INSN.match(line)
-        if not m:
+        stripped = line.strip()
+        if ":" not in stripped:
             continue
-        address = int(m.group(1), 16)
-        raw = bytes(int(m.group(i), 16) for i in range(2, 6))
+        address_text, rest = stripped.split(":", 1)
+        fields = rest.split()
+        if not re.fullmatch(r"[0-9A-Fa-f]+", address_text):
+            continue
+        if len(fields) < 4 or any(
+            re.fullmatch(r"[0-9A-Fa-f]{2}", field) is None
+            for field in fields[:4]
+        ):
+            continue
+        address = int(address_text, 16)
+        raw = bytes(int(field, 16) for field in fields[:4])
         for offset, value in enumerate(raw):
             byte_map[address + offset] = value
     missing = [a for a in range(CORRIDOR_BASE, CORRIDOR_END) if a not in byte_map]
