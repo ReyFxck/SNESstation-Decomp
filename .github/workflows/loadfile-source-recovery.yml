@@ -6,6 +6,8 @@ on:
       - source-recovery-file-by-file
     paths:
       - "tools/run-loadfile-source-recovery.py"
+      - "src/ps2/loadfile.c"
+      - "include/loadfile_legacy_compat.h"
       - ".github/workflows/loadfile-source-recovery.yml"
       - "analysis/functions/loadfile_iop_0019d600.asm"
       - "analysis/functions/libkernel_client_init_0019f5d0.asm"
