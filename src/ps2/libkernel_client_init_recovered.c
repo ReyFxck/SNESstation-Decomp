@@ -8,8 +8,8 @@
 
 #include "../../include/ps2_libkernel_recovered.h"
 
-extern void SifInitRpc_0019cc0c(int);
-extern int SifBindRpc_0019c688(void *, int, int);
+extern void SifInitRpc(int);
+extern int SifBindRpc(void *, int, int);
 extern int CreateSema(const ee_sema32 *);
 extern int iSignalSema(int);
 
@@ -37,9 +37,9 @@ int fioInit_0019f600(void)
     if (fio_init_recovered)
         return 0;
 
-    SifInitRpc_0019cc0c(0);
+    SifInitRpc(0);
     do {
-        res = SifBindRpc_0019c688(&fio_cd_recovered, (int)0x80000001u, 0);
+        res = SifBindRpc(&fio_cd_recovered, (int)0x80000001u, 0);
         if (res < 0)
             return res;
         if (fio_cd_recovered.server == 0)
@@ -72,9 +72,9 @@ int SifLoadFileInit_0019fd20(void)
     int res;
     if (lf_init_recovered)
         return 0;
-    SifInitRpc_0019cc0c(0);
+    SifInitRpc(0);
     do {
-        res = SifBindRpc_0019c688(&lf_cd_recovered, (int)0x80000006u, 0);
+        res = SifBindRpc(&lf_cd_recovered, (int)0x80000006u, 0);
         if (res < 0)
             return -0xd612;
         if (lf_cd_recovered.server == 0)
@@ -90,9 +90,9 @@ int SifInitIopHeap_0019f9e8(void)
     int res;
     if (ih_caps_recovered)
         return 0;
-    SifInitRpc_0019cc0c(0);
+    SifInitRpc(0);
     do {
-        res = SifBindRpc_0019c688(&ih_cd_recovered, (int)0x80000003u, 0);
+        res = SifBindRpc(&ih_cd_recovered, (int)0x80000003u, 0);
         if (res < 0)
             return -0xd612;
         if (ih_cd_recovered.server == 0)
