@@ -401,8 +401,8 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
     }
     if active != EXACT_SYMBOLS:
         fail(f"active compiler-runtime set drift: {sorted(active)} != {sorted(EXACT_SYMBOLS)}")
-    if len(external) != 1863:
-        fail(f"expected 1,892 live source externals after runtime refactors, found {len(external)}")
+    if len(external) != 1862:
+        fail(f"expected 1,862 live source externals after CDVD recovery, found {len(external)}")
 
     contracts = {row["symbol"]: row for row in read_table(args.contracts, CONTRACT_FIELDS)}
     for spec in SPECS:
