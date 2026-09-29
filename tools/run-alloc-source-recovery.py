@@ -91,7 +91,7 @@ def main() -> None:
     )
     rm.materialize_inputs(args, compiler)
 
-    include_flags: list[str] = []
+    include_flags: list[str] = ["-I", str(ROOT / "include")]
     for revision, relative in rm.INCLUDE_DIRS:
         include_flags += ["-I", str(args.build_dir / "inputs" / revision / relative)]
     gcc_include = Path(
