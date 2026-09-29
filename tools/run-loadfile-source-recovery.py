@@ -14,6 +14,7 @@ LISTINGS = (
     ROOT / "analysis" / "functions" / "loadfile_iop_0019d600.asm",
     ROOT / "analysis" / "functions" / "libkernel_client_init_0019f5d0.asm",
 )
+ZERO_RANGES = ROOT / "analysis" / "matching" / "hunt400-inferred-zero-ranges.tsv"
 
 SPECS = (
     ("SifLoadModule.o", "F_SifLoadModule", 0x0019D600, 0x20),
@@ -45,6 +46,19 @@ def target_bytes() -> dict[int, int]:
                 continue
             for offset, value in enumerate(raw):
                 out[address + offset] = value
+    for line in ZERO_RANGES.read_text(encoding="utf-8").splitlines():
+        if not line.strip() or line.startswith("#"):
+            continue
+        fields = line.split("\t")
+        if len(fields) < 4:
+            continue
+        start = int(fields[0], 16)
+        end = int(fields[1], 16)
+        source = fields[3]
+        if source != "analysis/functions/libkernel_client_init_0019f5d0.asm":
+            continue
+        for address in range(start, end):
+            out.setdefault(address, 0)
     return out
 
 
