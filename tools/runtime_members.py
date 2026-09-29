@@ -203,12 +203,17 @@ DETAILS = {
     "abort": "pinned terminate.o prints and calls _exit; rejected as selected provider; its weak abort body is only a puts caller witness",
 }
 
-# These three PS2LIB members remain byte-exact historical source witnesses, but
-# the canonical source tree now defines the symbols directly in src/ps2/sifrpc.c.
+# These PS2LIB members remain byte-exact historical source witnesses, while the
+# canonical source tree now defines the promoted SIF RPC and SIF CMD symbols.
 PROMOTED_SOURCE_RUNTIME = {
     "SifBindRpc": ("SifBindRpc", "ps2/cdvd_rpc.o"),
     "SifCallRpc": ("SifCallRpc", "ps2/cdvd_rpc.o;ps2/fileio_recovered.o;ps2/loadfile_iop_recovered.o"),
     "SifInitRpc": ("SifInitRpc", "app/main_bootstrap.o"),
+    "SifAddCmdHandler": ("SifAddCmdHandler", "ps2/sifrpc.o"),
+    "SifExitCmd": ("SifExitCmd", "ps2/sifrpc.o"),
+    "SifInitCmd": ("SifInitCmd", "ps2/sifrpc.o"),
+    "SifGetSreg": ("SifGetSreg", "ps2/sifrpc.o"),
+    "SifSendCmd": ("SifSendCmd", "ps2/sifrpc.o"),
 }
 
 
@@ -261,7 +266,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     active = {r["symbol"]: r for r in external if r["category"] in ("c-runtime", "ps2-runtime")
               and r["provider_kind"] in ("historical-archive", "recovered-runtime")}
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
-    if set(active) != expected_external or len(external) != 1859:
+    if set(active) != expected_external or len(external) != 1854:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):
