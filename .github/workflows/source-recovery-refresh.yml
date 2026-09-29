@@ -68,7 +68,7 @@ jobs:
           make source-aliases-refresh
           make link-contracts-refresh
           make provider-frontier-refresh
-          # Docs/check-generated run after the refreshed ownership maps are committed.
+          make docs
       - name: Refresh decomp.dev public input hashes
         run: |
           python3 - <<'PY'
