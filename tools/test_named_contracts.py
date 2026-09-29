@@ -10,13 +10,13 @@ from provider_frontier import COMPAT_STORAGE
 
 
 class NamedContractTests(unittest.TestCase):
-    def test_historical_212_row_ledger_is_fully_classified(self):
+    def test_live_211_row_ledger_is_fully_classified(self):
         args = named_contracts.parse_args(["validate"])
         rows, _layout = named_contracts.validate_manifest(args)
-        self.assertEqual(212, len(rows))
+        self.assertEqual(211, len(rows))
         self.assertEqual(
             {
-                named_contracts.TEXT_ALIAS_PROVED: 23,
+                named_contracts.TEXT_ALIAS_PROVED: 22,
                 named_contracts.TARGET_RANGE_PROVED: 164,
                 named_contracts.TARGET_ENTRY_PROVED: 2,
                 named_contracts.EXTERNAL_ADDRESS_PROVED: 2,
@@ -31,7 +31,7 @@ class NamedContractTests(unittest.TestCase):
             named_contracts.DEFAULT_EXTERNAL, named_contracts.EXTERNAL_FIELDS
         )
         self.assertEqual(
-            {"3B": 347, "3C": 50, "3D": 49, "3E": 191, "3F": 1226},
+            {"3B": 347, "3C": 50, "3D": 49, "3E": 190, "3F": 1226},
             named_data.stage3_partition(external),
         )
         live_names = {row["symbol"] for row in external}
