@@ -1,5 +1,5 @@
 /*
- * Old PS2DEV loadfile, IOP heap and IOP reset routines recovered from
+ * Old PS2DEV loadfile and IOP reset routines recovered from
  * SNES Station v0.23. Target public wrappers begin at 0x0019d600.
  */
 #include <stdint.h>
@@ -97,35 +97,7 @@ int _SifLoadModuleBuffer_0019f8f4(void *ptr, int arg_len, const char *args,
 int SifLoadModuleBuffer_0019d620(void *ptr, int arg_len, const char *args)
 {
     return _SifLoadModuleBuffer_0019f8f4(ptr, arg_len, args, NULL);
-}
-
-/* 0x0019d63c */
-void *SifAllocIopHeap_0019d63c(int size)
-{
-    union { int size; uint32_t addr; } arg;
-    if (SifInitIopHeap_recovered() < 0)
-        return NULL;
-    arg.size = size;
-    if (SifCallRpc(&ih_cd_recovered, 1, 0, &arg, 4, &arg, 4,
-                   NULL, NULL) < 0)
-        return NULL;
-    return (void *)(uintptr_t)arg.addr;
-}
-
-/* 0x0019d6b8 */
-int SifFreeIopHeap_0019d6b8(void *addr)
-{
-    union { ee_addr32_t addr; int32_t result; } arg;
-    if (SifInitIopHeap_recovered() < 0)
-        return -0xd601;
-    arg.addr = ee_addr32_from_ptr(addr);
-    if (SifCallRpc(&ih_cd_recovered, 2, 0, &arg, 4, &arg, 4,
-                   NULL, NULL) < 0)
-        return -0xd613;
-    return arg.result;
-}
-
-/* 0x0019d740 -- target is the old SifIopReset packet path.
+}\n\n/* 0x0019d740 -- target is the old SifIopReset packet path.
  * Unlike a later 2003 PS2SDK revision, this binary does not increment an
  * _iop_reboot_count before SifStopDma; that later-source behavior is omitted.
  */

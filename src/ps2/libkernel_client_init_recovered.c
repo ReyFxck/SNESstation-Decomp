@@ -1,7 +1,7 @@
 /*
  * Recovered initialization helpers for libkernel RPC clients used by
  * SNES Station v0.23. These are outside the contiguous call-site wrappers
- * but are directly reached by fio/loadfile/iopheap paths.
+ * but are directly reached by fio/loadfile paths.
  */
 #include <stdint.h>
 #include <string.h>
@@ -82,22 +82,4 @@ int SifLoadFileInit_0019fd20(void)
     } while (lf_cd_recovered.server == 0);
     lf_init_recovered = 1;
     return 0;
-}
-
-/* 0x0019f9e8 */
-int SifInitIopHeap_0019f9e8(void)
-{
-    int res;
-    if (ih_caps_recovered)
-        return 0;
-    SifInitRpc(0);
-    do {
-        res = SifBindRpc(&ih_cd_recovered, (int)0x80000003u, 0);
-        if (res < 0)
-            return -0xd612;
-        if (ih_cd_recovered.server == 0)
-            bind_delay_recovered();
-    } while (ih_cd_recovered.server == 0);
-    ih_caps_recovered |= 1;
-    return 0;
-}
+}\n

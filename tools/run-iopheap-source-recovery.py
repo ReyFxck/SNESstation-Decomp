@@ -12,7 +12,7 @@ import runtime_members as rm
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build" / "matching" / "iopheap-source-recovery"
-SOURCE = ROOT / "matching" / "candidates" / "iopheap.c"
+SOURCE = ROOT / "src" / "ps2" / "iopheap.c"
 OBJECT_LEDGER = ROOT / "analysis" / "link_identity" / "runtime_member_objects.tsv"
 
 SPECS = (
@@ -87,7 +87,7 @@ def main() -> None:
     frozen = ledger_rows()
     failed = False
 
-    print("source: matching/candidates/iopheap.c")
+    print("source: src/ps2/iopheap.c (promoted historical source)")
     print("lineage: ps2dev/ps2sdk@a80df908 ee/kernel/src/iopheap.c")
     print(f"compiler: {machine} gcc {version}")
     print()
@@ -97,7 +97,7 @@ def main() -> None:
         run([
             compiler,
             *rm.FLAGS,
-            "-Imatching/ee_abi_compat",
+            "-Iinclude",
             "-D" + define,
             "-c", SOURCE,
             "-o", obj,

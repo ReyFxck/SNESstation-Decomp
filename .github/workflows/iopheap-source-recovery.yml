@@ -5,7 +5,7 @@ on:
     branches:
       - source-recovery-file-by-file
     paths:
-      - "matching/candidates/iopheap.c"
+      - "matching/candidates/iopheap.c"\n      - "src/ps2/iopheap.c"\n      - "include/iopheap_legacy_compat.h"
       - "matching/ee_abi_compat/iopheap_legacy_compat.h"
       - "tools/run-iopheap-source-recovery.py"
       - ".github/workflows/iopheap-source-recovery.yml"
