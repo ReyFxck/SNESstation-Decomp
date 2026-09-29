@@ -6,6 +6,12 @@ on:
       - source-recovery-file-by-file
     paths:
       - .github/workflows/source-recovery-refresh.yml
+      - src/ps2/cdvd_rpc.c
+      - include/cdvd_legacy_compat.h
+      - analysis/source_tree/translation_units.tsv
+      - src/ps2/progress22_more_small_helpers_recovered.c
+      - tools/test_progress43_cdvd_historical.py
+      - tools/test_build_source_tree.py
 
 permissions:
   contents: write
