@@ -1,0 +1,28 @@
+name: Source audit diff
+
+on:
+  push:
+    branches:
+      - source-recovery-file-by-file
+    paths:
+      - "analysis/source_readiness.csv"
+      - "docs/SOURCE_COMPLETENESS.generated.md"
+      - "src/**"
+      - ".github/workflows/source-audit-diff.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Regenerate audit and print exact diff
+        run: |
+          python3 tools/audit_source_completeness.py
+          git diff -- analysis/source_readiness.csv docs/SOURCE_COMPLETENESS.generated.md
