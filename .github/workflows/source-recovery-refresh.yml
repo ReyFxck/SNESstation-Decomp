@@ -24,6 +24,7 @@ on:
       - analysis/functions/libkernel_leaf_exact_508.tsv
       - tools/run-libkernel-leaf-source-recovery.py
       - .github/workflows/libkernel-leaf-source-recovery.yml
+      - src/ps2/libkernel_strings_recovered.c
       - src/ps2/memcpy.S
       - analysis/functions/memcpy_exact_56.tsv
       - tools/run-memcpy-source-recovery.py
