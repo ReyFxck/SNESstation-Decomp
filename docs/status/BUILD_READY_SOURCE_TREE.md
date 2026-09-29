@@ -32,24 +32,24 @@ combines the canonical set with `ee-ld -r`.
 
 | Measurement | Result |
 |---|---:|
-| Source files in the exact TU manifest | **97/97** |
+| Source files in the exact TU manifest | **96/96** |
 | Canonical objects in the partial link | **96** |
-| Explicit alternate objects | **1** |
-| Owned defined symbols (local + global) | **1,382** |
+| Explicit alternate objects | **0** |
+| Owned defined symbols (local + global) | **1,383** |
 | Unique canonical global definitions | **1,024** |
-| Text / BSS / data / rodata definitions | **1,264 / 62 / 18 / 38** |
+| Text / BSS / data / rodata definitions | **1,265 / 62 / 18 / 38** |
 | `COMMON` or duplicate canonical definitions | **0 / 0** |
-| Classified external contracts | **1,921/1,921** |
-| Clone-stable canonical aggregate SHA-256 | `8088dc08ef1442a77a683fec59df9a50c091a977674d03fed31f5f90bd8a5512` |
+| Classified external contracts | **1,862/1,862** |
+| Clone-stable canonical aggregate SHA-256 | `37d1894cf072e7f97faa5a39e67f2d0b53da08db9e3a512b67266d487e43550d` |
 
 The external contracts are assigned to their next evidence gate rather than
 being filled with invented storage or modern libraries:
 
 | Next gate | Symbols | Meaning |
 |---|---:|---|
-| Program data | **1,319** | Target-address globals, BSS/data, vtables and embedded private data need exact bytes and placement. |
-| Link identity | **549** | Address aliases and named peer-object contracts need exact object/link resolution. |
-| Archive identity | **53** | Newlib/libgcc/PS2 runtime imports need exact historical archive members. |
+| Program data | **1,276** | Target-address globals, BSS/data, vtables and embedded private data need exact bytes and placement. |
+| Link identity | **537** | Address aliases and named peer-object contracts need exact object/link resolution. |
+| Runtime/archive identity | **49** | Newlib/libgcc/PS2 runtime imports need exact historical archive members. |
 
 ## EE ABI contract
 
@@ -72,12 +72,11 @@ profile, `-mlong64`, `-fshort-double`, `-mno-abicalls` and `-fno-common`.
 
 ## Translation-unit and special ownership decisions
 
-The canonical CDVD owner is
-[`src/ps2/cdvd_rpc_historical_recovered.c`](../../src/ps2/cdvd_rpc_historical_recovered.c).
-[`src/ps2/cdvd_rpc_recovered.c`](../../src/ps2/cdvd_rpc_recovered.c) remains a
-compilable alternate, but is excluded from the aggregate because it overlaps
-the same eight public functions. The gate proves that the alternate introduces
-no unowned unique global.
+The canonical CDVD owner is now
+[`src/ps2/cdvd_rpc.c`](../../src/ps2/cdvd_rpc.c). The two older behavioral
+`*_recovered.c` CDVD models were removed after the readable historical source
+was proved 8/8 and byte-identical across the complete 1,268-byte target
+corridor. There is no alternate CDVD translation unit in the live source tree.
 
 Constructor code belongs to the frozen `gsdriver_recovered.o` and
 `gspipe_recovered.o` objects. RTTI/vtable consumers are traced to
@@ -97,7 +96,7 @@ evidence.
 - [`defined_symbol_ownership.tsv`](../../analysis/source_tree/defined_symbol_ownership.tsv) — every compiler-emitted local/global definition and owning object.
 - [`external_symbol_ownership.tsv`](../../analysis/source_tree/external_symbol_ownership.tsv) — every aggregate external, requester, owner class and next gate.
 - [`special_ownership.tsv`](../../analysis/source_tree/special_ownership.tsv) — constructors and target vtable consumers.
-- [`object_fingerprints.tsv`](../../analysis/source_tree/object_fingerprints.tsv) — SHA-256 for all 97 TUs, the ABI contract and canonical aggregate.
+- [`object_fingerprints.tsv`](../../analysis/source_tree/object_fingerprints.tsv) — SHA-256 for all 96 TUs, the ABI contract and canonical aggregate.
 - [`ee_abi_contract.c`](../../analysis/source_tree/ee_abi_contract.c) — old-C-compatible compile-time ABI assertions.
 
 Generated objects, logs, link map and JSON/Markdown reports live under ignored
@@ -106,8 +105,8 @@ Generated objects, logs, link map and JSON/Markdown reports live under ignored
 ## Honest boundary of this checkpoint
 
 Stage 2 proves that the recovered sources form a coherent historical-compiler
-object set with explicit ownership. It does not prove the exact original 97-file
-source organization, define all target-address data, choose the original
+object set with explicit ownership. It does not prove the exact original source-file
+organization, define all target-address data, choose the original
 archives, reproduce relocations/sections, or match either frozen executable
 hash. Those are the Stage-3 and Stage-4 identity gates.
 
