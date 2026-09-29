@@ -43,6 +43,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "memmove_exact_136.tsv",
         "src/ps2/memmove.S",
     ),
+    (
+        ROOT / "analysis" / "functions" / "strcat_exact_56.tsv",
+        "src/ps2/strcat.S",
+    ),
 )
 
 

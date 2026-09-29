@@ -61,6 +61,7 @@ SOURCE_FLAGS = {
     "src/ps2/memcpy.S": ("-Os",),
     "src/ps2/memset.S": ("-Os",),
     "src/ps2/memmove.S": ("-Os",),
+    "src/ps2/strcat.S": ("-Os",),
 }
 
 SOURCE_DEFINES = {
