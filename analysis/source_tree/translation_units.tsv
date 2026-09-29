@@ -6,7 +6,7 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 5	src/ps2/cdvd_rpc.c	ps2	c	canonical	ps2/cdvd_rpc.o		Byte-exact recovered historical libcdvd EE RPC translation unit.
 6	src/ps2/cpp_runtime_recovered.c	ps2	c	canonical	ps2/cpp_runtime_recovered.o		Canonical recovered translation unit.
 7	src/ps2/ee_cache_recovered.c	ps2	c	canonical	ps2/ee_cache_recovered.o		Canonical recovered translation unit.
-8	src/ps2/fileio_recovered.c	ps2	c	canonical	ps2/fileio_recovered.o		Canonical recovered translation unit.
+8	src/ps2/fileio.c	ps2	c	canonical	ps2/fileio.o		Recovered historical PS2LIB FILEIO translation unit; byte-exact gate covers target FILEIO members.
 9	src/ps2/gcc_fde_runtime_recovered.c	ps2	c	canonical	ps2/gcc_fde_runtime_recovered.o		Canonical recovered translation unit.
 10	src/ps2/gcc_unwind_pe_recovered.c	ps2	c	canonical	ps2/gcc_unwind_pe_recovered.o		Canonical recovered translation unit.
 11	src/ps2/gs_buffer_recovered.c	ps2	c	canonical	ps2/gs_buffer_recovered.o		Canonical recovered translation unit.
