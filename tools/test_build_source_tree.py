@@ -30,6 +30,9 @@ class BuildSourceTreeTests(unittest.TestCase):
         cdvd = [unit for unit in units if unit.source == "src/ps2/cdvd_rpc.c"]
         self.assertEqual(1, len(cdvd))
         self.assertTrue(cdvd[0].canonical)
+        sifrpc = [unit for unit in units if unit.source == "src/ps2/sifrpc.c"]
+        self.assertEqual(1, len(sifrpc))
+        self.assertTrue(sifrpc[0].canonical)
 
     def test_abi_contract_records_the_nonstandard_ee_widths(self) -> None:
         text = (ROOT / "analysis" / "source_tree" / "ee_abi_contract.c").read_text(
