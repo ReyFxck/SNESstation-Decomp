@@ -98,7 +98,10 @@ def validate_live_contracts(
     for label, rows in (("externals", external), ("contracts", contracts), ("frontier", frontier)):
         if any(row["symbol"] == "snprintf" for row in rows):
             fail(f"snprintf returned to live {label}")
-    if (len(external), len(contracts), len(frontier)) != (1862, 1529, 223):
+    # Historical SIF RPC promotion now defines SifBindRpc, SifCallRpc and
+    # SifInitRpc in the canonical source aggregate instead of leaving them as
+    # archive-backed externals.  The downstream alias count drops by the same 3.
+    if (len(external), len(contracts), len(frontier)) != (1859, 1526, 223):
         fail("post-refactor namespace count drift")
     expected_requesters = {
         "ps2/small_dispatch_recovered.o", "snes9x/memmap_metadata_recovered.o",
