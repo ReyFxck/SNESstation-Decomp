@@ -68,6 +68,7 @@ jobs:
           make source-aliases-refresh
           make link-contracts-refresh
           make provider-frontier-refresh
+          make runtime-members-refresh EE_CC="$EE_CC"
           make docs
 
       - name: Refresh decomp.dev public input hashes
@@ -99,6 +100,8 @@ jobs:
             analysis/link_identity/source_address_aliases.tsv \
             analysis/link_identity/link_contracts.tsv \
             analysis/link_identity/provider_frontier_closure.tsv \
+            analysis/link_identity/runtime_members.tsv \
+            analysis/link_identity/runtime_member_objects.tsv \
             analysis/decompdev/report_contract.json
           if git diff --cached --quiet; then
             echo "No generated ledger changes."
