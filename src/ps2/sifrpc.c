@@ -27,6 +27,22 @@
 
 #include "sifrpc_legacy_compat.h"
 
+/*
+ * The historical PS2LIB Makefile compiled this source once per F_* object.
+ * The recovered source-tree gate compiles translation units once, so when no
+ * historical selector is supplied build the five SNES Station members
+ * together.  Passing any selector keeps the original per-object behavior.
+ */
+#if !defined(F_SifBindRpc) && !defined(F_SifCallRpc) && \
+    !defined(F_SifRpcMain) && !defined(F__rpc_get_packet) && \
+    !defined(F__rpc_get_fpacket)
+#define F_SifBindRpc
+#define F_SifCallRpc
+#define F_SifRpcMain
+#define F__rpc_get_packet
+#define F__rpc_get_fpacket
+#endif
+
 #define RPC_PACKET_SIZE	64
 
 /* Set if the packet has been allocated */
