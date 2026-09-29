@@ -82,13 +82,13 @@ def main() -> None:
 
     failed = False
     for name, define, address, expected_size in SPECS:
-        expected = bytes(target.get(a, -1) for a in range(address, address + expected_size))
-        if any(v == 0xFF and target.get(address + i, None) is None for i, v in enumerate(expected)):
-            missing = [a for a in range(address, address + expected_size) if a not in target]
+        missing = [a for a in range(address, address + expected_size) if a not in target]
+        if missing:
             raise SystemExit(
                 f"target listing missing {len(missing)} bytes for {name}; "
                 f"first=0x{missing[0]:08x}"
             )
+        expected = bytes(target[a] for a in range(address, address + expected_size))
 
         obj = BUILD / name
         cp = subprocess.run(
