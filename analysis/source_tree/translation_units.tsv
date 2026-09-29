@@ -48,7 +48,7 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 47	src/ps2/progress28_structural_lift_recovered.c	ps2	c	canonical	ps2/progress28_structural_lift_recovered.o		Canonical recovered translation unit.
 48	src/ps2/ps2lib_formatter_recovered.c	ps2	c	canonical	ps2/ps2lib_formatter_recovered.o		Canonical recovered translation unit.
 49	src/ps2/sifcmd_recovered.c	ps2	c	canonical	ps2/sifcmd_recovered.o		Canonical recovered translation unit.
-50	src/ps2/sifrpc_recovered.c	ps2	c	canonical	ps2/sifrpc_recovered.o		Canonical recovered translation unit.
+50	src/ps2/sifrpc.c	ps2	c	canonical	ps2/sifrpc.o		Historical PS2LIB SIF RPC source recovered byte-exact from ps2sdk@a80df908; combined canonical TU preserves original F_* object bodies.
 51	src/ps2/small_dispatch_recovered.c	ps2	c	canonical	ps2/small_dispatch_recovered.o		Canonical recovered translation unit.
 52	src/ps2/stdio_wrappers_recovered.c	ps2	c	canonical	ps2/stdio_wrappers_recovered.o		Canonical recovered translation unit.
 53	src/snes9x/apu_alloc_recovered.c	snes9x	c	canonical	snes9x/apu_alloc_recovered.o		Canonical recovered translation unit.
