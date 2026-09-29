@@ -16,6 +16,10 @@ on:
       - src/ps2/glue.c
       - include/glue_legacy_compat.h
       - src/ps2/sifcmd_recovered.c
+      - src/ps2/fileio.c
+      - src/ps2/fileio_recovered.c
+      - include/fileio_legacy_compat.h
+      - tools/run-fileio-source-recovery.py
       - analysis/source_tree/translation_units.tsv
       - src/ps2/progress22_more_small_helpers_recovered.c
       - tools/test_progress43_cdvd_historical.py
@@ -55,10 +59,11 @@ jobs:
           MAKEFLAGS: MAKEINFO=true
         run: make bootstrap-ee-stage1
 
-      - name: Reprove exact SIF CMD and glue sources
+      - name: Reprove exact recovered sources
         run: |
           python3 tools/run-sifcmd-source-recovery.py
           python3 tools/run-glue-source-recovery.py
+          python3 tools/run-fileio-source-recovery.py
 
       - name: Refresh source ownership ledgers
         run: |
