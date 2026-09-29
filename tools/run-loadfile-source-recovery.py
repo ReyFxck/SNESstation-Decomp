@@ -98,6 +98,8 @@ def main() -> None:
     print()
 
     failed = False
+    built: dict[str, Path] = {}
+    expected_by_name: dict[str, bytes] = {}
     for name, define, address, expected_size in SPECS:
         missing = [a for a in range(address, address + expected_size) if a not in target]
         if missing:
@@ -118,6 +120,8 @@ def main() -> None:
         if cp.returncode:
             raise SystemExit(f"compile failed for {name}\n{cp.stdout[-6000:]}")
 
+        built[name] = obj
+        expected_by_name[name] = expected
         image, masks, normalized = rm.libgcc.text_image(obj)
         differing = rm.libgcc.differing_unmasked(expected, image, masks)
         ok = (
@@ -135,6 +139,97 @@ def main() -> None:
         raise SystemExit("LOADFILE historical-source object gate: FAIL")
     print()
     print("LOADFILE historical-source object gate: 5/5 MATCH")
+
+    ld = compiler.with_name("ee-ld")
+    objcopy = compiler.with_name("ee-objcopy")
+
+    common_provides = """
+PROVIDE(_SifLoadModule = 0x0019f7e8);
+PROVIDE(_SifLoadModuleBuffer = 0x0019f8f4);
+PROVIDE(SifLoadFileInit = 0x0019fd20);
+PROVIDE(SifCallRpc = 0x0019c7b0);
+PROVIDE(SifInitRpc = 0x0019cc0c);
+PROVIDE(SifBindRpc = 0x0019c688);
+PROVIDE(memset = 0x0019c39c);
+PROVIDE(memcpy = 0x0019c364);
+PROVIDE(strncpy = 0x0019c550);
+"""
+
+    raw_failed = False
+    for name, _define, address, _expected_size in SPECS:
+        obj = built[name]
+        expected = expected_by_name[name]
+        stem = obj.stem
+        script = BUILD / f"{stem}.target.ld"
+        linked = BUILD / f"{stem}.target-linked.elf"
+        linked_text = BUILD / f"{stem}.target-linked.text.bin"
+
+        if name == "SifLoadFileInit.o":
+            data_layout = """
+  . = 0x00425ab8;
+  .bss : { *(.bss) }
+  . = 0x00450bf0;
+  .common : { *(COMMON) }
+"""
+            extra_provides = ""
+        else:
+            data_layout = ""
+            extra_provides = """
+PROVIDE(_lf_init = 0x00425ab8);
+PROVIDE(_lf_cd = 0x00450bf0);
+"""
+
+        script.write_text(
+            common_provides
+            + extra_provides
+            + f"""
+SECTIONS
+{{
+  . = 0x{address:08x};
+  .text : {{ *(.text) }}
+{data_layout}
+  /DISCARD/ : {{
+    *(.data) *(.rodata*) *(.reginfo) *(.pdr) *(.mdebug*) *(.comment) *(.note*)
+  }}
+}}
+""",
+            encoding="utf-8",
+        )
+
+        cp = subprocess.run(
+            [str(ld), "-T", str(script), str(obj), "-o", str(linked)],
+            cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        )
+        if cp.returncode:
+            raise SystemExit(f"raw link failed for {name}\n{cp.stdout[-6000:]}")
+
+        cp = subprocess.run(
+            [str(objcopy), "-j", ".text", "-O", "binary", str(linked), str(linked_text)],
+            cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        )
+        if cp.returncode:
+            raise SystemExit(f"objcopy failed for {name}\n{cp.stdout[-6000:]}")
+
+        raw = linked_text.read_bytes()
+        ok = raw == expected
+        if ok:
+            print(f"RAW   {name:26} bytes={len(raw)}/{len(expected)} MATCH")
+        else:
+            first = next(
+                (i for i, (actual, want) in enumerate(zip(raw, expected)) if actual != want),
+                None,
+            )
+            print(
+                f"RAW   {name:26} bytes={len(raw)}/{len(expected)} DIFF "
+                f"first={('-' if first is None else hex(first))}"
+            )
+            raw_failed = True
+
+    if raw_failed:
+        raise SystemExit("LOADFILE raw linked gate: FAIL")
+
+    print()
+    print("LOADFILE raw linked gate: 5/5 MATCH")
 
 
 if __name__ == "__main__":
