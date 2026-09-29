@@ -68,7 +68,7 @@ extern int fioOpen(const char *path, int mode);
 extern int fioLseek(int fd, int offset, int whence);
 extern int fioClose(int fd);
 extern int fioRead(int fd, void *buffer, int size);
-extern void *memalign_0019e698(size_t alignment, size_t size);
+extern void *memalign(size_t alignment, size_t size);
 
 int snes_p22_00104234(P22FileBufferTarget *state, const char *path)
 {
@@ -93,7 +93,7 @@ int snes_p22_00104234(P22FileBufferTarget *state, const char *path)
         rounded += 0x3f;
     rounded = (rounded >> 6) * 0x40 + 0x40;
 
-    buffer = memalign_0019e698(0x40u, (size_t)rounded);
+    buffer = memalign(0x40u, (size_t)rounded);
     state->data_ee = (uint32_t)(uintptr_t)buffer;
     (void)memset(buffer, 0xff, (size_t)rounded);
 
