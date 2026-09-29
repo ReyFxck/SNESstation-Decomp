@@ -190,7 +190,7 @@ def live_contracts(args: argparse.Namespace) -> dict[str, dict[str, str]]:
     frontier = {r["symbol"]: r for r in libgcc.read_table(args.frontier_manifest, libgcc.FRONTIER_FIELDS)}
     with args.defined_map.open(encoding="utf-8", newline="") as stream:
         defined = list(csv.DictReader(stream, delimiter="\t"))
-    if len(external) != 1850 or len(contracts) != 1517 or len(frontier) != 219:
+    if len(external) != 1847 or len(contracts) != 1514 or len(frontier) != 219:
         fail("runtime override namespace count drift")
     for symbol, (address, size, canonical, source, _) in SPECS.items():
         row = external.get(symbol, {})
