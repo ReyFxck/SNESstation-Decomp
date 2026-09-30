@@ -136,13 +136,13 @@ class RuntimeMemberTests(unittest.TestCase):
 
     def test_external_ownership_drift_is_rejected(self):
         rows = libgcc.read_table(libgcc.DEFAULT_EXTERNAL, libgcc.EXTERNAL_FIELDS)
-        next(r for r in rows if r["symbol"] == "strcmp")["owner"] = "newlib/libc"
-        self.check_changed(rows, "external_map", "runtime ownership drift: strcmp")
+        next(r for r in rows if r["symbol"] == "strncpy")["owner"] = "newlib/libc"
+        self.check_changed(rows, "external_map", "runtime ownership drift: strncpy")
 
     def test_target_binding_drift_is_rejected(self):
         rows = libgcc.read_table(libgcc.DEFAULT_CONTRACTS, libgcc.CONTRACT_FIELDS)
-        next(r for r in rows if r["symbol"] == "strcmp")["target_address"] = "0x00100000"
-        self.check_changed(rows, "contracts", "runtime target binding drift: strcmp")
+        next(r for r in rows if r["symbol"] == "strncpy")["target_address"] = "0x00100000"
+        self.check_changed(rows, "contracts", "runtime target binding drift: strncpy")
 
     def test_downloaded_or_cached_payload_must_match_sha256(self):
         runtime.verify_payload(b"source", runtime.digest(b"source"), "fixture")
