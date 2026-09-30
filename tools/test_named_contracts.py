@@ -10,13 +10,13 @@ from provider_frontier import COMPAT_STORAGE
 
 
 class NamedContractTests(unittest.TestCase):
-    def test_live_212_row_ledger_is_fully_classified(self):
+    def test_live_215_row_ledger_is_fully_classified(self):
         args = named_contracts.parse_args(["validate"])
         rows, _layout = named_contracts.validate_manifest(args)
-        self.assertEqual(212, len(rows))
+        self.assertEqual(215, len(rows))
         self.assertEqual(
             {
-                named_contracts.TEXT_ALIAS_PROVED: 23,
+                named_contracts.TEXT_ALIAS_PROVED: 26,
                 named_contracts.TARGET_RANGE_PROVED: 164,
                 named_contracts.TARGET_ENTRY_PROVED: 2,
                 named_contracts.EXTERNAL_ADDRESS_PROVED: 2,

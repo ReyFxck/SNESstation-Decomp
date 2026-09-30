@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the historical 212-row Stage-3E named-contract tranche.
+"""Close the historical 215-row Stage-3E named-contract tranche.
 
 The original Stage-2 plan assigned 205 named link contracts and seven zlib
 peers to Stage 3E.  This gate preserves that historical denominator while
@@ -181,7 +181,7 @@ ERRNO_ALIAS = {
 
 # Historical Stage-3E contract that left the live external namespace when the
 # exact ps2sdk kernel.S source became canonical.  Keep it in the historical
-# 212-row ledger instead of pretending the original contract never existed.
+# 215-row ledger instead of pretending the original contract never existed.
 PROMOTED_EXACT_SOURCE = {
     "symbol": "iSifSetDChain",
     "category": "named-external",
@@ -309,8 +309,8 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
     external_rows = read_table(args.external_map, EXTERNAL_FIELDS)
     stage3c.stage3_partition(external_rows)
     live = sorted((row for row in external_rows if is_stage3e(row)), key=lambda row: row["symbol"])
-    if len(live) != 190:
-        fail(f"expected 190 live Stage-3E contracts after exact source promotions, found {len(live)}")
+    if len(live) != 193:
+        fail(f"expected 193 live Stage-3E contracts after exact source promotions, found {len(live)}")
 
     contracts = unique(read_table(args.contracts, CONTRACT_FIELDS), "symbol", "link contract")
     frontier = unique(read_table(args.frontier_manifest, FRONTIER_FIELDS), "symbol", "provider row")
@@ -431,10 +431,10 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
         })
 
     result.sort(key=lambda row: row["symbol"])
-    if len(result) != 212 or len({row["symbol"] for row in result}) != 212:
-        fail("historical Stage-3E 212-row ledger drift")
+    if len(result) != 215 or len({row["symbol"] for row in result}) != 215:
+        fail("historical Stage-3E 215-row ledger drift")
     expected_counts = {
-        TEXT_ALIAS_PROVED: 23,
+        TEXT_ALIAS_PROVED: 26,
         TARGET_RANGE_PROVED: 164,
         TARGET_ENTRY_PROVED: 2,
         EXTERNAL_ADDRESS_PROVED: 2,
@@ -474,8 +474,8 @@ def fingerprint_rows(
 def validate_manifest(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str, int | str]]:
     expected, layout = derive_rows(args)
     actual = read_table(args.manifest, MANIFEST_FIELDS)
-    if len(actual) != 212:
-        fail(f"named-contract manifest must contain 212 rows, found {len(actual)}")
+    if len(actual) != 215:
+        fail(f"named-contract manifest must contain 215 rows, found {len(actual)}")
     actual_by_symbol = unique(actual, "symbol", "named-contract row")
     if set(actual_by_symbol) != {row["symbol"] for row in expected}:
         fail("named-contract manifest symbol set drift")
