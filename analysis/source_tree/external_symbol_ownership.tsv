@@ -1374,7 +1374,7 @@ FUN_0019c4a0	target-function-alias	source-address-alias	src/ps2/memmove.S;src/ps
 FUN_0019c528	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strcpy.S	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c550	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strncpy.S	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c5e8	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strlen.S	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c610	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/strchr.S	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c610	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strchr.S	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c688	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019cc0c	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019cfc0	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1393,7 +1393,7 @@ FUN_0019e698	target-function-alias	source-address-alias	src/ps2/alloc.c;src/ps2/
 FUN_0019e784	target-function-alias	source-address-alias	src/ps2/alloc.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019e860	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strcasecmp.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019e8e4	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019e99c	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019e99c	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strtok.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019eaa4	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/string.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019eaf8	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strstr.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019eb80	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strtol.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1696,7 +1696,6 @@ puts	c-runtime	recovered-runtime	target-selected recovered override: puts_like_r
 restart_embedded_mod_00105d78	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/small_dispatch_recovered.c	link-identity	app/main_flow_recovered.o
 s_THIS_SCRIPT_WAS_STOLEN_001b6ed0	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 sinf	named-external	link-contract	reserved:link-contract	link-identity	snes9x/progress13_core_helpers_recovered.o
-sn_strchr_0019c610	target-address-symbol	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/strchr.S	link-identity	ps2/libc_text_recovered.o
 snes_data_001b0000	named-external	link-contract	reserved:link-contract	link-identity	ps2/address_leaf_recovered.o
 snes_memory_helper_00150f54	target-address-symbol	source-address-alias	src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/memory_cleanup_recovered.c	link-identity	snes9x/memory_cleanup_recovered.o
 snes_p12_compare_sdd1_entries	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress12_io_state_recovered.o
