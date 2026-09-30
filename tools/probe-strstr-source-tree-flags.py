@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Diagnostic: identify which source-tree C flags diverge from exact F_strstr."""
 from pathlib import Path
+import hashlib
+import re
 import subprocess
 
 import runtime_members as rm
@@ -19,7 +21,35 @@ def trial(cc, name, flags):
         print(f"PROBE {name:<32} COMPILER ERROR {cp.stdout[-700:]}", flush=True)
         return
     image, masks, normalized = rm.libgcc.text_image(obj)
-    print(f"PROBE {name:<32} text={len(image)} relocations={len(masks)}", flush=True)
+    raw_map = {}
+    listing = (ROOT / "analysis/functions/libc_text_0019e860.asm").read_text()
+    for line in listing.splitlines():
+        match = re.match(r"^\\s*([0-9a-fA-F]+):\\s+([0-9a-fA-F]{2})\\s+([0-9a-fA-F]{2})\\s+([0-9a-fA-F]{2})\\s+([0-9a-fA-F]{2})\\b", line)
+        if match:
+            address = int(match.group(1), 16)
+            for i, value in enumerate(match.groups()[1:]):
+                raw_map[address + i] = int(value, 16)
+    target = bytes(raw_map[0x19eaf8 + index] for index in range(136))
+    diff = rm.libgcc.differing_unmasked(target, image, masks)
+    output = f"PROBE {name:<32} text={len(image)} relocations={len(masks)} diff={diff}"
+    if len(image) == 136 and len(masks) == 2 and diff == 0:
+        linker = cc.with_name("ee-ld")
+        objcopy = cc.with_name("ee-objcopy")
+        ldfile = WORK / (name + ".ld")
+        linked = WORK / (name + ".linked.elf")
+        rawfile = WORK / (name + ".linked.bin")
+        ldfile.write_text("PROVIDE(strlen = 0x0019c5e8);\\nPROVIDE(strncmp = 0x0019c410);\\nSECTIONS { . = 0x0019eaf8; .text : { *(.text) } /DISCARD/ : { *(.data) *(.bss) *(COMMON) *(.rodata*) *(.reginfo) *(.pdr) *(.mdebug*) *(.comment) *(.note*) } }\\n".replace("\\\\n", "\\n"))
+        ld = subprocess.run([str(linker), "-EL", "-T", str(ldfile), str(obj), "-o", str(linked)], capture_output=True, text=True)
+        if ld.returncode:
+            output += " ld_error=" + ld.stderr[-350:]
+        else:
+            conv = subprocess.run([str(objcopy), "-j", ".text", "-O", "binary", str(linked), str(rawfile)], capture_output=True, text=True)
+            if conv.returncode:
+                output += " objcopy_error=" + conv.stderr[-350:]
+            else:
+                linked_raw = rawfile.read_bytes()
+                output += f" raw_equal={linked_raw == target} linked_sha={hashlib.sha256(linked_raw).hexdigest()}"
+    print(output, flush=True)
 
 def main():
     WORK.mkdir(parents=True, exist_ok=True)
