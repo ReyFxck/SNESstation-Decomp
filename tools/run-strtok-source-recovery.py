@@ -61,7 +61,7 @@ def main():
     target=target_bytes()
     image,masks,norm=rm.libgcc.text_image(obj)
     diff=rm.libgcc.differing_unmasked(target,image,masks)
-    object_ok=len(image)==SIZE and diff==0 and norm==rm.libgcc.normalize_target(target,masks)
+    object_ok=len(image)==SIZE and len(masks)==27 and diff==0 and norm==rm.libgcc.normalize_target(target,masks)
     print(f"STRTOK historical compiler={machine} GCC {version}",flush=True)
     print(f"{'MATCH' if object_ok else 'DIFF':5} strtok.o bytes={len(image)}/{SIZE} relocations={len(masks)} diff={diff}",flush=True)
     print("STRTOK unresolved:\n"+run([cc.with_name("ee-nm"),"-u",obj]),flush=True)
@@ -94,14 +94,18 @@ SECTIONS {
     makeflags=run(["make","--no-print-directory","--silent","--eval",
                    "print-ps2-ee-flags: ; @echo $(EE_SOURCE_TREE_FLAGS)",
                    "print-ps2-ee-flags"]).strip()
-    variants=(("app-Os",["-Os"]),("app-hosted",["-Os","-fhosted"]),
-              ("app-long32",["-Os","-mlong32"]),("app-long32-hosted",["-Os","-mlong32","-fhosted"]))
-    for name,extra in variants:
-        p=BUILD/(name+".o")
-        run([cc,*shlex.split(makeflags),*extra,"-DF_strtok","-c",SRC,"-o",p])
-        ci,cm,cn=rm.libgcc.text_image(p); d=rm.libgcc.differing_unmasked(target,ci,cm)
-        exact=len(ci)==SIZE and d==0 and cn==rm.libgcc.normalize_target(target,cm)
-        linked=raw_link(p,name)==target if exact else False
-        print(f"STRTOK PROFILE {name}: bytes={len(ci)} relocs={len(cm)} diff={d} exact={exact} raw_equal={linked}",flush=True)
+    selected=build_source_tree.effective_source_cflags(
+        shlex.split(makeflags),"src/ps2/strtok.c"
+    )
+    canonical=BUILD/"strtok.canonical.o"
+    run([cc,*selected,"-DF_strtok","-c",SRC,"-o",canonical])
+    ci,cm,cn=rm.libgcc.text_image(canonical)
+    d=rm.libgcc.differing_unmasked(target,ci,cm)
+    exact=len(ci)==SIZE and len(cm)==27 and d==0 and cn==rm.libgcc.normalize_target(target,cm)
+    print(f"{'MATCH' if exact else 'DIFF':5} canonical strtok.o bytes={len(ci)}/{SIZE} relocations={len(cm)} diff={d}",flush=True)
+    if not exact:raise SystemExit("STRTOK canonical source-tree object gate: FAIL")
+    canonical_raw=raw_link(canonical,"canonical-strtok")
+    if canonical_raw!=target:raise SystemExit("STRTOK canonical raw-linked target bytes FAIL")
+    print(f"STRTOK canonical raw-linked: MATCH {SIZE}/{SIZE} sha256={hashlib.sha256(canonical_raw).hexdigest()}",flush=True)
 
 if __name__=="__main__":main()

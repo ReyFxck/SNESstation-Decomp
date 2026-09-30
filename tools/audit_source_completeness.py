@@ -91,6 +91,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "strcasecmp_exact_132.tsv",
         "src/ps2/strcasecmp.c",
     ),
+    (
+        ROOT / "analysis" / "functions" / "strtok_exact_264.tsv",
+        "src/ps2/strtok.c",
+    ),
 )
 
 

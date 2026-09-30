@@ -76,6 +76,7 @@ SOURCE_FLAGS = {
     "src/ps2/strstr.c": ("-Os", "-mlong32", "-fhosted"),
     "src/ps2/strtol.c": ("-Os",),
     "src/ps2/strcasecmp.c": ("-Os",),
+    "src/ps2/strtok.c": ("-Os",),
 }
 
 # The original 2004 libc/strtol.o compiled using the old compiler default
@@ -94,6 +95,7 @@ def effective_source_cflags(cflags: Sequence[str], source: str) -> list[str]:
 SOURCE_DEFINES = {
     "src/ps2/strtol.c": ("F_strtol",),
     "src/ps2/strcasecmp.c": ("F_strcasecmp",),
+    "src/ps2/strtok.c": ("F_strtok",),
     "src/ps2/string.c": ("F_strrchr",),
     "src/ps2/strstr.c": ("F_strstr",),
     "src/ps2/kernel.S": (

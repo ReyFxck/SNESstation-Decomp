@@ -313,8 +313,8 @@ class SourceAliasTests(unittest.TestCase):
         rows = validate_frozen_manifest(args)
         report = summarize(rows)
 
-        self.assertEqual(346, report["aliases_total"])
-        self.assertEqual(332, report["proved"])
+        self.assertEqual(345, report["aliases_total"])
+        self.assertEqual(331, report["proved"])
         self.assertEqual(14, report["blocked"])
         self.assertEqual(317, report["canonical_targets"])
         self.assertEqual(
@@ -328,7 +328,7 @@ class SourceAliasTests(unittest.TestCase):
                 "reviewed-historical-archive-blocker": 7,
                 "reviewed-semantic-identity-global-text": 3,
                 "reviewed-source-boundary-blocker": 1,
-                "unique-address-suffix-global-text": 103,
+                "unique-address-suffix-global-text": 102,
             },
             report["evidence_counts"],
         )

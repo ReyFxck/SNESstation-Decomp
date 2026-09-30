@@ -87,6 +87,11 @@ on:
       - analysis/functions/strcasecmp_exact_132.tsv
       - tools/run-strcasecmp-source-recovery.py
       - .github/workflows/strcasecmp-source-recovery.yml
+      - src/ps2/strtok.c
+      - include/strtok_legacy_compat.h
+      - analysis/functions/strtok_exact_264.tsv
+      - tools/run-strtok-source-recovery.py
+      - .github/workflows/strtok-source-recovery.yml
       - .github/workflows/strcpy-source-recovery.yml
       - include/alloc_legacy_compat.h
       - tools/run-alloc-source-recovery.py
@@ -183,6 +188,7 @@ jobs:
           python3 tools/run-strstr-source-recovery.py
           python3 tools/run-strtol-source-recovery.py
           python3 tools/run-strcasecmp-source-recovery.py
+          python3 tools/run-strtok-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
           python3 tools/run-iopcontrol-source-recovery.py
