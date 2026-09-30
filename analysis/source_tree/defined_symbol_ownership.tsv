@@ -343,7 +343,6 @@ strncasecmp_0019e8e4	global	text	0xac	src/ps2/libc_text_recovered.c	ps2/libc_tex
 strtok_0019e99c	global	text	0x13c	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 strtok_current_00445140	local	bss	0x0	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 strtok_state_00445144	local	bss	0x0	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
-strtol_0019eb80	global	text	0x224	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 tolower_0019edac	global	text	0x30	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 toupper_0019eddc	global	text	0x30	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 double_to_raw	local	text	0x2c	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o
@@ -973,6 +972,7 @@ strlen	global	weak-text	0x28	src/ps2/strlen.S	ps2/strlen.o
 strncmp	global	weak-text	0x48	src/ps2/strncmp.S	ps2/strncmp.o
 strncpy	global	weak-text	0x54	src/ps2/strncpy.S	ps2/strncpy.o
 strstr	global	text	0x88	src/ps2/strstr.c	ps2/strstr.o
+strtol	global	text	0x22c	src/ps2/strtol.c	ps2/strtol.o
 append_char	local	text	0xd8	src/ps2/xprintf.c	ps2/xprintf.o
 append_number	local	text	0x360	src/ps2/xprintf.c	ps2/xprintf.o
 append_string	local	text	0x190	src/ps2/xprintf.c	ps2/xprintf.o
