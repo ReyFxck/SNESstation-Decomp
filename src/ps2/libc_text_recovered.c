@@ -158,23 +158,6 @@ extern char *sn_strchr_0019c610(const char *s, int c);
 extern size_t sn_strlen_0019c5e8(const char *s);
 extern int strncmp(const char *a, const char *b, size_t n);
 
-/* Target: 0x0019eaa4. */
-char *strrchr_0019eaa4(const char *text, int c)
-{
-    char *last = NULL;
-    const char *scan = text;
-    char *found;
-
-    found = sn_strchr_0019c610(scan, c);
-    while (found != NULL) {
-        last = found;
-        scan = found + 1;
-        found = sn_strchr_0019c610(scan, c);
-    }
-
-    return last;
-}
-
 /* Target: 0x0019eaf8. */
 char *strstr_0019eaf8(const char *haystack, const char *needle)
 {

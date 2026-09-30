@@ -6,6 +6,8 @@ on:
       - source-recovery-file-by-file
     paths:
       - "src/ps2/string.c"
+      - "include/string_legacy_compat.h"
+      - "analysis/functions/strrchr_exact_84.tsv"
       - "tools/run-string-source-recovery.py"
       - ".github/workflows/string-source-recovery.yml"
       - "analysis/functions/libc_text_0019e860.asm"

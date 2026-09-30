@@ -68,6 +68,11 @@ on:
       - analysis/functions/strncmp_exact_72.tsv
       - tools/run-strncmp-source-recovery.py
       - .github/workflows/strncmp-source-recovery.yml
+      - src/ps2/string.c
+      - include/string_legacy_compat.h
+      - analysis/functions/strrchr_exact_84.tsv
+      - tools/run-string-source-recovery.py
+      - .github/workflows/string-source-recovery.yml
       - .github/workflows/strcpy-source-recovery.yml
       - include/alloc_legacy_compat.h
       - tools/run-alloc-source-recovery.py
@@ -158,6 +163,7 @@ jobs:
           python3 tools/run-strcmp-source-recovery.py
           python3 tools/run-strncpy-source-recovery.py
           python3 tools/run-strncmp-source-recovery.py
+          python3 tools/run-string-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
           python3 tools/run-iopcontrol-source-recovery.py

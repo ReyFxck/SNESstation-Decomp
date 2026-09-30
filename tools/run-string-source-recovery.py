@@ -87,8 +87,14 @@ def main() -> None:
     ).resolve()
     include_flags += ["-I", str(gcc_include)]
 
-    if hashlib.sha256(SOURCE.read_bytes()).hexdigest() != "54ffd1b2845d412e30c934622bb57c8e85dfe99985e04a93bd634c9c1a696095":
-        raise SystemExit("historical string.c source hash drift")
+    original_source = args.build_dir / "inputs" / rm.APR15 / "ee/libc/src/string.c"
+    if hashlib.sha256(original_source.read_bytes()).hexdigest() != "54ffd1b2845d412e30c934622bb57c8e85dfe99985e04a93bd634c9c1a696095":
+        raise SystemExit("historical ps2sdk string.c source hash drift")
+    marker = "#ifdef F_strrchr\\n".replace("\\n", "\n")
+    original_body = original_source.read_text(encoding="utf-8").split(marker, 1)[1].split("#endif", 1)[0]
+    recovered_body = SOURCE.read_text(encoding="utf-8").split(marker, 1)[1].split("#endif", 1)[0]
+    if original_body != recovered_body:
+        raise SystemExit("historical F_strrchr source body drift")
     expected = listing_bytes(LISTING, ADDRESS, SIZE)
     if hashlib.sha256(expected).hexdigest() != "010a505af0e00058aff92daa3a808e25cf76cb2eb1572ff423cf1bc7c56cbbb0":
         raise SystemExit("STRRCHR original linked target listing hash drift")
@@ -112,7 +118,7 @@ def main() -> None:
     print(f"lineage: ps2dev/ps2sdk@{rm.APR15} ee/libc/src/string.c")
     print(f"compiler: {machine} gcc {version}")
     print(
-        f"{'MATCH' if object_ok else 'DIFF':5} SifIopReset.o "
+        f"{'MATCH' if object_ok else 'DIFF':5} strrchr.o "
         f"{DEFINE} bytes={len(image)}/{SIZE} relocs={len(masks)} diff={differing}"
     )
     if not object_ok:

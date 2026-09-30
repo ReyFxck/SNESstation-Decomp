@@ -9,12 +9,11 @@
 		by Jeff Johnston of Cygnus Solutions
 */
 
-#include <tamtypes.h>
-#include <kernel.h>
-#include <sifrpc.h>
-#include <ps2lib_err.h>
-#include <limits.h>
-#include <string.h>
+/* The function bodies below are unmodified historical PS2LIB source.
+ * Recovery adapts only the SDK-specific include bundle so the canonical
+ * source builds with the stage1 EE and host syntax configurations.
+ */
+#include "string_legacy_compat.h"
 
 
 #ifdef F_strcasecmp
