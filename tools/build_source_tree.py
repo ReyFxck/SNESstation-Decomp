@@ -74,9 +74,24 @@ SOURCE_FLAGS = {
     # semantics, unlike the application's -mlong64 freestanding profile.
     # Both the historical member AND this canonical TU must link 136/136 exact bytes.
     "src/ps2/strstr.c": ("-Os", "-mlong32", "-fhosted"),
+    "src/ps2/strtol.c": ("-Os",),
 }
 
+# The original 2004 libc/strtol.o compiled using the old compiler default
+# long ABI. Merely appending -mlong32 changes codegen: omit the application's
+# -mlong64 flag exclusively for this TU, without changing any other source.
+SOURCE_OMIT_FLAGS = {
+    "src/ps2/strtol.c": ("-mlong64",),
+}
+
+
+def effective_source_cflags(cflags: Sequence[str], source: str) -> list[str]:
+    omit = SOURCE_OMIT_FLAGS.get(source, ())
+    return [flag for flag in cflags if flag not in omit] + list(SOURCE_FLAGS.get(source, ()))
+
+
 SOURCE_DEFINES = {
+    "src/ps2/strtol.c": ("F_strtol",),
     "src/ps2/string.c": ("F_strrchr",),
     "src/ps2/strstr.c": ("F_strstr",),
     "src/ps2/kernel.S": (
@@ -547,9 +562,9 @@ def compile_one(
     log = build_dir / "logs" / Path(unit.object).with_suffix(".log")
     output.parent.mkdir(parents=True, exist_ok=True)
     defines = ["-D" + name for name in SOURCE_DEFINES.get(unit.source, ())]
-    source_flags = list(SOURCE_FLAGS.get(unit.source, ()))
+    source_cflags = effective_source_cflags(cflags, unit.source)
     command = [
-        str(compiler), *cflags, *source_flags, *defines,
+        str(compiler), *source_cflags, *defines,
         "-c", unit.source, "-o", str(output)
     ]
     run(command, log_path=log)

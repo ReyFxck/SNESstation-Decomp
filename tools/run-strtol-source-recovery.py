@@ -101,84 +101,27 @@ SECTIONS
         first=next((i for i,(a,b) in enumerate(zip(raw,target)) if a!=b),min(len(raw),len(target)))
         raise SystemExit(f"STRTOL linked historical object FAIL at offset 0x{first:x}")
 
-    # Test the exact Makefile compiler profile plus potential historical
-    # per-TU flag overrides. This is diagnostic until the selected profile
-    # is proven and fixed into the canonical translation-unit ledger.
-    cflags_txt=run(["make","--no-print-directory","--silent","--eval",
-                    "print-ps2-ee-flags: ; @echo $(EE_SOURCE_TREE_FLAGS)",
-                    "print-ps2-ee-flags"]).strip()
-    appflags=shlex.split(cflags_txt)
-    variants={
-        "current-app-Os": ["-Os"],
-        "hosted": ["-Os","-fhosted"],
-        "builtin": ["-Os","-fbuiltin"],
-        "hosted-builtin": ["-Os","-fhosted","-fbuiltin"],
-        "long32-hosted": ["-Os","-mlong32","-fhosted"],
-        "long32-only": ["-Os","-mlong32"],
-        "no-freestanding-or-builtin": ["-Os","-fhosted","-fbuiltin","-mlong64"],
-    }
-    # Find the exact historical deviation in the application's flag set,
-    # retaining the C body and the recorded source untouched.
-    rem=[
-        "-fomit-frame-pointer","-fstrict-aliasing","-fno-common",
-        "-ffreestanding","-fno-builtin","-fshort-double",
-        "-mlong64","-mhard-float","-mno-abicalls",
-        "-march=r5900","-mtune=r5900",
-        "-DLSB_FIRST","-DALIGN_DWORD","-DCODE_PLATFORM=3",
-        "-DPS2_EE","-D_EE","-pipe",
-    ]
-    for flag in rem:
-        variants["drop-"+flag.lstrip("-")]=[
-            "-Os",*([] if flag not in appflags else []),
-        ]
-    # Previous construction is not a flag removal; use per-variant complete
-    # app flag arrays below, and keep explicit historical additions separate.
-    full={
-        "baseline-app": [*appflags,"-Os"],
-        "nostdinc-original": [*rm.FLAGS,*includes,"-DF_strtol"],
-    }
-    for flag in rem:
-        if flag in appflags:
-            full["without-"+flag.lstrip("-")]=[
-                *[f for f in appflags if f!=flag],"-Os",
-            ]
-        full["original-plus-"+flag.lstrip("-")]=[
-            *rm.FLAGS,flag,*includes,
-        ]
-    full["remove-freestanding-and-builtin"]=[
-        *[f for f in appflags if f not in ("-ffreestanding","-fno-builtin")],"-Os",
-    ]
-    full["remove-march-and-mtune"]=[
-        *[f for f in appflags if f not in ("-march=r5900","-mtune=r5900")],"-Os",
-    ]
-    full["remove-pipe-and-r5900"]=[
-        *[f for f in appflags if f not in ("-march=r5900","-mtune=r5900","-pipe")],"-Os",
-    ]
-    for name,flags in full.items():
-        preview=BUILD/("strtol-"+name+".o")
-        run([compiler,*flags,"-DF_strtol","-c",SRC,"-o",preview])
-        candidate,m,cn=rm.libgcc.text_image(preview)
-        diff=rm.libgcc.differing_unmasked(target,candidate,m)
-        success=(len(candidate)==SIZE and len(m)==9 and diff==0 and
-                 cn==rm.libgcc.normalize_target(target,m))
-        suffix=""
-        if success:
-            linked_raw=raw_link(preview,"strtol-"+name)
-            suffix=f" raw_equal={linked_raw==target}"
-        print(f"STRTOL PROFILE {name}: text={len(candidate)} "
-              f"relocs={len(m)} diff={diff} object_equal={success}{suffix}",flush=True)
-    for name,flags in variants.items():
-        preview=BUILD/("strtol-"+name+".o")
-        run([compiler,*appflags,*flags,"-DF_strtol","-c",SRC,"-o",preview])
-        candidate,m,candidate_norm=rm.libgcc.text_image(preview)
-        diff=rm.libgcc.differing_unmasked(target,candidate,m)
-        success=(len(candidate)==SIZE and len(m)==9 and diff==0 and
-                 candidate_norm==rm.libgcc.normalize_target(target,m))
-        suffix=""
-        if success:
-            linked_raw=raw_link(preview,"strtol-"+name)
-            suffix=f" raw_equal={linked_raw==target}"
-        print(f"STRTOL PROFILE {name}: text={len(candidate)} "
-              f"relocs={len(m)} diff={diff} object_equal={success}{suffix}",flush=True)
+    # Verify the REAL canonical source-tree compilation profile as well as
+    # the isolated pinned PS2LIB object. A general -mlong64 is intentionally
+    # omitted for this single historic translation unit.
+    makeflags = run(["make","--no-print-directory","--silent","--eval",
+                     "print-ps2-ee-flags: ; @echo $(EE_SOURCE_TREE_FLAGS)",
+                     "print-ps2-ee-flags"]).strip()
+    flags = build_source_tree.effective_source_cflags(
+        shlex.split(makeflags), "src/ps2/strtol.c"
+    )
+    canonical_obj = BUILD/"strtol.canonical.o"
+    run([compiler,*flags,"-DF_strtol","-c",SRC,"-o",canonical_obj])
+    ci,cm,cn=rm.libgcc.text_image(canonical_obj)
+    cd=rm.libgcc.differing_unmasked(target,ci,cm)
+    exact=len(ci)==SIZE and len(cm)==9 and cd==0 and cn==rm.libgcc.normalize_target(target,cm)
+    print(f"{'MATCH' if exact else 'DIFF':5} canonical strtol.o bytes={len(ci)}/{SIZE} relocations={len(cm)} diff={cd}",flush=True)
+    if not exact:raise SystemExit("STRTOL canonical source-tree object gate: FAIL")
+    canonical_raw=raw_link(canonical_obj,"strtol-canonical")
+    if canonical_raw!=target:
+        offset=next((i for i,(a,b) in enumerate(zip(canonical_raw,target)) if a!=b), min(len(canonical_raw),len(target)))
+        raise SystemExit(f"STRTOL canonical raw linked mismatch at 0x{offset:x}")
+    print("STRTOL canonical raw-linked gate: MATCH 556/556 bytes",flush=True)
+    print("STRTOL final historical and canonical SHA-256:",hashlib.sha256(canonical_raw).hexdigest(),flush=True)
 
 if __name__=="__main__":main()

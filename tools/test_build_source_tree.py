@@ -118,6 +118,17 @@ class BuildSourceTreeTests(unittest.TestCase):
         self.assertFalse(any(unit.source == "src/ps2/libkernel_strings_recovered.c" for unit in units))
         self.assertEqual("ps2/kernel.o", kernel[0].object)
 
+    def test_historical_strtol_omits_only_application_long64_flag(self) -> None:
+        old = ["-G0", "-O2", "-mlong64", "-ffreestanding"]
+        self.assertEqual(
+            ["-G0", "-O2", "-ffreestanding", "-Os"],
+            MODULE.effective_source_cflags(old, "src/ps2/strtol.c"),
+        )
+        self.assertEqual(
+            ["-G0", "-O2", "-mlong64", "-ffreestanding", "-Os"],
+            MODULE.effective_source_cflags(old, "src/ps2/strncpy.S"),
+        )
+
     def test_abi_contract_records_the_nonstandard_ee_widths(self) -> None:
         text = (ROOT / "analysis" / "source_tree" / "ee_abi_contract.c").read_text(
             encoding="utf-8"
