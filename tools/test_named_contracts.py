@@ -31,7 +31,7 @@ class NamedContractTests(unittest.TestCase):
             named_contracts.DEFAULT_EXTERNAL, named_contracts.EXTERNAL_FIELDS
         )
         self.assertEqual(
-            {"3B": 346, "3C": 50, "3D": 19, "3E": 190, "3F": 1226},
+            {"3B": 347, "3C": 50, "3D": 19, "3E": 190, "3F": 1226},
             named_data.stage3_partition(external),
         )
         live_names = {row["symbol"] for row in external}

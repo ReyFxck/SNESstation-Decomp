@@ -313,14 +313,14 @@ class SourceAliasTests(unittest.TestCase):
         rows = validate_frozen_manifest(args)
         report = summarize(rows)
 
-        self.assertEqual(346, report["aliases_total"])
-        self.assertEqual(332, report["proved"])
+        self.assertEqual(347, report["aliases_total"])
+        self.assertEqual(333, report["proved"])
         self.assertEqual(14, report["blocked"])
         self.assertEqual(317, report["canonical_targets"])
         self.assertEqual(
             {
                 "address-outside-progress-manifest": 6,
-                "progress-name-global-text": 150,
+                "progress-name-global-text": 151,
                 "progress-name-recovered-suffix-global-text": 33,
                 "progress-name-snes-p13-prefix-global-text": 5,
                 "progress-name-snes-prefix-global-text": 26,
