@@ -130,6 +130,12 @@ class BuildSourceTreeTests(unittest.TestCase):
         self.assertFalse(any(unit.source == "src/ps2/libkernel_strings_recovered.c" for unit in units))
         self.assertEqual("ps2/kernel.o", kernel[0].object)
 
+    def test_original_ps2lib_tolower_is_not_newlib(self) -> None:
+        self.assertEqual(
+            ("named-external", "link-contract", "reserved:link-contract", "link-identity"),
+            MODULE.classify_external("tolower", {}),
+        )
+
     def test_historical_strtol_omits_only_application_long64_flag(self) -> None:
         old = ["-G0", "-O2", "-mlong64", "-ffreestanding"]
         self.assertEqual(

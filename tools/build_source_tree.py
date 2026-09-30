@@ -476,6 +476,12 @@ def classify_external(
     if runtime is not None:
         category = "c-runtime" if symbol in LIBC_SYMBOLS else "ps2-runtime"
         return category, "historical-archive", *runtime
+    # The original SNES Station executable binds PS2LIB's own tolower()
+    # entry at 0x0019edac, not Newlib's fallback. The matching source has
+    # not yet replaced the provisional ctype model; retain a proved named
+    # link contract to the recovered target text rather than misattribute it.
+    if symbol == "tolower":
+        return "named-external", "link-contract", "reserved:link-contract", "link-identity"
     if symbol in LIBC_SYMBOLS or symbol.startswith(("_impure", "__s", "stdin", "stdout", "stderr")):
         return "c-runtime", "historical-archive", "newlib/libc", "archive-identity"
     if symbol.startswith(PS2_RUNTIME_PREFIXES):
