@@ -6,6 +6,7 @@ import re
 import subprocess
 from pathlib import Path
 import shlex
+import build_source_tree
 from types import SimpleNamespace
 import runtime_members as rm
 
