@@ -1373,7 +1373,7 @@ FUN_0019c458	target-function-alias	source-address-alias	src/ps2/memcmp.S;src/ps2
 FUN_0019c4a0	target-function-alias	source-address-alias	src/ps2/memmove.S;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c528	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strcpy.S	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c550	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c5e8	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c5e8	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/strlen.S	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c610	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c688	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019cc0c	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1693,6 +1693,7 @@ puts	c-runtime	recovered-runtime	target-selected recovered override: puts_like_r
 restart_embedded_mod_00105d78	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/small_dispatch_recovered.c	link-identity	app/main_flow_recovered.o
 s_THIS_SCRIPT_WAS_STOLEN_001b6ed0	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 sinf	named-external	link-contract	reserved:link-contract	link-identity	snes9x/progress13_core_helpers_recovered.o
+sn_strlen_0019c5e8	target-address-symbol	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/strlen.S	link-identity	ps2/libc_text_recovered.o
 snes_data_001b0000	named-external	link-contract	reserved:link-contract	link-identity	ps2/address_leaf_recovered.o
 snes_memory_helper_00150f54	target-address-symbol	source-address-alias	src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/memory_cleanup_recovered.c	link-identity	snes9x/memory_cleanup_recovered.o
 snes_p12_compare_sdd1_entries	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress12_io_state_recovered.o
@@ -1710,7 +1711,6 @@ sqrtf	named-external	link-contract	reserved:link-contract	link-identity	ps2/newl
 strcasecmp	named-external	link-contract	reserved:link-contract	link-identity	ps2/audio_rpc_recovered.o
 strchr	c-runtime	historical-archive	PS2LIB libc/strchr.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
 strcmp	c-runtime	historical-archive	PS2LIB libc/strcmp.o (ps2sdk@694100b7 source)	runtime-member-text-identity	unzip/unzip_api_recovered.o
-strlen	c-runtime	historical-archive	PS2LIB libc/strlen.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/iopcontrol.o;ps2/libmc_recovered.o;ps2/path_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o;ps2/xprintf.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o
 strncpy	c-runtime	historical-archive	PS2LIB libc/strncpy.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/cdvd_rpc.o;ps2/fileio.o;ps2/iopcontrol.o;ps2/libmc_recovered.o;ps2/loadfile.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
 strrchr	c-runtime	historical-archive	PS2LIB libc/strrchr.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/audio_rpc_recovered.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
 strtol	c-runtime	historical-archive	PS2LIB libc/strtol.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/progress21_small_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o
