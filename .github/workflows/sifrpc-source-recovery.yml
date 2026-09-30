@@ -1,4 +1,5 @@
 name: SIF RPC C source recovery
+# Read-only verifier; all metadata is published by source-recovery-refresh.yml.
 
 on:
   push:
@@ -19,7 +20,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   match:
@@ -55,22 +56,3 @@ jobs:
           python3 tools/test_build_source_tree.py
           git diff --check -- . ':(exclude)analysis/link_identity/source_address_aliases.tsv'
 
-      - name: Commit reviewed derived source metadata
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            analysis/source_readiness.csv \
-            docs/SOURCE_COMPLETENESS.generated.md \
-            analysis/source_tree/defined_symbol_ownership.tsv \
-            analysis/source_tree/external_symbol_ownership.tsv \
-            analysis/source_tree/object_fingerprints.tsv \
-            analysis/link_identity/source_address_aliases.tsv
-          if git diff --cached --quiet; then
-            echo "No derived source-tree changes."
-          else
-            git commit -m "refresh source metadata after SIF RPC recovery"
-            git fetch origin source-recovery-file-by-file
-            git rebase origin/source-recovery-file-by-file
-            git push origin HEAD:source-recovery-file-by-file
-          fi

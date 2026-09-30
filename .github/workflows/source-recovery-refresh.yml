@@ -109,6 +109,10 @@ on:
       - analysis/link_identity/named_contracts.tsv
       - analysis/link_identity/link_contract_reviews.tsv
 
+concurrency:
+  group: source-recovery-ledger-writer-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
