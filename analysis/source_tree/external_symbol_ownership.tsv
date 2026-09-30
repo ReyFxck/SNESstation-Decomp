@@ -1710,7 +1710,6 @@ snes_udivmoddi4_001a7788	target-address-symbol	source-address-alias	src/ps2/prog
 snes_vtable_00426c28	vtable-or-rtti	program-data	reserved:vtable-data.o	program-data	ps2/address_leaf_recovered.o
 sqrtf	named-external	link-contract	reserved:link-contract	link-identity	ps2/newlib_mathfp_recovered.o
 strcasecmp	named-external	link-contract	reserved:link-contract	link-identity	ps2/audio_rpc_recovered.o
-strcmp	c-runtime	historical-archive	PS2LIB libc/strcmp.o (ps2sdk@694100b7 source)	runtime-member-text-identity	unzip/unzip_api_recovered.o
 strncpy	c-runtime	historical-archive	PS2LIB libc/strncpy.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/cdvd_rpc.o;ps2/fileio.o;ps2/iopcontrol.o;ps2/libmc_recovered.o;ps2/loadfile.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
 strrchr	c-runtime	historical-archive	PS2LIB libc/strrchr.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/audio_rpc_recovered.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
 strtol	c-runtime	historical-archive	PS2LIB libc/strtol.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/progress21_small_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o
