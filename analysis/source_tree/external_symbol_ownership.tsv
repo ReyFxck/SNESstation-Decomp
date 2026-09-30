@@ -1730,7 +1730,7 @@ switchdataD_001b18f8	named-external	link-contract	reserved:link-contract	link-id
 switchdataD_001ba82c	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 switchdataD_001baad0	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 target_video_mode_byte_001fc752	named-external	link-contract	reserved:link-contract	link-identity	ps2/gsdriver_recovered.o
-tolower	c-runtime	historical-archive	newlib/libc	archive-identity	ps2/strcasecmp.o
+tolower	named-external	link-contract	reserved:link-contract	link-identity	ps2/strcasecmp.o
 top_level_gui_00102ab0	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
 uRam00426e20	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 uRam00426e3c	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
