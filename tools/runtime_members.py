@@ -207,6 +207,7 @@ DETAILS = {
 # canonical source tree now defines promoted runtime symbols directly from the
 # recovered historical SIF, FILEIO, XPRINTF and ALLOC sources.
 PROMOTED_SOURCE_RUNTIME = {
+    "strtol": ("strtol", "ps2/progress21_small_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o"),
     "strrchr": ("strrchr", "ps2/audio_rpc_recovered.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o"),
     "strncpy": ("strncpy", "ps2/cdvd_rpc.o;ps2/fileio.o;ps2/iopcontrol.o;ps2/libmc_recovered.o;ps2/loadfile.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o"),
     "strcmp": ("strcmp", "unzip/unzip_api_recovered.o"),
@@ -312,7 +313,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
     # Exact kernel.S plus promoted libc assembly sources remove their former
     # live external contracts from the global source-tree namespace.
-    if set(active) != expected_external or len(external) != 1828:
+    if set(active) != expected_external or len(external) != 1827:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):

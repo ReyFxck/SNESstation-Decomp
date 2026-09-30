@@ -109,3 +109,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 108	src/ps2/strncpy.S	ps2	asm-cpp	canonical	ps2/strncpy.o		Exact historical ps2sdk@694100b7 strncpy.S; 84-byte function plus 4-byte linked alignment, 88/88 target bytes proved.
 109	src/ps2/string.c	ps2	c	canonical	ps2/string.o		Historical PS2LIB string.c F_strrchr body restored; 84/84 linked target bytes with two resolved relocations.
 110	src/ps2/strstr.c	ps2	c	canonical	ps2/strstr.o		Historical PS2LIB string.c F_strstr body restored; 136/136 linked target bytes with two resolved relocations.
+111	src/ps2/strtol.c	ps2	c	canonical	ps2/strtol.o		Exact 2004 PS2LIB F_strtol original C; EE GCC 3.2.2 556/556 target bytes with nine linked relocations, selected historical default-long ABI.

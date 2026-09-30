@@ -102,13 +102,13 @@ def validate_live_contracts(
     # Exact XPRINTF, ALLOC and LIBKERNEL promotions now provide their symbols
     # directly from canonical historical source.  kernel.S makes iSifSetDChain
     # canonical, collapsing the former address-qualified external/contract pair.
-    if (len(external), len(contracts), len(frontier)) != (1828, 1496, 219):
+    if (len(external), len(contracts), len(frontier)) != (1827, 1495, 219):
         fail("post-refactor namespace count drift")
     if any(row["resolution_kind"] == "compatibility-runtime-shim" for row in frontier):
         fail("compatibility runtime shim returned")
     runtime = Counter(row["category"] for row in external
                       if row["provider_kind"] in ("historical-archive", "recovered-runtime"))
-    if runtime != {"ps2-runtime": 9, "c-runtime": 3, "compiler-runtime": 4}:
+    if runtime != {"ps2-runtime": 9, "c-runtime": 2, "compiler-runtime": 4}:
         fail(f"live Stage-3D partition drift: {dict(runtime)}")
 
 
