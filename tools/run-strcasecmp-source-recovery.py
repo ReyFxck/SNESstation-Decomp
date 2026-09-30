@@ -13,7 +13,7 @@ ROOT=Path(__file__).resolve().parents[1]
 BUILD=ROOT/"build/matching/strcasecmp-source-recovery"
 SRC=ROOT/"src/ps2/strcasecmp.c"
 SHA_SOURCE="54ffd1b2845d412e30c934622bb57c8e85dfe99985e04a93bd634c9c1a696095"
-SHA_TARGET="4cfb2642d2d0ac04836cc2f559d00afdca78654de5f3f541408e12fcda22dbd1"
+SHA_TARGET="47c76055161ef2612a1ef56925c716c89012a7c1716ed9f0bf6d1b678338be4f"
 START=0x0019e860
 SIZE=0x84
 
