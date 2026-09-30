@@ -5,6 +5,7 @@ import hashlib
 import re
 import subprocess
 from pathlib import Path
+import shlex
 from types import SimpleNamespace
 import runtime_members as rm
 
@@ -63,6 +64,71 @@ def main():
     print("STRTOL unresolved symbols:\n"+run([compiler.with_name("ee-nm"),"-u",obj]),flush=True)
     print("STRTOL relocation table:\n"+run([compiler.with_name("ee-readelf"),"-r",obj]),flush=True)
     if not ok:raise SystemExit("STRTOL historical object gate: FAIL")
-    print("STRTOL historical source object gate: MATCH 556/556 bytes, 9 relocations")
+    print("STRTOL historical source object gate: MATCH 556/556 bytes, 9 relocations",flush=True)
+
+    ld=compiler.with_name("ee-ld")
+    objcopy=compiler.with_name("ee-objcopy")
+    ldscript=BUILD/"strtol.link.ld"
+    ldscript.write_text(
+        """PROVIDE(isspace = 0x0019efac);
+PROVIDE(__umoddi3 = 0x001a2c78);
+PROVIDE(__udivdi3 = 0x001a25b0);
+PROVIDE(isdigit = 0x0019ee80);
+PROVIDE(__muldi3 = 0x001a1b20);
+PROVIDE(ps2lib_errno_00425a70 = 0x00425a70);
+PROVIDE(isalpha = 0x0019ee34);
+PROVIDE(isupper = 0x0019ee0c);
+SECTIONS
+{
+  . = 0x0019eb80;
+  .text : { *(.text) }
+  /DISCARD/ : { *(.data) *(.bss) *(COMMON) *(.rodata*) *(.reginfo) *(.pdr)
+                *(.mdebug*) *(.comment) *(.note*) }
+}
+""",
+        encoding="utf-8",
+    )
+    def raw_link(obj, name):
+        linked=BUILD/(name+".linked.elf")
+        binfile=BUILD/(name+".raw")
+        run([ld,"-EL","-T",ldscript,obj,"-o",linked])
+        run([objcopy,"-j",".text","-O","binary",linked,binfile])
+        return binfile.read_bytes()
+    raw=raw_link(obj,"strtol-historical")
+    print("STRTOL original raw-linked: "+("MATCH" if raw==target else "DIFF")+
+          f" {len(raw)}/{len(target)} bytes; sha256={hashlib.sha256(raw).hexdigest()}",flush=True)
+    if raw!=target:
+        first=next((i for i,(a,b) in enumerate(zip(raw,target)) if a!=b),min(len(raw),len(target)))
+        raise SystemExit(f"STRTOL linked historical object FAIL at offset 0x{first:x}")
+
+    # Test the exact Makefile compiler profile plus potential historical
+    # per-TU flag overrides. This is diagnostic until the selected profile
+    # is proven and fixed into the canonical translation-unit ledger.
+    cflags_txt=run(["make","--no-print-directory","--silent","--eval",
+                    "print-ps2-ee-flags: ; @echo $(EE_SOURCE_TREE_FLAGS)",
+                    "print-ps2-ee-flags"]).strip()
+    appflags=shlex.split(cflags_txt)
+    variants={
+        "current-app-Os": ["-Os"],
+        "hosted": ["-Os","-fhosted"],
+        "builtin": ["-Os","-fbuiltin"],
+        "hosted-builtin": ["-Os","-fhosted","-fbuiltin"],
+        "long32-hosted": ["-Os","-mlong32","-fhosted"],
+        "long32-only": ["-Os","-mlong32"],
+        "no-freestanding-or-builtin": ["-Os","-fhosted","-fbuiltin","-mlong64"],
+    }
+    for name,flags in variants.items():
+        preview=BUILD/("strtol-"+name+".o")
+        run([compiler,*appflags,*flags,"-DF_strtol","-c",SRC,"-o",preview])
+        candidate,m,candidate_norm=rm.libgcc.text_image(preview)
+        diff=rm.libgcc.differing_unmasked(target,candidate,m)
+        success=(len(candidate)==SIZE and len(m)==9 and diff==0 and
+                 candidate_norm==rm.libgcc.normalize_target(target,m))
+        suffix=""
+        if success:
+            linked_raw=raw_link(preview,"strtol-"+name)
+            suffix=f" raw_equal={linked_raw==target}"
+        print(f"STRTOL PROFILE {name}: text={len(candidate)} "
+              f"relocs={len(m)} diff={diff} object_equal={success}{suffix}",flush=True)
 
 if __name__=="__main__":main()
