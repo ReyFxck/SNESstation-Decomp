@@ -230,7 +230,7 @@ FUN_0019e860	0x0019e860	PROVED	strcasecmp_0019e860	unique-address-suffix-global-
 FUN_0019e8e4	0x0019e8e4	PROVED	strncasecmp_0019e8e4	unique-address-suffix-global-text	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019e99c	0x0019e99c	PROVED	strtok_0019e99c	unique-address-suffix-global-text	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019eaa4	0x0019eaa4	PROVED	strrchr	progress-name-global-text	src/ps2/string.c	ps2/string.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0019eaf8	0x0019eaf8	PROVED	strstr_0019eaf8	unique-address-suffix-global-text	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019eaf8	0x0019eaf8	PROVED	strstr	progress-name-global-text	src/ps2/strstr.c	ps2/strstr.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019eb80	0x0019eb80	PROVED	strtol_0019eb80	unique-address-suffix-global-text	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019ee34	0x0019ee34	PROVED	isalpha_0019ee34	unique-address-suffix-global-text	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019ee80	0x0019ee80	PROVED	isdigit_0019ee80	unique-address-suffix-global-text	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o	ps2/progress28_structural_lift_recovered.o	
@@ -326,7 +326,6 @@ operator_new_001a9e88	0x001a9e88	PROVED	snes_p13_operator_new	progress-name-snes
 per_rom_cleanup_00151330	0x00151330	PROVED	rom_cleanup_00151330	unique-address-suffix-global-text	src/snes9x/memory_cleanup_recovered.c	snes9x/memory_cleanup_recovered.o	ps2/libmtap_recovered.o	
 restart_embedded_mod_00105d78	0x00105d78	PROVED	snes_dispatch_00105d78	progress-name-global-text	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o	app/main_flow_recovered.o	
 sn_strchr_0019c610	0x0019c610	PROVED	strchr	progress-name-global-text	src/ps2/strchr.S	ps2/strchr.o	ps2/libc_text_recovered.o	
-sn_strlen_0019c5e8	0x0019c5e8	PROVED	strlen	progress-name-global-text	src/ps2/strlen.S	ps2/strlen.o	ps2/libc_text_recovered.o	
 snes_memory_helper_00150f54	0x00150f54	PROVED	snes_p27_00150f54	unique-address-suffix-global-text	src/ps2/progress27_large_state_cpu_batch_recovered.c	ps2/progress27_large_state_cpu_batch_recovered.o	snes9x/memory_cleanup_recovered.o	
 snes_udivmoddi4_001a7788	0x001a7788	PROVED	snes_p28_001a7788	unique-address-suffix-global-text	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o	ps2/progress21_small_helpers_recovered.o	
 sub_001019a8	0x001019a8	PROVED	snes_p25_001019a8	unique-address-suffix-global-text	src/ps2/progress25_small_core_helpers_recovered.c	ps2/progress25_small_core_helpers_recovered.o	ps2/progress22_more_small_helpers_recovered.o	

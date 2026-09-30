@@ -340,7 +340,6 @@ isxdigit_0019efcc	global	text	0x48	src/ps2/libc_text_recovered.c	ps2/libc_text_r
 ps2lib_errno_00425a70	global	data	0x4	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 strcasecmp_0019e860	global	text	0x9c	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 strncasecmp_0019e8e4	global	text	0xac	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
-strstr_0019eaf8	global	text	0xa4	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 strtok_0019e99c	global	text	0x13c	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 strtok_current_00445140	local	bss	0x0	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 strtok_state_00445144	local	bss	0x0	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
@@ -973,6 +972,7 @@ strrchr	global	text	0x54	src/ps2/string.c	ps2/string.o
 strlen	global	weak-text	0x28	src/ps2/strlen.S	ps2/strlen.o
 strncmp	global	weak-text	0x48	src/ps2/strncmp.S	ps2/strncmp.o
 strncpy	global	weak-text	0x54	src/ps2/strncpy.S	ps2/strncpy.o
+strstr	global	text	0x8c	src/ps2/strstr.c	ps2/strstr.o
 append_char	local	text	0xd8	src/ps2/xprintf.c	ps2/xprintf.o
 append_number	local	text	0x360	src/ps2/xprintf.c	ps2/xprintf.o
 append_string	local	text	0x190	src/ps2/xprintf.c	ps2/xprintf.o
