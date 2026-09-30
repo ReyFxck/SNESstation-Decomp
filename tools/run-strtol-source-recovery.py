@@ -117,6 +117,56 @@ SECTIONS
         "long32-only": ["-Os","-mlong32"],
         "no-freestanding-or-builtin": ["-Os","-fhosted","-fbuiltin","-mlong64"],
     }
+    # Find the exact historical deviation in the application's flag set,
+    # retaining the C body and the recorded source untouched.
+    rem=[
+        "-fomit-frame-pointer","-fstrict-aliasing","-fno-common",
+        "-ffreestanding","-fno-builtin","-fshort-double",
+        "-mlong64","-mhard-float","-mno-abicalls",
+        "-march=r5900","-mtune=r5900",
+        "-DLSB_FIRST","-DALIGN_DWORD","-DCODE_PLATFORM=3",
+        "-DPS2_EE","-D_EE","-pipe",
+    ]
+    for flag in rem:
+        variants["drop-"+flag.lstrip("-")]=[
+            "-Os",*([] if flag not in appflags else []),
+        ]
+    # Previous construction is not a flag removal; use per-variant complete
+    # app flag arrays below, and keep explicit historical additions separate.
+    full={
+        "baseline-app": [*appflags,"-Os"],
+        "nostdinc-original": [*rm.FLAGS,*includes,"-DF_strtol"],
+    }
+    for flag in rem:
+        if flag in appflags:
+            full["without-"+flag.lstrip("-")]=[
+                *[f for f in appflags if f!=flag],"-Os",
+            ]
+        full["original-plus-"+flag.lstrip("-")]=[
+            *rm.FLAGS,flag,*includes,
+        ]
+    full["remove-freestanding-and-builtin"]=[
+        *[f for f in appflags if f not in ("-ffreestanding","-fno-builtin")],"-Os",
+    ]
+    full["remove-march-and-mtune"]=[
+        *[f for f in appflags if f not in ("-march=r5900","-mtune=r5900")],"-Os",
+    ]
+    full["remove-pipe-and-r5900"]=[
+        *[f for f in appflags if f not in ("-march=r5900","-mtune=r5900","-pipe")],"-Os",
+    ]
+    for name,flags in full.items():
+        preview=BUILD/("strtol-"+name+".o")
+        run([compiler,*flags,"-DF_strtol","-c",SRC,"-o",preview])
+        candidate,m,cn=rm.libgcc.text_image(preview)
+        diff=rm.libgcc.differing_unmasked(target,candidate,m)
+        success=(len(candidate)==SIZE and len(m)==9 and diff==0 and
+                 cn==rm.libgcc.normalize_target(target,m))
+        suffix=""
+        if success:
+            linked_raw=raw_link(preview,"strtol-"+name)
+            suffix=f" raw_equal={linked_raw==target}"
+        print(f"STRTOL PROFILE {name}: text={len(candidate)} "
+              f"relocs={len(m)} diff={diff} object_equal={success}{suffix}",flush=True)
     for name,flags in variants.items():
         preview=BUILD/("strtol-"+name+".o")
         run([compiler,*appflags,*flags,"-DF_strtol","-c",SRC,"-o",preview])
