@@ -105,3 +105,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 104	src/ps2/strcpy.S	ps2	asm-cpp	canonical	ps2/strcpy.o		Exact historical ps2sdk@694100b7 strcpy.S; 1/1 object and 40/40 target bytes proved.
 105	src/ps2/strlen.S	ps2	asm-cpp	canonical	ps2/strlen.o		Exact historical ps2sdk@694100b7 strlen.S; 1/1 object and 40/40 target bytes proved.
 106	src/ps2/strchr.S	ps2	asm-cpp	canonical	ps2/strchr.o		Exact historical ps2sdk@694100b7 strchr.S; 1/1 object and 56/56 target bytes proved.
+107	src/ps2/strcmp.S	ps2	asm-cpp	canonical	ps2/strcmp.o		Exact historical ps2sdk@694100b7 strcmp.S; 1/1 object and 64/64 target bytes proved.

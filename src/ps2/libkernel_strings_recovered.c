@@ -1,6 +1,6 @@
 /*
  * Remaining small libkernel/libc routines linked into SNES Station v0.23.
- * Exact memcpy/memset/memmove/strcat/memcmp/strcpy/strlen/strchr providers now live in historical assembly sources.
+ * Exact memcpy/memset/memmove/strcat/memcmp/strcpy/strlen/strchr/strcmp providers now live in historical assembly sources.
  * Remaining target corridor starts at 0x0019c410.
  */
 #include <stddef.h>
@@ -34,12 +34,3 @@ char *sn_strncpy_0019c550(char *dst, const char *src, size_t n)
     return ret;
 }
 
-/* 0x0019c648 */
-int sn_strcmp_0019c648(const char *a, const char *b)
-{
-    while (*a != '\0' && *a == *b) {
-        ++a;
-        ++b;
-    }
-    return (int)(unsigned char)*a - (int)(unsigned char)*b;
-}

@@ -6,6 +6,7 @@ on:
       - "tools/run-strcmp-source-recovery.py"
       - "src/ps2/strcmp.S"
       - "analysis/functions/libkernel_libc_strings_0019c3d4.asm"
+      - "analysis/functions/strcmp_exact_64.tsv"
       - "analysis/link_identity/runtime_member_inputs.tsv"
       - "tools/runtime_members.py"
       - ".github/workflows/strcmp-source-recovery.yml"
