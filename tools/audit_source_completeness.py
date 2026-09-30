@@ -79,6 +79,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "strrchr_exact_84.tsv",
         "src/ps2/string.c",
     ),
+    (
+        ROOT / "analysis" / "functions" / "strstr_exact_136.tsv",
+        "src/ps2/strstr.c",
+    ),
 )
 
 

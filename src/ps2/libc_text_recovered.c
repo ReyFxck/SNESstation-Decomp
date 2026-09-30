@@ -155,33 +155,6 @@ int strncasecmp_0019e8e4(const char *left, const char *right, unsigned int count
 }
 
 extern char *sn_strchr_0019c610(const char *s, int c);
-extern size_t sn_strlen_0019c5e8(const char *s);
-extern int strncmp(const char *a, const char *b, size_t n);
-
-/* Target: 0x0019eaf8. */
-char *strstr_0019eaf8(const char *haystack, const char *needle)
-{
-    const char *scan;
-    size_t needle_len;
-
-    if (haystack == NULL)
-        return NULL;
-    if (*needle == '\0')
-        return (char *)haystack;
-    if (*haystack == '\0')
-        return NULL;
-
-    needle_len = sn_strlen_0019c5e8(needle);
-    scan = haystack;
-
-    while (*scan != '\0') {
-        if (strncmp(scan, needle, needle_len) == 0)
-            return (char *)scan;
-        scan++;
-    }
-
-    return NULL;
-}
 
 /*
  * strtok target state lives at 0x00445140 (current token) and 0x00445144

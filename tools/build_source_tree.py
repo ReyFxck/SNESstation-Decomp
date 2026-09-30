@@ -70,10 +70,12 @@ SOURCE_FLAGS = {
     "src/ps2/strncpy.S": ("-Os",),
     "src/ps2/strncmp.S": ("-Os",),
     "src/ps2/string.c": ("-Os",),
+    "src/ps2/strstr.c": ("-Os",),
 }
 
 SOURCE_DEFINES = {
     "src/ps2/string.c": ("F_strrchr",),
+    "src/ps2/strstr.c": ("F_strstr",),
     "src/ps2/kernel.S": (
         "F_iWakeupThread",
         "F_CreateSema",
