@@ -67,6 +67,7 @@ SOURCE_FLAGS = {
     "src/ps2/strlen.S": ("-Os",),
     "src/ps2/strchr.S": ("-Os",),
     "src/ps2/strcmp.S": ("-Os",),
+    "src/ps2/strncpy.S": ("-Os",),
 }
 
 SOURCE_DEFINES = {
