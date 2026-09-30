@@ -207,6 +207,7 @@ DETAILS = {
 # canonical source tree now defines promoted runtime symbols directly from the
 # recovered historical SIF, FILEIO, XPRINTF and ALLOC sources.
 PROMOTED_SOURCE_RUNTIME = {
+    "memcmp": ("memcmp", "ps2/progress21_small_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o"),
     "strcat": ("strcat", "ps2/path_helpers_recovered.o;zlib/gzio_recovered.o"),
     "memmove": ("memmove", "ps2/progress26_dsp_runtime_batch_recovered.o;unzip/explode_recovered.o;zlib/deflate_engine_recovered.o;zlib/deflate_state_recovered.o;zlib/infblock_engine_recovered.o;zlib/infblock_frontend_recovered.o;zlib/infutil_recovered.o"),
     "memset": ("memset", "app/main_flow_recovered.o;ps2/alloc.o;ps2/gcc_fde_runtime_recovered.o;ps2/iopcontrol.o;ps2/libpad_recovered.o;ps2/libsupcxx_rtti_recovered.o;ps2/loadfile.o;ps2/progress13_cpp_eh_recovered.o;ps2/progress22_more_small_helpers_recovered.o;ps2/progress24_core_helpers_recovered.o;ps2/progress25_small_core_helpers_recovered.o;ps2/progress26_dsp_runtime_batch_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o;ps2/small_dispatch_recovered.o;snes9x/memory_init_recovered.o;snes9x/progress11_core_recovered.o;snes9x/progress13_core_helpers_recovered.o;snes9x/progress13_frontend_more_recovered.o;snes9x/progress13_runtime_more_recovered.o;snes9x/sram_recovered.o;unzip/explode_recovered.o;unzip/unreduce_recovered.o;zlib/deflate_engine_recovered.o;zlib/deflate_state_recovered.o;zlib/gzio_recovered.o;zlib/infblock_frontend_recovered.o;zlib/inflate_state_recovered.o;zlib/zlib_buffer_api_recovered.o"),
@@ -305,7 +306,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
     # Exact kernel.S plus promoted libc assembly sources remove their former
     # live external contracts from the global source-tree namespace.
-    if set(active) != expected_external or len(external) != 1834:
+    if set(active) != expected_external or len(external) != 1833:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):

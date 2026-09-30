@@ -101,3 +101,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 100	src/ps2/memset.S	ps2	asm-cpp	canonical	ps2/memset.o		Exact historical ps2sdk@694100b7 memset.S; 1/1 object and 56/56 target bytes proved.
 101	src/ps2/memmove.S	ps2	asm-cpp	canonical	ps2/memmove.o		Exact historical ps2sdk@694100b7 memmove.S; 1/1 object and 136/136 target bytes proved.
 102	src/ps2/strcat.S	ps2	asm-cpp	canonical	ps2/strcat.o		Exact historical ps2sdk@694100b7 strcat.S; raw-linked 56/56 target bytes proved.
+103	src/ps2/memcmp.S	ps2	asm-cpp	canonical	ps2/memcmp.o		Exact historical ps2sdk@694100b7 memcmp.S; 1/1 object and 72/72 target bytes proved.

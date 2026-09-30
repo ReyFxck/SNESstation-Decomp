@@ -47,6 +47,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "strcat_exact_56.tsv",
         "src/ps2/strcat.S",
     ),
+    (
+        ROOT / "analysis" / "functions" / "memcmp_exact_72.tsv",
+        "src/ps2/memcmp.S",
+    ),
 )
 
 
