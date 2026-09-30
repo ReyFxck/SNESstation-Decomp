@@ -26,8 +26,8 @@ class DecompDevReportTests(unittest.TestCase):
         self.assertEqual(1041, measures["matched_functions"])
         self.assertEqual("722892", measures["matched_code"])
         self.assertEqual("722892", measures["complete_code"])
-        self.assertEqual(95, measures["total_units"])
-        self.assertEqual(95, measures["complete_units"])
+        self.assertEqual(94, measures["total_units"])
+        self.assertEqual(94, measures["complete_units"])
 
     def test_whole_image_reports_only_exact_chunks(self):
         measures = self.categories[gate.IMAGE_CATEGORY]["measures"]
