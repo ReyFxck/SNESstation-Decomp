@@ -1,5 +1,5 @@
 name: Source recovery ledger refresh
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, raw-linked STRCAT, MEMCMP, STRCPY, STRLEN, STRCHR and STRCMP and STRNCPY promotions included.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, raw-linked STRCAT, MEMCMP, STRCPY, STRLEN, STRCHR and STRCMP and STRNCPY and STRNCMP promotions included.
 
 on:
   push:
@@ -64,6 +64,10 @@ on:
       - analysis/functions/strncpy_exact_88.tsv
       - tools/run-strncpy-source-recovery.py
       - .github/workflows/strncpy-source-recovery.yml
+      - src/ps2/strncmp.S
+      - analysis/functions/strncmp_exact_72.tsv
+      - tools/run-strncmp-source-recovery.py
+      - .github/workflows/strncmp-source-recovery.yml
       - .github/workflows/strcpy-source-recovery.yml
       - include/alloc_legacy_compat.h
       - tools/run-alloc-source-recovery.py
@@ -149,6 +153,7 @@ jobs:
           python3 tools/run-strchr-source-recovery.py
           python3 tools/run-strcmp-source-recovery.py
           python3 tools/run-strncpy-source-recovery.py
+          python3 tools/run-strncmp-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
           python3 tools/run-iopcontrol-source-recovery.py

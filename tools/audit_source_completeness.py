@@ -71,6 +71,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "strncpy_exact_88.tsv",
         "src/ps2/strncpy.S",
     ),
+    (
+        ROOT / "analysis" / "functions" / "strncmp_exact_72.tsv",
+        "src/ps2/strncmp.S",
+    ),
 )
 
 

@@ -97,6 +97,13 @@ class BuildSourceTreeTests(unittest.TestCase):
         self.assertTrue(strncpy[0].canonical)
         self.assertEqual("asm-cpp", strncpy[0].language)
         self.assertEqual("ps2/strncpy.o", strncpy[0].object)
+
+        strncmp = [unit for unit in units if unit.source == "src/ps2/strncmp.S"]
+        self.assertEqual(1, len(strncmp))
+        self.assertTrue(strncmp[0].canonical)
+        self.assertEqual("asm-cpp", strncmp[0].language)
+        self.assertEqual("ps2/strncmp.o", strncmp[0].object)
+        self.assertFalse(any(unit.source == "src/ps2/libkernel_strings_recovered.c" for unit in units))
         self.assertEqual("ps2/kernel.o", kernel[0].object)
 
     def test_abi_contract_records_the_nonstandard_ee_widths(self) -> None:
