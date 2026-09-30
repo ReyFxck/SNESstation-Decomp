@@ -207,6 +207,7 @@ DETAILS = {
 # canonical source tree now defines promoted runtime symbols directly from the
 # recovered historical SIF, FILEIO, XPRINTF and ALLOC sources.
 PROMOTED_SOURCE_RUNTIME = {
+    "strchr": ("strchr", "ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o"),
     "strlen": ("strlen", "ps2/iopcontrol.o;ps2/libmc_recovered.o;ps2/path_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o;ps2/xprintf.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o"),
     "strcpy": ("strcpy", "ps2/libpad_recovered.o;ps2/path_helpers_recovered.o;ps2/strcat.o;snes9x/memmap_metadata_recovered.o;zlib/gzio_recovered.o"),
     "memcmp": ("memcmp", "ps2/progress21_small_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o"),
@@ -308,7 +309,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
     # Exact kernel.S plus promoted libc assembly sources remove their former
     # live external contracts from the global source-tree namespace.
-    if set(active) != expected_external or len(external) != 1832:
+    if set(active) != expected_external or len(external) != 1831:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):
