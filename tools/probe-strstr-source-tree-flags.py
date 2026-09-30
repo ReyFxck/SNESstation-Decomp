@@ -24,7 +24,7 @@ def trial(cc, name, flags):
     raw_map = {}
     listing = (ROOT / "analysis/functions/libc_text_0019e860.asm").read_text()
     for line in listing.splitlines():
-        match = re.match(r"^\\s*([0-9a-fA-F]+):\\s+([0-9a-fA-F]{2})\\s+([0-9a-fA-F]{2})\\s+([0-9a-fA-F]{2})\\s+([0-9a-fA-F]{2})\\b", line)
+        match = re.match(r"^\s*([0-9a-fA-F]+):\s+([0-9a-fA-F]{2})\s+([0-9a-fA-F]{2})\s+([0-9a-fA-F]{2})\s+([0-9a-fA-F]{2})\b", line)
         if match:
             address = int(match.group(1), 16)
             for i, value in enumerate(match.groups()[1:]):
@@ -38,7 +38,10 @@ def trial(cc, name, flags):
         ldfile = WORK / (name + ".ld")
         linked = WORK / (name + ".linked.elf")
         rawfile = WORK / (name + ".linked.bin")
-        ldfile.write_text("PROVIDE(strlen = 0x0019c5e8);\\nPROVIDE(strncmp = 0x0019c410);\\nSECTIONS { . = 0x0019eaf8; .text : { *(.text) } /DISCARD/ : { *(.data) *(.bss) *(COMMON) *(.rodata*) *(.reginfo) *(.pdr) *(.mdebug*) *(.comment) *(.note*) } }\\n".replace("\\\\n", "\\n"))
+        ldfile.write_text("""PROVIDE(strlen = 0x0019c5e8);
+PROVIDE(strncmp = 0x0019c410);
+SECTIONS { . = 0x0019eaf8; .text : { *(.text) } /DISCARD/ : { *(.data) *(.bss) *(COMMON) *(.rodata*) *(.reginfo) *(.pdr) *(.mdebug*) *(.comment) *(.note*) } }
+""")
         ld = subprocess.run([str(linker), "-EL", "-T", str(ldfile), str(obj), "-o", str(linked)], capture_output=True, text=True)
         if ld.returncode:
             output += " ld_error=" + ld.stderr[-350:]
