@@ -733,7 +733,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019e648,calloc,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/alloc.c,MATCHING
 0x0019e698,memalign,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/alloc.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0019e784,free,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/alloc.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x0019e860,strcasecmp,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x0019e860,strcasecmp,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/ps2/strcasecmp.c,MATCHING
 0x0019e8e4,strncasecmp,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0019e99c,strtok,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0019eaa4,strrchr,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/ps2/string.c,MATCHING

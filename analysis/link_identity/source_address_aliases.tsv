@@ -226,7 +226,7 @@ FUN_0019e414	0x0019e414	PROVED	puts_like_recovered	progress-name-recovered-suffi
 FUN_0019e4b4	0x0019e4b4	PROVED	malloc	progress-name-global-text	src/ps2/alloc.c	ps2/alloc.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019e698	0x0019e698	PROVED	memalign	progress-name-global-text	src/ps2/alloc.c	ps2/alloc.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019e784	0x0019e784	PROVED	free	progress-name-global-text	src/ps2/alloc.c	ps2/alloc.o	ps2/progress28_structural_lift_recovered.o	
-FUN_0019e860	0x0019e860	PROVED	strcasecmp_0019e860	unique-address-suffix-global-text	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_0019e860	0x0019e860	PROVED	strcasecmp	progress-name-global-text	src/ps2/strcasecmp.c	ps2/strcasecmp.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019e8e4	0x0019e8e4	PROVED	strncasecmp_0019e8e4	unique-address-suffix-global-text	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019e99c	0x0019e99c	PROVED	strtok_0019e99c	unique-address-suffix-global-text	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0019eaa4	0x0019eaa4	PROVED	strrchr	progress-name-global-text	src/ps2/string.c	ps2/string.o	ps2/progress28_structural_lift_recovered.o	

@@ -338,7 +338,6 @@ isspace_0019efac	global	text	0x20	src/ps2/libc_text_recovered.c	ps2/libc_text_re
 isupper_0019ee0c	global	text	0xc	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 isxdigit_0019efcc	global	text	0x48	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 ps2lib_errno_00425a70	global	data	0x4	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
-strcasecmp_0019e860	global	text	0x9c	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 strncasecmp_0019e8e4	global	text	0xac	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 strtok_0019e99c	global	text	0x13c	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
 strtok_current_00445140	local	bss	0x0	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
@@ -963,6 +962,7 @@ snes_dispatch_00183678	global	text	0x3c	src/ps2/small_dispatch_recovered.c	ps2/s
 snes_dispatch_0018faa4	global	text	0x68	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
 snes_dispatch_0019c5cc	global	text	0x28	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
 snes_dispatch_001a51d0	global	text	0x6c	src/ps2/small_dispatch_recovered.c	ps2/small_dispatch_recovered.o
+strcasecmp	global	text	0x84	src/ps2/strcasecmp.c	ps2/strcasecmp.o
 strcat	global	weak-text	0x38	src/ps2/strcat.S	ps2/strcat.o
 strchr	global	weak-text	0x38	src/ps2/strchr.S	ps2/strchr.o
 strcmp	global	weak-text	0x40	src/ps2/strcmp.S	ps2/strcmp.o
