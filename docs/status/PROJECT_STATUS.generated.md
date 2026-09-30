@@ -27,7 +27,7 @@ row independently closes the complete file identity.
 | Function matching | **1,041/1,041** | Complete-boundary compiler/object evidence for every audited entry |
 | Readable source models | **1,041/1,041** | Every audited entry has a behavioral/source representation |
 | Source ownership | **99/99 units** | 99 canonical EE objects compile with the frozen ABI |
-| Source-address aliases | **333/347 proved** | 14 intentionally blocked names remain outside the alias claim |
+| Source-address aliases | **332/346 proved** | 14 intentionally blocked names remain outside the alias claim |
 | Zero-byte link contracts | **1,267/1,496** | 1,234 address anchors and 33 semantic aliases |
 | Source-link providers | **219/219** | The recovered relocatable aggregate has zero undefined globals |
 | Named data | **54/54** | 50 exact target ranges and 4 completed source refactors |
