@@ -70,7 +70,10 @@ SOURCE_FLAGS = {
     "src/ps2/strncpy.S": ("-Os",),
     "src/ps2/strncmp.S": ("-Os",),
     "src/ps2/string.c": ("-Os",),
-    "src/ps2/strstr.c": ("-Os",),
+    # Original PS2LIB F_strstr was built with 32-bit long and hosted builtin
+    # semantics, unlike the application's -mlong64 freestanding profile.
+    # Both the historical member AND this canonical TU must link 136/136 exact bytes.
+    "src/ps2/strstr.c": ("-Os", "-mlong32", "-fhosted"),
 }
 
 SOURCE_DEFINES = {

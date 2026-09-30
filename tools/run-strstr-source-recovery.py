@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import hashlib
 import re
+import shlex
+
+import build_source_tree
 import subprocess
 from pathlib import Path
 from types import SimpleNamespace
@@ -161,7 +164,62 @@ SECTIONS
 
     print("STRSTR historical-source object gate: 1/1 MATCH")
     print(f"STRSTR raw linked gate: MATCH {len(raw)}/{len(expected)} bytes")
-    print('raw sha256:', hashlib.sha256(raw).hexdigest())
+    print("historical raw sha256:", hashlib.sha256(raw).hexdigest())
+
+    # The canonical source tree has application-wide -mlong64 and
+    # -ffreestanding flags.  This PS2LIB member instead needs its old
+    # 32-bit-long hosted recipe.  Verify the ACTUAL Makefile CFLAGS, not
+    # just the isolated PS2LIB recipe.
+    cflags_text = subprocess.check_output(
+        [
+            "make", "--no-print-directory", "--silent", "--eval",
+            "print-ee-source-tree-flags: ; @echo $(EE_SOURCE_TREE_FLAGS)",
+            "print-ee-source-tree-flags",
+        ],
+        cwd=ROOT, text=True,
+    ).strip()
+    canonical_flags = build_source_tree.SOURCE_FLAGS["src/ps2/strstr.c"]
+    canonical_obj = BUILD / "strstr.canonical.o"
+    run([
+        compiler, *shlex.split(cflags_text), *canonical_flags,
+        "-D" + DEFINE, "-c", SOURCE, "-o", canonical_obj,
+    ])
+    canonical_image, canonical_masks, canonical_norm = rm.libgcc.text_image(canonical_obj)
+    canonical_diff = rm.libgcc.differing_unmasked(expected, canonical_image, canonical_masks)
+    canonical_ok = (
+        len(canonical_image) == SIZE
+        and len(canonical_masks) == 2
+        and canonical_diff == 0
+        and canonical_norm == rm.libgcc.normalize_target(expected, canonical_masks)
+    )
+    print(
+        f"{'MATCH' if canonical_ok else 'DIFF':5} canonical strstr.o "
+        f"bytes={len(canonical_image)}/{SIZE} "
+        f"relocs={len(canonical_masks)} diff={canonical_diff}"
+    )
+    if not canonical_ok:
+        raise SystemExit("STRSTR canonical source-tree object gate: FAIL")
+
+    canonical_linked = BUILD / "strstr.canonical-linked.elf"
+    canonical_raw_path = BUILD / "strstr.canonical-linked.text.bin"
+    run([ld, "-EL", "-T", script, canonical_obj, "-o", canonical_linked])
+    run([
+        objcopy, "-j", ".text", "-O", "binary",
+        canonical_linked, canonical_raw_path,
+    ])
+    canonical_raw = canonical_raw_path.read_bytes()
+    if canonical_raw != expected:
+        first = next(
+            (i for i, (actual, want) in enumerate(zip(canonical_raw, expected))
+             if actual != want),
+            min(len(canonical_raw), len(expected)),
+        )
+        raise SystemExit(
+            f"STRSTR canonical raw-linked gate: FAIL bytes={len(canonical_raw)}/{SIZE} "
+            f"first_diff=0x{first:x}"
+        )
+    print(f"STRSTR canonical source-tree raw gate: MATCH {SIZE}/{SIZE} bytes")
+    print("canonical raw sha256:", hashlib.sha256(canonical_raw).hexdigest())
 
 
 if __name__ == "__main__":
