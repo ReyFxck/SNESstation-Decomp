@@ -1369,7 +1369,7 @@ FUN_0019c2ac	target-function-alias	source-address-alias	src/ps2/cdvd_rpc.c;src/p
 FUN_0019c364	target-function-alias	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/memcpy.S;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c39c	target-function-alias	source-address-alias	src/ps2/memset.S;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c3d4	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strcat.S	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c458	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c458	target-function-alias	source-address-alias	src/ps2/memcmp.S;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c4a0	target-function-alias	source-address-alias	src/ps2/memmove.S;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c528	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019c550	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1679,7 +1679,6 @@ inflate_0019296c	zlib-peer	source-or-archive	zlib object family	link-identity	zl
 isdigit	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress21_small_helpers_recovered.o
 load_config_00106054	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
 mcInit	ps2-runtime	historical-archive	PS2LIB mc/libmc.o (ps2sdk@694100b7 source)	runtime-member-text-identity	app/main_bootstrap.o
-memcmp	c-runtime	historical-archive	PS2LIB libc/memcmp.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/progress21_small_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o
 memcpy_like_0019c364	target-address-symbol	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/memcpy.S;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/gspipe_recovered.o
 memmove_like	named-external	link-contract	reserved:link-contract	link-identity	snes9x/sram_recovered.o
 memory_card_setup_0010689c	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
