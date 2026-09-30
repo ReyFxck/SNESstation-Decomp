@@ -6,7 +6,7 @@ on:
       - source-recovery-file-by-file
     paths:
       - "src/ps2/strstr.c"
-      - "include/string_legacy_compat.h"
+      - "include/strstr_legacy_compat.h"
       - "analysis/functions/strstr_exact_136.tsv"
       - "tools/run-strstr-source-recovery.py"
       - ".github/workflows/strstr-source-recovery.yml"

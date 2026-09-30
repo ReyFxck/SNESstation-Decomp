@@ -1,4 +1,4 @@
-#include "string_legacy_compat.h"
+#include "strstr_legacy_compat.h"
 
 #ifdef F_strstr
 char *	strstr(const char * string, const char * substring)
