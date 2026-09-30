@@ -108,6 +108,6 @@ translation-unit	src/ps2/strchr.S	ps2/strchr.o	d17d429900d2a2dfb7dcc050413dc1289
 translation-unit	src/ps2/strcmp.S	ps2/strcmp.o	a96d09fe9b5db18e27467d97d77970af0900c3b0b805ffa61b6c2d0c30566b77
 translation-unit	src/ps2/strncpy.S	ps2/strncpy.o	53efc46aa05bdf741be373060ef9128ee23503f59d9246d880e1d9f4aa18efa5
 translation-unit	src/ps2/string.c	ps2/string.o	97ba35b2fe17f0fb1f68e99ea229360907c27356c100b54c069ce06bc85c5bdd
-translation-unit	src/ps2/strstr.c	ps2/strstr.o	0fb4bb07b28aaa0cad3a52cb496b6526c24e4ccf3d227a2b14b63a602b8b4d51
+translation-unit	src/ps2/strstr.c	ps2/strstr.o	445486b076847aaeec0755a2b5de47f60ad524351fdcf0bf042bf37574a80edb
 abi-contract	analysis/source_tree/ee_abi_contract.c	abi/ee_abi_contract.o	690ed934a48d2c9774320f731595033cf304a0359cef9a013d4364e17cebd1c0
-canonical-aggregate		source-tree.partial.o	e443c22f816b20787e26bf711738a665c493edb0136a5361e08c8e65d9102cae
+canonical-aggregate		source-tree.partial.o	1c527b038899d04319da13cf2cc571e232d1dabd6a40a9b063d769b1e5780eee

@@ -972,7 +972,7 @@ strrchr	global	text	0x54	src/ps2/string.c	ps2/string.o
 strlen	global	weak-text	0x28	src/ps2/strlen.S	ps2/strlen.o
 strncmp	global	weak-text	0x48	src/ps2/strncmp.S	ps2/strncmp.o
 strncpy	global	weak-text	0x54	src/ps2/strncpy.S	ps2/strncpy.o
-strstr	global	text	0x8c	src/ps2/strstr.c	ps2/strstr.o
+strstr	global	text	0x94	src/ps2/strstr.c	ps2/strstr.o
 append_char	local	text	0xd8	src/ps2/xprintf.c	ps2/xprintf.o
 append_number	local	text	0x360	src/ps2/xprintf.c	ps2/xprintf.o
 append_string	local	text	0x190	src/ps2/xprintf.c	ps2/xprintf.o
