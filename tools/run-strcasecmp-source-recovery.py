@@ -33,7 +33,7 @@ def target_bytes():
     missing=[addr for addr in range(START,START+SIZE) if addr not in mapping]
     if missing:raise SystemExit("missing original target byte "+hex(missing[0]))
     expected=bytes(mapping[a] for a in range(START,START+SIZE))
-    if hashlib.sha256(expected).hexdigest()!=SHA_TARGET:raise SystemExit("target source listing SHA-256 drift")
+    if hashlib.sha256(expected).hexdigest()!=SHA_TARGET:raise SystemExit("target source listing SHA-256 drift: expected "+SHA_TARGET+" got "+hashlib.sha256(expected).hexdigest())
     return expected
 
 def main():
