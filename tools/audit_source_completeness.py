@@ -55,6 +55,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "strcpy_exact_40.tsv",
         "src/ps2/strcpy.S",
     ),
+    (
+        ROOT / "analysis" / "functions" / "strlen_exact_40.tsv",
+        "src/ps2/strlen.S",
+    ),
 )
 
 
