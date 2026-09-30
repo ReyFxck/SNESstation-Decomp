@@ -23,8 +23,8 @@ class BuildSourceTreeTests(unittest.TestCase):
         units = MODULE.read_manifest(
             ROOT / "analysis" / "source_tree" / "translation_units.tsv"
         )
-        self.assertEqual(103, len(units))
-        self.assertEqual(103, sum(unit.canonical for unit in units))
+        self.assertEqual(104, len(units))
+        self.assertEqual(104, sum(unit.canonical for unit in units))
         alternate = [unit for unit in units if not unit.canonical]
         self.assertEqual([], alternate)
         cdvd = [unit for unit in units if unit.source == "src/ps2/cdvd_rpc.c"]
@@ -67,6 +67,12 @@ class BuildSourceTreeTests(unittest.TestCase):
         self.assertTrue(memcmp[0].canonical)
         self.assertEqual("asm-cpp", memcmp[0].language)
         self.assertEqual("ps2/memcmp.o", memcmp[0].object)
+
+        strcpy = [unit for unit in units if unit.source == "src/ps2/strcpy.S"]
+        self.assertEqual(1, len(strcpy))
+        self.assertTrue(strcpy[0].canonical)
+        self.assertEqual("asm-cpp", strcpy[0].language)
+        self.assertEqual("ps2/strcpy.o", strcpy[0].object)
         self.assertEqual("ps2/kernel.o", kernel[0].object)
 
     def test_abi_contract_records_the_nonstandard_ee_widths(self) -> None:
@@ -141,7 +147,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             counts[row["kind"]] = counts.get(row["kind"], 0) + 1
             self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(
-            {"translation-unit": 103, "abi-contract": 1, "canonical-aggregate": 1},
+            {"translation-unit": 104, "abi-contract": 1, "canonical-aggregate": 1},
             counts,
         )
 
