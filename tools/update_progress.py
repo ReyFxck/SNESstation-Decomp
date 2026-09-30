@@ -441,11 +441,11 @@ def main() -> None:
             combined_clusters[-1][1] = max(combined_clusters[-1][1], end_address)
     combined_cluster_bytes = sum(end - start for start, end in combined_clusters)
     if (
-        len(named_contract_rows) != 215
-        or len({row["symbol"] for row in named_contract_rows}) != 215
+        len(named_contract_rows) != 216
+        or len({row["symbol"] for row in named_contract_rows}) != 216
         or named_contract_statuses
         != {
-            "TEXT_ALIAS_PROVED": 26,
+            "TEXT_ALIAS_PROVED": 27,
             "TARGET_RANGE_PROVED": 164,
             "TARGET_ENTRY_PROVED": 2,
             "EXTERNAL_ADDRESS_PROVED": 2,
@@ -453,7 +453,7 @@ def main() -> None:
             "SOURCE_REFACTOR_CLOSED": 20,
         }
         or named_contract_fingerprinted != 165
-        or named_contract_addressed != 195
+        or named_contract_addressed != 196
         or named_contract_zlib != 7
         or len(stage3e_exact_storage) != 7
         or len(stage3e_clusters) != 49
@@ -629,12 +629,12 @@ row independently closes the complete file identity.
 |---|---:|---|
 | Function matching | **{project_status.formal_matching:,}/{project_status.total:,}** | Complete-boundary compiler/object evidence for every audited entry |
 | Readable source models | **{source_model_count:,}/{VALIDATED_TARGETS:,}** | Every audited entry has a behavioral/source representation |
-| Source ownership | **111/111 units** | 111 canonical EE objects compile with the frozen ABI |
+| Source ownership | **112/112 units** | 112 canonical EE objects compile with the frozen ABI |
 | Source-address aliases | **{alias_proved}/{len(alias_rows)} proved** | {alias_blocked} intentionally blocked names remain outside the alias claim |
 | Zero-byte link contracts | **{contract_resolved:,}/{len(contract_rows):,}** | {contract_anchors:,} address anchors and {contract_aliases} semantic aliases |
 | Source-link providers | **{len(closure_rows)}/{len(active_provider_symbols)}** | The recovered relocatable aggregate has zero undefined globals |
 | Named data | **54/54** | {named_data_fingerprinted} exact target ranges and {named_data_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors |
-| Named link contracts | **215/215** | {named_contract_fingerprinted} fingerprinted ranges/data aliases and {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors |
+| Named link contracts | **216/216** | {named_contract_fingerprinted} fingerprinted ranges/data aliases and {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors |
 | Compiler-runtime contracts | **7/7** | Four exact archive members plus three proved source refactors |
 | Runtime contracts | **{stage3d_closed}/53** | PS2LIB member text and target-selected `puts`/`abort` behavior accounted for |
 | Address identity | **{backing_report['resolved_contracts']:,}/{backing_report['contracts_total']:,}** | Every tracked address has a provider/refactor identity; full object bounds remain separate |

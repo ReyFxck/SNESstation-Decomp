@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import re
 import shlex
+import build_source_tree
 import subprocess
 from pathlib import Path
 from types import SimpleNamespace
@@ -99,5 +100,21 @@ SECTIONS { . = 0x0019e860; .text : { *(.text) }
         exact=len(preview)==SIZE and len(m)==4 and diffs==0 and pnorm==rm.libgcc.normalize_target(expected,m)
         raw_equal=link_raw(obj2,name)==expected if exact else False
         print(f"STRCASECMP PROFILE {name}: bytes={len(preview)} relocs={len(m)} diff={diffs} exact={exact} raw_equal={raw_equal}",flush=True)
+
+    # Verify actual canonical translation-unit compiler flags, not just a
+    # friendly experimental profile. Both objects must raw-link to target.
+    selected=build_source_tree.effective_source_cflags(
+        shlex.split(makeflags),"src/ps2/strcasecmp.c"
+    )
+    canonical=BUILD/"strcasecmp.canonical.o"
+    run([compiler,*selected,"-DF_strcasecmp","-c",SRC,"-o",canonical])
+    ci,cm,cn=rm.libgcc.text_image(canonical)
+    d=rm.libgcc.differing_unmasked(expected,ci,cm)
+    ok=len(ci)==SIZE and len(cm)==4 and d==0 and cn==rm.libgcc.normalize_target(expected,cm)
+    print(f"{'MATCH' if ok else 'DIFF':5} canonical strcasecmp.o bytes={len(ci)}/{SIZE} relocations={len(cm)} diff={d}",flush=True)
+    if not ok:raise SystemExit("STRCASECMP canonical source-tree object gate: FAIL")
+    raw=link_raw(canonical,"canonical-strcasecmp")
+    if raw!=expected:raise SystemExit("STRCASECMP canonical raw-linked target bytes FAIL")
+    print(f"STRCASECMP canonical raw-linked gate: MATCH {SIZE}/{SIZE} bytes sha256={hashlib.sha256(raw).hexdigest()}",flush=True)
 
 if __name__=="__main__":main()

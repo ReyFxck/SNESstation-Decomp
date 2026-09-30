@@ -106,26 +106,6 @@ int toupper_0019eddc(int c)
     return c;
 }
 
-/* Target: 0x0019e860. */
-int strcasecmp_0019e860(const char *left, const char *right)
-{
-    const signed char *a = (const signed char *)left;
-    const signed char *b = (const signed char *)right;
-
-    while (*a != 0) {
-        int ca = tolower_0019edac((int)*a);
-        int cb = tolower_0019edac((int)*b);
-        if (ca != cb)
-            break;
-        a++;
-        b++;
-    }
-
-    /* The target's final loads are unsigned even though loop loads are signed. */
-    return tolower_0019edac((int)*(const unsigned char *)a) -
-           tolower_0019edac((int)*(const unsigned char *)b);
-}
-
 /* Target: 0x0019e8e4. */
 int strncasecmp_0019e8e4(const char *left, const char *right, unsigned int count)
 {

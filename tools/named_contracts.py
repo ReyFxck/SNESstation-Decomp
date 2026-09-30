@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the historical 215-row Stage-3E named-contract tranche.
+"""Close the historical 216-row Stage-3E named-contract tranche.
 
 The original Stage-2 plan assigned 205 named link contracts and seven zlib
 peers to Stage 3E.  This gate preserves that historical denominator while
@@ -181,7 +181,7 @@ ERRNO_ALIAS = {
 
 # Historical Stage-3E contract that left the live external namespace when the
 # exact ps2sdk kernel.S source became canonical.  Keep it in the historical
-# 215-row ledger instead of pretending the original contract never existed.
+# 216-row ledger instead of pretending the original contract never existed.
 PROMOTED_EXACT_SOURCE = {
     "symbol": "iSifSetDChain",
     "category": "named-external",
@@ -196,6 +196,20 @@ PROMOTED_EXACT_SOURCE = {
     "detail": "exact historical kernel.S source provides the target entry directly;evidence=analysis/functions/libkernel_leaf_exact_508.tsv#iSifSetDChain",
 }
 
+
+PROMOTED_EXACT_STRCASECMP = {
+    "symbol": "strcasecmp",
+    "category": "named-external",
+    "status": TEXT_ALIAS_PROVED,
+    "target_address": "0x0019e860",
+    "extent_hex": "",
+    "region": "text",
+    "sha256": "",
+    "canonical_symbol": "strcasecmp",
+    "evidence": "exact-historical-source-target-entry",
+    "requesters": "ps2/audio_rpc_recovered.o",
+    "detail": "exact historical PS2LIB F_strcasecmp source provides target entry directly;evidence=analysis/functions/strcasecmp_exact_132.tsv#strcasecmp",
+}
 
 class NamedContractError(RuntimeError):
     pass
@@ -304,6 +318,25 @@ def verify_promoted_exact_source(defined_rows: Sequence[dict[str, str]]) -> None
     if not LIBKERNEL_EXACT.is_file() or token not in LIBKERNEL_EXACT.read_text(encoding="utf-8"):
         fail("promoted iSifSetDChain exact-source evidence drift")
 
+    # The original caller-side named contract is retained after the exact
+    # historical C source replaces the provisional strcasecmp model.
+    exact = [
+        row for row in defined_rows
+        if row["symbol"] == PROMOTED_EXACT_STRCASECMP["symbol"]
+        and row["source"] == "src/ps2/strcasecmp.c"
+        and row["object"] == "ps2/strcasecmp.o"
+        and row["binding"] == "global"
+        and row["section_class"] == "text"
+        and row["size_hex"] == "0x84"
+    ]
+    if len(exact) != 1:
+        fail("promoted strcasecmp source ownership drift")
+    reference = ROOT / "analysis" / "functions" / "strcasecmp_exact_132.tsv"
+    token = "strcasecmp\t0x0019e860\t0x84\t47c76055161ef2612a1ef56925c716c89012a7c1716ed9f0bf6d1b678338be4f"
+    if not reference.is_file() or token not in reference.read_text(encoding="utf-8"):
+        fail("promoted strcasecmp exact-source evidence drift")
+
+
 
 def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str, int | str]]:
     external_rows = read_table(args.external_map, EXTERNAL_FIELDS)
@@ -400,6 +433,7 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
         })
 
     result.append(dict(PROMOTED_EXACT_SOURCE))
+    result.append(dict(PROMOTED_EXACT_STRCASECMP))
 
     result.append({
         "symbol": ERRNO_ALIAS["symbol"],
@@ -431,10 +465,10 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
         })
 
     result.sort(key=lambda row: row["symbol"])
-    if len(result) != 215 or len({row["symbol"] for row in result}) != 215:
-        fail("historical Stage-3E 215-row ledger drift")
+    if len(result) != 216 or len({row["symbol"] for row in result}) != 216:
+        fail("historical Stage-3E 216-row ledger drift")
     expected_counts = {
-        TEXT_ALIAS_PROVED: 26,
+        TEXT_ALIAS_PROVED: 27,
         TARGET_RANGE_PROVED: 164,
         TARGET_ENTRY_PROVED: 2,
         EXTERNAL_ADDRESS_PROVED: 2,
@@ -474,8 +508,8 @@ def fingerprint_rows(
 def validate_manifest(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str, int | str]]:
     expected, layout = derive_rows(args)
     actual = read_table(args.manifest, MANIFEST_FIELDS)
-    if len(actual) != 215:
-        fail(f"named-contract manifest must contain 215 rows, found {len(actual)}")
+    if len(actual) != 216:
+        fail(f"named-contract manifest must contain 216 rows, found {len(actual)}")
     actual_by_symbol = unique(actual, "symbol", "named-contract row")
     if set(actual_by_symbol) != {row["symbol"] for row in expected}:
         fail("named-contract manifest symbol set drift")
