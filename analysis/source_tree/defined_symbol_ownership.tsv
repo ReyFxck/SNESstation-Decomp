@@ -381,7 +381,6 @@ ee_status_recovered	local	text	0xc	src/ps2/libkernel_heap_runtime_recovered.c	ps
 program_break_00425a80	local	bss	0x0	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_heap_runtime_recovered.o
 ps2_sbrk_0019f078	global	text	0xcc	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_heap_runtime_recovered.o
 sn_strncmp_0019c410	global	text	0x40	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
-sn_strncpy_0019c550	global	text	0x70	src/ps2/libkernel_strings_recovered.c	ps2/libkernel_strings_recovered.o
 SifCheckStatRpc_001a1af4	global	text	0x34	src/ps2/libmc_recovered.c	ps2/libmc_recovered.o
 ee_addr32	local	text	0x8	src/ps2/libmc_recovered.c	ps2/libmc_recovered.o
 g_cdata	local	bss	0x0	src/ps2/libmc_recovered.c	ps2/libmc_recovered.o
@@ -973,6 +972,7 @@ strchr	global	weak-text	0x38	src/ps2/strchr.S	ps2/strchr.o
 strcmp	global	weak-text	0x40	src/ps2/strcmp.S	ps2/strcmp.o
 strcpy	global	weak-text	0x28	src/ps2/strcpy.S	ps2/strcpy.o
 strlen	global	weak-text	0x28	src/ps2/strlen.S	ps2/strlen.o
+strncpy	global	weak-text	0x54	src/ps2/strncpy.S	ps2/strncpy.o
 append_char	local	text	0xd8	src/ps2/xprintf.c	ps2/xprintf.o
 append_number	local	text	0x360	src/ps2/xprintf.c	ps2/xprintf.o
 append_string	local	text	0x190	src/ps2/xprintf.c	ps2/xprintf.o
