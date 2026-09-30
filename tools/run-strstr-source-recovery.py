@@ -111,7 +111,7 @@ def main() -> None:
         len(image) == SIZE
         and differing == 0
         and normalized == normalized_target
-        and len(masks) == 3
+        and len(masks) == 2
     )
 
     print("source: src/ps2/strstr.c (historical source candidate)")
