@@ -12,7 +12,7 @@ import runtime_members as rm
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build" / "matching" / "strchr-source-recovery"
 SOURCE = ROOT / "src" / "ps2" / "strchr.S"
-TARGETS = ROOT / "analysis" / "functions" / "strchr_exact_40.tsv"
+TARGETS = ROOT / "analysis" / "functions" / "strchr_exact_56.tsv"
 SOURCE_SHA256 = "49b0335a2442eb88f703784a1d9c40595c8be14d74885a2ae2d9f610c6dad85b"
 EXPECTED_TARGET_SHA256 = "03646cb7c550f381c3be186b987da0b9568ef7526df434289e33eebc19743288"
 
