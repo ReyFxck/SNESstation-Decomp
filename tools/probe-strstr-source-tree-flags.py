@@ -69,6 +69,21 @@ def main():
             *rm.FLAGS, "-Iinclude", "-Iinclude/ee_stage1_compat",
         ]),
     ]
+    tests.extend([
+        ("no-mlong64-hosted", without("-mlong64") + ["-fhosted"]),
+        ("no-mlong64-builtin", without("-mlong64") + ["-fbuiltin"]),
+        ("no-mlong64-no-both", without("-mlong64", "-ffreestanding", "-fno-builtin")),
+        ("no-mlong64-no-both-no-r5900", without("-mlong64", "-ffreestanding", "-fno-builtin", "-march=r5900", "-mtune=r5900")),
+        ("force-mno-long64", base + ["-mno-long64"]),
+        ("force-mno-long64-hosted", base + ["-mno-long64", "-fhosted"]),
+        ("force-mno-long64-builtin", base + ["-mno-long64", "-fbuiltin"]),
+        ("force-mno-long64-both", base + ["-mno-long64", "-fhosted", "-fbuiltin"]),
+        ("force-mlong32-hosted", base + ["-mlong32", "-fhosted"]),
+        ("no-march-no-long64-hosted", without("-march=r5900", "-mtune=r5900", "-mlong64")+["-fhosted"]),
+        ("no-long64-both-no-common", without("-mlong64", "-ffreestanding", "-fno-builtin", "-fno-common")),
+        ("nostdinc-historical-options", [*rm.FLAGS, "-Iinclude", "-Iinclude/ee_stage1_compat",
+            "-I", str(Path(subprocess.check_output([str(cc), "-print-file-name=include"], text=True).strip()).resolve())]),
+    ])
     for name, flags in tests:
         trial(cc, name, flags)
 
