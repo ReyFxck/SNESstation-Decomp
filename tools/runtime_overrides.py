@@ -190,9 +190,9 @@ def live_contracts(args: argparse.Namespace) -> dict[str, dict[str, str]]:
     frontier = {r["symbol"]: r for r in libgcc.read_table(args.frontier_manifest, libgcc.FRONTIER_FIELDS)}
     with args.defined_map.open(encoding="utf-8", newline="") as stream:
         defined = list(csv.DictReader(stream, delimiter="\t"))
-    # Exact kernel.S makes iSifSetDChain canonical, collapsing one
-    # address-qualified external and its link contract.
-    if len(external) != 1829 or len(contracts) != 1498 or len(frontier) != 219:
+    # Exact kernel.S plus the promoted PS2LIB string/ctype sources collapse
+    # their former external/contract pairs without changing this override set.
+    if len(external) != 1824 or len(contracts) != 1493 or len(frontier) != 219:
         fail("runtime override namespace count drift")
     for symbol, (address, size, canonical, source, _) in SPECS.items():
         row = external.get(symbol, {})
