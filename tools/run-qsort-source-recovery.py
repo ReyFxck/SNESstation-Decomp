@@ -86,8 +86,8 @@ def main():
     print(f"QSORT historical: MATCH bytes={hsize}/{SIZE} relocations={hrel} raw_sha256={RAW_SHA256}")
 
     local_obj = BUILD / "canonical-candidate.o"
-    run([CC, "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer", "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64", "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900", "-Os", "build/matching/qsort-source-recovery/compat", "-I", ROOT / "include",
-         "-c", LOCAL, "-o", local_obj])
+    run([CC, "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer", "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64", "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900", "-Os",
+         "-I", ROOT / "include", "-c", LOCAL, "-o", local_obj])
     lsize, lraw, lrel = symbol_contract(local_obj, "snes_qsort_001080cc")
     if (lsize, lrel, hashlib.sha256(lraw).hexdigest()) != (SIZE, EXPECTED_RELOCS, RAW_SHA256):
         raise SystemExit(f"local source drift size={lsize} relocs={lrel} sha={hashlib.sha256(lraw).hexdigest()}")

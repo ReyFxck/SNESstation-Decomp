@@ -86,8 +86,8 @@ def main():
     print(f"SBRK historical: MATCH bytes={hsize}/{SIZE} relocations={hrel} raw_sha256={RAW_SHA256}")
 
     local_obj = BUILD / "canonical-candidate.o"
-    run([CC, "-D_EE", "-DPS2_EE", "-G0", "-EL", "-pipe", "-w", "-Os", "build/matching/sbrk-source-recovery/compat", "-I", ROOT / "include",
-         "-c", LOCAL, "-o", local_obj])
+    run([CC, "-D_EE", "-DPS2_EE", "-G0", "-EL", "-pipe", "-w", "-Os",
+         "-I", ROOT / "include", "-c", LOCAL, "-o", local_obj])
     lsize, lraw, lrel = symbol_contract(local_obj, "ps2_sbrk")
     if (lsize, lrel, hashlib.sha256(lraw).hexdigest()) != (SIZE, EXPECTED_RELOCS, RAW_SHA256):
         raise SystemExit(f"local source drift size={lsize} relocs={lrel} sha={hashlib.sha256(lraw).hexdigest()}")
