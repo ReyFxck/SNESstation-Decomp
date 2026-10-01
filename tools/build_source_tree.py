@@ -86,6 +86,10 @@ SOURCE_FLAGS = {
 # -mlong64 flag exclusively for this TU, without changing any other source.
 SOURCE_OMIT_FLAGS = {
     "src/ps2/strtol.c": ("-mlong64",),
+    # Historical PS2LIB strncasecmp uses size_t under the compiler's default
+    # 32-bit long ABI.  Keeping the application-wide -mlong64 changes the
+    # n-- instruction by one opcode byte even though the source body is exact.
+    "src/ps2/strncasecmp.c": ("-mlong64",),
 }
 
 
