@@ -211,6 +211,14 @@ PROMOTED_EXACT_STRCASECMP = {
     "detail": "exact historical PS2LIB F_strcasecmp source provides target entry directly;evidence=analysis/functions/strcasecmp_exact_132.tsv#strcasecmp",
 }
 
+PROMOTED_EXACT_CTYPE = (
+    ("tolower", "0x0019edac", "0x30", "ps2/strcasecmp.o"),
+    ("isupper", "0x0019ee0c", "0x14", "ps2/strtol.o"),
+    ("isalpha", "0x0019ee34", "0x4c", "ps2/strtol.o"),
+    ("isdigit", "0x0019ee80", "0x14", "ps2/progress21_small_helpers_recovered.o;ps2/strtol.o"),
+    ("isspace", "0x0019efac", "0x20", "ps2/strtol.o"),
+)
+
 class NamedContractError(RuntimeError):
     pass
 
@@ -336,14 +344,32 @@ def verify_promoted_exact_source(defined_rows: Sequence[dict[str, str]]) -> None
     if not reference.is_file() or token not in reference.read_text(encoding="utf-8"):
         fail("promoted strcasecmp exact-source evidence drift")
 
+    ctype_reference = ROOT / "analysis" / "functions" / "ctype_exact_616.tsv"
+    ctype_text = ctype_reference.read_text(encoding="utf-8") if ctype_reference.is_file() else ""
+    for symbol, address, size, _requesters in PROMOTED_EXACT_CTYPE:
+        matches = [
+            row for row in defined_rows
+            if row["symbol"] == symbol
+            and row["source"] == "src/ps2/ctype.c"
+            and row["object"] == "ps2/ctype.o"
+            and row["binding"] == "global"
+            and row["section_class"] == "text"
+            and row["size_hex"] == size
+        ]
+        if len(matches) != 1:
+            fail(f"promoted ctype source ownership drift: {symbol}")
+        token = f"{symbol}\t{address}\t{size}\t"
+        if token not in ctype_text:
+            fail(f"promoted ctype exact-source evidence drift: {symbol}")
+
 
 
 def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str, int | str]]:
     external_rows = read_table(args.external_map, EXTERNAL_FIELDS)
     stage3c.stage3_partition(external_rows)
     live = sorted((row for row in external_rows if is_stage3e(row)), key=lambda row: row["symbol"])
-    if len(live) != 193:
-        fail(f"expected 193 live Stage-3E contracts after exact source promotions, found {len(live)}")
+    if len(live) != 188:
+        fail(f"expected 188 live Stage-3E contracts after exact source promotions, found {len(live)}")
 
     contracts = unique(read_table(args.contracts, CONTRACT_FIELDS), "symbol", "link contract")
     frontier = unique(read_table(args.frontier_manifest, FRONTIER_FIELDS), "symbol", "provider row")
@@ -434,6 +460,20 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
 
     result.append(dict(PROMOTED_EXACT_SOURCE))
     result.append(dict(PROMOTED_EXACT_STRCASECMP))
+    for symbol, address, _size, requesters in PROMOTED_EXACT_CTYPE:
+        result.append({
+            "symbol": symbol,
+            "category": "named-external",
+            "status": TEXT_ALIAS_PROVED,
+            "target_address": address,
+            "extent_hex": "",
+            "region": "text",
+            "sha256": "",
+            "canonical_symbol": symbol,
+            "evidence": "exact-historical-source-target-entry",
+            "requesters": requesters,
+            "detail": f"exact historical PS2LIB F_ctype source provides target entry directly;evidence=analysis/functions/ctype_exact_616.tsv#{symbol}",
+        })
 
     result.append({
         "symbol": ERRNO_ALIAS["symbol"],
