@@ -99,10 +99,11 @@ def validate_live_contracts(
         for label, rows in (("externals", external), ("contracts", contracts), ("frontier", frontier)):
             if any(row["symbol"] == symbol for row in rows):
                 fail(f"{symbol} returned to live {label}")
-    # Exact XPRINTF, ALLOC and LIBKERNEL promotions now provide their symbols
-    # directly from canonical historical source.  kernel.S makes iSifSetDChain
-    # canonical, collapsing the former address-qualified external/contract pair.
-    if (len(external), len(contracts), len(frontier)) != (1829, 1498, 219):
+    # Exact XPRINTF, ALLOC, LIBKERNEL and PS2LIB string/ctype promotions now
+    # provide their symbols directly from canonical historical source.
+    # strncasecmp + F_ctype close five additional external/contract pairs while
+    # leaving the provider frontier and live runtime partition unchanged.
+    if (len(external), len(contracts), len(frontier)) != (1824, 1493, 219):
         fail("post-refactor namespace count drift")
     if any(row["resolution_kind"] == "compatibility-runtime-shim" for row in frontier):
         fail("compatibility runtime shim returned")
