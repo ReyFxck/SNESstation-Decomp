@@ -95,6 +95,14 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "strtok_exact_264.tsv",
         "src/ps2/strtok.c",
     ),
+    (
+        ROOT / "analysis" / "functions" / "strncasecmp_exact_184.tsv",
+        "src/ps2/strncasecmp.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "ctype_exact_616.tsv",
+        "src/ps2/ctype.c",
+    ),
 )
 
 
