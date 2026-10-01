@@ -7,9 +7,10 @@ the small-batch plan.  Stage 3C is exactly the historical 43
 rows.  Four Stage-3C names were subsequently proved to be source-only adapters
 and removed.  The later Stage-3E cleanup removes 20 more source-only helpers
 and canonicalizes ``errno``; Stage 3D removes three compiler-libcall artifacts
-and the source-only ``snprintf`` dependency, so the live source map has
-1,892 externals while
-the historical 54-row Stage-3C ledger remains unchanged.
+and the source-only ``snprintf`` dependency.  Later exact source promotions,
+including the historical LIBKERNEL assembly, canonicalize additional live
+contracts, so the current source map has 1,838 externals while the historical
+54-row Stage-3C ledger remains unchanged.
 This gate keeps the historical 54-row definition stable and distinguishes
 three materially different closed claims:
 
@@ -276,8 +277,10 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
               + counts[("zlib-peer", "source-or-archive")],
         "3F": counts[("target-address-data", "program-data")],
     }
-    expected = {"3B": 347, "3C": 50, "3D": 49, "3E": 191, "3F": 1226}
-    if partition != expected or sum(partition.values()) != 1863:
+    # Exact strncasecmp + F_ctype promotion resolves five former Stage-3E
+    # named external/link-contract entries directly from canonical source.
+    expected = {"3B": 345, "3C": 50, "3D": 15, "3E": 188, "3F": 1226}
+    if partition != expected or sum(partition.values()) != 1824:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 
@@ -629,8 +632,8 @@ def link_exact_providers(
         fail("private unpacked reference is missing or does not match the layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 223:
-        fail(f"expected post-snprintf-refactor provider frontier of 223 rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 219:
+        fail(f"expected post-IOPHEAP provider frontier of 219 rows, found {len(frontier_rows)}")
     replacements = exact_provider_rows(named_rows, frontier_rows)
     replacement_names = {row["symbol"] for row in replacements}
     exact_ranges = [row for row in named_rows if row["status"] == RANGE_PROVED]

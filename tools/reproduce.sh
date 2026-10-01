@@ -10,7 +10,7 @@ show_status() {
     printf '\nImplemented whole-program gates:\n'
     printf '  - unpacked layout oracle: 1 section / 13 blocks / 51 hash windows\n'
     printf '  - source-address alias tranche: 333/347 proved; 14 explicit blockers\n'
-    printf '  - zero-byte link contracts: 1297/1530 resolved; 233-provider frontier\n'
+    printf '  - zero-byte link contracts: 1296/1529 resolved; 233-provider frontier\n'
     printf '  - private embedded assets: 10/10 providers; 233 -> 223 frontier\n'
     printf '  - source-link provider namespace: 223/223 resolved; 0 externals\n'
     printf '  - original Stage-3C named data: CLOSED 54/54 (50 ranges + 4 refactors)\n'

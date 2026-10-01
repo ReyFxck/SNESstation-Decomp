@@ -7,7 +7,7 @@
 | Measure | Result | Status |
 |---|---:|---|
 | Audited function entries | **1,041/1,041 (100%)** | Complete |
-| EE source ownership | **97/97 translation units** | Complete |
+| EE source ownership | **98/98 translation units** | Complete |
 | Runtime contracts | **53/53** | Complete |
 | Program-data address identities | **1,265/1,265** | Complete |
 | Exact 64 KiB image windows | **51/51** | Complete |
@@ -26,12 +26,12 @@ row independently closes the complete file identity.
 |---|---:|---|
 | Function matching | **1,041/1,041** | Complete-boundary compiler/object evidence for every audited entry |
 | Readable source models | **1,041/1,041** | Every audited entry has a behavioral/source representation |
-| Source ownership | **97/97 units** | 96 canonical EE objects plus one explicit alternate compile with the frozen ABI |
-| Source-address aliases | **333/347 proved** | 14 intentionally blocked names remain outside the alias claim |
-| Zero-byte link contracts | **1,297/1,530** | 1,234 address anchors and 63 semantic aliases |
-| Source-link providers | **223/223** | The recovered relocatable aggregate has zero undefined globals |
+| Source ownership | **112/112 units** | 112 canonical EE objects compile with the frozen ABI |
+| Source-address aliases | **331/345 proved** | 14 intentionally blocked names remain outside the alias claim |
+| Zero-byte link contracts | **1,264/1,493** | 1,234 address anchors and 30 semantic aliases |
+| Source-link providers | **219/219** | The recovered relocatable aggregate has zero undefined globals |
 | Named data | **54/54** | 50 exact target ranges and 4 completed source refactors |
-| Named link contracts | **212/212** | 165 fingerprinted ranges/data aliases and 20 completed source refactors |
+| Named link contracts | **216/216** | 165 fingerprinted ranges/data aliases and 20 completed source refactors |
 | Compiler-runtime contracts | **7/7** | Four exact archive members plus three proved source refactors |
 | Runtime contracts | **53/53** | PS2LIB member text and target-selected `puts`/`abort` behavior accounted for |
 | Address identity | **1,265/1,265** | Every tracked address has a provider/refactor identity; full object bounds remain separate |

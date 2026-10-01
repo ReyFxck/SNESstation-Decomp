@@ -275,7 +275,34 @@ class SourceAliasTests(unittest.TestCase):
             ),
         )
 
-    def test_frozen_repository_manifest_has_expected_v99_counts(self) -> None:
+    def test_link_result_accepts_strong_alias_for_weak_text_target(self) -> None:
+        rows = [
+            {
+                **{field: "" for field in MANIFEST_FIELDS},
+                "alias": "FUN_00100010",
+                "status": PROVED,
+                "canonical_symbol": "weak_target",
+            },
+        ]
+        input_symbols = [
+            NmSymbol("FUN_00100010", "U"),
+            NmSymbol("weak_target", "W", "00000020", "00000008"),
+        ]
+        output_symbols = [
+            NmSymbol("FUN_00100010", "T", "00000020"),
+            NmSymbol("weak_target", "W", "00000020", "00000008"),
+        ]
+        self.assertEqual(
+            (1, 0),
+            verify_link_result(
+                input_symbols,
+                output_symbols,
+                rows,
+                {"FUN_00100010"},
+            ),
+        )
+
+    def test_frozen_repository_manifest_has_expected_libc_asm_promotion_counts(self) -> None:
         args = argparse.Namespace(
             external_map=DEFAULT_EXTERNAL,
             defined_map=DEFAULT_DEFINED,
@@ -286,22 +313,22 @@ class SourceAliasTests(unittest.TestCase):
         rows = validate_frozen_manifest(args)
         report = summarize(rows)
 
-        self.assertEqual(347, report["aliases_total"])
-        self.assertEqual(333, report["proved"])
+        self.assertEqual(345, report["aliases_total"])
+        self.assertEqual(331, report["proved"])
         self.assertEqual(14, report["blocked"])
         self.assertEqual(317, report["canonical_targets"])
         self.assertEqual(
             {
                 "address-outside-progress-manifest": 6,
-                "progress-name-global-text": 122,
-                "progress-name-recovered-suffix-global-text": 35,
+                "progress-name-global-text": 155,
+                "progress-name-recovered-suffix-global-text": 33,
                 "progress-name-snes-p13-prefix-global-text": 5,
                 "progress-name-snes-prefix-global-text": 26,
                 "progress-name-snes-stripped-prefix-global-text": 7,
                 "reviewed-historical-archive-blocker": 7,
                 "reviewed-semantic-identity-global-text": 3,
                 "reviewed-source-boundary-blocker": 1,
-                "unique-address-suffix-global-text": 135,
+                "unique-address-suffix-global-text": 102,
             },
             report["evidence_counts"],
         )

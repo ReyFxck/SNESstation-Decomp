@@ -1,0 +1,286 @@
+name: Source recovery ledger refresh
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP and CTYPE promotions included.
+
+on:
+  push:
+    branches:
+      - source-recovery-file-by-file
+    paths:
+      - .github/workflows/source-recovery-refresh.yml
+      - tools/build_source_tree.py
+      - src/ps2/cdvd_rpc.c
+      - include/cdvd_legacy_compat.h
+      - src/ps2/sifrpc.c
+      - include/sifrpc_legacy_compat.h
+      - src/ps2/sifcmd.c
+      - include/sifcmd_legacy_compat.h
+      - src/ps2/glue.c
+      - include/glue_legacy_compat.h
+      - src/ps2/sifcmd_recovered.c
+      - src/ps2/fileio.c
+      - src/ps2/alloc.c
+      - src/ps2/libkernel_heap_recovered.c
+      - src/ps2/kernel.S
+      - src/ps2/libkernel_leaf_recovered.c
+      - analysis/functions/libkernel_leaf_exact_508.tsv
+      - tools/run-libkernel-leaf-source-recovery.py
+      - .github/workflows/libkernel-leaf-source-recovery.yml
+      - src/ps2/libkernel_strings_recovered.c
+      - src/ps2/memcpy.S
+      - analysis/functions/memcpy_exact_56.tsv
+      - tools/run-memcpy-source-recovery.py
+      - .github/workflows/memcpy-source-recovery.yml
+      - src/ps2/memset.S
+      - analysis/functions/memset_exact_56.tsv
+      - tools/run-memset-source-recovery.py
+      - .github/workflows/memset-source-recovery.yml
+      - src/ps2/memmove.S
+      - analysis/functions/memmove_exact_136.tsv
+      - tools/run-memmove-source-recovery.py
+      - .github/workflows/memmove-source-recovery.yml
+      - src/ps2/strcat.S
+      - analysis/functions/strcat_exact_56.tsv
+      - tools/run-strcat-source-recovery.py
+      - .github/workflows/strcat-source-recovery.yml
+      - src/ps2/memcmp.S
+      - analysis/functions/memcmp_exact_72.tsv
+      - tools/run-memcmp-source-recovery.py
+      - .github/workflows/memcmp-source-recovery.yml
+      - src/ps2/strcpy.S
+      - analysis/functions/strcpy_exact_40.tsv
+      - tools/run-strcpy-source-recovery.py
+      - src/ps2/strlen.S
+      - analysis/functions/strlen_exact_40.tsv
+      - tools/run-strlen-source-recovery.py
+      - .github/workflows/strlen-source-recovery.yml
+      - src/ps2/strchr.S
+      - analysis/functions/strchr_exact_56.tsv
+      - tools/run-strchr-source-recovery.py
+      - .github/workflows/strchr-source-recovery.yml
+      - src/ps2/strcmp.S
+      - analysis/functions/strcmp_exact_64.tsv
+      - tools/run-strcmp-source-recovery.py
+      - .github/workflows/strcmp-source-recovery.yml
+      - src/ps2/strncpy.S
+      - analysis/functions/strncpy_exact_88.tsv
+      - tools/run-strncpy-source-recovery.py
+      - .github/workflows/strncpy-source-recovery.yml
+      - src/ps2/strncmp.S
+      - analysis/functions/strncmp_exact_72.tsv
+      - tools/run-strncmp-source-recovery.py
+      - .github/workflows/strncmp-source-recovery.yml
+      - src/ps2/string.c
+      - include/string_legacy_compat.h
+      - analysis/functions/strrchr_exact_84.tsv
+      - tools/run-string-source-recovery.py
+      - .github/workflows/string-source-recovery.yml
+      - src/ps2/strstr.c
+      - analysis/functions/strstr_exact_136.tsv
+      - tools/run-strstr-source-recovery.py
+      - .github/workflows/strstr-source-recovery.yml
+      - src/ps2/strtol.c
+      - include/strtol_legacy_compat.h
+      - analysis/functions/strtol_exact_556.tsv
+      - tools/run-strtol-source-recovery.py
+      - .github/workflows/strtol-source-recovery.yml
+      - src/ps2/strcasecmp.c
+      - include/strcasecmp_legacy_compat.h
+      - analysis/functions/strcasecmp_exact_132.tsv
+      - tools/run-strcasecmp-source-recovery.py
+      - .github/workflows/strcasecmp-source-recovery.yml
+      - src/ps2/strtok.c
+      - include/strtok_legacy_compat.h
+      - analysis/functions/strtok_exact_264.tsv
+      - tools/run-strtok-source-recovery.py
+      - .github/workflows/strtok-source-recovery.yml
+      - src/ps2/strncasecmp.c
+      - include/strncasecmp_legacy_compat.h
+      - analysis/functions/strncasecmp_exact_184.tsv
+      - tools/run-strncasecmp-source-recovery.py
+      - .github/workflows/strncasecmp-source-recovery.yml
+      - src/ps2/ctype.c
+      - include/ctype_legacy_compat.h
+      - analysis/functions/ctype_exact_616.tsv
+      - tools/run-ctype-source-recovery.py
+      - .github/workflows/ctype-source-recovery.yml
+      - .github/workflows/strcpy-source-recovery.yml
+      - include/alloc_legacy_compat.h
+      - tools/run-alloc-source-recovery.py
+      - .github/workflows/alloc-source-recovery.yml
+      - src/ps2/iopheap.c
+      - src/ps2/loadfile.c
+      - src/ps2/iopcontrol.c
+      - src/ps2/iop_reset_recovered.c
+      - include/iopcontrol_legacy_compat.h
+      - tools/run-iopcontrol-source-recovery.py
+      - src/ps2/xprintf.c
+      - include/xprintf_legacy_compat.h
+      - tools/run-xprintf-source-recovery.py
+      - .github/workflows/xprintf-source-recovery.yml
+      - src/ps2/ps2lib_formatter_recovered.c
+      - src/ps2/stdio_wrappers_recovered.c
+      - include/loadfile_legacy_compat.h
+      - tools/run-loadfile-source-recovery.py
+      - include/iopheap_legacy_compat.h
+      - tools/run-iopheap-source-recovery.py
+      - src/ps2/fileio_recovered.c
+      - include/fileio_legacy_compat.h
+      - tools/run-fileio-source-recovery.py
+      - analysis/source_tree/translation_units.tsv
+      - src/ps2/progress22_more_small_helpers_recovered.c
+      - src/unzip/unzip_api_recovered.c
+      - src/unzip/explode_recovered.c
+      - src/ps2/stdio_wrappers_recovered.c
+      - tools/test_progress43_cdvd_historical.py
+      - tools/test_build_source_tree.py
+      - tools/audit_source_completeness.py
+      - tools/runtime_refactors.py
+      - tools/runtime_overrides.py
+      - tools/runtime_members.py
+      - tools/named_data.py
+      - analysis/link_identity/runtime_members.tsv
+      - tools/update_progress.py
+      - tools/test_named_contracts.py
+      - tools/named_contracts.py
+      - tools/provider_frontier.py
+      - analysis/link_identity/named_contracts.tsv
+      - analysis/link_identity/link_contract_reviews.tsv
+
+concurrency:
+  group: source-recovery-ledger-writer-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: source-recovery-file-by-file
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore EE GCC 3.2.2
+        uses: actions/cache@v4
+        with:
+          path: build/toolchains/ee-gcc-3.2.2-stage1
+          key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+
+      - name: Ensure historical EE compiler
+        env:
+          MAKEFLAGS: MAKEINFO=true
+        run: make bootstrap-ee-stage1
+
+      - name: Reprove exact recovered sources
+        run: |
+          python3 tools/run-sifcmd-source-recovery.py
+          python3 tools/run-glue-source-recovery.py
+          python3 tools/run-fileio-source-recovery.py
+          python3 tools/run-alloc-source-recovery.py
+          python3 tools/run-libkernel-leaf-source-recovery.py
+          python3 tools/run-memcpy-source-recovery.py
+          python3 tools/run-memset-source-recovery.py
+          python3 tools/run-memmove-source-recovery.py
+          python3 tools/run-strcat-source-recovery.py
+          python3 tools/run-memcmp-source-recovery.py
+          python3 tools/run-strcpy-source-recovery.py
+          python3 tools/run-strlen-source-recovery.py
+          python3 tools/run-strchr-source-recovery.py
+          python3 tools/run-strcmp-source-recovery.py
+          python3 tools/run-strncpy-source-recovery.py
+          python3 tools/run-strncmp-source-recovery.py
+          python3 tools/run-string-source-recovery.py
+          python3 tools/run-strstr-source-recovery.py
+          python3 tools/run-strtol-source-recovery.py
+          python3 tools/run-strcasecmp-source-recovery.py
+          python3 tools/run-strtok-source-recovery.py
+          python3 tools/run-strncasecmp-source-recovery.py
+          python3 tools/run-ctype-source-recovery.py
+          python3 tools/run-iopheap-source-recovery.py
+          python3 tools/run-loadfile-source-recovery.py
+          python3 tools/run-iopcontrol-source-recovery.py
+          python3 tools/run-xprintf-source-recovery.py
+
+      - name: Refresh source ownership ledgers
+        run: |
+          set -eux
+          EE_CC="$PWD/build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
+          make audit-source
+          make source-tree-refresh EE_CC="$EE_CC"
+          make source-aliases-refresh
+          make link-contracts-refresh
+          make provider-frontier-refresh
+
+      - name: Commit regenerated ownership ledgers before docs
+        run: |
+          set -eux
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            analysis/source_readiness.csv \
+            docs/SOURCE_COMPLETENESS.generated.md \
+            analysis/source_tree/defined_symbol_ownership.tsv \
+            analysis/source_tree/external_symbol_ownership.tsv \
+            analysis/source_tree/object_fingerprints.tsv \
+            analysis/link_identity/source_address_aliases.tsv \
+            analysis/link_identity/link_contracts.tsv \
+            analysis/link_identity/provider_frontier_closure.tsv
+          if git diff --cached --quiet; then
+            echo "No pre-doc ledger changes."
+          else
+            git commit -m "refresh generated source recovery ledgers"
+            git pull --rebase origin source-recovery-file-by-file
+            git push origin HEAD:source-recovery-file-by-file
+          fi
+
+      - name: Refresh generated docs
+        run: make docs
+
+      - name: Refresh decomp.dev public input hashes
+        run: |
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path(".")
+          path = root / "analysis/decompdev/report_contract.json"
+          data = json.loads(path.read_text())
+          for rel in list(data.get("inputs", {})):
+              p = root / rel
+              data["inputs"][rel] = hashlib.sha256(p.read_bytes()).hexdigest()
+          path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+          PY
+
+      - name: Commit generated ledgers to recovery branch
+        run: |
+          set -eux
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            analysis/source_readiness.csv \
+            docs/SOURCE_COMPLETENESS.generated.md \
+            docs/PROGRESS.generated.md \
+            docs/status/PROJECT_STATUS.generated.md \
+            assets/progress.svg \
+            README.md \
+            analysis/source_tree/defined_symbol_ownership.tsv \
+            analysis/source_tree/external_symbol_ownership.tsv \
+            analysis/source_tree/object_fingerprints.tsv \
+            analysis/link_identity/source_address_aliases.tsv \
+            analysis/link_identity/link_contracts.tsv \
+            analysis/link_identity/provider_frontier_closure.tsv \
+            analysis/link_identity/runtime_members.tsv \
+            analysis/link_identity/runtime_member_objects.tsv \
+            analysis/decompdev/report_contract.json
+          if git diff --cached --quiet; then
+            echo "No generated ledger changes."
+          else
+            git commit -m "refresh ledgers after exact source recovery"
+            git pull --rebase origin source-recovery-file-by-file
+            git push origin HEAD:source-recovery-file-by-file
+          fi

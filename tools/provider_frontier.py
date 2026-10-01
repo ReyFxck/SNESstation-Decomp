@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-snprintf-refactor 223-name source-link provider frontier.
+"""Close the post-ALLOC-recovery 219-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -123,10 +123,6 @@ SEMANTIC_ALIASES = {
     "S9xSync_SetVolume": "SjPCM_Setvol_001078f8",
     "abort": "snes_fatal_spin_00107578",
     "operator_new_u32": "snes_p13_operator_new",
-    "snes_p12_fio_close": "fioClose_0019d090",
-    "snes_p12_fio_open": "fioOpen_0019cfc0",
-    "snes_p12_fio_read": "fioRead_0019d120",
-    "snes_p12_fio_write": "fioWrite_0019d244",
     "snes_p12_qsort": "snes_qsort_001080cc",
 }
 
@@ -260,13 +256,13 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 223:
-        fail(f"expected exact post-snprintf-refactor frontier of 223 symbols, found {len(active)}")
+    if len(active) != 219:
+        fail(f"expected exact post-ALLOC-recovery frontier of 219 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
         for row in defined_rows
-        if row["binding"] == "global" and row["section_class"] == "text"
+        if row["binding"] == "global" and row["section_class"] in {"text", "weak-text"}
     }
     missing_canonical = sorted(set(SEMANTIC_ALIASES.values()) - canonical_text)
     if missing_canonical:
@@ -339,7 +335,7 @@ def derive_rows(
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
         ABSOLUTE_ANCHOR: 175,
-        SEMANTIC_ALIAS: 9,
+        SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }
     if dict(counts) != expected:

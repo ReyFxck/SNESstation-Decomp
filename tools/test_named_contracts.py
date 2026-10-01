@@ -10,13 +10,13 @@ from provider_frontier import COMPAT_STORAGE
 
 
 class NamedContractTests(unittest.TestCase):
-    def test_historical_212_row_ledger_is_fully_classified(self):
+    def test_live_216_row_ledger_is_fully_classified(self):
         args = named_contracts.parse_args(["validate"])
         rows, _layout = named_contracts.validate_manifest(args)
-        self.assertEqual(212, len(rows))
+        self.assertEqual(216, len(rows))
         self.assertEqual(
             {
-                named_contracts.TEXT_ALIAS_PROVED: 23,
+                named_contracts.TEXT_ALIAS_PROVED: 27,
                 named_contracts.TARGET_RANGE_PROVED: 164,
                 named_contracts.TARGET_ENTRY_PROVED: 2,
                 named_contracts.EXTERNAL_ADDRESS_PROVED: 2,
@@ -31,12 +31,25 @@ class NamedContractTests(unittest.TestCase):
             named_contracts.DEFAULT_EXTERNAL, named_contracts.EXTERNAL_FIELDS
         )
         self.assertEqual(
-            {"3B": 347, "3C": 50, "3D": 49, "3E": 191, "3F": 1226},
+            {"3B": 345, "3C": 50, "3D": 15, "3E": 193, "3F": 1226},
             named_data.stage3_partition(external),
         )
         live_names = {row["symbol"] for row in external}
         self.assertTrue(set(named_contracts.CLOSED_SOURCE_REFACTORS).isdisjoint(live_names))
         self.assertNotIn("errno", live_names)
+        self.assertNotIn("iSifSetDChain", live_names)
+
+        rows = {
+            row["symbol"]: row
+            for row in named_contracts.read_table(
+                named_contracts.DEFAULT_MANIFEST, named_contracts.MANIFEST_FIELDS
+            )
+        }
+        self.assertEqual("iSifSetDChain", rows["iSifSetDChain"]["canonical_symbol"])
+        self.assertEqual(
+            "exact-historical-source-target-entry",
+            rows["iSifSetDChain"]["evidence"],
+        )
 
     def test_all_seven_zlib_peers_bind_to_recovered_text(self):
         rows = named_contracts.read_table(

@@ -51,6 +51,87 @@ DEFAULT_CFLAGS = (
     "-Iinclude -Iinclude/ee_stage1_compat -w"
 )
 
+# kernel.S is the exact historical selector-based PS2SDK source.  Keep the
+# source byte-identical and select only the members owned by this canonical TU
+# at compile time instead of adding recovery-only #defines to the source.
+SOURCE_FLAGS = {
+    # The selected PS2LIB libc/memcpy.o was built with the historical -Os
+    # profile.  Appending -Os after the source-tree's general -O2 reproduces
+    # the compiler-defined __OPTIMIZE_SIZE__ path without modifying memcpy.S.
+    "src/ps2/memcpy.S": ("-Os",),
+    "src/ps2/memset.S": ("-Os",),
+    "src/ps2/memmove.S": ("-Os",),
+    "src/ps2/strcat.S": ("-Os",),
+    "src/ps2/memcmp.S": ("-Os",),
+    "src/ps2/strcpy.S": ("-Os",),
+    "src/ps2/strlen.S": ("-Os",),
+    "src/ps2/strchr.S": ("-Os",),
+    "src/ps2/strcmp.S": ("-Os",),
+    "src/ps2/strncpy.S": ("-Os",),
+    "src/ps2/strncmp.S": ("-Os",),
+    "src/ps2/string.c": ("-Os",),
+    # Original PS2LIB F_strstr was built with 32-bit long and hosted builtin
+    # semantics, unlike the application's -mlong64 freestanding profile.
+    # Both the historical member AND this canonical TU must link 136/136 exact bytes.
+    "src/ps2/strstr.c": ("-Os", "-mlong32", "-fhosted"),
+    "src/ps2/strtol.c": ("-Os",),
+    "src/ps2/strcasecmp.c": ("-Os",),
+    "src/ps2/strtok.c": ("-Os",),
+    "src/ps2/strncasecmp.c": ("-Os",),
+    "src/ps2/ctype.c": ("-Os",),
+}
+
+# The original 2004 libc/strtol.o compiled using the old compiler default
+# long ABI. Merely appending -mlong32 changes codegen: omit the application's
+# -mlong64 flag exclusively for this TU, without changing any other source.
+SOURCE_OMIT_FLAGS = {
+    "src/ps2/strtol.c": ("-mlong64",),
+    # Historical PS2LIB strncasecmp uses size_t under the compiler's default
+    # 32-bit long ABI.  Keeping the application-wide -mlong64 changes the
+    # n-- instruction by one opcode byte even though the source body is exact.
+    "src/ps2/strncasecmp.c": ("-mlong64",),
+}
+
+
+def effective_source_cflags(cflags: Sequence[str], source: str) -> list[str]:
+    omit = SOURCE_OMIT_FLAGS.get(source, ())
+    return [flag for flag in cflags if flag not in omit] + list(SOURCE_FLAGS.get(source, ()))
+
+
+SOURCE_DEFINES = {
+    "src/ps2/strtol.c": ("F_strtol",),
+    "src/ps2/strcasecmp.c": ("F_strcasecmp",),
+    "src/ps2/strtok.c": ("F_strtok",),
+    "src/ps2/strncasecmp.c": ("F_strncasecmp",),
+    "src/ps2/ctype.c": ("F_ctype",),
+    "src/ps2/string.c": ("F_strrchr",),
+    "src/ps2/strstr.c": ("F_strstr",),
+    "src/ps2/kernel.S": (
+        "F_iWakeupThread",
+        "F_CreateSema",
+        "F_DeleteSema",
+        "F_iSignalSema",
+        "F_WaitSema",
+        "F_FlushCache",
+        "F_iFlushCache",
+        "F_SifDmaStat",
+        "F_SifSetDma",
+        "F_SifSetReg",
+        "F_SifGetReg",
+        "F_SifWriteBackDCache",
+        "F_AddDmacHandler",
+        "F_RemoveDmacHandler",
+        "F_SifStopDma",
+        "F_iSifSetDma",
+        "F_SifSetDChain",
+        "F_iSifSetDChain",
+        "F__EnableDmac",
+        "F__DisableDmac",
+        "F_SignalSema",
+        "F_PollSema",
+    ),
+}
+
 MANIFEST_FIELDS = (
     "order",
     "source",
@@ -262,8 +343,15 @@ def read_manifest(path: Path) -> list[TranslationUnit]:
             fail(f"duplicate source in manifest: {unit.source}")
         if unit.object in objects:
             fail(f"duplicate object in manifest: {unit.object}")
-        if unit.language != "c":
+        if unit.language not in {"c", "asm-cpp"}:
             fail(f"unsupported language for {unit.source}: {unit.language}")
+        suffix = Path(unit.source).suffix
+        expected_language = {".c": "c", ".S": "asm-cpp"}.get(suffix)
+        if expected_language != unit.language:
+            fail(
+                f"source/language mismatch for {unit.source}: "
+                f"{unit.language} != {expected_language}"
+            )
         if unit.link_role not in {"canonical", "alternate"}:
             fail(f"invalid link role for {unit.source}: {unit.link_role}")
         if not (ROOT / unit.source).is_file():
@@ -274,7 +362,8 @@ def read_manifest(path: Path) -> list[TranslationUnit]:
 
     actual = {
         path.relative_to(ROOT).as_posix()
-        for path in (ROOT / "src").rglob("*.c")
+        for pattern in ("*.c", "*.S")
+        for path in (ROOT / "src").rglob(pattern)
     }
     if sources != actual:
         missing = sorted(actual - sources)
@@ -484,7 +573,12 @@ def compile_one(
     output = build_dir / "objects" / unit.object
     log = build_dir / "logs" / Path(unit.object).with_suffix(".log")
     output.parent.mkdir(parents=True, exist_ok=True)
-    command = [str(compiler), *cflags, "-c", unit.source, "-o", str(output)]
+    defines = ["-D" + name for name in SOURCE_DEFINES.get(unit.source, ())]
+    source_cflags = effective_source_cflags(cflags, unit.source)
+    command = [
+        str(compiler), *source_cflags, *defines,
+        "-c", unit.source, "-o", str(output)
+    ]
     run(command, log_path=log)
     validate_elf_object(output)
     return unit, output

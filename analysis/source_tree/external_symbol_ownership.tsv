@@ -1,5 +1,4 @@
 symbol	category	provider_kind	owner	resolution_gate	requesters
-CDVD_Init	named-external	link-contract	reserved:link-contract	link-identity	app/main_bootstrap.o
 CMemory_LoadROM_001513bc	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
 DAT_001b0a58	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_001b0ba0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
@@ -1364,43 +1363,43 @@ FUN_0019adf8	target-function-alias	source-address-alias	src/ps2/gsdriver_recover
 FUN_0019b028	target-function-alias	source-address-alias	src/ps2/gsfont_recovered.c;src/ps2/gspipe_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019b7f0	target-function-alias	source-address-alias	src/ps2/gsfont_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019b948	target-function-alias	source-address-alias	src/ps2/gsfont_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019be70	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/cdvd_rpc_historical_recovered.c;src/ps2/cdvd_rpc_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c0d0	target-function-alias	source-address-alias	src/ps2/cdvd_rpc_historical_recovered.c;src/ps2/cdvd_rpc_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c2ac	target-function-alias	source-address-alias	src/ps2/cdvd_rpc_historical_recovered.c;src/ps2/cdvd_rpc_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c364	target-function-alias	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c39c	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c3d4	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c458	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c4a0	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c528	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c550	target-function-alias	source-address-alias	src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c5e8	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c610	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019c688	target-function-alias	source-address-alias	src/ps2/libkernel_client_init_recovered.c;src/ps2/libmc_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019cc0c	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/libkernel_client_init_recovered.c;src/ps2/libmc_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019cfc0	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d090	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d120	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/unzip/explode_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d244	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/stdio_wrappers_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d360	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/unzip/explode_recovered.c;src/unzip/unzip_api_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d410	target-function-alias	source-address-alias	src/ps2/fileio_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d600	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/loadfile_iop_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019d740	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/loadfile_iop_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019e388	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/stdio_wrappers_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019e3d0	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/stdio_wrappers_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019e414	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/stdio_wrappers_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019e4b4	target-function-alias	source-address-alias	src/ps2/libkernel_heap_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019e698	target-function-alias	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/libkernel_heap_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019e784	target-function-alias	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/libkernel_heap_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019e860	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019e8e4	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019e99c	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019eaa4	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019eaf8	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019eb80	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019ee34	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019ee80	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0019efac	target-function-alias	source-address-alias	src/ps2/libc_text_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019be70	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/cdvd_rpc.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c0d0	target-function-alias	source-address-alias	src/ps2/cdvd_rpc.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c2ac	target-function-alias	source-address-alias	src/ps2/cdvd_rpc.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c364	target-function-alias	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/memcpy.S;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c39c	target-function-alias	source-address-alias	src/ps2/memset.S;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c3d4	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strcat.S	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c458	target-function-alias	source-address-alias	src/ps2/memcmp.S;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c4a0	target-function-alias	source-address-alias	src/ps2/memmove.S;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c528	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strcpy.S	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c550	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strncpy.S	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c5e8	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strlen.S	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c610	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strchr.S	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019c688	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019cc0c	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/sifrpc.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019cfc0	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d090	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d120	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d244	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d360	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c;src/zlib/gzio_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d410	target-function-alias	source-address-alias	src/ps2/fileio.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d600	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/loadfile.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019d740	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/iopcontrol.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019e388	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/xprintf.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019e3d0	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/xprintf.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019e414	target-function-alias	source-address-alias	src/app/main_bootstrap.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/xprintf.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019e4b4	target-function-alias	source-address-alias	src/ps2/alloc.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019e698	target-function-alias	source-address-alias	src/ps2/alloc.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019e784	target-function-alias	source-address-alias	src/ps2/alloc.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019e860	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strcasecmp.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019e8e4	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strncasecmp.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019e99c	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strtok.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019eaa4	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/string.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019eaf8	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strstr.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019eb80	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/strtol.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019ee34	target-function-alias	source-address-alias	src/ps2/ctype.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019ee80	target-function-alias	source-address-alias	src/ps2/ctype.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0019efac	target-function-alias	source-address-alias	src/ps2/ctype.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0019fddc	target-function-alias	source-address-alias	src/ps2/newlib_mathfp_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001a0024	target-function-alias	source-address-alias	src/ps2/newlib_mathfp_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001a0254	target-function-alias	source-address-alias	src/ps2/newlib_mathfp_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1517,21 +1516,6 @@ S9xSync_PeriodPrevious	named-external	link-contract	reserved:link-contract	link-
 S9xSync_PeriodValue	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 S9xSync_SetVolume	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 Settings_SkipFrames	named-program-data	program-data	reserved:program-data.o	program-data	ps2/path_helpers_recovered.o
-SifAddCmdHandler	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_addhandler.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc_recovered.o
-SifAllocIopHeap	ps2-runtime	historical-archive	PS2LIB kernel/SifAllocIopHeap.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/load_module_buffer.o
-SifBindRpc	ps2-runtime	historical-archive	PS2LIB kernel/SifBindRpc.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/cdvd_rpc_historical_recovered.o
-SifCallRpc	ps2-runtime	historical-archive	PS2LIB kernel/SifCallRpc.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/cdvd_rpc_historical_recovered.o;ps2/fileio_recovered.o;ps2/loadfile_iop_recovered.o
-SifExitCmd	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_main.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc_recovered.o
-SifFreeIopHeap	ps2-runtime	historical-archive	PS2LIB kernel/SifFreeIopHeap.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/load_module_buffer.o
-SifGetSreg	ps2-runtime	historical-archive	PS2LIB kernel/sif_sreg_get.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc_recovered.o
-SifInitCmd	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_main.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc_recovered.o
-SifInitIopHeap_recovered	ps2-runtime	historical-archive	PS2LIB kernel/SifInitIopHeap.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/loadfile_iop_recovered.o
-SifInitRpc	ps2-runtime	historical-archive	PS2LIB kernel/SifRpcMain.o (ps2sdk@a80df908 source)	runtime-member-text-identity	app/main_bootstrap.o
-SifIopReset	ps2-runtime	historical-archive	PS2LIB kernel/SifIopReset.o (ps2sdk@a80df908 source)	runtime-member-text-identity	app/main_bootstrap.o
-SifLoadFileInit_recovered	ps2-runtime	historical-archive	PS2LIB kernel/SifLoadFileInit.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/loadfile_iop_recovered.o
-SifLoadModule	ps2-runtime	historical-archive	PS2LIB kernel/SifLoadModule.o (ps2sdk@a80df908 source)	runtime-member-text-identity	app/main_bootstrap.o
-SifLoadModuleBuffer	ps2-runtime	historical-archive	PS2LIB kernel/SifLoadModuleBuffer.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/load_module_buffer.o
-SifSendCmd	ps2-runtime	historical-archive	PS2LIB kernel/sif_cmd_send.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/sifrpc_recovered.o
 SifWriteBackDCache_0019cf10	ps2-runtime	historical-archive	PS2LIB syscall/SifWriteBackDCache.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/libmc_recovered.o
 UNK_001a6320	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 UNK_001b85c8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
@@ -1591,9 +1575,9 @@ _DAT_00413518	target-address-data	program-data	reserved:target-data.o	program-da
 _DAT_00413540	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 _DAT_00423554	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 __floatdisf	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/libgcc_runtime_recovered.o;ps2/progress28_structural_lift_recovered.o
-__muldi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/address_leaf_recovered.o;ps2/libc_misc_recovered.o;ps2/progress13_cpp_personality_recovered.o;ps2/progress28_structural_lift_recovered.o;ps2/small_dispatch_recovered.o;snes9x/progress13_runtime_more_recovered.o;zlib/trees_recovered.o
-__udivdi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/ps2lib_formatter_recovered.o;snes9x/progress13_runtime_more_recovered.o
-__umoddi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/ps2lib_formatter_recovered.o;zlib/zutil_adler_recovered.o
+__muldi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/address_leaf_recovered.o;ps2/alloc.o;ps2/libc_misc_recovered.o;ps2/progress13_cpp_personality_recovered.o;ps2/progress28_structural_lift_recovered.o;ps2/small_dispatch_recovered.o;ps2/strtol.o;snes9x/progress13_runtime_more_recovered.o;zlib/trees_recovered.o
+__udivdi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/strtol.o;ps2/xprintf.o;snes9x/progress13_runtime_more_recovered.o
+__umoddi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/strtol.o;ps2/xprintf.o;zlib/zutil_adler_recovered.o
 abort	c-runtime	recovered-runtime	target-selected recovered override: snes_fatal_spin_00107578	runtime-override-callsite-identity	ps2/gcc_fde_runtime_recovered.o;ps2/gcc_unwind_pe_recovered.o
 bRam0042c800	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 bRam0042c801	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1601,7 +1585,6 @@ bRam0042e888	named-external	link-contract	reserved:link-contract	link-identity	p
 cRam00426e2a	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 cRam00447700	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 cRam1fc7ff52	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-calloc	c-runtime	historical-archive	PS2LIB libc/calloc.o (ps2sdk@694100b7 source)	runtime-member-text-identity	zlib/zutil_adler_recovered.o
 cosf	named-external	link-contract	reserved:link-contract	link-identity	snes9x/progress13_core_helpers_recovered.o
 crc_table_001c8a80	named-external	link-contract	reserved:link-contract	link-identity	zlib/crc32_recovered.o
 deflateEnd_00191308	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/deflate_state_recovered.o;zlib/zlib_buffer_api_recovered.o
@@ -1626,7 +1609,6 @@ fRam0042c814	named-external	link-contract	reserved:link-contract	link-identity	p
 fRam0042c818	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 fRam0042c81c	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 fioClose_like	ps2-runtime	historical-archive	PS2LIB kernel/fio_close.o (ps2sdk@a80df908 source)	runtime-member-text-identity	snes9x/sram_recovered.o;zlib/gzio_recovered.o
-fioInit_recovered	ps2-runtime	historical-archive	PS2LIB kernel/fio_main.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/fileio_recovered.o
 fioOpen_like	ps2-runtime	historical-archive	PS2LIB kernel/fio_open.o (ps2sdk@a80df908 source)	runtime-member-text-identity	snes9x/sram_recovered.o;zlib/gzio_recovered.o
 fioPutc_like_0019d534	ps2-runtime	historical-archive	PS2LIB kernel/fio_putc.o (ps2sdk@a80df908 source)	runtime-member-text-identity	zlib/gzio_recovered.o
 fioRead_like	ps2-runtime	historical-archive	PS2LIB kernel/fio_read.o (ps2sdk@a80df908 source)	runtime-member-text-identity	snes9x/sram_recovered.o;zlib/gzio_recovered.o
@@ -1634,8 +1616,6 @@ fioSeek_like_0019d360	ps2-runtime	historical-archive	PS2LIB kernel/fio_lseek.o (
 fioWrite_like	ps2-runtime	historical-archive	PS2LIB kernel/fio_write.o (ps2sdk@a80df908 source)	runtime-member-text-identity	snes9x/sram_recovered.o;zlib/gzio_recovered.o
 fixed_td_00425870	named-external	link-contract	reserved:link-contract	link-identity	zlib/inftrees_recovered.o
 fixed_tl_00424870	named-external	link-contract	reserved:link-contract	link-identity	zlib/inftrees_recovered.o
-free	c-runtime	historical-archive	PS2LIB libc/free.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/gcc_fde_runtime_recovered.o;ps2/libsupcxx_rtti_recovered.o;snes9x/apu_alloc_recovered.o;snes9x/memory_cleanup_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o;zlib/zutil_adler_recovered.o
-free_like_0019e784	target-address-symbol	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/libkernel_heap_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/gspipe_recovered.o
 g_Settings_blob	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o
 g_apu_state_00345498	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/apu_alloc_recovered.o
 g_bg_bitshift	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o
@@ -1673,7 +1653,7 @@ g_state_003454e0	named-program-data	program-data	reserved:program-data.o	program
 g_tail_mask	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_16bit_recovered.o;snes9x/tile_color_math_recovered.o;snes9x/tile_draw_clipped_recovered.o;snes9x/tile_scaled_remaining_recovered.o
 g_tile_cache_state	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/memory_init_recovered.o
 gzopen	zlib-peer	source-or-archive	zlib object family	link-identity	ps2/small_dispatch_recovered.o
-iFlushCache_0019cec0	target-address-symbol	source-address-alias	src/ps2/gs_fifo_recovered.c;src/ps2/libkernel_leaf_recovered.c	link-identity	ps2/gs_fifo_recovered.o
+iFlushCache_0019cec0	target-address-symbol	source-address-alias	src/ps2/gs_fifo_recovered.c;src/ps2/kernel.S	link-identity	ps2/gs_fifo_recovered.o
 iRam00426e2c	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iRam00426e34	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iRam00426e38	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1693,26 +1673,18 @@ iRam0043ecc0	named-external	link-contract	reserved:link-contract	link-identity	p
 iRam0043ecc4	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iRam0043ecc8	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 iRam0043eccc	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
-iSifSendCmd	named-external	link-contract	reserved:link-contract	link-identity	ps2/sifrpc_recovered.o
 inflateEnd_00192784	zlib-peer	source-or-archive	zlib object family	link-identity	unzip/unzip_api_recovered.o;zlib/zlib_buffer_api_recovered.o
 inflateInit__00192948	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/zlib_buffer_api_recovered.o
 inflate_0019296c	zlib-peer	source-or-archive	zlib object family	link-identity	zlib/zlib_buffer_api_recovered.o
-isdigit	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress21_small_helpers_recovered.o
 load_config_00106054	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
-malloc	c-runtime	historical-archive	PS2LIB libc/malloc.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/gcc_fde_runtime_recovered.o;ps2/libsupcxx_rtti_recovered.o;snes9x/apu_alloc_recovered.o;snes9x/memory_init_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o
 mcInit	ps2-runtime	historical-archive	PS2LIB mc/libmc.o (ps2sdk@694100b7 source)	runtime-member-text-identity	app/main_bootstrap.o
-memalign_like_0019e698	target-address-symbol	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/libkernel_heap_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/gspipe_recovered.o
-memcmp	c-runtime	historical-archive	PS2LIB libc/memcmp.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/progress21_small_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o
-memcpy	c-runtime	historical-archive	PS2LIB libc/memcpy.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/cdvd_rpc_historical_recovered.o;ps2/fileio_recovered.o;ps2/gcc_fde_runtime_recovered.o;ps2/gcc_unwind_pe_recovered.o;ps2/gs_fifo_recovered.o;ps2/gsfont_recovered.o;ps2/gspipe_recovered.o;ps2/libgcc_runtime_recovered.o;ps2/libmc_recovered.o;ps2/libpad_recovered.o;ps2/loadfile_iop_recovered.o;ps2/newlib_mathfp_recovered.o;ps2/progress12_io_state_recovered.o;ps2/progress13_cpp_eh_recovered.o;ps2/progress15_pad_init_recovered.o;ps2/progress23_audio_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o;ps2/sifcmd_recovered.o;snes9x/progress11_core_recovered.o;snes9x/progress13_frontend_more_recovered.o;snes9x/progress13_runtime_more_recovered.o;unzip/explode_recovered.o;unzip/unreduce_recovered.o;zlib/deflate_state_recovered.o;zlib/gzio_recovered.o
-memcpy_like_0019c364	target-address-symbol	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/libkernel_strings_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/gspipe_recovered.o
-memmove	c-runtime	historical-archive	PS2LIB libc/memmove.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/progress26_dsp_runtime_batch_recovered.o;unzip/explode_recovered.o;zlib/deflate_engine_recovered.o;zlib/deflate_state_recovered.o;zlib/infblock_engine_recovered.o;zlib/infblock_frontend_recovered.o;zlib/infutil_recovered.o
+memcpy_like_0019c364	target-address-symbol	source-address-alias	src/ps2/gspipe_recovered.c;src/ps2/memcpy.S;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/gspipe_recovered.o
 memmove_like	named-external	link-contract	reserved:link-contract	link-identity	snes9x/sram_recovered.o
 memory_card_setup_0010689c	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
-memset	c-runtime	historical-archive	PS2LIB libc/memset.o (ps2sdk@694100b7 source)	runtime-member-text-identity	app/main_flow_recovered.o;ps2/gcc_fde_runtime_recovered.o;ps2/libpad_recovered.o;ps2/libsupcxx_rtti_recovered.o;ps2/loadfile_iop_recovered.o;ps2/progress13_cpp_eh_recovered.o;ps2/progress22_more_small_helpers_recovered.o;ps2/progress24_core_helpers_recovered.o;ps2/progress25_small_core_helpers_recovered.o;ps2/progress26_dsp_runtime_batch_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o;ps2/sifcmd_recovered.o;ps2/small_dispatch_recovered.o;snes9x/memory_init_recovered.o;snes9x/progress11_core_recovered.o;snes9x/progress13_core_helpers_recovered.o;snes9x/progress13_frontend_more_recovered.o;snes9x/progress13_runtime_more_recovered.o;snes9x/sram_recovered.o;unzip/explode_recovered.o;unzip/unreduce_recovered.o;zlib/deflate_engine_recovered.o;zlib/deflate_state_recovered.o;zlib/gzio_recovered.o;zlib/infblock_frontend_recovered.o;zlib/inflate_state_recovered.o;zlib/zlib_buffer_api_recovered.o
 operator_new_001a9e88	target-address-symbol	source-address-alias	src/app/main_bootstrap.c;src/ps2/progress13_cpp_eh_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress22_more_small_helpers_recovered.o
 operator_new_u32	named-external	link-contract	reserved:link-contract	link-identity	app/main_bootstrap.o
 per_rom_cleanup_00151330	target-address-symbol	source-address-alias	src/app/main_flow_recovered.c;src/ps2/libmtap_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/memory_cleanup_recovered.c;src/snes9x/memory_init_recovered.c	link-identity	ps2/libmtap_recovered.o
-printf	c-runtime	historical-archive	PS2LIB libc/printf.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/gspipe_recovered.o
+ps2_sbrk	named-external	link-contract	reserved:link-contract	link-identity	ps2/alloc.o
 puRam00426fc4	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 puRam00447754	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 puRam00447758	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1733,17 +1705,7 @@ snes_ram_003f4be8	named-external	link-contract	reserved:link-contract	link-ident
 snes_state_0035e2c4	named-external	link-contract	reserved:link-contract	link-identity	ps2/address_leaf_recovered.o
 snes_udivmoddi4_001a7788	target-address-symbol	source-address-alias	src/ps2/progress21_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress21_small_helpers_recovered.o
 snes_vtable_00426c28	vtable-or-rtti	program-data	reserved:vtable-data.o	program-data	ps2/address_leaf_recovered.o
-sprintf	c-runtime	historical-archive	PS2LIB libc/sprintf.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/path_helpers_recovered.o;ps2/progress12_io_state_recovered.o;ps2/small_dispatch_recovered.o;snes9x/memmap_metadata_recovered.o;zlib/gzio_recovered.o
 sqrtf	named-external	link-contract	reserved:link-contract	link-identity	ps2/newlib_mathfp_recovered.o
-strcasecmp	named-external	link-contract	reserved:link-contract	link-identity	ps2/audio_rpc_recovered.o
-strcat	c-runtime	historical-archive	PS2LIB libc/strcat.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/path_helpers_recovered.o;zlib/gzio_recovered.o
-strchr	c-runtime	historical-archive	PS2LIB libc/strchr.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
-strcmp	c-runtime	historical-archive	PS2LIB libc/strcmp.o (ps2sdk@694100b7 source)	runtime-member-text-identity	unzip/unzip_api_recovered.o
-strcpy	c-runtime	historical-archive	PS2LIB libc/strcpy.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/libpad_recovered.o;ps2/path_helpers_recovered.o;snes9x/memmap_metadata_recovered.o;zlib/gzio_recovered.o
-strlen	c-runtime	historical-archive	PS2LIB libc/strlen.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/libmc_recovered.o;ps2/loadfile_iop_recovered.o;ps2/path_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o
-strncpy	c-runtime	historical-archive	PS2LIB libc/strncpy.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/cdvd_rpc_historical_recovered.o;ps2/fileio_recovered.o;ps2/libmc_recovered.o;ps2/loadfile_iop_recovered.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
-strrchr	c-runtime	historical-archive	PS2LIB libc/strrchr.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/audio_rpc_recovered.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o
-strtol	c-runtime	historical-archive	PS2LIB libc/strtol.o (ps2sdk@694100b7 source)	runtime-member-text-identity	ps2/progress21_small_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o
 sub_001019a8	target-function-alias	source-address-alias	src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress25_small_core_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress22_more_small_helpers_recovered.o
 sub_00101b64	target-function-alias	source-address-alias	src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress25_small_core_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress22_more_small_helpers_recovered.o
 sub_00101ef0	target-function-alias	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
@@ -1855,7 +1817,6 @@ uRam0044774e	named-external	link-contract	reserved:link-contract	link-identity	p
 uRam0044e206	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o;unzip/explode_recovered.o;unzip/unshrink_recovered.o
 uRam00450205	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 unzlocal_GetCurrentFileInfoInternal_0018f6cc	target-address-symbol	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/unzip/unzip_api_recovered.c	link-identity	unzip/unzip_api_recovered.o
-vsprintf	c-runtime	historical-archive	PS2LIB libc/vsprintf.o (ps2sdk@694100b7 source)	runtime-member-text-identity	zlib/gzio_recovered.o
 zr_base_dist_001ba130	named-external	link-contract	reserved:link-contract	link-identity	zlib/trees_recovered.o
 zr_base_length_001ba0b8	named-external	link-contract	reserved:link-contract	link-identity	zlib/trees_recovered.o
 zr_dist_code_001b9db8	named-external	link-contract	reserved:link-contract	link-identity	zlib/trees_recovered.o

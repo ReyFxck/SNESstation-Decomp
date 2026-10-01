@@ -26,6 +26,85 @@ EXPECTED_P16_PSEUDOCODE = 165
 EXPECTED_P17_PSEUDOCODE = 74
 MARKER_RE = re.compile(r"^/\* ===== (0x[0-9a-fA-F]{8}) ===== \*/$", re.MULTILINE)
 
+EXACT_SOURCE_TRACES = (
+    (
+        ROOT / "analysis" / "functions" / "libkernel_leaf_exact_508.tsv",
+        "src/ps2/kernel.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "memcpy_exact_56.tsv",
+        "src/ps2/memcpy.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "memset_exact_56.tsv",
+        "src/ps2/memset.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "memmove_exact_136.tsv",
+        "src/ps2/memmove.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strcat_exact_56.tsv",
+        "src/ps2/strcat.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "memcmp_exact_72.tsv",
+        "src/ps2/memcmp.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strcpy_exact_40.tsv",
+        "src/ps2/strcpy.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strlen_exact_40.tsv",
+        "src/ps2/strlen.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strchr_exact_56.tsv",
+        "src/ps2/strchr.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strcmp_exact_64.tsv",
+        "src/ps2/strcmp.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strncpy_exact_88.tsv",
+        "src/ps2/strncpy.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strncmp_exact_72.tsv",
+        "src/ps2/strncmp.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strrchr_exact_84.tsv",
+        "src/ps2/string.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strstr_exact_136.tsv",
+        "src/ps2/strstr.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strtol_exact_556.tsv",
+        "src/ps2/strtol.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strcasecmp_exact_132.tsv",
+        "src/ps2/strcasecmp.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strtok_exact_264.tsv",
+        "src/ps2/strtok.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strncasecmp_exact_184.tsv",
+        "src/ps2/strncasecmp.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "ctype_exact_616.tsv",
+        "src/ps2/ctype.c",
+    ),
+)
+
 
 def read_csv(path: Path) -> list[dict[str, str]]:
     with path.open(encoding="utf-8", newline="") as stream:
@@ -57,17 +136,38 @@ def pseudocode_markers(path: Path) -> set[str]:
 def explicit_source_references(addresses: set[str]) -> tuple[dict[str, list[str]], int]:
     """Return conservative address-to-source traceability, not ownership proof."""
     references: dict[str, list[str]] = defaultdict(list)
-    translation_units = sorted((ROOT / "src").rglob("*.c"))
+    translation_units = sorted(
+        path
+        for pattern in ("*.c", "*.S")
+        for path in (ROOT / "src").rglob(pattern)
+    )
     address_by_hex = {address[2:]: address for address in addresses}
 
-    for path in translation_units:
-        text = path.read_text(encoding="utf-8", errors="replace").lower()
-        relative = path.relative_to(ROOT).as_posix()
+    for source_path in translation_units:
+        text = source_path.read_text(encoding="utf-8", errors="replace").lower()
+        relative = source_path.relative_to(ROOT).as_posix()
         for token, address in address_by_hex.items():
             if token in text:
                 references[address].append(relative)
 
-    return dict(references), len(translation_units)
+    # Exact historical sources do not need recovery-only address comments added
+    # to their byte-identical source text.  Reviewed sidecars can therefore pin
+    # source traceability for selected target entries.
+    for table, source in EXACT_SOURCE_TRACES:
+        if not (ROOT / source).is_file():
+            fail(f"missing exact traced source {source}")
+        with table.open(encoding="utf-8", newline="") as stream:
+            for row in csv.DictReader(stream, delimiter="\t"):
+                address = row["address"].lower()
+                if address not in addresses:
+                    fail(f"exact source trace address outside target universe: {address}")
+                references[address].append(source)
+
+    normalized = {
+        address: sorted(set(files))
+        for address, files in references.items()
+    }
+    return normalized, len(translation_units)
 
 
 def render_csv(
@@ -160,7 +260,7 @@ these measurements remain deliberately distinct.
   existing source/evidence file. The source file must explicitly carry the
   promoted address token.
 - No address occurs in both pseudocode checkpoints.
-- The independent EE source gate freezes 97 source boundaries, 96 canonical
+- The independent EE source gate freezes 98 source boundaries, 98 canonical
   objects, the EE ABI and every emitted/unresolved symbol owner. See
   [`docs/status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
 
@@ -172,9 +272,9 @@ The machine-readable row-by-row classification is
 "Nothing left behind" is defensible inside the closed structural universe and
 the manifest-defined EE source tree: 1,137 raw JAL-shaped targets − 292
 rejected post-code data patterns + 196 independently mapped non-JAL entries =
-1,041 validated entries, compiled through 97 explicit TUs. It does not prove
+1,041 validated entries, compiled through 98 explicit TUs. It does not prove
 that 1,041 is the mathematically exact number of compiler-created functions,
-that the 97 boundaries are Hiryu's verbatim originals, or that the final ELF
+that the 98 boundaries are Hiryu's verbatim originals, or that the final ELF
 layout already matches.
 
 The next proof ladder is documented in

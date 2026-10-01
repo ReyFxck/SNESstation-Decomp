@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the historical 212-row Stage-3E named-contract tranche.
+"""Close the historical 216-row Stage-3E named-contract tranche.
 
 The original Stage-2 plan assigned 205 named link contracts and seven zlib
 peers to Stage 3E.  This gate preserves that historical denominator while
@@ -64,6 +64,7 @@ DEFAULT_REFERENCE = ROOT / "build" / "SNES_EMU.unpacked.bin"
 DEFAULT_INPUT = ROOT / "build" / "private-assets" / "source-tree.private-assets.partial.o"
 DEFAULT_BUILD = ROOT / "build" / "named-contracts"
 DEFAULT_OUTPUT = DEFAULT_BUILD / "source-tree.named-contracts.partial.o"
+LIBKERNEL_EXACT = ROOT / "analysis" / "functions" / "libkernel_leaf_exact_508.tsv"
 DEFAULT_REPORT = DEFAULT_BUILD / "report.json"
 
 EXTERNAL_FIELDS = (
@@ -178,6 +179,45 @@ ERRNO_ALIAS = {
     "canonical_symbol": "ps2lib_errno_00425a70",
 }
 
+# Historical Stage-3E contract that left the live external namespace when the
+# exact ps2sdk kernel.S source became canonical.  Keep it in the historical
+# 216-row ledger instead of pretending the original contract never existed.
+PROMOTED_EXACT_SOURCE = {
+    "symbol": "iSifSetDChain",
+    "category": "named-external",
+    "status": TEXT_ALIAS_PROVED,
+    "target_address": "0x0019fd10",
+    "extent_hex": "",
+    "region": "text",
+    "sha256": "",
+    "canonical_symbol": "iSifSetDChain",
+    "evidence": "exact-historical-source-target-entry",
+    "requesters": "ps2/sifcmd.o",
+    "detail": "exact historical kernel.S source provides the target entry directly;evidence=analysis/functions/libkernel_leaf_exact_508.tsv#iSifSetDChain",
+}
+
+
+PROMOTED_EXACT_STRCASECMP = {
+    "symbol": "strcasecmp",
+    "category": "named-external",
+    "status": TEXT_ALIAS_PROVED,
+    "target_address": "0x0019e860",
+    "extent_hex": "",
+    "region": "text",
+    "sha256": "",
+    "canonical_symbol": "strcasecmp",
+    "evidence": "exact-historical-source-target-entry",
+    "requesters": "ps2/audio_rpc_recovered.o",
+    "detail": "exact historical PS2LIB F_strcasecmp source provides target entry directly;evidence=analysis/functions/strcasecmp_exact_132.tsv#strcasecmp",
+}
+
+PROMOTED_EXACT_CTYPE = (
+    ("tolower", "0x0019edac", "0x30", "ps2/strcasecmp.o"),
+    ("isupper", "0x0019ee0c", "0x14", "ps2/strtol.o"),
+    ("isalpha", "0x0019ee34", "0x4c", "ps2/strtol.o"),
+    ("isdigit", "0x0019ee80", "0x14", "ps2/progress21_small_helpers_recovered.o;ps2/strtol.o"),
+    ("isspace", "0x0019efac", "0x20", "ps2/strtol.o"),
+)
 
 class NamedContractError(RuntimeError):
     pass
@@ -271,12 +311,65 @@ def verify_refactor_evidence() -> None:
                 fail(f"Stage-3E source-refactor evidence drift: {symbol} ({relative}#{token})")
 
 
+def verify_promoted_exact_source(defined_rows: Sequence[dict[str, str]]) -> None:
+    matches = [
+        row for row in defined_rows
+        if row["symbol"] == PROMOTED_EXACT_SOURCE["symbol"]
+        and row["source"] == "src/ps2/kernel.S"
+        and row["object"] == "ps2/kernel.o"
+        and row["binding"] == "global"
+        and row["section_class"] == "text"
+    ]
+    if len(matches) != 1:
+        fail("promoted iSifSetDChain source ownership drift")
+    token = "iSifSetDChain\t0x0019fd10\t0x10\t"
+    if not LIBKERNEL_EXACT.is_file() or token not in LIBKERNEL_EXACT.read_text(encoding="utf-8"):
+        fail("promoted iSifSetDChain exact-source evidence drift")
+
+    # The original caller-side named contract is retained after the exact
+    # historical C source replaces the provisional strcasecmp model.
+    exact = [
+        row for row in defined_rows
+        if row["symbol"] == PROMOTED_EXACT_STRCASECMP["symbol"]
+        and row["source"] == "src/ps2/strcasecmp.c"
+        and row["object"] == "ps2/strcasecmp.o"
+        and row["binding"] == "global"
+        and row["section_class"] == "text"
+        and row["size_hex"] == "0x84"
+    ]
+    if len(exact) != 1:
+        fail("promoted strcasecmp source ownership drift")
+    reference = ROOT / "analysis" / "functions" / "strcasecmp_exact_132.tsv"
+    token = "strcasecmp\t0x0019e860\t0x84\t47c76055161ef2612a1ef56925c716c89012a7c1716ed9f0bf6d1b678338be4f"
+    if not reference.is_file() or token not in reference.read_text(encoding="utf-8"):
+        fail("promoted strcasecmp exact-source evidence drift")
+
+    ctype_reference = ROOT / "analysis" / "functions" / "ctype_exact_616.tsv"
+    ctype_text = ctype_reference.read_text(encoding="utf-8") if ctype_reference.is_file() else ""
+    for symbol, address, size, _requesters in PROMOTED_EXACT_CTYPE:
+        matches = [
+            row for row in defined_rows
+            if row["symbol"] == symbol
+            and row["source"] == "src/ps2/ctype.c"
+            and row["object"] == "ps2/ctype.o"
+            and row["binding"] == "global"
+            and row["section_class"] == "text"
+            and row["size_hex"] == size
+        ]
+        if len(matches) != 1:
+            fail(f"promoted ctype source ownership drift: {symbol}")
+        token = f"{symbol}\t{address}\t{size}\t"
+        if token not in ctype_text:
+            fail(f"promoted ctype exact-source evidence drift: {symbol}")
+
+
+
 def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str, int | str]]:
     external_rows = read_table(args.external_map, EXTERNAL_FIELDS)
     stage3c.stage3_partition(external_rows)
     live = sorted((row for row in external_rows if is_stage3e(row)), key=lambda row: row["symbol"])
-    if len(live) != 191:
-        fail(f"expected 191 live Stage-3E contracts after source cleanup, found {len(live)}")
+    if len(live) != 188:
+        fail(f"expected 188 live Stage-3E contracts after exact source promotions, found {len(live)}")
 
     contracts = unique(read_table(args.contracts, CONTRACT_FIELDS), "symbol", "link contract")
     frontier = unique(read_table(args.frontier_manifest, FRONTIER_FIELDS), "symbol", "provider row")
@@ -284,6 +377,7 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
     source_aliases = read_table(args.source_alias_manifest, SOURCE_ALIAS_FIELDS)
     layout = stage3c.load_layout(args.layout_manifest)
     verify_refactor_evidence()
+    verify_promoted_exact_source(defined_rows)
 
     errno_definitions = [
         row for row in defined_rows
@@ -364,6 +458,23 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
             "detail": detail,
         })
 
+    result.append(dict(PROMOTED_EXACT_SOURCE))
+    result.append(dict(PROMOTED_EXACT_STRCASECMP))
+    for symbol, address, _size, requesters in PROMOTED_EXACT_CTYPE:
+        result.append({
+            "symbol": symbol,
+            "category": "named-external",
+            "status": TEXT_ALIAS_PROVED,
+            "target_address": address,
+            "extent_hex": "",
+            "region": "text",
+            "sha256": "",
+            "canonical_symbol": symbol,
+            "evidence": "exact-historical-source-target-entry",
+            "requesters": requesters,
+            "detail": f"exact historical PS2LIB F_ctype source provides target entry directly;evidence=analysis/functions/ctype_exact_616.tsv#{symbol}",
+        })
+
     result.append({
         "symbol": ERRNO_ALIAS["symbol"],
         "category": "named-external",
@@ -394,10 +505,10 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
         })
 
     result.sort(key=lambda row: row["symbol"])
-    if len(result) != 212 or len({row["symbol"] for row in result}) != 212:
-        fail("historical Stage-3E 212-row ledger drift")
+    if len(result) != 216 or len({row["symbol"] for row in result}) != 216:
+        fail("historical Stage-3E 216-row ledger drift")
     expected_counts = {
-        TEXT_ALIAS_PROVED: 23,
+        TEXT_ALIAS_PROVED: 27,
         TARGET_RANGE_PROVED: 164,
         TARGET_ENTRY_PROVED: 2,
         EXTERNAL_ADDRESS_PROVED: 2,
@@ -437,8 +548,8 @@ def fingerprint_rows(
 def validate_manifest(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str, int | str]]:
     expected, layout = derive_rows(args)
     actual = read_table(args.manifest, MANIFEST_FIELDS)
-    if len(actual) != 212:
-        fail(f"named-contract manifest must contain 212 rows, found {len(actual)}")
+    if len(actual) != 216:
+        fail(f"named-contract manifest must contain 216 rows, found {len(actual)}")
     actual_by_symbol = unique(actual, "symbol", "named-contract row")
     if set(actual_by_symbol) != {row["symbol"] for row in expected}:
         fail("named-contract manifest symbol set drift")
@@ -576,8 +687,8 @@ def link_exact_providers(
         fail("private reference does not match the frozen layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 223:
-        fail(f"expected 223 post-snprintf-refactor provider rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 219:
+        fail(f"expected 219 post-FILEIO provider rows, found {len(frontier_rows)}")
     frontier_by_name = unique(frontier_rows, "symbol", "provider row")
 
     stage3c_rows = read_table(args.stage3c_manifest, stage3c.MANIFEST_FIELDS)

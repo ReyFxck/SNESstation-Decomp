@@ -55,8 +55,8 @@
 #define IMAGE_MAX_QWORD 0x7ff0
 
 /* Target helpers identified by their allocator/free behavior. */
-extern void *memalign_like_0019e698(unsigned alignment, unsigned size);
-extern void free_like_0019e784(void *ptr);
+extern void *memalign(unsigned alignment, unsigned size);
+extern void free(void *ptr);
 extern void *memcpy_like_0019c364(void *dst, const void *src, size_t size);
 
 static int hw_AlphaEnabled;
@@ -190,9 +190,9 @@ static void gsPipe_ctor_body(gsPipeRecovered *self, uint32_t size)
     }
 
     if (self->m_Buffer != 0)
-        free_like_0019e784((void *)(uintptr_t)self->m_Buffer);
+        free((void *)(uintptr_t)self->m_Buffer);
 
-    self->m_Buffer = (uint32_t)(uintptr_t)memalign_like_0019e698(64u, size);
+    self->m_Buffer = (uint32_t)(uintptr_t)memalign(64u, size);
     if (self->m_Buffer == 0) {
         printf("gsPipe buffer could not be allocated !\n");
         return;
@@ -232,7 +232,7 @@ void gsPipe_ctor_00199590(gsPipeRecovered *self, uint32_t size)
 static void gsPipe_dtor_body(gsPipeRecovered *self)
 {
     if (self->m_Buffer != 0)
-        free_like_0019e784((void *)(uintptr_t)self->m_Buffer);
+        free((void *)(uintptr_t)self->m_Buffer);
 }
 
 void gsPipe_dtor_001996a0(gsPipeRecovered *self) { gsPipe_dtor_body(self); }
@@ -263,9 +263,9 @@ gsPipeRecovered *gsPipe_assign_00199740(gsPipeRecovered *self, const gsPipeRecov
     self->m_MemSize = src->m_MemSize;
 
     if (self->m_Buffer != 0)
-        free_like_0019e784((void *)(uintptr_t)self->m_Buffer);
+        free((void *)(uintptr_t)self->m_Buffer);
 
-    self->m_Buffer = (uint32_t)(uintptr_t)memalign_like_0019e698(64u, self->m_MemSize);
+    self->m_Buffer = (uint32_t)(uintptr_t)memalign(64u, self->m_MemSize);
     memcpy_like_0019c364((void *)(uintptr_t)self->m_Buffer,
                          (const void *)(uintptr_t)src->m_Buffer,
                          self->m_MemSize);

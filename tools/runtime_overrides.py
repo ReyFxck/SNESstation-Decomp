@@ -35,7 +35,7 @@ FLAGS = ("-G0", "-EL", "-pipe", "-w", "-Os", "-fomit-frame-pointer",
 SPECS = {
     "abort": (0x107578, 8, "snes_fatal_spin_00107578", "src/ps2/libc_misc_recovered.c",
               "analysis/matching/hunt1000plus-v41-validated-28.tsv"),
-    "puts": (0x19E414, 96, "puts_like_recovered", "src/ps2/stdio_wrappers_recovered.c",
+    "puts": (0x19E414, 96, "puts_like_recovered", "src/ps2/xprintf.c",
              "analysis/matching/hunt1000plus-v47-validated-79.tsv"),
 }
 # The termination witness is one complete 36-byte weak function, NOT a whole
@@ -190,7 +190,9 @@ def live_contracts(args: argparse.Namespace) -> dict[str, dict[str, str]]:
     frontier = {r["symbol"]: r for r in libgcc.read_table(args.frontier_manifest, libgcc.FRONTIER_FIELDS)}
     with args.defined_map.open(encoding="utf-8", newline="") as stream:
         defined = list(csv.DictReader(stream, delimiter="\t"))
-    if len(external) != 1863 or len(contracts) != 1530 or len(frontier) != 223:
+    # Exact kernel.S plus the promoted PS2LIB string/ctype sources collapse
+    # their former external/contract pairs without changing this override set.
+    if len(external) != 1824 or len(contracts) != 1493 or len(frontier) != 219:
         fail("runtime override namespace count drift")
     for symbol, (address, size, canonical, source, _) in SPECS.items():
         row = external.get(symbol, {})
