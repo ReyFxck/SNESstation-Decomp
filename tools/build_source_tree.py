@@ -77,6 +77,8 @@ SOURCE_FLAGS = {
     "src/ps2/strtol.c": ("-Os",),
     "src/ps2/strcasecmp.c": ("-Os",),
     "src/ps2/strtok.c": ("-Os",),
+    "src/ps2/strncasecmp.c": ("-Os",),
+    "src/ps2/ctype.c": ("-Os",),
 }
 
 # The original 2004 libc/strtol.o compiled using the old compiler default
@@ -96,6 +98,8 @@ SOURCE_DEFINES = {
     "src/ps2/strtol.c": ("F_strtol",),
     "src/ps2/strcasecmp.c": ("F_strcasecmp",),
     "src/ps2/strtok.c": ("F_strtok",),
+    "src/ps2/strncasecmp.c": ("F_strncasecmp",),
+    "src/ps2/ctype.c": ("F_ctype",),
     "src/ps2/string.c": ("F_strrchr",),
     "src/ps2/strstr.c": ("F_strstr",),
     "src/ps2/kernel.S": (
@@ -478,12 +482,6 @@ def classify_external(
     if runtime is not None:
         category = "c-runtime" if symbol in LIBC_SYMBOLS else "ps2-runtime"
         return category, "historical-archive", *runtime
-    # The original SNES Station executable binds PS2LIB's own tolower()
-    # entry at 0x0019edac, not Newlib's fallback. The matching source has
-    # not yet replaced the provisional ctype model; retain a proved named
-    # link contract to the recovered target text rather than misattribute it.
-    if symbol == "tolower":
-        return "named-external", "link-contract", "reserved:link-contract", "link-identity"
     if symbol in LIBC_SYMBOLS or symbol.startswith(("_impure", "__s", "stdin", "stdout", "stderr")):
         return "c-runtime", "historical-archive", "newlib/libc", "archive-identity"
     if symbol.startswith(PS2_RUNTIME_PREFIXES):
