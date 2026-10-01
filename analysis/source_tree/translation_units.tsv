@@ -112,3 +112,5 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 111	src/ps2/strtol.c	ps2	c	canonical	ps2/strtol.o		Exact 2004 PS2LIB F_strtol original C; EE GCC 3.2.2 556/556 target bytes with nine linked relocations, selected historical default-long ABI.
 112	src/ps2/strcasecmp.c	ps2	c	canonical	ps2/strcasecmp.o		Exact historical PS2LIB F_strcasecmp selector from ps2sdk@694100b7, 132/132 raw ELF target bytes after four relocations.
 113	src/ps2/strtok.c	ps2	c	canonical	ps2/strtok.o		Exact historical PS2LIB F_strtok selector from ps2sdk@694100b7; 264/264 target text bytes with 27 relocations and static state linked at 0x00445140/0x00445144.
+114	src/ps2/strncasecmp.c	ps2	c	canonical	ps2/strncasecmp.o		Exact historical PS2LIB F_strncasecmp selector from ps2sdk@694100b7; target 184/184 bytes proved after four tolower relocations.
+115	src/ps2/ctype.c	ps2	c	canonical	ps2/ctype.o		Exact historical PS2LIB F_ctype selector from ps2sdk@694100b7; complete 616-byte ctype corridor from tolower through isxdigit recovered.
