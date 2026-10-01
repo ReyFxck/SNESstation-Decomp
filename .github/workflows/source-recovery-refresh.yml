@@ -7,6 +7,7 @@ on:
       - source-recovery-file-by-file
     paths:
       - .github/workflows/source-recovery-refresh.yml
+      - tools/build_source_tree.py
       - src/ps2/cdvd_rpc.c
       - include/cdvd_legacy_compat.h
       - src/ps2/sifrpc.c
