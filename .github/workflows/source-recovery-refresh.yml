@@ -1,5 +1,5 @@
 name: Source recovery ledger refresh
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, raw-linked STRCAT, MEMCMP, STRCPY, STRLEN, STRCHR and STRCMP and STRNCPY and STRNCMP promotions included.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP and CTYPE promotions included.
 
 on:
   push:
@@ -92,6 +92,16 @@ on:
       - analysis/functions/strtok_exact_264.tsv
       - tools/run-strtok-source-recovery.py
       - .github/workflows/strtok-source-recovery.yml
+      - src/ps2/strncasecmp.c
+      - include/strncasecmp_legacy_compat.h
+      - analysis/functions/strncasecmp_exact_184.tsv
+      - tools/run-strncasecmp-source-recovery.py
+      - .github/workflows/strncasecmp-source-recovery.yml
+      - src/ps2/ctype.c
+      - include/ctype_legacy_compat.h
+      - analysis/functions/ctype_exact_616.tsv
+      - tools/run-ctype-source-recovery.py
+      - .github/workflows/ctype-source-recovery.yml
       - .github/workflows/strcpy-source-recovery.yml
       - include/alloc_legacy_compat.h
       - tools/run-alloc-source-recovery.py
@@ -189,6 +199,8 @@ jobs:
           python3 tools/run-strtol-source-recovery.py
           python3 tools/run-strcasecmp-source-recovery.py
           python3 tools/run-strtok-source-recovery.py
+          python3 tools/run-strncasecmp-source-recovery.py
+          python3 tools/run-ctype-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
           python3 tools/run-iopcontrol-source-recovery.py
