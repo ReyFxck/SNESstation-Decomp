@@ -114,6 +114,9 @@ SOURCE_DEFINES = {
         "ReadByte=ReadByte_recovered",
         "bytebuf=g_bytebuf_recovered",
     ),
+    "src/ps2/numtestf.S": (
+        "numtestf_candidate=numtestf_001a06c0",
+    ),
     "src/ps2/strtol.c": ("F_strtol",),
     "src/ps2/strcasecmp.c": ("F_strcasecmp",),
     "src/ps2/strtok.c": ("F_strtok",),
