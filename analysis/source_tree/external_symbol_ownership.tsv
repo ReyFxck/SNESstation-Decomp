@@ -1216,7 +1216,7 @@ FUN_00107578	target-function-alias	source-address-alias	src/ps2/libc_misc_recove
 FUN_0010768c	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001076e4	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0010773c	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_001080cc	target-function-alias	source-address-alias	src/ps2/libc_misc_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_001080cc	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/qsort.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00108a34	target-function-alias	source-address-alias	src/ps2/libc_misc_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00108ce4	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0010a840	target-function-alias	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/apu_alloc_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o

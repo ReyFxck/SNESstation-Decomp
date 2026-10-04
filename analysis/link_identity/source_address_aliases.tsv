@@ -51,7 +51,7 @@ FUN_00107578	0x00107578	PROVED	snes_fatal_spin_00107578	progress-name-global-tex
 FUN_0010768c	0x0010768c	PROVED	snes_p11_0010768c	progress-name-global-text	src/ps2/progress11_frontend_recovered.c	ps2/progress11_frontend_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001076e4	0x001076e4	PROVED	snes_p11_001076e4	progress-name-global-text	src/ps2/progress11_frontend_recovered.c	ps2/progress11_frontend_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0010773c	0x0010773c	PROVED	snes_p11_0010773c	progress-name-global-text	src/ps2/progress11_frontend_recovered.c	ps2/progress11_frontend_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_001080cc	0x001080cc	PROVED	snes_qsort_001080cc	progress-name-global-text	src/ps2/libc_misc_recovered.c	ps2/libc_misc_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001080cc	0x001080cc	PROVED	snes_qsort_001080cc	progress-name-global-text	src/ps2/qsort.c	ps2/qsort.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00108a34	0x00108a34	PROVED	snes_rand_00108a34	progress-name-global-text	src/ps2/libc_misc_recovered.c	ps2/libc_misc_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_00108ce4	0x00108ce4	PROVED	snes_p11_00108ce4	progress-name-global-text	src/ps2/progress11_frontend_recovered.c	ps2/progress11_frontend_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_0010a840	0x0010a840	PROVED	apu_buffer_allocator_0010a840	reviewed-semantic-identity-global-text	src/snes9x/apu_alloc_recovered.c	snes9x/apu_alloc_recovered.o	ps2/progress28_structural_lift_recovered.o	historical S9xInitAPU evidence selects the allocator and rejects the integration-only wrapper;evidence=analysis/matching/hunt400-v9-object-provenance.tsv#apu_buffer_allocator

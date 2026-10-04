@@ -86,7 +86,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00107db4,amigaModSetVolume_00107db4,audio-rpc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/audio_rpc_recovered.c,MATCHING
 0x00107e14,amigaModGetPosition_00107e14,audio-rpc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/audio_rpc_recovered.c,MATCHING
 0x00107f18,amigaModQuit_00107f18,audio-rpc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/audio_rpc_recovered.c,MATCHING
-0x001080cc,snes_qsort_001080cc,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libc_misc_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x001080cc,snes_qsort_001080cc,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/ps2/qsort.c,MATCHING
 0x00108a34,snes_rand_00108a34,libc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libc_misc_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x00108a9c,snes_p16_00108a9c,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x00108bfc,snes_p11_00108bfc,ps2-rpc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c,MATCHING
