@@ -11,7 +11,7 @@ from compare_elf_functions import ELFFile
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build/matching/numtestf-source-recovery"
-LOCAL = ROOT / "matching/candidates/mathfp_numtest.S"
+LOCAL = ROOT / "src/ps2/numtestf.S"
 LISTING = ROOT / "analysis/functions/math_frontier_0019fddc.asm"
 CC = ROOT / "build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
 
@@ -56,10 +56,14 @@ def main():
 
     target = target_bytes()
     obj = BUILD / "numtestf.o"
-    run([CC, "-G0", "-EL", "-pipe", "-w", "-c", LOCAL, "-o", obj])
+    run([
+        CC, "-G0", "-EL", "-pipe", "-w",
+        "-Dnumtestf_candidate=numtestf_001a06c0",
+        "-c", LOCAL, "-o", obj,
+    ])
 
     elf = ELFFile(obj)
-    sym = elf.find_symbol("numtestf_candidate")
+    sym = elf.find_symbol("numtestf_001a06c0")
     raw = elf.symbol_bytes(sym, sym.size)
     relocs = len(elf.relocation_ranges(sym, sym.size))
 
