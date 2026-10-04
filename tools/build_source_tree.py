@@ -79,6 +79,7 @@ SOURCE_FLAGS = {
     "src/ps2/strtok.c": ("-Os",),
     "src/ps2/strncasecmp.c": ("-Os",),
     "src/ps2/ctype.c": ("-Os",),
+    "src/ps2/qsort.c": ("-Os",),
 }
 
 # The original 2004 libc/strtol.o compiled using the old compiler default
