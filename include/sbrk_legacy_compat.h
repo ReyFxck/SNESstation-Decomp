@@ -15,5 +15,6 @@ void *EndOfHeap_0019f5c0(void);
 #define DI() DIntr()
 #define EI() EIntr()
 #define EndOfHeap EndOfHeap_0019f5c0
+#define ps2_sbrk ps2_sbrk_0019f078
 
 #endif
