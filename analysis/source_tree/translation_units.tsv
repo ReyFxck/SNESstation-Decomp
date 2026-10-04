@@ -114,3 +114,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 113	src/ps2/strtok.c	ps2	c	canonical	ps2/strtok.o		Exact historical PS2LIB F_strtok selector from ps2sdk@694100b7; 264/264 target text bytes with 27 relocations and static state linked at 0x00445140/0x00445144.
 114	src/ps2/strncasecmp.c	ps2	c	canonical	ps2/strncasecmp.o		Exact historical PS2LIB F_strncasecmp selector from ps2sdk@694100b7; target 184/184 bytes proved after four tolower relocations.
 115	src/ps2/ctype.c	ps2	c	canonical	ps2/ctype.o		Exact historical PS2LIB F_ctype selector from ps2sdk@694100b7; complete 616-byte ctype corridor from tolower through isxdigit recovered.
+116	src/ps2/qsort.c	ps2	c	canonical	ps2/qsort.o		Exact historical Newlib 1.10 qsort.c from PS2DEV bac0006c; EE GCC 3.2.2 target entry 2408/2408 raw bytes with one relocation.
