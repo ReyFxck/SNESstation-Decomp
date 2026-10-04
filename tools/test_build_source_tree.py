@@ -144,7 +144,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             matches = [unit for unit in units if unit.source == source]
             self.assertEqual(1, len(matches))
             self.assertTrue(matches[0].canonical)
-            self.assertEqual("c", matches[0].language)
+            self.assertEqual("asm-cpp" if source.endswith(".S") else "c", matches[0].language)
             self.assertEqual(obj, matches[0].object)
 
         self.assertFalse(any(unit.source == "src/ps2/libkernel_strings_recovered.c" for unit in units))
