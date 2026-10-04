@@ -446,7 +446,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0018adb8,DrawLargePixel16Add1_2,renderer,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/cpu_shutdown_renderer_select_recovered.c;src/snes9x/tile_large16_recovered.c,MATCHING
 0x0018b43c,DrawLargePixel16Sub,renderer,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/cpu_shutdown_renderer_select_recovered.c;src/snes9x/tile_large16_recovered.c,MATCHING
 0x0018bac0,DrawLargePixel16Sub1_2,renderer,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/cpu_shutdown_renderer_select_recovered.c;src/snes9x/tile_large16_recovered.c,MATCHING
-0x0018c124,get_tree,unzip,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/unzip/explode_recovered.c,MATCHING
+0x0018c124,get_tree,unzip,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/unzip/get_tree.S,MATCHING
 0x0018c1f8,explode_lit8,unzip,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/unzip/explode_recovered.c,MATCHING
 0x0018c834,explode_lit4,unzip,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/unzip/explode_recovered.c,MATCHING
 0x0018ce70,explode_nolit8,unzip,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/unzip/explode_recovered.c,MATCHING
