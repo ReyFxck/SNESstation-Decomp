@@ -1,5 +1,5 @@
 name: Source recovery ledger refresh
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK and GET_TREE promotions included.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE and NUMTESTF promotions included.
 
 on:
   push:
@@ -119,6 +119,12 @@ on:
       - analysis/functions/unzip_explode_0018c124.asm
       - tools/run-get-tree-source-recovery.py
       - .github/workflows/get-tree-source-recovery.yml
+      - src/ps2/numtestf.S
+      - matching/candidates/mathfp_numtest.c
+      - analysis/functions/numtestf_exact_128.tsv
+      - analysis/functions/math_frontier_0019fddc.asm
+      - tools/run-numtestf-source-recovery.py
+      - .github/workflows/numtestf-source-recovery.yml
       - .github/workflows/strcpy-source-recovery.yml
       - include/alloc_legacy_compat.h
       - tools/run-alloc-source-recovery.py
@@ -221,6 +227,7 @@ jobs:
           python3 tools/run-qsort-source-recovery.py
           python3 tools/run-sbrk-source-recovery.py
           python3 tools/run-get-tree-source-recovery.py
+          python3 tools/run-numtestf-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
           python3 tools/run-iopcontrol-source-recovery.py
