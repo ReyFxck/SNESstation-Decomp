@@ -115,6 +115,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "get_tree_exact_212.tsv",
         "src/unzip/get_tree.S",
     ),
+    (
+        ROOT / "analysis" / "functions" / "numtestf_exact_128.tsv",
+        "src/ps2/numtestf.S",
+    ),
 )
 
 
