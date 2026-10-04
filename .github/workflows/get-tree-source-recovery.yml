@@ -5,7 +5,8 @@ on:
     branches:
       - source-recovery-file-by-file
     paths:
-      - "matching/candidates/get_tree.S"
+      - "src/unzip/get_tree.S"
+      - "matching/candidates/get_tree.c"
       - "analysis/functions/unzip_explode_0018c124.asm"
       - "tools/run-get-tree-source-recovery.py"
       - ".github/workflows/get-tree-source-recovery.yml"
