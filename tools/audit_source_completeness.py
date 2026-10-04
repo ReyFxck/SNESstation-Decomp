@@ -111,6 +111,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "sbrk_historical_object.tsv",
         "src/ps2/sbrk.c",
     ),
+    (
+        ROOT / "analysis" / "functions" / "get_tree_exact_212.tsv",
+        "src/unzip/get_tree.S",
+    ),
 )
 
 
