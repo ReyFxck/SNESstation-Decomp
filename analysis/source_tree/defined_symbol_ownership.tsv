@@ -527,13 +527,13 @@ k_pi	local	rodata	0x4	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recove
 k_root3	local	rodata	0x4	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 k_rooteps	local	rodata	0x4	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 k_two_over_pi	local	rodata	0x4	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
-numtestf_001a06c0	global	text	0x74	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 r.0	local	rodata	0x10	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 sine_generator_target	local	text	0x250	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 sinf_001a0024	global	text	0x1c	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 sqrtf_001a06a0	global	text	0x38	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 tanf_001a0254	global	text	0x1c8	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 target_notanum	local	text	0x1c	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
+numtestf_001a06c0	global	text	0x80	src/ps2/numtestf.S	ps2/numtestf.o
 S9xSyncSpeed	global	text	0x12c	src/ps2/path_helpers_recovered.c	ps2/path_helpers_recovered.o
 _makepath	global	text	0x124	src/ps2/path_helpers_recovered.c	ps2/path_helpers_recovered.o
 _splitpath	global	text	0x1cc	src/ps2/path_helpers_recovered.c	ps2/path_helpers_recovered.o
