@@ -103,6 +103,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "ctype_exact_616.tsv",
         "src/ps2/ctype.c",
     ),
+    (
+        ROOT / "analysis" / "functions" / "qsort_historical_object.tsv",
+        "src/ps2/qsort.c",
+    ),
 )
 
 
