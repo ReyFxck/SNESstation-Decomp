@@ -23,8 +23,8 @@ class BuildSourceTreeTests(unittest.TestCase):
         units = MODULE.read_manifest(
             ROOT / "analysis" / "source_tree" / "translation_units.tsv"
         )
-        self.assertEqual(113, len(units))
-        self.assertEqual(113, sum(unit.canonical for unit in units))
+        self.assertEqual(117, len(units))
+        self.assertEqual(117, sum(unit.canonical for unit in units))
         alternate = [unit for unit in units if not unit.canonical]
         self.assertEqual([], alternate)
         cdvd = [unit for unit in units if unit.source == "src/ps2/cdvd_rpc.c"]
@@ -133,14 +133,36 @@ class BuildSourceTreeTests(unittest.TestCase):
         self.assertTrue(strtok[0].canonical)
         self.assertEqual("c", strtok[0].language)
         self.assertEqual("ps2/strtok.o", strtok[0].object)
+
+        for source, obj in (
+            ("src/ps2/strncasecmp.c", "ps2/strncasecmp.o"),
+            ("src/ps2/ctype.c", "ps2/ctype.o"),
+            ("src/ps2/qsort.c", "ps2/qsort.o"),
+            ("src/ps2/sbrk.c", "ps2/sbrk.o"),
+        ):
+            matches = [unit for unit in units if unit.source == source]
+            self.assertEqual(1, len(matches))
+            self.assertTrue(matches[0].canonical)
+            self.assertEqual("c", matches[0].language)
+            self.assertEqual(obj, matches[0].object)
+
         self.assertFalse(any(unit.source == "src/ps2/libkernel_strings_recovered.c" for unit in units))
         self.assertEqual("ps2/kernel.o", kernel[0].object)
 
-    def test_original_ps2lib_tolower_is_not_newlib(self) -> None:
-        self.assertEqual(
-            ("named-external", "link-contract", "reserved:link-contract", "link-identity"),
-            MODULE.classify_external("tolower", {}),
-        )
+    def test_original_ps2lib_tolower_is_owned_by_exact_ctype_source(self) -> None:
+        path = ROOT / "analysis" / "source_tree" / "defined_symbol_ownership.tsv"
+        with path.open(encoding="utf-8", newline="") as stream:
+            rows = list(csv.DictReader(stream, delimiter="\t"))
+        matches = [
+            row for row in rows
+            if row["symbol"] == "tolower"
+            and row["binding"] == "global"
+            and row["section_class"] == "text"
+            and row["size_hex"] == "0x30"
+            and row["source"] == "src/ps2/ctype.c"
+            and row["object"] == "ps2/ctype.o"
+        ]
+        self.assertEqual(1, len(matches))
 
     def test_historical_strtol_omits_only_application_long64_flag(self) -> None:
         old = ["-G0", "-O2", "-mlong64", "-ffreestanding"]
@@ -225,7 +247,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             counts[row["kind"]] = counts.get(row["kind"], 0) + 1
             self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(
-            {"translation-unit": 113, "abi-contract": 1, "canonical-aggregate": 1},
+            {"translation-unit": 117, "abi-contract": 1, "canonical-aggregate": 1},
             counts,
         )
 
