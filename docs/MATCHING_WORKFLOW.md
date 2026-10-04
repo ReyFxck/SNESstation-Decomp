@@ -128,7 +128,7 @@ The readable historical-source model for `get_tree` lives at
 compiles that source shape to 208 bytes, while the SNES Station target is 212
 bytes with a different register allocation and one additional `lui` reload.
 The formal matching candidate is therefore the clearly labelled
-`matching/candidates/get_tree.S` reconstruction; its committed-listing report
+`src/unzip/get_tree.S` reconstruction; its committed-listing report
 is `analysis/matching/get-tree-listing-report.md`, while the reference-ELF report
 remains under `build/matching/get_tree/report.md`. The assembly reconstruction
 is not presented as Hiryu's original source.
