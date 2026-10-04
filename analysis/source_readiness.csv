@@ -754,7 +754,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019efcc,isxdigit,ctype,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ctype.c,MATCHING
 0x0019f018,DIntr,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_heap_runtime_recovered.c,MATCHING
 0x0019f060,EIntr,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_heap_runtime_recovered.c,MATCHING
-0x0019f078,ps2_sbrk,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_heap_runtime_recovered.c,MATCHING
+0x0019f078,ps2_sbrk,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/sbrk.c,MATCHING
 0x0019f138,_SifSendCmd,sifcmd,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/sifcmd.c,MATCHING
 0x0019f264,SifSendCmd,sifcmd,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/sifcmd.c,MATCHING
 0x0019f2a0,iSifSendCmd,sifcmd,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/sifcmd.c,MATCHING

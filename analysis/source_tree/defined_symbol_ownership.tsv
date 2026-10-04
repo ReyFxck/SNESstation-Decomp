@@ -368,8 +368,6 @@ DIntr	global	text	0x58	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_
 EIntr	global	text	0x28	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_heap_runtime_recovered.o
 EndOfHeap_0019f5c0	global	text	0x10	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_heap_runtime_recovered.o
 ee_status_recovered	local	text	0xc	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_heap_runtime_recovered.o
-program_break_00425a80	local	bss	0x0	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_heap_runtime_recovered.o
-ps2_sbrk_0019f078	global	text	0xcc	src/ps2/libkernel_heap_runtime_recovered.c	ps2/libkernel_heap_runtime_recovered.o
 SifCheckStatRpc_001a1af4	global	text	0x34	src/ps2/libmc_recovered.c	ps2/libmc_recovered.o
 ee_addr32	local	text	0x8	src/ps2/libmc_recovered.c	ps2/libmc_recovered.o
 g_cdata	local	bss	0x0	src/ps2/libmc_recovered.c	ps2/libmc_recovered.o
@@ -887,6 +885,8 @@ snes_p28_001aa638	global	text	0x424	src/ps2/progress28_structural_lift_recovered
 snes_p28_001aabd8	global	text	0x350	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_001aae70	global	text	0x100	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_qsort_001080cc	global	text	0x968	src/ps2/qsort.c	ps2/qsort.o
+_heap_ptr	local	data	0x4	src/ps2/sbrk.c	ps2/sbrk.o
+ps2_sbrk_0019f078	global	text	0xc0	src/ps2/sbrk.c	ps2/sbrk.o
 SifAddCmdHandler	global	text	0x38	src/ps2/sifcmd.c	ps2/sifcmd.o
 SifExitCmd	global	text	0x34	src/ps2/sifcmd.c	ps2/sifcmd.o
 SifGetSreg	global	text	0x18	src/ps2/sifcmd.c	ps2/sifcmd.o
