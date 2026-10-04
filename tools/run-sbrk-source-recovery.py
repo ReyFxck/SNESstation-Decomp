@@ -12,7 +12,7 @@ from compare_elf_functions import ELFFile
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build/matching/sbrk-source-recovery"
-LOCAL = ROOT / "src/ps2/sbrk.c"
+LOCAL = ROOT / "matching/candidates/sbrk_historical.c"
 RAW_URL = "https://raw.githubusercontent.com/ps2dev/ps2sdk/694100b78ad5bc8f8248a1138143860af4f8435f/ee/libc/src/sbrk.c"
 ADDRESS = "0x0019f078"
 SIZE = 192
