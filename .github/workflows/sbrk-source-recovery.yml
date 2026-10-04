@@ -5,7 +5,7 @@ on:
     branches:
       - source-recovery-file-by-file
     paths:
-      - "matching/candidates/sbrk_historical.c"
+      - "src/ps2/sbrk.c"
       - "include/sbrk_legacy_compat.h"
       - "analysis/functions/sbrk_historical_object.tsv"
       - "tools/run-sbrk-source-recovery.py"
