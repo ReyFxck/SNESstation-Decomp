@@ -109,6 +109,11 @@ def effective_source_cflags(cflags: Sequence[str], source: str) -> list[str]:
 
 
 SOURCE_DEFINES = {
+    "src/unzip/get_tree.S": (
+        "get_tree_candidate=get_tree_recovered",
+        "ReadByte=ReadByte_recovered",
+        "bytebuf=g_bytebuf_recovered",
+    ),
     "src/ps2/strtol.c": ("F_strtol",),
     "src/ps2/strcasecmp.c": ("F_strcasecmp",),
     "src/ps2/strtok.c": ("F_strtok",),
