@@ -5,6 +5,7 @@
  * Minimal ABI surface for the 15-Apr-2004 PS2LIB sbrk.c source.
  * size_t is the historical 32-bit EE type. EndOfHeap is still carried by the
  * existing recovered syscall leaf until its own historical provider is promoted.
+ * The historical ps2_sbrk export is bound to the target-address canonical name.
  */
 typedef unsigned int size_t;
 
