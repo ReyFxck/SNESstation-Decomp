@@ -80,6 +80,7 @@ SOURCE_FLAGS = {
     "src/ps2/strncasecmp.c": ("-Os",),
     "src/ps2/ctype.c": ("-Os",),
     "src/ps2/qsort.c": ("-Os",),
+    "src/ps2/sbrk.c": ("-Os",),
 }
 
 # The original 2004 libc/strtol.o compiled using the old compiler default
@@ -91,6 +92,14 @@ SOURCE_OMIT_FLAGS = {
     # 32-bit long ABI.  Keeping the application-wide -mlong64 changes the
     # n-- instruction by one opcode byte even though the source body is exact.
     "src/ps2/strncasecmp.c": ("-mlong64",),
+    # PS2LIB sbrk.o was compiled with the small historical -Os profile, not
+    # the application's freestanding/-mlong64 tuning bundle.
+    "src/ps2/sbrk.c": (
+        "-O2", "-Wall", "-fomit-frame-pointer", "-fstrict-aliasing",
+        "-fno-common", "-ffreestanding", "-fno-builtin", "-fshort-double",
+        "-mlong64", "-mhard-float", "-mno-abicalls", "-march=r5900",
+        "-mtune=r5900", "-DLSB_FIRST", "-DALIGN_DWORD", "-DCODE_PLATFORM=3",
+    ),
 }
 
 
@@ -706,8 +715,16 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     canonical_objects = [compiled[unit.source] for unit in units if unit.canonical]
     aggregate = build_dir / "source-tree.partial.o"
     map_path = build_dir / "source-tree.partial.map"
+    # _end is a linker-script absolute in the original executable. The exact
+    # startup integration freezes it at 0x00450c18; resolve that same symbol
+    # during the ownership partial-link so canonical sbrk.c does not create a
+    # synthetic Stage-3 external contract.
     run(
-        [str(linker), "-EL", "-r", "-Map", str(map_path), "-o", str(aggregate), *map(str, canonical_objects)],
+        [
+            str(linker), "-EL", "-r", "--defsym=_end=0x00450c18",
+            "-Map", str(map_path), "-o", str(aggregate),
+            *map(str, canonical_objects),
+        ],
         log_path=build_dir / "logs" / "partial-link.log",
     )
     validate_elf_object(aggregate)
