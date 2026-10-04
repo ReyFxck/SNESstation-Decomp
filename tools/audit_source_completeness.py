@@ -107,6 +107,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "qsort_historical_object.tsv",
         "src/ps2/qsort.c",
     ),
+    (
+        ROOT / "analysis" / "functions" / "sbrk_historical_object.tsv",
+        "src/ps2/sbrk.c",
+    ),
 )
 
 
@@ -264,8 +268,8 @@ these measurements remain deliberately distinct.
   existing source/evidence file. The source file must explicitly carry the
   promoted address token.
 - No address occurs in both pseudocode checkpoints.
-- The independent EE source gate freezes 98 source boundaries, 98 canonical
-  objects, the EE ABI and every emitted/unresolved symbol owner. See
+- The independent EE source gate freezes {translation_units} source boundaries and
+  their canonical objects, the EE ABI and every emitted/unresolved symbol owner. See
   [`docs/status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
 
 The machine-readable row-by-row classification is
@@ -276,9 +280,9 @@ The machine-readable row-by-row classification is
 "Nothing left behind" is defensible inside the closed structural universe and
 the manifest-defined EE source tree: 1,137 raw JAL-shaped targets − 292
 rejected post-code data patterns + 196 independently mapped non-JAL entries =
-1,041 validated entries, compiled through 98 explicit TUs. It does not prove
+1,041 validated entries, compiled through {translation_units} explicit TUs. It does not prove
 that 1,041 is the mathematically exact number of compiler-created functions,
-that the 98 boundaries are Hiryu's verbatim originals, or that the final ELF
+that those source boundaries are Hiryu's verbatim originals, or that the final ELF
 layout already matches.
 
 The next proof ladder is documented in
