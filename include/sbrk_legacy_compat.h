@@ -9,6 +9,10 @@
  */
 typedef unsigned int size_t;
 
+#if defined(SNESSTATION_HOST_SYNTAX)
+#define asm __asm__
+#endif
+
 int DIntr(void);
 int EIntr(void);
 void *EndOfHeap_0019f5c0(void);
