@@ -11,7 +11,7 @@ from compare_elf_functions import ELFFile
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build/matching/get-tree-source-recovery"
-LOCAL = ROOT / "matching/candidates/get_tree.S"
+LOCAL = ROOT / "src/unzip/get_tree.S"
 LISTING = ROOT / "analysis/functions/unzip_explode_0018c124.asm"
 CC = ROOT / "build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
 LD = ROOT / "build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-ld"
@@ -63,10 +63,16 @@ def main():
 
     target = target_bytes()
     obj = BUILD / "get_tree.o"
-    run([CC, "-G0", "-EL", "-pipe", "-w", "-c", LOCAL, "-o", obj])
+    run([
+        CC, "-G0", "-EL", "-pipe", "-w",
+        "-Dget_tree_candidate=get_tree_recovered",
+        "-DReadByte=ReadByte_recovered",
+        "-Dbytebuf=g_bytebuf_recovered",
+        "-c", LOCAL, "-o", obj,
+    ])
 
     elf = ELFFile(obj)
-    sym = elf.find_symbol("get_tree_candidate")
+    sym = elf.find_symbol("get_tree_recovered")
     raw = elf.symbol_bytes(sym, sym.size)
     relocs = len(elf.relocation_ranges(sym, sym.size))
     if sym.size != SIZE or relocs != EXPECTED_RELOCS:
@@ -75,12 +81,12 @@ def main():
     linked = BUILD / "get_tree-linked.elf"
     run([
         LD, "-EL", "-Ttext", f"0x{ADDRESS:08x}",
-        f"--defsym=ReadByte=0x{READBYTE:08x}",
-        f"--defsym=bytebuf=0x{BYTEBUF:08x}",
+        f"--defsym=ReadByte_recovered=0x{READBYTE:08x}",
+        f"--defsym=g_bytebuf_recovered=0x{BYTEBUF:08x}",
         "-o", linked, obj,
     ])
     linked_elf = ELFFile(linked)
-    linked_sym = linked_elf.find_symbol("get_tree_candidate")
+    linked_sym = linked_elf.find_symbol("get_tree_recovered")
     linked_raw = linked_elf.symbol_bytes(linked_sym, linked_sym.size)
     if linked_sym.value != ADDRESS or linked_sym.size != SIZE:
         raise SystemExit(
