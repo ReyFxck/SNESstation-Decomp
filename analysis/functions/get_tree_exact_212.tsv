@@ -1,0 +1,2 @@
+symbol	address	size_hex	raw_text_sha256	relocations	readbyte_address	bytebuf_address	evidence
+get_tree	0x0018c124	0xd4	b4c2ff8e8d0f56d131afe79349fa26863a75a030fbf56692415c529bb0a2a08c	9	0x0018dc60	0x00426e28	analysis/matching/get-tree-listing-report.md
