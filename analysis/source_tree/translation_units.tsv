@@ -116,3 +116,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 115	src/ps2/ctype.c	ps2	c	canonical	ps2/ctype.o		Exact historical PS2LIB F_ctype selector from ps2sdk@694100b7; complete 616-byte ctype corridor from tolower through isxdigit recovered.
 116	src/ps2/qsort.c	ps2	c	canonical	ps2/qsort.o		Exact historical Newlib 1.10 qsort.c from PS2DEV bac0006c; EE GCC 3.2.2 target entry 2408/2408 raw bytes with one relocation.
 117	src/ps2/sbrk.c	ps2	c	canonical	ps2/sbrk.o		Exact historical PS2LIB sbrk.c from ps2sdk@694100b7; EE GCC 3.2.2 target entry 192/192 raw bytes with 13 relocations; _end is the frozen startup linker symbol at 0x00450c18.
+118	src/unzip/get_tree.S	unzip	asm-cpp	canonical	unzip/get_tree.o		Byte-exact EE reconstruction of get_tree @ 0x0018c124; 212/212 linked bytes with ReadByte=0x0018dc60 and bytebuf=0x00426e28; historical K&R C provenance retained separately.
