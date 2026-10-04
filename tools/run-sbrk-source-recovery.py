@@ -12,7 +12,7 @@ from compare_elf_functions import ELFFile
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build/matching/sbrk-source-recovery"
-LOCAL = ROOT / "matching/candidates/sbrk_historical.c"
+LOCAL = ROOT / "src/ps2/sbrk.c"
 RAW_URL = "https://raw.githubusercontent.com/ps2dev/ps2sdk/694100b78ad5bc8f8248a1138143860af4f8435f/ee/libc/src/sbrk.c"
 ADDRESS = "0x0019f078"
 SIZE = 192
@@ -88,7 +88,7 @@ def main():
     local_obj = BUILD / "canonical-candidate.o"
     run([CC, "-D_EE", "-DPS2_EE", "-G0", "-EL", "-pipe", "-w", "-Os",
          "-I", ROOT / "include", "-c", LOCAL, "-o", local_obj])
-    lsize, lraw, lrel = symbol_contract(local_obj, "ps2_sbrk")
+    lsize, lraw, lrel = symbol_contract(local_obj, "ps2_sbrk_0019f078")
     if (lsize, lrel, hashlib.sha256(lraw).hexdigest()) != (SIZE, EXPECTED_RELOCS, RAW_SHA256):
         raise SystemExit(f"local source drift size={lsize} relocs={lrel} sha={hashlib.sha256(lraw).hexdigest()}")
     if lraw != hraw:
