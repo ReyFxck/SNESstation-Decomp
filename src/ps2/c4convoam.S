@@ -7,7 +7,7 @@
  * retained backend scheduling drift.  It is matching evidence, not a claim
  * to be Hiryu's original source.
  *
- * Target span: [0x0010c340, 0x0010c6f8)
+ * Target body size: 952 bytes.
  * Target span SHA-256:
  * b429d0a5da3bb161b7b8000da3e1d516a7c8e47f413c73b31e2891a5c3f2ec7a
  */
