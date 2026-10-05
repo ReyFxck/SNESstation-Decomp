@@ -93,6 +93,7 @@ call	local	text	0x50	src/ps2/audio_rpc_recovered.c	ps2/audio_rpc_recovered.o
 is_sram_extension_00106bcc	global	text	0x3c	src/ps2/audio_rpc_recovered.c	ps2/audio_rpc_recovered.o
 snes_p28_0010c340	global	text	0x3b8	src/ps2/c4convoam.S	ps2/c4convoam.o
 snes_p28_0010c6f8	global	text	0x4b8	src/ps2/c4doscalerotate.S	ps2/c4doscalerotate.o
+snes_p28_0010cfa4	global	text	0x304	src/ps2/c4transformlines.S	ps2/c4transformlines.o
 CDVD_DiskReady	global	text	0x6c	src/ps2/cdvd_rpc.c	ps2/cdvd_rpc.o
 CDVD_FindFile	global	text	0xa0	src/ps2/cdvd_rpc.c	ps2/cdvd_rpc.o
 CDVD_FlushCache	global	text	0x58	src/ps2/cdvd_rpc.c	ps2/cdvd_rpc.o
@@ -732,7 +733,6 @@ snes_p28_0010c094	global	text	0xa8	src/ps2/progress28_structural_lift_recovered.
 snes_p28_0010c1f8	global	text	0xdc	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010cbb0	global	text	0x2f4	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010cdcc	global	text	0x29c	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
-snes_p28_0010cfa4	global	text	0x758	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010d2a8	global	text	0x444	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010d4f0	global	text	0x4bc	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010d734	global	text	0x5c	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
