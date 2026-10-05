@@ -224,7 +224,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             "SifCallRpc": ("ps2-runtime", "runtime-member-text-identity"),
             "puts": ("c-runtime", "runtime-override-callsite-identity"),
             "abort": ("c-runtime", "runtime-override-callsite-identity"),
-            "_Z10C4DrawLineiisiish": ("target-function-alias", "link-identity"),
+            "_Z10C4DrawLineiisiish": ("target-function-contract", "link-identity"),
         }
         for symbol, expected in cases.items():
             category, _provider, _owner, gate = MODULE.classify_external(symbol, readiness)
