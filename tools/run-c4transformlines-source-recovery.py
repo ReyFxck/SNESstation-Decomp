@@ -10,7 +10,7 @@ from compare_elf_functions import ELFFile
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build/matching/c4transformlines-source-recovery"
-LOCAL = ROOT / "matching/candidates/c4transformlines_exact.S"
+LOCAL = ROOT / "src/ps2/c4transformlines.S"
 CC = ROOT / "build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
 
 SIZE = 772
@@ -33,7 +33,7 @@ def main():
     run([CC, "-G0", "-EL", "-pipe", "-w", "-c", LOCAL, "-o", obj])
 
     elf = ELFFile(obj)
-    sym = elf.find_symbol("v81_0010cfa4")
+    sym = elf.find_symbol("snes_p28_0010cfa4")
     raw = elf.symbol_bytes(sym, sym.size)
     relocs = len(elf.relocation_ranges(sym, sym.size))
 
