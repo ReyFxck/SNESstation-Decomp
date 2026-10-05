@@ -192,7 +192,9 @@ def live_contracts(args: argparse.Namespace) -> dict[str, dict[str, str]]:
         defined = list(csv.DictReader(stream, delimiter="\t"))
     # Exact kernel.S plus the promoted PS2LIB string/ctype sources collapse
     # their former external/contract pairs without changing this override set.
-    if len(external) != 1824 or len(contracts) != 1493 or len(frontier) != 219:
+    # Retiring the provisional S9xSetC4 body removes 16 additional stale
+    # external/contract references while the provider frontier stays fixed.
+    if len(external) != 1808 or len(contracts) != 1477 or len(frontier) != 219:
         fail("runtime override namespace count drift")
     for symbol, (address, size, canonical, source, _) in SPECS.items():
         row = external.get(symbol, {})
