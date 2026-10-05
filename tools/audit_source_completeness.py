@@ -119,6 +119,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "numtestf_exact_128.tsv",
         "src/ps2/numtestf.S",
     ),
+    (
+        ROOT / "analysis" / "functions" / "c4convoam_exact_952.tsv",
+        "src/ps2/c4convoam.S",
+    ),
 )
 
 
