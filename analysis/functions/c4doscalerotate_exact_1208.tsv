@@ -1,0 +1,2 @@
+symbol	address	size_hex	raw_text_sha256	relocations	evidence
+C4DoScaleRotate	0x0010c6f8	0x4b8	af69f02cd294a134cc49ec19776a6072947ebdb950f69b7705de1e1008b8d1f6	0	analysis/matching/hunt1041-v81-validated-final20.tsv
