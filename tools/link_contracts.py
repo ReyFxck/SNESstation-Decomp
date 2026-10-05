@@ -108,6 +108,7 @@ RESOLVED = "RESOLVED"
 BLOCKED = "BLOCKED"
 ABSOLUTE_ANCHOR = "absolute-address-anchor"
 SEMANTIC_ALIAS = "semantic-text-alias"
+REVIEW_ABSOLUTE = "@absolute"
 SEMANTIC_PROVIDERS = {"historical-archive", "link-contract", "source-or-archive", "recovered-runtime"}
 
 
@@ -326,9 +327,10 @@ def derive_rows(
         external = remaining[symbol]
         if external["provider_kind"] not in SEMANTIC_PROVIDERS:
             fail(f"reviewed semantic contract has incompatible provider: {symbol}")
-        canonical = global_text_by_name.get(row["canonical_symbol"])
-        if canonical is None:
-            fail(f"reviewed canonical symbol is not global text: {row['canonical_symbol']}")
+        if row["canonical_symbol"] != REVIEW_ABSOLUTE:
+            canonical = global_text_by_name.get(row["canonical_symbol"])
+            if canonical is None:
+                fail(f"reviewed canonical symbol is not global text: {row['canonical_symbol']}")
         address = parse_address(row["target_address"], context=symbol)
         if not layout_base <= address < layout_end:
             fail(f"reviewed target is outside the unpacked layout: {symbol}")
@@ -362,14 +364,18 @@ def derive_rows(
             detail = "absolute value only; no storage, section bytes, size, or alignment emitted"
         elif symbol in reviews:
             review = reviews[symbol]
-            canonical = global_text_by_name[review["canonical_symbol"]]
             target_address = f"0x{parse_address(review['target_address'], context=symbol):08x}"
             status = RESOLVED
-            resolution_kind = SEMANTIC_ALIAS
-            canonical_symbol = canonical["symbol"]
-            canonical_source = canonical["source"]
-            canonical_object = canonical["object"]
-            evidence = "reviewed-semantic-contract"
+            if review["canonical_symbol"] == REVIEW_ABSOLUTE:
+                resolution_kind = ABSOLUTE_ANCHOR
+                evidence = "reviewed-absolute-contract"
+            else:
+                canonical = global_text_by_name[review["canonical_symbol"]]
+                resolution_kind = SEMANTIC_ALIAS
+                canonical_symbol = canonical["symbol"]
+                canonical_source = canonical["source"]
+                canonical_object = canonical["object"]
+                evidence = "reviewed-semantic-contract"
             detail = (
                 f"{review['detail']};evidence={review['evidence_path']}"
                 f"#{review['evidence_token']}"
