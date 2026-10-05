@@ -237,10 +237,15 @@ class BuildSourceTreeTests(unittest.TestCase):
             rows = list(csv.DictReader(stream, delimiter="\t"))
         constructors = [row for row in rows if row["kind"] == "constructor"]
         vtables = [row for row in rows if row["kind"] == "vtable"]
+        retired_data = [row for row in rows if row["kind"] == "retired-target-data"]
         self.assertEqual(6, len(constructors))
         self.assertEqual(10, len(vtables))
+        self.assertEqual(16, len(retired_data))
         self.assertTrue(all(row["source_owner"] and row["object_owner"] for row in rows))
         self.assertTrue(all(row["next_gate"] == "program-data" for row in vtables))
+        self.assertTrue(all(row["object_owner"] == "reserved:target-data.o" for row in retired_data))
+        self.assertTrue(all(row["stage2_state"] == "consumer-retired" for row in retired_data))
+        self.assertTrue(all(row["next_gate"] == "program-data" for row in retired_data))
 
     def test_fingerprints_cover_every_unit_abi_and_aggregate(self) -> None:
         path = ROOT / "analysis" / "source_tree" / "object_fingerprints.tsv"

@@ -314,9 +314,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     # Exact kernel.S plus promoted libc/PS2LIB sources remove their former
     # live external contracts from the global source-tree namespace.
     # The strncasecmp + F_ctype promotion closes five additional contracts.
-    # Retiring the provisional S9xSetC4 structural body removes 16 stale
-    # source-tree externals without changing the active runtime symbol set.
-    if set(active) != expected_external or len(external) != 1808:
+    if set(active) != expected_external or len(external) != 1824:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):

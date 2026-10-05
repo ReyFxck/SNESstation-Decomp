@@ -575,6 +575,15 @@ def validate_special_ownership(
             token = match.group(1).lower()
             if not any(token in (ROOT / owner).read_text(encoding="utf-8").lower() for owner in owners):
                 fail(f"vtable address is not traced by its source owner: {row['identity']}")
+        elif row["kind"] == "retired-target-data":
+            if row["object_owner"] != "reserved:target-data.o":
+                fail(f"retired target data has unexpected reserved object: {row['identity']}")
+            if row["stage2_state"] != "consumer-retired":
+                fail(f"retired target data has unexpected Stage-2 state: {row['identity']}")
+            if not (TARGET_DATA_RE.match(row["identity"]) or row["identity"].startswith(("DAT_", "_DAT_"))):
+                fail(f"retired target data identity is not address-bearing: {row['identity']}")
+            if not any(row["identity"] in (ROOT / owner).read_text(encoding="utf-8") for owner in owners):
+                fail(f"retired target data lacks source trace: {row['identity']}")
         else:
             fail(f"unsupported special ownership kind: {row['kind']}")
         if not row["next_gate"]:
@@ -800,8 +809,38 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         )
 
     defined_rows.sort(key=lambda row: (row["object"], row["symbol"], row["binding"]))
-    external_rows.sort(key=lambda row: row["symbol"])
     special_rows = validate_special_ownership(args.special_map, defined_rows)
+
+    # Exact assembly promotions can retire a provisional C consumer while the
+    # target-address data contract it exposed remains part of the historical
+    # link universe. Keep those reviewed contracts explicit without restoring
+    # the provisional function body or inventing a live undefined reference.
+    source_objects = {unit.source: unit.object for unit in units if unit.canonical}
+    live_external_symbols = {row["symbol"] for row in external_rows}
+    for row in special_rows:
+        if row["kind"] != "retired-target-data":
+            continue
+        symbol = row["identity"]
+        if symbol in live_external_symbols:
+            fail(f"retired target-data contract returned to live externals: {symbol}")
+        requesters = []
+        for owner in row["source_owner"].split(";"):
+            if owner not in source_objects:
+                fail(f"retired target-data source is not canonical: {owner}")
+            requesters.append(source_objects[owner])
+        external_rows.append(
+            {
+                "symbol": symbol,
+                "category": "target-address-data",
+                "provider_kind": "program-data",
+                "owner": row["object_owner"],
+                "resolution_gate": row["next_gate"],
+                "requesters": ";".join(sorted(set(requesters))),
+            }
+        )
+        live_external_symbols.add(symbol)
+
+    external_rows.sort(key=lambda row: row["symbol"])
     defined_text = render_tsv(DEFINED_FIELDS, defined_rows)
     external_text = render_tsv(EXTERNAL_FIELDS, external_rows)
     fingerprints_text = render_tsv(FINGERPRINT_FIELDS, fingerprint_rows)
