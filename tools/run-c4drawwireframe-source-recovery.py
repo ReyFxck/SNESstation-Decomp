@@ -102,18 +102,22 @@ def main():
     if hist_sym.size != SIZE or local_sym.size != SIZE:
         source_path = v77.BUILD / "historical" / "snes9x-target-layout" / "c4emu.cpp"
         source_text = source_path.read_text(encoding="latin-1")
-        import re
-        match = re.search(r"(?:static\\s+)?void\\s+C4DrawWireFrame\\s*\\([^)]*\\)\\s*\\{", source_text)
-        if not match:
-            raise SystemExit("historical C4DrawWireFrame definition not found")
-        start = match.start()
-        next_match = re.search(r"(?:static\\s+)?void\\s+C4TransformLines\\s*\\(", source_text[match.end():])
-        if not next_match:
-            raise SystemExit("historical C4TransformLines boundary not found")
-        end = match.end() + next_match.start()
-        print("=== HISTORICAL_C4DRAWWIREFRAME_BEGIN ===")
-        print(source_text[start:end].rstrip())
-        print("=== HISTORICAL_C4DRAWWIREFRAME_END ===")
+        needle = "C4DrawWireFrame"
+        positions = []
+        cursor = 0
+        while True:
+            pos = source_text.find(needle, cursor)
+            if pos < 0:
+                break
+            positions.append(pos)
+            cursor = pos + len(needle)
+        print(f"HISTORICAL C4DrawWireFrame occurrences={positions}")
+        for index, pos in enumerate(positions):
+            lo = max(0, pos - 1200)
+            hi = min(len(source_text), pos + 7000)
+            print(f"=== HISTORICAL_C4DRAWWIREFRAME_CONTEXT_{index}_BEGIN ===")
+            print(source_text[lo:hi])
+            print(f"=== HISTORICAL_C4DRAWWIREFRAME_CONTEXT_{index}_END ===")
         print(f"DEBUG size drift historical={hist_sym.size} local={local_sym.size}")
         return
     if len(hist_masks) != RELOCS or len(local_masks) != RELOCS:
