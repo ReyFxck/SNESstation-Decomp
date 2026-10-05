@@ -117,6 +117,9 @@ SOURCE_DEFINES = {
     "src/ps2/numtestf.S": (
         "numtestf_candidate=numtestf_001a06c0",
     ),
+    "src/ps2/newlib_mathfp_recovered.c": (
+        "numtestf_target=numtestf_001a06c0",
+    ),
     "src/ps2/strtol.c": ("F_strtol",),
     "src/ps2/strcasecmp.c": ("F_strcasecmp",),
     "src/ps2/strtok.c": ("F_strtok",),
