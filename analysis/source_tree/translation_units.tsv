@@ -120,3 +120,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 119	src/ps2/numtestf.S	ps2	asm-cpp	canonical	ps2/numtestf.o		Byte-exact EE reconstruction of numtestf @ 0x001a06c0; 128/128 raw bytes, zero relocations; Newlib behavioral C model retained separately.
 120	src/ps2/c4convoam.S	ps2	asm-cpp	canonical	ps2/c4convoam.o		Byte-exact EE reconstruction of C4ConvOAM @ 0x0010c340; 952/952 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
 121	src/ps2/c4doscalerotate.S	ps2	asm-cpp	canonical	ps2/c4doscalerotate.o		Byte-exact EE reconstruction of C4DoScaleRotate @ 0x0010c6f8; 1208/1208 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
+122	src/ps2/c4transformlines.S	ps2	asm-cpp	canonical	ps2/c4transformlines.o		Byte-exact EE reconstruction of C4TransformLines @ 0x0010cfa4; 772/772 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
