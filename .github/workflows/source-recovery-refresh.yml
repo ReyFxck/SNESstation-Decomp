@@ -196,7 +196,9 @@ on:
 
 concurrency:
   group: source-recovery-ledger-writer-${{ github.ref }}
-  cancel-in-progress: false
+  # Only the newest branch state can write the generated ledgers. Cancelling
+  # obsolete runs prevents an older toolchain rebuild from blocking HEAD.
+  cancel-in-progress: true
 
 permissions:
   contents: write
