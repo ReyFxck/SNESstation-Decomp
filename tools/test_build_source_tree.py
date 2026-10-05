@@ -23,8 +23,8 @@ class BuildSourceTreeTests(unittest.TestCase):
         units = MODULE.read_manifest(
             ROOT / "analysis" / "source_tree" / "translation_units.tsv"
         )
-        self.assertEqual(123, len(units))
-        self.assertEqual(123, sum(unit.canonical for unit in units))
+        self.assertEqual(124, len(units))
+        self.assertEqual(124, sum(unit.canonical for unit in units))
         alternate = [unit for unit in units if not unit.canonical]
         self.assertEqual([], alternate)
         cdvd = [unit for unit in units if unit.source == "src/ps2/cdvd_rpc.c"]
@@ -145,11 +145,17 @@ class BuildSourceTreeTests(unittest.TestCase):
             ("src/ps2/c4doscalerotate.S", "ps2/c4doscalerotate.o"),
             ("src/ps2/c4transformlines.S", "ps2/c4transformlines.o"),
             ("src/ps2/s9xsetc4.S", "ps2/s9xsetc4.o"),
+            ("src/snes9x/c4drawwireframe.cpp", "snes9x/c4drawwireframe.o"),
         ):
             matches = [unit for unit in units if unit.source == source]
             self.assertEqual(1, len(matches))
             self.assertTrue(matches[0].canonical)
-            self.assertEqual("asm-cpp" if source.endswith(".S") else "c", matches[0].language)
+            expected_language = (
+                "asm-cpp" if source.endswith(".S")
+                else "cpp" if source.endswith(".cpp")
+                else "c"
+            )
+            self.assertEqual(expected_language, matches[0].language)
             self.assertEqual(obj, matches[0].object)
 
         self.assertFalse(any(unit.source == "src/ps2/libkernel_strings_recovered.c" for unit in units))
@@ -181,6 +187,17 @@ class BuildSourceTreeTests(unittest.TestCase):
             MODULE.effective_source_cflags(old, "src/ps2/strncpy.S"),
         )
 
+    def test_c4drawwireframe_uses_frozen_v77_cxx_profile(self) -> None:
+        flags = MODULE.effective_source_cflags(
+            ["-G0", "-O2", "-fshort-double", "-ffreestanding"],
+            "src/snes9x/c4drawwireframe.cpp",
+        )
+        self.assertIn("-Os", flags)
+        self.assertIn("-fno-builtin", flags)
+        self.assertIn("-DNO_INLINE_SET_GET", flags)
+        self.assertNotIn("-fshort-double", flags)
+        self.assertNotIn("-ffreestanding", flags)
+
     def test_abi_contract_records_the_nonstandard_ee_widths(self) -> None:
         text = (ROOT / "analysis" / "source_tree" / "ee_abi_contract.c").read_text(
             encoding="utf-8"
@@ -207,6 +224,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             "SifCallRpc": ("ps2-runtime", "runtime-member-text-identity"),
             "puts": ("c-runtime", "runtime-override-callsite-identity"),
             "abort": ("c-runtime", "runtime-override-callsite-identity"),
+            "_Z10C4DrawLineiisiish": ("target-function-alias", "link-identity"),
         }
         for symbol, expected in cases.items():
             category, _provider, _owner, gate = MODULE.classify_external(symbol, readiness)
@@ -258,7 +276,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             counts[row["kind"]] = counts.get(row["kind"], 0) + 1
             self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(
-            {"translation-unit": 123, "abi-contract": 1, "canonical-aggregate": 1},
+            {"translation-unit": 124, "abi-contract": 1, "canonical-aggregate": 1},
             counts,
         )
 
