@@ -247,11 +247,12 @@ ZLIB_EXTERNAL_PREFIXES = (
     "adler32", "crc32", "deflate", "inflate", "zlib", "zError", "gz",
 )
 
-# Historical C++ symbols that are already pinned to audited target entries.
-# Resolve them through the normal source-address alias gate instead of
-# misclassifying their Itanium-mangled names as libsupc++ runtime calls.
-HISTORICAL_CPP_TARGETS = {
-    "_Z10C4DrawLineiisiish": "0x0010cbb0",
+# Historical C++ peers that are program call contracts, not libsupc++ runtime
+# entries. Their target identity is pinned by the reviewed link-contract gate;
+# the mangled spelling itself does not encode an address and therefore must not
+# be sent through the address-suffix alias gate.
+HISTORICAL_CPP_PEERS = {
+    "_Z10C4DrawLineiisiish": "src/ps2/progress28_structural_lift_recovered.c",
 }
 
 
@@ -524,11 +525,9 @@ def classify_external(
         return "target-address-data", "program-data", "reserved:target-data.o", "program-data"
     if symbol.startswith("embedded_"):
         return "embedded-binary", "private-asset", "reserved:embedded-assets.o", "program-data"
-    historical_cpp_address = HISTORICAL_CPP_TARGETS.get(symbol)
-    if historical_cpp_address is not None:
-        row = readiness.get(historical_cpp_address)
-        owner = row["source_files"] if row and row["source_files"] else historical_cpp_address
-        return "target-function-alias", "source-address-alias", owner, "link-identity"
+    historical_cpp_owner = HISTORICAL_CPP_PEERS.get(symbol)
+    if historical_cpp_owner is not None:
+        return "target-function-contract", "link-contract", historical_cpp_owner, "link-identity"
     if symbol.startswith("_Z"):
         return "cxx-runtime", "historical-archive", "libsupc++/libstdc++", "archive-identity"
     if symbol.startswith(LIBGCC_PREFIXES):
