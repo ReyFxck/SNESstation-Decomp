@@ -131,6 +131,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "c4transformlines_exact_772.tsv",
         "src/ps2/c4transformlines.S",
     ),
+    (
+        ROOT / "analysis" / "matching" / "hunt1041-v77-validated-c4draw-1.tsv",
+        "src/snes9x/c4drawwireframe.cpp",
+    ),
 )
 
 
@@ -166,7 +170,7 @@ def explicit_source_references(addresses: set[str]) -> tuple[dict[str, list[str]
     references: dict[str, list[str]] = defaultdict(list)
     translation_units = sorted(
         path
-        for pattern in ("*.c", "*.S")
+        for pattern in ("*.c", "*.cpp", "*.S")
         for path in (ROOT / "src").rglob(pattern)
     )
     address_by_hex = {address[2:]: address for address in addresses}
