@@ -1574,7 +1574,10 @@ _DAT_00413511	target-address-data	program-data	reserved:target-data.o	program-da
 _DAT_00413518	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 _DAT_00413540	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 _DAT_00423554	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
+_Z10C4DrawLineiisiish	target-function-contract	link-contract	src/ps2/progress28_structural_lift_recovered.c	link-identity	snes9x/c4drawwireframe.o
+_Z16S9xGetMemPointerj	target-function-contract	link-contract	target:0x001ab4e8	link-identity	snes9x/c4drawwireframe.o
 __floatdisf	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/libgcc_runtime_recovered.o;ps2/progress28_structural_lift_recovered.o
+__gxx_personality_v0	named-external	link-contract	reserved:link-contract	link-identity	snes9x/c4drawwireframe.o
 __muldi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/address_leaf_recovered.o;ps2/alloc.o;ps2/libc_misc_recovered.o;ps2/progress13_cpp_personality_recovered.o;ps2/progress28_structural_lift_recovered.o;ps2/small_dispatch_recovered.o;ps2/strtol.o;snes9x/progress13_runtime_more_recovered.o;zlib/trees_recovered.o
 __udivdi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/strtol.o;ps2/xprintf.o;snes9x/progress13_runtime_more_recovered.o
 __umoddi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/strtol.o;ps2/xprintf.o;zlib/zutil_adler_recovered.o
@@ -1634,7 +1637,7 @@ g_memory_card_available	named-program-data	program-data	reserved:program-data.o	
 g_memory_vram	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o
 g_odd_high	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o;snes9x/tile_lookup_tables_recovered.o
 g_odd_low	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o;snes9x/tile_lookup_tables_recovered.o
-g_p12_memory	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o;ps2/libmtap_recovered.o;ps2/progress12_io_state_recovered.o
+g_p12_memory	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o;ps2/libmtap_recovered.o;ps2/progress12_io_state_recovered.o;snes9x/c4drawwireframe.o
 g_p12_sdd1_dat_extension	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress12_io_state_recovered.o
 g_p21_state_extension_prefix_001b1348	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress21_small_helpers_recovered.o
 g_p21_toc_anchor_00427010	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress21_small_helpers_recovered.o

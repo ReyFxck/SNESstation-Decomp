@@ -732,7 +732,6 @@ snes_p28_0010becc	global	text	0x228	src/ps2/progress28_structural_lift_recovered
 snes_p28_0010c094	global	text	0xa8	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010c1f8	global	text	0xdc	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010cbb0	global	text	0x2f4	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
-snes_p28_0010cdcc	global	text	0x29c	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010d2a8	global	text	0x444	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010d4f0	global	text	0x4bc	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010d734	global	text	0x5c	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
@@ -996,6 +995,8 @@ S9xAPUSetByte_001aca50	global	text	0x58	src/snes9x/apumem_recovered.c	snes9x/apu
 apu_io_read	local	text	0xa8	src/snes9x/apumem_recovered.c	snes9x/apumem_recovered.o
 apu_io_write	local	text	0xc0	src/snes9x/apumem_recovered.c	snes9x/apumem_recovered.o
 apu_wait_touch	local	text	0x14	src/snes9x/apumem_recovered.c	snes9x/apumem_recovered.o
+_GLOBAL__F__Z15C4DrawWireFramev	global	data	0x0	src/snes9x/c4drawwireframe.cpp	snes9x/c4drawwireframe.o
+_Z15C4DrawWireFramev	global	text	0x1d8	src/snes9x/c4drawwireframe.cpp	snes9x/c4drawwireframe.o
 CPUShutdown_001ac604	global	text	0x174	src/snes9x/cpu_shutdown_renderer_select_recovered.c	snes9x/cpu_shutdown_renderer_select_recovered.o
 SelectTileRenderer_001ac838	global	text	0x120	src/snes9x/cpu_shutdown_renderer_select_recovered.c	snes9x/cpu_shutdown_renderer_select_recovered.o
 DrawLargePixel_recovered	global	text	0x234	src/snes9x/draw_large_pixel_recovered.c	snes9x/draw_large_pixel_recovered.o
