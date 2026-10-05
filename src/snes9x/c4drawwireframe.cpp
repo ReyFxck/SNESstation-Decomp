@@ -1,6 +1,7 @@
 /*
  * Canonical historical-source reconstruction of Snes9x 1.41-1
  * C4DrawWireFrame, isolated from c4emu.cpp.
+ * Target entry: 0x0010cdcc.
  *
  * The function body below is the literal 1.41-1 implementation recovered
  * from the hash-pinned upstream archive used by the V77 proof.  The packed
