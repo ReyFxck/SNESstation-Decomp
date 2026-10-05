@@ -140,6 +140,7 @@ on:
       - analysis/functions/c4transformlines_exact_772.tsv
       - tools/run-c4transformlines-source-recovery.py
       - .github/workflows/c4transformlines-source-recovery.yml
+      - src/ps2/progress28_structural_lift_recovered.c
       - src/ps2/s9xsetc4.S
       - analysis/functions/s9xsetc4_exact_2912.tsv
       - tools/run-s9xsetc4-source-recovery.py
