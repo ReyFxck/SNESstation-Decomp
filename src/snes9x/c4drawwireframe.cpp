@@ -26,7 +26,7 @@ struct C4HistoricalMemory
     uint8 *C4RAM; /* historical Snes9x/PS2 layout: +0x18 */
 };
 
-extern C4HistoricalMemory Memory;
+extern C4HistoricalMemory Memory __asm__("g_p12_memory");
 extern uint8 *S9xGetMemPointer(uint32);
 extern void C4DrawLine(int32, int32, int16, int32, int32, int16, uint8);
 
