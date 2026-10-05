@@ -123,6 +123,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "c4convoam_exact_952.tsv",
         "src/ps2/c4convoam.S",
     ),
+    (
+        ROOT / "analysis" / "functions" / "c4doscalerotate_exact_1208.tsv",
+        "src/ps2/c4doscalerotate.S",
+    ),
 )
 
 
