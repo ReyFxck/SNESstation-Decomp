@@ -5126,57 +5126,8 @@ uint param_7;
   return;
 }
 
-/* ===== 0x0010cdcc | P17 | snes_p17_0010cdcc | frontend-core ===== */
-/* WARNING: Removing unreachable block (ram,0x0010cf9c) */
-
-void snes_p28_0010cdcc()
-{
-  byte *pbVar1;
-  byte bVar2;
-  byte *pbVar3;
-  undefined *puVar4;
-  undefined *puVar5;
-  uint in_v1_lo;
-  uint uVar6;
-  uint uVar7;
-  
-  uVar7 = DAT_0034e2c8 + 0x1f83U & 3;
-  uVar6 = DAT_0034e2c8 + 0x1f80U & 3;
-  pbVar3 = (byte *)FUN_001ab4e8(((*(int *)((DAT_0034e2c8 + 0x1f83U) - uVar7) << (3 - uVar7) * 8 |
-                                 in_v1_lo & 0xffffffffU >> (uVar7 + 1) * 8) & -1 << (4 - uVar6) * 8
-                                | *(uint *)((DAT_0034e2c8 + 0x1f80U) - uVar6) >> uVar6 * 8) &
-                                0xffffff);
-  uVar7 = (uint)*(byte *)(DAT_0034e2c8 + 0x295);
-  if (uVar7 != 0) {
-    bVar2 = *pbVar3;
-    while( true ) {
-      if ((bVar2 == 0xff) && (pbVar3[1] == 0xff)) {
-        if ((pbVar3[2] == 0xff) && (pbVar3[3] == 0xff)) {
-          do {
-          } while( true );
-        }
-        uVar6 = (uint)*(byte *)(DAT_0034e2c8 + 0x1f82) << 0x10 | (uint)pbVar3[-3] << 8 |
-                (uint)pbVar3[-2];
-      }
-      else {
-        uVar6 = (uint)*(byte *)(DAT_0034e2c8 + 0x1f82) << 0x10 | (uint)bVar2 << 8 | (uint)pbVar3[1];
-      }
-      uVar7 = uVar7 - 1;
-      puVar4 = (undefined *)FUN_001ab4e8(uVar6);
-      puVar5 = (undefined *)
-               FUN_001ab4e8((uint)*(byte *)(DAT_0034e2c8 + 0x1f82) << 0x10 | (uint)pbVar3[2] << 8 |
-                            (uint)pbVar3[3]);
-      pbVar1 = pbVar3 + 4;
-      pbVar3 = pbVar3 + 5;
-      snes_p28_0010cbb0(CONCAT11(*puVar4,puVar4[1]),CONCAT11(puVar4[2],puVar4[3]),
-                   CONCAT11(puVar4[4],puVar4[5]),CONCAT11(*puVar5,puVar5[1]),
-                   CONCAT11(puVar5[2],puVar5[3]),CONCAT11(puVar5[4],puVar5[5]),*pbVar1);
-      if ((int)uVar7 < 1) break;
-      bVar2 = *pbVar3;
-    }
-  }
-  return;
-}
+/* 0x0010cdcc / C4DrawWireFrame is promoted to the canonical historical
+ * C++ translation unit in src/snes9x/c4drawwireframe.cpp. */
 
 /* ===== 0x0010d2a8 | P16 | snes_p16_0010d2a8 | frontend-core ===== */
 void snes_p28_0010d2a8()
