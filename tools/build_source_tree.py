@@ -54,6 +54,21 @@ DEFAULT_CFLAGS = (
 # kernel.S is the exact historical selector-based PS2SDK source.  Keep the
 # source byte-identical and select only the members owned by this canonical TU
 # at compile time instead of adding recovery-only #defines to the source.
+SOURCE_FIXED_FLAGS = {
+    # C4DrawWireFrame is a recovered historical Snes9x C++ translation unit.
+    # Keep the exact V77 compiler profile rather than inheriting application
+    # flags such as -fshort-double.
+    "src/snes9x/c4drawwireframe.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-mlong64", "-mhard-float",
+        "-mno-abicalls", "-march=r5900", "-mtune=r5900", "-Os",
+        "-fno-builtin", "-DPS2_EE", "-D_EE", "-DLSB_FIRST",
+        "-DVAR_CYCLES", "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN",
+        "-DEXECUTE_SUPERFX_PER_LINE", "-DSPC700_C", "-DUNZIP_SUPPORT",
+        "-DNO_INLINE_SET_GET",
+    ),
+}
+
 SOURCE_FLAGS = {
     # The selected PS2LIB libc/memcpy.o was built with the historical -Os
     # profile.  Appending -Os after the source-tree's general -O2 reproduces
@@ -104,6 +119,9 @@ SOURCE_OMIT_FLAGS = {
 
 
 def effective_source_cflags(cflags: Sequence[str], source: str) -> list[str]:
+    fixed = SOURCE_FIXED_FLAGS.get(source)
+    if fixed is not None:
+        return list(fixed)
     omit = SOURCE_OMIT_FLAGS.get(source, ())
     return [flag for flag in cflags if flag not in omit] + list(SOURCE_FLAGS.get(source, ()))
 
@@ -228,6 +246,13 @@ PS2_RUNTIME_PREFIXES = (
 ZLIB_EXTERNAL_PREFIXES = (
     "adler32", "crc32", "deflate", "inflate", "zlib", "zError", "gz",
 )
+
+# Historical C++ symbols that are already pinned to audited target entries.
+# Resolve them through the normal source-address alias gate instead of
+# misclassifying their Itanium-mangled names as libsupc++ runtime calls.
+HISTORICAL_CPP_TARGETS = {
+    "_Z10C4DrawLineiisiish": "0x0010cbb0",
+}
 
 
 class GateError(RuntimeError):
@@ -372,10 +397,10 @@ def read_manifest(path: Path) -> list[TranslationUnit]:
             fail(f"duplicate source in manifest: {unit.source}")
         if unit.object in objects:
             fail(f"duplicate object in manifest: {unit.object}")
-        if unit.language not in {"c", "asm-cpp"}:
+        if unit.language not in {"c", "cpp", "asm-cpp"}:
             fail(f"unsupported language for {unit.source}: {unit.language}")
         suffix = Path(unit.source).suffix
-        expected_language = {".c": "c", ".S": "asm-cpp"}.get(suffix)
+        expected_language = {".c": "c", ".cpp": "cpp", ".S": "asm-cpp"}.get(suffix)
         if expected_language != unit.language:
             fail(
                 f"source/language mismatch for {unit.source}: "
@@ -391,7 +416,7 @@ def read_manifest(path: Path) -> list[TranslationUnit]:
 
     actual = {
         path.relative_to(ROOT).as_posix()
-        for pattern in ("*.c", "*.S")
+        for pattern in ("*.c", "*.cpp", "*.S")
         for path in (ROOT / "src").rglob(pattern)
     }
     if sources != actual:
@@ -499,6 +524,11 @@ def classify_external(
         return "target-address-data", "program-data", "reserved:target-data.o", "program-data"
     if symbol.startswith("embedded_"):
         return "embedded-binary", "private-asset", "reserved:embedded-assets.o", "program-data"
+    historical_cpp_address = HISTORICAL_CPP_TARGETS.get(symbol)
+    if historical_cpp_address is not None:
+        row = readiness.get(historical_cpp_address)
+        owner = row["source_files"] if row and row["source_files"] else historical_cpp_address
+        return "target-function-alias", "source-address-alias", owner, "link-identity"
     if symbol.startswith("_Z"):
         return "cxx-runtime", "historical-archive", "libsupc++/libstdc++", "archive-identity"
     if symbol.startswith(LIBGCC_PREFIXES):
@@ -604,6 +634,7 @@ def compare_or_write(path: Path, content: str, update: bool) -> None:
 
 def compile_one(
     compiler: Path,
+    cxx: Path | None,
     cflags: Sequence[str],
     unit: TranslationUnit,
     build_dir: Path,
@@ -613,8 +644,11 @@ def compile_one(
     output.parent.mkdir(parents=True, exist_ok=True)
     defines = ["-D" + name for name in SOURCE_DEFINES.get(unit.source, ())]
     source_cflags = effective_source_cflags(cflags, unit.source)
+    driver = cxx if unit.language == "cpp" else compiler
+    if driver is None:
+        fail(f"C++ translation unit requires --cxx: {unit.source}")
     command = [
-        str(compiler), *source_cflags, *defines,
+        str(driver), *source_cflags, *defines,
         "-c", unit.source, "-o", str(output)
     ]
     run(command, log_path=log)
@@ -629,6 +663,13 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     readelf = tool_family(compiler, args.readelf, "readelf")
     toolchain = validate_toolchain(compiler)
     units = read_manifest(args.manifest)
+    cxx: Path | None = None
+    cxx_toolchain: dict[str, str] | None = None
+    if any(unit.language == "cpp" for unit in units):
+        if not args.cxx:
+            fail("manifest contains C++ translation units; pass --cxx")
+        cxx = resolve_tool(args.cxx)
+        cxx_toolchain = validate_toolchain(cxx)
     cflags = shlex.split(args.cflags)
     build_dir: Path = args.build_dir
     build_dir.mkdir(parents=True, exist_ok=True)
@@ -653,7 +694,7 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     workers = max(1, min(args.jobs, len(units)))
     with ThreadPoolExecutor(max_workers=workers) as pool:
         futures = {
-            pool.submit(compile_one, compiler, cflags, unit, build_dir): unit
+            pool.submit(compile_one, compiler, cxx, cflags, unit, build_dir): unit
             for unit in units
         }
         try:
@@ -863,6 +904,8 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         "claim": "build-ready-source-ownership",
         "compiler": str(compiler),
         "toolchain": toolchain,
+        "cxx": str(cxx) if cxx is not None else "",
+        "cxx_toolchain": cxx_toolchain,
         "linker": str(linker),
         "nm": str(nm),
         "readelf": str(readelf),
@@ -892,7 +935,11 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     report = [
         "# EE build-ready source-tree report",
         "",
-        f"- Historical compiler: `{toolchain['banner']}` (`{toolchain['target']}`)",
+        f"- Historical C compiler: `{toolchain['banner']}` (`{toolchain['target']}`)",
+        *(
+            [f"- Historical C++ compiler: `{cxx_toolchain['banner']}` (`{cxx_toolchain['target']}`)"]
+            if cxx_toolchain is not None else []
+        ),
         f"- Translation units compiled: **{len(units)}/{len(units)}**",
         f"- Canonical objects in relocatable aggregate: **{len(canonical_objects)}**",
         f"- Explicit alternate objects: **{len(units) - len(canonical_objects)}**",
@@ -913,6 +960,7 @@ def build(args: argparse.Namespace) -> dict[str, object]:
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--compiler", default="ee-gcc")
+    parser.add_argument("--cxx")
     parser.add_argument("--ld")
     parser.add_argument("--nm")
     parser.add_argument("--readelf")
