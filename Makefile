@@ -6,6 +6,7 @@
 PYTHON ?= python3
 HOST_CC ?= cc
 EE_CC ?= $(if $(wildcard build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc),$(abspath build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc),ee-gcc)
+EE_CXX ?= $(if $(wildcard build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++),$(abspath build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++),ee-g++)
 EE_GCC_VERSION ?= 3.2.2-b1
 
 BUILD_DIR := build
@@ -188,7 +189,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 	audit-source audit-source-check host-syntax test-tools check \
 	reference verify-reference extract-assets fetch-newlib fetch-ee-toolchain-recipe \
 	layout-oracle layout-oracle-check layout-oracle-refresh layout-oracle-public-check compare-unpacked \
-	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
+	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 check-ee-compiler check-ee-cxx \
 	source-tree source-tree-check source-tree-refresh \
 	source-aliases source-aliases-check source-aliases-refresh source-aliases-public-check \
 	link-contracts link-contracts-check link-contracts-refresh link-contracts-public-check \
@@ -523,12 +524,22 @@ check-ee-compiler:
 		exit 2; \
 	}
 
-source-tree: bootstrap-ee-stage1
-	$(MAKE) source-tree-check EE_CC="$(EE_STAGE1_CC)"
+check-ee-cxx:
+	@command -v "$(EE_CXX)" >/dev/null 2>&1 || { \
+		echo "Missing EE C++ compiler: $(EE_CXX)" >&2; \
+		echo "Build the isolated historical C/C++ candidate with:" >&2; \
+		echo "  make bootstrap-ee-cxx-stage1" >&2; \
+		echo "Then select it explicitly with EE_CXX=/absolute/path/to/ee-g++" >&2; \
+		exit 2; \
+	}
 
-source-tree-check: check-ee-compiler
+source-tree: bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
+	$(MAKE) source-tree-check EE_CC="$(EE_STAGE1_CC)" EE_CXX="$(EE_STAGE1_CXX)"
+
+source-tree-check: check-ee-compiler check-ee-cxx
 	$(PYTHON) tools/build_source_tree.py \
 		--compiler "$(EE_CC)" \
+		--cxx "$(EE_CXX)" \
 		--cflags '$(EE_SOURCE_TREE_FLAGS)' \
 		--manifest "$(SOURCE_TREE_MANIFEST)" \
 		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
@@ -541,9 +552,10 @@ source-tree-check: check-ee-compiler
 
 # Deliberately separate from the check target: refreshing ownership is a
 # reviewed source-boundary decision, never an automatic side effect.
-source-tree-refresh: check-ee-compiler
+source-tree-refresh: check-ee-compiler check-ee-cxx
 	$(PYTHON) tools/build_source_tree.py \
 		--compiler "$(EE_CC)" \
+		--cxx "$(EE_CXX)" \
 		--cflags '$(EE_SOURCE_TREE_FLAGS)' \
 		--manifest "$(SOURCE_TREE_MANIFEST)" \
 		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
