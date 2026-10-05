@@ -5,7 +5,8 @@ on:
     branches:
       - source-recovery-file-by-file
     paths:
-      - "matching/candidates/c4transformlines_exact.S"
+      - "src/ps2/c4transformlines.S"
+      - "src/snes9x/c4_ps2_recovered.cpp"
       - "analysis/functions/c4transformlines_exact_772.tsv"
       - "analysis/matching/hunt1041-v81-validated-final20.tsv"
       - "tools/run-c4transformlines-source-recovery.py"
