@@ -1,5 +1,5 @@
 name: Source recovery ledger refresh
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES and S9XSETC4 promotions included; canonical source-tree target: 123 TUs; decomp function-unit target: 101.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME and S9XSETC4 promotions included; canonical source-tree target: 124 TUs; decomp function-unit target: 102.
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
       - source-recovery-file-by-file
     paths:
       - .github/workflows/source-recovery-refresh.yml
+      - Makefile
       - tools/build_source_tree.py
       - src/ps2/cdvd_rpc.c
       - include/cdvd_legacy_compat.h
@@ -140,6 +141,10 @@ on:
       - analysis/functions/c4transformlines_exact_772.tsv
       - tools/run-c4transformlines-source-recovery.py
       - .github/workflows/c4transformlines-source-recovery.yml
+      - src/snes9x/c4drawwireframe.cpp
+      - analysis/matching/hunt1041-v77-validated-c4draw-1.tsv
+      - tools/run-c4drawwireframe-source-recovery.py
+      - .github/workflows/c4drawwireframe-source-recovery.yml
       - src/ps2/progress28_structural_lift_recovered.c
       - src/ps2/s9xsetc4.S
       - analysis/functions/s9xsetc4_exact_2912.tsv
@@ -214,10 +219,19 @@ jobs:
           path: build/toolchains/ee-gcc-3.2.2-stage1
           key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
 
-      - name: Ensure historical EE compiler
+      - name: Restore EE GCC 3.2.2 C++ frontend
+        uses: actions/cache@v4
+        with:
+          path: build/toolchains/ee-gcc-3.2.2-cxx-stage1
+          key: ee-gxx-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+          save-always: true
+
+      - name: Ensure historical EE compilers
         env:
           MAKEFLAGS: MAKEINFO=true
-        run: make bootstrap-ee-stage1
+        run: |
+          make bootstrap-ee-stage1
+          make bootstrap-ee-cxx-stage1
 
       - name: Reprove exact recovered sources
         run: |
@@ -251,6 +265,7 @@ jobs:
           python3 tools/run-c4convoam-source-recovery.py
           python3 tools/run-c4doscalerotate-source-recovery.py
           python3 tools/run-c4transformlines-source-recovery.py
+          python3 tools/run-c4drawwireframe-source-recovery.py
           python3 tools/run-s9xsetc4-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
@@ -261,8 +276,9 @@ jobs:
         run: |
           set -eux
           EE_CC="$PWD/build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
+          EE_CXX="$PWD/build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++"
           make audit-source
-          make source-tree-refresh EE_CC="$EE_CC"
+          make source-tree-refresh EE_CC="$EE_CC" EE_CXX="$EE_CXX"
           make source-aliases-refresh
           make link-contracts-refresh
           make provider-frontier-refresh
