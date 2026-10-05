@@ -1,0 +1,38 @@
+name: C4DrawWireFrame source recovery
+
+on:
+  push:
+    branches:
+      - source-recovery-file-by-file
+    paths:
+      - "matching/candidates/c4drawwireframe_historical.cpp"
+      - "analysis/matching/hunt1041-v77-validated-c4draw-1.tsv"
+      - "tools/run-c4drawwireframe-source-recovery.py"
+      - ".github/workflows/c4drawwireframe-source-recovery.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  match:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache historical EE C++ compiler
+        uses: actions/cache@v4
+        with:
+          path: build/toolchains/ee-gcc-3.2.2-cxx-stage1
+          key: ee-gxx-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_cxx_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+
+      - name: Build historical EE C++ compiler
+        env:
+          MAKEFLAGS: MAKEINFO=true
+        run: make bootstrap-ee-cxx-stage1
+
+      - name: Prove historical C4DrawWireFrame chain
+        run: python3 tools/run-c4drawwireframe-source-recovery.py
