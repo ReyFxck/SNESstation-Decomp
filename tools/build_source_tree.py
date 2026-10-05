@@ -119,6 +119,7 @@ SOURCE_DEFINES = {
     ),
     "src/ps2/progress28_structural_lift_recovered.c": (
         "C4ConvOAM_exact_target=snes_p28_0010c340",
+        "C4DoScaleRotate_exact_target=snes_p28_0010c6f8",
     ),
     "src/ps2/numtestf.S": (
         "numtestf_candidate=numtestf_001a06c0",
