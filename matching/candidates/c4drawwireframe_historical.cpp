@@ -17,7 +17,13 @@ typedef signed int     int32;
 
 struct C4HistoricalMemory
 {
-    uint8 *C4RAM;
+    uint8 *reserved_00;
+    uint8 *reserved_04;
+    uint8 *reserved_08;
+    uint8 *reserved_0c;
+    uint8 *reserved_10;
+    uint8 *reserved_14;
+    uint8 *C4RAM; /* historical Snes9x/PS2 layout: +0x18 */
 };
 
 extern C4HistoricalMemory Memory;
