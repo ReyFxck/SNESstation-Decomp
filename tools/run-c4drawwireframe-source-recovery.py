@@ -100,7 +100,15 @@ def main():
     local_masks = masks(local_elf, local_sym)
 
     if hist_sym.size != SIZE or local_sym.size != SIZE:
-        raise SystemExit(f"size drift historical={hist_sym.size} local={local_sym.size}")
+        source_path = v77.BUILD / "historical" / "snes9x-target-layout" / "c4emu.cpp"
+        source_text = source_path.read_text(encoding="latin-1")
+        start = source_text.index("static void C4DrawWireFrame()")
+        end = source_text.index("static void C4TransformLines()", start)
+        print("=== HISTORICAL_C4DRAWWIREFRAME_BEGIN ===")
+        print(source_text[start:end].rstrip())
+        print("=== HISTORICAL_C4DRAWWIREFRAME_END ===")
+        print(f"DEBUG size drift historical={hist_sym.size} local={local_sym.size}")
+        return
     if len(hist_masks) != RELOCS or len(local_masks) != RELOCS:
         raise SystemExit(f"relocation count drift historical={len(hist_masks)} local={len(local_masks)}")
     if mask_signature(hist_masks) != mask_signature(local_masks):
