@@ -119,7 +119,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0010d2a8,snes_p16_0010d2a8,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0010d4f0,snes_p16_0010d4f0,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0010d734,snes_p16_0010d734,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x0010d7dc,snes_p17_0010d7dc,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x0010d7dc,snes_p17_0010d7dc,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/s9xsetc4.S,MATCHING
 0x0010e33c,snes_leaf_0010e33c,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,MATCHING
 0x0010e348,snes_leaf_0010e348,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,MATCHING
 0x0010e354,snes_leaf_0010e354,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,MATCHING

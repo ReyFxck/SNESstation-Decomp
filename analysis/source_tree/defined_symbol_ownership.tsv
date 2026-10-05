@@ -736,7 +736,6 @@ snes_p28_0010cdcc	global	text	0x29c	src/ps2/progress28_structural_lift_recovered
 snes_p28_0010d2a8	global	text	0x444	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010d4f0	global	text	0x4bc	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_0010d734	global	text	0x5c	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
-snes_p28_0010d7dc	global	text	0x1cc4	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_00114544	global	text	0x1a0	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_00114818	global	text	0x17d0	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_00115a18	global	text	0x234	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
@@ -885,6 +884,7 @@ snes_p28_001aa638	global	text	0x424	src/ps2/progress28_structural_lift_recovered
 snes_p28_001aabd8	global	text	0x350	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_p28_001aae70	global	text	0x100	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o
 snes_qsort_001080cc	global	text	0x968	src/ps2/qsort.c	ps2/qsort.o
+snes_p28_0010d7dc	global	text	0xb60	src/ps2/s9xsetc4.S	ps2/s9xsetc4.o
 _heap_ptr	local	data	0x4	src/ps2/sbrk.c	ps2/sbrk.o
 ps2_sbrk_0019f078	global	text	0xc0	src/ps2/sbrk.c	ps2/sbrk.o
 SifAddCmdHandler	global	text	0x38	src/ps2/sifcmd.c	ps2/sifcmd.o
