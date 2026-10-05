@@ -102,8 +102,15 @@ def main():
     if hist_sym.size != SIZE or local_sym.size != SIZE:
         source_path = v77.BUILD / "historical" / "snes9x-target-layout" / "c4emu.cpp"
         source_text = source_path.read_text(encoding="latin-1")
-        start = source_text.index("static void C4DrawWireFrame()")
-        end = source_text.index("static void C4TransformLines()", start)
+        import re
+        match = re.search(r"(?:static\\s+)?void\\s+C4DrawWireFrame\\s*\\([^)]*\\)\\s*\\{", source_text)
+        if not match:
+            raise SystemExit("historical C4DrawWireFrame definition not found")
+        start = match.start()
+        next_match = re.search(r"(?:static\\s+)?void\\s+C4TransformLines\\s*\\(", source_text[match.end():])
+        if not next_match:
+            raise SystemExit("historical C4TransformLines boundary not found")
+        end = match.end() + next_match.start()
         print("=== HISTORICAL_C4DRAWWIREFRAME_BEGIN ===")
         print(source_text[start:end].rstrip())
         print("=== HISTORICAL_C4DRAWWIREFRAME_END ===")
