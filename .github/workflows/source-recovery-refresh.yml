@@ -8,6 +8,7 @@ on:
     paths:
       - .github/workflows/source-recovery-refresh.yml
       - Makefile
+      - analysis/link_identity/*.json
       - tools/build_source_tree.py
       - src/ps2/cdvd_rpc.c
       - include/cdvd_legacy_compat.h
