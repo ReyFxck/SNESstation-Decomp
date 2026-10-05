@@ -101,9 +101,11 @@ def validate_live_contracts(
                 fail(f"{symbol} returned to live {label}")
     # Exact XPRINTF, ALLOC, LIBKERNEL and PS2LIB string/ctype promotions now
     # provide their symbols directly from canonical historical source.
-    # strncasecmp + F_ctype close five additional external/contract pairs while
-    # leaving the provider frontier and live runtime partition unchanged.
-    if (len(external), len(contracts), len(frontier)) != (1824, 1493, 219):
+    # strncasecmp + F_ctype close five additional external/contract pairs.
+    # The exact S9xSetC4 promotion retires its provisional structural body,
+    # removing 16 stale external/contract references while leaving the provider
+    # frontier and live runtime partition unchanged.
+    if (len(external), len(contracts), len(frontier)) != (1808, 1477, 219):
         fail("post-refactor namespace count drift")
     if any(row["resolution_kind"] == "compatibility-runtime-shim" for row in frontier):
         fail("compatibility runtime shim returned")
