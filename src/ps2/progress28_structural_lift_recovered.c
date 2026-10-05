@@ -1706,7 +1706,6 @@ void snes_p28_0010c1f8();
 void C4ConvOAM_exact_target();
 void C4DoScaleRotate_exact_target();
 void snes_p28_0010cbb0();
-void snes_p28_0010cdcc();
 void C4TransformLines_exact_target();
 void snes_p28_0010d2a8();
 void snes_p28_0010d4f0();
@@ -5126,8 +5125,8 @@ uint param_7;
   return;
 }
 
-/* 0x0010cdcc / C4DrawWireFrame is promoted to the canonical historical
- * C++ translation unit in src/snes9x/c4drawwireframe.cpp. */
+/* C4DrawWireFrame is promoted to the canonical historical C++ translation
+ * unit in src/snes9x/c4drawwireframe.cpp. */
 
 /* ===== 0x0010d2a8 | P16 | snes_p16_0010d2a8 | frontend-core ===== */
 void snes_p28_0010d2a8()
