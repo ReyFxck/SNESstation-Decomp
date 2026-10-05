@@ -536,7 +536,7 @@ check-ee-cxx:
 source-tree: bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
 	$(MAKE) source-tree-check EE_CC="$(EE_STAGE1_CC)" EE_CXX="$(EE_STAGE1_CXX)"
 
-source-tree-check: check-ee-compiler check-ee-cxx
+source-tree-check: check-ee-compiler bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/build_source_tree.py \
 		--compiler "$(EE_CC)" \
 		--cxx "$(EE_CXX)" \
@@ -552,7 +552,7 @@ source-tree-check: check-ee-compiler check-ee-cxx
 
 # Deliberately separate from the check target: refreshing ownership is a
 # reviewed source-boundary decision, never an automatic side effect.
-source-tree-refresh: check-ee-compiler check-ee-cxx
+source-tree-refresh: check-ee-compiler bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/build_source_tree.py \
 		--compiler "$(EE_CC)" \
 		--cxx "$(EE_CXX)" \
