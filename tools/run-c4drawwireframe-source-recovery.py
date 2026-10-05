@@ -100,6 +100,20 @@ def main():
     local_masks = masks(local_elf, local_sym)
 
     if hist_sym.size != SIZE or local_sym.size != SIZE:
+        objdump = CXX.with_name("ee-objdump")
+        def function_dump(path):
+            output = run([objdump, "-dr", path])
+            marker = f"<{SYMBOL}>:"
+            start = output.find(marker)
+            if start < 0:
+                return output[-12000:]
+            tail = output[start:]
+            next_symbol = tail.find("\n\n", len(marker))
+            return tail if next_symbol < 0 else tail[:next_symbol]
+        print("=== HISTORICAL DISASSEMBLY ===")
+        print(function_dump(historical.path))
+        print("=== LOCAL DISASSEMBLY ===")
+        print(function_dump(local_obj))
         raise SystemExit(f"size drift historical={hist_sym.size} local={local_sym.size}")
     if len(hist_masks) != RELOCS or len(local_masks) != RELOCS:
         raise SystemExit(f"relocation count drift historical={len(hist_masks)} local={len(local_masks)}")
