@@ -1,5 +1,5 @@
 name: Source recovery ledger refresh
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE and C4TRANSFORMLINES promotions included; canonical source-tree target: 122 TUs; decomp function-unit target: 100.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES and S9XSETC4 promotions included; canonical source-tree target: 123 TUs; decomp function-unit target: 101.
 
 on:
   push:
@@ -140,6 +140,10 @@ on:
       - analysis/functions/c4transformlines_exact_772.tsv
       - tools/run-c4transformlines-source-recovery.py
       - .github/workflows/c4transformlines-source-recovery.yml
+      - src/ps2/s9xsetc4.S
+      - analysis/functions/s9xsetc4_exact_2912.tsv
+      - tools/run-s9xsetc4-source-recovery.py
+      - .github/workflows/s9xsetc4-source-recovery.yml
       - .github/workflows/strcpy-source-recovery.yml
       - include/alloc_legacy_compat.h
       - tools/run-alloc-source-recovery.py
@@ -246,6 +250,7 @@ jobs:
           python3 tools/run-c4convoam-source-recovery.py
           python3 tools/run-c4doscalerotate-source-recovery.py
           python3 tools/run-c4transformlines-source-recovery.py
+          python3 tools/run-s9xsetc4-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
           python3 tools/run-iopcontrol-source-recovery.py
