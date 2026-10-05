@@ -272,15 +272,18 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
         "3D": counts[("ps2-runtime", "historical-archive")]
               + counts[("c-runtime", "historical-archive")]
               + counts[("c-runtime", "recovered-runtime")]
-              + counts[("compiler-runtime", "historical-archive")],
+              + counts[("compiler-runtime", "historical-archive")]
+              + counts[("cxx-runtime", "historical-archive")],
         "3E": counts[("named-external", "link-contract")]
+              + counts[("target-function-contract", "link-contract")]
               + counts[("zlib-peer", "source-or-archive")],
         "3F": counts[("target-address-data", "program-data")],
     }
-    # Exact strncasecmp + F_ctype promotion resolves five former Stage-3E
-    # named external/link-contract entries directly from canonical source.
-    expected = {"3B": 345, "3C": 50, "3D": 15, "3E": 188, "3F": 1226}
-    if partition != expected or sum(partition.values()) != 1824:
+    # C4DrawWireFrame introduces two historical target-function contracts and
+    # one libsupc++ personality dependency.  Keep the latter in Stage-3D and
+    # the reviewed C4 call peers in Stage-3E.
+    expected = {"3B": 345, "3C": 50, "3D": 16, "3E": 190, "3F": 1226}
+    if partition != expected or sum(partition.values()) != 1827:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 

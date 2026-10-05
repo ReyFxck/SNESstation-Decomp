@@ -313,8 +313,9 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
     # Exact kernel.S plus promoted libc/PS2LIB sources remove their former
     # live external contracts from the global source-tree namespace.
-    # The strncasecmp + F_ctype promotion closes five additional contracts.
-    if set(active) != expected_external or len(external) != 1824:
+    # C4DrawWireFrame adds two reviewed historical call contracts plus the
+    # libsupc++ personality dependency, without changing this runtime subset.
+    if set(active) != expected_external or len(external) != 1827:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):

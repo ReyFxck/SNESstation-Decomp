@@ -226,6 +226,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             "abort": ("c-runtime", "runtime-override-callsite-identity"),
             "_Z10C4DrawLineiisiish": ("target-function-contract", "link-identity"),
             "_Z16S9xGetMemPointerj": ("target-function-contract", "link-identity"),
+            "__gxx_personality_v0": ("cxx-runtime", "archive-identity"),
         }
         for symbol, expected in cases.items():
             category, _provider, _owner, gate = MODULE.classify_external(symbol, readiness)

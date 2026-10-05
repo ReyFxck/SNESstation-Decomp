@@ -533,7 +533,10 @@ def classify_external(
     historical_cpp_owner = HISTORICAL_CPP_PEERS.get(symbol)
     if historical_cpp_owner is not None:
         return "target-function-contract", "link-contract", historical_cpp_owner, "link-identity"
-    if symbol.startswith("_Z"):
+    # GCC's C++ personality entry uses a C ABI spelling rather than Itanium
+    # _Z mangling, but it is still historical libsupc++ runtime.  Classify it
+    # with the rest of the C++ archive family instead of Stage-3E named links.
+    if symbol == "__gxx_personality_v0" or symbol.startswith("_Z"):
         return "cxx-runtime", "historical-archive", "libsupc++/libstdc++", "archive-identity"
     if symbol.startswith(LIBGCC_PREFIXES):
         return "compiler-runtime", "historical-archive", "libgcc", "archive-identity"
