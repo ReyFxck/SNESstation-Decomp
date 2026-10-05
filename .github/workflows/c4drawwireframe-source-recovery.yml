@@ -6,6 +6,7 @@ on:
       - source-recovery-file-by-file
     paths:
       - "matching/candidates/c4drawwireframe_historical.cpp"
+      - "src/snes9x/c4drawwireframe.cpp"
       - "analysis/matching/hunt1041-v77-validated-c4draw-1.tsv"
       - "tools/run-c4drawwireframe-source-recovery.py"
       - ".github/workflows/c4drawwireframe-source-recovery.yml"
