@@ -791,7 +791,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001a045c,atanf,mathfp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x001a06a0,sqrtf,mathfp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c,MATCHING
 0x001a06b0,fabsf,mathfp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x001a06c0,numtestf,mathfp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/newlib_mathfp_recovered.c;src/ps2/numtestf.S,MATCHING
+0x001a06c0,numtestf,mathfp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/numtestf.S,MATCHING
 0x001a0740,mcGetInfoApdx,libmc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libmc_recovered.c,MATCHING
 0x001a07c8,mcReadFixAlign,libmc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libmc_recovered.c,MATCHING
 0x001a086c,mcStoreDir,libmc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libmc_recovered.c,MATCHING
