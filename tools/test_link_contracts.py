@@ -16,6 +16,7 @@ from link_contracts import (
     DEFAULT_SOURCE_ALIASES,
     MANIFEST_FIELDS,
     RESOLVED,
+    REVIEW_ABSOLUTE,
     SEMANTIC_ALIAS,
     ContractError,
     NmSymbol,
@@ -177,6 +178,22 @@ class LinkContractTests(unittest.TestCase):
         self.assertEqual("reviewed-semantic-contract", by_symbol["seek_like_00100020"]["evidence"])
         self.assertEqual("blocked-source-address-alias", by_symbol["FUN_00100050"]["resolution_kind"])
 
+    def test_reviewed_absolute_target_contract(self) -> None:
+        rows = derive_rows(
+            [external("_Z16S9xGetMemPointerj")],
+            [],
+            [progress("0x001ab4e8", "S9xGetMemPointer")],
+            [],
+            [review("_Z16S9xGetMemPointerj", REVIEW_ABSOLUTE, "0x001ab4e8")],
+            0x00100000,
+            0x00200000,
+        )
+        self.assertEqual(RESOLVED, rows[0]["status"])
+        self.assertEqual(ABSOLUTE_ANCHOR, rows[0]["resolution_kind"])
+        self.assertEqual("0x001ab4e8", rows[0]["target_address"])
+        self.assertEqual("", rows[0]["canonical_symbol"])
+        self.assertEqual("reviewed-absolute-contract", rows[0]["evidence"])
+
     def test_address_anchor_must_be_inside_frozen_layout(self) -> None:
         with self.assertRaisesRegex(ContractError, "outside the unpacked layout"):
             derive_rows(
@@ -250,11 +267,11 @@ class LinkContractTests(unittest.TestCase):
         )
         rows = validate_frozen_manifest(args)
         report = summarize(rows)
-        self.assertEqual(1493, report["contracts_total"])
-        self.assertEqual(1264, report["resolved"])
+        self.assertEqual(1496, report["contracts_total"])
+        self.assertEqual(1267, report["resolved"])
         self.assertEqual(229, report["blocked"])
-        self.assertEqual(1234, report["address_anchors"])
-        self.assertEqual(30, report["semantic_aliases"])
+        self.assertEqual(1235, report["address_anchors"])
+        self.assertEqual(32, report["semantic_aliases"])
         self.assertEqual(
             {
                 "recovered-runtime": 1,
