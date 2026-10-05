@@ -118,3 +118,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 117	src/ps2/sbrk.c	ps2	c	canonical	ps2/sbrk.o		Exact historical PS2LIB sbrk.c from ps2sdk@694100b7; EE GCC 3.2.2 target entry 192/192 raw bytes with 13 relocations; _end is the frozen startup linker symbol at 0x00450c18.
 118	src/unzip/get_tree.S	unzip	asm-cpp	canonical	unzip/get_tree.o		Byte-exact EE reconstruction of get_tree @ 0x0018c124; 212/212 linked bytes with ReadByte=0x0018dc60 and bytebuf=0x00426e28; historical K&R C provenance retained separately.
 119	src/ps2/numtestf.S	ps2	asm-cpp	canonical	ps2/numtestf.o		Byte-exact EE reconstruction of numtestf @ 0x001a06c0; 128/128 raw bytes, zero relocations; Newlib behavioral C model retained separately.
+120	src/ps2/c4convoam.S	ps2	asm-cpp	canonical	ps2/c4convoam.o		Byte-exact EE reconstruction of C4ConvOAM @ 0x0010c340; 952/952 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
