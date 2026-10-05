@@ -57,7 +57,7 @@ The target corridor at `0x0019fddc..0x001a073f` preserves the Newlib 1.10.0
 | `0x001a045c..0x001a0693` | `atanf` | wrapper plus the non-`atan2` path of `sf_atangent.c` |
 | `0x001a06a0..0x001a06a7` | `sqrtf` | target-specific EE `sqrt.s` leaf; byte-matching |
 | `0x001a06b0..0x001a06b7` | `fabsf` | target-specific EE `abs.s` leaf; byte-matching |
-| `0x001a06c0..0x001a073f` | `numtestf` | Newlib structure plus observed old `-mlong64` behavior |
+| `0x001a06c0..0x001a073f` | `numtestf` | byte-exact canonical `src/ps2/numtestf.S`; 128/128 raw bytes, 0 relocations |
 
 The generic Newlib `sqrtf` and `fabsf` bodies are **not** copied blindly: the
 target replaces them with Emotion Engine hardware instructions. Their actual
