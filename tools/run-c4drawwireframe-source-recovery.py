@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import subprocess
 import sys
 from pathlib import Path
@@ -116,11 +117,48 @@ def main():
             f"{len(diff)} bytes; first=" + ",".join(f"+0x{x:x}" for x in diff[:16])
         )
 
+    # Resolve every live relocation to the target-proved address and hash the
+    # final 472-byte .text image. This turns the normalized object proof into a
+    # literal byte-for-byte target-span proof without publishing the private ELF.
+    ld = CXX.with_name("ee-ld")
+    objcopy = CXX.with_name("ee-objcopy")
+    script = BUILD / "c4drawwireframe.target.ld"
+    linked = BUILD / "c4drawwireframe.target.elf"
+    linked_text = BUILD / "c4drawwireframe.target.bin"
+    script.write_text(
+        """PROVIDE(g_p12_memory = 0x0034e2b0);
+PROVIDE(_Z16S9xGetMemPointerj = 0x001ab4e8);
+PROVIDE(_Z10C4DrawLineiisiish = 0x0010cbb0);
+SECTIONS {
+  . = 0x0010cdcc;
+  .text : { *(.text) }
+  /DISCARD/ : {
+    *(.data) *(.rodata*) *(.bss) *(COMMON) *(.reginfo) *(.pdr)
+    *(.mdebug*) *(.comment) *(.note*)
+  }
+}
+""",
+        encoding="utf-8",
+    )
+    run([ld, "-EL", "-T", script, local_obj, "-o", linked])
+    run([objcopy, "-j", ".text", "-O", "binary", linked, linked_text])
+    raw_linked = linked_text.read_bytes()
+    raw_sha = hashlib.sha256(raw_linked).hexdigest()
+    if len(raw_linked) != SIZE or raw_sha != TARGET_SHA:
+        raise SystemExit(
+            f"C4DrawWireFrame raw-linked target mismatch "
+            f"bytes={len(raw_linked)}/{SIZE} sha256={raw_sha}"
+        )
+
     print(
         f"C4DRAWWIREFRAME historical-chain: MATCH bytes={SIZE}/{SIZE} "
         f"relocations={RELOCS} target_span_sha256={TARGET_SHA}"
     )
     print("chain: canonical src C++ == V77 historical object == target ELF (relocation-normalized)")
+    print(
+        f"C4DRAWWIREFRAME raw-linked: MATCH bytes={SIZE}/{SIZE} "
+        f"sha256={raw_sha} target=0x0010cdcc"
+    )
 
 
 if __name__ == "__main__":
