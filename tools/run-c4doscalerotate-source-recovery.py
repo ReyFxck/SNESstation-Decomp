@@ -10,7 +10,7 @@ from compare_elf_functions import ELFFile
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build/matching/c4doscalerotate-source-recovery"
-LOCAL = ROOT / "matching/candidates/c4doscalerotate_exact.S"
+LOCAL = ROOT / "src/ps2/c4doscalerotate.S"
 CC = ROOT / "build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
 
 ADDRESS = 0x0010C6F8
@@ -34,7 +34,7 @@ def main():
     run([CC, "-G0", "-EL", "-pipe", "-w", "-c", LOCAL, "-o", obj])
 
     elf = ELFFile(obj)
-    sym = elf.find_symbol("v81_0010c6f8")
+    sym = elf.find_symbol("snes_p28_0010c6f8")
     raw = elf.symbol_bytes(sym, sym.size)
     relocs = len(elf.relocation_ranges(sym, sym.size))
 
