@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prove the standalone C4DrawWireFrame source against the target-proved V77 object."""
+"""Prove canonical C4DrawWireFrame source against the target-proved V77 object."""
 from __future__ import annotations
 
 import csv
@@ -15,7 +15,7 @@ from compare_elf_functions import ELFFile  # noqa: E402
 import hunt1000plus_v47_closure as v47  # noqa: E402
 import hunt1041_v77_c4draw as v77  # noqa: E402
 
-LOCAL = ROOT / "matching/candidates/c4drawwireframe_historical.cpp"
+LOCAL = ROOT / "src/snes9x/c4drawwireframe.cpp"
 BUILD = ROOT / "build/matching/c4drawwireframe-source-recovery"
 CXX = ROOT / "build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++"
 EVIDENCE = ROOT / "analysis/matching/hunt1041-v77-validated-c4draw-1.tsv"
@@ -139,7 +139,7 @@ def main():
         f"C4DRAWWIREFRAME historical-chain: MATCH bytes={SIZE}/{SIZE} "
         f"relocations={RELOCS} target_span_sha256={TARGET_SHA}"
     )
-    print("chain: standalone C++ == V77 historical object == target ELF (relocation-normalized)")
+    print("chain: canonical src C++ == V77 historical object == target ELF (relocation-normalized)")
 
 
 if __name__ == "__main__":
