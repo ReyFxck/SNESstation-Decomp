@@ -23,8 +23,8 @@ class BuildSourceTreeTests(unittest.TestCase):
         units = MODULE.read_manifest(
             ROOT / "analysis" / "source_tree" / "translation_units.tsv"
         )
-        self.assertEqual(121, len(units))
-        self.assertEqual(121, sum(unit.canonical for unit in units))
+        self.assertEqual(122, len(units))
+        self.assertEqual(122, sum(unit.canonical for unit in units))
         alternate = [unit for unit in units if not unit.canonical]
         self.assertEqual([], alternate)
         cdvd = [unit for unit in units if unit.source == "src/ps2/cdvd_rpc.c"]
@@ -143,6 +143,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             ("src/ps2/numtestf.S", "ps2/numtestf.o"),
             ("src/ps2/c4convoam.S", "ps2/c4convoam.o"),
             ("src/ps2/c4doscalerotate.S", "ps2/c4doscalerotate.o"),
+            ("src/ps2/c4transformlines.S", "ps2/c4transformlines.o"),
         ):
             matches = [unit for unit in units if unit.source == source]
             self.assertEqual(1, len(matches))
@@ -251,7 +252,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             counts[row["kind"]] = counts.get(row["kind"], 0) + 1
             self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(
-            {"translation-unit": 121, "abi-contract": 1, "canonical-aggregate": 1},
+            {"translation-unit": 122, "abi-contract": 1, "canonical-aggregate": 1},
             counts,
         )
 
