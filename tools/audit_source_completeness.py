@@ -127,6 +127,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "functions" / "c4doscalerotate_exact_1208.tsv",
         "src/ps2/c4doscalerotate.S",
     ),
+    (
+        ROOT / "analysis" / "functions" / "c4transformlines_exact_772.tsv",
+        "src/ps2/c4transformlines.S",
+    ),
 )
 
 
