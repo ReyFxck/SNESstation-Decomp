@@ -10,7 +10,7 @@ from compare_elf_functions import ELFFile
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build/matching/c4convoam-source-recovery"
-LOCAL = ROOT / "matching/candidates/c4convoam_exact.S"
+LOCAL = ROOT / "src/ps2/c4convoam.S"
 CC = ROOT / "build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
 
 ADDRESS = 0x0010C340
@@ -37,10 +37,14 @@ def main():
         raise SystemExit(f"C4ConvOAM source SHA drift: {source_sha}")
 
     obj = BUILD / "c4convoam_exact.o"
-    run([CC, "-G0", "-EL", "-pipe", "-w", "-c", LOCAL, "-o", obj])
+    run([
+        CC, "-G0", "-EL", "-pipe", "-w",
+        "-DC4ConvOAM_candidate=snes_p28_0010c340",
+        "-c", LOCAL, "-o", obj,
+    ])
 
     elf = ELFFile(obj)
-    sym = elf.find_symbol("C4ConvOAM_candidate")
+    sym = elf.find_symbol("snes_p28_0010c340")
     raw = elf.symbol_bytes(sym, sym.size)
     relocs = len(elf.relocation_ranges(sym, sym.size))
 
