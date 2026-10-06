@@ -1634,12 +1634,12 @@ fioSeek_like_0019d360	ps2-runtime	historical-archive	PS2LIB kernel/fio_lseek.o (
 fioWrite_like	ps2-runtime	historical-archive	PS2LIB kernel/fio_write.o (ps2sdk@a80df908 source)	runtime-member-text-identity	snes9x/sram_recovered.o;zlib/gzio_recovered.o
 fixed_td_00425870	named-external	link-contract	reserved:link-contract	link-identity	zlib/inftrees_recovered.o
 fixed_tl_00424870	named-external	link-contract	reserved:link-contract	link-identity	zlib/inftrees_recovered.o
-g_APU_003453b8	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/cpushutdown.o
+g_APU_003453b8	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/cpushutdown.o
 g_CPU_blob	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/cpushutdown.o;snes9x/s9xgetbyte.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o;snes9x/s9xsetpcbase.o;snes9x/s9xsetword.o
-g_ICPU_00345318	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/cpushutdown.o
+g_ICPU_00345318	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/cpushutdown.o
 g_OpenBus_byte	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o
-g_S9xAPUCycles_003f44a8	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/cpushutdown.o
-g_S9xApuOpcodes_00411010	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/cpushutdown.o
+g_S9xAPUCycles_003f44a8	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/cpushutdown.o
+g_S9xApuOpcodes_00411010	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/cpushutdown.o
 g_SA1_blob	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
 g_Settings_blob	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o;snes9x/cpushutdown.o;snes9x/s9xgetmempointer.o
 g_apu_state_00345498	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/apu_alloc_recovered.o;snes9x/cpushutdown.o
