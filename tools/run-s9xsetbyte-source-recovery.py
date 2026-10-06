@@ -25,9 +25,9 @@ HISTORICAL_RAW_SHA = "aee1e5663189c1dabf13623cfacf9e0a69588872530c4fad01eb2bf29c
 RODATA_ADDRESS = 0x001B1CC8
 
 LINE_RE = re.compile(
-    r"^\\s*([0-9a-fA-F]+):\\s+"
-    r"([0-9a-fA-F]{2})\\s+([0-9a-fA-F]{2})\\s+"
-    r"([0-9a-fA-F]{2})\\s+([0-9a-fA-F]{2})\\s"
+    r"^\s*([0-9a-fA-F]+):\s+"
+    r"([0-9a-fA-F]{2})\s+([0-9a-fA-F]{2})\s+"
+    r"([0-9a-fA-F]{2})\s+([0-9a-fA-F]{2})\s"
 )
 
 
@@ -41,7 +41,7 @@ def run(cmd):
     )
     if cp.returncode:
         raise SystemExit(
-            "command failed: " + " ".join(map(str, cmd)) + "\\n" + cp.stdout[-20000:]
+            "command failed: " + " ".join(map(str, cmd)) + "\n" + cp.stdout[-20000:]
         )
     return cp.stdout
 
@@ -75,7 +75,7 @@ def target_bytes_from_listing() -> bytes:
 
 def validate_public_evidence() -> None:
     with EVIDENCE.open(encoding="utf-8", newline="") as stream:
-        rows = list(csv.DictReader(stream, delimiter="\\t"))
+        rows = list(csv.DictReader(stream, delimiter="\t"))
     matches = [
         row for row in rows
         if row["address"].lower() == "0x001ab900"
@@ -144,7 +144,7 @@ def main():
     if actual_size != SIZE:
         objdump = run([CXX.with_name("ee-objdump"), "-dr", obj])
         raise SystemExit(
-            f"S9xSetByte size mismatch: {actual_size}/{SIZE}\\n"
+            f"S9xSetByte size mismatch: {actual_size}/{SIZE}\n"
             + objdump[-20000:]
         )
 
@@ -164,7 +164,7 @@ def main():
     reloc_count = sum(1 for line in lines[start:end] if "R_MIPS_" in line)
     if reloc_count != RELOCS:
         raise SystemExit(
-            f"S9xSetByte relocation count mismatch: {reloc_count}/{RELOCS}\\n{reltext}"
+            f"S9xSetByte relocation count mismatch: {reloc_count}/{RELOCS}\n{reltext}"
         )
 
     ld = CXX.with_name("ee-ld")
@@ -209,11 +209,11 @@ SECTIONS {
         objdump = run([CXX.with_name("ee-objdump"), "-dr", linked])
         raise SystemExit(
             f"S9xSetByte provider-linked target mismatch bytes={len(actual)}/{SIZE} "
-            f"first_offset=0x{first:x} target_address=0x{ADDRESS + first:08x}\\n"
-            f"actual[{lo:#x}:{hi:#x}]={actual[lo:hi].hex()}\\n"
-            f"target[{lo:#x}:{hi:#x}]={target[lo:hi].hex()}\\n"
-            f"actual_sha256={sha256_bytes(actual)}\\n"
-            f"target_sha256={target_sha}\\n"
+            f"first_offset=0x{first:x} target_address=0x{ADDRESS + first:08x}\n"
+            f"actual[{lo:#x}:{hi:#x}]={actual[lo:hi].hex()}\n"
+            f"target[{lo:#x}:{hi:#x}]={target[lo:hi].hex()}\n"
+            f"actual_sha256={sha256_bytes(actual)}\n"
+            f"target_sha256={target_sha}\n"
             + objdump[-24000:]
         )
 
