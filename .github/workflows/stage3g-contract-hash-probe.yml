@@ -12,7 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Print Stage3G source hashes
+      - name: Print provenance hashes
         run: |
           sha256sum analysis/link_identity/data_backing_sections.tsv
-          sha256sum analysis/link_identity/unpacked_layout.json
+          sha256sum analysis/link_identity/link_layout_probe.json
+          sha256sum analysis/link_identity/startup_integration.json
+          sha256sum analysis/link_identity/frontend_eh_frames.json
+          sha256sum analysis/link_identity/historical_tail_data.json
+          sha256sum analysis/link_identity/runtime_tail_data.json
+          sha256sum analysis/link_identity/tail_metadata.json
+          sha256sum analysis/link_identity/window36_data.json
+          sha256sum analysis/link_identity/media_assets.json
+          sha256sum analysis/link_identity/window35_data.json
+          sha256sum analysis/link_identity/window11_rodata.json
+          sha256sum analysis/link_identity/code_windows.json
