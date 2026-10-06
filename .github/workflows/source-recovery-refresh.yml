@@ -1,7 +1,7 @@
 name: Source recovery ledger refresh
 # S9xSetByte provenance chain aligned; refresh generated docs at 127 TUs.
 # S9xSetByte provenance chain aligned through Stage-3P; generated docs refresh from branch HEAD.
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME, S9XSETC4, S9XGETMEMPOINTER, S9XGETBYTE, S9XSETBYTE and S9XGETWORD promotions included; canonical source-tree target: 130 TUs. S9XGETBYTE, S9XSETBYTE, S9XGETWORD, S9XSETPCBASE and S9XSETWORD are gated by byte-exact provider-linked proofs.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME, S9XSETC4, S9XGETMEMPOINTER, S9XGETBYTE, S9XSETBYTE, S9XGETWORD, S9XSETPCBASE and S9XSETWORD promotions included; canonical source-tree target: 130 TUs. S9XGETBYTE, S9XSETBYTE, S9XGETWORD, S9XSETPCBASE and S9XSETWORD are gated by byte-exact provider-linked proofs.
 
 on:
   push:
