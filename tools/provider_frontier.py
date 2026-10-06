@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-S9xSetByte-recovery 239-name source-link provider frontier.
+"""Close the post-CPUShutdown-recovery 243-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -283,8 +283,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 239:
-        fail(f"expected exact post-S9xSetByte-recovery frontier of 239 symbols, found {len(active)}")
+    if len(active) != 243:
+        fail(f"expected exact post-CPUShutdown-recovery frontier of 243 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -361,7 +361,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 195,
+        ABSOLUTE_ANCHOR: 199,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }
