@@ -52,7 +52,7 @@ struct SCPUState
     uint8 *PCAtOpcodeStart;
     uint8 *WaitAddress;
     uint32 WaitCounter;
-    int32 Cycles;
+    long Cycles;
 };
 
 extern CMemory Memory __asm__("g_p12_memory");
