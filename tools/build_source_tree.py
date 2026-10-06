@@ -269,7 +269,20 @@ ZLIB_EXTERNAL_PREFIXES = (
 # be sent through the address-suffix alias gate.
 HISTORICAL_CPP_PEERS = {
     "_Z10C4DrawLineiisiish": "src/ps2/progress28_structural_lift_recovered.c",
+    "S9xGetPPU": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetCPU": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetDSP": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetC4": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetSPC7110Byte": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetSPC7110": "src/snes9x/s9xgetbyte.cpp",
+    "GetOBC1": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetSetaDSP": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetST018": "src/snes9x/s9xgetbyte.cpp",
 }
+
+# Data providers whose exact target addresses are part of the byte-exact
+# S9xGetByte link proof. Keep them out of the historical Stage-3C tranche.
+EXACT_TARGET_DATA_PEERS = {"g_CPU_blob", "g_OpenBus_byte"}
 
 
 class GateError(RuntimeError):
@@ -569,6 +582,8 @@ def classify_external(
         return "ps2-runtime", "historical-archive", "PS2SDK runtime archives", "archive-identity"
     if symbol.startswith(ZLIB_EXTERNAL_PREFIXES):
         return "zlib-peer", "source-or-archive", "zlib object family", "link-identity"
+    if symbol in EXACT_TARGET_DATA_PEERS:
+        return "target-address-data", "program-data", "reserved:target-data.o", "program-data"
     if symbol.startswith(("g_", "GFX", "Memory", "CPU", "APU", "Settings", "IPPU", "PPU")):
         return "named-program-data", "program-data", "reserved:program-data.o", "program-data"
     if address:
