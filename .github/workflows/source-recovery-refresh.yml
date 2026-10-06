@@ -1,7 +1,7 @@
 name: Source recovery ledger refresh
 # S9xSetByte provenance chain aligned; refresh generated docs at 127 TUs.
 # S9xSetByte provenance chain aligned through Stage-3P; generated docs refresh from branch HEAD.
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME, S9XSETC4, S9XGETMEMPOINTER, S9XGETBYTE, S9XSETBYTE, S9XGETWORD, S9XSETPCBASE and S9XSETWORD promotions included; canonical source-tree target: 131 TUs. S9XGETBYTE, S9XSETBYTE, S9XGETWORD, S9XSETPCBASE, S9XSETWORD and CPUSHUTDOWN are gated by byte-exact provider-linked proofs.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME, S9XSETC4, S9XGETMEMPOINTER, S9XGETBYTE, S9XSETBYTE, S9XGETWORD, S9XSETPCBASE, S9XSETWORD and CPUSHUTDOWN promotions included; canonical source-tree target: 131 TUs. S9XGETBYTE, S9XSETBYTE, S9XGETWORD, S9XSETPCBASE, S9XSETWORD and CPUSHUTDOWN are gated by byte-exact provider-linked proofs.
 
 on:
   push:
@@ -221,7 +221,7 @@ on:
       - analysis/link_identity/source_alias_reviews.tsv
 
 concurrency:
-  group: source-recovery-ledger-writer-v3-${{ github.ref }}
+  group: source-recovery-ledger-writer-v4-${{ github.ref }}
   # Only the newest branch state can write the generated ledgers. Cancelling
   # obsolete runs prevents an older toolchain rebuild from blocking HEAD.
   cancel-in-progress: true
