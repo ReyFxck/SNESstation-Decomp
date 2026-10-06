@@ -1,4 +1,5 @@
 name: S9xSetByte final docs refresh
+# temporary one-shot finalizer
 
 on:
   push:
