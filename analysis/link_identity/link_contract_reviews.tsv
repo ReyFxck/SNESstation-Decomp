@@ -8,4 +8,3 @@ snes_p12_fio_open	fioOpen	0x0019cfc0	analysis/progress_targets.csv	Old fileIO RP
 snes_p12_fio_read	fioRead	0x0019d120	analysis/progress_targets.csv	Old fileIO RPC fno 2	the Progress-12 source-model read call maps to the exact recovered historical fioRead entry
 snes_p12_fio_write	fioWrite	0x0019d244	analysis/progress_targets.csv	Old fileIO RPC fno 3	the Progress-12 source-model write call maps to the exact recovered historical fioWrite entry
 _Z10C4DrawLineiisiish	snes_p28_0010cbb0	0x0010cbb0	analysis/matching/hunt500plus-v33-validated-204.tsv	_Z10C4DrawLineiisiish	the canonical C4DrawWireFrame historical C++ TU calls the already target-matched C4DrawLine entry at 0x0010cbb0
-_Z16S9xGetMemPointerj	@absolute	0x001ab4e8	analysis/matching/hunt400-validated-19.tsv	_Z16S9xGetMemPointerj	reviewed zero-byte absolute binding for the historical one-argument C++ call at 0x001ab4e8; do not alias the context-argument source-model wrapper
