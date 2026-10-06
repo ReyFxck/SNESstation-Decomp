@@ -289,7 +289,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00158b5c,snes_leaf_00158b5c,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,MATCHING
 0x00158b74,snes_p16_00158b74,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x00158fd0,snes_leaf_00158fd0,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,MATCHING
-0x00158fdc,snes_leaf_00158fdc,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,MATCHING
+0x00158fdc,snes_leaf_00158fdc,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/snes9x/s9xgetmempointer.cpp,MATCHING
 0x00158ff0,snes_dispatch_00158ff0,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/ps2/small_dispatch_recovered.c,MATCHING
 0x00159058,snes_p16_00159058,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x001591a8,snes_p13_palette_expand_001591a8,ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/progress13_core_helpers_recovered.c,MATCHING
@@ -1002,7 +1002,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001ab388,std_bad_alloc_destructor_D0,cpp-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libsupcxx_rtti_recovered.c,MATCHING
 0x001ab3c0,SyncDCache,ps2,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ee_cache_recovered.c,MATCHING
 0x001ab440,iSyncDCache,ps2,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ee_cache_recovered.c,MATCHING
-0x001ab4e8,S9xGetMemPointer,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
+0x001ab4e8,S9xGetMemPointer,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c;src/snes9x/s9xgetmempointer.cpp,MATCHING
 0x001ab63c,S9xGetByte,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
 0x001ab900,S9xSetByte,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
 0x001abc28,S9xGetWord,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
