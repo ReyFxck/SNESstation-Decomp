@@ -25,7 +25,7 @@ with tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz") as archive:
     source = archive.extractfile(candidates[0]).read().decode("latin1")
 
 match = re.search(
-    r"(?:INLINE\\s+)?void\\s+S9xSetPCBase\\s*\\(\\s*uint32\\s+Address\\s*\\)\\s*\\{",
+    r"(?:INLINE\s+)?void\s+S9xSetPCBase\s*\(\s*uint32\s+Address\s*\)\s*\{",
     source,
 )
 if not match:
