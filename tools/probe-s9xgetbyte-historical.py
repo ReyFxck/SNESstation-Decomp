@@ -62,4 +62,16 @@ def extract_member(archive, suffix, needles):
 
 with tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz") as archive:
     extract_member(archive, "/memmap.h", ["class CMemory", "struct CMemory"])
-    extract_member(archive, "/snes9x.h", ["struct SCPUState", "typedef struct"])
+    found = False
+    for member in archive.getmembers():
+        if not member.isfile() or not member.name.lower().endswith((".h", ".hpp")):
+            continue
+        text = archive.extractfile(member).read().decode("latin1")
+        pos = text.find("PCAtOpcodeStart")
+        if pos >= 0:
+            print(f"=== {member.name}:PCAtOpcodeStart ===")
+            print(text[max(0, pos-4500):min(len(text), pos+4500)])
+            found = True
+            break
+    if not found:
+        raise SystemExit("PCAtOpcodeStart layout not found")
