@@ -5,7 +5,6 @@ on:
     branches:
       - source-recovery-file-by-file
     paths:
-      - "matching/candidates/s9xsetbyte_historical.cpp"
       - "src/snes9x/s9xsetbyte.cpp"
       - "tools/run-s9xsetbyte-source-recovery.py"
       - ".github/workflows/s9xsetbyte-source-recovery.yml"
