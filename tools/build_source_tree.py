@@ -67,6 +67,14 @@ SOURCE_FIXED_FLAGS = {
         "-DEXECUTE_SUPERFX_PER_LINE", "-DSPC700_C", "-DUNZIP_SUPPORT",
         "-DNO_INLINE_SET_GET",
     ),
+    "src/snes9x/s9xgetmempointer.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
+        "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
+        "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
+    ),
 }
 
 SOURCE_FLAGS = {
@@ -253,11 +261,6 @@ ZLIB_EXTERNAL_PREFIXES = (
 # be sent through the address-suffix alias gate.
 HISTORICAL_CPP_PEERS = {
     "_Z10C4DrawLineiisiish": "src/ps2/progress28_structural_lift_recovered.c",
-    # The historical one-argument C++ ABI is target-proved at 0x001ab4e8.
-    # Do not alias it to the current source-model wrapper, which carries an
-    # explicit context argument; the link-contract gate binds this spelling
-    # directly to the proved target entry instead.
-    "_Z16S9xGetMemPointerj": "target:0x001ab4e8",
 }
 
 
