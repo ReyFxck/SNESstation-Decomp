@@ -67,7 +67,7 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **140 canonical translation units**;
+for all runners. The tree now contains **141 canonical translation units**;
 the 1850 external contracts and all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
@@ -144,3 +144,20 @@ translation units. Immutable hashes and per-function results remain in
 - The original ELF and extracted private payloads are never committed. The
   README logo is the sole documentation-only exception described in
   [`LEGAL.md`](LEGAL.md).
+
+## Historical memory-map and ROM metadata methods
+
+`src/snes9x/memmap_methods.cpp` restores eleven methods from the pinned
+Snes9x 1.41-1 source: ROM-speed mapping, write protection, SPC7110 SRAM mode,
+TV standard, speed, map type, SRAM size, ROM size, cartridge contents, map mode
+and ROM identifier. The V51-proved extra PS2 Settings byte keeps `BS` at
+`0x12d` and `SETA` at `0x134`. Static return buffers, lowercase `%02x`, and
+the original SRAM-mask calculation remain intact.
+
+The full historical object reproduces all eleven frozen code-window hashes;
+the isolated source reproduces **1168/1168 bytes** after normalizing only
+**98 known relocation fields**. Four methods retain their complete historical
+raw object fingerprints (**256 bytes**). String, pointer-table and buffer
+addends change when the methods are isolated, so both historical and isolated
+hashes are recorded. This proof does not add a complete provider-linked byte
+comparison. Run `python3 tools/run-memmap-methods-source-recovery.py`.

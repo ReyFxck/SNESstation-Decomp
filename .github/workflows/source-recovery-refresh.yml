@@ -180,6 +180,9 @@ on:
       - src/snes9x/rtc_days.cpp
       - src/snes9x/srtc.cpp
       - src/snes9x/cheats2.cpp
+      - src/snes9x/memmap_methods.cpp
+      - tools/run-memmap-methods-source-recovery.py
+      - analysis/functions/memmap_methods_exact_1168.tsv
       - src/snes9x/cheat_search.cpp
       - tools/run-cheats-source-recovery.py
       - analysis/functions/cheats2_exact_1768.tsv

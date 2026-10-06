@@ -19,6 +19,15 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x001535c0': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory11FixROMSpeedEv'},
+    '0x00153608': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory15WriteProtectROMEv'},
+    '0x00156884': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory11SPC7110SramEh'},
+    '0x001568c4': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory10TVStandardEv'},
+    '0x00156914': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory7MapTypeEv'},
+    '0x00156934': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory13StaticRAMSizeEv'},
+    '0x00156994': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory4SizeEv'},
+    '0x00156a04': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory12KartContentsEv'},
+    '0x00156c0c': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory7MapModeEv'},
     '0x001140e0': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z16S9xInitCheatDatav'},
     '0x00114118': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z11S9xAddCheathhjh'},
     '0x00114328': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z14S9xRemoveCheatj'},
