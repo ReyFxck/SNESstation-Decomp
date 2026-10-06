@@ -249,6 +249,9 @@ class BuildSourceTreeTests(unittest.TestCase):
             "puts": ("c-runtime", "runtime-override-callsite-identity"),
             "abort": ("c-runtime", "runtime-override-callsite-identity"),
             "_Z10C4DrawLineiisiish": ("target-function-contract", "link-identity"),
+            "S9xGetPPU": ("target-function-contract", "link-identity"),
+            "g_CPU_blob": ("target-address-data", "program-data"),
+            "g_OpenBus_byte": ("target-address-data", "program-data"),
             "__gxx_personality_v0": ("cxx-runtime", "archive-identity"),
         }
         for symbol, expected in cases.items():
