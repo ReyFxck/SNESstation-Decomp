@@ -1,0 +1,18 @@
+name: Stage3G contract hash probe
+on:
+  push:
+    branches:
+      - source-recovery-file-by-file
+    paths:
+      - ".github/workflows/stage3g-contract-hash-probe.yml"
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Print Stage3G source hashes
+        run: |
+          sha256sum analysis/link_identity/data_backing_sections.tsv
+          sha256sum analysis/link_identity/unpacked_layout.json
