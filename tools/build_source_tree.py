@@ -83,6 +83,14 @@ SOURCE_FIXED_FLAGS = {
         "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
         "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
     ),
+    "src/snes9x/s9xsetbyte.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
+        "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
+        "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
+    ),
 }
 
 SOURCE_FLAGS = {
@@ -278,11 +286,18 @@ HISTORICAL_CPP_PEERS = {
     "GetOBC1": "src/snes9x/s9xgetbyte.cpp",
     "S9xGetSetaDSP": "src/snes9x/s9xgetbyte.cpp",
     "S9xGetST018": "src/snes9x/s9xgetbyte.cpp",
+    "S9xSetPPU": "src/snes9x/s9xsetbyte.cpp",
+    "S9xSetCPU": "src/snes9x/s9xsetbyte.cpp",
+    "S9xSetDSP": "src/snes9x/s9xsetbyte.cpp",
+    "S9xSetC4": "src/snes9x/s9xsetbyte.cpp",
+    "SetOBC1": "src/snes9x/s9xsetbyte.cpp",
+    "S9xSetSetaDSP": "src/snes9x/s9xsetbyte.cpp",
+    "S9xSetST018": "src/snes9x/s9xsetbyte.cpp",
 }
 
 # Data providers whose exact target addresses are part of the byte-exact
-# S9xGetByte link proof. Keep them out of the historical Stage-3C tranche.
-EXACT_TARGET_DATA_PEERS = {"g_CPU_blob", "g_OpenBus_byte"}
+# S9xGetByte/S9xSetByte link proofs. Keep them out of the historical Stage-3C tranche.
+EXACT_TARGET_DATA_PEERS = {"g_CPU_blob", "g_OpenBus_byte", "g_SA1_blob", "g_s7r_blob"}
 
 
 class GateError(RuntimeError):
