@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-S9xGetByte-recovery 230-name source-link provider frontier.
+"""Close the post-S9xSetByte-recovery 239-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -148,6 +148,18 @@ EXPLICIT_ANCHORS = {
     "S9xGetST018": 0x001701FC,
     "g_CPU_blob": 0x00345340,
     "g_OpenBus_byte": 0x0035B768,
+
+    # Exact Snes9x 1.40 S9xSetByte dependencies from the 808/808-byte
+    # provider-linked target proof.
+    "S9xSetPPU": 0x00159268,
+    "S9xSetCPU": 0x0015AD6C,
+    "S9xSetDSP": 0x0012E728,
+    "S9xSetC4": 0x0010D7DC,
+    "SetOBC1": 0x00158B74,
+    "S9xSetSetaDSP": 0x0016FC6C,
+    "S9xSetST018": 0x00170204,
+    "g_SA1_blob": 0x00345AF8,
+    "g_s7r_blob": 0x00413508,
 }
 
 # Real storage required by the buildable behavioral source.  Sizes are the
@@ -271,8 +283,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 230:
-        fail(f"expected exact post-S9xGetByte-recovery frontier of 230 symbols, found {len(active)}")
+    if len(active) != 239:
+        fail(f"expected exact post-S9xSetByte-recovery frontier of 239 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
