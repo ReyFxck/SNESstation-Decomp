@@ -130,6 +130,12 @@ class UnnamedDataManifestTests(unittest.TestCase):
         with patch.object(libgcc, "load_reference", side_effect=AssertionError("no private read")):
             data.validate_manifest(self.args)
 
+    def test_s9xgetbyte_exact_provider_data_is_not_historical_stage3f(self):
+        rows = data.external_rows(data.libgcc.DEFAULT_EXTERNAL)
+        names = {row["symbol"] for row in rows}
+        self.assertTrue(data.S9XGETBYTE_EXACT_PROVIDER_DATA.isdisjoint(names))
+        self.assertEqual(1265, len(rows))
+
     def test_direct_access_counts_do_not_claim_complete_stage3f(self):
         report = data.statistics(self.rows)
         self.assertEqual((1265, 872, 354, 167659), tuple(report[k] for k in
