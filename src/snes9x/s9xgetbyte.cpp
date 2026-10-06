@@ -82,9 +82,9 @@ struct HistoricalCPU
     uint32 Cycles;                    /* +0x20 */
 };
 
-extern CMemory Memory __asm__("Memory");
-extern HistoricalCPU CPU __asm__("CPU");
-extern "C" uint8 OpenBus;
+extern CMemory Memory __asm__("g_p12_memory");
+extern HistoricalCPU CPU __asm__("g_CPU_blob");
+extern "C" uint8 OpenBus __asm__("g_OpenBus_byte");
 
 extern "C" uint8 S9xGetPPU(uint16);
 extern "C" uint8 S9xGetCPU(uint16);
