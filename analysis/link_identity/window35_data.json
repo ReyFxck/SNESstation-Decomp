@@ -75,7 +75,7 @@
       "size": 288
     }
   ],
-  "prior_manifest_sha256": "f48fd5b23af2a11ecc8a2b1abfc142fa4f3d16570681193496e8a484f2d892af",
+  "prior_manifest_sha256": "0e760a52ab2373cdbfe6da10d15b56598d1ff4267867468f2a7f87c72d72bd3a",
   "result": {
     "absorbed_fixed_sections": 24,
     "chunk_count": 51,
