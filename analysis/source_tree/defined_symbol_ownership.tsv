@@ -988,6 +988,11 @@ alloc32	local	text	0x1c	src/snes9x/apu_alloc_recovered.c	snes9x/apu_alloc_recove
 apu_buffer_allocator_0010a840	global	text	0x74	src/snes9x/apu_alloc_recovered.c	snes9x/apu_alloc_recovered.o
 apu_buffer_cleanup_0010a8bc	global	text	0x78	src/snes9x/apu_alloc_recovered.c	snes9x/apu_alloc_recovered.o
 apu_buffers_init_0010a840	global	text	0x1c	src/snes9x/apu_alloc_recovered.c	snes9x/apu_alloc_recovered.o
+_GLOBAL__F__Z14S9xAPUGetByteZh	global	data	0x0	src/snes9x/apumem.cpp	snes9x/apumem.o
+_Z13S9xAPUGetBytej	global	text	0xb4	src/snes9x/apumem.cpp	snes9x/apumem.o
+_Z13S9xAPUSetBytehj	global	text	0x114	src/snes9x/apumem.cpp	snes9x/apumem.o
+_Z14S9xAPUGetByteZh	global	text	0xbc	src/snes9x/apumem.cpp	snes9x/apumem.o
+_Z14S9xAPUSetByteZhh	global	text	0xec	src/snes9x/apumem.cpp	snes9x/apumem.o
 S9xAPUGetByteZ_001acb3c	global	text	0x48	src/snes9x/apumem_recovered.c	snes9x/apumem_recovered.o
 S9xAPUGetByte_001ac994	global	text	0x50	src/snes9x/apumem_recovered.c	snes9x/apumem_recovered.o
 S9xAPUSetByteZ_001acbf0	global	text	0x78	src/snes9x/apumem_recovered.c	snes9x/apumem_recovered.o

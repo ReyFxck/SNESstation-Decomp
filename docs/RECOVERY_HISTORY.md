@@ -23,6 +23,25 @@ history.
 | Loader wrapper | Public SjCRUNCH 2.1 source/object archive by Sjeep | Startup object, loader/miniLZO archive, linker script and empty `.pdr` section | 12,700/12,700 wrapper and metadata bytes exact | `make sjcrunch-outer-elf-check` |
 | Final executable | Exact integrated image plus public SjCRUNCH wrapper | Complete packed file and private-reference identity | 726,968/726,968 bytes exact; packed SHA-256 matches | `make reproduce` |
 
+## Exact APU memory source
+
+[`src/snes9x/apumem.cpp`](../src/snes9x/apumem.cpp) isolates the four historical
+Snes9x 1.42 `apumem.h` bodies from the archive pinned by SHA-256
+`136c7c9bf826bf9dba91073aae14e4b315ab78e67eee189322dec2637e949ffb`.
+EE GCC 3.2.2 `-Os` reproduces all **880/880 bytes** at
+`0x001ac994..0x001acd04`, including **43 relocations**. The proof checks the
+historical object fingerprints and compares every byte after linking the two
+state objects and three callbacks to their target addresses. The audit's
+Get/SetByte labels exchange the historical Z/non-Z names; the evidence table
+records the actual C++ symbols without changing the frozen audit labels.
+
+Run `python3 tools/run-apumem-source-recovery.py` for this corridor, or
+`make source-recovery-check` for every maintained recovery proof. The latter
+discovers Python and shell runners, includes CDVD and SIF RPC, and keeps each
+log plus the full pass/fail list under `build/source-recovery/`. Public
+provenance updates preserve frozen payload hashes and comparison results;
+changes to section geometry or historical source pins require recapture.
+
 ## Preserved source candidates
 
 These files are historical compiler inputs, not the normal recovered source

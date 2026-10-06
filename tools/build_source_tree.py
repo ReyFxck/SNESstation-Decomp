@@ -55,6 +55,14 @@ DEFAULT_CFLAGS = (
 # source byte-identical and select only the members owned by this canonical TU
 # at compile time instead of adding recovery-only #defines to the source.
 SOURCE_FIXED_FLAGS = {
+    "src/snes9x/apumem.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
+        "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
+        "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
+    ),
     # C4DrawWireFrame is a recovered historical Snes9x C++ translation unit.
     # Keep the exact V77 compiler profile rather than inheriting application
     # flags such as -fshort-double.

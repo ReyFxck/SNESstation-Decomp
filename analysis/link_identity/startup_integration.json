@@ -137,7 +137,7 @@
     ],
     "compiler_base_version": "3.2.2",
     "compiler_target": "ee",
-    "data_backing_sections_sha256": "174cb96d4509f54d59ae01287aa3bada890e31fc2ea03f9df097110a354f746d",
+    "data_backing_sections_sha256": "283e20679964ab1cefd321d93bfd46b7dde8326225891b425377f76ad6d4d020",
     "fixed_section_count": 179,
     "path": "ee/startup/src/crt0.s",
     "renamed_relocatable_sha256": "891f520abc8b0fa2ea214418b629232f57b1511e5c0d7fcdc3b1e9aaa9d0d640",

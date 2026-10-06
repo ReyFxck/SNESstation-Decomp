@@ -9,6 +9,7 @@ calling individual Python files unless you are developing a proof tool.
 |---|---|:---:|
 | `make status` | Print the current audited counts | No |
 | `make check` | Validate manifests, generated documentation, links, host syntax and unit tests | No |
+| `make source-recovery-check` | Discover and rerun every maintained exact-source proof; requires the historical C/C++ compilers | No |
 | `make docs` | Regenerate the public progress files from the manifests | No |
 | `make reference` | Verify and unpack `original/SNES_EMU.ELF` | Yes |
 | `make reproduce-check` | Run every implemented public and private reproduction gate | Yes |
@@ -26,6 +27,8 @@ calling individual Python files unless you are developing a proof tool.
 | `tools/update_progress.py` | Generates the current status and public progress views | `make docs`, `make check` |
 | `tools/verify_reference.py` | Verifies the legally obtained packed target | `make reference` |
 | `tools/build_source_tree.py` | Compiles the frozen EE translation-unit set and checks ownership | `make source-tree` |
+| `tools/run-source-recovery.py` | Runs every Python and shell source-recovery proof, retaining all results and logs | `make source-recovery-check` |
+| `tools/refresh_source_provenance.py` | Refreshes ownership evidence and dependent public manifest hashes while preserving binary results and geometry | Source-recovery ledger workflow |
 | `tools/compare_elf_functions.py` | Performs strict function and relocation-aware comparison | Matching targets |
 | `tools/layout_oracle.py` | Checks packed/unpacked geometry and 64 KiB image hashes | `make layout-oracle` |
 | `tools/code_windows.py` | Rebuilds and verifies the currently exact whole-image code windows | `make code-windows` |

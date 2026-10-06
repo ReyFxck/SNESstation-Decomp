@@ -183,7 +183,7 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 
 .DEFAULT_GOAL := help
 
-.PHONY: help help-legacy status docs frontier-map check-generated check-links \
+.PHONY: help help-legacy status docs source-recovery-check frontier-map check-generated check-links \
 	checkpoint-1041-audit checkpoint-1041-check checkpoint-1041-reference-check \
 	reproduce-status reproduce-check reproduce \
 	audit-source audit-source-check host-syntax test-tools check \
@@ -236,6 +236,7 @@ help:
 	@echo
 	@echo "  make status          show the current audited counts"
 	@echo "  make check           run every public repository check"
+	@echo "  make source-recovery-check rerun every maintained exact-source proof"
 	@echo "  make docs            regenerate the current status files"
 	@echo "  make reference       verify and unpack original/SNES_EMU.ELF privately"
 	@echo "  make reproduce-check run every implemented public and private gate"
@@ -257,6 +258,9 @@ help-legacy:
 
 status:
 	$(PYTHON) tools/project_status.py
+
+source-recovery-check:
+	$(PYTHON) tools/run-source-recovery.py
 
 docs: audit-source
 	$(PYTHON) tools/update_frontier_map.py

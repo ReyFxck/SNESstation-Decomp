@@ -19,6 +19,26 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    "0x001ac994": {
+        "source_file": "src/snes9x/apumem.cpp",
+        "evidence": "analysis/functions/apumem_exact_880.tsv",
+        "evidence_token": "_Z14S9xAPUGetByteZh",
+    },
+    "0x001aca50": {
+        "source_file": "src/snes9x/apumem.cpp",
+        "evidence": "analysis/functions/apumem_exact_880.tsv",
+        "evidence_token": "_Z14S9xAPUSetByteZhh",
+    },
+    "0x001acb3c": {
+        "source_file": "src/snes9x/apumem.cpp",
+        "evidence": "analysis/functions/apumem_exact_880.tsv",
+        "evidence_token": "_Z13S9xAPUGetBytej",
+    },
+    "0x001acbf0": {
+        "source_file": "src/snes9x/apumem.cpp",
+        "evidence": "analysis/functions/apumem_exact_880.tsv",
+        "evidence_token": "_Z13S9xAPUSetBytehj",
+    },
     "0x001ab4e8": {
         "source_file": "src/snes9x/s9xgetmempointer.cpp",
         "evidence": "analysis/matching/hunt400-validated-19.tsv",
