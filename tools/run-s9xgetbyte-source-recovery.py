@@ -58,7 +58,14 @@ def main():
 
     readelf = CXX.with_name("ee-readelf")
     reltext = run([readelf, "-r", obj])
-    reloc_count = sum(1 for line in reltext.splitlines() if "R_MIPS_" in line)
+    lines = reltext.splitlines()
+    start = next((i for i, line in enumerate(lines)
+                  if "Relocation section '.rel.text'" in line), -1)
+    if start < 0:
+        raise SystemExit("missing .rel.text relocation section")
+    end = next((i for i in range(start + 1, len(lines))
+                if lines[i].startswith("Relocation section '")), len(lines))
+    reloc_count = sum(1 for line in lines[start:end] if "R_MIPS_" in line)
     if reloc_count != RELOCS:
         raise SystemExit(
             f"S9xGetByte relocation count mismatch: {reloc_count}/{RELOCS}\n{reltext}"
