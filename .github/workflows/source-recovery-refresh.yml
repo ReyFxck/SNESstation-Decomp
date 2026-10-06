@@ -1,5 +1,5 @@
 name: Source recovery ledger refresh
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME and S9XSETC4 promotions included; canonical source-tree target: 125 TUs; decomp function-unit target: 102.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME, S9XSETC4 and S9XGETMEMPOINTER promotions included; canonical source-tree target: 125 TUs; decomp function-unit target: 102.
 
 on:
   push:
