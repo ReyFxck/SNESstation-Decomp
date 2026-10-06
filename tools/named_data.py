@@ -282,8 +282,8 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
     # C4DrawWireFrame retains one historical target-function contract plus the
     # libsupc++ personality dependency. Canonical S9xGetMemPointer removes its
     # former Stage-3E contract.
-    expected = {"3B": 345, "3C": 50, "3D": 16, "3E": 189, "3F": 1226}
-    if partition != expected or sum(partition.values()) != 1826:
+    expected = {"3B": 345, "3C": 50, "3D": 16, "3E": 198, "3F": 1228}
+    if partition != expected or sum(partition.values()) != 1837:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 
@@ -635,8 +635,8 @@ def link_exact_providers(
         fail("private unpacked reference is missing or does not match the layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 219:
-        fail(f"expected post-IOPHEAP provider frontier of 219 rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 230:
+        fail(f"expected post-S9xGetByte provider frontier of 230 rows, found {len(frontier_rows)}")
     replacements = exact_provider_rows(named_rows, frontier_rows)
     replacement_names = {row["symbol"] for row in replacements}
     exact_ranges = [row for row in named_rows if row["status"] == RANGE_PROVED]
