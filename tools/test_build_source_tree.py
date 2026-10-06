@@ -23,8 +23,8 @@ class BuildSourceTreeTests(unittest.TestCase):
         units = MODULE.read_manifest(
             ROOT / "analysis" / "source_tree" / "translation_units.tsv"
         )
-        self.assertEqual(126, len(units))
-        self.assertEqual(126, sum(unit.canonical for unit in units))
+        self.assertEqual(127, len(units))
+        self.assertEqual(127, sum(unit.canonical for unit in units))
         alternate = [unit for unit in units if not unit.canonical]
         self.assertEqual([], alternate)
         cdvd = [unit for unit in units if unit.source == "src/ps2/cdvd_rpc.c"]
@@ -148,6 +148,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             ("src/snes9x/c4drawwireframe.cpp", "snes9x/c4drawwireframe.o"),
             ("src/snes9x/s9xgetmempointer.cpp", "snes9x/s9xgetmempointer.o"),
             ("src/snes9x/s9xgetbyte.cpp", "snes9x/s9xgetbyte.o"),
+            ("src/snes9x/s9xsetbyte.cpp", "snes9x/s9xsetbyte.o"),
         ):
             matches = [unit for unit in units if unit.source == source]
             self.assertEqual(1, len(matches))
@@ -222,6 +223,17 @@ class BuildSourceTreeTests(unittest.TestCase):
         self.assertNotIn("-O2", flags)
         self.assertNotIn("-ffreestanding", flags)
 
+    def test_s9xsetbyte_uses_frozen_cxx_profile(self) -> None:
+        flags = MODULE.effective_source_cflags(
+            ["-G0", "-O2", "-ffreestanding"],
+            "src/snes9x/s9xsetbyte.cpp",
+        )
+        self.assertIn("-Os", flags)
+        self.assertIn("-fshort-double", flags)
+        self.assertIn("-DNO_INLINE_SET_GET", flags)
+        self.assertNotIn("-O2", flags)
+        self.assertNotIn("-ffreestanding", flags)
+
     def test_abi_contract_records_the_nonstandard_ee_widths(self) -> None:
         text = (ROOT / "analysis" / "source_tree" / "ee_abi_contract.c").read_text(
             encoding="utf-8"
@@ -250,8 +262,11 @@ class BuildSourceTreeTests(unittest.TestCase):
             "abort": ("c-runtime", "runtime-override-callsite-identity"),
             "_Z10C4DrawLineiisiish": ("target-function-contract", "link-identity"),
             "S9xGetPPU": ("target-function-contract", "link-identity"),
+            "S9xSetPPU": ("target-function-contract", "link-identity"),
             "g_CPU_blob": ("target-address-data", "program-data"),
             "g_OpenBus_byte": ("target-address-data", "program-data"),
+            "g_SA1_blob": ("target-address-data", "program-data"),
+            "g_s7r_blob": ("target-address-data", "program-data"),
             "__gxx_personality_v0": ("cxx-runtime", "archive-identity"),
         }
         for symbol, expected in cases.items():
@@ -304,7 +319,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             counts[row["kind"]] = counts.get(row["kind"], 0) + 1
             self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(
-            {"translation-unit": 126, "abi-contract": 1, "canonical-aggregate": 1},
+            {"translation-unit": 127, "abi-contract": 1, "canonical-aggregate": 1},
             counts,
         )
 
