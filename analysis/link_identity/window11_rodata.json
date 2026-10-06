@@ -77,7 +77,7 @@
   "pgen_commit": "403f1710e5eacb7d04e5031e1cb0a40435ff9d33",
   "pgen_gslib_sha256": "d50c700051c54c05ad2a4e511e794097d0c94b3a48c11f1a6334bdd53833dd4e",
   "pgen_unzip_sha256": "910f29e60e3837c78eed72810bd1d63722c67215681705cbeff56984b3f013f5",
-  "prior_manifest_sha256": "bc96c61832482f12b0a738991d3917b2c3bb67cd0206aea163a51e87cb577f73",
+  "prior_manifest_sha256": "abac9c8f6eadddfbe6b9c56010e36104d216fcc102770997adaaec41c878da50",
   "result": {
     "absorbed_fixed_sections": 6,
     "chunk_count": 51,
