@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-CPUShutdown-recovery 244-name source-link provider frontier.
+"""Close the post-CPUShutdown-recovery 239-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -177,7 +177,6 @@ STORAGE_SIZES = {
     "S9xSync_PeriodValue": 0x4,
     "Settings_SkipFrames": 0x4,
     "g_Settings_blob": 0x148,
-    "g_apu_state_00345498": 0x28,
     "g_bg_bitshift": 0x4,
     "g_bg_blob": 0x30,
     "g_direct_colour_maps": 0x1000,
@@ -215,7 +214,6 @@ KNOWN_DATA_ADDRESSES = {
     "Memory_ROMFramesPerSecond": 0x003592FC,
     "Settings_SkipFrames": 0x0034551C,
     "g_Settings_blob": 0x003454E0,
-    "g_apu_state_00345498": 0x00345498,
     "g_bg_bitshift": 0x0035D454,
     "g_bg_blob": 0x0035D450,
     "g_direct_colour_maps": 0x003F2F80,
@@ -285,8 +283,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 244:
-        fail(f"expected exact post-CPUShutdown-recovery frontier of 244 symbols, found {len(active)}")
+    if len(active) != 239:
+        fail(f"expected exact post-CPUShutdown-recovery frontier of 239 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -363,9 +361,9 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 199,
+        ABSOLUTE_ANCHOR: 195,
         SEMANTIC_ALIAS: 5,
-        COMPAT_STORAGE: 40,
+        COMPAT_STORAGE: 39,
     }
     if dict(counts) != expected:
         fail(f"provider classification count drift: {dict(counts)} != {expected}")
