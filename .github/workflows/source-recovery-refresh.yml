@@ -1,7 +1,7 @@
 name: Source recovery ledger refresh
 # S9xSetByte provenance chain aligned; refresh generated docs at 127 TUs.
 # S9xSetByte provenance chain aligned through Stage-3P; generated docs refresh from branch HEAD.
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME, S9XSETC4, S9XGETMEMPOINTER, S9XGETBYTE, S9XSETBYTE and S9XGETWORD promotions included; canonical source-tree target: 129 TUs. S9XGETBYTE, S9XSETBYTE, S9XGETWORD and S9XSETPCBASE are gated by byte-exact provider-linked proofs.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME, S9XSETC4, S9XGETMEMPOINTER, S9XGETBYTE, S9XSETBYTE and S9XGETWORD promotions included; canonical source-tree target: 130 TUs. S9XGETBYTE, S9XSETBYTE, S9XGETWORD, S9XSETPCBASE and S9XSETWORD are gated by byte-exact provider-linked proofs.
 
 on:
   push:
@@ -164,6 +164,9 @@ on:
       - src/snes9x/s9xsetpcbase.cpp
       - tools/run-s9xsetpcbase-source-recovery.py
       - .github/workflows/s9xsetpcbase-source-recovery.yml
+      - src/snes9x/s9xsetword.cpp
+      - tools/run-s9xsetword-source-recovery.py
+      - .github/workflows/s9xsetword-source-recovery.yml
       - src/ps2/progress28_structural_lift_recovered.c
       - src/ps2/s9xsetc4.S
       - analysis/functions/s9xsetc4_exact_2912.tsv
@@ -294,6 +297,7 @@ jobs:
           python3 tools/run-s9xsetbyte-source-recovery.py
           python3 tools/run-s9xgetword-source-recovery.py
           python3 tools/run-s9xsetpcbase-source-recovery.py
+          python3 tools/run-s9xsetword-source-recovery.py
           python3 tools/run-s9xsetc4-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
