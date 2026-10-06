@@ -79,7 +79,7 @@ def digest(payload: bytes) -> str:
 # roster changes (such as excluding exact S9xGetByte provider contracts) must
 # not masquerade as analyzer drift; real scan/dataflow changes require an
 # explicit profile bump plus private recapture/review.
-ANALYSIS_PROFILE_SHA256 = "5cefe6fe4217d1c8979eaad8cc1eb36a3a7d157d6638d3345f7a5b5108c379a4"
+ANALYSIS_PROFILE_SHA256 = "dd56072f5fd935bad60dbdeb91c3c00e5a31cba5c83d10d31dbf7693a36a8f7e"
 
 
 def analysis_hash() -> str:
