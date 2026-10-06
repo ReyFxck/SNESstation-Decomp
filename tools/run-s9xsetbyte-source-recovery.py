@@ -10,7 +10,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "matching/candidates/s9xsetbyte_historical.cpp"
+SOURCE = ROOT / "src/snes9x/s9xsetbyte.cpp"
 BUILD = ROOT / "build/matching/s9xsetbyte-source-recovery"
 CXX = ROOT / "build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++"
 EVIDENCE = ROOT / "analysis/matching/hunt500plus-v11-validated-4.tsv"
