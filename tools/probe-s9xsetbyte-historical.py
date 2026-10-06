@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Exact-source probe for the next file-by-file recovery target.
 from __future__ import annotations
 
 import hashlib
