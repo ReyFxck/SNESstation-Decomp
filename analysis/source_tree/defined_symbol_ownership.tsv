@@ -1103,6 +1103,8 @@ snes_p13_set_map_cursor_0015e07c	global	text	0x7c	src/snes9x/progress13_runtime_
 snes_p13_stage_advance_0015cdf8	global	text	0xd8	src/snes9x/progress13_runtime_more_recovered.c	snes9x/progress13_runtime_more_recovered.o
 snes_p13_weekday_001836d0	global	text	0x9c	src/snes9x/progress13_runtime_more_recovered.c	snes9x/progress13_runtime_more_recovered.o
 snes_p15_renderer_4bpp_setup_00143780	global	text	0x18	src/snes9x/progress15_renderer_leaf_recovered.c	snes9x/progress15_renderer_leaf_recovered.o
+_GLOBAL__F__Z10S9xGetBytej	global	data	0x0	src/snes9x/s9xgetbyte.cpp	snes9x/s9xgetbyte.o
+_Z10S9xGetBytej	global	text	0x2c4	src/snes9x/s9xgetbyte.cpp	snes9x/s9xgetbyte.o
 _GLOBAL__F__Z16S9xGetMemPointerj	global	data	0x0	src/snes9x/s9xgetmempointer.cpp	snes9x/s9xgetmempointer.o
 _Z16S9xGetMemPointerj	global	text	0x154	src/snes9x/s9xgetmempointer.cpp	snes9x/s9xgetmempointer.o
 CMemory_LoadSRAM_recovered	global	text	0x12c	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o

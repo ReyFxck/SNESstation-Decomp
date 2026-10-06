@@ -1003,7 +1003,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001ab3c0,SyncDCache,ps2,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ee_cache_recovered.c,MATCHING
 0x001ab440,iSyncDCache,ps2,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/ee_cache_recovered.c,MATCHING
 0x001ab4e8,S9xGetMemPointer,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c;src/snes9x/s9xgetmempointer.cpp,MATCHING
-0x001ab63c,S9xGetByte,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
+0x001ab63c,S9xGetByte,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c;src/snes9x/s9xgetbyte.cpp,MATCHING
 0x001ab900,S9xSetByte,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
 0x001abc28,S9xGetWord,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
 0x001ac024,S9xSetPCBase,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
