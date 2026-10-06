@@ -200,7 +200,7 @@ on:
       - analysis/link_identity/source_alias_reviews.tsv
 
 concurrency:
-  group: source-recovery-ledger-writer-v2-${{ github.ref }}
+  group: source-recovery-ledger-writer-v3-${{ github.ref }}
   # Only the newest branch state can write the generated ledgers. Cancelling
   # obsolete runs prevents an older toolchain rebuild from blocking HEAD.
   cancel-in-progress: true
