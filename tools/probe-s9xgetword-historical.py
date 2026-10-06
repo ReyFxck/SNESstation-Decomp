@@ -65,5 +65,17 @@ def emit_context(archive, suffix, needles, before=1800, after=10000):
 
 with tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz") as archive:
     emit_context(archive, "/memmap.h", ["class CMemory", "struct CMemory"])
-    emit_context(archive, "/cpuexec.h", ["struct SCPUState", "PCAtOpcodeStart"])
+    found_cpu = False
+    for member in archive.getmembers():
+        if not member.isfile() or not member.name.lower().endswith((".h", ".hpp")):
+            continue
+        text = archive.extractfile(member).read().decode("latin1")
+        pos = text.find("PCAtOpcodeStart")
+        if pos >= 0:
+            print(f"=== {member.name}:PCAtOpcodeStart ===")
+            print(text[max(0, pos-3500):min(len(text), pos+5000)])
+            found_cpu = True
+            break
+    if not found_cpu:
+        print("=== OPTIONAL_CONTEXT_MISSING PCAtOpcodeStart ===")
     emit_context(archive, "/getset.h", ["INLINE uint8 S9xGetByte", "S9xGetByte (uint32 Address)"])
