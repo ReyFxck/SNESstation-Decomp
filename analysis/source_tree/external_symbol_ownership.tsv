@@ -1468,7 +1468,7 @@ FUN_001ab4e8	target-function-alias	source-address-alias	src/ps2/progress28_struc
 FUN_001ab63c	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c;src/snes9x/s9xgetbyte.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001ab900	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c;src/snes9x/s9xsetbyte.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001abc28	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c;src/snes9x/s9xgetword.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_001ac024	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_001ac024	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c;src/snes9x/s9xsetpcbase.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001ac734	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001ac838	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/cpu_shutdown_renderer_select_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FlushCache_0019ceb0	ps2-runtime	historical-archive	PS2LIB syscall/FlushCache.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/gs_fifo_recovered.o;ps2/libmc_recovered.o
@@ -1634,7 +1634,7 @@ fioSeek_like_0019d360	ps2-runtime	historical-archive	PS2LIB kernel/fio_lseek.o (
 fioWrite_like	ps2-runtime	historical-archive	PS2LIB kernel/fio_write.o (ps2sdk@a80df908 source)	runtime-member-text-identity	snes9x/sram_recovered.o;zlib/gzio_recovered.o
 fixed_td_00425870	named-external	link-contract	reserved:link-contract	link-identity	zlib/inftrees_recovered.o
 fixed_tl_00424870	named-external	link-contract	reserved:link-contract	link-identity	zlib/inftrees_recovered.o
-g_CPU_blob	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o
+g_CPU_blob	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o;snes9x/s9xsetpcbase.o
 g_OpenBus_byte	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o
 g_SA1_blob	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xsetbyte.o
 g_Settings_blob	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o;snes9x/s9xgetmempointer.o
@@ -1655,7 +1655,7 @@ g_memory_card_available	named-program-data	program-data	reserved:program-data.o	
 g_memory_vram	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o
 g_odd_high	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o;snes9x/tile_lookup_tables_recovered.o
 g_odd_low	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o;snes9x/tile_lookup_tables_recovered.o
-g_p12_memory	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o;ps2/libmtap_recovered.o;ps2/progress12_io_state_recovered.o;snes9x/c4drawwireframe.o;snes9x/s9xgetbyte.o;snes9x/s9xgetmempointer.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o
+g_p12_memory	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o;ps2/libmtap_recovered.o;ps2/progress12_io_state_recovered.o;snes9x/c4drawwireframe.o;snes9x/s9xgetbyte.o;snes9x/s9xgetmempointer.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o;snes9x/s9xsetpcbase.o
 g_p12_sdd1_dat_extension	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress12_io_state_recovered.o
 g_p21_state_extension_prefix_001b1348	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress21_small_helpers_recovered.o
 g_p21_toc_anchor_00427010	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress21_small_helpers_recovered.o
