@@ -24,6 +24,11 @@ EXACT_NON_PSEUDOCODE_PROMOTIONS = {
         "evidence": "analysis/matching/hunt400-validated-19.tsv",
         "evidence_token": "_Z16S9xGetMemPointerj",
     },
+    "0x001ab63c": {
+        "source_file": "src/snes9x/s9xgetbyte.cpp",
+        "evidence": "analysis/matching/hunt500plus-v11-validated-4.tsv",
+        "evidence_token": "_Z10S9xGetBytej",
+    },
 }
 CSV_OUT = ROOT / "analysis" / "source_readiness.csv"
 DOC_OUT = ROOT / "docs" / "SOURCE_COMPLETENESS.generated.md"
