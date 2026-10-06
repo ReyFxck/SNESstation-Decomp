@@ -5,7 +5,7 @@ on:
     branches:
       - source-recovery-file-by-file
     paths:
-      - "matching/candidates/s9xgetmempointer_historical.cpp"
+      - "src/snes9x/s9xgetmempointer.cpp"
       - "tools/run-s9xgetmempointer-source-recovery.py"
       - ".github/workflows/s9xgetmempointer-source-recovery.yml"
   workflow_dispatch:
