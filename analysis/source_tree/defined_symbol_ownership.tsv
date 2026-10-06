@@ -1107,6 +1107,8 @@ _GLOBAL__F__Z10S9xGetBytej	global	data	0x0	src/snes9x/s9xgetbyte.cpp	snes9x/s9xg
 _Z10S9xGetBytej	global	text	0x2c4	src/snes9x/s9xgetbyte.cpp	snes9x/s9xgetbyte.o
 _GLOBAL__F__Z16S9xGetMemPointerj	global	data	0x0	src/snes9x/s9xgetmempointer.cpp	snes9x/s9xgetmempointer.o
 _Z16S9xGetMemPointerj	global	text	0x154	src/snes9x/s9xgetmempointer.cpp	snes9x/s9xgetmempointer.o
+_GLOBAL__F__Z10S9xGetWordj	global	data	0x0	src/snes9x/s9xgetword.cpp	snes9x/s9xgetword.o
+_Z10S9xGetWordj	global	text	0x3fc	src/snes9x/s9xgetword.cpp	snes9x/s9xgetword.o
 _GLOBAL__F__Z10S9xSetBytehj	global	data	0x0	src/snes9x/s9xsetbyte.cpp	snes9x/s9xsetbyte.o
 _Z10S9xSetBytehj	global	text	0x328	src/snes9x/s9xsetbyte.cpp	snes9x/s9xsetbyte.o
 CMemory_LoadSRAM_recovered	global	text	0x12c	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o
