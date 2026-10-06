@@ -1,5 +1,5 @@
 name: Source recovery ledger refresh
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME, S9XSETC4, S9XGETMEMPOINTER and S9XGETBYTE promotions included; canonical source-tree target: 126 TUs; decomp function-unit target: 103.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME, S9XSETC4, S9XGETMEMPOINTER and S9XGETBYTE promotions included; canonical source-tree target: 126 TUs; decomp function-unit target: 103. S9XGETBYTE is gated by its byte-exact provider-linked proof.
 
 on:
   push:
