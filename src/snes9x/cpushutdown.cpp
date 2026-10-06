@@ -71,14 +71,14 @@ struct HistoricalSettings
     bool8 SA1;
 };
 
-extern HistoricalCPU CPU __asm__("CPU");
-extern HistoricalICPU ICPU __asm__("ICPU");
-extern HistoricalAPU APU __asm__("APU");
-extern HistoricalIAPU IAPU __asm__("IAPU");
-extern HistoricalSettings Settings __asm__("Settings");
-extern int S9xAPUCycles[256] __asm__("S9xAPUCycles");
-extern void (*S9xApuOpcodes[256])() __asm__("S9xApuOpcodes");
-extern "C" void S9xSA1ExecuteDuringSleep();
+extern HistoricalCPU CPU __asm__("g_CPU_blob");
+extern HistoricalICPU ICPU __asm__("g_ICPU_00345318");
+extern HistoricalAPU APU __asm__("g_APU_003453b8");
+extern HistoricalIAPU IAPU __asm__("g_apu_state_00345498");
+extern HistoricalSettings Settings __asm__("g_Settings_blob");
+extern int S9xAPUCycles[256] __asm__("g_S9xAPUCycles_003f44a8");
+extern void (*S9xApuOpcodes[256])() __asm__("g_S9xApuOpcodes_00411010");
+extern "C" void S9xSA1ExecuteDuringSleep() __asm__("snes_leaf_0015e190");
 
 #define APU_EXECUTE1()                 \
     do {                               \
