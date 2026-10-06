@@ -326,10 +326,10 @@ class SourceAliasTests(unittest.TestCase):
                 "progress-name-snes-prefix-global-text": 26,
                 "progress-name-snes-stripped-prefix-global-text": 7,
                 "reviewed-historical-archive-blocker": 7,
-                "reviewed-historical-target-identity": 6,
+                "reviewed-historical-target-identity": 5,
                 "reviewed-semantic-identity-global-text": 3,
                 "reviewed-source-boundary-blocker": 1,
-                "unique-address-suffix-global-text": 92,
+                "unique-address-suffix-global-text": 93,
             },
             report["evidence_counts"],
         )
