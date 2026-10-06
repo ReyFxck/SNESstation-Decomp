@@ -197,6 +197,7 @@ on:
       - tools/provider_frontier.py
       - analysis/link_identity/named_contracts.tsv
       - analysis/link_identity/link_contract_reviews.tsv
+      - analysis/link_identity/source_alias_reviews.tsv
 
 concurrency:
   group: source-recovery-ledger-writer-v2-${{ github.ref }}
