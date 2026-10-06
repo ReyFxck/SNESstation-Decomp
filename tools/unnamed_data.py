@@ -57,6 +57,10 @@ PREFIX = "deterministic-prefix"
 CODE_ALIAS = "CODE_POINTER_SOURCE_ALIAS_CLOSED"
 CODE_ALIAS_OWNER = "historical:source-address-alias"
 CODE_ALIAS_CLAIM = "historical code-pointer label resolved as a zero-byte alias to proved global text; no data storage claimed"
+# These are exact provider addresses required by the canonical S9xGetByte
+# byte proof. They are not members of the historical address-encoded Stage-3F
+# namespace and therefore must not change its frozen 1,265-contract roster.
+S9XGETBYTE_EXACT_PROVIDER_DATA = {"g_CPU_blob", "g_OpenBus_byte"}
 
 
 class UnnamedDataError(RuntimeError):
@@ -237,7 +241,11 @@ def historical_code_aliases(path: Path) -> list[dict[str, str]]:
 
 
 def external_rows(path: Path) -> list[dict[str, str]]:
-    rows = [r for r in libgcc.read_table(path, libgcc.EXTERNAL_FIELDS) if r["category"] == "target-address-data"]
+    rows = [
+        r for r in libgcc.read_table(path, libgcc.EXTERNAL_FIELDS)
+        if r["category"] == "target-address-data"
+        and r["symbol"] not in S9XGETBYTE_EXACT_PROVIDER_DATA
+    ]
     if {r["symbol"] for r in rows} & rom_offsets.SPEC.keys():
         fail("ROM offsets must no longer be live image-address contracts")
     code_aliases = historical_code_aliases(path)
