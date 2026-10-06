@@ -135,6 +135,10 @@ EXACT_SOURCE_TRACES = (
         ROOT / "analysis" / "matching" / "hunt1041-v77-validated-c4draw-1.tsv",
         "src/snes9x/c4drawwireframe.cpp",
     ),
+    (
+        ROOT / "analysis" / "matching" / "hunt400-validated-19.tsv",
+        "src/snes9x/s9xgetmempointer.cpp",
+    ),
 )
 
 
