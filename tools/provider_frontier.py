@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-ALLOC-recovery 219-name source-link provider frontier.
+"""Close the post-S9xGetByte-recovery 230-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -133,6 +133,21 @@ EXPLICIT_ANCHORS = {
     "REG_GS_CSR": 0x12001000,
     "snes_p12_compare_sdd1_entries": 0x0016FAC4,
     "snes_p12_get_filename": 0x00101924,
+
+    # Exact Snes9x 1.40 S9xGetByte dependencies. These are target-address
+    # contracts proved by the same original-ELF link gate as the recovered TU;
+    # they are not aliases to the older context-argument behavioral models.
+    "S9xGetPPU": 0x0015A5F0,
+    "S9xGetCPU": 0x0015BC70,
+    "S9xGetDSP": 0x0012E704,
+    "S9xGetC4": 0x0010C328,
+    "S9xGetSPC7110Byte": 0x0018255C,
+    "S9xGetSPC7110": 0x001813F0,
+    "GetOBC1": 0x00158B5C,
+    "S9xGetSetaDSP": 0x0016FC48,
+    "S9xGetST018": 0x001701FC,
+    "g_CPU_blob": 0x00345340,
+    "g_OpenBus_byte": 0x0035B768,
 }
 
 # Real storage required by the buildable behavioral source.  Sizes are the
@@ -256,8 +271,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 219:
-        fail(f"expected exact post-ALLOC-recovery frontier of 219 symbols, found {len(active)}")
+    if len(active) != 230:
+        fail(f"expected exact post-S9xGetByte-recovery frontier of 230 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -334,7 +349,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 175,
+        ABSOLUTE_ANCHOR: 186,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }
