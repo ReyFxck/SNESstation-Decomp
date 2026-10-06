@@ -313,9 +313,9 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
     # Exact kernel.S plus promoted libc/PS2LIB sources remove their former
     # live external contracts from the global source-tree namespace.
-    # C4DrawWireFrame adds two reviewed historical call contracts plus the
-    # libsupc++ personality dependency, without changing this runtime subset.
-    if set(active) != expected_external or len(external) != 1827:
+    # C4DrawWireFrame adds the remaining reviewed C4DrawLine contract and the
+    # libsupc++ personality dependency; S9xGetMemPointer is now defined canonically.
+    if set(active) != expected_external or len(external) != 1826:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):
