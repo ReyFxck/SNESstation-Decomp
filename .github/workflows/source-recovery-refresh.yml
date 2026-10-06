@@ -10,6 +10,7 @@ on:
       - Makefile
       - analysis/link_identity/*.json
       - tools/build_source_tree.py
+      - tools/unnamed_data.py
       - src/ps2/cdvd_rpc.c
       - include/cdvd_legacy_compat.h
       - src/ps2/sifrpc.c
