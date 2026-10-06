@@ -1,5 +1,5 @@
 name: Source recovery ledger refresh
-# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME, S9XSETC4, S9XGETMEMPOINTER and S9XGETBYTE promotions included; canonical source-tree target: 126 TUs; decomp function-unit target: 103. S9XGETBYTE is gated by its byte-exact provider-linked proof.
+# Exact source gates must pass before generated ledgers are refreshed. FILEIO, IOPHEAP, ALLOC, LIBKERNEL, MEMCPY, MEMSET, MEMMOVE, string-family, STRNCASECMP, CTYPE, QSORT, SBRK, GET_TREE, NUMTESTF, C4CONVOAM, C4DOSCALEROTATE, C4TRANSFORMLINES, C4DRAWWIREFRAME, S9XSETC4, S9XGETMEMPOINTER, S9XGETBYTE and S9XSETBYTE promotions included; canonical source-tree target: 127 TUs. S9XGETBYTE and S9XSETBYTE are gated by byte-exact provider-linked proofs.
 
 on:
   push:
@@ -153,6 +153,9 @@ on:
       - src/snes9x/s9xgetbyte.cpp
       - tools/run-s9xgetbyte-source-recovery.py
       - .github/workflows/s9xgetbyte-source-recovery.yml
+      - src/snes9x/s9xsetbyte.cpp
+      - tools/run-s9xsetbyte-source-recovery.py
+      - .github/workflows/s9xsetbyte-source-recovery.yml
       - src/ps2/progress28_structural_lift_recovered.c
       - src/ps2/s9xsetc4.S
       - analysis/functions/s9xsetc4_exact_2912.tsv
@@ -280,6 +283,7 @@ jobs:
           python3 tools/run-c4drawwireframe-source-recovery.py
           python3 tools/run-s9xgetmempointer-source-recovery.py
           python3 tools/run-s9xgetbyte-source-recovery.py
+          python3 tools/run-s9xsetbyte-source-recovery.py
           python3 tools/run-s9xsetc4-source-recovery.py
           python3 tools/run-iopheap-source-recovery.py
           python3 tools/run-loadfile-source-recovery.py
