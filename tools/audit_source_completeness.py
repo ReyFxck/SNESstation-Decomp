@@ -19,6 +19,13 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x001140e0': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z16S9xInitCheatDatav'},
+    '0x00114118': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z11S9xAddCheathhjh'},
+    '0x00114328': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z14S9xRemoveCheatj'},
+    '0x0011439c': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z13S9xApplyCheatj'},
+    '0x0011444c': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z14S9xApplyCheatsv'},
+    '0x001144d0': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z15S9xRemoveCheatsv'},
+    '0x00114544': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z16S9xLoadCheatFilePKc'},
     '0x001825e4': {'source_file': 'src/snes9x/rtc_days.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z17S9xRTCDaysInMonthii'},
     '0x00183660': {'source_file': 'src/snes9x/srtc.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z12S9xResetSRTCv'},
     '0x00183678': {'source_file': 'src/snes9x/srtc.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z16S9xHardResetSRTCv'},

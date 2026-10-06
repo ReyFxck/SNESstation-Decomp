@@ -179,6 +179,11 @@ on:
       - src/snes9x/getbasepointer.cpp
       - src/snes9x/rtc_days.cpp
       - src/snes9x/srtc.cpp
+      - src/snes9x/cheats2.cpp
+      - src/snes9x/cheat_search.cpp
+      - tools/run-cheats-source-recovery.py
+      - analysis/functions/cheats2_exact_1768.tsv
+      - analysis/functions/cheat_search_exact_23936.tsv
       - src/ps2/libgcc_runtime_recovered.c
       - tools/run-calendar-memory-source-recovery.py
       - analysis/functions/calendar_memory_exact_2300.tsv

@@ -137,3 +137,5 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 136	src/snes9x/getbasepointer.cpp	snes9x	cpp	canonical	snes9x/getbasepointer.o		Historical Snes9x base pointer helper; all 260 target bytes and 22 relocations checked after provider linkage.
 137	src/snes9x/rtc_days.cpp	snes9x	cpp	canonical	snes9x/rtc_days.o		Historical Snes9x SPC7110 RTC calendar helper; all 84 provider-linked target bytes checked.
 138	src/snes9x/srtc.cpp	snes9x	cpp	canonical	snes9x/srtc.o		Complete historical Snes9x S-RTC source with target-proven 32-bit timestamp and zero wall clock; nine functions and 1956 provider-linked bytes checked.
+139	src/snes9x/cheats2.cpp	snes9x	cpp	canonical	snes9x/cheats2.o		Complete historical Snes9x cheat management with target PS2 FIO deltas; twelve bodies and 1768 bytes proved, including 1408 provider-linked bytes.
+140	src/snes9x/cheat_search.cpp	snes9x	cpp	canonical	snes9x/cheat_search.o		Historical Snes9x RAM cheat searches; four functions and 23936 bytes match with 15 known relocation fields normalized; two large searches reproduce all 23364 raw bytes.

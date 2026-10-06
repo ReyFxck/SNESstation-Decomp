@@ -67,10 +67,34 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **138 canonical translation units**;
+for all runners. The tree now contains **140 canonical translation units**;
 the 1850 external contracts and all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
+
+## Complete cheat management and RAM searches
+
+`src/snes9x/cheats2.cpp` restores all twelve historical cheat-management
+functions from the pinned Snes9x 1.41-1 archive. The target uses PS2 FIO
+file descriptors, a 32-bit memory-length ABI, and no file removal when the
+cheat list is empty. The original ignored `enable` argument, deletion behavior
+and saved-byte state are preserved. Twelve bodies reproduce **1768 bytes**;
+ten additionally match **1408/1408 bytes** after resolving real providers.
+The save-file witness contains two following comparators; this recovery claims
+only the actual 340-byte save function.
+
+`src/snes9x/cheat_search.cpp` restores the four historical RAM-search functions
+present in the target build. The three preceding text-code parsers are omitted
+by that build. The upstream full object reproduces the frozen `cheats_prefix`
+and `cheats_text_tail` raw hashes. Per-function hashes derived from those
+validated slices prove **23936/23936 bytes** in the isolated source with only
+**15 known relocation fields** normalized. The two large comparison/value
+searches reproduce **23364/23364 raw bytes**, with no relocations. Removing
+parser strings changes the output routine's string addends; its historical,
+isolated and normalized hashes are all recorded separately.
+
+Run `python3 tools/run-cheats-source-recovery.py` or `make source-recovery-check`.
+The readable sources retain the full historical copyright and license notice.
 
 ## Complete S-RTC source and memory base pointer
 

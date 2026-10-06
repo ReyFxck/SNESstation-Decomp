@@ -9,15 +9,15 @@
     "code_bytes": 722892,
     "entries": 1041,
     "linked_code_bytes": 722892,
-    "linked_units": 104,
+    "linked_units": 105,
     "terminal_function_size": 68,
-    "units": 104
+    "units": 105
   },
   "inputs": {
     "analysis/link_identity/code_windows.json": "07e477d459cfca5a9324b26b285feaf27a41d71c1f6684f6e14f4233c1d08e13",
     "analysis/progress_targets.csv": "528965a51814d44054dd7d01404c4b2ee428f275d2fb7e8673fb76a57f96e698",
-    "analysis/source_readiness.csv": "450492831bf9668ac60de1a4c4cec86b05e0062e75a509bece559741fb633dc5",
-    "analysis/source_tree/translation_units.tsv": "b04f268b4b18818455a0f5a54ac4b186aa952f2e30a7c990e8c7d5ed93eed26f"
+    "analysis/source_readiness.csv": "11b995e80987de24cbc99d1e0248414061e4a91a3fd1ed8df54e9ad6f8794cc4",
+    "analysis/source_tree/translation_units.tsv": "321e9fc4d45e3af7bffe81f8f3331592f3bc45d67c774ee0b5d18cb15a95dff6"
   },
   "privacy": {
     "contains_binary_payloads": false,
