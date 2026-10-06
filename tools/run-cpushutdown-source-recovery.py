@@ -144,14 +144,14 @@ def main():
     objcopy = CXX.with_name("ee-objcopy")
     script = BUILD / "cpushutdown.target.ld"
     script.write_text(
-        """PROVIDE(CPU = 0x00345340);
-PROVIDE(ICPU = 0x00345318);
-PROVIDE(APU = 0x003453b8);
-PROVIDE(IAPU = 0x00345498);
-PROVIDE(Settings = 0x003454e0);
-PROVIDE(S9xAPUCycles = 0x003f44a8);
-PROVIDE(S9xApuOpcodes = 0x00411010);
-PROVIDE(S9xSA1ExecuteDuringSleep = 0x0015e190);
+        """PROVIDE(g_CPU_blob = 0x00345340);
+PROVIDE(g_ICPU_00345318 = 0x00345318);
+PROVIDE(g_APU_003453b8 = 0x003453b8);
+PROVIDE(g_apu_state_00345498 = 0x00345498);
+PROVIDE(g_Settings_blob = 0x003454e0);
+PROVIDE(g_S9xAPUCycles_003f44a8 = 0x003f44a8);
+PROVIDE(g_S9xApuOpcodes_00411010 = 0x00411010);
+PROVIDE(snes_leaf_0015e190 = 0x0015e190);
 SECTIONS {
   . = 0x001ac604;
   .text : { *(.text) }
