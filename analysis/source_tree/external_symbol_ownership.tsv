@@ -1515,12 +1515,12 @@ S9xGetSPC7110	target-function-contract	link-contract	src/snes9x/s9xgetbyte.cpp	l
 S9xGetSPC7110Byte	target-function-contract	link-contract	src/snes9x/s9xgetbyte.cpp	link-identity	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o
 S9xGetST018	target-function-contract	link-contract	src/snes9x/s9xgetbyte.cpp	link-identity	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o
 S9xGetSetaDSP	target-function-contract	link-contract	src/snes9x/s9xgetbyte.cpp	link-identity	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o
-S9xSetC4	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o
-S9xSetCPU	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o
-S9xSetDSP	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o
-S9xSetPPU	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o
-S9xSetST018	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o
-S9xSetSetaDSP	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o
+S9xSetC4	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
+S9xSetCPU	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
+S9xSetDSP	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
+S9xSetPPU	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
+S9xSetST018	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
+S9xSetSetaDSP	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
 S9xSync_AudioActive	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 S9xSync_AudioArg0	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 S9xSync_AudioArg1	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
@@ -1530,7 +1530,7 @@ S9xSync_PeriodCounter	named-external	link-contract	reserved:link-contract	link-i
 S9xSync_PeriodPrevious	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 S9xSync_PeriodValue	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 S9xSync_SetVolume	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
-SetOBC1	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o
+SetOBC1	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
 Settings_SkipFrames	named-program-data	program-data	reserved:program-data.o	program-data	ps2/path_helpers_recovered.o
 SifWriteBackDCache_0019cf10	ps2-runtime	historical-archive	PS2LIB syscall/SifWriteBackDCache.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/libmc_recovered.o
 UNK_001a6320	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
@@ -1592,7 +1592,7 @@ _DAT_00413540	target-address-data	program-data	reserved:target-data.o	program-da
 _DAT_00423554	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 _Z10C4DrawLineiisiish	target-function-contract	link-contract	src/ps2/progress28_structural_lift_recovered.c	link-identity	snes9x/c4drawwireframe.o
 __floatdisf	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/libgcc_runtime_recovered.o;ps2/progress28_structural_lift_recovered.o
-__gxx_personality_v0	cxx-runtime	historical-archive	libsupc++/libstdc++	archive-identity	snes9x/c4drawwireframe.o;snes9x/s9xgetbyte.o;snes9x/s9xgetmempointer.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o
+__gxx_personality_v0	cxx-runtime	historical-archive	libsupc++/libstdc++	archive-identity	snes9x/c4drawwireframe.o;snes9x/s9xgetbyte.o;snes9x/s9xgetmempointer.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
 __muldi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/address_leaf_recovered.o;ps2/alloc.o;ps2/libc_misc_recovered.o;ps2/progress13_cpp_personality_recovered.o;ps2/progress28_structural_lift_recovered.o;ps2/small_dispatch_recovered.o;ps2/strtol.o;snes9x/progress13_runtime_more_recovered.o;zlib/trees_recovered.o
 __udivdi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/strtol.o;ps2/xprintf.o;snes9x/progress13_runtime_more_recovered.o
 __umoddi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/strtol.o;ps2/xprintf.o;zlib/zutil_adler_recovered.o
@@ -1634,9 +1634,9 @@ fioSeek_like_0019d360	ps2-runtime	historical-archive	PS2LIB kernel/fio_lseek.o (
 fioWrite_like	ps2-runtime	historical-archive	PS2LIB kernel/fio_write.o (ps2sdk@a80df908 source)	runtime-member-text-identity	snes9x/sram_recovered.o;zlib/gzio_recovered.o
 fixed_td_00425870	named-external	link-contract	reserved:link-contract	link-identity	zlib/inftrees_recovered.o
 fixed_tl_00424870	named-external	link-contract	reserved:link-contract	link-identity	zlib/inftrees_recovered.o
-g_CPU_blob	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o;snes9x/s9xsetpcbase.o
+g_CPU_blob	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o;snes9x/s9xsetpcbase.o;snes9x/s9xsetword.o
 g_OpenBus_byte	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o
-g_SA1_blob	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xsetbyte.o
+g_SA1_blob	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
 g_Settings_blob	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o;snes9x/s9xgetmempointer.o
 g_apu_state_00345498	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/apu_alloc_recovered.o
 g_bg_bitshift	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o
@@ -1655,11 +1655,11 @@ g_memory_card_available	named-program-data	program-data	reserved:program-data.o	
 g_memory_vram	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o
 g_odd_high	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o;snes9x/tile_lookup_tables_recovered.o
 g_odd_low	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/tile_converter_recovered.o;snes9x/tile_lookup_tables_recovered.o
-g_p12_memory	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o;ps2/libmtap_recovered.o;ps2/progress12_io_state_recovered.o;snes9x/c4drawwireframe.o;snes9x/s9xgetbyte.o;snes9x/s9xgetmempointer.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o;snes9x/s9xsetpcbase.o
+g_p12_memory	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o;ps2/libmtap_recovered.o;ps2/progress12_io_state_recovered.o;snes9x/c4drawwireframe.o;snes9x/s9xgetbyte.o;snes9x/s9xgetmempointer.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o;snes9x/s9xsetpcbase.o;snes9x/s9xsetword.o
 g_p12_sdd1_dat_extension	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress12_io_state_recovered.o
 g_p21_state_extension_prefix_001b1348	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress21_small_helpers_recovered.o
 g_p21_toc_anchor_00427010	named-program-data	program-data	reserved:program-data.o	program-data	ps2/progress21_small_helpers_recovered.o
-g_s7r_blob	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xsetbyte.o
+g_s7r_blob	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
 g_screen_colors	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/draw_large_pixel_recovered.o;snes9x/tile_16bit_recovered.o;snes9x/tile_color_math_recovered.o;snes9x/tile_draw_clipped_recovered.o;snes9x/tile_draw_recovered.o;snes9x/tile_large16_recovered.o;snes9x/tile_scaled_remaining_recovered.o;snes9x/tile_x2_recovered.o
 g_selected_rom_path	named-program-data	program-data	reserved:program-data.o	program-data	app/main_flow_recovered.o
 g_settings_54	named-program-data	program-data	reserved:program-data.o	program-data	snes9x/sram_recovered.o
