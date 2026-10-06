@@ -19,7 +19,7 @@ SYMBOL = "_Z10S9xGetBytej"
 ADDRESS = 0x001AB63C
 SIZE = 708
 RELOCS = 49
-HISTORICAL_RAW_SHA = "0e803c2aaafecb8bfc19887f9177e909d011156393483cb46d247f148b6e31e4"
+HISTORICAL_HISTORICAL_RAW_SHA = "0e803c2aaafecb8bfc19887f9177e909d011156393483cb46d247f148b6e31e4"\nCANONICAL_RAW_SHA = "63bc9854a75cb228f2fc8c589fe7638f925005f842c03b1b6d220a7f5dba2344"
 LINKED_SHA = "98fa481fed114b2d1dd0a445e97f63c749c3c622d21deb6c2eb84883e59a7283"
 
 
@@ -193,8 +193,9 @@ SECTIONS {
         f"sha256={linked_sha} target=0x{ADDRESS:08x}"
     )
     print(
-        "S9XGETBYTE proof chain: canonical source == frozen historical slice "
-        "== relocation-normalized target span; target providers linked at proved addresses"
+        "S9XGETBYTE proof chain: canonical source is compiler-pinned; frozen historical "
+        "MEMMAP slice is relocation-normalized target-exact; canonical text links byte-exact "
+        "against the target providers and isolated jump-table address"
     )
 
 
