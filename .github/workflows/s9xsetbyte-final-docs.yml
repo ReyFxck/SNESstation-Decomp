@@ -1,0 +1,55 @@
+name: S9xSetByte final docs refresh
+
+on:
+  push:
+    branches:
+      - source-recovery-file-by-file
+    paths:
+      - ".github/workflows/s9xsetbyte-final-docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: source-recovery-file-by-file
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Refresh generated public docs
+        run: make docs
+
+      - name: Refresh decomp.dev public input hashes
+        run: |
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path(".")
+          path = root / "analysis/decompdev/report_contract.json"
+          data = json.loads(path.read_text())
+          for rel in list(data.get("inputs", {})):
+              p = root / rel
+              data["inputs"][rel] = hashlib.sha256(p.read_bytes()).hexdigest()
+          path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+          PY
+
+      - name: Commit generated state
+        run: |
+          set -eux
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add             analysis/source_readiness.csv             docs/SOURCE_COMPLETENESS.generated.md             analysis/matching/hunt1041-v81-frontier-map-0.tsv             docs/PROGRESS.generated.md             docs/status/PROJECT_STATUS.generated.md             assets/progress.svg             README.md             analysis/decompdev/report_contract.json
+          if git diff --cached --quiet; then
+            echo "No generated doc changes."
+          else
+            git commit -m "Refresh generated state after S9xSetByte"
+            git pull --rebase origin source-recovery-file-by-file
+            git push origin HEAD:source-recovery-file-by-file
+          fi
