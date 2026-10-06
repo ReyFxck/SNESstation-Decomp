@@ -293,8 +293,13 @@ def validate(args: argparse.Namespace) -> tuple[list[dict[str, str]], list[dict[
     if len(frozen) != len(sections):
         fail("data-backing section roster drift")
     for expected, found in zip(sections, frozen):
-        if any(found[key] != expected[key] for key in SECTION_FIELDS if key != "sha256"):
-            fail("data-backing section geometry or evidence drift")
+        drift = {
+            key: (found[key], expected[key])
+            for key in SECTION_FIELDS
+            if key != "sha256" and found[key] != expected[key]
+        }
+        if drift:
+            fail(f"data-backing section geometry or evidence drift: {expected['section']}: {drift}")
         if not libgcc.SHA_RE.fullmatch(found["sha256"]):
             fail("backing section lacks SHA-256")
     return actual, frozen
