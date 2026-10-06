@@ -18,6 +18,13 @@ P17_TARGETS = ROOT / "analysis" / "progress17_recovered_targets.csv"
 P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.c.txt"
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
+EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    "0x001ab4e8": {
+        "source_file": "src/snes9x/s9xgetmempointer.cpp",
+        "evidence": "analysis/matching/hunt400-validated-19.tsv",
+        "evidence_token": "_Z16S9xGetMemPointerj",
+    },
+}
 CSV_OUT = ROOT / "analysis" / "source_readiness.csv"
 DOC_OUT = ROOT / "docs" / "SOURCE_COMPLETENESS.generated.md"
 
@@ -274,7 +281,7 @@ these measurements remain deliberately distinct.
 | Audited structural entries | **{total:,}/{total:,} ({pct(total)})** | Every validated entry has a committed structural representation. |
 | Behavioral/source-model checkpoint | **{behavioral:,}/{total:,} ({pct(behavioral)})** | Typed behavioral/source-model reconstruction exists for every audited row; exact source provenance is a separate claim. |
 | Structural pseudocode only | **{pseudo:,}/{total:,} ({pct(pseudo)})** | Historical structural-only backlog after promotions: {p16_count} remaining from Progress 16 and {p17_count} remaining from Progress 17. |
-| Typed promotions from P16/P17 snapshots | **{promoted:,}** | Historical pseudocode evidence is retained while newer typed source overrides the readiness classification. |
+| Source promotions | **{promoted:,}** | Historical pseudocode promotions plus explicitly reviewed exact-historical promotions override older source models while retaining their evidence. |
 | Explicit address trace in `src/` | **{explicit:,}/{total:,} ({pct(explicit)})** | A conservative text-level traceability check; corridor files may cover additional entries without repeating every address. |
 | Build-ready EE source ownership | **{translation_units}/{translation_units} TUs** | `make source-tree` compiles every unit with EE GCC 3.2.2 and verifies the frozen canonical partial-link/ownership maps. |
 | Relocation-normalized machine-code matches | **{matching:,}/{total:,} ({pct(matching)})** | No function is promoted to `MATCHING` without generated-object evidence. |
@@ -287,10 +294,11 @@ these measurements remain deliberately distinct.
 - All {total:,} manifest rows are structurally reconstructed.
 - The historical {EXPECTED_P16_PSEUDOCODE} Progress-16 and {EXPECTED_P17_PSEUDOCODE} Progress-17 manifest sets exactly match the
   address markers in their committed pseudocode snapshots.
-- `analysis/source_promotions.csv` contains {promoted} typed promotion(s); every
-  promoted address belongs to a historical pseudocode checkpoint and names an
-  existing source/evidence file. The source file must explicitly carry the
-  promoted address token.
+- `analysis/source_promotions.csv` contains {promoted} source promotion(s); each
+  promoted address is either a historical pseudocode checkpoint or an explicitly
+  reviewed exact-historical target. Every promotion names an existing
+  source/evidence file, and the source file must explicitly carry the promoted
+  address token.
 - No address occurs in both pseudocode checkpoints.
 - The independent EE source gate freezes {translation_units} source boundaries and
   their canonical objects, the EE ABI and every emitted/unresolved symbol owner. See
@@ -369,8 +377,22 @@ def main() -> None:
     promotion_rows = unique_by_address(read_csv(PROMOTIONS), "source promotion")
     promoted = set(promotion_rows)
     historical_pseudocode = p16 | p17
-    if not promoted <= historical_pseudocode:
-        fail("source promotion contains an address outside the historical pseudocode checkpoints")
+    if not promoted <= set(targets):
+        fail("source promotion contains an address outside the structural manifest")
+    non_pseudocode_promotions = promoted - historical_pseudocode
+    if not non_pseudocode_promotions <= set(EXACT_NON_PSEUDOCODE_PROMOTIONS):
+        fail("source promotion contains an unreviewed address outside the historical pseudocode checkpoints")
+    for address in sorted(non_pseudocode_promotions):
+        row = promotion_rows[address]
+        exact = EXACT_NON_PSEUDOCODE_PROMOTIONS[address]
+        for field in ("source_file", "evidence"):
+            if row.get(field, "").strip() != exact[field]:
+                fail(f"exact historical promotion {address} {field} drift")
+        evidence_text = (ROOT / exact["evidence"]).read_text(
+            encoding="utf-8", errors="replace"
+        )
+        if address not in evidence_text or exact["evidence_token"] not in evidence_text:
+            fail(f"exact historical promotion {address} evidence drift")
     for address, row in promotion_rows.items():
         source_rel = row.get("source_file", "").strip()
         evidence_rel = row.get("evidence", "").strip()
