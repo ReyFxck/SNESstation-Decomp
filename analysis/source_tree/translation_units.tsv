@@ -124,3 +124,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 123	src/ps2/s9xsetc4.S	ps2	asm-cpp	canonical	ps2/s9xsetc4.o		Byte-exact EE reconstruction of S9xSetC4 @ 0x0010d7dc; 2912/2912 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
 124	src/snes9x/c4drawwireframe.cpp	snes9x	cpp	canonical	snes9x/c4drawwireframe.o		Historical Snes9x 1.41-1 C4DrawWireFrame source; V77 EE GCC 3.2.2 C++ proof matches 472/472 bytes outside 15 relocation fields at 0x0010cdcc.
 125	src/snes9x/s9xgetmempointer.cpp	snes9x	cpp	canonical	snes9x/s9xgetmempointer.o		Historical Snes9x 1.41 S9xGetMemPointer source; EE GCC 3.2.2 raw-linked proof matches 340/340 bytes at 0x001ab4e8.
+126	src/snes9x/s9xgetbyte.cpp	snes9x	cpp	canonical	snes9x/s9xgetbyte.o		Historical Snes9x 1.40 S9xGetByte source; EE GCC 3.2.2 proof matches 708/708 linked target bytes with 49 text relocations at 0x001ab63c.
