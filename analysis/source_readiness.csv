@@ -316,7 +316,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0015de68,snes_p16_0015de68,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0015e034,snes_p11_0015e034,snes9x-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress11_core_recovered.c,MATCHING
 0x0015e07c,snes_p13_set_map_cursor_0015e07c,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress13_runtime_more_recovered.c,MATCHING
-0x0015e190,snes_leaf_0015e190,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,MATCHING
+0x0015e190,snes_leaf_0015e190,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/snes9x/cpushutdown.cpp,MATCHING
 0x0015e198,snes_p13_map_window_0015e198,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/progress13_core_helpers_recovered.c,MATCHING
 0x0015e298,snes_p16_0015e298,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress26_dsp_runtime_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0015e40c,snes_p16_0015e40c,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
@@ -1008,7 +1008,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001abc28,S9xGetWord,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c;src/snes9x/s9xgetword.cpp,MATCHING
 0x001ac024,S9xSetPCBase,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c;src/snes9x/s9xsetpcbase.cpp,MATCHING
 0x001ac190,S9xSetWord,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/getset_recovered.c;src/snes9x/s9xsetword.cpp,MATCHING
-0x001ac604,CPUShutdown,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/cpu_shutdown_renderer_select_recovered.c,MATCHING
+0x001ac604,CPUShutdown,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/cpu_shutdown_renderer_select_recovered.c;src/snes9x/cpushutdown.cpp,MATCHING
 0x001ac734,GetBasePointer,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c,MATCHING
 0x001ac838,SelectTileRenderer,renderer,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/cpu_shutdown_renderer_select_recovered.c,MATCHING
 0x001ac994,S9xAPUGetByte,audio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/apumem_recovered.c,MATCHING
