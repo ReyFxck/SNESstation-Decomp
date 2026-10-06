@@ -75,3 +75,31 @@ with tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz") as archive:
             break
     if not found:
         raise SystemExit("PCAtOpcodeStart layout not found")
+
+
+with tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz") as archive:
+    helper_names = (
+        "S9xGetPPU", "S9xGetCPU", "S9xGetDSP", "S9xGetC4",
+        "S9xGetSPC7110Byte", "S9xGetSPC7110", "GetOBC1",
+        "S9xGetSetaDSP", "S9xGetST018", "ONE_CYCLE", "SLOW_ONE_CYCLE",
+    )
+    for helper in helper_names:
+        print(f"=== LOOKUP {helper} ===")
+        hits = 0
+        for member in archive.getmembers():
+            if not member.isfile() or not member.name.lower().endswith((".h", ".cpp", ".c")):
+                continue
+            text = archive.extractfile(member).read().decode("latin1")
+            for line in text.splitlines():
+                if helper in line and (
+                    helper.endswith("CYCLE") or
+                    re.search(r"\b" + re.escape(helper) + r"\s*\(", line)
+                ):
+                    print(member.name + ": " + line.strip())
+                    hits += 1
+                    if hits >= 8:
+                        break
+            if hits >= 8:
+                break
+        if not hits:
+            print("(no hits)")
