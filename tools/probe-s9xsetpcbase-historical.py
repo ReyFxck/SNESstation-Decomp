@@ -66,4 +66,16 @@ def emit_context(archive, suffix, needles, before=2500, after=10000):
 
 with tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz") as archive:
     emit_context(archive, "/memmap.h", ["class CMemory", "struct CMemory"])
-    emit_context(archive, "/cpuexec.h", ["struct SCPUState", "MemSpeedx2", "PCBase"])
+    found_cpu = False
+    for member in archive.getmembers():
+        if not member.isfile() or not member.name.lower().endswith((".h", ".hpp")):
+            continue
+        text = archive.extractfile(member).read().decode("latin1")
+        if "MemSpeedx2" in text and "PCBase" in text:
+            pos = text.find("MemSpeedx2")
+            print(f"=== {member.name}:MemSpeedx2 ===")
+            print(text[max(0, pos-4500):min(len(text), pos+4500)])
+            found_cpu = True
+            break
+    if not found_cpu:
+        print("=== OPTIONAL_CONTEXT_MISSING MemSpeedx2/PCBase ===")
