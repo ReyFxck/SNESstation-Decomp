@@ -23,8 +23,8 @@ class BuildSourceTreeTests(unittest.TestCase):
         units = MODULE.read_manifest(
             ROOT / "analysis" / "source_tree" / "translation_units.tsv"
         )
-        self.assertEqual(127, len(units))
-        self.assertEqual(127, sum(unit.canonical for unit in units))
+        self.assertEqual(128, len(units))
+        self.assertEqual(128, sum(unit.canonical for unit in units))
         alternate = [unit for unit in units if not unit.canonical]
         self.assertEqual([], alternate)
         cdvd = [unit for unit in units if unit.source == "src/ps2/cdvd_rpc.c"]
@@ -149,6 +149,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             ("src/snes9x/s9xgetmempointer.cpp", "snes9x/s9xgetmempointer.o"),
             ("src/snes9x/s9xgetbyte.cpp", "snes9x/s9xgetbyte.o"),
             ("src/snes9x/s9xsetbyte.cpp", "snes9x/s9xsetbyte.o"),
+            ("src/snes9x/s9xgetword.cpp", "snes9x/s9xgetword.o"),
         ):
             matches = [unit for unit in units if unit.source == source]
             self.assertEqual(1, len(matches))
@@ -231,6 +232,18 @@ class BuildSourceTreeTests(unittest.TestCase):
         self.assertIn("-Os", flags)
         self.assertIn("-fshort-double", flags)
         self.assertIn("-DNO_INLINE_SET_GET", flags)
+        self.assertNotIn("-O2", flags)
+        self.assertNotIn("-ffreestanding", flags)
+
+    def test_s9xgetword_uses_frozen_cxx_profile(self) -> None:
+        flags = MODULE.effective_source_cflags(
+            ["-G0", "-O2", "-ffreestanding"],
+            "src/snes9x/s9xgetword.cpp",
+        )
+        self.assertIn("-Os", flags)
+        self.assertIn("-fshort-double", flags)
+        self.assertIn("-DNO_INLINE_SET_GET", flags)
+        self.assertIn("-DFAST_LSB_WORD_ACCESS", flags)
         self.assertNotIn("-O2", flags)
         self.assertNotIn("-ffreestanding", flags)
 
@@ -319,7 +332,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             counts[row["kind"]] = counts.get(row["kind"], 0) + 1
             self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(
-            {"translation-unit": 127, "abi-contract": 1, "canonical-aggregate": 1},
+            {"translation-unit": 128, "abi-contract": 1, "canonical-aggregate": 1},
             counts,
         )
 
