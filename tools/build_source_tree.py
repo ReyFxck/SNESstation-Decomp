@@ -320,9 +320,19 @@ HISTORICAL_CPP_PEERS = {
     "S9xSetST018": "src/snes9x/s9xsetbyte.cpp",
 }
 
-# Data providers whose exact target addresses are part of the byte-exact
-# S9xGetByte/S9xSetByte link proofs. Keep them out of the historical Stage-3C tranche.
-EXACT_TARGET_DATA_PEERS = {"g_CPU_blob", "g_OpenBus_byte", "g_SA1_blob", "g_s7r_blob"}
+# Data providers whose exact target addresses are part of byte-exact historical
+# source link proofs (S9xGetByte/S9xSetByte/CPUShutdown). Keep them out of the
+# historical Stage-3C tranche.
+EXACT_TARGET_DATA_PEERS = {
+    "g_CPU_blob",
+    "g_OpenBus_byte",
+    "g_SA1_blob",
+    "g_s7r_blob",
+    "g_ICPU_00345318",
+    "g_APU_003453b8",
+    "g_S9xAPUCycles_003f44a8",
+    "g_S9xApuOpcodes_00411010",
+}
 
 
 class GateError(RuntimeError):
