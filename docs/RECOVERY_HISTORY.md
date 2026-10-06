@@ -42,6 +42,35 @@ log plus the full pass/fail list under `build/source-recovery/`. Public
 provenance updates preserve frozen payload hashes and comparison results;
 changes to section geometry or historical source pins require recapture.
 
+## Historical renderer selector and audio RPC clients
+
+`src/snes9x/selecttilerenderer.cpp` restores the Snes9x 1.42 renderer selector.
+Its 66 relocations resolve to the existing renderer owners and target data
+addresses; all **348/348 provider-linked bytes** match the committed listing.
+The compiler profile and source archive pin are recorded beside the source.
+
+`src/ps2/sjpcm_rpc.c` and `src/ps2/amigamod_rpc.c` restore the public PGEN
+clients from `ps2homebrew/pgen@403f1710e5eacb7d04e5031e1cb0a40435ff9d33`.
+Minimal historical declarations preserve the 40-byte SIF client and DMA ABI.
+AmigaMod initialization uses the target-proven quadword copy, and loading
+uses the IOP heap already initialized by the application. The frozen V51
+evidence proves these two SNES Station differences from the upstream file.
+
+The audio proof reproduces **16/16 historical function bodies, 2296/2296
+object bytes and 162 relocations** across the two RPC suffixes and the two
+variants. Three SjPCM wrappers additionally match **276/276 bytes** after
+linking to real providers and comparing complete public listings. The
+historical `SjPCM_Puts` and `ModPuts` bodies remain explicitly outside this
+matching claim. Several old audit names identify different historical
+functions; the new sidecar records each actual identity at its target address.
+
+Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
+`python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
+for all runners. The tree now contains **135 canonical translation units**;
+the 1850 external contracts and all frozen whole-image claims are preserved.
+The SjPCM license notice remains in both source and header, with the complete
+LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
+
 ## Preserved source candidates
 
 These files are historical compiler inputs, not the normal recovered source

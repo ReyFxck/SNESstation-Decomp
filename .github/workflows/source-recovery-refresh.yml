@@ -1,6 +1,6 @@
 name: Source recovery ledger refresh
 # Every maintained recovery proof must pass before ownership/provenance refresh.
-# Canonical source-tree target: 132 TUs, including the byte-exact APUMEM corridor.
+# Canonical source-tree target: 135 TUs, including historical APUMEM, renderer-selector and audio-RPC sources.
 
 on:
   push:
@@ -166,6 +166,16 @@ on:
       - src/snes9x/s9xsetword.cpp
       - tools/run-s9xsetword-source-recovery.py
       - .github/workflows/s9xsetword-source-recovery.yml
+      - src/ps2/sjpcm_rpc.c
+      - src/ps2/amigamod_rpc.c
+      - src/snes9x/selecttilerenderer.cpp
+      - tools/run-audio-rpc-source-recovery.py
+      - tools/run-selecttilerenderer-source-recovery.py
+      - include/audio_rpc_legacy_compat.h
+      - include/sjpcm_legacy.h
+      - include/amigamod_legacy.h
+      - analysis/functions/audio_rpc_exact_2296.tsv
+      - analysis/functions/selecttilerenderer_exact_348.tsv
       - src/snes9x/apumem.cpp
       - tools/run-apumem-source-recovery.py
       - tools/run-source-recovery.py
@@ -297,6 +307,8 @@ jobs:
             analysis/link_identity/source_address_aliases.tsv \
             analysis/link_identity/link_contracts.tsv \
             analysis/link_identity/provider_frontier_closure.tsv \
+            analysis/link_identity/unnamed_data_accesses.tsv \
+            analysis/link_identity/data_backing.tsv \
             analysis/link_identity/data_backing_sections.tsv \
             analysis/link_identity/link_layout_probe.json \
             analysis/link_identity/startup_integration.json \

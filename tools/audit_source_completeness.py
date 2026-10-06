@@ -19,6 +19,19 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0010768c': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'SjPCM_Play'},
+    '0x001076e4': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'SjPCM_Pause'},
+    '0x0010773c': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'SjPCM_Setvol'},
+    '0x001077f8': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'SjPCM_Init'},
+    '0x001078f8': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'SjPCM_Enqueue'},
+    '0x00107b1c': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'SjPCM_Quit'},
+    '0x00107b7c': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'amigaModInit'},
+    '0x00107c64': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'amigaModLoad'},
+    '0x00107d44': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'amigaModPlay'},
+    '0x00107db4': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'amigaModPause'},
+    '0x00107e14': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'amigaModSetVolume'},
+    '0x00107f18': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2296.tsv', 'evidence_token': 'amigaModQuit'},
+    '0x001ac838': {'source_file': 'src/snes9x/selecttilerenderer.cpp', 'evidence': 'analysis/functions/selecttilerenderer_exact_348.tsv', 'evidence_token': '_Z18SelectTileRendererh'},
     "0x001ac994": {
         "source_file": "src/snes9x/apumem.cpp",
         "evidence": "analysis/functions/apumem_exact_880.tsv",

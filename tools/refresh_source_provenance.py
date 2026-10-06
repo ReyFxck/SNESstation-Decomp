@@ -24,6 +24,8 @@ import tail_metadata
 import window11_rodata
 import window35_data
 import window36_data
+import unnamed_data
+from build_source_tree import render_tsv
 
 
 def refresh_contract(path, expected, allowed):
@@ -49,11 +51,32 @@ def refresh_prior(module, prior):
     module.validate(module.parse_args(["validate"]))
 
 
+def refresh_requesters(path, fields, expected):
+    """Change consumer ownership only; retain every captured proof field."""
+    frozen = libgcc_contracts.read_table(path, fields)
+    if len(frozen) != len(expected):
+        raise ValueError(f"requester roster changed: {path.name}; recapture required")
+    for found, wanted in zip(frozen, expected):
+        if any(found[key] != wanted[key] for key in fields if key != "requesters"):
+            raise ValueError(f"requester proof changed: {path.name}; recapture required")
+    if frozen != expected:
+        path.write_text(render_tsv(fields, expected))
+        print(f"refreshed {path.name}: requesters only")
+
+
 def main():
+    access_args = unnamed_data.parse_args(["validate"])
+    frozen = libgcc_contracts.read_table(access_args.manifest, unnamed_data.FIELDS)
+    external = unnamed_data.external_rows(access_args.external_map)
+    if [row["symbol"] for row in frozen] != [row["symbol"] for row in external]:
+        raise ValueError("unnamed-data roster changed; recapture required")
+    expected = [{**row, "requesters": ext["requesters"]}
+                for row, ext in zip(frozen, external)]
+    refresh_requesters(access_args.manifest, unnamed_data.FIELDS, expected)
+    unnamed_data.validate_manifest(access_args)
     args = data_backing.parse_args(["validate"])
     rows, sections = data_backing.derive(args)
-    if libgcc_contracts.read_table(args.manifest, data_backing.FIELDS) != rows:
-        raise ValueError("data-backing roster changed; recapture required")
+    refresh_requesters(args.manifest, data_backing.FIELDS, rows)
     frozen = libgcc_contracts.read_table(args.sections, data_backing.SECTION_FIELDS)
     if len(frozen) != len(sections):
         raise ValueError("data-backing section count changed; recapture required")

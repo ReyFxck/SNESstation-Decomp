@@ -245,3 +245,16 @@ address,source_file,evidence,notes
 0x001aca50,src/snes9x/apumem.cpp,analysis/functions/apumem_exact_880.tsv,Isolated historical Snes9x 1.42 apumem.h body; frozen object fingerprint and provider-linked target listing match byte-for-byte; historical Z/non-Z name differs from audit label.
 0x001acb3c,src/snes9x/apumem.cpp,analysis/functions/apumem_exact_880.tsv,Isolated historical Snes9x 1.42 apumem.h body; frozen object fingerprint and provider-linked target listing match byte-for-byte; historical Z/non-Z name differs from audit label.
 0x001acbf0,src/snes9x/apumem.cpp,analysis/functions/apumem_exact_880.tsv,Isolated historical Snes9x 1.42 apumem.h body; frozen object fingerprint and provider-linked target listing match byte-for-byte; historical Z/non-Z name differs from audit label.
+0x0010768c,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Play; target bytes/relocations preserved
+0x001076e4,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Pause; target bytes/relocations preserved
+0x0010773c,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Setvol; target bytes/relocations preserved
+0x001077f8,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Init; target bytes/relocations preserved
+0x001078f8,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Enqueue; target bytes/relocations preserved
+0x00107b1c,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Quit; target bytes/relocations preserved
+0x00107b7c,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModInit; target bytes/relocations preserved
+0x00107c64,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModLoad; target bytes/relocations preserved
+0x00107d44,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModPlay; target bytes/relocations preserved
+0x00107db4,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModPause; target bytes/relocations preserved
+0x00107e14,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModSetVolume; target bytes/relocations preserved
+0x00107f18,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModQuit; target bytes/relocations preserved
+0x001ac838,src/snes9x/selecttilerenderer.cpp,analysis/functions/selecttilerenderer_exact_348.tsv,Historical source restored; proven identity _Z18SelectTileRendererh; target bytes/relocations preserved

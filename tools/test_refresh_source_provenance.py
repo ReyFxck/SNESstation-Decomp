@@ -4,7 +4,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from refresh_source_provenance import refresh_contract
+from refresh_source_provenance import refresh_contract, refresh_requesters
+from libgcc_contracts import read_table
+from build_source_tree import render_tsv
 
 
 class SourceProvenanceTests(unittest.TestCase):
@@ -32,6 +34,30 @@ class SourceProvenanceTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "recapture required"):
                 refresh_contract(path, {"source_sha256": "b" * 64}, {"dependency_sha256"})
             self.assertEqual(original, path.read_text())
+
+    def test_requester_refresh_preserves_frozen_proof(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "access.tsv"
+            fields = ("symbol", "sha256", "requesters")
+            original = {"symbol": "DAT_12345678", "sha256": "a" * 64,
+                        "requesters": "original.o"}
+            path.write_text(render_tsv(fields, [original]))
+            expected = [{**original, "requesters": "original.o;recovered.o"}]
+            refresh_requesters(path, fields, expected)
+            self.assertEqual(expected, read_table(path, fields))
+
+    def test_requester_refresh_rejects_payload_or_roster_drift(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "access.tsv"
+            fields = ("symbol", "sha256", "requesters")
+            row = {"symbol": "DAT_12345678", "sha256": "a" * 64,
+                   "requesters": "original.o"}
+            original = render_tsv(fields, [row])
+            for expected in ([{**row, "sha256": "b" * 64}], []):
+                path.write_text(original)
+                with self.assertRaisesRegex(ValueError, "recapture required"):
+                    refresh_requesters(path, fields, expected)
+                self.assertEqual(original, path.read_text())
 
 
 if __name__ == "__main__":

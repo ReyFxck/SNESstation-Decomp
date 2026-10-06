@@ -131,3 +131,6 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 130	src/snes9x/s9xsetword.cpp	snes9x	cpp	canonical	snes9x/s9xsetword.o		Historical Snes9x 1.41-1 S9xSetWord source; EE GCC 3.2.2 proof matches 1140/1140 provider-linked target bytes with 64 text relocations at 0x001ac190.
 131	src/snes9x/cpushutdown.cpp	snes9x	cpp	canonical	snes9x/cpushutdown.o		Historical Snes9x 1.42 CPUShutdown source; EE GCC 3.2.2 proof matches 304/304 provider-linked target bytes with 29 text relocations at 0x001ac604.
 132	src/snes9x/apumem.cpp	snes9x	cpp	canonical	snes9x/apumem.o		Historical Snes9x 1.42 APU memory bodies; 4/4 functions and 880/880 provider-linked target bytes proved.
+133	src/snes9x/selecttilerenderer.cpp	snes9x	cpp	canonical	snes9x/selecttilerenderer.o		Historical Snes9x renderer selector; all 348 provider-linked target bytes proved.
+134	src/ps2/sjpcm_rpc.c	ps2	c	canonical	ps2/sjpcm_rpc.o		Historical PGEN SjPCM client; nine target-proven RPC bodies and three provider-linked wrappers; log body excluded from matching claim.
+135	src/ps2/amigamod_rpc.c	ps2	c	canonical	ps2/amigamod_rpc.o		Historical PGEN AmigaMod client with two target-proven SNES Station deltas; seven proven RPC bodies; log body excluded from matching claim.

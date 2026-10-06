@@ -812,7 +812,7 @@ DAT_0035d470	target-address-data	program-data	reserved:target-data.o	program-dat
 DAT_0035d474	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_0035d478	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_0035d47c	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0035d480	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
+DAT_0035d480	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/selecttilerenderer.o
 DAT_0035d484	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_0035d488	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_0035d48c	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
@@ -864,11 +864,11 @@ DAT_0035ee50	target-address-data	program-data	reserved:target-data.o	program-dat
 DAT_0035ee52	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_0035f988	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_0035f989	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0035f98c	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0035f990	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
+DAT_0035f98c	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/selecttilerenderer.o
+DAT_0035f990	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/selecttilerenderer.o
 DAT_0035f994	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_0035f998	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0035f99c	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
+DAT_0035f99c	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/selecttilerenderer.o
 DAT_0035fda0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_0035fda8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_0035fdac	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
@@ -1213,9 +1213,9 @@ FUN_00106824	target-function-alias	source-address-alias	src/app/main_flow_recove
 FUN_00106bcc	target-function-alias	source-address-alias	src/ps2/audio_rpc_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00106c08	target-function-alias	source-address-alias	src/ps2/progress21_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00107578	target-function-alias	source-address-alias	src/ps2/libc_misc_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0010768c	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_001076e4	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0010773c	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0010768c	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/sjpcm_rpc.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_001076e4	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/sjpcm_rpc.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0010773c	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/ps2/sjpcm_rpc.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001080cc	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/ps2/qsort.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00108a34	target-function-alias	source-address-alias	src/ps2/libc_misc_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00108ce4	target-function-alias	source-address-alias	src/ps2/progress11_frontend_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1470,7 +1470,7 @@ FUN_001ab900	target-function-alias	source-address-alias	src/ps2/progress28_struc
 FUN_001abc28	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c;src/snes9x/s9xgetword.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001ac024	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c;src/snes9x/s9xsetpcbase.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001ac734	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/getset_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_001ac838	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/cpu_shutdown_renderer_select_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_001ac838	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/cpu_shutdown_renderer_select_recovered.c;src/snes9x/selecttilerenderer.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
 FlushCache_0019ceb0	ps2-runtime	historical-archive	PS2LIB syscall/FlushCache.o (ps2sdk@a80df908 source)	runtime-member-text-identity	ps2/gs_fifo_recovered.o;ps2/libmc_recovered.o
 GetOBC1	target-function-contract	link-contract	src/snes9x/s9xgetbyte.cpp	link-identity	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o
 IPPU_FrameSync	named-program-data	program-data	reserved:program-data.o	program-data	ps2/path_helpers_recovered.o
