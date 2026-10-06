@@ -181,6 +181,10 @@ on:
       - src/snes9x/srtc.cpp
       - src/snes9x/cheats2.cpp
       - src/snes9x/memmap_methods.cpp
+      - src/snes9x/obc1.cpp
+      - src/snes9x/sdd1_map.cpp
+      - tools/run-otherchips-source-recovery.py
+      - analysis/functions/otherchips_exact_1616.tsv
       - tools/run-memmap-methods-source-recovery.py
       - analysis/functions/memmap_methods_exact_1168.tsv
       - src/snes9x/cheat_search.cpp

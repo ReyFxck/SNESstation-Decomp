@@ -282,9 +282,10 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
     # C4DrawWireFrame retains one historical target-function contract plus the
     # libsupc++ personality dependency. Canonical S9xGetMemPointer removes its
     # former Stage-3E contract. Canonical S9xSetByte adds seven exact function
-    # contracts (3E) and two exact provider-data addresses (3F).
-    expected = {"3B": 345, "3C": 50, "3D": 16, "3E": 205, "3F": 1234}
-    if partition != expected or sum(partition.values()) != 1850:
+    # contracts (3E) and two exact provider-data addresses (3F). Canonical
+    # OBC1 source closes GetOBC1 and SetOBC1 (two Stage-3E contracts).
+    expected = {"3B": 345, "3C": 50, "3D": 16, "3E": 203, "3F": 1234}
+    if partition != expected or sum(partition.values()) != 1848:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 

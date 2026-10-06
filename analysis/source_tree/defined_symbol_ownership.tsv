@@ -1097,6 +1097,11 @@ per_rom_buffer_cleanup_00151360	global	text	0x70	src/snes9x/memory_cleanup_recov
 rom_cleanup_00151330	global	text	0x30	src/snes9x/memory_cleanup_recovered.c	snes9x/memory_cleanup_recovered.o
 CMemory_Init_recovered	global	text	0x270	src/snes9x/memory_init_recovered.c	snes9x/memory_init_recovered.o
 alloc32	local	text	0x1c	src/snes9x/memory_init_recovered.c	snes9x/memory_init_recovered.o
+GetBasePointerOBC1	global	text	0xc	src/snes9x/obc1.cpp	snes9x/obc1.o
+GetMemPointerOBC1	global	text	0x14	src/snes9x/obc1.cpp	snes9x/obc1.o
+GetOBC1	global	text	0x18	src/snes9x/obc1.cpp	snes9x/obc1.o
+ResetOBC1	global	text	0x68	src/snes9x/obc1.cpp	snes9x/obc1.o
+SetOBC1	global	text	0x45c	src/snes9x/obc1.cpp	snes9x/obc1.o
 p11_cheat_write	local	text	0xa8	src/snes9x/progress11_core_recovered.c	snes9x/progress11_core_recovered.o
 p11_load_u32	local	text	0x34	src/snes9x/progress11_core_recovered.c	snes9x/progress11_core_recovered.o
 p11_select_336_table	local	text	0x4c	src/snes9x/progress11_core_recovered.c	snes9x/progress11_core_recovered.o
@@ -1188,6 +1193,10 @@ _Z10S9xSetBytehj	global	text	0x328	src/snes9x/s9xsetbyte.cpp	snes9x/s9xsetbyte.o
 _Z12S9xSetPCBasej	global	text	0x11c	src/snes9x/s9xsetpcbase.cpp	snes9x/s9xsetpcbase.o
 _GLOBAL__F__Z10S9xSetWordtj	global	data	0x0	src/snes9x/s9xsetword.cpp	snes9x/s9xsetword.o
 _Z10S9xSetWordtj	global	text	0x474	src/snes9x/s9xsetword.cpp	snes9x/s9xsetword.o
+_Z12S9xResetSDD1v	global	text	0x64	src/snes9x/sdd1_map.cpp	snes9x/sdd1_map.o
+_Z19S9xSetSDD1MemoryMapjj	global	text	0x68	src/snes9x/sdd1_map.cpp	snes9x/sdd1_map.o
+_Z20S9xSDD1PostLoadStatev	global	text	0x48	src/snes9x/sdd1_map.cpp	snes9x/sdd1_map.o
+_Z31S9xCompareSDD1LoggedDataEntriesPKvS0_	local	text	0x40	src/snes9x/sdd1_map.cpp	snes9x/sdd1_map.o
 _Z18SelectTileRendererh	global	text	0x15c	src/snes9x/selecttilerenderer.cpp	snes9x/selecttilerenderer.o
 CMemory_LoadSRAM_recovered	global	text	0x12c	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o
 CMemory_SaveSRAM_recovered	global	text	0x108	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o

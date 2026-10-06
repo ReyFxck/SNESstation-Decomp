@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **141 canonical translation units**;
-the 1850 external contracts and all frozen whole-image claims are preserved.
+for all runners. The tree now contains **143 canonical translation units**;
+1848 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -161,3 +161,23 @@ raw object fingerprints (**256 bytes**). String, pointer-table and buffer
 addends change when the methods are isolated, so both historical and isolated
 hashes are recorded. This proof does not add a complete provider-linked byte
 comparison. Run `python3 tools/run-memmap-methods-source-recovery.py`.
+
+## Complete OBC1 and S-DD1 bank mapping
+
+`src/snes9x/obc1.cpp` restores the full five-function OBC1 source with the
+V72-proved R5900 packed-word read sequence and original bytewise writes.
+The OBC1 RAM pointer and Memory object use the existing target state owners.
+The full source reproduces **1276/1276 historical object bytes**; `SetOBC1`
+additionally matches the frozen **1116/1116-byte target digest** after resolving
+state, jump-table and memset providers. Its real exported `GetOBC1` and
+`SetOBC1` definitions close two former external function contracts.
+
+`src/snes9x/sdd1_map.cpp` restores bank mapping, reset, post-load mapping and
+the original logged-record comparator: **340/340 historical object bytes**.
+Bank mapping and reset additionally match **204/204 provider-linked target
+bytes**. PS2 FIO log persistence retains its existing exact source owners.
+Run `python3 tools/run-otherchips-source-recovery.py` for all nine bodies.
+
+The current source namespace contains 1848 external contracts, 1517 link
+contracts, and 237 provider-frontier entries. These reductions close real
+canonical functions; no historical byte proof or whole-image claim changed.

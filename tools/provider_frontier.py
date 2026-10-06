@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-CPUShutdown-recovery 239-name source-link provider frontier.
+"""Close the post-OBC1-recovery 237-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -143,7 +143,6 @@ EXPLICIT_ANCHORS = {
     "S9xGetC4": 0x0010C328,
     "S9xGetSPC7110Byte": 0x0018255C,
     "S9xGetSPC7110": 0x001813F0,
-    "GetOBC1": 0x00158B5C,
     "S9xGetSetaDSP": 0x0016FC48,
     "S9xGetST018": 0x001701FC,
     "g_CPU_blob": 0x00345340,
@@ -155,7 +154,6 @@ EXPLICIT_ANCHORS = {
     "S9xSetCPU": 0x0015AD6C,
     "S9xSetDSP": 0x0012E728,
     "S9xSetC4": 0x0010D7DC,
-    "SetOBC1": 0x00158B74,
     "S9xSetSetaDSP": 0x0016FC6C,
     "S9xSetST018": 0x00170204,
     "g_SA1_blob": 0x00345AF8,
@@ -283,8 +281,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 239:
-        fail(f"expected exact post-CPUShutdown-recovery frontier of 239 symbols, found {len(active)}")
+    if len(active) != 237:
+        fail(f"expected exact post-OBC1-recovery frontier of 237 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -361,7 +359,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 195,
+        ABSOLUTE_ANCHOR: 193,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

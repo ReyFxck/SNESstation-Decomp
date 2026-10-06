@@ -104,8 +104,9 @@ def validate_live_contracts(
     # The canonical C4DrawWireFrame C++ TU adds C4DrawLine plus the C++ runtime.
     # Canonical S9xGetMemPointer, S9xGetByte and S9xSetByte now define their
     # historical mangled symbols. S9xSetByte adds nine proved address contracts
-    # on top of the post-S9xGetByte live frontier.
-    if (len(external), len(contracts), len(frontier)) != (1850, 1519, 239):
+    # on top of the post-S9xGetByte live frontier. OBC1 supplies GetOBC1 and
+    # SetOBC1 directly, closing two remaining function contracts.
+    if (len(external), len(contracts), len(frontier)) != (1848, 1517, 237):
         fail("post-refactor namespace count drift")
     if any(row["resolution_kind"] == "compatibility-runtime-shim" for row in frontier):
         fail("compatibility runtime shim returned")

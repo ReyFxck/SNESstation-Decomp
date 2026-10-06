@@ -19,6 +19,14 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x00158b5c': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'GetOBC1'},
+    '0x00158b74': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'SetOBC1'},
+    '0x00158fd0': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'GetBasePointerOBC1'},
+    '0x00158fdc': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'GetMemPointerOBC1'},
+    '0x00158ff0': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'ResetOBC1'},
+    '0x0016f9b0': {"source_file": 'src/snes9x/sdd1_map.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": '_Z19S9xSetSDD1MemoryMapjj'},
+    '0x0016fa18': {"source_file": 'src/snes9x/sdd1_map.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": '_Z12S9xResetSDD1v'},
+    '0x0016fa7c': {"source_file": 'src/snes9x/sdd1_map.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": '_Z20S9xSDD1PostLoadStatev'},
     '0x001535c0': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory11FixROMSpeedEv'},
     '0x00153608': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory15WriteProtectROMEv'},
     '0x00156884': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory11SPC7110SramEh'},
