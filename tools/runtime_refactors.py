@@ -105,7 +105,7 @@ def validate_live_contracts(
     # Canonical S9xGetMemPointer, S9xGetByte and S9xSetByte now define their
     # historical mangled symbols. S9xSetByte adds nine proved address contracts
     # on top of the post-S9xGetByte live frontier.
-    if (len(external), len(contracts), len(frontier)) != (1846, 1515, 239):
+    if (len(external), len(contracts), len(frontier)) != (1850, 1519, 239):
         fail("post-refactor namespace count drift")
     if any(row["resolution_kind"] == "compatibility-runtime-shim" for row in frontier):
         fail("compatibility runtime shim returned")
