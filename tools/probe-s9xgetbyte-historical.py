@@ -44,3 +44,22 @@ if end is None:
 print("=== S9XGETBYTE_140_BEGIN ===")
 print(source[start:end])
 print("=== S9XGETBYTE_140_END ===")
+
+
+def extract_member(archive, suffix, needles):
+    matches = [m for m in archive.getmembers()
+               if m.isfile() and m.name.lower().endswith(suffix.lower())]
+    if not matches:
+        raise SystemExit(f"missing {suffix}")
+    text = archive.extractfile(matches[0]).read().decode("latin1")
+    for needle in needles:
+        pos = text.find(needle)
+        if pos >= 0:
+            print(f"=== {suffix}:{needle} ===")
+            print(text[max(0, pos-1200):min(len(text), pos+9000)])
+            return
+    raise SystemExit(f"none of {needles} found in {suffix}")
+
+with tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz") as archive:
+    extract_member(archive, "/memmap.h", ["class CMemory", "struct CMemory"])
+    extract_member(archive, "/snes9x.h", ["struct SCPUState", "typedef struct"])
