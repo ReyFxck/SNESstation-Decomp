@@ -22,7 +22,7 @@ ADDRESS = 0x001AC024
 SIZE = 364
 RELOCS = 29
 HISTORICAL_RAW_SHA = "a49edabe9071590beacb8a0b54e0d0ed48fd848f41d166906165e3540c8149a8"
-RODATA_ADDRESS = 0x001B1080
+RODATA_ADDRESS = 0x001B1D58
 
 LINE_RE = re.compile(
     r"^\s*([0-9a-fA-F]+):\s+"
@@ -155,7 +155,7 @@ PROVIDE(g_CPU_blob = 0x00345340);
 SECTIONS {
   . = 0x001ac024;
   .text : { *(.text) }
-  . = 0x001b1080;
+  . = 0x001b1d58;
   .rodata : { *(.rodata*) }
   /DISCARD/ : {
     *(.data) *(.bss) *(COMMON) *(.reginfo) *(.pdr)
