@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Canonical recovery target: S9xGetWord @ 0x001abc28 (TU 128).
 from __future__ import annotations
 
 import hashlib
