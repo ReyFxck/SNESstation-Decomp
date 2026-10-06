@@ -9,9 +9,9 @@
     "code_bytes": 722892,
     "entries": 1041,
     "linked_code_bytes": 722892,
-    "linked_units": 101,
+    "linked_units": 102,
     "terminal_function_size": 68,
-    "units": 101
+    "units": 102
   },
   "inputs": {
     "analysis/link_identity/code_windows.json": "ee417e571ce10e8fb21efb4deb6125d981e6f78cd5db4ee1cfcbcd143b2d7efd",
