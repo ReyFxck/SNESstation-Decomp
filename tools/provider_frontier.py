@@ -361,7 +361,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 186,
+        ABSOLUTE_ANCHOR: 195,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }
