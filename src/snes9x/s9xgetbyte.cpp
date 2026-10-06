@@ -79,7 +79,7 @@ struct HistoricalCPU
     uint8 *PCAtOpcodeStart;           /* +0x14 */
     uint8 *WaitAddress;               /* +0x18 */
     uint32 WaitCounter;               /* +0x1c */
-    uint32 Cycles;                    /* +0x20 */
+    long Cycles;                      /* +0x20, 64-bit with -mlong64 */
 };
 
 extern CMemory Memory __asm__("g_p12_memory");
