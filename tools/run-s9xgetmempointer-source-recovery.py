@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "matching/candidates/s9xgetmempointer_historical.cpp"
+SOURCE = ROOT / "src/snes9x/s9xgetmempointer.cpp"
 BUILD = ROOT / "build/matching/s9xgetmempointer-source-recovery"
 CXX = ROOT / "build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++"
 
