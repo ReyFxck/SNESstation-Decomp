@@ -192,9 +192,10 @@ def live_contracts(args: argparse.Namespace) -> dict[str, dict[str, str]]:
         defined = list(csv.DictReader(stream, delimiter="\t"))
     # Exact kernel.S plus the promoted PS2LIB string/ctype sources collapse
     # their former external/contract pairs without changing this override set.
-    # C4DrawWireFrame plus canonical S9xGetMemPointer leave two net new externals
-    # and two net new link contracts while the provider frontier stays unchanged.
-    if len(external) != 1826 or len(contracts) != 1495 or len(frontier) != 219:
+    # C4DrawWireFrame plus canonical S9xGetMemPointer retain this reviewed
+    # override set. Canonical S9xGetByte adds eleven exact provider-address
+    # contracts to the global namespace without changing the override set itself.
+    if len(external) != 1837 or len(contracts) != 1506 or len(frontier) != 230:
         fail("runtime override namespace count drift")
     for symbol, (address, size, canonical, source, _) in SPECS.items():
         row = external.get(symbol, {})
