@@ -1,7 +1,7 @@
 /* Recovered from ps2homebrew/pgen@403f1710e5eacb7d04e5031e1cb0a40435ff9d33.
  * Historical PS2 EE ABI declarations are isolated in audio_rpc_legacy_compat.h.
- * The SjPCM_Puts/ModPuts bodies are historical source only; the public proof
- * checks the RPC suffixes and the separately evidenced SNES Station variants.
+ * Every function body is checked by tools/run-audio-rpc-source-recovery.py;
+ * the historical 32-bit memcpy length also reproduces both target log bodies.
  */
 // amigamod_rpc.cpp
 

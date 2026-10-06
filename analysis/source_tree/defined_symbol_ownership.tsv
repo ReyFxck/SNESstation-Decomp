@@ -80,7 +80,7 @@ calloc	global	weak-text	0x54	src/ps2/alloc.c	ps2/alloc.o
 free	global	weak-text	0xf0	src/ps2/alloc.c	ps2/alloc.o
 malloc	global	weak-text	0x1b4	src/ps2/alloc.c	ps2/alloc.o
 memalign	global	weak-text	0xec	src/ps2/alloc.c	ps2/alloc.o
-ModPuts	global	text	0x78	src/ps2/amigamod_rpc.c	ps2/amigamod_rpc.o
+ModPuts	global	text	0x148	src/ps2/amigamod_rpc.c	ps2/amigamod_rpc.o
 amigaModGetInfo	global	text	0x98	src/ps2/amigamod_rpc.c	ps2/amigamod_rpc.o
 amigaModInit	global	text	0xe8	src/ps2/amigamod_rpc.c	ps2/amigamod_rpc.o
 amigaModLoad	global	text	0xe0	src/ps2/amigamod_rpc.c	ps2/amigamod_rpc.o
@@ -353,6 +353,7 @@ loop8	local	text	0x0	src/ps2/kernel.S	ps2/kernel.o
 snes_fatal_spin_00107578	global	text	0x8	src/ps2/libc_misc_recovered.c	ps2/libc_misc_recovered.o
 snes_rand_00108a34	global	text	0x58	src/ps2/libc_misc_recovered.c	ps2/libc_misc_recovered.o
 ps2lib_errno_00425a70	global	data	0x4	src/ps2/libc_text_recovered.c	ps2/libc_text_recovered.o
+__divdi3	global	text	0x50	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o
 double_to_raw	local	text	0x2c	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o
 raw_to_double	local	text	0x2c	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o
 snes___divdi3	global	text	0x50	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o
@@ -940,7 +941,7 @@ SjPCM_Enqueue	global	text	0x14c	src/ps2/sjpcm_rpc.c	ps2/sjpcm_rpc.o
 SjPCM_Init	global	text	0x100	src/ps2/sjpcm_rpc.c	ps2/sjpcm_rpc.o
 SjPCM_Pause	global	text	0x58	src/ps2/sjpcm_rpc.c	ps2/sjpcm_rpc.o
 SjPCM_Play	global	text	0x58	src/ps2/sjpcm_rpc.c	ps2/sjpcm_rpc.o
-SjPCM_Puts	global	text	0xc0	src/ps2/sjpcm_rpc.c	ps2/sjpcm_rpc.o
+SjPCM_Puts	global	text	0x10c	src/ps2/sjpcm_rpc.c	ps2/sjpcm_rpc.o
 SjPCM_Quit	global	text	0x60	src/ps2/sjpcm_rpc.c	ps2/sjpcm_rpc.o
 SjPCM_Setvol	global	text	0x64	src/ps2/sjpcm_rpc.c	ps2/sjpcm_rpc.o
 buff.0	local	bss	0x0	src/ps2/sjpcm_rpc.c	ps2/sjpcm_rpc.o
@@ -1036,6 +1037,8 @@ SelectTileRenderer_001ac838	global	text	0x120	src/snes9x/cpu_shutdown_renderer_s
 _GLOBAL__F__Z11CPUShutdownv	global	data	0x0	src/snes9x/cpushutdown.cpp	snes9x/cpushutdown.o
 _Z11CPUShutdownv	global	text	0x130	src/snes9x/cpushutdown.cpp	snes9x/cpushutdown.o
 DrawLargePixel_recovered	global	text	0x234	src/snes9x/draw_large_pixel_recovered.c	snes9x/draw_large_pixel_recovered.o
+_GLOBAL__F__Z14GetBasePointerj	global	data	0x0	src/snes9x/getbasepointer.cpp	snes9x/getbasepointer.o
+_Z14GetBasePointerj	global	text	0x104	src/snes9x/getbasepointer.cpp	snes9x/getbasepointer.o
 GetBasePointer_001ac734	global	text	0x150	src/snes9x/getset_recovered.c	snes9x/getset_recovered.o
 S9xGetByte_001ab63c	global	text	0x118	src/snes9x/getset_recovered.c	snes9x/getset_recovered.o
 S9xGetWord_001abc28	global	text	0x1c8	src/snes9x/getset_recovered.c	snes9x/getset_recovered.o
@@ -1139,6 +1142,7 @@ snes_p13_set_map_cursor_0015e07c	global	text	0x7c	src/snes9x/progress13_runtime_
 snes_p13_stage_advance_0015cdf8	global	text	0xd8	src/snes9x/progress13_runtime_more_recovered.c	snes9x/progress13_runtime_more_recovered.o
 snes_p13_weekday_001836d0	global	text	0x9c	src/snes9x/progress13_runtime_more_recovered.c	snes9x/progress13_runtime_more_recovered.o
 snes_p15_renderer_4bpp_setup_00143780	global	text	0x18	src/snes9x/progress15_renderer_leaf_recovered.c	snes9x/progress15_renderer_leaf_recovered.o
+_Z17S9xRTCDaysInMonthii	global	text	0x54	src/snes9x/rtc_days.cpp	snes9x/rtc_days.o
 _GLOBAL__F__Z10S9xGetBytej	global	data	0x0	src/snes9x/s9xgetbyte.cpp	snes9x/s9xgetbyte.o
 _Z10S9xGetBytej	global	text	0x2c4	src/snes9x/s9xgetbyte.cpp	snes9x/s9xgetbyte.o
 _GLOBAL__F__Z16S9xGetMemPointerj	global	data	0x0	src/snes9x/s9xgetmempointer.cpp	snes9x/s9xgetmempointer.o
@@ -1154,6 +1158,16 @@ _Z18SelectTileRendererh	global	text	0x15c	src/snes9x/selecttilerenderer.cpp	snes
 CMemory_LoadSRAM_recovered	global	text	0x12c	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o
 CMemory_SaveSRAM_recovered	global	text	0x108	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o
 expected_sram_size	local	text	0x30	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o
+_Z10S9xGetSRTCt	global	text	0x7c	src/snes9x/srtc.cpp	snes9x/srtc.o
+_Z10S9xSetSRTCht	global	text	0x138	src/snes9x/srtc.cpp	snes9x/srtc.o
+_Z12S9xResetSRTCv	global	text	0x18	src/snes9x/srtc.cpp	snes9x/srtc.o
+_Z16S9xHardResetSRTCv	global	text	0x58	src/snes9x/srtc.cpp	snes9x/srtc.o
+_Z17S9xUpdateSrtcTimev	global	text	0x2d8	src/snes9x/srtc.cpp	snes9x/srtc.o
+_Z19S9xSRTCDaysInMmonthii	global	text	0x54	src/snes9x/srtc.cpp	snes9x/srtc.o
+_Z19S9xSRTCPreSaveStatev	global	text	0xe8	src/snes9x/srtc.cpp	snes9x/srtc.o
+_Z20S9xSRTCPostLoadStatev	global	text	0xc4	src/snes9x/srtc.cpp	snes9x/srtc.o
+_Z23S9xSRTCComputeDayOfWeekv	global	text	0xa8	src/snes9x/srtc.cpp	snes9x/srtc.o
+month_keys	local	data	0x30	src/snes9x/srtc.cpp	snes9x/srtc.o
 DrawClippedTile16_recovered	global	text	0x30	src/snes9x/tile_16bit_recovered.c	snes9x/tile_16bit_recovered.o
 DrawClippedTile16x2_recovered	global	text	0x30	src/snes9x/tile_16bit_recovered.c	snes9x/tile_16bit_recovered.o
 DrawClippedTile16x2x2_recovered	global	text	0x30	src/snes9x/tile_16bit_recovered.c	snes9x/tile_16bit_recovered.o

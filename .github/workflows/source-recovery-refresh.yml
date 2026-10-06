@@ -1,6 +1,6 @@
 name: Source recovery ledger refresh
 # Every maintained recovery proof must pass before ownership/provenance refresh.
-# Canonical source-tree target: 135 TUs, including historical APUMEM, renderer-selector and audio-RPC sources.
+# Canonical source-tree target: 138 TUs, including historical APUMEM, renderer-selector, audio-RPC and RTC sources.
 
 on:
   push:
@@ -174,8 +174,14 @@ on:
       - include/audio_rpc_legacy_compat.h
       - include/sjpcm_legacy.h
       - include/amigamod_legacy.h
-      - analysis/functions/audio_rpc_exact_2296.tsv
+      - analysis/functions/audio_rpc_exact_2892.tsv
       - analysis/functions/selecttilerenderer_exact_348.tsv
+      - src/snes9x/getbasepointer.cpp
+      - src/snes9x/rtc_days.cpp
+      - src/snes9x/srtc.cpp
+      - src/ps2/libgcc_runtime_recovered.c
+      - tools/run-calendar-memory-source-recovery.py
+      - analysis/functions/calendar_memory_exact_2300.tsv
       - src/snes9x/apumem.cpp
       - tools/run-apumem-source-recovery.py
       - tools/run-source-recovery.py
@@ -217,7 +223,6 @@ on:
       - src/ps2/progress22_more_small_helpers_recovered.c
       - src/unzip/unzip_api_recovered.c
       - src/unzip/explode_recovered.c
-      - src/ps2/stdio_wrappers_recovered.c
       - tools/test_progress43_cdvd_historical.py
       - tools/test_build_source_tree.py
       - tools/audit_source_completeness.py

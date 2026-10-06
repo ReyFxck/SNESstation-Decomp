@@ -249,7 +249,7 @@ FUN_001a1a54	0x001a1a54	PROVED	strcpy_sjis_001a1a54	unique-address-suffix-global
 FUN_001a1b20	0x001a1b20	PROVED	snes___muldi3	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a1b98	0x001a1b98	PROVED	snes___floatdisf	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a1c98	0x001a1c98	PROVED	snes___fixunsdfdi	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
-FUN_001a1db8	0x001a1db8	PROVED	snes___divdi3	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
+FUN_001a1db8	0x001a1db8	PROVED	__divdi3	progress-name-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a3340	0x001a3340	PROVED	snes_fptodp	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a35b0	0x001a35b0	PROVED	snes_dpadd	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	
 FUN_001a3610	0x001a3610	PROVED	snes_dpsub	progress-name-snes-prefix-global-text	src/ps2/libgcc_runtime_recovered.c	ps2/libgcc_runtime_recovered.o	ps2/progress28_structural_lift_recovered.o	

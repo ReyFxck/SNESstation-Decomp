@@ -199,8 +199,8 @@ address,source_file,evidence,notes
 0x00181bac,src/ps2/progress28_structural_lift_recovered.c,analysis/functions/progress17_r5900_pseudocode.c.txt,Progress 28 target-width buildable low-level C lift from P17 R5900 decompile; warnings/control flow preserved; no machine-code matching claim
 0x00182638,src/ps2/progress28_structural_lift_recovered.c,analysis/functions/progress17_r5900_pseudocode.c.txt,Progress 28 target-width buildable low-level C lift from P17 R5900 decompile; warnings/control flow preserved; no machine-code matching claim
 0x00182984,src/ps2/progress28_structural_lift_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 28 target-width buildable low-level C lift from P16 R5900 decompile; warnings/control flow preserved; no machine-code matching claim
-0x001837cc,src/ps2/progress28_structural_lift_recovered.c,analysis/functions/progress17_r5900_pseudocode.c.txt,Progress 28 target-width buildable low-level C lift from P17 R5900 decompile; warnings/control flow preserved; no machine-code matching claim
-0x00183aa4,src/ps2/progress28_structural_lift_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 28 target-width buildable low-level C lift from P16 R5900 decompile; warnings/control flow preserved; no machine-code matching claim
+0x001837cc,src/snes9x/srtc.cpp,analysis/functions/calendar_memory_exact_2300.tsv,Historical source restored; _Z17S9xUpdateSrtcTimev; all provider-linked target bytes match public listing
+0x00183aa4,src/snes9x/srtc.cpp,analysis/functions/calendar_memory_exact_2300.tsv,Historical source restored; _Z10S9xSetSRTCht; all provider-linked target bytes match public listing
 0x0018ea58,src/ps2/progress28_structural_lift_recovered.c,analysis/functions/progress16_r5900_pseudocode.c.txt,Progress 28 target-width buildable low-level C lift from P16 R5900 decompile; warnings/control flow preserved; no machine-code matching claim
 0x0018f408,src/ps2/progress28_structural_lift_recovered.c,analysis/functions/progress17_r5900_pseudocode.c.txt,Progress 28 target-width buildable low-level C lift from P17 R5900 decompile; warnings/control flow preserved; no machine-code matching claim
 0x0018f6cc,src/ps2/progress28_structural_lift_recovered.c,analysis/functions/progress17_r5900_pseudocode.c.txt,Progress 28 target-width buildable low-level C lift from P17 R5900 decompile; warnings/control flow preserved; no machine-code matching claim
@@ -245,16 +245,25 @@ address,source_file,evidence,notes
 0x001aca50,src/snes9x/apumem.cpp,analysis/functions/apumem_exact_880.tsv,Isolated historical Snes9x 1.42 apumem.h body; frozen object fingerprint and provider-linked target listing match byte-for-byte; historical Z/non-Z name differs from audit label.
 0x001acb3c,src/snes9x/apumem.cpp,analysis/functions/apumem_exact_880.tsv,Isolated historical Snes9x 1.42 apumem.h body; frozen object fingerprint and provider-linked target listing match byte-for-byte; historical Z/non-Z name differs from audit label.
 0x001acbf0,src/snes9x/apumem.cpp,analysis/functions/apumem_exact_880.tsv,Isolated historical Snes9x 1.42 apumem.h body; frozen object fingerprint and provider-linked target listing match byte-for-byte; historical Z/non-Z name differs from audit label.
-0x0010768c,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Play; target bytes/relocations preserved
-0x001076e4,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Pause; target bytes/relocations preserved
-0x0010773c,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Setvol; target bytes/relocations preserved
-0x001077f8,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Init; target bytes/relocations preserved
-0x001078f8,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Enqueue; target bytes/relocations preserved
-0x00107b1c,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity SjPCM_Quit; target bytes/relocations preserved
-0x00107b7c,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModInit; target bytes/relocations preserved
-0x00107c64,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModLoad; target bytes/relocations preserved
-0x00107d44,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModPlay; target bytes/relocations preserved
-0x00107db4,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModPause; target bytes/relocations preserved
-0x00107e14,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModSetVolume; target bytes/relocations preserved
-0x00107f18,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2296.tsv,Historical source restored; proven identity amigaModQuit; target bytes/relocations preserved
+0x0010768c,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity SjPCM_Play; target bytes/relocations preserved
+0x001076e4,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity SjPCM_Pause; target bytes/relocations preserved
+0x0010773c,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity SjPCM_Setvol; target bytes/relocations preserved
+0x001077f8,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity SjPCM_Init; target bytes/relocations preserved
+0x001078f8,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity SjPCM_Enqueue; target bytes/relocations preserved
+0x00107b1c,src/ps2/sjpcm_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity SjPCM_Quit; target bytes/relocations preserved
+0x00107b7c,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity amigaModInit; target bytes/relocations preserved
+0x00107c64,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity amigaModLoad; target bytes/relocations preserved
+0x00107d44,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity amigaModPlay; target bytes/relocations preserved
+0x00107db4,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity amigaModPause; target bytes/relocations preserved
+0x00107e14,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity amigaModSetVolume; target bytes/relocations preserved
+0x00107f18,src/ps2/amigamod_rpc.c,analysis/functions/audio_rpc_exact_2892.tsv,Historical source restored; proven identity amigaModQuit; target bytes/relocations preserved
 0x001ac838,src/snes9x/selecttilerenderer.cpp,analysis/functions/selecttilerenderer_exact_348.tsv,Historical source restored; proven identity _Z18SelectTileRendererh; target bytes/relocations preserved
+0x001825e4,src/snes9x/rtc_days.cpp,analysis/functions/calendar_memory_exact_2300.tsv,Historical source restored; _Z17S9xRTCDaysInMonthii; all provider-linked target bytes match public listing
+0x00183660,src/snes9x/srtc.cpp,analysis/functions/calendar_memory_exact_2300.tsv,Historical source restored; _Z12S9xResetSRTCv; all provider-linked target bytes match public listing
+0x00183678,src/snes9x/srtc.cpp,analysis/functions/calendar_memory_exact_2300.tsv,Historical source restored; _Z16S9xHardResetSRTCv; all provider-linked target bytes match public listing
+0x001836d0,src/snes9x/srtc.cpp,analysis/functions/calendar_memory_exact_2300.tsv,Historical source restored; _Z23S9xSRTCComputeDayOfWeekv; all provider-linked target bytes match public listing
+0x00183778,src/snes9x/srtc.cpp,analysis/functions/calendar_memory_exact_2300.tsv,Historical source restored; _Z19S9xSRTCDaysInMmonthii; all provider-linked target bytes match public listing
+0x00183bdc,src/snes9x/srtc.cpp,analysis/functions/calendar_memory_exact_2300.tsv,Historical source restored; _Z10S9xGetSRTCt; all provider-linked target bytes match public listing
+0x00183c58,src/snes9x/srtc.cpp,analysis/functions/calendar_memory_exact_2300.tsv,Historical source restored; _Z19S9xSRTCPreSaveStatev; all provider-linked target bytes match public listing
+0x00183d40,src/snes9x/srtc.cpp,analysis/functions/calendar_memory_exact_2300.tsv,Historical source restored; _Z20S9xSRTCPostLoadStatev; all provider-linked target bytes match public listing
+0x001ac734,src/snes9x/getbasepointer.cpp,analysis/functions/calendar_memory_exact_2300.tsv,Historical source restored; _Z14GetBasePointerj; all provider-linked target bytes match public listing

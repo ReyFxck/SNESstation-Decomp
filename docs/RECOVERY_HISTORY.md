@@ -56,20 +56,40 @@ AmigaMod initialization uses the target-proven quadword copy, and loading
 uses the IOP heap already initialized by the application. The frozen V51
 evidence proves these two SNES Station differences from the upstream file.
 
-The audio proof reproduces **16/16 historical function bodies, 2296/2296
-object bytes and 162 relocations** across the two RPC suffixes and the two
-variants. Three SjPCM wrappers additionally match **276/276 bytes** after
-linking to real providers and comparing complete public listings. The
-historical `SjPCM_Puts` and `ModPuts` bodies remain explicitly outside this
-matching claim. Several old audit names identify different historical
-functions; the new sidecar records each actual identity at its target address.
+The audio proof reproduces **18/18 function bodies and 2892/2892 bytes**.
+Sixteen historical bodies retain their frozen object fingerprints across
+the two RPC suffixes and the two variants. The two log bodies now reproduce
+their complete target instructions with the historical 32-bit `memcpy` length;
+using the bootstrap's 64-bit `size_t` disables the compiler's EE block copy.
+Three SjPCM wrappers and both logs additionally match **872/872 bytes** after
+provider linkage. Several old audit names identify different historical
+functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **135 canonical translation units**;
+for all runners. The tree now contains **138 canonical translation units**;
 the 1850 external contracts and all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
+
+## Complete S-RTC source and memory base pointer
+
+`src/snes9x/srtc.cpp` restores all nine functions in the historical Snes9x
+1.41-1 S-RTC file. The V48 evidence pins the SNES Station timestamp to signed
+32 bits at offset `0x14` and replaces wall-clock reads with zero. The original
+pad keeps the eight-byte timestamp/save-state copy intact. The source retains
+the historical command state machine, date rollover, SRAM serialization and
+calendar rules. Existing canonical data and division providers are shared.
+
+`src/snes9x/rtc_days.cpp` restores the SPC7110 month helper, and
+`src/snes9x/getbasepointer.cpp` restores the memory-map base-pointer switch.
+`tools/run-calendar-memory-source-recovery.py` links these sources at their
+target addresses with their real providers and jump-table placements. All
+**11/11 functions, 2300/2300 instruction bytes and 92 relocations** match the
+complete public listings. The sidecar preserves both historical full-file
+object hashes and isolated object hashes, since table offsets can change
+during isolation. Nine source promotions are new; two replace earlier low-level
+models with the proved historical bodies. Old models remain available as evidence.
 
 ## Preserved source candidates
 

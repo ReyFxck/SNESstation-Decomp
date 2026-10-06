@@ -7,8 +7,13 @@
  */
 #include "sifrpc_legacy_compat.h"
 #include <stdarg.h>
-#include <string.h>
 #include <stdio.h>
+
+/* Historical PS2LIB/Newlib uses a 32-bit byte count. GCC's header-less
+ * size_t follows -mlong64; using it here disables the EE builtin block copy
+ * and fails both complete target log bodies.
+ */
+void *memcpy(void *, const void *, unsigned int);
 
 typedef unsigned int u128 __attribute__((mode(TI)));
 
