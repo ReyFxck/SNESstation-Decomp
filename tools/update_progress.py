@@ -573,7 +573,7 @@ The README graphic is generated to [`assets/progress.svg`](../assets/progress.sv
 All {VALIDATED_TARGETS:,} validated entries now have a behavioral/source-model
 representation and **{pseudocode_only_count:,}** remain only as structural
 pseudocode after typed promotions. The separate EE source gate compiles the
-frozen 99-unit tree into 99 canonical EE objects with no alternate objects.
+frozen 125-unit tree into 125 canonical EE objects with no alternate objects.
 Source form, object ownership and original-source provenance remain distinct
 claims. See
 [`docs/SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) for
@@ -610,7 +610,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Measure | Result | Status |
 |---|---:|---|
 | Audited function entries | **{project_status.formal_matching:,}/{project_status.total:,} ({project_status.formal_percent:.0f}%)** | Complete |
-| EE source ownership | **98/98 translation units** | Complete |
+| EE source ownership | **125/125 translation units** | Complete |
 | Runtime contracts | **{stage3d_closed}/53** | Complete |
 | Program-data address identities | **{backing_report['resolved_contracts']:,}/{backing_report['contracts_total']:,}** | Complete |
 | Exact 64 KiB image windows | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']}** | Complete |
