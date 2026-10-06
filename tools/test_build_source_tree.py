@@ -23,8 +23,8 @@ class BuildSourceTreeTests(unittest.TestCase):
         units = MODULE.read_manifest(
             ROOT / "analysis" / "source_tree" / "translation_units.tsv"
         )
-        self.assertEqual(124, len(units))
-        self.assertEqual(124, sum(unit.canonical for unit in units))
+        self.assertEqual(125, len(units))
+        self.assertEqual(125, sum(unit.canonical for unit in units))
         alternate = [unit for unit in units if not unit.canonical]
         self.assertEqual([], alternate)
         cdvd = [unit for unit in units if unit.source == "src/ps2/cdvd_rpc.c"]
@@ -146,6 +146,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             ("src/ps2/c4transformlines.S", "ps2/c4transformlines.o"),
             ("src/ps2/s9xsetc4.S", "ps2/s9xsetc4.o"),
             ("src/snes9x/c4drawwireframe.cpp", "snes9x/c4drawwireframe.o"),
+            ("src/snes9x/s9xgetmempointer.cpp", "snes9x/s9xgetmempointer.o"),
         ):
             matches = [unit for unit in units if unit.source == source]
             self.assertEqual(1, len(matches))
@@ -196,6 +197,17 @@ class BuildSourceTreeTests(unittest.TestCase):
         self.assertIn("-fno-builtin", flags)
         self.assertIn("-DNO_INLINE_SET_GET", flags)
         self.assertNotIn("-fshort-double", flags)
+        self.assertNotIn("-ffreestanding", flags)
+
+    def test_s9xgetmempointer_uses_frozen_cxx_profile(self) -> None:
+        flags = MODULE.effective_source_cflags(
+            ["-G0", "-O2", "-ffreestanding"],
+            "src/snes9x/s9xgetmempointer.cpp",
+        )
+        self.assertIn("-Os", flags)
+        self.assertIn("-fshort-double", flags)
+        self.assertIn("-DNO_INLINE_SET_GET", flags)
+        self.assertNotIn("-O2", flags)
         self.assertNotIn("-ffreestanding", flags)
 
     def test_abi_contract_records_the_nonstandard_ee_widths(self) -> None:
@@ -278,7 +290,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             counts[row["kind"]] = counts.get(row["kind"], 0) + 1
             self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(
-            {"translation-unit": 124, "abi-contract": 1, "canonical-aggregate": 1},
+            {"translation-unit": 125, "abi-contract": 1, "canonical-aggregate": 1},
             counts,
         )
 
