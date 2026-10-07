@@ -144,3 +144,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 143	src/snes9x/sdd1_map.cpp	snes9x	cpp	canonical	snes9x/sdd1_map.o		Historical S-DD1 mapping, reset, post-load and comparator; four functions reproduce all 340 historical bytes; bank mapping and reset match all 204 provider-linked bytes.
 144	src/snes9x/sdd1_log_save.cpp	snes9x	cpp	canonical	snes9x/sdd1_log_save.o		Historical S-DD1 PS2 FIO log writer; V51 -Os fingerprint and all 176 provider-linked target bytes reproduced.
 145	src/snes9x/sdd1_log_load.cpp	snes9x	cpp	canonical	snes9x/sdd1_log_load.o		Historical S-DD1 PS2 FIO log reader; V51 -O2 instruction fingerprint and all 148 provider-linked bytes reproduced with target four-byte function alignment.
+146	src/snes9x/c4_math.cpp	snes9x	cpp	canonical	snes9x/c4_math.o		Complete historical C4 math module with V75 float adaptation; six bodies include the 132-byte auxiliary C4Op15; all 2652 provider-linked bytes proved.

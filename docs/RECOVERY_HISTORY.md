@@ -67,7 +67,7 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **145 canonical translation units**;
+for all runners. The tree now contains **146 canonical translation units**;
 1848 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
@@ -205,3 +205,27 @@ the 56-byte initialization body retains its historical object proof.
 Public ownership refreshes also preserve all captured named-data hashes and
 geometry while updating requester lists. Range/hash/roster changes fail before
 writing, with dedicated regression coverage.
+
+## Complete historical C4 mathematics
+
+`src/snes9x/c4_math.cpp` preserves the complete six-function Snes9x 1.41-1
+C4 mathematics module with the target-proved V75 float/math changes. Both
+wireframe transforms, line stepping, angle, distance and vector scaling now
+have original readable C++ source. The 132-byte `C4Op15` is retained as an
+auxiliary companion between `C4Op1F` and `C4Op0D`; it does not add a row to the
+frozen 1041-function audit.
+
+All **2652/2652 provider-linked bytes** and 268 known relocation fields pass.
+The runner rebuilds the complete hash-pinned V75 upstream object, verifies its
+frozen code-window fingerprint, compares exact normalized instructions, then
+links the canonical module to the recorded data, math and runtime addresses.
+Signed short operands and float scratch state share the existing target data.
+The distance output at `0x0033594c` now has a live canonical consumer; its
+existing data contract replaces the retired-consumer marker without changing
+the captured range or hash. Fifteen other retired data aliases remain pinned.
+The target uses normal 64-bit double constants, `-Os` and `-fno-builtin`.
+Compiler libcalls are routed to existing behavioral providers by symbol aliases;
+this does not assert new exact runtime-library implementations.
+
+Run `python3 tools/run-c4-math-source-recovery.py`. No private ELF is required,
+and all frozen whole-image result and claim fields remain unchanged.

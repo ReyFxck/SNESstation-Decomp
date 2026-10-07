@@ -23,8 +23,8 @@ class BuildSourceTreeTests(unittest.TestCase):
         units = MODULE.read_manifest(
             ROOT / "analysis" / "source_tree" / "translation_units.tsv"
         )
-        self.assertEqual(145, len(units))
-        self.assertEqual(145, sum(unit.canonical for unit in units))
+        self.assertEqual(146, len(units))
+        self.assertEqual(146, sum(unit.canonical for unit in units))
         alternate = [unit for unit in units if not unit.canonical]
         self.assertEqual([], alternate)
         cdvd = [unit for unit in units if unit.source == "src/ps2/cdvd_rpc.c"]
@@ -317,7 +317,7 @@ class BuildSourceTreeTests(unittest.TestCase):
         retired_data = [row for row in rows if row["kind"] == "retired-target-data"]
         self.assertEqual(6, len(constructors))
         self.assertEqual(10, len(vtables))
-        self.assertEqual(16, len(retired_data))
+        self.assertEqual(15, len(retired_data))
         self.assertTrue(all(row["source_owner"] and row["object_owner"] for row in rows))
         self.assertTrue(all(row["next_gate"] == "program-data" for row in vtables))
         self.assertTrue(all(row["object_owner"] == "reserved:target-data.o" for row in retired_data))
@@ -335,7 +335,7 @@ class BuildSourceTreeTests(unittest.TestCase):
             counts[row["kind"]] = counts.get(row["kind"], 0) + 1
             self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(
-            {"translation-unit": 145, "abi-contract": 1, "canonical-aggregate": 1},
+            {"translation-unit": 146, "abi-contract": 1, "canonical-aggregate": 1},
             counts,
         )
 

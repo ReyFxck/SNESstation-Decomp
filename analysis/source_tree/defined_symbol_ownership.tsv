@@ -1030,6 +1030,13 @@ S9xAPUSetByte_001aca50	global	text	0x58	src/snes9x/apumem_recovered.c	snes9x/apu
 apu_io_read	local	text	0xa8	src/snes9x/apumem_recovered.c	snes9x/apumem_recovered.o
 apu_io_write	local	text	0xc0	src/snes9x/apumem_recovered.c	snes9x/apumem_recovered.o
 apu_wait_touch	local	text	0x14	src/snes9x/apumem_recovered.c	snes9x/apumem_recovered.o
+C4CalcWireFrame	global	text	0x1c8	src/snes9x/c4_math.cpp	snes9x/c4_math.o
+C4Op0D	global	text	0x108	src/snes9x/c4_math.cpp	snes9x/c4_math.o
+C4Op15	global	text	0x84	src/snes9x/c4_math.cpp	snes9x/c4_math.o
+C4Op1F	global	text	0xe0	src/snes9x/c4_math.cpp	snes9x/c4_math.o
+C4TransfWireFrame	global	text	0x328	src/snes9x/c4_math.cpp	snes9x/c4_math.o
+C4TransfWireFrame2	global	text	0x300	src/snes9x/c4_math.cpp	snes9x/c4_math.o
+_GLOBAL__F_C4TransfWireFrame	global	data	0x0	src/snes9x/c4_math.cpp	snes9x/c4_math.o
 _GLOBAL__F__Z15C4DrawWireFramev	global	data	0x0	src/snes9x/c4drawwireframe.cpp	snes9x/c4drawwireframe.o
 _Z15C4DrawWireFramev	global	text	0x1d8	src/snes9x/c4drawwireframe.cpp	snes9x/c4drawwireframe.o
 _Z17S9xSearchForValueP10SCheatData22S9xCheatComparisonType16S9xCheatDataSizejhh	global	text	0x1fdc	src/snes9x/cheat_search.cpp	snes9x/cheat_search.o

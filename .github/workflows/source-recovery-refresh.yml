@@ -183,6 +183,9 @@ on:
       - src/snes9x/memmap_methods.cpp
       - src/snes9x/obc1.cpp
       - src/snes9x/sdd1_map.cpp
+      - src/snes9x/c4_math.cpp
+      - tools/run-c4-math-source-recovery.py
+      - analysis/functions/c4_math_exact_2652.tsv
       - src/snes9x/sdd1_log_save.cpp
       - src/snes9x/sdd1_log_load.cpp
       - tools/run-sdd1-logs-source-recovery.py
