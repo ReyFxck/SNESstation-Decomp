@@ -20,6 +20,7 @@ import media_assets
 import named_contracts
 import named_data
 import runtime_members
+import runtime_overrides
 import runtime_tail_data
 import startup_integration
 import tail_metadata
@@ -91,6 +92,27 @@ def main():
     rows, _layout = named_contracts.derive_rows(args)
     refresh_pinned_requesters(args.manifest, named_contracts.MANIFEST_FIELDS, rows)
     named_contracts.validate_manifest(args)
+
+    # New native consumers must reach the runtime ownership ledger before
+    # unnamed-data validation reads its pinned callee hashes.
+    args = runtime_members.parse_args(["validate"])
+    active, bindings = runtime_members.live_bindings(args)
+    frozen = libgcc_contracts.read_table(args.manifest, runtime_members.FIELDS)
+    expected = [
+        {**row, **runtime_members.fixed_contract(
+            runtime_members.CONTRACT_BY_SYMBOL[row["symbol"]], active, bindings)}
+        for row in frozen
+    ]
+    refresh_requesters(args.manifest, runtime_members.FIELDS, expected)
+    runtime_members.validate_manifest(args)
+
+    args = runtime_overrides.parse_args(["validate"])
+    external = runtime_overrides.live_contracts(args)
+    frozen = libgcc_contracts.read_table(args.manifest, runtime_overrides.FIELDS)
+    expected = [{**row, **runtime_overrides.fixed_provider(row["symbol"], external)}
+                for row in frozen]
+    refresh_requesters(args.manifest, runtime_overrides.FIELDS, expected)
+    runtime_overrides.validate_manifest(args)
 
     access_args = unnamed_data.parse_args(["validate"])
     frozen = libgcc_contracts.read_table(access_args.manifest, unnamed_data.FIELDS)

@@ -161,15 +161,15 @@ class PrivateAssetProviderTests(unittest.TestCase):
         with DEFAULT_CONTRACTS.open(encoding="utf-8", newline="") as stream:
             contracts = list(csv.DictReader(stream, delimiter="\t"))
         report = summarize(rows, contracts)
-        # FILEIO recovery resolves four formerly blocked aliases before the
-        # private-asset tranche; S9xSetByte adds nine exact provider contracts on top of S9xGetByte, and OBC1 closes two function contracts; native DMA preserves allocator ABI contracts; the live frontier is now 248 -> 238.
+        # Native SA-1 closes both register contracts; the ten private-asset
+        # providers leave the reviewed 236-name frontier.
         self.assertEqual(
             {
                 "bundles": 5,
                 "provider_symbols": 10,
                 "provider_bytes": 62736,
-                "input_frontier": 248,
-                "output_frontier": 238,
+                "input_frontier": 246,
+                "output_frontier": 236,
             },
             report,
         )

@@ -681,3 +681,51 @@ payloads, establish image identity or replace the original private-asset gate.
 Final repository validation: `make check` passes, including 604 tool tests
 (one existing skip), generated-document checks, host syntax and every public
 identity/provenance gate. `make source-recovery-check` passes all 71 proofs.
+
+### Native SA-1 memory, registers, DMA and character conversion
+
+Recovered the remaining original `sa1.cpp` module in `src/snes9x/native_sa1.cpp`:
+**16 routines, 6172 instruction bytes**, with 12 global native entries and four
+local helpers. This covers reset, snapshot restoration, BWRAM mapping, byte/word
+access, PC mapping, register reads/writes, character conversion, internal DMA,
+variable-length reads and opcode selection. The already recovered 192-byte
+`S9xSA1Init` remains in `native_chip_resets.cpp`; initialization and shared state
+are not duplicated.
+
+The proof recompiles the pinned Snes9x 1.41-1 archive with EE GCC 3.2.2. It checks
+all 6364 original code bytes, including the frozen 6256-byte code-window prefix,
+then compares every selected instruction against a fully linked historical
+reference. Eight routines additionally match **1632 complete target instruction
+bytes** from committed assembly listings. The other 4540 bytes retain their
+linked historical-reference and frozen normalized MATCH evidence. All **632
+jump-table bytes** match the original linked reference and frozen target digest.
+Run `python3 tools/run-native-sa1-source-recovery.py`.
+
+The full frozen GLOBALS data hash validates CPU, Memory, SA-1, SA-1 registers and
+OpenBus addresses and extents. The complete **21872-byte original SA1CPU data
+section** is also reproduced, proving the four 1024-byte opcode-table provider
+geometries. `M0X0` starts at `0x003f5840` and `M0X1` at `0x003f5c40`; these original
+identities are checked before linking. The local SA-1 cycle helper is proved at
+`0x0015f15c` using its complete target instructions, independently of older
+relocation-normalized CPU-helper identity guesses.
+
+Native PPU register access and DMA now call canonical `S9xGetSA1` and `S9xSetSA1`.
+The tree contains **165 canonical translation units**, **1868 external contracts**,
+**1537 link contracts** (1291 resolved, 246 blocked), and **236 provider-frontier
+rows** (192 address anchors, 39 compatibility-storage providers, five semantic
+aliases). The four new native opcode-table imports have their own source proof;
+the historical 1265-row unnamed-data roster remains unchanged. Runtime requester
+refreshes preserve all captured hashes and validate before dependent data gates.
+
+Fresh partial-link checks preserve allocated bytes through both alias gates:
+**1853 -> 1522 -> 246** live externals. The namespace-only check binds the ten
+frozen private-asset addresses and closes **236 -> 0 undefined globals**, without
+supplying private asset payloads. The report now derives **107 function source
+groups** from current ownership. The original 1041 function results, 722892 code
+bytes and all complete image metrics, payload hashes and proof claims remain
+frozen; no fresh private-image or replacement-ELF comparison is claimed.
+
+Validation passes: `make source-tree-check` verifies all 165 EE translation
+units, `make check` runs 604 tool tests (one existing skip) and every public gate,
+and `make source-recovery-check` passes all **72 maintained proofs**. The native
+SA-1 proof also passes after the final source formatting cleanup.

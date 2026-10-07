@@ -198,6 +198,9 @@ on:
       - src/snes9x/native_ppu_registers.cpp
       - analysis/functions/native_ppu_registers_exact_13580.tsv
       - tools/run-native-ppu-registers-source-recovery.py
+      - src/snes9x/native_sa1.cpp
+      - analysis/functions/native_sa1_exact_6172.tsv
+      - tools/run-native-sa1-source-recovery.py
       - src/snes9x/native_dma.cpp
       - analysis/functions/native_dma_exact_7668.tsv
       - tools/run-native-dma-source-recovery.py

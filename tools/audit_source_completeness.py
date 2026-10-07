@@ -19,6 +19,23 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0015d9ac': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z11S9xSA1Resetv'},
+    '0x0015dab4': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z20S9xSA1SetBWRAMMemMaph'},
+    '0x0015db74': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xFixSA1AfterSnapshotLoad'},
+    '0x0015dc84': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1GetByte'},
+    '0x0015de14': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1GetWord'},
+    '0x0015de68': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1SetByte'},
+    '0x0015e034': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1SetWord'},
+    '0x0015e07c': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1SetPCBase'},
+    '0x0015e190': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1ExecuteDuringSleep'},
+    '0x0015e198': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z15S9xSetSA1MemMapjh'},
+    '0x0015e298': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xGetSA1'},
+    '0x0015e40c': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSetSA1'},
+    '0x0015ecec': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z15S9xSA1CharConv2v'},
+    '0x0015eeac': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z9S9xSA1DMAv'},
+    '0x0015f030': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z28S9xSA1ReadVariableLengthDatahh'},
+    '0x0015f15c': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z15S9xSA1FixCyclesv'},
+
     '0x00129af4': {"source_file": "src/snes9x/native_dma.cpp", "evidence": "analysis/functions/native_dma_exact_7668.tsv", "evidence_token": 'S9xDoDMA'},
     '0x0012a400': {"source_file": "src/snes9x/native_dma.cpp", "evidence": "analysis/functions/native_dma_exact_7668.tsv", "evidence_token": 'S9xDoDMA'},
     '0x0012ba5c': {"source_file": "src/snes9x/native_dma.cpp", "evidence": "analysis/functions/native_dma_exact_7668.tsv", "evidence_token": '_Z13REGISTER_2104h'},

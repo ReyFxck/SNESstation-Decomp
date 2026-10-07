@@ -463,6 +463,20 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
             or definitions[0]["object"] != "snes9x/native_dma.o"):
         fail("promoted native DMA source ownership drift")
 
+    for name, size in (("_Z11S9xSA1Resetv", 264), ("_Z20S9xSA1SetBWRAMMemMaph", 192),
+                       ("S9xFixSA1AfterSnapshotLoad", 272), ("S9xSA1GetByte", 400),
+                       ("S9xSA1GetWord", 84), ("S9xSA1SetByte", 460),
+                       ("S9xSA1SetWord", 72), ("S9xSA1SetPCBase", 276),
+                       ("S9xSA1ExecuteDuringSleep", 8), ("_Z15S9xSetSA1MemMapjh", 256),
+                       ("S9xGetSA1", 372), ("S9xSetSA1", 2272)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/native_sa1.cpp"
+                or definitions[0]["object"] != "snes9x/native_sa1.o"):
+            fail(f"promoted native SA-1 source ownership drift: {name}")
+
     for name, size in (("S9xStartHDMA", 176), ("S9xDoHDMA", 1292)):
         definitions = [row for row in defined_rows if row["symbol"] == name]
         if (len(definitions) != 1 or definitions[0]["binding"] != "global"

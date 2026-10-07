@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-native-DMA-recovery 238-name source-link provider frontier.
+"""Close the post-native-SA1-recovery 236-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -137,9 +137,6 @@ EXPLICIT_ANCHORS = {
     # callback/opaque runtime models cannot provide these entry points.
     "_Znaj": 0x001a9f68,
     "_ZdaPv": 0x001a9118,
-    # Original native PPU register calls still awaiting native source ownership.
-    "S9xGetSA1": 0x0015e298,
-    "S9xSetSA1": 0x0015e40c,
     # Complete historical CPU execution module native callees.
     'S9xDeinterleaveMode2': 0x1520b8,
     'S9xGenerateSound': 0x101904,
@@ -290,8 +287,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 238:
-        fail(f"expected exact post-native-DMA-recovery frontier of 238 symbols, found {len(active)}")
+    if len(active) != 236:
+        fail(f"expected exact post-native-SA1-recovery frontier of 236 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -368,7 +365,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 194,
+        ABSOLUTE_ANCHOR: 192,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }
