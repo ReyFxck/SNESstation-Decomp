@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **153 canonical translation units**;
-1866 external contracts remain; all frozen whole-image claims are preserved.
+for all runners. The tree now contains **154 canonical translation units**;
+1863 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -360,3 +360,24 @@ canonical translation units, 1866 external contracts, 1535 link contracts
 216-row named-contract and 1265-row address-data ledgers remain intact;
 these later native dependencies are validated separately. Frozen whole-image
 results and claims remain unchanged.
+
+## Native C4, DMA and SA1 reset implementations
+
+`src/snes9x/native_chip_resets.cpp` restores three real no-argument native
+reset routines used by the recovered CPU module. All **416/416 complete raw
+historical instruction bytes** match their Snes9x 1.41-1 bodies. The DMA and
+SA1 routines match all **376/376 bytes of the public target listing** after
+binding the actual shared DMA, memory and SA1 state. The C4 initializer
+matches its frozen **40/40-byte original instruction window** and a fully
+linked historical reference. No new private-target digest is claimed for C4.
+
+The original eight 22-byte DMA records, sentinel values, register initialization,
+SA1 interrupt/arithmetic state, and 8192-byte C4 RAM reset are retained.
+No replacement state is allocated. `S9xInitC4`, `S9xResetDMA` and `S9xSA1Init`
+now resolve to these original native implementations instead of address anchors.
+
+Run `python3 tools/run-native-chip-resets-source-recovery.py`. The canonical
+tree has 154 translation units, 1863 external contracts, 1532 link contracts
+(257 blocked), and 247 provider-frontier rows (203 address anchors). The three
+reductions close real native call dependencies. All frozen results and claims
+remain unchanged.

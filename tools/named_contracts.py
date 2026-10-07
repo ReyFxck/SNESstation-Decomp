@@ -270,11 +270,8 @@ LATER_CPU_RESET_CONTRACTS = {
     "S9xFxReset": 0x001306F8,
     "S9xResetPPU": 0x0015C124,
     "S9xSoftResetPPU": 0x0015C624,
-    "S9xResetDMA": 0x0012B9A4,
     "S9xResetAPU": 0x0010A934,
     "S9xResetDSP1": 0x0012E6C4,
-    "S9xSA1Init": 0x0015D8EC,
-    "S9xInitC4": 0x0010C300,
 }
 
 

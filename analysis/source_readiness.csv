@@ -109,7 +109,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0010becc,snes_p17_0010becc,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/c4_math.cpp,MATCHING
 0x0010c094,snes_p16_0010c094,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/c4_math.cpp,MATCHING
 0x0010c1f8,snes_p16_0010c1f8,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/c4_math.cpp,MATCHING
-0x0010c300,snes_dispatch_0010c300,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/ps2/small_dispatch_recovered.c,MATCHING
+0x0010c300,snes_dispatch_0010c300,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/ps2/small_dispatch_recovered.c;src/snes9x/native_chip_resets.cpp,MATCHING
 0x0010c328,snes_dispatch_0010c328,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,MATCHING
 0x0010c340,snes_p16_0010c340,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/c4convoam.S,MATCHING
 0x0010c6f8,snes_p16_0010c6f8,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/c4doscalerotate.S,MATCHING
@@ -150,7 +150,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0012a400,ppu_vram_cache_invalidate,ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0012b3e8,snes_p16_0012b3e8,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress25_small_core_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0012b498,snes_p16_0012b498,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x0012b9a4,snes_p13_record_ram_init_0012b9a4,core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/snes9x/progress13_runtime_more_recovered.c,MATCHING
+0x0012b9a4,snes_p13_record_ram_init_0012b9a4,core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/snes9x/native_chip_resets.cpp;src/snes9x/progress13_runtime_more_recovered.c,MATCHING
 0x0012ba5c,snes_p16_0012ba5c,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0012bd48,snes_p16_0012bd48,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0012bf5c,snes_p16_0012bf5c,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
@@ -307,7 +307,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0015d334,snes_p16_0015d334,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0015d3ec,snes_p16_0015d3ec,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0015d6d8,snes_p16_0015d6d8,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x0015d8ec,snes_p13_ppu_reset_0015d8ec,ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/snes9x/progress13_core_helpers_recovered.c,MATCHING
+0x0015d8ec,snes_p13_ppu_reset_0015d8ec,ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/snes9x/native_chip_resets.cpp;src/snes9x/progress13_core_helpers_recovered.c,MATCHING
 0x0015d9ac,snes_p13_ppu_frontend_reset_0015d9ac,ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/progress13_frontend_more_recovered.c,MATCHING
 0x0015dab4,snes_p16_0015dab4,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0015db74,snes_p13_ppu_frontend_reload_0015db74,ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/progress13_frontend_more_recovered.c,MATCHING
