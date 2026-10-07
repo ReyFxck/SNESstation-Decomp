@@ -247,8 +247,23 @@ def unique(rows: Sequence[dict[str, str]], field: str, label: str) -> dict[str, 
     return result
 
 
+# Native CPU-reset callees added after the historical 216-row tranche. Their
+# address contracts are covered by the complete CPU reset source proof, not
+# by a recapture or enlargement of the original private-data ledger.
+LATER_CPU_RESET_CONTRACTS = {
+    "S9xFxReset": 0x001306F8,
+    "S9xResetPPU": 0x0015C124,
+    "S9xSoftResetPPU": 0x0015C624,
+    "S9xResetDMA": 0x0012B9A4,
+    "S9xResetAPU": 0x0010A934,
+    "S9xResetDSP1": 0x0012E6C4,
+    "S9xSA1Init": 0x0015D8EC,
+    "S9xInitC4": 0x0010C300,
+}
+
+
 def is_stage3e(row: dict[str, str]) -> bool:
-    return (row["category"], row["provider_kind"]) in {
+    return row["symbol"] not in LATER_CPU_RESET_CONTRACTS and (row["category"], row["provider_kind"]) in {
         ("named-external", "link-contract"),
         ("zlib-peer", "source-or-archive"),
     }
@@ -378,6 +393,19 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
     layout = stage3c.load_layout(args.layout_manifest)
     verify_refactor_evidence()
     verify_promoted_exact_source(defined_rows)
+
+    # Keep later native dependencies separate while verifying every excluded
+    # row remains a real address anchor with its original ABI requester.
+    external = unique(external_rows, "symbol", "external contract")
+    for symbol, address in LATER_CPU_RESET_CONTRACTS.items():
+        ext, provider = external.get(symbol), frontier.get(symbol)
+        if (ext is None or provider is None
+                or ext["category"] != "named-external"
+                or ext["provider_kind"] != "link-contract"
+                or ext["requesters"] != "snes9x/cpu_reset.o"
+                or provider["resolution_kind"] != ABSOLUTE_ANCHOR
+                or provider["target_address"] != f"0x{address:08x}"):
+            fail(f"later native CPU-reset callee drift: {symbol}")
 
     errno_definitions = [
         row for row in defined_rows

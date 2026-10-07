@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **151 canonical translation units**;
-1844 external contracts remain; all frozen whole-image claims are preserved.
+for all runners. The tree now contains **152 canonical translation units**;
+1853 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -309,3 +309,29 @@ contains 1844 external contracts, 1513 link contracts (243 blocked), and 233
 provider-frontier entries (189 address anchors). Reductions reflect the two
 canonical read functions. All frozen whole-image results and claims remain
 unchanged, with no new private-image rerun.
+
+## Complete original CPU reset module
+
+`src/snes9x/cpu_reset.cpp` restores all four original functions:
+`S9xResetSuperFX`, `S9xResetCPU`, `S9xReset`, and `S9xSoftReset`.
+The complete **956/956 raw historical instruction bytes** match the pinned
+Snes9x 1.41-1 CPU module. The full raw comparison retains every state-field
+addend, with no relocation masking needed for the whole-module identity.
+All four bodies additionally match fully linked historical references at
+`0x001159f4` through `0x00115daf`. The hard reset retains its prior normalized
+MATCH witness; no new private-target byte digest is asserted.
+
+Shared storage comes from existing address contracts. The native 64-bit
+`long` CPU timing fields and original register/status behavior remain intact.
+A rebuild of the already frozen **718920-byte GLOBALS data interval** checks
+CPU, ICPU, registers, settings, memory, and the 24-byte SuperFX state at
+`0x0035b770`. The earlier context-argument reset models do not have the native
+callee ABI, so eight native external call contracts retain their recorded
+actual target entries instead of binding to incompatible behavioral functions.
+This does not claim newly recovered implementations of those eight callees.
+
+Run `python3 tools/run-cpu-reset-source-recovery.py`. The canonical tree now
+contains 152 translation units, 1853 external contracts, 1522 link contracts
+(251 blocked), and 241 provider-frontier rows (197 address anchors). These
+increases record the original module's real dependencies. All frozen
+whole-image results and claims remain unchanged.

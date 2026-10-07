@@ -285,9 +285,10 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
     # contracts (3E) and two exact provider-data addresses (3F). Canonical
     # OBC1 and SETA source close two chip functions and two dispatch wrappers
     # (four Stage-3E contracts). SPC7110 contributes both read providers
-    # and closes another two Stage-3E contracts.
-    expected = {"3B": 345, "3C": 50, "3D": 16, "3E": 199, "3F": 1234}
-    if partition != expected or sum(partition.values()) != 1844:
+    # and closes another two Stage-3E contracts. CPU reset adds eight native
+    # callee contracts (3E) and the proved SuperFX state address (3F).
+    expected = {"3B": 345, "3C": 50, "3D": 16, "3E": 207, "3F": 1235}
+    if partition != expected or sum(partition.values()) != 1853:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 

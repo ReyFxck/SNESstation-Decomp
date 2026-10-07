@@ -11,7 +11,7 @@ class NamedDataTests(unittest.TestCase):
     def test_live_stage3_partition_tracks_completed_source_refactors(self):
         rows = named_data.read_table(named_data.DEFAULT_EXTERNAL, named_data.EXTERNAL_FIELDS)
         self.assertEqual(
-            {"3B": 345, "3C": 50, "3D": 16, "3E": 199, "3F": 1234},
+            {"3B": 345, "3C": 50, "3D": 16, "3E": 207, "3F": 1235},
             named_data.stage3_partition(rows),
         )
 

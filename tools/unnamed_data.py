@@ -61,6 +61,9 @@ CODE_ALIAS_CLAIM = "historical code-pointer label resolved as a zero-byte alias 
 # S9xSetByte byte proofs. They are not members of the historical address-encoded
 # Stage-3F namespace and therefore must not change its frozen 1,265-contract roster.
 EXACT_BYTE_PROVIDER_DATA = {
+    # Complete CPU reset raw-byte/shared-GLOBALS proof covers this new
+    # 24-byte state block; it is outside the historical Stage-3F roster.
+    "DAT_0035b770",
     "g_CPU_blob", "g_OpenBus_byte", "g_SA1_blob", "g_s7r_blob",
     "g_ICPU_00345318", "g_APU_003453b8",
     "g_S9xAPUCycles_003f44a8", "g_S9xApuOpcodes_00411010",

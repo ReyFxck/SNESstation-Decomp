@@ -317,7 +317,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     # libsupc++ personality dependency; S9xGetMemPointer, S9xGetByte and
     # S9xSetByte are now defined canonically. S9xSetByte adds nine exact
     # address/data provider contracts to the global source-tree namespace.
-    if set(active) != expected_external or len(external) != 1844:
+    if set(active) != expected_external or len(external) != 1853:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):

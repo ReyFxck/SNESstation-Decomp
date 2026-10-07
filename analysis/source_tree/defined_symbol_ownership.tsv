@@ -1056,6 +1056,11 @@ _Z15S9xRemoveCheatsv	global	text	0x74	src/snes9x/cheats2.cpp	snes9x/cheats2.o
 _Z16S9xInitCheatDatav	global	text	0x38	src/snes9x/cheats2.cpp	snes9x/cheats2.o
 _Z16S9xLoadCheatFilePKc	global	text	0x130	src/snes9x/cheats2.cpp	snes9x/cheats2.o
 _Z16S9xSaveCheatFilePKc	global	text	0x154	src/snes9x/cheats2.cpp	snes9x/cheats2.o
+S9xReset	global	text	0x138	src/snes9x/cpu_reset.cpp	snes9x/cpu_reset.o
+S9xSoftReset	global	text	0x120	src/snes9x/cpu_reset.cpp	snes9x/cpu_reset.o
+_GLOBAL__F__Z15S9xResetSuperFXv	global	data	0x0	src/snes9x/cpu_reset.cpp	snes9x/cpu_reset.o
+_Z11S9xResetCPUv	global	text	0x140	src/snes9x/cpu_reset.cpp	snes9x/cpu_reset.o
+_Z15S9xResetSuperFXv	global	text	0x24	src/snes9x/cpu_reset.cpp	snes9x/cpu_reset.o
 CPUShutdown_001ac604	global	text	0x174	src/snes9x/cpu_shutdown_renderer_select_recovered.c	snes9x/cpu_shutdown_renderer_select_recovered.o
 SelectTileRenderer_001ac838	global	text	0x120	src/snes9x/cpu_shutdown_renderer_select_recovered.c	snes9x/cpu_shutdown_renderer_select_recovered.o
 _GLOBAL__F__Z11CPUShutdownv	global	data	0x0	src/snes9x/cpushutdown.cpp	snes9x/cpushutdown.o

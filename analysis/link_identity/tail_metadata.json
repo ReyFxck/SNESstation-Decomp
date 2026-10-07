@@ -7,7 +7,7 @@
     "window_50_exact": true
   },
   "format": "snesstation-stage3k-tail-metadata",
-  "prior_manifest_sha256": "7a7a439bc89b20347e3399ae7fd43d0a08038a8fc7791dbb2a1ed9d1545f1d3c",
+  "prior_manifest_sha256": "79f37e072f8c944d961217f1d477d820e54da19989a3e8b5ac2bf139fee4abac",
   "result": {
     "chunk50_differing_bytes": 0,
     "chunk_count": 51,

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-SPC7110-recovery 233-name source-link provider frontier.
+"""Close the post-CPU-reset-recovery 241-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -130,6 +130,16 @@ SEMANTIC_ALIASES = {
 # source model does not export a signature-compatible canonical definition.
 # REG_GS_CSR is the documented PS2 privileged GS register, not image storage.
 EXPLICIT_ANCHORS = {
+    # Original CPU reset native callees. The earlier context-argument source
+    # models have different signatures; preserve the actual target ABI.
+    'S9xInitC4': 0x10c300,
+    'S9xResetAPU': 0x10a934,
+    'S9xResetDMA': 0x12b9a4,
+    'S9xResetDSP1': 0x12e6c4,
+    'S9xResetPPU': 0x15c124,
+    'S9xSA1Init': 0x15d8ec,
+    'S9xSoftResetPPU': 0x15c624,
+    'S9xFxReset': 0x1306f8,
     "REG_GS_CSR": 0x12001000,
     "snes_p12_compare_sdd1_entries": 0x0016FAC4,
     "snes_p12_get_filename": 0x00101924,
@@ -277,8 +287,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 233:
-        fail(f"expected exact post-SPC7110-recovery frontier of 233 symbols, found {len(active)}")
+    if len(active) != 241:
+        fail(f"expected exact post-CPU-reset-recovery frontier of 241 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -355,7 +365,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 189,
+        ABSOLUTE_ANCHOR: 197,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }
