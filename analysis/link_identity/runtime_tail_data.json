@@ -11,7 +11,7 @@
     "window_50_exact": false
   },
   "format": "snesstation-stage3j-runtime-tail-data",
-  "prior_manifest_sha256": "ea0053212bbb268f154410930e822e375ae2630f30866923d335d112cdf84dcd",
+  "prior_manifest_sha256": "d0f2d47624f91040abb4a375134413fce90bb1c1644a2875ae288d0bb76151d8",
   "result": {
     "chunk50_differing_bytes": 3173,
     "differing_bytes": 1857419,

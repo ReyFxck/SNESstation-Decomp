@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Rebuild all target cheat management and RAM search bodies.
 
-Ten management functions match complete provider-linked target bytes. The
-remaining two reproduce their frozen historical objects. Search code matches
+Eleven management functions match complete provider-linked target bytes. The
+initialization body reproduces its frozen historical object. Search code matches
 23936 bytes with only 15 known relocation fields normalized; the two large
 search bodies have no relocations and reproduce 23364 raw bytes. Per-function
 search hashes were derived from the upstream object after both frozen code
@@ -106,7 +106,7 @@ PROVIDERS = {
     "_Z10S9xGetBytej": 0x001AB63C, "_Z10S9xSetBytehj": 0x001AB900,
     "memmove": 0x0019C4A0, "memset": 0x0019C39C,
     "fioOpen": 0x0019CFC0, "fioClose": 0x0019D090,
-    "fioRead": 0x0019D104, "fioWrite": 0x0019D244,
+    "fioRead": 0x0019D120, "fioWrite": 0x0019D244,
 }
 LINE = re.compile(r"^\s*([0-9a-fA-F]+):\s+"
                   r"([0-9a-fA-F]{2})\s+([0-9a-fA-F]{2})\s+"
@@ -196,6 +196,7 @@ def main():
             raise SystemExit(f"management object drift: {name}")
         normalized(elf, symbol)  # Fail closed on unknown relocation types.
         linked_sha, level, evidence = "", "historical-object", "analysis/link_identity/code_windows.json"
+        target_digest = None
         if name in RESIDUALS:
             label, full_size, full_sha = RESIDUALS[name]
             match = re.search(r"(?ms)^" + re.escape(label) + r":\n(.*?)^\s*\.size "
@@ -218,10 +219,25 @@ def main():
                 except KeyError as missing:
                     raise SystemExit(f"incomplete management listing: {missing}")
                 evidence = LISTING.relative_to(ROOT).as_posix()
-        if target is not None:
+            elif name == "_Z16S9xLoadCheatFilePKc":
+                evidence = "analysis/matching/hunt1041-v73-validated-2.tsv"
+                with (ROOT / evidence).open(newline="") as stream:
+                    capture = [r for r in csv.DictReader(stream, delimiter="\t")
+                               if r["object_symbol"] == name]
+                target_digest = "5a0c72f83cad7ca411f73ddb552d5392f840d3e185ee754f073b6ec2504bdd94"
+                if (len(capture) != 1 or capture[0]["address"] != f"0x{address:08x}"
+                        or capture[0]["object_size"] != str(size)
+                        or capture[0]["relocation_count"] != str(relocations)
+                        or capture[0]["result"] != "MATCH" or capture[0]["differing_bytes"] != "0"
+                        or capture[0]["unknown_relocations"]
+                        or capture[0]["target_span_sha256"] != target_digest):
+                    raise SystemExit("frozen cheat loader target digest drift")
+        if target is not None or target_digest is not None:
             actual_symbol = final.find_symbol(name)
             actual = final.symbol_bytes(actual_symbol, actual_symbol.size)
-            if actual_symbol.value != address or actual != target:
+            if (actual_symbol.value != address
+                    or (target is not None and actual != target)
+                    or (target_digest is not None and digest(actual) != target_digest)):
                 raise SystemExit(f"provider-linked mismatch: {name}")
             linked_sha, level = digest(actual), "provider-linked"
         rows.append({"address": f"0x{address:08x}", "symbol": name,
@@ -266,7 +282,7 @@ def main():
     check_ledger("analysis/functions/cheat_search_exact_23936.tsv", search_rows)
     (BUILD / "report.json").write_text(json.dumps({"management": rows, "search": search_rows}, indent=2) + "\n")
     print("cheats source: MATCH functions=16/16; management=1768/1768 bytes; "
-          "provider-linked=1408/1408 bytes; search=23936/23936 normalized bytes")
+          "provider-linked=1712/1712 bytes; search=23936/23936 normalized bytes")
 
 
 if __name__ == "__main__":

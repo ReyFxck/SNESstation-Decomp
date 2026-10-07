@@ -1193,6 +1193,10 @@ _Z10S9xSetBytehj	global	text	0x328	src/snes9x/s9xsetbyte.cpp	snes9x/s9xsetbyte.o
 _Z12S9xSetPCBasej	global	text	0x11c	src/snes9x/s9xsetpcbase.cpp	snes9x/s9xsetpcbase.o
 _GLOBAL__F__Z10S9xSetWordtj	global	data	0x0	src/snes9x/s9xsetword.cpp	snes9x/s9xsetword.o
 _Z10S9xSetWordtj	global	text	0x474	src/snes9x/s9xsetword.cpp	snes9x/s9xsetword.o
+_GLOBAL__F__Z21S9xSDD1LoadLoggedDatav	global	data	0x0	src/snes9x/sdd1_log_load.cpp	snes9x/sdd1_log_load.o
+_Z21S9xSDD1LoadLoggedDatav	global	text	0x94	src/snes9x/sdd1_log_load.cpp	snes9x/sdd1_log_load.o
+_GLOBAL__F__Z21S9xSDD1SaveLoggedDatav	global	data	0x0	src/snes9x/sdd1_log_save.cpp	snes9x/sdd1_log_save.o
+_Z21S9xSDD1SaveLoggedDatav	global	text	0xb0	src/snes9x/sdd1_log_save.cpp	snes9x/sdd1_log_save.o
 _Z12S9xResetSDD1v	global	text	0x64	src/snes9x/sdd1_map.cpp	snes9x/sdd1_map.o
 _Z19S9xSetSDD1MemoryMapjj	global	text	0x68	src/snes9x/sdd1_map.cpp	snes9x/sdd1_map.o
 _Z20S9xSDD1PostLoadStatev	global	text	0x48	src/snes9x/sdd1_map.cpp	snes9x/sdd1_map.o

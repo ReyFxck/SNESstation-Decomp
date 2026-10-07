@@ -19,6 +19,8 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0016fb04': {"source_file": 'src/snes9x/sdd1_log_save.cpp', "evidence": "analysis/functions/sdd1_logs_exact_324.tsv", "evidence_token": '_Z21S9xSDD1SaveLoggedDatav'},
+    '0x0016fbb4': {"source_file": 'src/snes9x/sdd1_log_load.cpp', "evidence": "analysis/functions/sdd1_logs_exact_324.tsv", "evidence_token": '_Z21S9xSDD1LoadLoggedDatav'},
     '0x00158b5c': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'GetOBC1'},
     '0x00158b74': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'SetOBC1'},
     '0x00158fd0': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'GetBasePointerOBC1'},

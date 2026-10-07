@@ -4,7 +4,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from refresh_source_provenance import refresh_contract, refresh_requesters
+from refresh_source_provenance import (
+    refresh_contract, refresh_pinned_requesters, refresh_requesters,
+)
 from libgcc_contracts import read_table
 from build_source_tree import render_tsv
 
@@ -57,6 +59,32 @@ class SourceProvenanceTests(unittest.TestCase):
                 path.write_text(original)
                 with self.assertRaisesRegex(ValueError, "recapture required"):
                     refresh_requesters(path, fields, expected)
+                self.assertEqual(original, path.read_text())
+
+    def test_public_requesters_retain_the_captured_private_range_hash(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "named.tsv"
+            fields = ("symbol", "extent_hex", "sha256", "requesters")
+            row = {"symbol": "state", "extent_hex": "0x20",
+                   "sha256": "a" * 64, "requesters": "original.o"}
+            path.write_text(render_tsv(fields, [row]))
+            public = [{**row, "sha256": "", "requesters": "original.o;recovered.o"}]
+            refresh_pinned_requesters(path, fields, public)
+            self.assertEqual([{**row, "requesters": public[0]["requesters"]}],
+                             read_table(path, fields))
+
+    def test_public_range_refresh_rejects_geometry_hash_or_roster_changes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "named.tsv"
+            fields = ("symbol", "extent_hex", "sha256", "requesters")
+            row = {"symbol": "state", "extent_hex": "0x20",
+                   "sha256": "a" * 64, "requesters": "original.o"}
+            original = render_tsv(fields, [row])
+            for public in ([{**row, "sha256": "", "extent_hex": "0x24"}],
+                           [{**row, "sha256": "b" * 64}], []):
+                path.write_text(original)
+                with self.assertRaisesRegex(ValueError, "recapture required"):
+                    refresh_pinned_requesters(path, fields, public)
                 self.assertEqual(original, path.read_text())
 
 

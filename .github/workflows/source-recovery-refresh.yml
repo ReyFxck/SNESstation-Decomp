@@ -183,6 +183,10 @@ on:
       - src/snes9x/memmap_methods.cpp
       - src/snes9x/obc1.cpp
       - src/snes9x/sdd1_map.cpp
+      - src/snes9x/sdd1_log_save.cpp
+      - src/snes9x/sdd1_log_load.cpp
+      - tools/run-sdd1-logs-source-recovery.py
+      - analysis/functions/sdd1_logs_exact_324.tsv
       - tools/run-otherchips-source-recovery.py
       - analysis/functions/otherchips_exact_1616.tsv
       - tools/run-memmap-methods-source-recovery.py
@@ -324,6 +328,8 @@ jobs:
             analysis/link_identity/source_address_aliases.tsv \
             analysis/link_identity/link_contracts.tsv \
             analysis/link_identity/provider_frontier_closure.tsv \
+            analysis/link_identity/named_data.tsv \
+            analysis/link_identity/named_contracts.tsv \
             analysis/link_identity/unnamed_data_accesses.tsv \
             analysis/link_identity/data_backing.tsv \
             analysis/link_identity/data_backing_sections.tsv \

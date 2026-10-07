@@ -67,7 +67,7 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **143 canonical translation units**;
+for all runners. The tree now contains **145 canonical translation units**;
 1848 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
@@ -79,7 +79,7 @@ functions from the pinned Snes9x 1.41-1 archive. The target uses PS2 FIO
 file descriptors, a 32-bit memory-length ABI, and no file removal when the
 cheat list is empty. The original ignored `enable` argument, deletion behavior
 and saved-byte state are preserved. Twelve bodies reproduce **1768 bytes**;
-ten additionally match **1408/1408 bytes** after resolving real providers.
+eleven additionally match **1712/1712 bytes** after resolving real providers.
 The save-file witness contains two following comparators; this recovery claims
 only the actual 340-byte save function.
 
@@ -181,3 +181,27 @@ Run `python3 tools/run-otherchips-source-recovery.py` for all nine bodies.
 The current source namespace contains 1848 external contracts, 1517 link
 contracts, and 237 provider-frontier entries. These reductions close real
 canonical functions; no historical byte proof or whole-image claim changed.
+
+## Complete S-DD1 log persistence and cheat loader linkage
+
+`src/snes9x/sdd1_log_save.cpp` and `src/snes9x/sdd1_log_load.cpp` restore both
+S-DD1 log persistence bodies with the V51-proved PS2 FIO adaptation. Together
+with the four mapping helpers, all six historical S-DD1 functions now have
+canonical C++ source. The writer retains its dirty-counter check, eight-byte
+sort and byte-sized file write. The reader preserves the raw `fioRead` return
+value in both counters. Shared target state, filename, extension and sorting
+providers are retained.
+
+Both historical object fingerprints and all **324/324 provider-linked bytes**
+match. The writer uses `-Os`; the reader uses `-O2 -falign-functions=4` because
+its target entry `0x0016fbb4` is four-byte aligned. This removes only section
+alignment padding; all 148 instruction bytes retain the exact V51 hash.
+Run `python3 tools/run-sdd1-logs-source-recovery.py`.
+
+The cheat proof now resolves `fioRead` at its recorded target entry
+`0x0019d120` and compares the 304-byte cheat loader to its frozen V73 target
+hash. Eleven management bodies now have **1712/1712 provider-linked bytes**;
+the 56-byte initialization body retains its historical object proof.
+Public ownership refreshes also preserve all captured named-data hashes and
+geometry while updating requester lists. Range/hash/roster changes fail before
+writing, with dedicated regression coverage.

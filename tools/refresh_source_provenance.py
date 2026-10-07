@@ -17,6 +17,8 @@ import historical_tail_data
 import libgcc_contracts
 import link_layout_probe
 import media_assets
+import named_contracts
+import named_data
 import runtime_members
 import runtime_tail_data
 import startup_integration
@@ -64,7 +66,32 @@ def refresh_requesters(path, fields, expected):
         print(f"refreshed {path.name}: requesters only")
 
 
+def refresh_pinned_requesters(path, fields, expected):
+    """Retain privately captured hashes while reviewing public ownership."""
+    frozen = libgcc_contracts.read_table(path, fields)
+    if [row["symbol"] for row in frozen] != [row["symbol"] for row in expected]:
+        raise ValueError(f"requester roster changed: {path.name}; recapture required")
+    projected = []
+    for found, wanted in zip(frozen, expected):
+        captured = found["sha256"]
+        if captured and not libgcc_contracts.SHA_RE.fullmatch(captured):
+            raise ValueError(f"invalid captured hash: {path.name}/{found['symbol']}")
+        if wanted["sha256"] not in ("", captured):
+            raise ValueError(f"requester proof changed: {path.name}; recapture required")
+        projected.append({**wanted, "sha256": captured})
+    refresh_requesters(path, fields, projected)
+
+
 def main():
+    args = named_data.parse_args(["validate"])
+    rows, _layout = named_data.base_rows(args)
+    refresh_pinned_requesters(args.manifest, named_data.MANIFEST_FIELDS, rows)
+    named_data.validate_manifest(args)
+    args = named_contracts.parse_args(["validate"])
+    rows, _layout = named_contracts.derive_rows(args)
+    refresh_pinned_requesters(args.manifest, named_contracts.MANIFEST_FIELDS, rows)
+    named_contracts.validate_manifest(args)
+
     access_args = unnamed_data.parse_args(["validate"])
     frozen = libgcc_contracts.read_table(access_args.manifest, unnamed_data.FIELDS)
     external = unnamed_data.external_rows(access_args.external_map)
