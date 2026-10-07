@@ -61,6 +61,8 @@ CODE_ALIAS_CLAIM = "historical code-pointer label resolved as a zero-byte alias 
 # S9xSetByte byte proofs. They are not members of the historical address-encoded
 # Stage-3F namespace and therefore must not change its frozen 1,265-contract roster.
 EXACT_BYTE_PROVIDER_DATA = {
+    # Native BGR555 brightness helper reuses frozen Window-35 data.cpp table.
+    "DAT_0033cac8",
     # Complete native sound byte/GLOBALS proof covers status and dummy echo storage.
     "DAT_003ab718", "DAT_003c2e48",
     # Exact native APU reset and complete GLOBALS proof cover its 64-byte ROM.

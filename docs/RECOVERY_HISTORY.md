@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **159 canonical translation units**;
-1864 external contracts remain; all frozen whole-image claims are preserved.
+for all runners. The tree now contains **160 canonical translation units**;
+1863 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -495,3 +495,32 @@ Run `python3 tools/run-native-sound-controls-source-recovery.py`. The canonical
 tree contains 159 units, 1864 external contracts, 1533 link contracts (253
 blocked), and 243 frontier rows (199 address anchors). Frozen historical
 ledgers, results and claims remain unchanged; no private-image rerun is claimed.
+
+## Complete native PPU resets and palette/controller helpers
+
+`src/snes9x/ppu_reset.cpp` restores five original routines, totalling 3372
+linked historical instruction bytes. Both native PPU resets (1280 and 1212
+bytes) and 516-byte mouse processing retain every raw historical instruction
+and state-field addend, match a fully linked historical reference, and retain
+their frozen normalized MATCH witnesses. These three routines have no frozen
+complete target digest: their claim remains **linked-historical-reference**.
+The 192-byte BGR555 brightness and 172-byte next-controller helpers additionally
+match all **364 complete public target-listing bytes**.
+
+The full GLOBALS and Window-35 color-table digests verify original PPU/IPPU,
+Settings, Memory and the 512-byte brightness table. The native four-argument
+mouse-position call resolves to the already proved eight-byte zero-return leaf
+at `0x00104e50`, which writes no output references. The controller's seven-entry
+jump table retains `0x001b7dbc`. No PPU, palette or mouse state is duplicated.
+
+Both CPU-reset PPU callees now resolve to native source. The complete Settings
+declarations also retain the independently proved PS2 port byte preceding
+`ChuckRock`: full target checks require its resulting Justifier field offset.
+The earlier CPU/APU/audio routines do not read the shifted fields, and their
+existing complete instruction proofs remain unchanged.
+
+Run `python3 tools/run-ppu-reset-source-recovery.py`. The canonical tree has
+160 units, 1863 external contracts, 1532 link contracts (251 blocked), and
+241 frontier rows (197 address anchors). Frozen historical ledgers, results
+and claims remain unchanged. No private-image rerun or full-image identity
+is claimed; unselected reference code/data is comparison-only and never executed.

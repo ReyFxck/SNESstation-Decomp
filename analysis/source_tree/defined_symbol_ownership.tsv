@@ -1138,6 +1138,12 @@ GetMemPointerOBC1	global	text	0x14	src/snes9x/obc1.cpp	snes9x/obc1.o
 GetOBC1	global	text	0x18	src/snes9x/obc1.cpp	snes9x/obc1.o
 ResetOBC1	global	text	0x68	src/snes9x/obc1.cpp	snes9x/obc1.o
 SetOBC1	global	text	0x45c	src/snes9x/obc1.cpp	snes9x/obc1.o
+S9xFixColourBrightness	global	text	0xc0	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
+S9xNextController	global	text	0xac	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
+S9xProcessMouse	global	text	0x204	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
+S9xResetPPU	global	text	0x500	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
+S9xSoftResetPPU	global	text	0x4bc	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
+_GLOBAL__F_S9xFixColourBrightness	global	data	0x0	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
 p11_cheat_write	local	text	0xa8	src/snes9x/progress11_core_recovered.c	snes9x/progress11_core_recovered.o
 p11_load_u32	local	text	0x34	src/snes9x/progress11_core_recovered.c	snes9x/progress11_core_recovered.o
 p11_select_336_table	local	text	0x4c	src/snes9x/progress11_core_recovered.c	snes9x/progress11_core_recovered.o

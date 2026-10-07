@@ -274,6 +274,7 @@ struct SSettings{
     
 /* Fixes for individual games */
   /*   uint32 StrikeGunnerOffsetHack; */
+    bool8  PS2PortLayoutByte; /* Native PS2 Settings byte before game-specific options. */
     bool8  ChuckRock;
     bool8  StarfoxHack;
     bool8  WinterGold;

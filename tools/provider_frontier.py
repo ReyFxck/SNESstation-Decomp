@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-native-sound-controls-recovery 243-name source-link provider frontier.
+"""Close the post-native-PPU-reset-recovery 241-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -142,8 +142,6 @@ EXPLICIT_ANCHORS = {
     'S9xUpdateJoypads': 0x15d0bc,
     # Original CPU reset native callees. The earlier context-argument source
     # models have different signatures; preserve the actual target ABI.
-    'S9xResetPPU': 0x15c124,
-    'S9xSoftResetPPU': 0x15c624,
     'S9xFxReset': 0x1306f8,
     "REG_GS_CSR": 0x12001000,
     "snes_p12_compare_sdd1_entries": 0x0016FAC4,
@@ -290,8 +288,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 243:
-        fail(f"expected exact post-native-sound-controls-recovery frontier of 243 symbols, found {len(active)}")
+    if len(active) != 241:
+        fail(f"expected exact post-native-PPU-reset-recovery frontier of 241 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -368,7 +366,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 199,
+        ABSOLUTE_ANCHOR: 197,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

@@ -19,6 +19,11 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x001591a8': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xFixColourBrightness'},
+    '0x0015c124': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xResetPPU'},
+    '0x0015c624': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xSoftResetPPU'},
+    '0x0015cae0': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xProcessMouse'},
+    '0x0015cdf8': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xNextController'},
     '0x0017422c': {"source_file": 'src/snes9x/native_sound_controls.cpp', "evidence": "analysis/functions/native_sound_controls_exact_452.tsv", "evidence_token": 'S9xSetEchoDelay'},
     '0x001742b4': {"source_file": 'src/snes9x/native_sound_controls.cpp', "evidence": "analysis/functions/native_sound_controls_exact_452.tsv", "evidence_token": 'S9xSetEchoWriteEnable'},
     '0x00174728': {"source_file": 'src/snes9x/native_sound_controls.cpp', "evidence": "analysis/functions/native_sound_controls_exact_452.tsv", "evidence_token": 'S9xSetSoundFrequency'},
