@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **155 canonical translation units**;
-1863 external contracts remain; all frozen whole-image claims are preserved.
+for all runners. The tree now contains **156 canonical translation units**;
+1862 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -406,3 +406,25 @@ contracts (1277 resolved, 255 blocked) and 245 frontier rows (201 address
 anchors). The namespace total is unchanged because three closed calls are
 replaced by one remaining initializer and two actual shared-state addresses.
 All frozen results and claims remain unchanged.
+
+## Provider-linked native DSP table initialization
+
+`src/snes9x/dsp_table_init.c` restores `InitDSP` through its native
+`S9xInitDSP` source contract. The readable historical table-building loop
+uses the already proved V51 PS2 adaptation: 2048 float entries per table,
+normal 64-bit double angle calculations, and native `cosf`/`sinf` calls.
+All **272/272 fully provider-linked target bytes** match the frozen V51
+target digest, including all 20 relocation values. The two double constants
+retain their actual locations at `0x001b20c8` and `0x001b20d0`.
+
+Both existing 8192-byte cosine/sine tables are reused. No replacement table
+or initializer flag is allocated. The native initializer now closes the
+last DSP reset-chain math call. Symbol aliases route compiler libcalls to
+existing behavioral providers while preserving their prior claim levels;
+this does not claim original archive identity for the runtime or math library.
+
+Run `python3 tools/run-dsp-table-init-source-recovery.py`. The canonical
+tree now contains 156 translation units, 1862 external contracts, 1531 link
+contracts (254 blocked), and 244 frontier rows (200 address anchors).
+The historical data and whole-image results/claims remain unchanged,
+with no new private-image rerun.

@@ -1076,6 +1076,7 @@ S9xResetDSP1	global	text	0x40	src/snes9x/dsp_dispatch.cpp	snes9x/dsp_dispatch.o
 S9xSetDSP	global	text	0x28	src/snes9x/dsp_dispatch.cpp	snes9x/dsp_dispatch.o
 _GLOBAL__F__Z11S9xInitDSP1v	global	data	0x0	src/snes9x/dsp_dispatch.cpp	snes9x/dsp_dispatch.o
 _Z11S9xInitDSP1v	global	text	0x3c	src/snes9x/dsp_dispatch.cpp	snes9x/dsp_dispatch.o
+S9xInitDSP	global	text	0x110	src/snes9x/dsp_table_init.c	snes9x/dsp_table_init.o
 _GLOBAL__F__Z14GetBasePointerj	global	data	0x0	src/snes9x/getbasepointer.cpp	snes9x/getbasepointer.o
 _Z14GetBasePointerj	global	text	0x104	src/snes9x/getbasepointer.cpp	snes9x/getbasepointer.o
 GetBasePointer_001ac734	global	text	0x150	src/snes9x/getset_recovered.c	snes9x/getset_recovered.o
