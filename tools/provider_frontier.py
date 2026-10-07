@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-native-FX-module-recovery 240-name source-link provider frontier.
+"""Close the post-native-FX-execution-recovery 239-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -138,7 +138,6 @@ EXPLICIT_ANCHORS = {
     'S9xOpcode_NMI': 0x127e00,
     'S9xSA1MainLoop': 0x16efa0,
     'S9xStartHDMA': 0x12b3e8,
-    'S9xSuperFXExec': 0x15d334,
     'S9xUpdateJoypads': 0x15d0bc,
     # Original CPU reset native callees. The earlier context-argument source
     # models have different signatures; preserve the actual target ABI.
@@ -287,8 +286,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 240:
-        fail(f"expected exact post-native-FX-module-recovery frontier of 240 symbols, found {len(active)}")
+    if len(active) != 239:
+        fail(f"expected exact post-native-FX-execution-recovery frontier of 239 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -365,7 +364,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 196,
+        ABSOLUTE_ANCHOR: 195,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

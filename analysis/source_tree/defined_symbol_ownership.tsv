@@ -1165,6 +1165,7 @@ S9xNextController	global	text	0xac	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
 S9xProcessMouse	global	text	0x204	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
 S9xResetPPU	global	text	0x500	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
 S9xSoftResetPPU	global	text	0x4bc	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
+S9xSuperFXExec	global	text	0xb8	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
 _GLOBAL__F_S9xFixColourBrightness	global	data	0x0	src/snes9x/ppu_reset.cpp	snes9x/ppu_reset.o
 p11_cheat_write	local	text	0xa8	src/snes9x/progress11_core_recovered.c	snes9x/progress11_core_recovered.o
 p11_load_u32	local	text	0x34	src/snes9x/progress11_core_recovered.c	snes9x/progress11_core_recovered.o

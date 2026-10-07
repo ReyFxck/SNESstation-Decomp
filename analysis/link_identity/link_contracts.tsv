@@ -1233,7 +1233,6 @@ S9xSetPPU		BLOCKED	blocked-link-contract		no-unique-matching-progress-contract	t
 S9xSetST018		BLOCKED	blocked-link-contract		no-unique-matching-progress-contract	target-function-contract	link-contract			snes9x/s9xsetbyte.o;snes9x/s9xsetword.o	no unique recovered global text contract is proved
 S9xStartHDMA		BLOCKED	blocked-link-contract		no-unique-matching-progress-contract	named-external	link-contract			snes9x/cpu_execution.o	no unique recovered global text contract is proved
 S9xStartScreenRefresh	0x0014311c	RESOLVED	semantic-text-alias	snes_p28_0014311c	exact-progress-name+unique-recovered-global-text	named-external	link-contract	src/ps2/progress28_structural_lift_recovered.c	ps2/progress28_structural_lift_recovered.o	snes9x/cpu_execution.o	progress=S9xStartScreenRefresh
-S9xSuperFXExec		BLOCKED	blocked-link-contract		no-unique-matching-progress-contract	named-external	link-contract			snes9x/cpu_execution.o	no unique recovered global text contract is proved
 S9xSync_AudioActive		BLOCKED	blocked-link-contract		no-unique-matching-progress-contract	named-external	link-contract			ps2/path_helpers_recovered.o	no unique recovered global text contract is proved
 S9xSync_AudioArg0		BLOCKED	blocked-link-contract		no-unique-matching-progress-contract	named-external	link-contract			ps2/path_helpers_recovered.o	no unique recovered global text contract is proved
 S9xSync_AudioArg1		BLOCKED	blocked-link-contract		no-unique-matching-progress-contract	named-external	link-contract			ps2/path_helpers_recovered.o	no unique recovered global text contract is proved

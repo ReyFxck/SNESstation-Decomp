@@ -68,7 +68,7 @@ functions; the sidecar records each actual identity at its target address.
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
 for all runners. The tree now contains **161 canonical translation units**;
-1867 external contracts remain; all frozen whole-image claims are preserved.
+1866 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -557,3 +557,22 @@ current source groups after adding the native Super FX module (previously 105).
 Both group-count guards are updated to the actually derived grouping. Function
 counts, code-byte totals, frozen image/chunk metrics and target hashes remain
 unchanged; source grouping is not a new binary comparison.
+
+## Native Super FX execution and CPU IRQ bridge
+
+The original 184-byte `S9xSuperFXExec` body is now part of
+`src/snes9x/ppu_reset.cpp`, and all **184/184 provider-linked target bytes**
+match the frozen V51 digest. The routine retains the actual PS2 Settings
+layout, register checks, native `FxEmulate(uint32)` calls at `0x001309c4`,
+and native `S9xSetIRQ(uint32)` at `0x00116128`. Both callees now have canonical
+native implementations, so CPU execution's Super FX address anchor is closed.
+
+The earlier five PPU routines retain their exact proof scope and bytes. Their
+shared TU now contains six routines and 3556 native instruction bytes; the
+184-byte execution bridge has its own complete target proof. Run
+`python3 tools/run-superfx-execution-source-recovery.py`.
+
+The canonical tree remains at 161 units, with 1866 external contracts, 1535
+link contracts (249 blocked), and 239 frontier rows (195 address anchors).
+The report's current 106 source groups and all frozen historical binary
+results/claims remain unchanged. No fresh private-image rerun is claimed.

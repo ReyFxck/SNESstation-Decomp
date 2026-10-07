@@ -194,6 +194,8 @@ on:
       - tools/run-native-fxemu-source-recovery.py
       - analysis/functions/native_fxemu_exact_3456.tsv
       - tools/run-ppu-reset-source-recovery.py
+      - tools/run-superfx-execution-source-recovery.py
+      - analysis/functions/superfx_execution_exact_184.tsv
       - analysis/functions/ppu_reset_exact_3372.tsv
       - tools/run-native-sound-controls-source-recovery.py
       - analysis/functions/native_sound_controls_exact_452.tsv

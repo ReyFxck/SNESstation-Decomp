@@ -1277,7 +1277,7 @@ FUN_00158974	target-function-alias	source-address-alias	src/ps2/progress28_struc
 FUN_001591a8	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/ppu_reset.cpp;src/snes9x/progress13_core_helpers_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0015cce4	target-function-alias	source-address-alias	src/ps2/progress25_small_core_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0015cdf8	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/ppu_reset.cpp;src/snes9x/progress13_runtime_more_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0015d334	target-function-alias	source-address-alias	src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0015d334	target-function-alias	source-address-alias	src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/ppu_reset.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0015d9ac	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/progress13_frontend_more_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0015db74	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/progress13_frontend_more_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0015de14	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/progress11_core_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1537,7 +1537,6 @@ S9xSetPPU	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-
 S9xSetST018	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
 S9xStartHDMA	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
 S9xStartScreenRefresh	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
-S9xSuperFXExec	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
 S9xSync_AudioActive	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 S9xSync_AudioArg0	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
 S9xSync_AudioArg1	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o

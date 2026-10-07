@@ -261,7 +261,6 @@ LATER_CPU_EXECUTION_CONTRACTS = {
     'S9xSA1MainLoop': 0x16efa0,
     'S9xStartHDMA': 0x12b3e8,
     'S9xStartScreenRefresh': 0x14311c,
-    'S9xSuperFXExec': 0x15d334,
     'S9xUpdateJoypads': 0x15d0bc,
 }
 
@@ -438,7 +437,8 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
             fail(f"promoted native sound control source ownership drift: {name}")
 
     for name, size in (("S9xFixColourBrightness", 192), ("S9xResetPPU", 1280),
-                       ("S9xSoftResetPPU", 1212), ("S9xProcessMouse", 516), ("S9xNextController", 172)):
+                       ("S9xSoftResetPPU", 1212), ("S9xProcessMouse", 516), ("S9xNextController", 172),
+                       ("S9xSuperFXExec", 184)):
         definitions = [row for row in defined_rows if row["symbol"] == name]
         if (len(definitions) != 1 or definitions[0]["binding"] != "global"
                 or definitions[0]["section_class"] != "text"

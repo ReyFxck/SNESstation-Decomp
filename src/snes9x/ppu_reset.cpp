@@ -919,3 +919,38 @@ void S9xNextController ()
 		break;
     }
 }
+
+/* 0x0015d334 — original native Super FX execution/IRQ bridge, 184 bytes.
+ * Calls the original FxEmulate(uint32) ABI and canonical CPU IRQ setter.
+ * This is the active historical PS2 branch of S9xSuperFXExec.
+ */
+extern int FxEmulate(uint32);
+extern "C" void S9xSetIRQ(uint32);
+extern "C" void S9xSuperFXExec();
+#define GSU_SFR 0x30
+#define GSU_SCMR 0x3a
+#define GSU_CLSR 0x39
+#define FLG_G 0x20
+#define FLG_IRQ 0x8000
+#define GSU_IRQ_SOURCE 4
+void S9xSuperFXExec ()
+{
+    if (Settings.SuperFX)
+    {
+	if ((Memory.FillRAM [0x3000 + GSU_SFR] & FLG_G) &&
+	    (Memory.FillRAM [0x3000 + GSU_SCMR] & 0x18) == 0x18)
+	{
+	    if (!Settings.WinterGold||Settings.StarfoxHack)
+		FxEmulate (~0);
+	    else
+		FxEmulate ((Memory.FillRAM [0x3000 + GSU_CLSR] & 1) ? 700 : 350);
+	    int GSUStatus = Memory.FillRAM [0x3000 + GSU_SFR] |
+			    (Memory.FillRAM [0x3000 + GSU_SFR + 1] << 8);
+	    if ((GSUStatus & (FLG_G | FLG_IRQ)) == FLG_IRQ)
+	    {
+		// Trigger a GSU IRQ.
+		S9xSetIRQ (GSU_IRQ_SOURCE);
+	    }
+	}
+    }
+}

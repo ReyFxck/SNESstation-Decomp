@@ -304,7 +304,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0015cdf8,snes_p13_stage_advance_0015cdf8,frontend,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/ppu_reset.cpp;src/snes9x/progress13_runtime_more_recovered.c,MATCHING
 0x0015cea4,snes_p16_0015cea4,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0015d0bc,snes_p16_0015d0bc,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x0015d334,snes_p16_0015d334,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x0015d334,snes_p16_0015d334,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/ppu_reset.cpp,MATCHING
 0x0015d3ec,snes_p16_0015d3ec,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0015d6d8,snes_p16_0015d6d8,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0015d8ec,snes_p13_ppu_reset_0015d8ec,ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/snes9x/native_chip_resets.cpp;src/snes9x/progress13_core_helpers_recovered.c,MATCHING

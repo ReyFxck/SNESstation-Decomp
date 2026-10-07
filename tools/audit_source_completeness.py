@@ -19,6 +19,7 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0015d334': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/superfx_execution_exact_184.tsv", "evidence_token": "S9xSuperFXExec"},
     '0x0012fe5c': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z18FxCacheWriteAccesst'},
     '0x0012fe9c': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z12FxFlushCachev'},
     '0x0012feb4': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z14fx_backupCachev'},

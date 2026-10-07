@@ -32,6 +32,7 @@ PROVIDERS={'DAT_0033cac8': 3394248,
  'DAT_0035c268': 3523176,
  'memset': 1688476,
  'snes_leaf_00104e50': 1068624}
+PROVIDERS.update({"_Z9FxEmulatej": 0x001309c4, "S9xSetIRQ": 0x00116128})
 LEGACY_NAMES={'DAT_0033cac8': 'mul_brightness',
  'DAT_003454e0': 'Settings',
  'DAT_0034e2b0': 'Memory',
@@ -39,6 +40,7 @@ LEGACY_NAMES={'DAT_0033cac8': 'mul_brightness',
  'DAT_0035c268': 'IPPU',
  'memset': 'memset',
  'snes_leaf_00104e50': 'S9xReadMousePosition'}
+LEGACY_NAMES.update({"_Z9FxEmulatej": "_Z9FxEmulatej", "S9xSetIRQ": "S9xSetIRQ"})
 SPECS=[{'address': '0x001591a8',
   'evidence': 'analysis/functions/progress13_targets.asm',
   'historical_raw_sha256': 'bc59f1d20e4fa9008f121882d99f241cbd89201a85a72aa675cdd84db318145b',
@@ -142,8 +144,8 @@ def main():
     original,isolated=ELFFile(original_path),ELFFile(obj)
     functions=[s for s in isolated.symbols if s.info & 15 == 2 and s.size]
     ro=next(s for s in isolated.sections if s.name==".rodata")
-    if (len(functions)!=5 or sum(s.size for s in functions)!=3372
-        or {s.name for s in functions}!={r["symbol"] for r in SPECS} or ro.size!=28
+    if (len(functions)!=6 or sum(s.size for s in functions)!=3556
+        or {s.name for s in functions}!={r["symbol"] for r in SPECS}|{"S9xSuperFXExec"} or ro.size!=28
         or any(s.size and s.info >> 4 in (1,2) and s.section_index < len(isolated.sections)
                and isolated.sections[s.section_index].name in (".data",".bss")
                for s in isolated.symbols if s.section_index)):
