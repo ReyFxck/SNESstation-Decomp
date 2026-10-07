@@ -1125,6 +1125,10 @@ alloc32	local	text	0x1c	src/snes9x/memory_init_recovered.c	snes9x/memory_init_re
 S9xInitC4	global	text	0x28	src/snes9x/native_chip_resets.cpp	snes9x/native_chip_resets.o
 S9xResetDMA	global	text	0xb8	src/snes9x/native_chip_resets.cpp	snes9x/native_chip_resets.o
 S9xSA1Init	global	text	0xc0	src/snes9x/native_chip_resets.cpp	snes9x/native_chip_resets.o
+S9xSetEchoDelay	global	text	0x88	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o
+S9xSetEchoWriteEnable	global	text	0x34	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o
+S9xSetSoundFrequency	global	text	0x108	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o
+_GLOBAL__F_S9xSetEchoDelay	global	data	0x0	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o
 S9xResetSound	global	text	0x1b4	src/snes9x/native_sound_reset.cpp	snes9x/native_sound_reset.o
 S9xSetEchoEnable	global	text	0xe4	src/snes9x/native_sound_reset.cpp	snes9x/native_sound_reset.o
 S9xSetPlaybackRate	global	text	0xb4	src/snes9x/native_sound_reset.cpp	snes9x/native_sound_reset.o

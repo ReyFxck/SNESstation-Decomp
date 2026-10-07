@@ -186,6 +186,9 @@ on:
       - src/snes9x/dsp_table_init.c
       - src/snes9x/apu_reset.cpp
       - src/snes9x/native_sound_reset.cpp
+      - src/snes9x/native_sound_controls.cpp
+      - tools/run-native-sound-controls-source-recovery.py
+      - analysis/functions/native_sound_controls_exact_452.tsv
       - tools/run-native-sound-reset-source-recovery.py
       - analysis/functions/native_sound_reset_exact_844.tsv
       - tools/run-apu-reset-source-recovery.py

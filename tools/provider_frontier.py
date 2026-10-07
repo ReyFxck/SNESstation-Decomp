@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-APU-reset-recovery 245-name source-link provider frontier.
+"""Close the post-native-sound-controls-recovery 243-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -130,9 +130,6 @@ SEMANTIC_ALIASES = {
 # source model does not export a signature-compatible canonical definition.
 # REG_GS_CSR is the documented PS2 privileged GS register, not image storage.
 EXPLICIT_ANCHORS = {
-    # Native callees of the exact original playback-rate helper.
-    "S9xSetEchoDelay": 0x0017422C,
-    "S9xSetSoundFrequency": 0x00174728,
     # Complete historical CPU execution module native callees.
     'S9xDeinterleaveMode2': 0x1520b8,
     'S9xDoHDMA': 0x12b498,
@@ -293,8 +290,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 245:
-        fail(f"expected exact post-APU-reset-recovery frontier of 245 symbols, found {len(active)}")
+    if len(active) != 243:
+        fail(f"expected exact post-native-sound-controls-recovery frontier of 243 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -371,7 +368,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 201,
+        ABSOLUTE_ANCHOR: 199,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

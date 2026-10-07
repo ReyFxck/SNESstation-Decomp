@@ -19,6 +19,9 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0017422c': {"source_file": 'src/snes9x/native_sound_controls.cpp', "evidence": "analysis/functions/native_sound_controls_exact_452.tsv", "evidence_token": 'S9xSetEchoDelay'},
+    '0x001742b4': {"source_file": 'src/snes9x/native_sound_controls.cpp', "evidence": "analysis/functions/native_sound_controls_exact_452.tsv", "evidence_token": 'S9xSetEchoWriteEnable'},
+    '0x00174728': {"source_file": 'src/snes9x/native_sound_controls.cpp', "evidence": "analysis/functions/native_sound_controls_exact_452.tsv", "evidence_token": 'S9xSetSoundFrequency'},
     '0x00174120': {"source_file": 'src/snes9x/native_sound_reset.cpp', "evidence": "analysis/functions/native_sound_reset_exact_844.tsv", "evidence_token": 'S9xSetEchoEnable'},
     '0x00177a84': {"source_file": 'src/snes9x/native_sound_reset.cpp', "evidence": "analysis/functions/native_sound_reset_exact_844.tsv", "evidence_token": 'S9xResetSound'},
     '0x0010a934': {"source_file": 'src/snes9x/apu_reset.cpp', "evidence": "analysis/functions/apu_reset_exact_1044.tsv", "evidence_token": "S9xResetAPU"},

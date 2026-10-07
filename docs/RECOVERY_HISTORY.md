@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **158 canonical translation units**;
-1866 external contracts remain; all frozen whole-image claims are preserved.
+for all runners. The tree now contains **159 canonical translation units**;
+1864 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -474,3 +474,24 @@ Run `python3 tools/run-native-sound-reset-source-recovery.py`. The canonical
 tree contains 158 units, 1866 external contracts, 1535 link contracts (255
 blocked), and the same 245-row provider frontier. Historical frozen ledgers,
 results and claims remain unchanged, with no new private-image rerun.
+
+## Complete native echo-delay/write and sound-frequency controls
+
+`src/snes9x/native_sound_controls.cpp` restores three more original audio
+routines, with **452/452 fully provider-linked target bytes**: 136-byte
+`S9xSetEchoDelay`, 52-byte `S9xSetEchoWriteEnable`, and 264-byte
+`S9xSetSoundFrequency`. Both echo routines match complete public instruction
+listings; frequency matches its frozen V52 target digest. The PS2 float
+intermediate, native unsigned 64-bit division/conversion calls, 0.98 double
+constant at `0x001b83e8`, and existing 128-byte noise-frequency table are retained.
+
+Playback's native echo-delay and frequency contracts now resolve to original
+source, and the echo routines call the newly recovered native echo-enable
+implementation. Full historical GLOBALS data verifies the shared sound,
+channel and noise-table geometry. Existing runtime providers retain their
+prior claim level. No sound state, table or buffer is duplicated.
+
+Run `python3 tools/run-native-sound-controls-source-recovery.py`. The canonical
+tree contains 159 units, 1864 external contracts, 1533 link contracts (253
+blocked), and 243 frontier rows (199 address anchors). Frozen historical
+ledgers, results and claims remain unchanged; no private-image rerun is claimed.
