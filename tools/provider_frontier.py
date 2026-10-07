@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-native-HDMA-recovery 237-name source-link provider frontier.
+"""Close the post-native-DMA-recovery 238-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -130,6 +130,16 @@ SEMANTIC_ALIASES = {
 # source model does not export a signature-compatible canonical definition.
 # REG_GS_CSR is the documented PS2 privileged GS register, not image storage.
 EXPLICIT_ANCHORS = {
+    # The earlier random-number model takes a state pointer. Preserve the
+    # original zero-argument ABI used by the native PPU register path.
+    "rand": 0x00108a34,
+    # DMA retains native operator new[]/delete[] signatures. The earlier
+    # callback/opaque runtime models cannot provide these entry points.
+    "_Znaj": 0x001a9f68,
+    "_ZdaPv": 0x001a9118,
+    # Original native PPU register calls still awaiting native source ownership.
+    "S9xGetSA1": 0x0015e298,
+    "S9xSetSA1": 0x0015e40c,
     # Complete historical CPU execution module native callees.
     'S9xDeinterleaveMode2': 0x1520b8,
     'S9xGenerateSound': 0x101904,
@@ -146,8 +156,6 @@ EXPLICIT_ANCHORS = {
     # Exact Snes9x 1.40 S9xGetByte dependencies. These are target-address
     # contracts proved by the same original-ELF link gate as the recovered TU;
     # they are not aliases to the older context-argument behavioral models.
-    "S9xGetPPU": 0x0015A5F0,
-    "S9xGetCPU": 0x0015BC70,
     "S9xGetC4": 0x0010C328,
     "S9xGetST018": 0x001701FC,
     "g_CPU_blob": 0x00345340,
@@ -155,8 +163,6 @@ EXPLICIT_ANCHORS = {
 
     # Exact Snes9x 1.40 S9xSetByte dependencies from the 808/808-byte
     # provider-linked target proof.
-    "S9xSetPPU": 0x00159268,
-    "S9xSetCPU": 0x0015AD6C,
     "S9xSetC4": 0x0010D7DC,
     "S9xSetST018": 0x00170204,
     "g_SA1_blob": 0x00345AF8,
@@ -284,8 +290,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 237:
-        fail(f"expected exact post-native-HDMA-recovery frontier of 237 symbols, found {len(active)}")
+    if len(active) != 238:
+        fail(f"expected exact post-native-DMA-recovery frontier of 238 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -362,7 +368,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 193,
+        ABSOLUTE_ANCHOR: 194,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

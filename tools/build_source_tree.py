@@ -55,6 +55,8 @@ DEFAULT_CFLAGS = (
 # source byte-identical and select only the members owned by this canonical TU
 # at compile time instead of adding recovery-only #defines to the source.
 SOURCE_FIXED_FLAGS = {
+    'src/snes9x/native_dma.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_ppu_registers.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections', '-fdata-sections'),
     'src/snes9x/native_hdma.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_fxemu.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
     'src/snes9x/ppu_reset.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
@@ -360,6 +362,13 @@ ZLIB_EXTERNAL_PREFIXES = (
 # the mangled spelling itself does not encode an address and therefore must not
 # be sent through the address-suffix alias gate.
 HISTORICAL_CPP_PEERS = {
+    "rand": "src/snes9x/native_ppu_registers.cpp",
+    'S9xUpdateScreen': "src/snes9x/native_ppu_registers.cpp",
+    'S9xSetSA1': "src/snes9x/native_ppu_registers.cpp",
+    'S9xGetSA1': "src/snes9x/native_ppu_registers.cpp",
+    'S9xDoDMA': "src/snes9x/native_ppu_registers.cpp",
+    '_ZN7CMemory11FixROMSpeedEv': "src/snes9x/native_ppu_registers.cpp",
+
     "_Z10C4DrawLineiisiish": "src/ps2/progress28_structural_lift_recovered.c",
     "S9xGetPPU": "src/snes9x/s9xgetbyte.cpp",
     "S9xGetCPU": "src/snes9x/s9xgetbyte.cpp",

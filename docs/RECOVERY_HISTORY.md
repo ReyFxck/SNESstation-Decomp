@@ -603,3 +603,81 @@ pointer tables and mode-byte-count table. Native memory callees retain their
 already proved ABI and entry addresses; register writes retain the actual
 `S9xSetPPU` address contract. Unselected historical DMA context is comparison
 context only and is neither executed nor promoted by this proof.
+
+### Native PPU/CPU register access and horizontal timer
+
+Recovered `S9xUpdateHTimer`, `S9xSetPPU`, `S9xGetPPU`, `S9xSetCPU`,
+`S9xGetCPU` and the PPU-local OAM/CGRAM helpers in
+`src/snes9x/native_ppu_registers.cpp`. All seven routines preserve their original
+native signatures and complete historical instructions, totaling **13580 bytes**.
+The public proof reproduces the complete frozen 18580-byte historical PPU code
+window, the full original GLOBALS data hash and the geometry of shared state.
+
+All selected provider-linked bytes match a fully linked original-source
+reference. `S9xGetPPU`, `S9xSetCPU` and the CGRAM helper additionally match
+**6292 complete target bytes** from previously frozen public digests. The other
+7288 bytes retain linked historical-reference and normalized MATCH evidence;
+they are not promoted to independently captured complete target hashes.
+The original 2724 jump-table bytes and both eight-byte VRAM tables retain their
+placement and values. No CPU, PPU, APU, DMA or controller state is duplicated.
+
+Memory readers and writers and native HDMA now call canonical native register
+implementations. `CMemory::FixROMSpeed`, SRTC, SPC7110, IRQ, brightness and Super
+FX callees keep their established ABIs. The original zero-argument `rand` uses
+its original address contract: the earlier explicit-state model cannot supply
+that signature. Run `python3 tools/run-native-ppu-registers-source-recovery.py`.
+
+### Native general DMA and its audited partitions
+
+Recovered the full **6388-byte** `S9xDoDMA` in `src/snes9x/native_dma.cpp`, together
+with its local OAM (748 bytes) and CGRAM (532 bytes) helpers. The two audited
+boundaries at `0x00129af4` and `0x0012a400` are partitions of the same contiguous
+original routine, rather than separate implementations. Both complete partitions
+match their frozen target digests after all providers are placed. CGRAM also
+matches its complete target digest: **6920 provider-linked target bytes** total.
+All **7668 selected bytes** match a fully linked original historical reference;
+the OAM helper retains its narrower historical-reference proof scope.
+
+The proof rebuilds the pinned complete 9320-byte DMA code window, preserves
+all 24 general-DMA jump-table bytes and checks original shared-state geometry.
+All transfer modes, DMA directions, VRAM/OAM/CGRAM writes, S-DD1 lookup,
+SPC7110 bank-50 wrapping, SA-1 character conversion, APU execution, HBlank
+processing and 64-bit CPU cycle accounting retain the original instructions.
+Native allocation calls retain `_Znaj` and `_ZdaPv` address contracts because
+the earlier callback/opaque models have incompatible signatures. Run
+`python3 tools/run-native-dma-source-recovery.py`.
+
+The integrated tree now has **164 canonical translation units**, **1866 external
+contracts**, **1535 link contracts** (1287 resolved, 248 blocked), and **238 provider
+frontier rows** (194 address anchors, 39 compatibility-storage providers and five
+semantic aliases). The source-address-alias ledger remains 331/345 proved, with
+14 intentionally blocked aliases. Generated source-unit totals now derive from
+the canonical manifest rather than stale literal counts.
+
+All **71 maintained source-recovery proofs pass**. The report still derives 106
+function source groups. All 1041 function-audit results, complete image metrics,
+payload hashes and original full-file proof claims remain frozen. Public
+requester/provenance hashes were refreshed; no fresh private-image rerun or new
+replacement-ELF comparison is claimed.
+
+### Partial-link validation after retiring provisional data consumers
+
+The source-address and link-contract gates now honor the explicit
+`retired-target-data` rows in `analysis/source_tree/special_ownership.tsv`.
+Those 15 historical identities remain in public ledgers, while their removed
+provisional consumers remain absent from the compiled aggregate. The gates
+still reject unexpected missing references or a retired consumer returning.
+The semantic-alias check also accepts a strong text alias to weak canonical
+text, as emitted by EE binutils for `memmove_like` and `memmove`, while rejecting
+data symbols and differing addresses. Regression tests cover both cases.
+
+Fresh partial-link checks preserve allocated sections through both zero-byte
+gates: 1851 live externals become 1520 after source aliases, then 248 after link
+contracts. A namespace-only check using the ten frozen private-asset addresses
+closes the remaining **238 -> 0 undefined globals** with the reviewed provider
+plan and compatibility storage. It does not consume or verify private asset
+payloads, establish image identity or replace the original private-asset gate.
+
+Final repository validation: `make check` passes, including 604 tool tests
+(one existing skip), generated-document checks, host syntax and every public
+identity/provenance gate. `make source-recovery-check` passes all 71 proofs.

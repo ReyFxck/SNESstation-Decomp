@@ -445,6 +445,24 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 or definitions[0]["object"] != "snes9x/ppu_reset.o"):
             fail(f"promoted native PPU source ownership drift: {name}")
 
+    for name, size in (("_Z15S9xUpdateHTimerv", 336), ("S9xSetPPU", 5000),
+                       ("S9xGetPPU", 1916), ("S9xSetCPU", 3844), ("S9xGetCPU", 1204)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/native_ppu_registers.cpp"
+                or definitions[0]["object"] != "snes9x/native_ppu_registers.o"):
+            fail(f"promoted native register source ownership drift: {name}")
+
+    definitions = [row for row in defined_rows if row["symbol"] == "S9xDoDMA"]
+    if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+            or definitions[0]["section_class"] != "text"
+            or definitions[0]["size_hex"] != hex(6388)
+            or definitions[0]["source"] != "src/snes9x/native_dma.cpp"
+            or definitions[0]["object"] != "snes9x/native_dma.o"):
+        fail("promoted native DMA source ownership drift")
+
     for name, size in (("S9xStartHDMA", 176), ("S9xDoHDMA", 1292)):
         definitions = [row for row in defined_rows if row["symbol"] == name]
         if (len(definitions) != 1 or definitions[0]["binding"] != "global"

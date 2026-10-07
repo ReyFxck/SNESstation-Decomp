@@ -31,6 +31,7 @@ from source_aliases import (
     alloc_section_fingerprints,
     global_symbols,
     read_table,
+    retired_data_names,
     resolve_tool,
     run,
     sha256_file,
@@ -499,8 +500,16 @@ def verify_link_result(
     input_symbols: Sequence[NmSymbol],
     output_symbols: Sequence[NmSymbol],
     rows: Sequence[dict[str, str]],
+    retired_names: set[str] | None = None,
 ) -> tuple[int, int]:
-    expected_input = {row["symbol"] for row in rows}
+    retired_names = retired_names or set()
+    row_names = {row["symbol"] for row in rows}
+    if (not retired_names <= row_names
+            or any(row["symbol"] in retired_names
+                   and (row["status"] != RESOLVED or row["resolution_kind"] != ABSOLUTE_ANCHOR)
+                   for row in rows)):
+        fail("retired data contracts must remain resolved absolute addresses")
+    expected_input = row_names - retired_names
     input_undefined = {symbol.name for symbol in input_symbols if symbol.undefined}
     if input_undefined != expected_input:
         missing = sorted(expected_input - input_undefined)[:5]
@@ -537,7 +546,9 @@ def verify_link_result(
             canonical = output_defined.get(row["canonical_symbol"])
             if canonical is None:
                 fail(f"semantic canonical symbol is absent: {row['canonical_symbol']}")
-            if symbol.value != canonical.value or symbol.type_code.upper() != canonical.type_code.upper():
+            text_types = {"T", "W"}
+            if (symbol.value != canonical.value or symbol.type_code.upper() not in text_types
+                    or canonical.type_code.upper() not in text_types):
                 fail(f"semantic alias differs from canonical: {row['symbol']} != {row['canonical_symbol']}")
         else:
             fail(f"unknown resolved contract kind: {row['resolution_kind']}")
@@ -566,7 +577,10 @@ def link_contracts(args: argparse.Namespace, rows: Sequence[dict[str, str]]) -> 
     run(command)
 
     output_symbols = global_symbols(nm, args.output)
-    input_count, output_count = verify_link_result(input_symbols, output_symbols, rows)
+    input_count, output_count = verify_link_result(
+        input_symbols, output_symbols, rows,
+        retired_data_names() & {row["symbol"] for row in rows},
+    )
     input_sections = alloc_section_fingerprints(args.input)
     output_sections = alloc_section_fingerprints(args.output)
     if output_sections != input_sections:

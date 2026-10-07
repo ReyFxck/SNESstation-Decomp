@@ -302,6 +302,22 @@ class SourceAliasTests(unittest.TestCase):
             ),
         )
 
+    def test_retired_data_contracts_do_not_require_live_consumers(self) -> None:
+        symbols = [NmSymbol("live", "U")]
+        self.assertEqual(
+            (1, 1),
+            verify_link_result(symbols, symbols, [], {"live", "retired"}, {"retired"}),
+        )
+        with self.assertRaisesRegex(AliasError, "input aggregate/external map drift"):
+            verify_link_result(
+                symbols, symbols, [], {"live", "retired", "unexpected_missing"}, {"retired"},
+            )
+        with self.assertRaisesRegex(AliasError, "input aggregate/external map drift"):
+            verify_link_result(
+                [*symbols, NmSymbol("retired", "U")], symbols, [],
+                {"live", "retired"}, {"retired"},
+            )
+
     def test_frozen_repository_manifest_has_expected_libc_asm_promotion_counts(self) -> None:
         args = argparse.Namespace(
             external_map=DEFAULT_EXTERNAL,

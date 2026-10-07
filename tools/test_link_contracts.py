@@ -255,6 +255,39 @@ class LinkContractTests(unittest.TestCase):
         ]
         self.assertEqual((3, 1), verify_link_result(input_symbols, output_symbols, rows))
 
+    def test_retired_data_is_bound_without_restoring_its_consumer(self) -> None:
+        rows = [
+            {"symbol": "retired", "status": RESOLVED,
+             "resolution_kind": ABSOLUTE_ANCHOR, "target_address": "0x00100010"},
+            {"symbol": "live", "status": BLOCKED},
+        ]
+        input_symbols = [NmSymbol("live", "U")]
+        output_symbols = [*input_symbols, NmSymbol("retired", "A", "00100010")]
+        self.assertEqual(
+            (1, 1), verify_link_result(input_symbols, output_symbols, rows, {"retired"}),
+        )
+        with self.assertRaisesRegex(ContractError, "aggregate/contract manifest drift"):
+            verify_link_result(
+                [*input_symbols, NmSymbol("retired", "U")], output_symbols, rows, {"retired"},
+            )
+        with self.assertRaisesRegex(ContractError, "retired data contracts"):
+            verify_link_result(
+                input_symbols, output_symbols,
+                [{**rows[0], "status": BLOCKED}, rows[1]], {"retired"},
+            )
+
+    def test_semantic_alias_can_bind_weak_text_without_accepting_data(self) -> None:
+        rows = [{"symbol": "call", "status": RESOLVED,
+                 "resolution_kind": SEMANTIC_ALIAS, "canonical_symbol": "weak_target"}]
+        input_symbols = [NmSymbol("call", "U")]
+        output_symbols = [NmSymbol("call", "T", "00000020"),
+                          NmSymbol("weak_target", "W", "00000020")]
+        self.assertEqual((1, 0), verify_link_result(input_symbols, output_symbols, rows))
+        for target in (NmSymbol("weak_target", "D", "00000020"),
+                       NmSymbol("weak_target", "W", "00000024")):
+            with self.assertRaisesRegex(ContractError, "semantic alias differs"):
+                verify_link_result(input_symbols, [output_symbols[0], target], rows)
+
     def test_frozen_repository_manifest_has_expected_live_counts(self) -> None:
         args = argparse.Namespace(
             external_map=DEFAULT_EXTERNAL,
@@ -267,15 +300,16 @@ class LinkContractTests(unittest.TestCase):
         )
         rows = validate_frozen_manifest(args)
         report = summarize(rows)
-        self.assertEqual(1533, report["contracts_total"])
-        self.assertEqual(1286, report["resolved"])
-        self.assertEqual(247, report["blocked"])
+        self.assertEqual(1535, report["contracts_total"])
+        self.assertEqual(1287, report["resolved"])
+        self.assertEqual(248, report["blocked"])
         self.assertEqual(1251, report["address_anchors"])
-        self.assertEqual(35, report["semantic_aliases"])
+        self.assertEqual(36, report["semantic_aliases"])
         self.assertEqual(
             {
                 "recovered-runtime": 1,
-                "link-contract": 186,
+                "link-contract": 185,
+                "historical-archive": 2,
                 "private-asset": 10,
                 "program-data": 36,
                 "source-address-alias": 14,

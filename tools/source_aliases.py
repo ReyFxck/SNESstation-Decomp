@@ -499,11 +499,16 @@ def verify_link_result(
     output_symbols: Sequence[NmSymbol],
     rows: Sequence[dict[str, str]],
     external_names: set[str],
+    retired_names: set[str] | None = None,
 ) -> tuple[int, int]:
+    retired_names = retired_names or set()
+    if not retired_names <= external_names:
+        fail("retired data names are absent from the external ledger")
+    expected_input = external_names - retired_names
     input_undefined = {symbol.name for symbol in input_symbols if symbol.undefined}
-    if input_undefined != external_names:
-        missing = sorted(external_names - input_undefined)[:5]
-        extra = sorted(input_undefined - external_names)[:5]
+    if input_undefined != expected_input:
+        missing = sorted(expected_input - input_undefined)[:5]
+        extra = sorted(input_undefined - expected_input)[:5]
         fail(f"input aggregate/external map drift; missing={missing} extra={extra}")
 
     proved = [row for row in rows if row["status"] == PROVED]
@@ -556,6 +561,17 @@ def summarize(rows: Sequence[dict[str, str]]) -> dict[str, object]:
     }
 
 
+def retired_data_names() -> set[str]:
+    """Read historical data contracts whose provisional consumers were retired."""
+    from build_source_tree import DEFAULT_SPECIAL, SPECIAL_FIELDS
+
+    rows = read_table(DEFAULT_SPECIAL, SPECIAL_FIELDS, delimiter="\t")
+    retired = [row for row in rows if row["kind"] == "retired-target-data"]
+    if any(row["stage2_state"] != "consumer-retired" for row in retired):
+        fail("retired target-data ownership state drift")
+    return {row["identity"] for row in retired}
+
+
 def link_aliases(args: argparse.Namespace, rows: Sequence[dict[str, str]]) -> dict[str, object]:
     if not args.input.is_file():
         fail(f"missing Stage-2 aggregate: {args.input}")
@@ -580,7 +596,8 @@ def link_aliases(args: argparse.Namespace, rows: Sequence[dict[str, str]]) -> di
 
     output_symbols = global_symbols(nm, args.output)
     input_external_count, output_external_count = verify_link_result(
-        input_symbols, output_symbols, rows, external_names
+        input_symbols, output_symbols, rows, external_names,
+        retired_data_names() & external_names,
     )
     input_sections = alloc_section_fingerprints(args.input)
     output_sections = alloc_section_fingerprints(args.output)

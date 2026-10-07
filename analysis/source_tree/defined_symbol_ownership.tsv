@@ -1125,6 +1125,10 @@ alloc32	local	text	0x1c	src/snes9x/memory_init_recovered.c	snes9x/memory_init_re
 S9xInitC4	global	text	0x28	src/snes9x/native_chip_resets.cpp	snes9x/native_chip_resets.o
 S9xResetDMA	global	text	0xb8	src/snes9x/native_chip_resets.cpp	snes9x/native_chip_resets.o
 S9xSA1Init	global	text	0xc0	src/snes9x/native_chip_resets.cpp	snes9x/native_chip_resets.o
+S9xDoDMA	global	text	0x18f4	src/snes9x/native_dma.cpp	snes9x/native_dma.o
+_GLOBAL__F_S9xDoDMA	global	data	0x0	src/snes9x/native_dma.cpp	snes9x/native_dma.o
+_Z13REGISTER_2104h	local	text	0x2ec	src/snes9x/native_dma.cpp	snes9x/native_dma.o
+_Z13REGISTER_2122h	local	text	0x214	src/snes9x/native_dma.cpp	snes9x/native_dma.o
 S9xFxReset	global	text	0x200	src/snes9x/native_fxemu.cpp	snes9x/native_fxemu.o
 _GLOBAL__F__Z18FxCacheWriteAccesst	global	data	0x0	src/snes9x/native_fxemu.cpp	snes9x/native_fxemu.o
 _Z10FxStepOverj	global	text	0xcc	src/snes9x/native_fxemu.cpp	snes9x/native_fxemu.o
@@ -1150,6 +1154,16 @@ _Z9FxEmulatej	global	text	0xb4	src/snes9x/native_fxemu.cpp	snes9x/native_fxemu.o
 S9xDoHDMA	global	text	0x50c	src/snes9x/native_hdma.cpp	snes9x/native_hdma.o
 S9xStartHDMA	global	text	0xb0	src/snes9x/native_hdma.cpp	snes9x/native_hdma.o
 _GLOBAL__F_S9xStartHDMA	global	data	0x0	src/snes9x/native_hdma.cpp	snes9x/native_hdma.o
+S9xGetCPU	global	text	0x4b4	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
+S9xGetPPU	global	text	0x77c	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
+S9xSetCPU	global	text	0xf04	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
+S9xSetPPU	global	text	0x1388	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
+_GLOBAL__F__Z15S9xUpdateHTimerv	global	data	0x0	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
+_Z13REGISTER_2104h	local	text	0x2ec	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
+_Z13REGISTER_2122h	local	text	0x214	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
+_Z15S9xUpdateHTimerv	global	text	0x150	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
+_ZZ9S9xSetPPUE5Shift	local	data	0x8	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
+_ZZ9S9xSetPPUE8IncCount	local	data	0x8	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
 S9xSetEchoDelay	global	text	0x88	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o
 S9xSetEchoWriteEnable	global	text	0x34	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o
 S9xSetSoundFrequency	global	text	0x108	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o

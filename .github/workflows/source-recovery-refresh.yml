@@ -195,6 +195,12 @@ on:
       - analysis/functions/native_fxemu_exact_3456.tsv
       - tools/run-ppu-reset-source-recovery.py
       - tools/run-superfx-execution-source-recovery.py
+      - src/snes9x/native_ppu_registers.cpp
+      - analysis/functions/native_ppu_registers_exact_13580.tsv
+      - tools/run-native-ppu-registers-source-recovery.py
+      - src/snes9x/native_dma.cpp
+      - analysis/functions/native_dma_exact_7668.tsv
+      - tools/run-native-dma-source-recovery.py
       - src/snes9x/native_hdma.cpp
       - tools/run-native-hdma-source-recovery.py
       - analysis/functions/native_hdma_exact_1468.tsv

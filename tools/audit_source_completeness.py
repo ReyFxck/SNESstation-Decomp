@@ -19,6 +19,19 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x00129af4': {"source_file": "src/snes9x/native_dma.cpp", "evidence": "analysis/functions/native_dma_exact_7668.tsv", "evidence_token": 'S9xDoDMA'},
+    '0x0012a400': {"source_file": "src/snes9x/native_dma.cpp", "evidence": "analysis/functions/native_dma_exact_7668.tsv", "evidence_token": 'S9xDoDMA'},
+    '0x0012ba5c': {"source_file": "src/snes9x/native_dma.cpp", "evidence": "analysis/functions/native_dma_exact_7668.tsv", "evidence_token": '_Z13REGISTER_2104h'},
+    '0x0012bd48': {"source_file": "src/snes9x/native_dma.cpp", "evidence": "analysis/functions/native_dma_exact_7668.tsv", "evidence_token": '_Z13REGISTER_2122h'},
+
+    '0x00159058': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": '_Z15S9xUpdateHTimerv'},
+    '0x00159268': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": 'S9xSetPPU'},
+    '0x0015a5f0': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": 'S9xGetPPU'},
+    '0x0015ad6c': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": 'S9xSetCPU'},
+    '0x0015bc70': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": 'S9xGetCPU'},
+    '0x0015d3ec': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": '_Z13REGISTER_2104h'},
+    '0x0015d6d8': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": '_Z13REGISTER_2122h'},
+
     '0x0012b3e8': {"source_file": 'src/snes9x/native_hdma.cpp', "evidence": "analysis/functions/native_hdma_exact_1468.tsv", "evidence_token": 'S9xStartHDMA'},
     '0x0012b498': {"source_file": 'src/snes9x/native_hdma.cpp', "evidence": "analysis/functions/native_hdma_exact_1468.tsv", "evidence_token": 'S9xDoHDMA'},
     '0x0015d334': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/superfx_execution_exact_184.tsv", "evidence_token": "S9xSuperFXExec"},

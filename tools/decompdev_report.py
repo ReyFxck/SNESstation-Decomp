@@ -191,9 +191,9 @@ def _canonical_sources() -> set[str]:
         ROOT / "analysis" / "source_tree" / "translation_units.tsv", delimiter="\t"
     )
     canonical = {row["source"] for row in rows if row["link_role"] == "canonical"}
-    if len(canonical) != 162:
+    if len(canonical) != 164:
         raise DecompDevReportError(
-            f"expected 162 canonical source units, found {len(canonical)}"
+            f"expected 164 canonical source units, found {len(canonical)}"
         )
     return canonical
 
