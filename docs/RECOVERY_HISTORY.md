@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **160 canonical translation units**;
-1863 external contracts remain; all frozen whole-image claims are preserved.
+for all runners. The tree now contains **161 canonical translation units**;
+1867 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -524,3 +524,36 @@ Run `python3 tools/run-ppu-reset-source-recovery.py`. The canonical tree has
 241 frontier rows (197 address anchors). Frozen historical ledgers, results
 and claims remain unchanged. No private-image rerun or full-image identity
 is claimed; unselected reference code/data is comparison-only and never executed.
+
+## Complete original native Super FX control module
+
+`src/snes9x/native_fxemu.cpp`, with its original licensed native headers,
+restores **all 21 functions and the complete 3456-byte historical text** of
+`fxemu.cpp`. The full original raw window retains its frozen digest and all
+168 relocations. Every linked instruction matches the original fully linked
+historical module, including native register/cache handling, screen pointers,
+512-byte reset, execution, breakpoints, stepping and accessors. Code claims
+remain **linked-historical-reference**; no fresh private code digest is inferred.
+
+The complete 2280-byte original state/data section independently matches its
+frozen provider-linked target digest, including all original dispatch-pointer
+and mode-selection cells. The complete 6672-byte instruction-table data section
+also retains its frozen raw digest and geometry. The native 2044-byte GSU,
+all dispatch arrays and static mode tables are reused through extern aliases.
+No replacement GSU or function tables are allocated.
+
+The native `S9xFxReset(FxInit_s*)` contract now closes the last unresolved
+callee introduced by the original CPU reset module. Original C++ ABI names
+are retained for all other Super FX exports. Run
+`python3 tools/run-native-fxemu-source-recovery.py`.
+
+The canonical tree now contains 161 units, 1867 external contracts, 1536 link
+contracts (250 blocked), and 240 frontier rows (196 address anchors). Frozen
+historical ledgers, results and claims remain unchanged. No fresh private-image
+rerun or full-image identity is claimed.
+
+The decomp.dev report groups the same fixed 1041-function universe into 106
+current source groups after adding the native Super FX module (previously 105).
+Both group-count guards are updated to the actually derived grouping. Function
+counts, code-byte totals, frozen image/chunk metrics and target hashes remain
+unchanged; source grouping is not a new binary comparison.

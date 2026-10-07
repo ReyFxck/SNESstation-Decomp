@@ -188,6 +188,11 @@ on:
       - src/snes9x/native_sound_reset.cpp
       - src/snes9x/native_sound_controls.cpp
       - src/snes9x/ppu_reset.cpp
+      - src/snes9x/native_fxemu.cpp
+      - src/snes9x/native_fxemu.h
+      - src/snes9x/native_fxinst.h
+      - tools/run-native-fxemu-source-recovery.py
+      - analysis/functions/native_fxemu_exact_3456.tsv
       - tools/run-ppu-reset-source-recovery.py
       - analysis/functions/ppu_reset_exact_3372.tsv
       - tools/run-native-sound-controls-source-recovery.py

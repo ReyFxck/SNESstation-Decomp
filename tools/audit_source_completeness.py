@@ -19,6 +19,17 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0012fe5c': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z18FxCacheWriteAccesst'},
+    '0x0012fe9c': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z12FxFlushCachev'},
+    '0x0012feb4': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z14fx_backupCachev'},
+    '0x0012febc': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z15fx_restoreCachev'},
+    '0x0012fec4': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z13fx_flushCachev'},
+    '0x0012fef0': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z20fx_readRegisterSpacev'},
+    '0x00130134': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z24fx_computeScreenPointersv'},
+    '0x001305a0': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z21fx_writeRegisterSpacev'},
+    '0x001306f8': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": 'S9xFxReset'},
+    '0x001308f8': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z20fx_checkStartAddressv'},
+    '0x001309c4': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z9FxEmulatej'},
     '0x001591a8': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xFixColourBrightness'},
     '0x0015c124': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xResetPPU'},
     '0x0015c624': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xSoftResetPPU'},

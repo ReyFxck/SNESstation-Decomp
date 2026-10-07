@@ -215,7 +215,7 @@ DAT_0034162c	target-address-data	program-data	reserved:target-data.o	program-dat
 DAT_0034162e	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00341630	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00341660	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/dsp_dispatch.o
-DAT_00342a38	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
+DAT_00342a38	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/native_fxemu.o
 DAT_00342a7c	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00342a80	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00342a88	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
@@ -245,9 +245,14 @@ DAT_00342c0c	target-address-data	program-data	reserved:target-data.o	program-dat
 DAT_00342c10	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00342c14	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00342c24	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_0034323c	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00343240	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00343250	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
+DAT_00343234	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/native_fxemu.o
+DAT_00343238	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/native_fxemu.o
+DAT_0034323c	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/native_fxemu.o
+DAT_00343240	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/native_fxemu.o
+DAT_00343250	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/native_fxemu.o
+DAT_00343260	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/native_fxemu.o
+DAT_00343268	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/native_fxemu.o
+DAT_00343270	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/native_fxemu.o
 DAT_00344e08	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00344e0c	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00345268	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/cpu_execution.o
@@ -1244,9 +1249,9 @@ FUN_0012c398	target-function-alias	source-address-alias	src/ps2/progress26_dsp_r
 FUN_0012cbd8	target-function-alias	source-address-alias	src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0012e750	target-function-alias	source-address-alias	0x0012e750	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0012f744	target-function-alias	source-address-alias	0x0012f744	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0012fe5c	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0012fe9c	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_0012feb4	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0012fe5c	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_fxemu.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0012fe9c	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_fxemu.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_0012feb4	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_fxemu.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00142a78	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/tile_lookup_tables_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0014308c	target-function-alias	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/draw_large_pixel_recovered.c;src/snes9x/progress11_core_recovered.c;src/snes9x/tile_16bit_recovered.c;src/snes9x/tile_color_math_recovered.c;src/snes9x/tile_draw_clipped_recovered.c;src/snes9x/tile_draw_recovered.c;src/snes9x/tile_large16_recovered.c;src/snes9x/tile_scaled_remaining_recovered.c;src/snes9x/tile_x2_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00148338	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1508,7 +1513,7 @@ PTR_FUN_003fa62c	named-external	link-contract	reserved:link-contract	link-identi
 PTR_FUN_004134f0	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 PTR_FUN_00426d80	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 PTR_LAB_0033594e	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o;snes9x/c4_math.o
-PTR_LAB_00343b30	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
+PTR_LAB_00343b30	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o;snes9x/native_fxemu.o
 PTR_LAB_00343b44	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 PTR_LAB_00411010	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
 PTR_s_________________00344d30	named-external	link-contract	reserved:link-contract	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1518,7 +1523,6 @@ S9xBuildDirectColourMaps_0014308c	target-address-symbol	source-address-alias	src
 S9xDeinterleaveMode2	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
 S9xDoHDMA	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
 S9xEndScreenRefresh	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
-S9xFxReset	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_reset.o
 S9xGenerateSound	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
 S9xGetC4	target-function-contract	link-contract	src/snes9x/s9xgetbyte.cpp	link-identity	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o
 S9xGetCPU	target-function-contract	link-contract	src/snes9x/s9xgetbyte.cpp	link-identity	snes9x/s9xgetbyte.o;snes9x/s9xgetword.o
@@ -1605,7 +1609,7 @@ _DAT_00413540	target-address-data	program-data	reserved:target-data.o	program-da
 _DAT_00423554	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 _Z10C4DrawLineiisiish	target-function-contract	link-contract	src/ps2/progress28_structural_lift_recovered.c	link-identity	snes9x/c4drawwireframe.o
 __floatdisf	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/libgcc_runtime_recovered.o;ps2/progress28_structural_lift_recovered.o
-__gxx_personality_v0	cxx-runtime	historical-archive	libsupc++/libstdc++	archive-identity	snes9x/apu_reset.o;snes9x/apumem.o;snes9x/c4_math.o;snes9x/c4drawwireframe.o;snes9x/cheats2.o;snes9x/cpu_execution.o;snes9x/cpu_reset.o;snes9x/cpushutdown.o;snes9x/dsp_dispatch.o;snes9x/getbasepointer.o;snes9x/native_sound_controls.o;snes9x/native_sound_reset.o;snes9x/ppu_reset.o;snes9x/s9xgetbyte.o;snes9x/s9xgetmempointer.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o;snes9x/s9xsetword.o;snes9x/sdd1_log_load.o;snes9x/sdd1_log_save.o;snes9x/seta_dispatch.o;snes9x/spc7110_access.o;snes9x/spc7110_helpers.o;snes9x/spc7110_rtc_io.o
+__gxx_personality_v0	cxx-runtime	historical-archive	libsupc++/libstdc++	archive-identity	snes9x/apu_reset.o;snes9x/apumem.o;snes9x/c4_math.o;snes9x/c4drawwireframe.o;snes9x/cheats2.o;snes9x/cpu_execution.o;snes9x/cpu_reset.o;snes9x/cpushutdown.o;snes9x/dsp_dispatch.o;snes9x/getbasepointer.o;snes9x/native_fxemu.o;snes9x/native_sound_controls.o;snes9x/native_sound_reset.o;snes9x/ppu_reset.o;snes9x/s9xgetbyte.o;snes9x/s9xgetmempointer.o;snes9x/s9xgetword.o;snes9x/s9xsetbyte.o;snes9x/s9xsetword.o;snes9x/sdd1_log_load.o;snes9x/sdd1_log_save.o;snes9x/seta_dispatch.o;snes9x/spc7110_access.o;snes9x/spc7110_helpers.o;snes9x/spc7110_rtc_io.o
 __muldi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/address_leaf_recovered.o;ps2/alloc.o;ps2/libc_misc_recovered.o;ps2/progress13_cpp_personality_recovered.o;ps2/progress28_structural_lift_recovered.o;ps2/small_dispatch_recovered.o;ps2/strtol.o;snes9x/progress13_runtime_more_recovered.o;zlib/trees_recovered.o
 __udivdi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/strtol.o;ps2/xprintf.o;snes9x/progress13_runtime_more_recovered.o
 __umoddi3	compiler-runtime	historical-archive	libgcc	archive-identity	ps2/progress28_structural_lift_recovered.o;ps2/strtol.o;ps2/xprintf.o;zlib/zutil_adler_recovered.o
@@ -1752,7 +1756,7 @@ sub_00104a54	target-function-alias	source-address-alias	src/app/main_flow_recove
 sub_001060dc	target-function-alias	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
 sub_00106824	target-function-alias	source-address-alias	src/app/main_flow_recovered.c;src/ps2/progress12_io_state_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	app/main_flow_recovered.o
 sub_00116128	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/cpu_execution.cpp	link-identity	ps2/progress22_more_small_helpers_recovered.o
-sub_001309c4	target-function-alias	source-address-alias	src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress26_dsp_runtime_batch_recovered.c	link-identity	ps2/progress22_more_small_helpers_recovered.o
+sub_001309c4	target-function-alias	source-address-alias	src/ps2/progress22_more_small_helpers_recovered.c;src/ps2/progress26_dsp_runtime_batch_recovered.c;src/snes9x/native_fxemu.cpp	link-identity	ps2/progress22_more_small_helpers_recovered.o
 sub_0016fb04	target-function-alias	source-address-alias	src/ps2/progress12_io_state_recovered.c;src/snes9x/sdd1_log_save.cpp;src/snes9x/sram_recovered.c	link-identity	snes9x/sram_recovered.o
 sub_0016fbb4	target-function-alias	source-address-alias	src/ps2/progress12_io_state_recovered.c;src/snes9x/sdd1_log_load.cpp;src/snes9x/sram_recovered.c	link-identity	snes9x/sram_recovered.o
 sub_001833a4	target-function-alias	source-address-alias	src/snes9x/progress13_frontend_more_recovered.c;src/snes9x/spc7110_rtc_io.cpp;src/snes9x/sram_recovered.c	link-identity	snes9x/sram_recovered.o

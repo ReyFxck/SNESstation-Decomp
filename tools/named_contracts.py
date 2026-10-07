@@ -266,15 +266,10 @@ LATER_CPU_EXECUTION_CONTRACTS = {
 }
 
 
-LATER_CPU_RESET_CONTRACTS = {
-    "S9xFxReset": 0x001306F8,
-}
-
-
 
 
 def is_stage3e(row: dict[str, str]) -> bool:
-    return row["symbol"] not in (LATER_CPU_RESET_CONTRACTS.keys() | LATER_CPU_EXECUTION_CONTRACTS.keys()) and (row["category"], row["provider_kind"]) in {
+    return row["symbol"] not in LATER_CPU_EXECUTION_CONTRACTS.keys() and (row["category"], row["provider_kind"]) in {
         ("named-external", "link-contract"),
         ("zlib-peer", "source-or-archive"),
     }
@@ -408,15 +403,13 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
     # Keep later native dependencies separate while verifying every excluded
     # row remains a real address anchor with its original ABI requester.
     external = unique(external_rows, "symbol", "external contract")
-    for symbol, address in LATER_CPU_RESET_CONTRACTS.items():
-        ext, provider = external.get(symbol), frontier.get(symbol)
-        if (ext is None or provider is None
-                or ext["category"] != "named-external"
-                or ext["provider_kind"] != "link-contract"
-                or ext["requesters"] != "snes9x/cpu_reset.o"
-                or provider["resolution_kind"] != ABSOLUTE_ANCHOR
-                or provider["target_address"] != f"0x{address:08x}"):
-            fail(f"later native CPU-reset callee drift: {symbol}")
+    fx_reset = [row for row in defined_rows if row["symbol"] == "S9xFxReset"]
+    if (len(fx_reset) != 1 or fx_reset[0]["binding"] != "global"
+            or fx_reset[0]["section_class"] != "text"
+            or fx_reset[0]["size_hex"] != "0x200"
+            or fx_reset[0]["source"] != "src/snes9x/native_fxemu.cpp"
+            or fx_reset[0]["object"] != "snes9x/native_fxemu.o"):
+        fail("promoted native Super FX reset source ownership drift")
 
     apu_reset = [row for row in defined_rows if row["symbol"] == "S9xResetAPU"]
     if (len(apu_reset) != 1 or apu_reset[0]["binding"] != "global"
