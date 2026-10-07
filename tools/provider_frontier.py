@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-SETA-recovery 235-name source-link provider frontier.
+"""Close the post-SPC7110-recovery 233-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -141,8 +141,6 @@ EXPLICIT_ANCHORS = {
     "S9xGetCPU": 0x0015BC70,
     "S9xGetDSP": 0x0012E704,
     "S9xGetC4": 0x0010C328,
-    "S9xGetSPC7110Byte": 0x0018255C,
-    "S9xGetSPC7110": 0x001813F0,
     "S9xGetST018": 0x001701FC,
     "g_CPU_blob": 0x00345340,
     "g_OpenBus_byte": 0x0035B768,
@@ -279,8 +277,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 235:
-        fail(f"expected exact post-SETA-recovery frontier of 235 symbols, found {len(active)}")
+    if len(active) != 233:
+        fail(f"expected exact post-SPC7110-recovery frontier of 233 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -357,7 +355,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 191,
+        ABSOLUTE_ANCHOR: 189,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

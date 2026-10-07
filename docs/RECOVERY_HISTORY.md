@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **150 canonical translation units**;
-1846 external contracts remain; all frozen whole-image claims are preserved.
+for all runners. The tree now contains **151 canonical translation units**;
+1844 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -286,3 +286,26 @@ normalized instructions and links to the recorded real target providers.
 Complete public listings also independently check the base lookup and reset.
 The source tree has 150 canonical units; all frozen whole-image captures and
 claims remain unchanged, with no new private-image rerun.
+
+## Original SPC7110 register and ROM access
+
+`src/snes9x/spc7110_access.cpp` restores the complete register reader/writer
+switches and direct ROM byte reader. All **4596/4596 historical instruction
+bytes** reproduce the pinned V72 source. The writer matches its frozen
+**2480/2480-byte target digest**, and the direct ROM read matches the public
+**136/136-byte target listing**. Both real read providers now close former
+external contracts used by canonical Snes9x memory access.
+
+The register reader also matches **1980/1980 fully linked historical-reference
+bytes**. This distinct proof checks every provider value, shared-state field
+and jump-table addend against the rebuilt original module at the recorded core
+layout; it does not assert a freshly captured private-target digest for that
+reader. The isolated pair of jump tables retains all 132 entries and occupies
+528 bytes at `0x001b85dc`. Setter/direct-ROM byte proofs independently validate
+the same providers and placement.
+
+Run `python3 tools/run-spc7110-access-source-recovery.py`. The namespace now
+contains 1844 external contracts, 1513 link contracts (243 blocked), and 233
+provider-frontier entries (189 address anchors). Reductions reflect the two
+canonical read functions. All frozen whole-image results and claims remain
+unchanged, with no new private-image rerun.

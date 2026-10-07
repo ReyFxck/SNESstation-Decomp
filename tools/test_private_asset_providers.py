@@ -162,14 +162,14 @@ class PrivateAssetProviderTests(unittest.TestCase):
             contracts = list(csv.DictReader(stream, delimiter="\t"))
         report = summarize(rows, contracts)
         # FILEIO recovery resolves four formerly blocked aliases before the
-        # private-asset tranche; S9xSetByte adds nine exact provider contracts on top of S9xGetByte, and OBC1 closes two function contracts; the live frontier is now 245 -> 235.
+        # private-asset tranche; S9xSetByte adds nine exact provider contracts on top of S9xGetByte, and OBC1 closes two function contracts; the live frontier is now 243 -> 233.
         self.assertEqual(
             {
                 "bundles": 5,
                 "provider_symbols": 10,
                 "provider_bytes": 62736,
-                "input_frontier": 245,
-                "output_frontier": 235,
+                "input_frontier": 243,
+                "output_frontier": 233,
             },
             report,
         )

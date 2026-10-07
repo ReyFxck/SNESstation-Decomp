@@ -395,9 +395,9 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0017ec24,snes_leaf_0017ec24,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,MATCHING
 0x001806a4,snes_p17_001806a4,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x00180b80,snes_p16_00180b80,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x001813f0,snes_p17_001813f0,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x00181bac,snes_p17_00181bac,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x0018255c,snes_p11_0018255c,memory-map,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress11_core_recovered.c,MATCHING
+0x001813f0,snes_p17_001813f0,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/spc7110_access.cpp,MATCHING
+0x00181bac,snes_p17_00181bac,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/spc7110_access.cpp,MATCHING
+0x0018255c,snes_p11_0018255c,memory-map,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress11_core_recovered.c;src/snes9x/spc7110_access.cpp,MATCHING
 0x001825e4,snes_p13_days_in_month_001825e4,runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/progress13_runtime_more_recovered.c;src/snes9x/rtc_days.cpp,MATCHING
 0x00182638,snes_p17_00182638,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/spc7110_helpers.cpp,MATCHING
 0x00182910,snes_p11_00182910,memory-map,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/getbasepointer.cpp;src/snes9x/progress11_core_recovered.c;src/snes9x/spc7110_helpers.cpp,MATCHING

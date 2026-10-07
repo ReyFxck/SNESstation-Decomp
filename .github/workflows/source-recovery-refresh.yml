@@ -183,6 +183,9 @@ on:
       - src/snes9x/memmap_methods.cpp
       - src/snes9x/obc1.cpp
       - src/snes9x/sdd1_map.cpp
+      - src/snes9x/spc7110_access.cpp
+      - tools/run-spc7110-access-source-recovery.py
+      - analysis/functions/spc7110_access_exact_4596.tsv
       - src/snes9x/spc7110_helpers.cpp
       - src/snes9x/spc7110_rtc_io.cpp
       - tools/run-spc7110-source-recovery.py

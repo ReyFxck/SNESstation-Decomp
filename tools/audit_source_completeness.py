@@ -19,6 +19,9 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x001813f0': {"source_file": 'src/snes9x/spc7110_access.cpp', "evidence": "analysis/functions/spc7110_access_exact_4596.tsv", "evidence_token": 'S9xGetSPC7110'},
+    '0x00181bac': {"source_file": 'src/snes9x/spc7110_access.cpp', "evidence": "analysis/functions/spc7110_access_exact_4596.tsv", "evidence_token": '_Z13S9xSetSPC7110ht'},
+    '0x0018255c': {"source_file": 'src/snes9x/spc7110_access.cpp', "evidence": "analysis/functions/spc7110_access_exact_4596.tsv", "evidence_token": 'S9xGetSPC7110Byte'},
     '0x00182638': {"source_file": 'src/snes9x/spc7110_helpers.cpp', "evidence": "analysis/functions/spc7110_exact_1784.tsv", "evidence_token": '_Z12S9xUpdateRTCv'},
     '0x00182910': {"source_file": 'src/snes9x/spc7110_helpers.cpp', "evidence": "analysis/functions/spc7110_exact_1784.tsv", "evidence_token": 'Get7110BasePtr'},
     '0x001832a4': {"source_file": 'src/snes9x/spc7110_helpers.cpp', "evidence": "analysis/functions/spc7110_exact_1784.tsv", "evidence_token": '_Z15S9xSpc7110Resetv'},

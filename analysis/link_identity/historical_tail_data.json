@@ -1661,7 +1661,7 @@
     "compile_profile": "historical -Os EE C++ with explicit time32 layout patch",
     "compiler_base_version": "3.2.2",
     "compiler_target": "ee",
-    "frontend_manifest_sha256": "f5115a374f2dd8075ba49687ad2192c8b7ec452f6da188295eb496a56ef593c9",
+    "frontend_manifest_sha256": "b4488d0e02bfa929304707bd3804c8e4b30d783c9c27e21b2559be66fba956d3",
     "historical_data_manifest_sha256": "a8d2be60b444cd806eb8bfde1187a1bc32e2bdf61929c28ebdbb45d549bac912",
     "private_byte_fallback": false,
     "progress_targets_sha256": "528965a51814d44054dd7d01404c4b2ee428f275d2fb7e8673fb76a57f96e698",
