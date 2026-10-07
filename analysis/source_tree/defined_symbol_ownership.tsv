@@ -1181,6 +1181,9 @@ _Z15S9xSetSA1MemMapjh	global	text	0x100	src/snes9x/native_sa1.cpp	snes9x/native_
 _Z20S9xSA1SetBWRAMMemMaph	global	text	0xc0	src/snes9x/native_sa1.cpp	snes9x/native_sa1.o
 _Z28S9xSA1ReadVariableLengthDatahh	local	text	0x12c	src/snes9x/native_sa1.cpp	snes9x/native_sa1.o
 _Z9S9xSA1DMAv	local	text	0x184	src/snes9x/native_sa1.cpp	snes9x/native_sa1.o
+S9xSA1MainLoop	global	text	0x100	src/snes9x/native_sa1_execution.cpp	snes9x/native_sa1_execution.o
+_GLOBAL__F__Z16S9xSA1Opcode_IRQv	global	data	0x0	src/snes9x/native_sa1_execution.cpp	snes9x/native_sa1_execution.o
+_Z16S9xSA1Opcode_IRQv	global	text	0x128	src/snes9x/native_sa1_execution.cpp	snes9x/native_sa1_execution.o
 S9xSetEchoDelay	global	text	0x88	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o
 S9xSetEchoWriteEnable	global	text	0x34	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o
 S9xSetSoundFrequency	global	text	0x108	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o

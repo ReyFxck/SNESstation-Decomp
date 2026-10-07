@@ -729,3 +729,45 @@ Validation passes: `make source-tree-check` verifies all 165 EE translation
 units, `make check` runs 604 tool tests (one existing skip) and every public gate,
 and `make source-recovery-check` passes all **72 maintained proofs**. The native
 SA-1 proof also passes after the final source formatting cleanup.
+
+### Native SA-1 instruction dispatch and IRQ entry
+
+Recovered `S9xSA1MainLoop` (256 bytes at `0x0016efa0`) and
+`S9xSA1Opcode_IRQ` (296 bytes at `0x0016ded4`) in
+`src/snes9x/native_sa1_execution.cpp`. The loop retains pending-IRQ handling,
+wakeup from WAI, the three-opcode execution limit, early stopping and the
+original PC-at-opcode-start tracking. IRQ entry preserves bank/PC/status stack
+writes, OpenBus, decimal/IRQ flags and the original register-selected vector.
+Both routines reuse canonical native SA-1 memory callees and shared state.
+CPU execution now calls the canonical loop rather than an absolute address.
+
+All **552 raw instruction bytes** preserve every original state-field addend
+before relocation and match a fully linked historical reference afterward.
+The proof recompiles the complete frozen **67560-byte SA1CPU code window**
+and retains both normalized MATCH witnesses. These selected code claims are
+linked historical-reference proofs; no independent complete target-code digest
+or fresh private-image comparison is inferred from them.
+
+The full GLOBALS source hash checks all 24 historical shared-provider geometries.
+Every import in the complete reference object uses its actual original address,
+including the native byte/word memory routines and C++ personality. The complete
+**21872-byte original SA1CPU data section**, with 1411 relocations, reproduces
+its frozen linked target digest `bb4e64679d46f3cc1fa54fc08ccaee1dc1102e8a910a039116a9583dd52d7a64`.
+This also checks all four 1024-byte opcode tables and their original helper
+addresses. Only the two selected routines are promoted; the full historical
+object is comparison context, and no shared data or tables are duplicated.
+Run `python3 tools/run-native-sa1-execution-source-recovery.py`.
+
+The canonical tree now has **166 translation units**, **1867 external contracts**
+and **1536 link contracts** (1291 resolved, 245 blocked). The provider frontier
+contains **235 rows**: 191 address anchors, 39 compatibility-storage providers
+and five semantic aliases. Fresh zero-byte alias gates preserve allocated bytes
+through **1852 -> 1521 -> 245** live externals; the namespace-only check uses the
+ten frozen private-asset addresses and closes **235 -> 0 undefined globals**.
+Private payloads are not supplied by that namespace check. The 107 report source
+groups, 1041 function-audit results and complete image proof fields remain
+unchanged; consumer ownership and public input hashes are refreshed.
+
+Validation passes: canonical EE compilation covers all 166 translation units,
+`make source-recovery-check` passes all **73 maintained proofs**, and
+`make check` passes all public gates and 604 tool tests (one existing skip).

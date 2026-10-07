@@ -257,7 +257,6 @@ LATER_CPU_EXECUTION_CONTRACTS = {
     'S9xGenerateSound': 0x101904,
     'S9xOpcode_IRQ': 0x127b78,
     'S9xOpcode_NMI': 0x127e00,
-    'S9xSA1MainLoop': 0x16efa0,
     'S9xStartScreenRefresh': 0x14311c,
     'S9xUpdateJoypads': 0x15d0bc,
 }
@@ -476,6 +475,15 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 or definitions[0]["source"] != "src/snes9x/native_sa1.cpp"
                 or definitions[0]["object"] != "snes9x/native_sa1.o"):
             fail(f"promoted native SA-1 source ownership drift: {name}")
+
+    for name, size in (("S9xSA1MainLoop", 256), ("_Z16S9xSA1Opcode_IRQv", 296)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/native_sa1_execution.cpp"
+                or definitions[0]["object"] != "snes9x/native_sa1_execution.o"):
+            fail(f"promoted native SA-1 execution ownership drift: {name}")
 
     for name, size in (("S9xStartHDMA", 176), ("S9xDoHDMA", 1292)):
         definitions = [row for row in defined_rows if row["symbol"] == name]

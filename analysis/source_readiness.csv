@@ -324,8 +324,8 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0015eeac,snes_p16_0015eeac,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress26_dsp_runtime_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_sa1.cpp,MATCHING
 0x0015f030,snes_p13_ppu_shift_window_0015f030,ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_sa1.cpp;src/snes9x/progress13_frontend_more_recovered.c,MATCHING
 0x0015f15c,snes_p11_0015f15c,snes9x-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/native_sa1.cpp;src/snes9x/progress11_core_recovered.c,MATCHING
-0x0016ded4,snes_p16_0016ded4,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c,MATCHING
-0x0016efa0,snes_p16_0016efa0,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x0016ded4,snes_p16_0016ded4,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/snes9x/native_sa1_execution.cpp,MATCHING
+0x0016efa0,snes_p16_0016efa0,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_sa1_execution.cpp,MATCHING
 0x0016f0a0,snes_p11_0016f0a0,snes9x-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress11_core_recovered.c,MATCHING
 0x0016f10c,snes_p16_0016f10c,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress27_large_state_cpu_batch_recovered.c,MATCHING
 0x0016f2dc,snes_p17_0016f2dc,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
