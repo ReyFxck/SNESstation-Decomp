@@ -62,7 +62,7 @@ SPECS = (('0x0016fc48',
   '68',
   '5',
   'ccbf004f574a42c98a7e7c60eca2ec4c1234f9e59b668f4c5477c0436824f3d5',
-  '9fd5a33531822f9e2f68d4dda008d5c771eaf34f18ac0986a0baa0ba43b94496',
+  'ccbf004f574a42c98a7e7c60eca2ec4c1234f9e59b668f4c5477c0436824f3d5',
   'ac43d597d588b3112cc1597f67824a2acd99cd7ea7c86337cd13f10dae16059c',
   '',
   'historical-object',
@@ -201,6 +201,8 @@ def main():
                 or digest(normalized(old, original_symbol)) != normalized_sha
                 or digest(normalized(local, symbol)) != normalized_sha):
             raise SystemExit(f"SETA/ST010 historical instruction drift: {name}")
+        if name == "S9xGetST010" and isolated_sha != historical_sha:
+            raise SystemExit("ST010 SRAM layout must retain complete historical raw bytes")
         if linked_sha:
             placed = final.find_symbol(name)
             if (placed.value != int(address, 0) or placed.size != size

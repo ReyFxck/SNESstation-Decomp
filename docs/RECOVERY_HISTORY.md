@@ -256,3 +256,9 @@ The current namespace has 1846 external contracts, 1515 link contracts
 (245 blocked), and 235 provider-frontier entries (191 address anchors).
 The fixed counts follow the two new canonical SETA definitions; no captured
 binary result, range, payload hash or whole-image claim changes.
+
+The ST010 getter's isolated Memory prefix now retains all four original
+pointer slots (`RAM`, `ROM`, `VRAM`, `SRAM`), placing SRAM at byte offset 12.
+Its complete 68 raw object bytes must equal the historical body as well as
+passing normalized comparison. This corrects the prior isolated declaration's
+SRAM offset without changing the already exact rotation or dispatch bodies.

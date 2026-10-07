@@ -82,7 +82,7 @@ typedef unsigned char uint8;
 typedef unsigned int uint32;
 typedef short int16;
 typedef int int32;
-struct HistoricalSetaMemory { uint8 *RAM, *SRAM; };
+struct HistoricalSetaMemory { uint8 *RAM, *ROM, *VRAM, *SRAM; };
 extern HistoricalSetaMemory Memory __asm__("DAT_0034e2b0");
 extern "C" { int printf(const char *, ...); double sin(double) __asm__("sinf_001a0024"); double cos(double) __asm__("cosf_0019fddc"); }
 #define PI 3.1415926535897932384626433832795
