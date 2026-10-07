@@ -1056,6 +1056,11 @@ _Z15S9xRemoveCheatsv	global	text	0x74	src/snes9x/cheats2.cpp	snes9x/cheats2.o
 _Z16S9xInitCheatDatav	global	text	0x38	src/snes9x/cheats2.cpp	snes9x/cheats2.o
 _Z16S9xLoadCheatFilePKc	global	text	0x130	src/snes9x/cheats2.cpp	snes9x/cheats2.o
 _Z16S9xSaveCheatFilePKc	global	text	0x154	src/snes9x/cheats2.cpp	snes9x/cheats2.o
+S9xClearIRQ	global	text	0x34	src/snes9x/cpu_execution.cpp	snes9x/cpu_execution.o
+S9xDoHBlankProcessing	global	text	0x598	src/snes9x/cpu_execution.cpp	snes9x/cpu_execution.o
+S9xMainLoop	global	text	0x378	src/snes9x/cpu_execution.cpp	snes9x/cpu_execution.o
+S9xSetIRQ	global	text	0x4c	src/snes9x/cpu_execution.cpp	snes9x/cpu_execution.o
+_GLOBAL__F_S9xMainLoop	global	data	0x0	src/snes9x/cpu_execution.cpp	snes9x/cpu_execution.o
 S9xReset	global	text	0x138	src/snes9x/cpu_reset.cpp	snes9x/cpu_reset.o
 S9xSoftReset	global	text	0x120	src/snes9x/cpu_reset.cpp	snes9x/cpu_reset.o
 _GLOBAL__F__Z15S9xResetSuperFXv	global	data	0x0	src/snes9x/cpu_reset.cpp	snes9x/cpu_reset.o

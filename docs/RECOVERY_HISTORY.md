@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **152 canonical translation units**;
-1853 external contracts remain; all frozen whole-image claims are preserved.
+for all runners. The tree now contains **153 canonical translation units**;
+1866 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -335,3 +335,28 @@ contains 152 translation units, 1853 external contracts, 1522 link contracts
 (251 blocked), and 241 provider-frontier rows (197 address anchors). These
 increases record the original module's real dependencies. All frozen
 whole-image results and claims remain unchanged.
+
+## Complete original CPU execution module
+
+`src/snes9x/cpu_execution.cpp` restores the entire main loop, IRQ set/clear,
+and horizontal-blank processing from Snes9x 1.41-1. All **2448/2448 complete
+raw historical instruction bytes** reproduce the public frozen module,
+including all 201 relocation addends. Each of the four full functions also
+matches a freshly linked historical reference, with native call addresses
+and the recorded shared-state layout. No new private-target digest is claimed.
+
+The original APU stepping loop, interrupt delays and WAI wakeup, SA1 dispatch,
+frame/vblank transitions, HDMA calls, PPU timers, and SPC700 timer updates
+remain readable source. CPU timing uses the original 64-bit `long` fields.
+The already frozen complete GLOBALS data interval independently verifies
+CPU, APU, PPU, SA1, register, settings, memory and debug-state addresses.
+Twelve newly exposed native callee contracts retain their target ABIs;
+three bind to existing compatible functions and nine retain address anchors.
+implementations of those callees remain separately tracked.
+
+Run `python3 tools/run-cpu-execution-source-recovery.py`. There are now 153
+canonical translation units, 1866 external contracts, 1535 link contracts
+(260 blocked), and 250 frontier rows (206 address anchors). The original
+216-row named-contract and 1265-row address-data ledgers remain intact;
+these later native dependencies are validated separately. Frozen whole-image
+results and claims remain unchanged.

@@ -19,6 +19,10 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x00115db0': {"source_file": 'src/snes9x/cpu_execution.cpp', "evidence": "analysis/functions/cpu_execution_exact_2448.tsv", "evidence_token": 'S9xMainLoop'},
+    '0x00116128': {"source_file": 'src/snes9x/cpu_execution.cpp', "evidence": "analysis/functions/cpu_execution_exact_2448.tsv", "evidence_token": 'S9xSetIRQ'},
+    '0x00116174': {"source_file": 'src/snes9x/cpu_execution.cpp', "evidence": "analysis/functions/cpu_execution_exact_2448.tsv", "evidence_token": 'S9xClearIRQ'},
+    '0x001161a8': {"source_file": 'src/snes9x/cpu_execution.cpp', "evidence": "analysis/functions/cpu_execution_exact_2448.tsv", "evidence_token": 'S9xDoHBlankProcessing'},
     '0x001159f4': {"source_file": 'src/snes9x/cpu_reset.cpp', "evidence": "analysis/functions/cpu_reset_exact_956.tsv", "evidence_token": '_Z15S9xResetSuperFXv'},
     '0x00115a18': {"source_file": 'src/snes9x/cpu_reset.cpp', "evidence": "analysis/functions/cpu_reset_exact_956.tsv", "evidence_token": '_Z11S9xResetCPUv'},
     '0x00115b58': {"source_file": 'src/snes9x/cpu_reset.cpp', "evidence": "analysis/functions/cpu_reset_exact_956.tsv", "evidence_token": 'S9xReset'},

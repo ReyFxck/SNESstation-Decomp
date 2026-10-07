@@ -250,6 +250,22 @@ def unique(rows: Sequence[dict[str, str]], field: str, label: str) -> dict[str, 
 # Native CPU-reset callees added after the historical 216-row tranche. Their
 # address contracts are covered by the complete CPU reset source proof, not
 # by a recapture or enlargement of the original private-data ledger.
+LATER_CPU_EXECUTION_CONTRACTS = {
+    'RenderLine': 0x143390,
+    'S9xDeinterleaveMode2': 0x1520b8,
+    'S9xDoHDMA': 0x12b498,
+    'S9xEndScreenRefresh': 0x1434ac,
+    'S9xGenerateSound': 0x101904,
+    'S9xOpcode_IRQ': 0x127b78,
+    'S9xOpcode_NMI': 0x127e00,
+    'S9xSA1MainLoop': 0x16efa0,
+    'S9xStartHDMA': 0x12b3e8,
+    'S9xStartScreenRefresh': 0x14311c,
+    'S9xSuperFXExec': 0x15d334,
+    'S9xUpdateJoypads': 0x15d0bc,
+}
+
+
 LATER_CPU_RESET_CONTRACTS = {
     "S9xFxReset": 0x001306F8,
     "S9xResetPPU": 0x0015C124,
@@ -263,7 +279,7 @@ LATER_CPU_RESET_CONTRACTS = {
 
 
 def is_stage3e(row: dict[str, str]) -> bool:
-    return row["symbol"] not in LATER_CPU_RESET_CONTRACTS and (row["category"], row["provider_kind"]) in {
+    return row["symbol"] not in (LATER_CPU_RESET_CONTRACTS.keys() | LATER_CPU_EXECUTION_CONTRACTS.keys()) and (row["category"], row["provider_kind"]) in {
         ("named-external", "link-contract"),
         ("zlib-peer", "source-or-archive"),
     }
@@ -406,6 +422,27 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 or provider["resolution_kind"] != ABSOLUTE_ANCHOR
                 or provider["target_address"] != f"0x{address:08x}"):
             fail(f"later native CPU-reset callee drift: {symbol}")
+
+    native_aliases = {
+        "RenderLine": "snes_p28_00143390",
+        "S9xStartScreenRefresh": "snes_p28_0014311c",
+        "S9xEndScreenRefresh": "snes_p28_001434ac",
+    }
+    for symbol, address in LATER_CPU_EXECUTION_CONTRACTS.items():
+        ext, provider, contract = external.get(symbol), frontier.get(symbol), contracts.get(symbol)
+        common = (ext is not None and ext["category"] == "named-external"
+                  and ext["provider_kind"] == "link-contract"
+                  and ext["requesters"] == "snes9x/cpu_execution.o")
+        if symbol in native_aliases:
+            proved = (contract is not None and contract["status"] == "RESOLVED"
+                      and contract["resolution_kind"] == "semantic-text-alias"
+                      and contract["canonical_symbol"] == native_aliases[symbol]
+                      and contract["target_address"] == f"0x{address:08x}")
+        else:
+            proved = (provider is not None and provider["resolution_kind"] == ABSOLUTE_ANCHOR
+                      and provider["target_address"] == f"0x{address:08x}")
+        if not common or not proved:
+            fail(f"later native CPU-execution callee drift: {symbol}")
 
     errno_definitions = [
         row for row in defined_rows
