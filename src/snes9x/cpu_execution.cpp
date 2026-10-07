@@ -726,8 +726,8 @@ extern "C" {
     void S9xEndScreenRefresh();
     void S9xGenerateSound();
 }
-void S9xOpcode_NMI() __asm__("S9xOpcode_NMI");
-void S9xOpcode_IRQ() __asm__("S9xOpcode_IRQ");
+void S9xOpcode_NMI();
+void S9xOpcode_IRQ();
 STATIC inline void S9xPackStatus()
 {
     Registers.PL &= ~(Zero | Negative | Carry | Overflow);

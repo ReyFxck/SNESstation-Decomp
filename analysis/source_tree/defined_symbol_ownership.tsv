@@ -1125,6 +1125,9 @@ alloc32	local	text	0x1c	src/snes9x/memory_init_recovered.c	snes9x/memory_init_re
 S9xInitC4	global	text	0x28	src/snes9x/native_chip_resets.cpp	snes9x/native_chip_resets.o
 S9xResetDMA	global	text	0xb8	src/snes9x/native_chip_resets.cpp	snes9x/native_chip_resets.o
 S9xSA1Init	global	text	0xc0	src/snes9x/native_chip_resets.cpp	snes9x/native_chip_resets.o
+_GLOBAL__F__Z13S9xOpcode_IRQv	global	data	0x0	src/snes9x/native_cpu_interrupts.cpp	snes9x/native_cpu_interrupts.o
+_Z13S9xOpcode_IRQv	global	text	0x288	src/snes9x/native_cpu_interrupts.cpp	snes9x/native_cpu_interrupts.o
+_Z13S9xOpcode_NMIv	global	text	0x288	src/snes9x/native_cpu_interrupts.cpp	snes9x/native_cpu_interrupts.o
 S9xDoDMA	global	text	0x18f4	src/snes9x/native_dma.cpp	snes9x/native_dma.o
 _GLOBAL__F_S9xDoDMA	global	data	0x0	src/snes9x/native_dma.cpp	snes9x/native_dma.o
 _Z13REGISTER_2104h	local	text	0x2ec	src/snes9x/native_dma.cpp	snes9x/native_dma.o
@@ -1292,7 +1295,7 @@ _GLOBAL__F__Z10S9xGetWordj	global	data	0x0	src/snes9x/s9xgetword.cpp	snes9x/s9xg
 _Z10S9xGetWordj	global	text	0x3fc	src/snes9x/s9xgetword.cpp	snes9x/s9xgetword.o
 _GLOBAL__F__Z10S9xSetBytehj	global	data	0x0	src/snes9x/s9xsetbyte.cpp	snes9x/s9xsetbyte.o
 _Z10S9xSetBytehj	global	text	0x328	src/snes9x/s9xsetbyte.cpp	snes9x/s9xsetbyte.o
-_Z12S9xSetPCBasej	global	text	0x11c	src/snes9x/s9xsetpcbase.cpp	snes9x/s9xsetpcbase.o
+_Z12S9xSetPCBasej	global	text	0x16c	src/snes9x/s9xsetpcbase.cpp	snes9x/s9xsetpcbase.o
 _GLOBAL__F__Z10S9xSetWordtj	global	data	0x0	src/snes9x/s9xsetword.cpp	snes9x/s9xsetword.o
 _Z10S9xSetWordtj	global	text	0x474	src/snes9x/s9xsetword.cpp	snes9x/s9xsetword.o
 _GLOBAL__F__Z21S9xSDD1LoadLoggedDatav	global	data	0x0	src/snes9x/sdd1_log_load.cpp	snes9x/sdd1_log_load.o

@@ -255,8 +255,6 @@ LATER_CPU_EXECUTION_CONTRACTS = {
     'S9xDeinterleaveMode2': 0x1520b8,
     'S9xEndScreenRefresh': 0x1434ac,
     'S9xGenerateSound': 0x101904,
-    'S9xOpcode_IRQ': 0x127b78,
-    'S9xOpcode_NMI': 0x127e00,
     'S9xStartScreenRefresh': 0x14311c,
     'S9xUpdateJoypads': 0x15d0bc,
 }
@@ -484,6 +482,17 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 or definitions[0]["source"] != "src/snes9x/native_sa1_execution.cpp"
                 or definitions[0]["object"] != "snes9x/native_sa1_execution.o"):
             fail(f"promoted native SA-1 execution ownership drift: {name}")
+
+    for name in ("_Z13S9xOpcode_IRQv", "_Z13S9xOpcode_NMIv"):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != "0x288"
+                or definitions[0]["source"] != "src/snes9x/native_cpu_interrupts.cpp"
+                or definitions[0]["object"] != "snes9x/native_cpu_interrupts.o"):
+            fail(f"promoted native CPU interrupt ownership drift: {name}")
+    if {"S9xOpcode_IRQ", "S9xOpcode_NMI"} & set(external):
+        fail("retired plain-name CPU interrupt imports remain active")
 
     for name, size in (("S9xStartHDMA", 176), ("S9xDoHDMA", 1292)):
         definitions = [row for row in defined_rows if row["symbol"] == name]

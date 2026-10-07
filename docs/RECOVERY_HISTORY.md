@@ -771,3 +771,47 @@ unchanged; consumer ownership and public input hashes are refreshed.
 Validation passes: canonical EE compilation covers all 166 translation units,
 `make source-recovery-check` passes all **73 maintained proofs**, and
 `make check` passes all public gates and 604 tool tests (one existing skip).
+
+### Native main-CPU IRQ and NMI entries
+
+Recovered `S9xOpcode_IRQ` at `0x00127b78` and `S9xOpcode_NMI` at
+`0x00127e00`, each 648 instruction bytes, in
+`src/snes9x/native_cpu_interrupts.cpp`. Both retain native/emulation stack
+writes, packed status, OpenBus, decimal/IRQ flags, bank clearing, SA-1 vector
+overrides and the original six/twelve-cycle interrupt entry adjustment.
+The functions reuse shared CPU, internal CPU, registers, Settings and Memory
+storage, plus the canonical native memory callees; no state is duplicated.
+
+All **1296 raw instruction bytes** preserve every original field addend and
+match the complete selected instructions in a fully linked historical
+reference. The proof independently recompiles the frozen **78772-byte CPUOPS
+code window** and GLOBALS state section, checking 28 historical shared-provider
+geometries, including the 36-byte internal CPU object. Every import in the full
+reference uses its actual address. The frozen normalized target MATCH witnesses
+remain unchanged; no independent complete target-code digest is inferred.
+Run `python3 tools/run-native-cpu-interrupts-source-recovery.py`.
+
+CPU execution now imports the original C++ symbols `_Z13S9xOpcode_IRQv` and
+`_Z13S9xOpcode_NMIv`, replacing its two plain-name address contracts. Its full
+**2448 raw and linked historical instruction bytes** remain unchanged. The
+canonical `S9xSetPCBase` build also now uses the existing historical source-proof
+profile: `VAR_CYCLES`, the original ABI and optimization options restore its
+**364 bytes** and timing updates, replacing the prior 284-byte default-profile
+object. Its proof uses that same canonical profile and still reproduces all
+364 public target-listing bytes with 29 relocations.
+
+The canonical tree has **167 translation units**, **1613 owned definitions**,
+**1865 external contracts** and **1534 link contracts** (1291 resolved, 243
+blocked). The provider frontier contains **233 rows**: 189 address anchors,
+39 compatibility-storage providers and five semantic aliases. Fresh partial
+links preserve allocated bytes through **1850 -> 1519 -> 243** live externals;
+the namespace-only check binds the ten frozen private-asset addresses and
+closes **233 -> 0 undefined globals** without private asset payloads.
+
+The 107 report function groups, 1041 original audit entries, 722892 code bytes
+and complete-image proof claims, hashes and results remain unchanged. Consumer
+ownership and public input hashes are refreshed. Validation passes:
+`make source-recovery-check` runs **74/74 maintained proofs**, canonical EE
+compilation covers all 167 units, and `make check` verifies all public gates
+and 604 tool tests (one existing skip). No fresh private-image or replacement
+ELF comparison is claimed.

@@ -199,6 +199,9 @@ on:
       - analysis/functions/native_ppu_registers_exact_13580.tsv
       - tools/run-native-ppu-registers-source-recovery.py
       - src/snes9x/native_sa1_execution.cpp
+      - src/snes9x/native_cpu_interrupts.cpp
+      - analysis/functions/native_cpu_interrupts_exact_1296.tsv
+      - tools/run-native-cpu-interrupts-source-recovery.py
       - analysis/functions/native_sa1_execution_exact_552.tsv
       - tools/run-native-sa1-execution-source-recovery.py
       - src/snes9x/native_sa1.cpp

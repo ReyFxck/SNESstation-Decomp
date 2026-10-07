@@ -9,6 +9,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from build_source_tree import SOURCE_FIXED_FLAGS
+
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "src/snes9x/s9xsetpcbase.cpp"
 BUILD = ROOT / "build/matching/s9xsetpcbase-source-recovery"
@@ -113,14 +115,9 @@ def main():
     obj = BUILD / "s9xsetpcbase.o"
     linked = BUILD / "s9xsetpcbase.target.elf"
     linked_binary = BUILD / "s9xsetpcbase.target.bin"
-    flags = [
-        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
-        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
-        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
-        "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
-        "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
-        "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET", "-x", "c++",
-    ]
+    # Use the same timing/ABI profile as the canonical source aggregate;
+    # the independent target listing below proves the emitted instructions.
+    flags = [*SOURCE_FIXED_FLAGS["src/snes9x/s9xsetpcbase.cpp"], "-x", "c++"]
     run([CXX, *flags, "-c", SOURCE, "-o", obj])
 
     nm = CXX.with_name("ee-nm")

@@ -161,15 +161,15 @@ class PrivateAssetProviderTests(unittest.TestCase):
         with DEFAULT_CONTRACTS.open(encoding="utf-8", newline="") as stream:
             contracts = list(csv.DictReader(stream, delimiter="\t"))
         report = summarize(rows, contracts)
-        # Native SA-1 execution closes its loop contract; the ten private-asset
-        # providers leave the reviewed 235-name frontier.
+        # Native CPU interrupts close two imports; the ten private-asset
+        # providers leave the reviewed 233-name frontier.
         self.assertEqual(
             {
                 "bundles": 5,
                 "provider_symbols": 10,
                 "provider_bytes": 62736,
-                "input_frontier": 245,
-                "output_frontier": 235,
+                "input_frontier": 243,
+                "output_frontier": 233,
             },
             report,
         )
