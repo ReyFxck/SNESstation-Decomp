@@ -148,8 +148,8 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0012993c,snes_p17_0012993c,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x00129af4,snes_p17_00129af4,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0012a400,ppu_vram_cache_invalidate,ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x0012b3e8,snes_p16_0012b3e8,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress25_small_core_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x0012b498,snes_p16_0012b498,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x0012b3e8,snes_p16_0012b3e8,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress25_small_core_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_hdma.cpp,MATCHING
+0x0012b498,snes_p16_0012b498,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_hdma.cpp,MATCHING
 0x0012b9a4,snes_p13_record_ram_init_0012b9a4,core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/snes9x/native_chip_resets.cpp;src/snes9x/progress13_runtime_more_recovered.c,MATCHING
 0x0012ba5c,snes_p16_0012ba5c,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0012bd48,snes_p16_0012bd48,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING

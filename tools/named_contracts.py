@@ -253,13 +253,11 @@ def unique(rows: Sequence[dict[str, str]], field: str, label: str) -> dict[str, 
 LATER_CPU_EXECUTION_CONTRACTS = {
     'RenderLine': 0x143390,
     'S9xDeinterleaveMode2': 0x1520b8,
-    'S9xDoHDMA': 0x12b498,
     'S9xEndScreenRefresh': 0x1434ac,
     'S9xGenerateSound': 0x101904,
     'S9xOpcode_IRQ': 0x127b78,
     'S9xOpcode_NMI': 0x127e00,
     'S9xSA1MainLoop': 0x16efa0,
-    'S9xStartHDMA': 0x12b3e8,
     'S9xStartScreenRefresh': 0x14311c,
     'S9xUpdateJoypads': 0x15d0bc,
 }
@@ -446,6 +444,15 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 or definitions[0]["source"] != "src/snes9x/ppu_reset.cpp"
                 or definitions[0]["object"] != "snes9x/ppu_reset.o"):
             fail(f"promoted native PPU source ownership drift: {name}")
+
+    for name, size in (("S9xStartHDMA", 176), ("S9xDoHDMA", 1292)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/native_hdma.cpp"
+                or definitions[0]["object"] != "snes9x/native_hdma.o"):
+            fail(f"promoted native HDMA source ownership drift: {name}")
 
     native_aliases = {
         "RenderLine": "snes_p28_00143390",

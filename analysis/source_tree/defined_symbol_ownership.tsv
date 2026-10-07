@@ -1147,6 +1147,9 @@ _Z24fx_computeScreenPointersv	global	text	0x46c	src/snes9x/native_fxemu.cpp	snes
 _Z29FxGetDestinationRegisterIndexv	global	text	0x18	src/snes9x/native_fxemu.cpp	snes9x/native_fxemu.o
 _Z6FxPipev	global	text	0xc	src/snes9x/native_fxemu.cpp	snes9x/native_fxemu.o
 _Z9FxEmulatej	global	text	0xb4	src/snes9x/native_fxemu.cpp	snes9x/native_fxemu.o
+S9xDoHDMA	global	text	0x50c	src/snes9x/native_hdma.cpp	snes9x/native_hdma.o
+S9xStartHDMA	global	text	0xb0	src/snes9x/native_hdma.cpp	snes9x/native_hdma.o
+_GLOBAL__F_S9xStartHDMA	global	data	0x0	src/snes9x/native_hdma.cpp	snes9x/native_hdma.o
 S9xSetEchoDelay	global	text	0x88	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o
 S9xSetEchoWriteEnable	global	text	0x34	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o
 S9xSetSoundFrequency	global	text	0x108	src/snes9x/native_sound_controls.cpp	snes9x/native_sound_controls.o

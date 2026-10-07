@@ -576,3 +576,30 @@ The canonical tree remains at 161 units, with 1866 external contracts, 1535
 link contracts (249 blocked), and 239 frontier rows (195 address anchors).
 The report's current 106 source groups and all frozen historical binary
 results/claims remain unchanged. No fresh private-image rerun is claimed.
+
+
+### Native HDMA setup and scanline execution
+
+Recovered the original native `S9xStartHDMA` (176 bytes at `0x0012b3e8`)
+and `S9xDoHDMA` (1292 bytes at `0x0012b498`) in `src/snes9x/native_hdma.cpp`.
+Both CPU execution callees now resolve to canonical implementations.
+The original channel flags, line counters, indirect addressing, all eight
+transfer modes, repeat behavior, Hook VRAM exclusion, Uniracers OAM fix and
+64-bit CPU cycle accounting are retained. No native state is duplicated.
+
+The public source proof rebuilds the pinned Snes9x 1.41-1 DMA module with
+EE GCC 3.2.2 and checks its frozen complete 9320-byte code-window hash.
+Isolation retains every instruction and field addend; only the scanline
+jump-table addend changes by 24 bytes when its unused DMA prefix is removed.
+Placing that table at `0x001b1f38` produces all 1468 identical bytes against
+a fully linked original-source historical reference and reproduces its table.
+The frozen normalized MATCH witnesses remain unchanged. These are linked
+historical-reference proofs, with no independently captured complete target
+digest or fresh private-image rerun claimed.
+
+The frozen full GLOBALS data hash proves the geometry of the original DMA,
+CPU, PPU, Settings, debug state, seven-byte game-fix structure, both eight-entry
+pointer tables and mode-byte-count table. Native memory callees retain their
+already proved ABI and entry addresses; register writes retain the actual
+`S9xSetPPU` address contract. Unselected historical DMA context is comparison
+context only and is neither executed nor promoted by this proof.
