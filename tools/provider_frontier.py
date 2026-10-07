@@ -130,9 +130,9 @@ SEMANTIC_ALIASES = {
 # source model does not export a signature-compatible canonical definition.
 # REG_GS_CSR is the documented PS2 privileged GS register, not image storage.
 EXPLICIT_ANCHORS = {
-    # Native uint8 sound callees of the exact original APU reset.
-    "S9xResetSound": 0x00177A84,
-    "S9xSetEchoEnable": 0x00174120,
+    # Native callees of the exact original playback-rate helper.
+    "S9xSetEchoDelay": 0x0017422C,
+    "S9xSetSoundFrequency": 0x00174728,
     # Complete historical CPU execution module native callees.
     'S9xDeinterleaveMode2': 0x1520b8,
     'S9xDoHDMA': 0x12b498,

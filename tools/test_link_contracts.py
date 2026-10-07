@@ -267,10 +267,10 @@ class LinkContractTests(unittest.TestCase):
         )
         rows = validate_frozen_manifest(args)
         report = summarize(rows)
-        self.assertEqual(1533, report["contracts_total"])
-        self.assertEqual(1278, report["resolved"])
+        self.assertEqual(1535, report["contracts_total"])
+        self.assertEqual(1280, report["resolved"])
         self.assertEqual(255, report["blocked"])
-        self.assertEqual(1243, report["address_anchors"])
+        self.assertEqual(1245, report["address_anchors"])
         self.assertEqual(35, report["semantic_aliases"])
         self.assertEqual(
             {

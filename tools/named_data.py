@@ -292,8 +292,8 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
     # DSP dispatch closes three more, adds one native math initializer,
     # and reuses two newly named original state addresses. The original
     # native DSP table initializer then closes the remaining math entry.
-    expected = {"3B": 345, "3C": 50, "3D": 16, "3E": 214, "3F": 1239}
-    if partition != expected or sum(partition.values()) != 1864:
+    expected = {"3B": 345, "3C": 50, "3D": 16, "3E": 214, "3F": 1241}
+    if partition != expected or sum(partition.values()) != 1866:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 

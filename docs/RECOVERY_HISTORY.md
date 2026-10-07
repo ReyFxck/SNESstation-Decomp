@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **157 canonical translation units**;
-1864 external contracts remain; all frozen whole-image claims are preserved.
+for all runners. The tree now contains **158 canonical translation units**;
+1866 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -451,3 +451,26 @@ and 245 frontier rows (201 address anchors). No fresh private-image rerun or
 whole-image identity is claimed. The namespace-count refresh also restores
 the ELF relocation-type parser's original `0xff` mask; count changes must
 never alter bit masks or unrelated constants.
+
+## Complete native audio reset, echo and playback rate
+
+`src/snes9x/native_sound_reset.cpp` restores three historical native routines,
+with **844/844 fully provider-linked public target bytes**. Echo enable covers
+228 bytes at `0x00174120`. The previously address-labelled 616-byte span at
+`0x00177a84` is now precisely identified as two original functions: 436-byte
+`S9xResetSound` and 180-byte `S9xSetPlaybackRate` at `0x00177c38`.
+The playback routine retains the target-proved float intermediate before its
+normal-double calculation, and both constants retain `0x001b8440`/`0x001b8448`.
+
+The two native APU sound callees now resolve to original source. The full
+historical GLOBALS data digest verifies the 1864-byte sound state (eight
+224-byte channels), 48-byte sound status, original echo buffers and filter
+arrays. No sound state or buffer is copied or replaced. Existing behavioral
+soft-double providers preserve their prior claim level; no archive identity
+is inferred. Playback's echo-delay and sound-frequency calls retain their
+actual native ABI and addresses for subsequent recovery.
+
+Run `python3 tools/run-native-sound-reset-source-recovery.py`. The canonical
+tree contains 158 units, 1866 external contracts, 1535 link contracts (255
+blocked), and the same 245-row provider frontier. Historical frozen ledgers,
+results and claims remain unchanged, with no new private-image rerun.

@@ -185,6 +185,9 @@ on:
       - src/snes9x/sdd1_map.cpp
       - src/snes9x/dsp_table_init.c
       - src/snes9x/apu_reset.cpp
+      - src/snes9x/native_sound_reset.cpp
+      - tools/run-native-sound-reset-source-recovery.py
+      - analysis/functions/native_sound_reset_exact_844.tsv
       - tools/run-apu-reset-source-recovery.py
       - analysis/functions/apu_reset_exact_1044.tsv
       - tools/run-dsp-table-init-source-recovery.py

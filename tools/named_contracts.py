@@ -273,14 +273,14 @@ LATER_CPU_RESET_CONTRACTS = {
 }
 
 
-LATER_APU_RESET_CONTRACTS = {
-    "S9xResetSound": 0x00177A84,
-    "S9xSetEchoEnable": 0x00174120,
+LATER_NATIVE_SOUND_CONTRACTS = {
+    "S9xSetEchoDelay": 0x0017422C,
+    "S9xSetSoundFrequency": 0x00174728,
 }
 
 
 def is_stage3e(row: dict[str, str]) -> bool:
-    return row["symbol"] not in (LATER_CPU_RESET_CONTRACTS.keys() | LATER_CPU_EXECUTION_CONTRACTS.keys() | LATER_APU_RESET_CONTRACTS.keys()) and (row["category"], row["provider_kind"]) in {
+    return row["symbol"] not in (LATER_CPU_RESET_CONTRACTS.keys() | LATER_CPU_EXECUTION_CONTRACTS.keys() | LATER_NATIVE_SOUND_CONTRACTS.keys()) and (row["category"], row["provider_kind"]) in {
         ("named-external", "link-contract"),
         ("zlib-peer", "source-or-archive"),
     }
@@ -424,15 +424,15 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 or provider["target_address"] != f"0x{address:08x}"):
             fail(f"later native CPU-reset callee drift: {symbol}")
 
-    for symbol, address in LATER_APU_RESET_CONTRACTS.items():
+    for symbol, address in LATER_NATIVE_SOUND_CONTRACTS.items():
         ext, provider = external.get(symbol), frontier.get(symbol)
         if (ext is None or provider is None
                 or ext["category"] != "named-external"
                 or ext["provider_kind"] != "link-contract"
-                or ext["requesters"] != "snes9x/apu_reset.o"
+                or ext["requesters"] != "snes9x/native_sound_reset.o"
                 or provider["resolution_kind"] != ABSOLUTE_ANCHOR
                 or provider["target_address"] != f"0x{address:08x}"):
-            fail(f"later native APU-reset sound callee drift: {symbol}")
+            fail(f"later native playback-rate sound callee drift: {symbol}")
     apu_reset = [row for row in defined_rows if row["symbol"] == "S9xResetAPU"]
     if (len(apu_reset) != 1 or apu_reset[0]["binding"] != "global"
             or apu_reset[0]["section_class"] != "text"
@@ -440,6 +440,15 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
             or apu_reset[0]["source"] != "src/snes9x/apu_reset.cpp"
             or apu_reset[0]["object"] != "snes9x/apu_reset.o"):
         fail("promoted native APU reset source ownership drift")
+
+    for name, size in (("S9xResetSound", 436), ("S9xSetEchoEnable", 228), ("S9xSetPlaybackRate", 180)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/native_sound_reset.cpp"
+                or definitions[0]["object"] != "snes9x/native_sound_reset.o"):
+            fail(f"promoted native audio source ownership drift: {name}")
 
     native_aliases = {
         "RenderLine": "snes_p28_00143390",
