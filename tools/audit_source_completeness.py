@@ -19,6 +19,7 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0010a934': {"source_file": 'src/snes9x/apu_reset.cpp', "evidence": "analysis/functions/apu_reset_exact_1044.tsv", "evidence_token": "S9xResetAPU"},
     '0x0012c02c': {"source_file": 'src/snes9x/dsp_table_init.c', "evidence": "analysis/functions/dsp_table_init_exact_272.tsv", "evidence_token": "S9xInitDSP"},
     '0x0012e688': {"source_file": 'src/snes9x/dsp_dispatch.cpp', "evidence": "analysis/functions/dsp_dispatch_exact_200.tsv", "evidence_token": '_Z11S9xInitDSP1v'},
     '0x0012e6c4': {"source_file": 'src/snes9x/dsp_dispatch.cpp', "evidence": "analysis/functions/dsp_dispatch_exact_200.tsv", "evidence_token": 'S9xResetDSP1'},

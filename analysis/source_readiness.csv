@@ -98,7 +98,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0010a7fc,snes_leaf_0010a7fc,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,MATCHING
 0x0010a840,apu_buffer_allocator,audio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/apu_alloc_recovered.c,MATCHING
 0x0010a8bc,snes_p11_0010a8bc,frontend,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libmtap_recovered.c;src/ps2/progress11_frontend_recovered.c;src/snes9x/apu_alloc_recovered.c,MATCHING
-0x0010a934,snes_p16_0010a934,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x0010a934,snes_p16_0010a934,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/apu_reset.cpp,MATCHING
 0x0010ad48,snes_p16_0010ad48,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/apumem.cpp,MATCHING
 0x0010b370,snes_p16_0010b370,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0010b564,snes_p16_0010b564,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/apumem.cpp,MATCHING

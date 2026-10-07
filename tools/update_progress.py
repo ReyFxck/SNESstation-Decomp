@@ -282,7 +282,7 @@ def main() -> None:
         or provider_symbols != expected_private_symbols
         or len(provider_symbols) != 10
         or provider_bytes != 62_736
-        or provider_frontier != 244
+        or provider_frontier != 245
     ):
         raise SystemExit("invalid private-asset provider manifest")
     closure_rows = list(
@@ -310,10 +310,10 @@ def main() -> None:
     )
     if (
         closure_symbols != active_provider_symbols
-        or len(closure_rows) != 244
+        or len(closure_rows) != 245
         or closure_kind_counts
         != {
-            "absolute-target-anchor": 200,
+            "absolute-target-anchor": 201,
             "semantic-text-alias": 5,
             "compatibility-storage": 39,
             "compatibility-runtime-shim": 0,

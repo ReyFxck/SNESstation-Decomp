@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **156 canonical translation units**;
-1862 external contracts remain; all frozen whole-image claims are preserved.
+for all runners. The tree now contains **157 canonical translation units**;
+1864 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -428,3 +428,26 @@ tree now contains 156 translation units, 1862 external contracts, 1531 link
 contracts (254 blocked), and 244 frontier rows (200 address anchors).
 The historical data and whole-image results/claims remain unchanged,
 with no new private-image rerun.
+
+## Complete provider-linked native APU reset
+
+`src/snes9x/apu_reset.cpp` restores original `S9xResetAPU` at `0x0010a934`.
+All **1044/1044 provider-linked target bytes** match the frozen V52 digest,
+and the complete historical raw instruction stream retains every state-field
+addend and all 51 native relocations. The PS2 32-bit memory byte-count ABI
+is preserved along with the original 224-byte APU, 60-byte internal APU,
+8-byte register state, 64-byte boot ROM, DSP dump and two 256-entry cycle tables.
+The full historical GLOBALS data digest independently verifies their geometry.
+
+This closes the native APU call from the CPU reset module. The two original
+sound callees remain explicit native address contracts at `0x00177a84` and
+`0x00174120`; no signature-incompatible earlier model replaces either call.
+No RAM, ROM, table or DSP dump storage is duplicated. The historical address
+and named-contract ledgers retain their frozen rosters and claims.
+
+Run `python3 tools/run-apu-reset-source-recovery.py`. The canonical tree now
+contains 157 units, 1864 external contracts, 1533 link contracts (255 blocked),
+and 245 frontier rows (201 address anchors). No fresh private-image rerun or
+whole-image identity is claimed. The namespace-count refresh also restores
+the ELF relocation-type parser's original `0xff` mask; count changes must
+never alter bit masks or unrelated constants.

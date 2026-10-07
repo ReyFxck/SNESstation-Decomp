@@ -125,7 +125,7 @@ def named_relocations(elf: ELFFile, symbol: Symbol, require_undefined_name: str 
             shndx = struct.unpack_from("<H", elf.data, table.offset + index * 16 + 14)[0]
             if name == require_undefined_name and shndx != 0:
                 fail("named incoming/outgoing contract is not an undefined external")
-            result.append((offset - symbol.value, info & 254, name))
+            result.append((offset - symbol.value, info & 255, name))
     return sorted(result)
 
 
@@ -195,7 +195,7 @@ def live_contracts(args: argparse.Namespace) -> dict[str, dict[str, str]]:
     # C4DrawWireFrame plus canonical S9xGetMemPointer retain this reviewed
     # override set. Canonical S9xGetByte and S9xSetByte add exact provider-address
     # contracts to the global namespace without changing the override set itself.
-    if len(external) != 1862 or len(contracts) != 1531 or len(frontier) != 244:
+    if len(external) != 1864 or len(contracts) != 1533 or len(frontier) != 245:
         fail("runtime override namespace count drift")
     for symbol, (address, size, canonical, source, _) in SPECS.items():
         row = external.get(symbol, {})

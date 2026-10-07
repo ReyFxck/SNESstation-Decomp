@@ -184,6 +184,9 @@ on:
       - src/snes9x/obc1.cpp
       - src/snes9x/sdd1_map.cpp
       - src/snes9x/dsp_table_init.c
+      - src/snes9x/apu_reset.cpp
+      - tools/run-apu-reset-source-recovery.py
+      - analysis/functions/apu_reset_exact_1044.tsv
       - tools/run-dsp-table-init-source-recovery.py
       - analysis/functions/dsp_table_init_exact_272.tsv
       - src/snes9x/dsp_dispatch.cpp

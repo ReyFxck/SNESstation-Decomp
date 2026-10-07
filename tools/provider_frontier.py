@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-DSP-initializer-recovery 244-name source-link provider frontier.
+"""Close the post-APU-reset-recovery 245-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -130,6 +130,9 @@ SEMANTIC_ALIASES = {
 # source model does not export a signature-compatible canonical definition.
 # REG_GS_CSR is the documented PS2 privileged GS register, not image storage.
 EXPLICIT_ANCHORS = {
+    # Native uint8 sound callees of the exact original APU reset.
+    "S9xResetSound": 0x00177A84,
+    "S9xSetEchoEnable": 0x00174120,
     # Complete historical CPU execution module native callees.
     'S9xDeinterleaveMode2': 0x1520b8,
     'S9xDoHDMA': 0x12b498,
@@ -142,7 +145,6 @@ EXPLICIT_ANCHORS = {
     'S9xUpdateJoypads': 0x15d0bc,
     # Original CPU reset native callees. The earlier context-argument source
     # models have different signatures; preserve the actual target ABI.
-    'S9xResetAPU': 0x10a934,
     'S9xResetPPU': 0x15c124,
     'S9xSoftResetPPU': 0x15c624,
     'S9xFxReset': 0x1306f8,
@@ -291,8 +293,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 244:
-        fail(f"expected exact post-DSP-initializer-recovery frontier of 244 symbols, found {len(active)}")
+    if len(active) != 245:
+        fail(f"expected exact post-APU-reset-recovery frontier of 245 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -369,7 +371,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 200,
+        ABSOLUTE_ANCHOR: 201,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }
