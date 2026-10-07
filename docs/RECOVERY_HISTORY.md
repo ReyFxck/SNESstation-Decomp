@@ -67,7 +67,7 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **154 canonical translation units**;
+for all runners. The tree now contains **155 canonical translation units**;
 1863 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
@@ -381,3 +381,28 @@ tree has 154 translation units, 1863 external contracts, 1532 link contracts
 (257 blocked), and 247 provider-frontier rows (203 address anchors). The three
 reductions close real native call dependencies. All frozen results and claims
 remain unchanged.
+
+## Original DSP1 initialization, reset and native dispatch
+
+`src/snes9x/dsp_dispatch.cpp` restores four complete original functions,
+covering **200/200 historical instruction bytes** and **200/200 fully linked
+historical-reference bytes**. The reset and both dispatch wrappers retain
+all 140 raw original instruction bytes. Initializer isolation changes only
+the original data relocation for its shared once-only flag.
+
+The initializer reuses `0x00341660`, rather than allocating a new flag;
+the original DSP1 state and two function-pointer slots remain at their
+recorded target addresses. The original full DSP data-section placement and
+the already frozen complete GLOBALS interval check every state/provider
+addend. The remaining `InitDSP` math initializer retains its independently
+recorded native entry; its implementation remains a separate task.
+No new private-target byte digest is claimed for these wrappers.
+
+`S9xGetDSP`, `S9xSetDSP`, and `S9xResetDSP1` now close three real native
+contracts used by memory access and CPU reset. Run
+`python3 tools/run-dsp-dispatch-source-recovery.py`. The canonical tree has
+155 translation units and 1863 external contracts. There are 1532 link
+contracts (1277 resolved, 255 blocked) and 245 frontier rows (201 address
+anchors). The namespace total is unchanged because three closed calls are
+replaced by one remaining initializer and two actual shared-state addresses.
+All frozen results and claims remain unchanged.

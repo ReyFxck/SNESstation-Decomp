@@ -271,12 +271,11 @@ LATER_CPU_RESET_CONTRACTS = {
     "S9xResetPPU": 0x0015C124,
     "S9xSoftResetPPU": 0x0015C624,
     "S9xResetAPU": 0x0010A934,
-    "S9xResetDSP1": 0x0012E6C4,
 }
 
 
 def is_stage3e(row: dict[str, str]) -> bool:
-    return row["symbol"] not in (LATER_CPU_RESET_CONTRACTS.keys() | LATER_CPU_EXECUTION_CONTRACTS.keys()) and (row["category"], row["provider_kind"]) in {
+    return row["symbol"] not in (LATER_CPU_RESET_CONTRACTS.keys() | LATER_CPU_EXECUTION_CONTRACTS.keys() | {"S9xInitDSP"}) and (row["category"], row["provider_kind"]) in {
         ("named-external", "link-contract"),
         ("zlib-peer", "source-or-archive"),
     }
@@ -440,6 +439,15 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                       and provider["target_address"] == f"0x{address:08x}")
         if not common or not proved:
             fail(f"later native CPU-execution callee drift: {symbol}")
+
+    dsp_ext, dsp_provider = external.get("S9xInitDSP"), frontier.get("S9xInitDSP")
+    if (dsp_ext is None or dsp_provider is None
+            or dsp_ext["category"] != "named-external"
+            or dsp_ext["provider_kind"] != "link-contract"
+            or dsp_ext["requesters"] != "snes9x/dsp_dispatch.o"
+            or dsp_provider["resolution_kind"] != ABSOLUTE_ANCHOR
+            or dsp_provider["target_address"] != "0x0012c02c"):
+        fail("later native DSP math-initializer callee drift")
 
     errno_definitions = [
         row for row in defined_rows

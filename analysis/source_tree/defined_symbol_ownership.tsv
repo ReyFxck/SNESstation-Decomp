@@ -1071,6 +1071,11 @@ SelectTileRenderer_001ac838	global	text	0x120	src/snes9x/cpu_shutdown_renderer_s
 _GLOBAL__F__Z11CPUShutdownv	global	data	0x0	src/snes9x/cpushutdown.cpp	snes9x/cpushutdown.o
 _Z11CPUShutdownv	global	text	0x130	src/snes9x/cpushutdown.cpp	snes9x/cpushutdown.o
 DrawLargePixel_recovered	global	text	0x234	src/snes9x/draw_large_pixel_recovered.c	snes9x/draw_large_pixel_recovered.o
+S9xGetDSP	global	text	0x24	src/snes9x/dsp_dispatch.cpp	snes9x/dsp_dispatch.o
+S9xResetDSP1	global	text	0x40	src/snes9x/dsp_dispatch.cpp	snes9x/dsp_dispatch.o
+S9xSetDSP	global	text	0x28	src/snes9x/dsp_dispatch.cpp	snes9x/dsp_dispatch.o
+_GLOBAL__F__Z11S9xInitDSP1v	global	data	0x0	src/snes9x/dsp_dispatch.cpp	snes9x/dsp_dispatch.o
+_Z11S9xInitDSP1v	global	text	0x3c	src/snes9x/dsp_dispatch.cpp	snes9x/dsp_dispatch.o
 _GLOBAL__F__Z14GetBasePointerj	global	data	0x0	src/snes9x/getbasepointer.cpp	snes9x/getbasepointer.o
 _Z14GetBasePointerj	global	text	0x104	src/snes9x/getbasepointer.cpp	snes9x/getbasepointer.o
 GetBasePointer_001ac734	global	text	0x150	src/snes9x/getset_recovered.c	snes9x/getset_recovered.o

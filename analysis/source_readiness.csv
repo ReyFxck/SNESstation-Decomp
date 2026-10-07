@@ -191,10 +191,10 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0012e374,snes_p13_bitplane_transpose_0012e374,ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/progress13_frontend_more_recovered.c,MATCHING
 0x0012e568,snes_leaf_0012e568,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,MATCHING
 0x0012e5b8,snes_p16_0012e5b8,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress26_dsp_runtime_batch_recovered.c,MATCHING
-0x0012e688,snes_dispatch_0012e688,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,MATCHING
-0x0012e6c4,snes_dispatch_0012e6c4,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/ps2/small_dispatch_recovered.c,MATCHING
-0x0012e704,snes_dispatch_0012e704,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,MATCHING
-0x0012e728,snes_dispatch_0012e728,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,MATCHING
+0x0012e688,snes_dispatch_0012e688,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c;src/snes9x/dsp_dispatch.cpp,MATCHING
+0x0012e6c4,snes_dispatch_0012e6c4,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/ps2/small_dispatch_recovered.c;src/snes9x/dsp_dispatch.cpp,MATCHING
+0x0012e704,snes_dispatch_0012e704,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c;src/snes9x/dsp_dispatch.cpp,MATCHING
+0x0012e728,snes_dispatch_0012e728,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c;src/snes9x/dsp_dispatch.cpp,MATCHING
 0x0012fe5c,snes_leaf_0012fe5c,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0012fe9c,snes_leaf_0012fe9c,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0012feb4,snes_leaf_0012feb4,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING

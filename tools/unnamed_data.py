@@ -66,6 +66,8 @@ EXACT_BYTE_PROVIDER_DATA = {
     "DAT_0035b770",
     # Complete CPU execution proof covers the existing 174-byte debug state.
     "DAT_00345268",
+    # Native DSP dispatch proof checks original state and once-only byte.
+    "DAT_00345628", "DAT_00341660",
     "g_CPU_blob", "g_OpenBus_byte", "g_SA1_blob", "g_s7r_blob",
     "g_ICPU_00345318", "g_APU_003453b8",
     "g_S9xAPUCycles_003f44a8", "g_S9xApuOpcodes_00411010",

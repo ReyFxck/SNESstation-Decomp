@@ -289,7 +289,9 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
     # callee contracts (3E) and the proved SuperFX state address (3F). CPU
     # execution adds twelve native callees and the debug-state data address.
     # Original C4/DMA/SA1 reset implementations close three native callees.
-    expected = {"3B": 345, "3C": 50, "3D": 16, "3E": 216, "3F": 1236}
+    # DSP dispatch closes three more, adds one native math initializer,
+    # and reuses two newly named original state addresses.
+    expected = {"3B": 345, "3C": 50, "3D": 16, "3E": 214, "3F": 1238}
     if partition != expected or sum(partition.values()) != 1863:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition

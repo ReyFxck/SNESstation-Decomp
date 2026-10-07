@@ -19,6 +19,10 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0012e688': {"source_file": 'src/snes9x/dsp_dispatch.cpp', "evidence": "analysis/functions/dsp_dispatch_exact_200.tsv", "evidence_token": '_Z11S9xInitDSP1v'},
+    '0x0012e6c4': {"source_file": 'src/snes9x/dsp_dispatch.cpp', "evidence": "analysis/functions/dsp_dispatch_exact_200.tsv", "evidence_token": 'S9xResetDSP1'},
+    '0x0012e704': {"source_file": 'src/snes9x/dsp_dispatch.cpp', "evidence": "analysis/functions/dsp_dispatch_exact_200.tsv", "evidence_token": 'S9xGetDSP'},
+    '0x0012e728': {"source_file": 'src/snes9x/dsp_dispatch.cpp', "evidence": "analysis/functions/dsp_dispatch_exact_200.tsv", "evidence_token": 'S9xSetDSP'},
     '0x0010c300': {"source_file": 'src/snes9x/native_chip_resets.cpp', "evidence": "analysis/functions/native_chip_resets_exact_416.tsv", "evidence_token": 'S9xInitC4'},
     '0x0012b9a4': {"source_file": 'src/snes9x/native_chip_resets.cpp', "evidence": "analysis/functions/native_chip_resets_exact_416.tsv", "evidence_token": 'S9xResetDMA'},
     '0x0015d8ec': {"source_file": 'src/snes9x/native_chip_resets.cpp', "evidence": "analysis/functions/native_chip_resets_exact_416.tsv", "evidence_token": 'S9xSA1Init'},

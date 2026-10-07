@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-chip-reset-recovery 247-name source-link provider frontier.
+"""Close the post-DSP-dispatch-recovery 245-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -130,6 +130,8 @@ SEMANTIC_ALIASES = {
 # source model does not export a signature-compatible canonical definition.
 # REG_GS_CSR is the documented PS2 privileged GS register, not image storage.
 EXPLICIT_ANCHORS = {
+    # Native math initializer required by the original DSP1 dispatch module.
+    "S9xInitDSP": 0x0012C02C,
     # Complete historical CPU execution module native callees.
     'S9xDeinterleaveMode2': 0x1520b8,
     'S9xDoHDMA': 0x12b498,
@@ -143,7 +145,6 @@ EXPLICIT_ANCHORS = {
     # Original CPU reset native callees. The earlier context-argument source
     # models have different signatures; preserve the actual target ABI.
     'S9xResetAPU': 0x10a934,
-    'S9xResetDSP1': 0x12e6c4,
     'S9xResetPPU': 0x15c124,
     'S9xSoftResetPPU': 0x15c624,
     'S9xFxReset': 0x1306f8,
@@ -156,7 +157,6 @@ EXPLICIT_ANCHORS = {
     # they are not aliases to the older context-argument behavioral models.
     "S9xGetPPU": 0x0015A5F0,
     "S9xGetCPU": 0x0015BC70,
-    "S9xGetDSP": 0x0012E704,
     "S9xGetC4": 0x0010C328,
     "S9xGetST018": 0x001701FC,
     "g_CPU_blob": 0x00345340,
@@ -166,7 +166,6 @@ EXPLICIT_ANCHORS = {
     # provider-linked target proof.
     "S9xSetPPU": 0x00159268,
     "S9xSetCPU": 0x0015AD6C,
-    "S9xSetDSP": 0x0012E728,
     "S9xSetC4": 0x0010D7DC,
     "S9xSetST018": 0x00170204,
     "g_SA1_blob": 0x00345AF8,
@@ -294,8 +293,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 247:
-        fail(f"expected exact post-chip-reset-recovery frontier of 247 symbols, found {len(active)}")
+    if len(active) != 245:
+        fail(f"expected exact post-DSP-dispatch-recovery frontier of 245 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -372,7 +371,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 203,
+        ABSOLUTE_ANCHOR: 201,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

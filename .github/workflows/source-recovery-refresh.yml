@@ -183,6 +183,9 @@ on:
       - src/snes9x/memmap_methods.cpp
       - src/snes9x/obc1.cpp
       - src/snes9x/sdd1_map.cpp
+      - src/snes9x/dsp_dispatch.cpp
+      - tools/run-dsp-dispatch-source-recovery.py
+      - analysis/functions/dsp_dispatch_exact_200.tsv
       - src/snes9x/native_chip_resets.cpp
       - tools/run-native-chip-resets-source-recovery.py
       - analysis/functions/native_chip_resets_exact_416.tsv
