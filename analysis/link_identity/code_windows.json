@@ -12,7 +12,7 @@
     "windows_1_through_6_exact": true
   },
   "format": "snesstation-stage3p-public-code-windows",
-  "prior_manifest_sha256": "c34cb42dfc16c443c7626b90929df4a76cc8468d71b9504c6f18f8db04699f21",
+  "prior_manifest_sha256": "ef64308250a07af5a1fa1390031c081919891283e5b59f2c5e1330af78ab7dec",
   "result": {
     "chunk_count": 51,
     "code_windows": 11,

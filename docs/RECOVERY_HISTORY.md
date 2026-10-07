@@ -67,8 +67,8 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **146 canonical translation units**;
-1848 external contracts remain; all frozen whole-image claims are preserved.
+for all runners. The tree now contains **148 canonical translation units**;
+1846 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
 
@@ -229,3 +229,30 @@ this does not assert new exact runtime-library implementations.
 
 Run `python3 tools/run-c4-math-source-recovery.py`. No private ELF is required,
 and all frozen whole-image result and claim fields remain unchanged.
+
+## Original SETA dispatch and ST010 helper source
+
+`src/snes9x/seta_dispatch.cpp` preserves both historical indirect-call
+wrappers and shares the existing SETA function-pointer slots. Their real
+`S9xGetSetaDSP` and `S9xSetSetaDSP` definitions close two external contracts.
+`src/snes9x/st010_helpers.cpp` preserves the SRAM getter, doubled signed
+multiply helper and original sine/cosine rotation. The rotation uses the
+original short conversion rather than the old model's `lrintf` rounding.
+The getter retains its original read logging.
+
+All five bodies reproduce **440/440 historical instruction bytes**. The
+rotation additionally matches **248/248 provider-linked bytes** in the public
+listing. The getter lies outside the frozen 1041-row audit and is recorded as
+an auxiliary recovered body. The ST010 command writer remains outside this
+recovery; the frozen 880-byte historical prefix also contains part of that
+writer, so this recovery claims only the three complete helper bodies.
+
+Run `python3 tools/run-seta-source-recovery.py`. The runner compiles the
+unaltered pinned upstream modules and checks their frozen code windows before
+comparing the isolated canonical sources. Frozen whole-image evidence is
+unchanged.
+
+The current namespace has 1846 external contracts, 1515 link contracts
+(245 blocked), and 235 provider-frontier entries (191 address anchors).
+The fixed counts follow the two new canonical SETA definitions; no captured
+binary result, range, payload hash or whole-image claim changes.

@@ -1209,6 +1209,9 @@ _Z19S9xSetSDD1MemoryMapjj	global	text	0x68	src/snes9x/sdd1_map.cpp	snes9x/sdd1_m
 _Z20S9xSDD1PostLoadStatev	global	text	0x48	src/snes9x/sdd1_map.cpp	snes9x/sdd1_map.o
 _Z31S9xCompareSDD1LoggedDataEntriesPKvS0_	local	text	0x40	src/snes9x/sdd1_map.cpp	snes9x/sdd1_map.o
 _Z18SelectTileRendererh	global	text	0x15c	src/snes9x/selecttilerenderer.cpp	snes9x/selecttilerenderer.o
+S9xGetSetaDSP	global	text	0x24	src/snes9x/seta_dispatch.cpp	snes9x/seta_dispatch.o
+S9xSetSetaDSP	global	text	0x24	src/snes9x/seta_dispatch.cpp	snes9x/seta_dispatch.o
+_GLOBAL__F_S9xGetSetaDSP	global	data	0x0	src/snes9x/seta_dispatch.cpp	snes9x/seta_dispatch.o
 CMemory_LoadSRAM_recovered	global	text	0x12c	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o
 CMemory_SaveSRAM_recovered	global	text	0x108	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o
 expected_sram_size	local	text	0x30	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o
@@ -1222,6 +1225,9 @@ _Z19S9xSRTCPreSaveStatev	global	text	0xe8	src/snes9x/srtc.cpp	snes9x/srtc.o
 _Z20S9xSRTCPostLoadStatev	global	text	0xc4	src/snes9x/srtc.cpp	snes9x/srtc.o
 _Z23S9xSRTCComputeDayOfWeekv	global	text	0xa8	src/snes9x/srtc.cpp	snes9x/srtc.o
 month_keys	local	data	0x30	src/snes9x/srtc.cpp	snes9x/srtc.o
+S9xGetST010	global	text	0x44	src/snes9x/st010_helpers.cpp	snes9x/st010_helpers.o
+_Z10St010_Op03sssRiS_	global	text	0x34	src/snes9x/st010_helpers.cpp	snes9x/st010_helpers.o
+_Z12St010_RotatesssRsS_	global	text	0xf8	src/snes9x/st010_helpers.cpp	snes9x/st010_helpers.o
 DrawClippedTile16_recovered	global	text	0x30	src/snes9x/tile_16bit_recovered.c	snes9x/tile_16bit_recovered.o
 DrawClippedTile16x2_recovered	global	text	0x30	src/snes9x/tile_16bit_recovered.c	snes9x/tile_16bit_recovered.o
 DrawClippedTile16x2x2_recovered	global	text	0x30	src/snes9x/tile_16bit_recovered.c	snes9x/tile_16bit_recovered.o

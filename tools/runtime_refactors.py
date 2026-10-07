@@ -106,7 +106,7 @@ def validate_live_contracts(
     # historical mangled symbols. S9xSetByte adds nine proved address contracts
     # on top of the post-S9xGetByte live frontier. OBC1 supplies GetOBC1 and
     # SetOBC1 directly, closing two remaining function contracts.
-    if (len(external), len(contracts), len(frontier)) != (1848, 1517, 237):
+    if (len(external), len(contracts), len(frontier)) != (1846, 1515, 235):
         fail("post-refactor namespace count drift")
     if any(row["resolution_kind"] == "compatibility-runtime-shim" for row in frontier):
         fail("compatibility runtime shim returned")

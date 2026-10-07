@@ -183,6 +183,10 @@ on:
       - src/snes9x/memmap_methods.cpp
       - src/snes9x/obc1.cpp
       - src/snes9x/sdd1_map.cpp
+      - src/snes9x/seta_dispatch.cpp
+      - src/snes9x/st010_helpers.cpp
+      - tools/run-seta-source-recovery.py
+      - analysis/functions/seta_helpers_exact_440.tsv
       - src/snes9x/c4_math.cpp
       - tools/run-c4-math-source-recovery.py
       - analysis/functions/c4_math_exact_2652.tsv

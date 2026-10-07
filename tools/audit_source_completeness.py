@@ -19,6 +19,10 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0016fc48': {"source_file": 'src/snes9x/seta_dispatch.cpp', "evidence": "analysis/functions/seta_helpers_exact_440.tsv", "evidence_token": 'S9xGetSetaDSP'},
+    '0x0016fc6c': {"source_file": 'src/snes9x/seta_dispatch.cpp', "evidence": "analysis/functions/seta_helpers_exact_440.tsv", "evidence_token": 'S9xSetSetaDSP'},
+    '0x0016fcd4': {"source_file": 'src/snes9x/st010_helpers.cpp', "evidence": "analysis/functions/seta_helpers_exact_440.tsv", "evidence_token": '_Z10St010_Op03sssRiS_'},
+    '0x0016fd08': {"source_file": 'src/snes9x/st010_helpers.cpp', "evidence": "analysis/functions/seta_helpers_exact_440.tsv", "evidence_token": '_Z12St010_RotatesssRsS_'},
     '0x0010b8a4': {"source_file": "src/snes9x/c4_math.cpp", "evidence": "analysis/functions/c4_math_exact_2652.tsv", "evidence_token": 'C4TransfWireFrame'},
     '0x0010bbcc': {"source_file": "src/snes9x/c4_math.cpp", "evidence": "analysis/functions/c4_math_exact_2652.tsv", "evidence_token": 'C4TransfWireFrame2'},
     '0x0010becc': {"source_file": "src/snes9x/c4_math.cpp", "evidence": "analysis/functions/c4_math_exact_2652.tsv", "evidence_token": 'C4CalcWireFrame'},
