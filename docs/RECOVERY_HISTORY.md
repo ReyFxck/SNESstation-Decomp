@@ -67,7 +67,7 @@ functions; the sidecar records each actual identity at its target address.
 
 Run `python3 tools/run-selecttilerenderer-source-recovery.py` and
 `python3 tools/run-audio-rpc-source-recovery.py`, or `make source-recovery-check`
-for all runners. The tree now contains **148 canonical translation units**;
+for all runners. The tree now contains **150 canonical translation units**;
 1846 external contracts remain; all frozen whole-image claims are preserved.
 The SjPCM license notice remains in both source and header, with the complete
 LGPL 2.1 text in [`licenses/LGPL-2.1.txt`](licenses/LGPL-2.1.txt).
@@ -262,3 +262,27 @@ pointer slots (`RAM`, `ROM`, `VRAM`, `SRAM`), placing SRAM at byte offset 12.
 Its complete 68 raw object bytes must equal the historical body as well as
 passing normalized comparison. This corrects the prior isolated declaration's
 SRAM offset without changing the already exact rotation or dispatch bodies.
+
+## Five original SPC7110 state and persistence helpers
+
+`src/snes9x/spc7110_helpers.cpp` restores RTC update, ROM base lookup and
+register/bank50 reset. The RTC retains the target's 32-bit persisted timestamp
+and disabled wall clock. ROM lookup reads the original standalone ROM pointer;
+the 64 KiB bank50 reset and original register defaults are preserved. All three
+bodies match **1092/1092 provider-linked bytes**. Separate function sections
+place them across the intervening unrecovered loader without changing any
+instruction bytes. The existing exact days-in-month helper is reused.
+
+`src/snes9x/spc7110_rtc_io.cpp` restores the V74 PS2 FIO save/load adaptation.
+Both functions retain their 24-byte little-endian record layout, byte-at-a-time
+I/O and original ignored transfer results. They match **692/692 provider-linked
+bytes**. The following eight-byte empty leaf is outside the 360-byte reader
+proof and remains separately owned.
+
+Run `python3 tools/run-spc7110-source-recovery.py` for all five bodies:
+**1784/1784 bytes**, with 52 known relocations. The runner rebuilds the pinned
+V72/V74 source objects, checks frozen historical fingerprints, compares exact
+normalized instructions and links to the recorded real target providers.
+Complete public listings also independently check the base lookup and reset.
+The source tree has 150 canonical units; all frozen whole-image captures and
+claims remain unchanged, with no new private-image rerun.

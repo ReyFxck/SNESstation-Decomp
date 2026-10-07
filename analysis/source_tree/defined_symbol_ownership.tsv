@@ -1212,6 +1212,13 @@ _Z18SelectTileRendererh	global	text	0x15c	src/snes9x/selecttilerenderer.cpp	snes
 S9xGetSetaDSP	global	text	0x24	src/snes9x/seta_dispatch.cpp	snes9x/seta_dispatch.o
 S9xSetSetaDSP	global	text	0x24	src/snes9x/seta_dispatch.cpp	snes9x/seta_dispatch.o
 _GLOBAL__F_S9xGetSetaDSP	global	data	0x0	src/snes9x/seta_dispatch.cpp	snes9x/seta_dispatch.o
+Get7110BasePtr	global	text	0x74	src/snes9x/spc7110_helpers.cpp	snes9x/spc7110_helpers.o
+_GLOBAL__F__Z12S9xUpdateRTCv	global	data	0x0	src/snes9x/spc7110_helpers.cpp	snes9x/spc7110_helpers.o
+_Z12S9xUpdateRTCv	global	text	0x2d8	src/snes9x/spc7110_helpers.cpp	snes9x/spc7110_helpers.o
+_Z15S9xSpc7110Resetv	global	text	0xf8	src/snes9x/spc7110_helpers.cpp	snes9x/spc7110_helpers.o
+_GLOBAL__F__Z17S9xSaveSPC7110RTCP10SPC7110RTC	global	data	0x0	src/snes9x/spc7110_rtc_io.cpp	snes9x/spc7110_rtc_io.o
+_Z17S9xLoadSPC7110RTCP10SPC7110RTC	global	text	0x168	src/snes9x/spc7110_rtc_io.cpp	snes9x/spc7110_rtc_io.o
+_Z17S9xSaveSPC7110RTCP10SPC7110RTC	global	text	0x14c	src/snes9x/spc7110_rtc_io.cpp	snes9x/spc7110_rtc_io.o
 CMemory_LoadSRAM_recovered	global	text	0x12c	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o
 CMemory_SaveSRAM_recovered	global	text	0x108	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o
 expected_sram_size	local	text	0x30	src/snes9x/sram_recovered.c	snes9x/sram_recovered.o

@@ -183,6 +183,10 @@ on:
       - src/snes9x/memmap_methods.cpp
       - src/snes9x/obc1.cpp
       - src/snes9x/sdd1_map.cpp
+      - src/snes9x/spc7110_helpers.cpp
+      - src/snes9x/spc7110_rtc_io.cpp
+      - tools/run-spc7110-source-recovery.py
+      - analysis/functions/spc7110_exact_1784.tsv
       - src/snes9x/seta_dispatch.cpp
       - src/snes9x/st010_helpers.cpp
       - tools/run-seta-source-recovery.py
