@@ -1065,3 +1065,58 @@ Validation: `make source-tree-check` verifies all 174 canonical EE units;
 **80/80 maintained recovery proofs** pass; `make check` passes every public gate
 and **604 tool tests** (one existing skip). No fresh private-image or
 replacement-ELF comparison is claimed.
+
+### 2026-10-08 — Complete native SA-1 opcode core: 67008 instruction bytes
+
+Recovered **465 native opcode/helper routines and 67008 instruction bytes** in
+`src/snes9x/native_sa1_opcodes.cpp`, with original types, addressing helpers and
+arithmetic bodies in `src/snes9x/native_sa1_opcode_state.h`. The four native
+256-entry dispatch tables add **4096 data bytes**, counted separately. Existing
+IRQ and main-loop owners retain their 552 bytes; those bytes are excluded from
+this batch. The batch exceeds the requested 50000-byte instruction threshold
+by 17008 bytes, without counting headers, comments, tables or compiler metadata.
+
+Every new routine preserves its original size and binding. All **67008 linked
+instruction bytes** match the independently rebuilt historical reference at the
+original function addresses, including local helper calls and shared-state
+operands. The maintained proof first authenticates the frozen complete
+67560-byte SA1CPU source window and its 5131 text relocations, the original
+GLOBALS geometry, and the complete 21872-byte target-linked historical data
+digest. The four selected native tables then reproduce the corresponding
+complete target-linked data slices. Per-function raw, normalized and linked
+hashes are retained in `analysis/functions/native_sa1_opcodes_exact_67008.tsv`;
+separate table hashes are in
+`analysis/functions/native_sa1_opcode_tables_exact_4096.tsv`.
+Run `python3 tools/run-native-sa1-opcodes-source-recovery.py`.
+
+All scratch state reuses existing original providers. `Work32` and `Int8` use
+assembler expressions over the existing `DAT_0035b752` and `DAT_0035b75a`
+anchors; their original offsets are checked before linking. No duplicate SA-1,
+register, memory or arithmetic state is allocated. Source-owned opcode tables
+are the only new sized data definitions. Compiler-generated frame records are
+excluded from the recovered-byte count and from new target-metadata claims.
+
+The 465 routines comprise five existing audit entries and 460 additional
+internal entries outside the frozen 1041-function manifest. Five audited helper
+promotions now reference native code; four replace earlier low-level source
+models and one is new, leaving **342 checked source promotions**. The manifest
+membership and all matching evidence remain unchanged. The report now groups
+its same 1041 entries into **108 source groups**; this is an ownership change,
+not an enlargement of the frozen function audit.
+
+The canonical tree has **175 translation units**, **2119 owned definitions**,
+**1861 external contracts** and **1530 link contracts** (1290 resolved, 240
+blocked). Its provider frontier remains **230 rows**: 186 address anchors,
+39 compatibility-storage providers and five semantic aliases. Fresh partial
+links preserve allocated bytes through **1846 -> 1515 -> 240** externals;
+ten frozen private-asset addresses then close **230 -> 0 undefined globals**
+in the namespace-only check, without supplying private asset payloads.
+All **174 preceding canonical source objects** retain their exact fingerprints.
+All frozen binary-identity JSON manifests remain unchanged. Existing unnamed
+data and data-backing ledgers change only consumer requesters.
+
+Validation: all **175 canonical EE units** compile; **81/81 maintained source
+recovery proofs** pass; `make check` passes every public gate and **604 tool
+tests** (one existing skip). Code proof remains at the linked historical
+reference level; no fresh private-target or replacement-image comparison is
+claimed for this batch.

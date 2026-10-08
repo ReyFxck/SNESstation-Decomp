@@ -11,6 +11,11 @@ on:
       - Makefile
       - analysis/link_identity/*.json
       - tools/build_source_tree.py
+      - src/snes9x/native_sa1_opcodes.cpp
+      - src/snes9x/native_sa1_opcode_state.h
+      - analysis/functions/native_sa1_opcodes_exact_67008.tsv
+      - analysis/functions/native_sa1_opcode_tables_exact_4096.tsv
+      - tools/run-native-sa1-opcodes-source-recovery.py
       - src/snes9x/native_rom_maps.cpp
       - analysis/functions/native_rom_maps_exact_12816.tsv
       - tools/run-native-rom-maps-source-recovery.py

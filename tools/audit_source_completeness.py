@@ -19,6 +19,11 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0016f0a0': {'source_file': 'src/snes9x/native_sa1_opcodes.cpp', 'evidence': 'analysis/functions/native_sa1_opcodes_exact_67008.tsv', 'evidence_token': '_Z15S9xSA1FixCyclesv'},
+    '0x0016f10c': {'source_file': 'src/snes9x/native_sa1_opcodes.cpp', 'evidence': 'analysis/functions/native_sa1_opcodes_exact_67008.tsv', 'evidence_token': '_Z4ADC8v'},
+    '0x0016f2dc': {'source_file': 'src/snes9x/native_sa1_opcodes.cpp', 'evidence': 'analysis/functions/native_sa1_opcodes_exact_67008.tsv', 'evidence_token': '_Z5ADC16v'},
+    '0x0016f580': {'source_file': 'src/snes9x/native_sa1_opcodes.cpp', 'evidence': 'analysis/functions/native_sa1_opcodes_exact_67008.tsv', 'evidence_token': '_Z5SBC16v'},
+    '0x0016f7f8': {'source_file': 'src/snes9x/native_sa1_opcodes.cpp', 'evidence': 'analysis/functions/native_sa1_opcodes_exact_67008.tsv', 'evidence_token': '_Z4SBC8v'},
     '0x00153674': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory6MapRAMEv'},
     '0x00153780': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory11MapExtraRAMEv'},
     '0x001538b0': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory8LoROMMapEv'},
