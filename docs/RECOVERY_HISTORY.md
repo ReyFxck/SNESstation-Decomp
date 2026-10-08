@@ -940,3 +940,44 @@ hashes, results and image claims are unchanged; public consumer ownership change
 Validation: all 171 canonical EE units compile, **77/77 maintained recovery
 proofs** pass, and `make check` passes every public gate and 604 tool tests (one
 existing skip). No fresh private-image or replacement-ELF comparison is claimed.
+
+### 2026-10-08 — Native C4 wave renderer and bitmap table
+
+Recovered `C4BitPlaneWave` (584 bytes at `0x0010d2a8`) and its original 80-byte
+bitmap offset table at `0x00335a00` in `src/snes9x/native_c4_wave.cpp`. The routine
+retains wave height sampling, alternating bitplane masks, packed PS2 reads and
+bytewise writes. Its C4 RAM comes from the existing original Memory provider.
+The table is the sole local data object; no independent runtime state is added.
+
+All **584 complete target instruction bytes** and **80 target data bytes** match
+the frozen independent evidence. Four historical table LO16 addends change from
+`.data+0x30` to zero in the isolated TU; each difference is checked explicitly,
+and placing the native table at the original address reproduces the full target
+code digest. The independent source recipe verifies the official archive,
+PS2 packed-access patches and V78 allocation profile. Its complete 2176-byte
+C4 table prefix matches the frozen window-35 data witness. Unselected historical
+code and metadata remain comparison-only.
+Run `python3 tools/run-native-c4-wave-source-recovery.py`.
+
+The canonical build now automatically constructs the already-proved
+`mips-local-t5-before-t4` compiler profile for this TU alone. It reuses the
+historical C++ bootstrap's host build objects and leaves the canonical compiler
+unchanged. All **171 prior translation-unit object fingerprints** remain exactly
+unchanged; the proof also verifies the canonical cc1plus hash before/after profile
+construction. This requires the complete historical C++ bootstrap build tree,
+as the existing V78 source recipe already did.
+
+The canonical tree has **172 translation units**, **1632 owned definitions**,
+**1861 external contracts** and **1530 link contracts** (1290 resolved, 240
+blocked). The provider frontier remains **230 rows**: 186 address anchors,
+39 compatibility-storage providers and five semantic aliases. Fresh partial
+links preserve allocated bytes through **1846 -> 1515 -> 240** live externals;
+ten frozen private-asset addresses then close **230 -> 0 undefined globals**
+in the namespace-only check without supplying or verifying private payloads.
+All 1041 audit entries, 107 function groups and 338 checked source promotions
+are retained. Frozen code/data results, source pins and image claims are preserved;
+consumer provenance and canonical build metadata are refreshed.
+
+Validation: all 172 canonical EE units compile, **78/78 maintained recovery
+proofs** pass, and `make check` passes every public gate and 604 tool tests (one
+existing skip). No fresh private-image or replacement-ELF comparison is claimed.

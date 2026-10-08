@@ -116,7 +116,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0010cbb0,snes_p17_0010cbb0,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_c4_raster.cpp,MATCHING
 0x0010cdcc,snes_p17_0010cdcc,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/c4drawwireframe.cpp,MATCHING
 0x0010cfa4,snes_p17_0010cfa4,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/c4transformlines.S,MATCHING
-0x0010d2a8,snes_p16_0010d2a8,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x0010d2a8,snes_p16_0010d2a8,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_c4_wave.cpp,MATCHING
 0x0010d4f0,snes_p16_0010d4f0,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_c4_raster.cpp,MATCHING
 0x0010d734,snes_p16_0010d734,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0010d7dc,snes_p17_0010d7dc,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/s9xsetc4.S,MATCHING

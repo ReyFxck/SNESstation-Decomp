@@ -55,6 +55,7 @@ DEFAULT_CFLAGS = (
 # source byte-identical and select only the members owned by this canonical TU
 # at compile time instead of adding recovery-only #defines to the source.
 SOURCE_FIXED_FLAGS = {
+    'src/snes9x/native_c4_wave.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-fno-builtin', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_c4_raster.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-fno-builtin', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_sa1.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_sa1_execution.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
@@ -364,6 +365,11 @@ PS2_RUNTIME_PREFIXES = (
 ZLIB_EXTERNAL_PREFIXES = (
     "adler32", "crc32", "deflate", "inflate", "zlib", "zError", "gz",
 )
+
+SOURCE_COMPILER_PROFILES = {
+    # V78 proves this isolated allocation tie-break for C4 wave rendering.
+    'src/snes9x/native_c4_wave.cpp': 'mips-local-t5-before-t4',
+}
 
 # Historical C++ peers that are program call contracts, not libsupc++ runtime
 # entries. Their target identity is pinned by the reviewed link-contract gate;
@@ -807,8 +813,19 @@ def compile_one(
     driver = cxx if unit.language == "cpp" else compiler
     if driver is None:
         fail(f"C++ translation unit requires --cxx: {unit.source}")
+    profile_flags = []
+    profile_name = SOURCE_COMPILER_PROFILES.get(unit.source)
+    if profile_name is not None:
+        from build_ee_gcc_regalloc_profile import PROFILE_NAME, build_profile
+        if unit.language != "cpp" or profile_name != PROFILE_NAME:
+            fail(f"unsupported source compiler profile: {unit.source}: {profile_name}")
+        try:
+            profile = build_profile(driver)
+        except RuntimeError as exc:
+            fail(str(exc))
+        profile_flags.append(f"-B{profile.as_posix()}/")
     command = [
-        str(driver), *source_cflags, *defines,
+        str(driver), *profile_flags, *source_cflags, *defines,
         "-c", unit.source, "-o", str(output)
     ]
     run(command, log_path=log)

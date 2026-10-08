@@ -495,7 +495,8 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                             ("S9xReadSuperScopePosition", 8), ("S9xReadMousePosition", 8))),
                             ("native_chip_io", (("S9xGetC4", 24), ("S9xGetST018", 8), ("S9xSetST018", 40))),
                             ("native_rom_deinterleave", (("S9xMessage", 8), ("S9xDeinterleaveMode2", 544))),
-                            ("native_c4_raster", (("_Z10C4DrawLineiisiish", 540), ("_Z17C4SprDisintegratev", 580)))):
+                            ("native_c4_raster", (("_Z10C4DrawLineiisiish", 540), ("_Z17C4SprDisintegratev", 580))),
+                            ("native_c4_wave", (("_Z14C4BitPlaneWavev", 584),))):
         for name, size in entries:
             definitions = [row for row in defined_rows if row["symbol"] == name]
             if (len(definitions) != 1 or definitions[0]["binding"] != "global"

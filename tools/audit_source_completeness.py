@@ -19,6 +19,8 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0010d2a8': {'source_file': 'src/snes9x/native_c4_wave.cpp', 'evidence': 'analysis/functions/native_c4_wave_exact_584.tsv', 'evidence_token': '_Z14C4BitPlaneWavev'},
+
     '0x0010cbb0': {'source_file': 'src/snes9x/native_c4_raster.cpp', 'evidence': 'analysis/functions/native_c4_raster_exact_1120.tsv', 'evidence_token': '_Z10C4DrawLineiisiish'},
     '0x0010d4f0': {'source_file': 'src/snes9x/native_c4_raster.cpp', 'evidence': 'analysis/functions/native_c4_raster_exact_1120.tsv', 'evidence_token': '_Z17C4SprDisintegratev'},
 

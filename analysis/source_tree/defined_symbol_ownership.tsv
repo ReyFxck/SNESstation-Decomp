@@ -1125,6 +1125,8 @@ alloc32	local	text	0x1c	src/snes9x/memory_init_recovered.c	snes9x/memory_init_re
 _GLOBAL__F__Z10C4DrawLineiisiish	global	data	0x0	src/snes9x/native_c4_raster.cpp	snes9x/native_c4_raster.o
 _Z10C4DrawLineiisiish	global	text	0x21c	src/snes9x/native_c4_raster.cpp	snes9x/native_c4_raster.o
 _Z17C4SprDisintegratev	global	text	0x244	src/snes9x/native_c4_raster.cpp	snes9x/native_c4_raster.o
+_Z14C4BitPlaneWavev	global	text	0x248	src/snes9x/native_c4_wave.cpp	snes9x/native_c4_wave.o
+_ZZ14C4BitPlaneWavevE7bmpdata	local	data	0x50	src/snes9x/native_c4_wave.cpp	snes9x/native_c4_wave.o
 S9xGetC4	global	text	0x18	src/snes9x/native_chip_io.cpp	snes9x/native_chip_io.o
 S9xGetST018	global	text	0x8	src/snes9x/native_chip_io.cpp	snes9x/native_chip_io.o
 S9xSetST018	global	text	0x28	src/snes9x/native_chip_io.cpp	snes9x/native_chip_io.o
