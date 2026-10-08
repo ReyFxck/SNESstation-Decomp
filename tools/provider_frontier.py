@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-native-sound-callback 229-name source-link provider frontier.
+"""Close the post-native-ROM-map 230-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -139,6 +139,9 @@ EXPLICIT_ANCHORS = {
     "_ZdaPv": 0x001a9118,
     # Complete historical CPU execution module native callees.
     '_ZN7CMemory7InitROMEh': 0x1522d8,
+    # Native memory maps retain the zero-argument C++ SPC7110 cache initializer.
+    # The older lifted initializer uses a different context-model signature.
+    "_Z14S9xSpc7110Initv": 0x1806a4,
     # Native controller update calls the original one-argument PS2 reader.
     # The earlier multitap model at this address takes an extra RPC context.
     'S9xReadJoypad': 0x104bbc,
@@ -282,8 +285,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 229:
-        fail(f"expected exact post-native-sound-callback frontier of 229 symbols, found {len(active)}")
+    if len(active) != 230:
+        fail(f"expected exact post-native-ROM-map frontier of 230 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -360,7 +363,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 185,
+        ABSOLUTE_ANCHOR: 186,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

@@ -1,6 +1,6 @@
 name: Source recovery ledger refresh
 # Every maintained recovery proof must pass before ownership/provenance refresh.
-# Canonical source-tree target: 138 TUs, including historical APUMEM, renderer-selector, audio-RPC and RTC sources.
+# Canonical source-tree target: 174 TUs, including historical APUMEM, renderer-selector, audio-RPC and RTC sources.
 
 on:
   push:
@@ -11,6 +11,9 @@ on:
       - Makefile
       - analysis/link_identity/*.json
       - tools/build_source_tree.py
+      - src/snes9x/native_rom_maps.cpp
+      - analysis/functions/native_rom_maps_exact_12816.tsv
+      - tools/run-native-rom-maps-source-recovery.py
       - tools/unnamed_data.py
       - src/ps2/cdvd_rpc.c
       - include/cdvd_legacy_compat.h

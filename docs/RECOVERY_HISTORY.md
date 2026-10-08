@@ -1013,3 +1013,55 @@ Next C4 investigation: the independent high-level `C4DoScaleRotate` body produce
 and linked digest still differ from the frozen V81 target witness. A second-mask
 read variant produces 1240 bytes and also differs. These probes remain research
 artifacts outside canonical source; no matching promotion is made for them.
+
+### 2026-10-08 — Fifteen native ROM and RAM mapping methods
+
+Recovered the complete **15-method, 12816-byte** mapping interval from
+`0x00153674` through `0x00156884` in `src/snes9x/native_rom_maps.cpp`:
+MapRAM, MapExtraRAM, LoROM, BSLoROM, HiROM, Tales, Alpha, SuperFX, SA1,
+LoROM24MBS, Sufami Turbo, SRAM512K, BSHiROM, Jumbo LoROM and SPC7110 HiROM.
+Two previously modeled helpers receive their first checked source promotions;
+thirteen older low-level promotions now point to native C++ methods. Genuine
+method signatures, map sentinels, timing constants and all original shared
+Memory/Settings/SA1/SRAM providers are retained.
+
+All **12816 selected instruction bytes** reproduce the fully linked historical
+reference. HiROM and Tales additionally reproduce **2116 complete target code
+bytes**, independently pinned by V51. The isolated **8-byte Tales literal** also
+matches the complete frozen target rodata prefix at `0x001b6728`. The other
+thirteen methods retain strict frozen normalized target witnesses and complete
+linked historical equality; no new full target-code digest is inferred for them.
+Run `python3 tools/run-native-rom-maps-source-recovery.py`.
+
+The proof separately rebuilds the earlier LoROM/BSLoROM Settings profile and
+V51's unpatched diagnostic/literal context. It bounds every difference to the
+three independently verified native SETA/BS field LO16 corrections and one
+historical literal displacement. Isolation changes only the Tales literal LO16
+and two scratch-provider LO16 fields. The existing bank-biased address contract
+`DAT_00426820+0x6000` names the original 8 KiB buffer at `0x0042c820`; original
+placement reproduces all selected instructions without allocating another
+buffer. Historical `.bss` is checked as zero-fill geometry, never read as file
+payload. Compiler-generated frame metadata is separately bounded; it is not
+claimed as newly recovered target metadata.
+
+SPC7110 retains the genuine zero-argument C++ initializer
+`_Z14S9xSpc7110Initv` at `0x001806a4`. The earlier lifted context model remains
+a separate implementation. This introduces one reviewed target-address call
+contract, leaving the canonical tree at **174 translation units**, **1649 owned
+definitions**, **1861 external contracts** and **1530 link contracts** (1290
+resolved, 240 blocked). The provider frontier has **230 rows**: 186 address
+anchors, 39 compatibility-storage providers and five semantic aliases.
+Fresh partial links preserve allocated bytes through **1846 -> 1515 -> 240**
+externals; ten frozen private-asset addresses then close **230 -> 0 undefined
+globals** in the namespace-only check, without supplying private asset bytes.
+
+All **173 preceding canonical source objects** retain their exact fingerprints.
+There are now **341 checked source promotions**. All 1041 audit entries, 107
+report function groups, frozen binary payload hashes, results, source pins and
+image claims remain unchanged. Only consumer ownership changes in the existing
+unnamed-data and data-backing ledgers.
+
+Validation: `make source-tree-check` verifies all 174 canonical EE units;
+**80/80 maintained recovery proofs** pass; `make check` passes every public gate
+and **604 tool tests** (one existing skip). No fresh private-image or
+replacement-ELF comparison is claimed.

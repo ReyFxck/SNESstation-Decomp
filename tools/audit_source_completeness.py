@@ -19,6 +19,21 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x00153674': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory6MapRAMEv'},
+    '0x00153780': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory11MapExtraRAMEv'},
+    '0x001538b0': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory8LoROMMapEv'},
+    '0x00153da4': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory10BSLoROMMapEv'},
+    '0x001541e0': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory8HiROMMapEv'},
+    '0x0015458c': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory11TalesROMMapEh'},
+    '0x00154a24': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory11AlphaROMMapEv'},
+    '0x00154c2c': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory13SuperFXROMMapEv'},
+    '0x00154f9c': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory9SA1ROMMapEv'},
+    '0x00155334': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory13LoROM24MBSMapEv'},
+    '0x0015568c': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory19SufamiTurboLoROMMapEv'},
+    '0x00155a44': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory16SRAM512KLoROMMapEv'},
+    '0x00155ca0': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory10BSHiROMMapEv'},
+    '0x00156118': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory13JumboLoROMMapEv'},
+    '0x00156514': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory15SPC7110HiROMMapEv'},
     '0x00101904': {'source_file': 'src/ps2/native_sound_callback.c', 'evidence': 'analysis/functions/native_sound_callback_exact_8.tsv', 'evidence_token': 'S9xGenerateSound'},
 
     '0x0010d2a8': {'source_file': 'src/snes9x/native_c4_wave.cpp', 'evidence': 'analysis/functions/native_c4_wave_exact_584.tsv', 'evidence_token': '_Z14C4BitPlaneWavev'},

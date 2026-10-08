@@ -495,6 +495,23 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                             ("native_chip_io", (("S9xGetC4", 24), ("S9xGetST018", 8), ("S9xSetST018", 40))),
                             ("native_rom_deinterleave", (("S9xMessage", 8), ("S9xDeinterleaveMode2", 544))),
                             ("native_c4_raster", (("_Z10C4DrawLineiisiish", 540), ("_Z17C4SprDisintegratev", 580))),
+                            ("native_rom_maps", (
+                                ('_ZN7CMemory6MapRAMEv', 268),
+                                ('_ZN7CMemory11MapExtraRAMEv', 304),
+                                ('_ZN7CMemory8LoROMMapEv', 1268),
+                                ('_ZN7CMemory10BSLoROMMapEv', 1084),
+                                ('_ZN7CMemory8HiROMMapEv', 940),
+                                ('_ZN7CMemory11TalesROMMapEh', 1176),
+                                ('_ZN7CMemory11AlphaROMMapEv', 520),
+                                ('_ZN7CMemory13SuperFXROMMapEv', 880),
+                                ('_ZN7CMemory9SA1ROMMapEv', 920),
+                                ('_ZN7CMemory13LoROM24MBSMapEv', 856),
+                                ('_ZN7CMemory19SufamiTurboLoROMMapEv', 952),
+                                ('_ZN7CMemory16SRAM512KLoROMMapEv', 604),
+                                ('_ZN7CMemory10BSHiROMMapEv', 1144),
+                                ('_ZN7CMemory13JumboLoROMMapEv', 1020),
+                                ('_ZN7CMemory15SPC7110HiROMMapEv', 880),
+                            )),
                             ("native_c4_wave", (("_Z14C4BitPlaneWavev", 584),))):
         for name, size in entries:
             definitions = [row for row in defined_rows if row["symbol"] == name]
@@ -512,6 +529,14 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 or provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
                 or provider["target_address"] != f"0x{address:08x}"):
             fail(f"native controller frontend contract drift: {symbol}")
+
+    symbol = "_Z14S9xSpc7110Initv"
+    ext, provider = external.get(symbol), frontier.get(symbol)
+    if (ext is None or ext["category"] != "target-function-contract"
+            or ext["requesters"] != "snes9x/native_rom_maps.o"
+            or provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
+            or provider["target_address"] != "0x001806a4"):
+        fail("native ROM SPC7110 initializer ABI/address contract drift")
 
     definitions = [row for row in defined_rows if row["symbol"] == "S9xGenerateSound"]
     if (len(definitions) != 1 or definitions[0]["binding"] != "global"
