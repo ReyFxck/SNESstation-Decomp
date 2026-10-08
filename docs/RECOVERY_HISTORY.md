@@ -1180,3 +1180,71 @@ Validation: **178/178 canonical EE units**, **82/82 maintained recovery proofs**
 `make check`, and **604 tool tests** (one existing skip). This batch proves
 complete selected code against linked historical references and the stated
 frozen data witnesses; it does not claim a fresh private ELF or whole-image run.
+
+### 2026-10-08 — Eight-module native bulk recovery: 68332 instruction bytes
+
+Prepared the available tile, 2xSaI, DSP, APU, memory, sound and snapshot
+functions together, then compared every selected instruction after linking.
+The canonical batch contains **132 new native functions / 68332 instruction
+bytes**. Previously proved echo-delay and echo-write functions retain their
+existing owners and are excluded from this total.
+
+| Module | New functions | Instruction bytes |
+| --- | ---: | ---: |
+| Tile renderers and original weak pixel writers | 55 | 48552 |
+| 2xSaI filters | 10 | 6888 |
+| DSP arithmetic and DSP2 helpers | 25 | 4592 |
+| APU lifecycle, envelope, control and timer helpers | 6 | 1576 |
+| Memory scoring, interleave override and SRAM helpers | 9 | 1924 |
+| Sound controls and block decoders | 22 | 4076 |
+| Snapshot wrappers and block helpers | 4 | 456 |
+| Original snapshot block reader | 1 | 268 |
+| Total | 132 | 68332 |
+
+`tools/run-native-bulk-source-recovery.py` rebuilds the pinned Snes9x 1.41-1
+archive with the maintained PS2 layout and EE GCC 3.2.2 profile. Original types
+and declarations are expanded in each isolated unit to preserve the historical
+layout without importing unrelated weak definitions from the older source models.
+Frozen complete
+code windows and inherited matching ledgers authenticate the original source
+functions. A second build with function sections permits individual historical
+entry placement where the target combines different module profiles. The proof
+checks the complete linked instructions, **110816 bytes of sized original
+storage**, retained **504-byte readonly slices**, zero-fill geometry and the
+canonical symbol ownership map. Compiler unwind metadata is outside these
+storage totals. Excluded reference bodies and comparison-only import bindings
+are explicitly unclaimed; none of their zero bindings can reach selected code.
+
+The native renderer and selector now reference the recovered original tile
+symbols. Their previous instruction digests remain unchanged. The memory RTC
+reference reuses the existing typed address anchor, and the sound batch reuses
+the already proved native frequency and echo-delay implementations with the
+original argument types. Snapshot callbacks, the remaining DSP byte handlers
+and the snapshot freeze callback keep reviewed original ABI/address contracts.
+Three zlib consumers resolve to existing source implementations. These public
+contracts are checked separately from the frozen 216-row Stage-3E data tranche.
+
+`analysis/functions/native_bulk_census.tsv` records **250 functions across ten
+examined modules**: 132 newly proved, 24 with an existing native proof, 32 with
+a retained canonical owner, and 62 pending. Those 62 comprise 45 without a
+complete matching function witness, 15 blocked by the full link comparison and
+two with ambiguous historical symbol aliases. This is a module census, not a
+remaining-function count for the entire project. The unselected large DSP,
+ROM-loading, mixer and snapshot paths, SPC7110 loading paths and clip-window
+variant still require further recovery or ABI/layout evidence.
+
+The canonical tree now has **186 units**, **3659 defined symbols** and **1868
+external contracts**. There are **1537 link contracts** (1291 resolved, 246
+blocked) and **236 remaining providers** (192 address anchors, 39 compatibility
+stores and five semantic aliases). Namespace-only links close **1853 -> 1522 ->
+246** externals, then **236 -> 0** after ten frozen private-asset addresses are
+supplied; no private payloads are supplied by this check. **176 of the 178
+preceding canonical objects** remain identical. The two changed objects are the
+renderer and selector whose imports now name native tile owners.
+
+Validation: **83/83 maintained recovery proofs**, **186/186 canonical EE units**,
+`make check`, and **604 tool tests** (one existing skip). Frozen payload hashes,
+source pins, target geometry and comparison results are preserved; only public
+consumer provenance and dependent hashes are refreshed. Complete selected code
+is proved against linked historical references. This batch does not assert a
+fresh private-ELF comparison or a complete native replacement image.

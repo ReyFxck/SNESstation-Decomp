@@ -20,7 +20,7 @@ from compare_elf_functions import ELFFile
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / 'build/matching/native-core-200k-source-recovery'
 CONFIG = ROOT / 'analysis/functions/native_core_206104_config.json'
-CONFIG_SHA256 = '03ce314ef6b53f5943723fe84c61aebf6508ea5d1022c74ec313961aba7b70e3'
+CONFIG_SHA256 = '50eb8dd7ca70e8a5f5bbdf2550237239d6457ac88bc6483538326ea470bcd431'
 CODE_SHA256 = '2036b0de9609af7473f6ee1b37258b4e4bff242f53f28b9bffcaf821481fca75'
 
 

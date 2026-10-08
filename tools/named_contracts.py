@@ -256,8 +256,20 @@ LATER_CPU_EXECUTION_CONTRACTS = {
     'S9xStartScreenRefresh': 0x14311c,
 }
 LATER_CONTROLLER_CONTRACTS = {'S9xReadJoypad': 0x104bbc}
+# New public native-batch consumers are reviewed independently of the frozen
+# historical 216-row private-data tranche.
+LATER_NATIVE_BULK_CONTRACTS = {
+    "S9xOpenSnapshotFile": (0x101890, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
+    "S9xCloseSnapshotFile": (0x1018e0, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
+    "_Z6FreezePv": (0x171348, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
+    "_Z11DSP1SetByteht": (0x12e750, "snes9x/native_bulk_dsp1.o", "target-function-contract"),
+    "_Z11DSP1GetBytet": (0x12f744, "snes9x/native_bulk_dsp1.o", "target-function-contract"),
+    "gzread": (0x193a34, "snes9x/native_bulk_snaporig.o;snes9x/native_bulk_snapshot.o", "zlib-peer"),
+    "gzseek": (0x1940ec, "snes9x/native_bulk_snapshot.o", "zlib-peer"),
+    "gztell": (0x194378, "snes9x/native_bulk_snapshot.o", "zlib-peer"),
+}
 def is_stage3e(row: dict[str, str]) -> bool:
-    return row["symbol"] not in (LATER_CPU_EXECUTION_CONTRACTS.keys() | LATER_CONTROLLER_CONTRACTS.keys()) and (row["category"], row["provider_kind"]) in {
+    return row["symbol"] not in (LATER_CPU_EXECUTION_CONTRACTS.keys() | LATER_CONTROLLER_CONTRACTS.keys() | LATER_NATIVE_BULK_CONTRACTS.keys()) and (row["category"], row["provider_kind"]) in {
         ("named-external", "link-contract"),
         ("zlib-peer", "source-or-archive"),
     }
@@ -529,6 +541,20 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 or provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
                 or provider["target_address"] != f"0x{address:08x}"):
             fail(f"native controller frontend contract drift: {symbol}")
+
+    for symbol, (address, requesters, category) in LATER_NATIVE_BULK_CONTRACTS.items():
+        ext, contract = external.get(symbol), contracts.get(symbol)
+        if ext is None or ext["category"] != category or ext["requesters"] != requesters or contract is None:
+            fail("native batch original ABI contract drift: " + symbol)
+        if category == "zlib-peer":
+            if (contract["status"] != "RESOLVED" or contract["resolution_kind"] != "semantic-text-alias"
+                    or contract["target_address"] != f"0x{address:08x}" or symbol in frontier):
+                fail("native batch zlib source alias drift: " + symbol)
+        else:
+            provider = frontier.get(symbol)
+            if (provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
+                    or provider["target_address"] != f"0x{address:08x}"):
+                fail("native batch original callee address drift: " + symbol)
 
     symbol = "_Z18ComputeClipWindowsv"
     ext, provider = external.get(symbol), frontier.get(symbol)

@@ -3450,42 +3450,42 @@ extern uint8 Mode7Depths [2] __asm__("DAT_0035f988");
 #define BLACK BUILD_PIXEL(0,0,0)
 
 void DrawTile (uint32 Tile, uint32 Offset, uint32 StartLine,
-               uint32 LineCount) __asm__("DrawTile_recovered");
+               uint32 LineCount);
 void DrawClippedTile (uint32 Tile, uint32 Offset,
                       uint32 StartPixel, uint32 Width,
-                      uint32 StartLine, uint32 LineCount) __asm__("DrawClippedTile_recovered");
+                      uint32 StartLine, uint32 LineCount);
 void DrawTilex2 (uint32 Tile, uint32 Offset, uint32 StartLine,
-                 uint32 LineCount) __asm__("DrawTilex2_recovered");
+                 uint32 LineCount);
 void DrawClippedTilex2 (uint32 Tile, uint32 Offset,
                         uint32 StartPixel, uint32 Width,
-                        uint32 StartLine, uint32 LineCount) __asm__("DrawClippedTilex2_recovered");
+                        uint32 StartLine, uint32 LineCount);
 void DrawTilex2x2 (uint32 Tile, uint32 Offset, uint32 StartLine,
-               uint32 LineCount) __asm__("DrawTilex2x2_recovered");
+               uint32 LineCount);
 void DrawClippedTilex2x2 (uint32 Tile, uint32 Offset,
                           uint32 StartPixel, uint32 Width,
-                          uint32 StartLine, uint32 LineCount) __asm__("DrawClippedTilex2x2_recovered");
+                          uint32 StartLine, uint32 LineCount);
 void DrawLargePixel (uint32 Tile, uint32 Offset,
                      uint32 StartPixel, uint32 Pixels,
-                     uint32 StartLine, uint32 LineCount) __asm__("DrawLargePixel_recovered");
+                     uint32 StartLine, uint32 LineCount);
 
 void DrawTile16 (uint32 Tile, uint32 Offset, uint32 StartLine,
-                 uint32 LineCount) __asm__("DrawTile16_recovered");
+                 uint32 LineCount);
 void DrawClippedTile16 (uint32 Tile, uint32 Offset,
                         uint32 StartPixel, uint32 Width,
-                        uint32 StartLine, uint32 LineCount) __asm__("DrawClippedTile16_recovered");
+                        uint32 StartLine, uint32 LineCount);
 void DrawTile16x2 (uint32 Tile, uint32 Offset, uint32 StartLine,
-                   uint32 LineCount) __asm__("DrawTile16x2_recovered");
+                   uint32 LineCount);
 void DrawClippedTile16x2 (uint32 Tile, uint32 Offset,
                           uint32 StartPixel, uint32 Width,
-                          uint32 StartLine, uint32 LineCount) __asm__("DrawClippedTile16x2_recovered");
+                          uint32 StartLine, uint32 LineCount);
 void DrawTile16x2x2 (uint32 Tile, uint32 Offset, uint32 StartLine,
-                     uint32 LineCount) __asm__("DrawTile16x2x2_recovered");
+                     uint32 LineCount);
 void DrawClippedTile16x2x2 (uint32 Tile, uint32 Offset,
                             uint32 StartPixel, uint32 Width,
-                            uint32 StartLine, uint32 LineCount) __asm__("DrawClippedTile16x2x2_recovered");
+                            uint32 StartLine, uint32 LineCount);
 void DrawLargePixel16 (uint32 Tile, uint32 Offset,
                        uint32 StartPixel, uint32 Pixels,
-                       uint32 StartLine, uint32 LineCount) __asm__("DrawLargePixel16_recovered");
+                       uint32 StartLine, uint32 LineCount);
 
 void DrawTile16Add (uint32 Tile, uint32 Offset, uint32 StartLine,
                     uint32 LineCount);

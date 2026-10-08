@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-native-core 231-name source-link provider frontier.
+"""Close the post-native-bulk 236-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -130,6 +130,12 @@ SEMANTIC_ALIASES = {
 # source model does not export a signature-compatible canonical definition.
 # REG_GS_CSR is the documented PS2 privileged GS register, not image storage.
 EXPLICIT_ANCHORS = {
+    "S9xOpenSnapshotFile": 0x101890,
+    "S9xCloseSnapshotFile": 0x1018e0,
+    # Original native batch C++ signatures; earlier models use different ABIs.
+    '_Z11DSP1GetBytet': 0x12f744,
+    '_Z11DSP1SetByteht': 0x12e750,
+    '_Z6FreezePv': 0x171348,
     # The earlier random-number model takes a state pointer. Preserve the
     # original zero-argument ABI used by the native PPU register path.
     "rand": 0x00108a34,
@@ -288,8 +294,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 231:
-        fail(f"expected exact post-native-core frontier of 231 symbols, found {len(active)}")
+    if len(active) != 236:
+        fail(f"expected exact post-native-bulk frontier of 236 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -366,7 +372,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 187,
+        ABSOLUTE_ANCHOR: 192,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

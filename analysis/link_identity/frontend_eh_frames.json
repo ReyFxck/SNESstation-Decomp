@@ -268,6 +268,6 @@
     "progress_targets_sha256": "528965a51814d44054dd7d01404c4b2ee428f275d2fb7e8673fb76a57f96e698",
     "source": "matching/candidates/stage3h_frontend_eh_frames.S",
     "source_sha256": "8d7d7d809e897666a3d62e27d6302df2d228c298302d5e98138f517bff5c6409",
-    "startup_manifest_sha256": "e2e328ab70ac9389737a3d5e8d1deb440c5b9c36fc28f1449db810b9bd43442a"
+    "startup_manifest_sha256": "2498a87da61a9f4c540cc2669121e0b95e7a96534a012af9b28f7cd5869e50fb"
   }
 }
