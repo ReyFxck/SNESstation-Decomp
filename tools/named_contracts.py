@@ -253,7 +253,6 @@ def unique(rows: Sequence[dict[str, str]], field: str, label: str) -> dict[str, 
 LATER_CPU_EXECUTION_CONTRACTS = {
     'RenderLine': 0x143390,
     'S9xEndScreenRefresh': 0x1434ac,
-    'S9xGenerateSound': 0x101904,
     'S9xStartScreenRefresh': 0x14311c,
 }
 LATER_CONTROLLER_CONTRACTS = {'S9xReadJoypad': 0x104bbc}
@@ -513,6 +512,13 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 or provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
                 or provider["target_address"] != f"0x{address:08x}"):
             fail(f"native controller frontend contract drift: {symbol}")
+
+    definitions = [row for row in defined_rows if row["symbol"] == "S9xGenerateSound"]
+    if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+            or definitions[0]["section_class"] != "text" or definitions[0]["size_hex"] != "0x8"
+            or definitions[0]["source"] != "src/ps2/native_sound_callback.c"
+            or definitions[0]["object"] != "ps2/native_sound_callback.o"):
+        fail("promoted native PS2 sound callback ownership drift")
 
     symbol = "_ZN7CMemory7InitROMEh"
     ext, provider = external.get(symbol), frontier.get(symbol)

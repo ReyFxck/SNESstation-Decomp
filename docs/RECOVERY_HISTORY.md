@@ -981,3 +981,35 @@ consumer provenance and canonical build metadata are refreshed.
 Validation: all 172 canonical EE units compile, **78/78 maintained recovery
 proofs** pass, and `make check` passes every public gate and 604 tool tests (one
 existing skip). No fresh private-image or replacement-ELF comparison is claimed.
+
+### 2026-10-08 — Native PS2 sound callback
+
+Recovered the native C-ABI `S9xGenerateSound` frontend callback (8 bytes at
+`0x00101904`) in `src/ps2/native_sound_callback.c`. The original PS2 callback is
+a no-op; the canonical CPU execution path now resolves directly to this source.
+Its archive-pinned declaration/caller and independently frozen raw-equal leaf
+reproduce **all eight complete target instruction bytes**. No storage or imports
+are added. Run `python3 tools/run-native-sound-callback-source-recovery.py`.
+The later CPU address provider is retired without changing the historical
+216-row named-data tranche or the existing CPU execution instruction proof.
+
+The canonical tree has **173 translation units**, **1633 owned definitions**,
+**1860 external contracts** and **1529 link contracts** (1290 resolved, 239
+blocked). The provider frontier has **229 rows**: 185 address anchors,
+39 compatibility-storage providers and five semantic aliases. Fresh partial
+links preserve allocated bytes through **1845 -> 1514 -> 239** live externals;
+ten frozen private-asset addresses then close **229 -> 0 undefined globals**
+in the namespace-only check, without supplying or verifying private payloads.
+All 172 preceding canonical object fingerprints, 1041 original audit entries,
+107 report function groups and frozen code/data results are preserved. There
+are now 339 checked source promotions.
+
+Validation: all 173 canonical EE units compile, **79/79 maintained recovery
+proofs** pass, and `make check` passes every public gate and 604 tool tests (one
+existing skip). No fresh private-image or replacement-ELF comparison is claimed.
+
+Next C4 investigation: the independent high-level `C4DoScaleRotate` body produces
+1208 bytes with the portable historical SAR fallback, but its register allocation
+and linked digest still differ from the frozen V81 target witness. A second-mask
+read variant produces 1240 bytes and also differs. These probes remain research
+artifacts outside canonical source; no matching promotion is made for them.

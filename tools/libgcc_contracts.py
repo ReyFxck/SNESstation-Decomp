@@ -401,8 +401,8 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
     }
     if active != EXACT_SYMBOLS:
         fail(f"active compiler-runtime set drift: {sorted(active)} != {sorted(EXACT_SYMBOLS)}")
-    if len(external) != 1861:
-        fail(f"expected 1,861 live source externals after exact source promotions, found {len(external)}")
+    if len(external) != 1860:
+        fail(f"expected 1,860 live source externals after exact source promotions, found {len(external)}")
 
     contracts = {row["symbol"]: row for row in read_table(args.contracts, CONTRACT_FIELDS)}
     for spec in SPECS:
@@ -416,8 +416,8 @@ def validate_manifest(args: argparse.Namespace) -> list[dict[str, str]]:
             fail(f"source-refactored libgcc name returned to link contracts: {spec.symbol}")
 
     frontier = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier) != 230:
-        fail(f"expected 230 post-native-controller-chip-IO provider rows, found {len(frontier)}")
+    if len(frontier) != 229:
+        fail(f"expected 229 post-native-controller-chip-IO provider rows, found {len(frontier)}")
     runtime_shims = {
         row["symbol"] for row in frontier if row["resolution_kind"] == "compatibility-runtime-shim"
     }

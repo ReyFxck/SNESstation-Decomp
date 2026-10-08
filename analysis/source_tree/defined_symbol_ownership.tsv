@@ -531,6 +531,7 @@ memcmp	global	weak-text	0x48	src/ps2/memcmp.S	ps2/memcmp.o
 memcpy	global	weak-text	0x38	src/ps2/memcpy.S	ps2/memcpy.o
 memmove	global	weak-text	0x88	src/ps2/memmove.S	ps2/memmove.o
 memset	global	weak-text	0x38	src/ps2/memset.S	ps2/memset.o
+S9xGenerateSound	global	text	0x8	src/ps2/native_sound_callback.c	ps2/native_sound_callback.o
 angle.1	local	rodata	0x10	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 atanf_001a045c	global	text	0x1cc	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o
 cosf_0019fddc	global	text	0x1c	src/ps2/newlib_mathfp_recovered.c	ps2/newlib_mathfp_recovered.o

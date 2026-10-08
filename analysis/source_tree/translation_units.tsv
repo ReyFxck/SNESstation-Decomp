@@ -171,3 +171,4 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 170	src/snes9x/native_rom_deinterleave.cpp	snes9x	cpp	canonical	snes9x/native_rom_deinterleave.o		Native mode-2 ROM permutation and real PS2 message callback; 552 complete target instruction bytes; shared original Settings/Memory state.
 171	src/snes9x/native_c4_raster.cpp	snes9x	cpp	canonical	snes9x/native_c4_raster.o		Native C4 line drawing and sprite disintegration; 1120 historical instruction bytes; 580 complete target bytes; shared original C4 RAM and math state.
 172	src/snes9x/native_c4_wave.cpp	snes9x	cpp	canonical	snes9x/native_c4_wave.o		Native C4 wave rendering; 584 complete target instruction bytes and 80 target table bytes; isolated target-proved compiler profile.
+173	src/ps2/native_sound_callback.c	ps2	c	canonical	ps2/native_sound_callback.o		Native C-ABI PS2 sound callback; eight complete target instruction bytes; canonical CPU execution callee.

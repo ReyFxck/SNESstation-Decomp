@@ -1189,7 +1189,7 @@ FUN_00101878	target-function-alias	source-address-alias	src/ps2/address_leaf_rec
 FUN_00101880	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_controllers.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00101888	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_controllers.cpp	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_001018fc	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
-FUN_00101904	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
+FUN_00101904	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/native_sound_callback.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0010190c	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_00101914	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
 FUN_0010191c	target-function-alias	source-address-alias	src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c	link-identity	ps2/progress28_structural_lift_recovered.o
@@ -1525,7 +1525,6 @@ REG_GS_CSR	named-external	link-contract	reserved:link-contract	link-identity	ps2
 RenderLine	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
 S9xBuildDirectColourMaps_0014308c	target-address-symbol	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/draw_large_pixel_recovered.c;src/snes9x/progress11_core_recovered.c;src/snes9x/tile_16bit_recovered.c;src/snes9x/tile_color_math_recovered.c;src/snes9x/tile_draw_clipped_recovered.c;src/snes9x/tile_draw_recovered.c;src/snes9x/tile_large16_recovered.c;src/snes9x/tile_scaled_remaining_recovered.c;src/snes9x/tile_x2_recovered.c	link-identity	snes9x/draw_large_pixel_recovered.o;snes9x/tile_16bit_recovered.o;snes9x/tile_color_math_recovered.o;snes9x/tile_draw_clipped_recovered.o;snes9x/tile_draw_recovered.o;snes9x/tile_large16_recovered.o;snes9x/tile_scaled_remaining_recovered.o;snes9x/tile_x2_recovered.o
 S9xEndScreenRefresh	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
-S9xGenerateSound	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
 S9xReadJoypad	named-external	link-contract	reserved:link-contract	link-identity	snes9x/native_controllers.o
 S9xSetC4	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
 S9xStartScreenRefresh	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
