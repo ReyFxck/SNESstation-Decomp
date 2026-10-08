@@ -19,6 +19,9 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x001056b0': {'source_file': 'src/snes9x/native_rom_deinterleave.cpp', 'evidence': 'analysis/functions/native_rom_deinterleave_exact_552.tsv', 'evidence_token': 'S9xMessage'},
+    '0x001520b8': {'source_file': 'src/snes9x/native_rom_deinterleave.cpp', 'evidence': 'analysis/functions/native_rom_deinterleave_exact_552.tsv', 'evidence_token': 'S9xDeinterleaveMode2'},
+
     '0x00104e50': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xReadMousePosition'},
     '0x00101880': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': '_Z18JustifierOffscreenv'},
     '0x00101888': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': '_Z16JustifierButtonsRj'},

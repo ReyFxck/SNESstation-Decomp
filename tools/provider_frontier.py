@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-native-controller-chip-IO 230-name source-link provider frontier.
+"""Close the post-native-ROM-conversion 230-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -138,7 +138,7 @@ EXPLICIT_ANCHORS = {
     "_Znaj": 0x001a9f68,
     "_ZdaPv": 0x001a9118,
     # Complete historical CPU execution module native callees.
-    'S9xDeinterleaveMode2': 0x1520b8,
+    '_ZN7CMemory7InitROMEh': 0x1522d8,
     'S9xGenerateSound': 0x101904,
     # Native controller update calls the original one-argument PS2 reader.
     # The earlier multitap model at this address takes an extra RPC context.
@@ -284,7 +284,7 @@ def derive_rows(
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
     if len(active) != 230:
-        fail(f"expected exact post-native-controller-chip-IO frontier of 230 symbols, found {len(active)}")
+        fail(f"expected exact post-native-ROM-conversion frontier of 230 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]

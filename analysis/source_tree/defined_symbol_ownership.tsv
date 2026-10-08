@@ -1178,6 +1178,9 @@ _Z13REGISTER_2122h	local	text	0x214	src/snes9x/native_ppu_registers.cpp	snes9x/n
 _Z15S9xUpdateHTimerv	global	text	0x150	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
 _ZZ9S9xSetPPUE5Shift	local	data	0x8	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
 _ZZ9S9xSetPPUE8IncCount	local	data	0x8	src/snes9x/native_ppu_registers.cpp	snes9x/native_ppu_registers.o
+S9xDeinterleaveMode2	global	text	0x220	src/snes9x/native_rom_deinterleave.cpp	snes9x/native_rom_deinterleave.o
+S9xMessage	global	text	0x8	src/snes9x/native_rom_deinterleave.cpp	snes9x/native_rom_deinterleave.o
+_GLOBAL__F_S9xMessage	global	data	0x0	src/snes9x/native_rom_deinterleave.cpp	snes9x/native_rom_deinterleave.o
 S9xFixSA1AfterSnapshotLoad	global	text	0x110	src/snes9x/native_sa1.cpp	snes9x/native_sa1.o
 S9xGetSA1	global	text	0x174	src/snes9x/native_sa1.cpp	snes9x/native_sa1.o
 S9xSA1ExecuteDuringSleep	global	text	0x8	src/snes9x/native_sa1.cpp	snes9x/native_sa1.o

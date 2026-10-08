@@ -252,7 +252,6 @@ def unique(rows: Sequence[dict[str, str]], field: str, label: str) -> dict[str, 
 # by a recapture or enlargement of the original private-data ledger.
 LATER_CPU_EXECUTION_CONTRACTS = {
     'RenderLine': 0x143390,
-    'S9xDeinterleaveMode2': 0x1520b8,
     'S9xEndScreenRefresh': 0x1434ac,
     'S9xGenerateSound': 0x101904,
     'S9xStartScreenRefresh': 0x14311c,
@@ -494,7 +493,8 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                             ("_Z17ProcessSuperScopev", 276), ("_Z19S9xUpdateJustifiersv", 536),
                             ("_Z18JustifierOffscreenv", 8), ("_Z16JustifierButtonsRj", 8),
                             ("S9xReadSuperScopePosition", 8), ("S9xReadMousePosition", 8))),
-                            ("native_chip_io", (("S9xGetC4", 24), ("S9xGetST018", 8), ("S9xSetST018", 40)))):
+                            ("native_chip_io", (("S9xGetC4", 24), ("S9xGetST018", 8), ("S9xSetST018", 40))),
+                            ("native_rom_deinterleave", (("S9xMessage", 8), ("S9xDeinterleaveMode2", 544)))):
         for name, size in entries:
             definitions = [row for row in defined_rows if row["symbol"] == name]
             if (len(definitions) != 1 or definitions[0]["binding"] != "global"
@@ -511,6 +511,14 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 or provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
                 or provider["target_address"] != f"0x{address:08x}"):
             fail(f"native controller frontend contract drift: {symbol}")
+
+    symbol = "_ZN7CMemory7InitROMEh"
+    ext, provider = external.get(symbol), frontier.get(symbol)
+    if (ext is None or ext["category"] != "target-function-contract"
+            or ext["requesters"] != "snes9x/native_rom_deinterleave.o"
+            or provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
+            or provider["target_address"] != "0x001522d8"):
+        fail("native ROM InitROM ABI/address contract drift")
 
     for name, size in (("S9xStartHDMA", 176), ("S9xDoHDMA", 1292)):
         definitions = [row for row in defined_rows if row["symbol"] == name]

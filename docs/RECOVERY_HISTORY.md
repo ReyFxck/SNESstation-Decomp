@@ -868,3 +868,40 @@ Validation passes: canonical EE compilation covers all 169 units,
 `make source-recovery-check` passes **75/75 maintained proofs**, and `make check`
 passes every public gate and 604 tool tests (one existing skip). No fresh
 private-image or replacement-ELF comparison is claimed.
+
+### 2026-10-08 — Native mode-2 ROM conversion and PS2 message callback
+
+Recovered `S9xDeinterleaveMode2` (544 bytes at `0x001520b8`) and the real
+three-argument `S9xMessage` callback (8 bytes at `0x001056b0`) in
+`src/snes9x/native_rom_deinterleave.cpp`. The ROM path retains the original
+Settings display-color update, block permutation, allocation-failure behavior,
+three-way 32-KiB swaps, ROM reinitialization and reset sequence. Settings and
+Memory reuse their original shared providers; no writable state is duplicated.
+The PS2 message callback retains its independently frozen no-op behavior.
+
+Both routines reproduce **552 complete target instruction bytes**. The isolated
+ROM routine differs from historical raw code only at the verified diagnostic
+string LO16 addend: the historical literal sits at `.rodata+0xe8`, whereas the
+isolated literal begins at zero. Placing both at the original literal address
+`0x001b64c0` reproduces the complete frozen target digest. All 56 literal bytes,
+including padding, match the independently frozen MEMMAP rodata prefix. The
+runner also recompiles the complete historical GLOBALS data section and checks
+Settings/Memory geometry. The native `CMemory::InitROM(bool8)` dependency is a
+separate reviewed ABI/address contract at `0x001522d8`, not an alias to an older
+context model; unselected historical methods remain comparison-only.
+Run `python3 tools/run-native-rom-deinterleave-source-recovery.py`.
+
+The canonical tree has **170 translation units**, **1627 owned definitions**,
+**1862 external contracts** and **1531 link contracts** (1291 resolved, 240
+blocked). The provider frontier remains **230 rows**: 186 address anchors,
+39 compatibility-storage providers and five semantic aliases. Fresh partial
+links preserve allocated bytes through **1847 -> 1516 -> 240** live externals;
+ten frozen private-asset addresses then close **230 -> 0 undefined globals**
+in the namespace-only check, without supplying or verifying private payloads.
+All 1041 original audit entries and 107 function groups are retained; there are
+338 checked source promotions. Frozen code/data results and image claims remain
+unchanged; only consumer ownership and public build metadata are refreshed.
+
+Validation: all 170 canonical EE units compile, all **76/76 maintained recovery
+proofs** pass, and `make check` passes the public gates and 604 tool tests (one
+existing skip). No fresh private-image or replacement-ELF comparison is claimed.
