@@ -416,7 +416,7 @@ extern CMemory Memory __asm__("DAT_0034e2b0");
 extern uint8 mul_brightness[16][32] __asm__("DAT_0033cac8");
 /* The original mouse-position callee is the proved 8-byte zero-return leaf;
  * it ignores all four incoming arguments and writes no output references. */
-extern bool8 S9xReadMousePosition(int,int &,int &,uint32 &) __asm__("snes_leaf_00104e50");
+extern "C" bool8 S9xReadMousePosition(int,int &,int &,uint32 &);
 extern "C" {
 void *memset(void *,int,uint32);
 void S9xResetPPU();

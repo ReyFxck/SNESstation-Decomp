@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-native-CPU-interrupt 233-name source-link provider frontier.
+"""Close the post-native-controller-chip-IO 230-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -140,7 +140,9 @@ EXPLICIT_ANCHORS = {
     # Complete historical CPU execution module native callees.
     'S9xDeinterleaveMode2': 0x1520b8,
     'S9xGenerateSound': 0x101904,
-    'S9xUpdateJoypads': 0x15d0bc,
+    # Native controller update calls the original one-argument PS2 reader.
+    # The earlier multitap model at this address takes an extra RPC context.
+    'S9xReadJoypad': 0x104bbc,
     # Original CPU reset native callees. The earlier context-argument source
     # models have different signatures; preserve the actual target ABI.
     "REG_GS_CSR": 0x12001000,
@@ -150,15 +152,12 @@ EXPLICIT_ANCHORS = {
     # Exact Snes9x 1.40 S9xGetByte dependencies. These are target-address
     # contracts proved by the same original-ELF link gate as the recovered TU;
     # they are not aliases to the older context-argument behavioral models.
-    "S9xGetC4": 0x0010C328,
-    "S9xGetST018": 0x001701FC,
     "g_CPU_blob": 0x00345340,
     "g_OpenBus_byte": 0x0035B768,
 
     # Exact Snes9x 1.40 S9xSetByte dependencies from the 808/808-byte
     # provider-linked target proof.
     "S9xSetC4": 0x0010D7DC,
-    "S9xSetST018": 0x00170204,
     "g_SA1_blob": 0x00345AF8,
     "g_s7r_blob": 0x00413508,
 }
@@ -284,8 +283,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 233:
-        fail(f"expected exact post-native-CPU-interrupt frontier of 233 symbols, found {len(active)}")
+    if len(active) != 230:
+        fail(f"expected exact post-native-controller-chip-IO frontier of 230 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -362,7 +361,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 189,
+        ABSOLUTE_ANCHOR: 186,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

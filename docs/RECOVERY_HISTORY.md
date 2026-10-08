@@ -815,3 +815,56 @@ ownership and public input hashes are refreshed. Validation passes:
 compilation covers all 167 units, and `make check` verifies all public gates
 and 604 tool tests (one existing skip). No fresh private-image or replacement
 ELF comparison is claimed.
+
+### Native controller updates, peripheral callbacks and C4/ST018 register IO
+
+Recovered three PPU controller paths in `src/snes9x/native_controllers.cpp`:
+`ProcessSuperScope` (276 bytes at `0x0015cce4`), `S9xUpdateJustifiers` (536 at
+`0x0015cea4`) and `S9xUpdateJoypads` (632 at `0x0015d0bc`). They retain opposite
+joypad-direction filtering, automatic input-register population, port swapping,
+mouse/Super Scope dispatch, beam latching and alternating Justifier players.
+Four original eight-byte PS2 callbacks now export their native signatures:
+`JustifierOffscreen`, `JustifierButtons`, `S9xReadSuperScopePosition` and
+`S9xReadMousePosition`. Their frozen leaf behavior is unchanged. PPU mouse
+processing now imports the canonical native mouse callback; all 3372 historical
+PPU reset/helper instruction bytes still match the existing source proof.
+
+`src/snes9x/native_chip_io.cpp` supplies `S9xGetC4` (24 bytes at `0x0010c328`),
+`S9xGetST018` (8 at `0x001701fc`) and `S9xSetST018` (40 at `0x00170204`).
+C4 reuses the original shared RAM pointer. ST018 retains the original `0x81`
+dummy read and diagnostic write, including its complete 24-byte target string.
+No writable shared state is duplicated. The original Justifier last-player
+byte is imported at `0x0042e888`; the independent source has a zero-fill
+section, and its consumed one-byte extent and zero hash match the frozen range.
+
+All **1548 selected instruction bytes** match historical source or independent
+frontend leaf reconstruction. Six routines reproduce **672 complete target
+instruction bytes**, including the full frozen 632-byte joypad target digest.
+The remaining four use complete linked historical-reference proofs with frozen
+normalized target witnesses. The proof independently recompiles the full
+18580-byte PPU code window and GLOBALS data section, checks shared-state geometry,
+retains the frozen 24-byte C4 source slice and reproduces all 24 ST018 target data
+bytes. Unselected historical context remains comparison-only.
+Run `python3 tools/run-native-controller-chip-io-source-recovery.py`.
+
+CPU execution now calls the canonical `S9xUpdateJoypads`. Its one-argument PS2
+`S9xReadJoypad` dependency remains a reviewed address provider at `0x00104bbc`;
+the earlier multitap model uses an additional RPC context and cannot supply this
+ABI. Its later source contract is verified separately from the frozen 216-row
+named-data tranche. Original function matching, payload hashes and image claims
+are preserved; consumer ownership and dependent public manifest hashes change.
+
+The canonical tree has **169 translation units**, **1624 owned definitions**,
+**1862 external contracts** and **1531 link contracts** (1291 resolved, 240
+blocked). The provider frontier has **230 rows**: 186 address anchors,
+39 compatibility-storage providers and five semantic aliases. Fresh partial
+links preserve allocated bytes through **1847 -> 1516 -> 240** live externals,
+and the namespace-only check binds ten frozen private-asset addresses and
+closes **230 -> 0 undefined globals** without private payloads. The report keeps
+107 function groups and all 1041 original audit entries; 337 explicit source
+promotions now have checked evidence.
+
+Validation passes: canonical EE compilation covers all 169 units,
+`make source-recovery-check` passes **75/75 maintained proofs**, and `make check`
+passes every public gate and 604 tool tests (one existing skip). No fresh
+private-image or replacement-ELF comparison is claimed.

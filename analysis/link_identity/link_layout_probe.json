@@ -92,7 +92,7 @@
     "image_base_address": 1048576,
     "initialized_end_address": 4353512,
     "memory_end_address": 4525080,
-    "stage3f_sections_sha256": "f73d62ec6dbd58f12f997f0e6c097bcded4f3a1c7c18f2498515fbccefa998b4",
+    "stage3f_sections_sha256": "bf8f1800f97e2b9c0c8db422cace0e2aec4c93ebf6a221ece61e8bdb4e524cbc",
     "unpacked_layout_sha256": "f83bd09326f5a278f6e4db054d154309d882179544f650c42078667d081e1ca8"
   }
 }

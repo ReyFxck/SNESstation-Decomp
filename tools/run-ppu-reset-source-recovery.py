@@ -31,7 +31,7 @@ PROVIDERS={'DAT_0033cac8': 3394248,
  'DAT_0035b788': 3520392,
  'DAT_0035c268': 3523176,
  'memset': 1688476,
- 'snes_leaf_00104e50': 1068624}
+ 'S9xReadMousePosition': 1068624}
 PROVIDERS.update({"_Z9FxEmulatej": 0x001309c4, "S9xSetIRQ": 0x00116128})
 LEGACY_NAMES={'DAT_0033cac8': 'mul_brightness',
  'DAT_003454e0': 'Settings',
@@ -39,7 +39,7 @@ LEGACY_NAMES={'DAT_0033cac8': 'mul_brightness',
  'DAT_0035b788': 'PPU',
  'DAT_0035c268': 'IPPU',
  'memset': 'memset',
- 'snes_leaf_00104e50': 'S9xReadMousePosition'}
+ 'S9xReadMousePosition': 'S9xReadMousePosition'}
 LEGACY_NAMES.update({"_Z9FxEmulatej": "_Z9FxEmulatej", "S9xSetIRQ": "S9xSetIRQ"})
 SPECS=[{'address': '0x001591a8',
   'evidence': 'analysis/functions/progress13_targets.asm',

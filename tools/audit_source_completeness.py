@@ -19,6 +19,16 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x00104e50': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xReadMousePosition'},
+    '0x00101880': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': '_Z18JustifierOffscreenv'},
+    '0x00101888': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': '_Z16JustifierButtonsRj'},
+    '0x00104e48': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xReadSuperScopePosition'},
+    '0x0015cce4': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': '_Z17ProcessSuperScopev'},
+    '0x0015cea4': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': '_Z19S9xUpdateJustifiersv'},
+    '0x0015d0bc': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xUpdateJoypads'},
+    '0x0010c328': {'source_file': 'src/snes9x/native_chip_io.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xGetC4'},
+    '0x001701fc': {'source_file': 'src/snes9x/native_chip_io.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xGetST018'},
+    '0x00170204': {'source_file': 'src/snes9x/native_chip_io.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xSetST018'},
     '0x00127b78': {'source_file': 'src/snes9x/native_cpu_interrupts.cpp', 'evidence': 'analysis/functions/native_cpu_interrupts_exact_1296.tsv', 'evidence_token': '_Z13S9xOpcode_IRQv'},
     '0x00127e00': {'source_file': 'src/snes9x/native_cpu_interrupts.cpp', 'evidence': 'analysis/functions/native_cpu_interrupts_exact_1296.tsv', 'evidence_token': '_Z13S9xOpcode_NMIv'},
     '0x0016ded4': {'source_file': 'src/snes9x/native_sa1_execution.cpp', 'evidence': 'analysis/functions/native_sa1_execution_exact_552.tsv', 'evidence_token': '_Z16S9xSA1Opcode_IRQv'},

@@ -200,6 +200,10 @@ on:
       - tools/run-native-ppu-registers-source-recovery.py
       - src/snes9x/native_sa1_execution.cpp
       - src/snes9x/native_cpu_interrupts.cpp
+      - src/snes9x/native_controllers.cpp
+      - src/snes9x/native_chip_io.cpp
+      - analysis/functions/native_controller_chip_io_exact_1548.tsv
+      - tools/run-native-controller-chip-io-source-recovery.py
       - analysis/functions/native_cpu_interrupts_exact_1296.tsv
       - tools/run-native-cpu-interrupts-source-recovery.py
       - analysis/functions/native_sa1_execution_exact_552.tsv
