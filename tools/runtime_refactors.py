@@ -101,12 +101,12 @@ def validate_live_contracts(
                 fail(f"{symbol} returned to live {label}")
     # Exact XPRINTF, ALLOC, LIBKERNEL and PS2LIB string/ctype promotions now
     # provide their symbols directly from canonical historical source.
-    # The canonical C4DrawWireFrame C++ TU adds C4DrawLine plus the C++ runtime.
+    # Native C4 raster source now supplies the reviewed C4DrawLine callee.
     # Canonical S9xGetMemPointer, S9xGetByte and S9xSetByte now define their
     # historical mangled symbols. S9xSetByte adds nine proved address contracts
     # on top of the post-S9xGetByte live frontier. OBC1 supplies GetOBC1 and
     # SetOBC1 directly, closing two remaining function contracts.
-    if (len(external), len(contracts), len(frontier)) != (1862, 1531, 230):
+    if (len(external), len(contracts), len(frontier)) != (1861, 1530, 230):
         fail("post-refactor namespace count drift")
     if any(row["resolution_kind"] == "compatibility-runtime-shim" for row in frontier):
         fail("compatibility runtime shim returned")

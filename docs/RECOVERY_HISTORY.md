@@ -905,3 +905,38 @@ unchanged; only consumer ownership and public build metadata are refreshed.
 Validation: all 170 canonical EE units compile, all **76/76 maintained recovery
 proofs** pass, and `make check` passes the public gates and 604 tool tests (one
 existing skip). No fresh private-image or replacement-ELF comparison is claimed.
+
+### 2026-10-08 — Native C4 line drawing and sprite disintegration
+
+Recovered `C4DrawLine` (540 bytes at `0x0010cbb0`) and `C4SprDisintegrate`
+(580 at `0x0010d4f0`) in `src/snes9x/native_c4_raster.cpp`. The line helper
+retains the two endpoint transforms, signed fixed-point stepping, clipping and
+two bitplane writes. Sprite disintegration retains its scale/center arithmetic,
+packed pixel reads, four-plane writes and 32-bit memset length. Both share the
+original C4 RAM pointer and signed-short math state; no writable state is added.
+The existing canonical wireframe implementation now calls the native line
+helper directly, retiring its previous reviewed semantic link alias.
+
+All **1120 selected instruction bytes**, including original relocation addends,
+match the independent archive-pinned PS2 historical source profile. Complete
+selected historical placements also match. Sprite disintegration additionally
+reproduces **580 complete frozen target instruction bytes**; line drawing keeps
+its frozen normalized target witness and linked historical-reference proof.
+The runner verifies the frozen source code slices, shared state geometry and
+canonical math/memset callee ownership. Unselected historical code remains
+comparison-only. Run `python3 tools/run-native-c4-raster-source-recovery.py`.
+
+The canonical tree has **171 translation units**, **1630 owned definitions**,
+**1861 external contracts** and **1530 link contracts** (1290 resolved, 240
+blocked: 1255 address anchors and 35 semantic aliases). The provider frontier
+remains **230 rows**: 186 address anchors, 39 compatibility-storage providers
+and five semantic aliases. Fresh partial links preserve allocated bytes through
+**1846 -> 1515 -> 240** live externals. The namespace-only check then binds ten
+frozen private-asset addresses and closes **230 -> 0 undefined globals** without
+supplying or verifying private payloads. All 1041 audit entries, 107 report
+function groups and 338 checked source promotions are retained. Original payload
+hashes, results and image claims are unchanged; public consumer ownership changes.
+
+Validation: all 171 canonical EE units compile, **77/77 maintained recovery
+proofs** pass, and `make check` passes every public gate and 604 tool tests (one
+existing skip). No fresh private-image or replacement-ELF comparison is claimed.
