@@ -1120,3 +1120,63 @@ recovery proofs** pass; `make check` passes every public gate and **604 tool
 tests** (one existing skip). Code proof remains at the linked historical
 reference level; no fresh private-target or replacement-image comparison is
 claimed for this batch.
+
+### 2026-10-08 — Native CPU, Super FX and rendering: 206104 instruction bytes
+
+Recovered **1094 native routines / 206104 new instruction bytes** from the
+Snes9x 1.41-1 archive pinned by SHA-256
+`5e8b72c88c889464746e2f2f10449b9b324451c095a343081057f8f7ceb8378b`.
+The maintained proof rebuilds the historical objects with EE GCC 3.2.2,
+authenticates their complete frozen raw code windows and relocation rosters,
+then compares every selected instruction after linkage at its original address.
+
+| Native module | Routines | New linked instruction bytes | Function ledger |
+|---|---:|---:|---|
+| CPU opcodes and helpers | 464 | 77476 | `analysis/functions/native_cpu_opcodes_exact_77476.tsv` |
+| Super FX opcodes and helpers | 602 | 73372 | `analysis/functions/native_fx_opcodes_exact_73372.tsv` |
+| Graphics and rendering | 28 | 55256 | `analysis/functions/native_gfx_exact_55256.tsv` |
+| Total | 1094 | 206104 | `analysis/functions/native_core_206104_config.json` |
+
+The instruction count exceeds 200000 by **6104 bytes**. It excludes headers,
+comments, tables, compiler metadata, the existing IRQ/NMI routines, and the
+already native CPUShutdown and SelectTileRenderer weak helpers. The original
+StartScreenRefresh and EndScreenRefresh functions remain outside the new module:
+their PS2 frontend callback identities are not supplied by this batch. The
+comparison-only reference gives five unknown callback imports explicit zero
+placeholders, and the proof rejects any use of them by selected instructions
+or rodata. No byte of those excluded functions is promoted.
+
+All original sizes and local/global bindings are preserved. The four CPU
+opcode tables, Super FX bank/dispatch arrays and font objects reproduce another
+**10516 data bytes**, counted separately. Both complete rodata sections reproduce
+**7456 bytes** and retain their independent frozen target-linked digests. The
+entire **6672-byte Super FX data section**, including its existing compiler
+records, also matches its frozen target digest; those records add no recovered
+instruction bytes. The original GLOBALS and GSU storage remains external through
+existing address providers and checked offset expressions. The rendering path
+retains the original zero-argument C++ ComputeClipWindows call at `0x00114818`.
+
+The aggregate linked instruction SHA-256 is
+`2036b0de9609af7473f6ee1b37258b4e4bff242f53f28b9bffcaf821481fca75`.
+Run `python3 tools/run-native-core-200k-source-recovery.py` or
+`make source-recovery-check` to reproduce the proof. Its new RenderLine and
+S9xUpdateScreen definitions replace their former external model bindings.
+Thirty-two existing audited entries now trace this lot's native functions;
+the frozen audit still contains 1041 entries, grouped into **110 source groups**,
+with **348 checked source promotions**. The additional internal functions are
+tracked by the native ledgers without enlarging that audit.
+
+The canonical tree has **178 translation units**, **3228 owned definitions**,
+**1860 external contracts** and **1529 link contracts** (1288 resolved, 241
+blocked). Its remaining **231 providers** comprise 187 address anchors,
+39 compatibility-storage entries and five semantic aliases. Namespace-only
+partial links close **1845 -> 1514 -> 241** externals, then **231 -> 0** after
+ten frozen private-asset addresses are supplied. This check supplies no private
+asset payloads. All **175 preceding canonical objects** remain byte-identical.
+Frozen binary geometry, source pins, payload hashes and comparison results are
+preserved; public consumer provenance and its dependent hashes are refreshed.
+
+Validation: **178/178 canonical EE units**, **82/82 maintained recovery proofs**,
+`make check`, and **604 tool tests** (one existing skip). This batch proves
+complete selected code against linked historical references and the stated
+frozen data witnesses; it does not claim a fresh private ELF or whole-image run.

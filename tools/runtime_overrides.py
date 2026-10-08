@@ -195,7 +195,7 @@ def live_contracts(args: argparse.Namespace) -> dict[str, dict[str, str]]:
     # C4DrawWireFrame plus canonical S9xGetMemPointer retain this reviewed
     # override set. Canonical S9xGetByte and S9xSetByte add exact provider-address
     # contracts to the global namespace without changing the override set itself.
-    if len(external) != 1861 or len(contracts) != 1530 or len(frontier) != 230:
+    if len(external) != 1860 or len(contracts) != 1529 or len(frontier) != 231:
         fail("runtime override namespace count drift")
     for symbol, (address, size, canonical, source, _) in SPECS.items():
         row = external.get(symbol, {})

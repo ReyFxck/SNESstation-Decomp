@@ -16,6 +16,18 @@ on:
       - analysis/functions/native_sa1_opcodes_exact_67008.tsv
       - analysis/functions/native_sa1_opcode_tables_exact_4096.tsv
       - tools/run-native-sa1-opcodes-source-recovery.py
+      - src/snes9x/native_cpu_opcodes.cpp
+      - src/snes9x/native_fx_opcodes.cpp
+      - src/snes9x/native_gfx.cpp
+      - src/snes9x/native_cpu_opcodes_state.h
+      - src/snes9x/native_fx_opcode_types.h
+      - src/snes9x/native_gfx_state.h
+      - src/snes9x/native_gfx_font.h
+      - analysis/functions/native_cpu_opcodes_exact_77476.tsv
+      - analysis/functions/native_fx_opcodes_exact_73372.tsv
+      - analysis/functions/native_gfx_exact_55256.tsv
+      - analysis/functions/native_core_206104_config.json
+      - tools/run-native-core-200k-source-recovery.py
       - src/snes9x/native_rom_maps.cpp
       - analysis/functions/native_rom_maps_exact_12816.tsv
       - tools/run-native-rom-maps-source-recovery.py

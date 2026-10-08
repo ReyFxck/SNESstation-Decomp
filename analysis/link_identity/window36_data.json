@@ -71,7 +71,7 @@
       "symbol": "_Z11DSP1GetBytet"
     }
   ],
-  "prior_manifest_sha256": "05bf63074bc8c97bd9e5d696fbc469b0d0bc7617724307005d2a7632c491d41f",
+  "prior_manifest_sha256": "230ea655a442f978f6d5ed695eba952697eaec7f42200c7f8994543947741dfd",
   "result": {
     "absorbed_fixed_sections": 43,
     "chunk_count": 51,

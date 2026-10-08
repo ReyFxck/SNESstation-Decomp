@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-native-ROM-map 230-name source-link provider frontier.
+"""Close the post-native-core 231-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -142,6 +142,9 @@ EXPLICIT_ANCHORS = {
     # Native memory maps retain the zero-argument C++ SPC7110 cache initializer.
     # The older lifted initializer uses a different context-model signature.
     "_Z14S9xSpc7110Initv": 0x1806a4,
+    # Preserve the original zero-argument C++ clip-window ABI; the earlier
+    # structural lift uses an emulation-context model.
+    "_Z18ComputeClipWindowsv": 0x114818,
     # Native controller update calls the original one-argument PS2 reader.
     # The earlier multitap model at this address takes an extra RPC context.
     'S9xReadJoypad': 0x104bbc,
@@ -285,8 +288,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 230:
-        fail(f"expected exact post-native-ROM-map frontier of 230 symbols, found {len(active)}")
+    if len(active) != 231:
+        fail(f"expected exact post-native-core frontier of 231 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -363,7 +366,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 186,
+        ABSOLUTE_ANCHOR: 187,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

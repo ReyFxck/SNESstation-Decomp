@@ -530,6 +530,20 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 or provider["target_address"] != f"0x{address:08x}"):
             fail(f"native controller frontend contract drift: {symbol}")
 
+    symbol = "_Z18ComputeClipWindowsv"
+    ext, provider = external.get(symbol), frontier.get(symbol)
+    if (ext is None or ext["category"] != "target-function-contract"
+            or ext["requesters"] != "snes9x/native_gfx.o"
+            or provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
+            or provider["target_address"] != "0x00114818"):
+        fail("native rendering clip-window ABI/address contract drift")
+    definitions = [row for row in defined_rows if row["symbol"] == "S9xUpdateScreen"]
+    if ("S9xUpdateScreen" in external or len(definitions) != 1
+            or definitions[0]["binding"] != "global" or definitions[0]["section_class"] != "text"
+            or definitions[0]["size_hex"] != "0x1a38"
+            or definitions[0]["source"] != "src/snes9x/native_gfx.cpp"):
+        fail("promoted native S9xUpdateScreen ownership drift")
+
     symbol = "_Z14S9xSpc7110Initv"
     ext, provider = external.get(symbol), frontier.get(symbol)
     if (ext is None or ext["category"] != "target-function-contract"
@@ -568,6 +582,15 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
         "S9xEndScreenRefresh": "snes_p28_001434ac",
     }
     for symbol, address in LATER_CPU_EXECUTION_CONTRACTS.items():
+        if symbol == "RenderLine":
+            definitions = [row for row in defined_rows if row["symbol"] == symbol]
+            if (symbol in external or symbol in frontier or symbol in contracts
+                    or len(definitions) != 1 or definitions[0]["binding"] != "global"
+                    or definitions[0]["section_class"] != "text"
+                    or definitions[0]["size_hex"] != "0x11c"
+                    or definitions[0]["source"] != "src/snes9x/native_gfx.cpp"):
+                fail("promoted native RenderLine ownership drift")
+            continue
         ext, provider, contract = external.get(symbol), frontier.get(symbol), contracts.get(symbol)
         common = (ext is not None and ext["category"] == "named-external"
                   and ext["provider_kind"] == "link-contract"

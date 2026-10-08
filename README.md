@@ -18,7 +18,7 @@ release.
 | Measure | Result | What it means | Status |
 |---|---:|---|---|
 | Audited function entries | **1,041/1,041 (100%)** | Every entry in the frozen audit has complete-boundary matching evidence and a readable source model. | Complete |
-| EE source ownership | **175/175 translation units** | All recovered units compile with the historical EE ABI; 175 canonical objects form the duplicate-free source aggregate. | Complete |
+| EE source ownership | **178/178 translation units** | All recovered units compile with the historical EE ABI; 178 canonical objects form the duplicate-free source aggregate. | Complete |
 | Runtime contracts | **53/53** | Every tracked PS2LIB, libc, libgcc and target-selected runtime dependency has an evidence-backed provider or refactor. | Complete |
 | Address identities | **1,265/1,265** | Every tracked program-data address has a proved identity; exact full object bounds are a separate question. | Complete |
 | Whole-image windows | **51/51 (100.00%)** | Every 64 KiB window in the unpacked image matches exactly. | Complete |
