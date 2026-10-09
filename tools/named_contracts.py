@@ -259,7 +259,13 @@ LATER_CONTROLLER_CONTRACTS = {'S9xReadJoypad': 0x104bbc}
 # New public native-batch consumers are reviewed independently of the frozen
 # historical 216-row private-data tranche.
 LATER_NATIVE_BULK_CONTRACTS = {
-    "_Z7DSPOp0Av": (0x12ce18, "snes9x/native_bulk_dsp1.o", "target-function-contract"),
+    '_Z9GetRXYPosv': (1231832, 'snes9x/native_bulk_dsp1.o', 'target-function-contract'),
+    '_Z7DSPOp02v': (1230168, 'snes9x/native_bulk_dsp1.o', 'target-function-contract'),
+    '_Z7DSPOp06v': (1232988, 'snes9x/native_bulk_dsp1.o', 'target-function-contract'),
+    '_Z7DSPOp28v': (1237068, 'snes9x/native_bulk_dsp1.o', 'target-function-contract'),
+    '_Z13S9xPlaySamplei': (1539692, 'snes9x/native_bulk_apu.o', 'target-function-contract'),
+    'S9xGetFilenameInc': (1055136, 'snes9x/native_bulk_apu.o', 'named-external'),
+    'S9xSPCDump': (1517292, 'snes9x/native_bulk_apu.o', 'named-external'),
     "S9xBasename": (0x101914, "snes9x/native_bulk_snaporig.o;snes9x/native_bulk_snapshot.o", "named-external"),
     "S9xLoadOrigSnapshot": (0x17022c, "snes9x/native_bulk_snapshot.o", "named-external"),
     "_Z11FreezeBlockPvPcPhi": (0x172174, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
@@ -268,7 +274,6 @@ LATER_NATIVE_BULK_CONTRACTS = {
     "gzwrite": (0x193dbc, "snes9x/native_bulk_snapshot.o", "zlib-peer"),
     "S9xOpenSnapshotFile": (0x101890, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
     "S9xCloseSnapshotFile": (0x1018e0, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
-    "_Z11DSP1SetByteht": (0x12e750, "snes9x/native_bulk_dsp1.o", "target-function-contract"),
     "gzread": (0x193a34, "snes9x/native_bulk_snaporig.o;snes9x/native_bulk_snapshot.o", "zlib-peer"),
     "gzseek": (0x1940ec, "snes9x/native_bulk_snapshot.o", "zlib-peer"),
     "gztell": (0x194378, "snes9x/native_bulk_snapshot.o", "zlib-peer"),

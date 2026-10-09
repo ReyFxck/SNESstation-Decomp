@@ -1359,7 +1359,16 @@
       ".bss": 0
     },
     "rodata_size": 0,
-    "rodata_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "rodata_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "readonly_slices": [
+      {
+        "section": ".rodata",
+        "address": 0,
+        "reference_offset": 0,
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
   },
   {
     "key": "2xsai",
@@ -1697,7 +1706,16 @@
       ".bss": 0
     },
     "rodata_size": 0,
-    "rodata_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "rodata_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "readonly_slices": [
+      {
+        "section": ".rodata",
+        "address": 0,
+        "reference_offset": 0,
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
   },
   {
     "key": "dsp1",
@@ -1707,7 +1725,7 @@
     "data": 3395192,
     "rodata": 1777952,
     "bss": 0,
-    "rodata_shift": 896,
+    "rodata_shift": 0,
     "reference_providers": {
       "cos": 0,
       "sin": 0,
@@ -1718,9 +1736,11 @@
       "__gxx_personality_v0": 1742632
     },
     "native_providers": {
+      "_Z9GetRXYPosv": 1231832,
       "DAT_00345628": 3429928,
-      "_Z11DSP1SetByteht": 1238864,
-      "_Z7DSPOp0Av": 1232408,
+      "_Z7DSPOp28v": 1237068,
+      "_Z7DSPOp02v": 1230168,
+      "_Z7DSPOp06v": 1232988,
       "__gxx_personality_v0": 1742632
     },
     "functions": [
@@ -1875,6 +1895,25 @@
           "symbol": "_Z7DSPOp0Cv"
         },
         "section": ".text._Z7DSPOp0Cv"
+      },
+      {
+        "symbol": "_Z7DSPOp0Av",
+        "size": 580,
+        "address": 1232408,
+        "binding": 1,
+        "witness": {
+          "address": 1232408,
+          "name": "tsv_0012ce18__Z7DSPOp0Av",
+          "new_bytes": 580,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/DSP1.o",
+          "raw_sha256": "6d2f9ab326ba39aa0662c05cfd07a9edbaabc9013199de14a7bba7e74c984af4",
+          "relocations": 43,
+          "section": ".text",
+          "size": 580,
+          "source_offset": 0,
+          "symbol": "_Z7DSPOp0Av"
+        },
+        "section": ".text._Z7DSPOp0Av"
       },
       {
         "symbol": "_Z7DSPOp01v",
@@ -2077,6 +2116,25 @@
           "symbol": "_Z7DSPOp14v"
         },
         "section": ".text._Z7DSPOp14v"
+      },
+      {
+        "symbol": "_Z7DSPOp0Ev",
+        "size": 128,
+        "address": 1236448,
+        "binding": 1,
+        "witness": {
+          "address": 1236448,
+          "name": "tsv_0012dde0__Z7DSPOp0Ev",
+          "new_bytes": 128,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/DSP1.o",
+          "raw_sha256": "59c16dbf0b020472aee261169b543c837a72ebcf956b12476c6e6248bc5dad85",
+          "relocations": 17,
+          "section": ".text",
+          "size": 128,
+          "source_offset": 0,
+          "symbol": "_Z7DSPOp0Ev"
+        },
+        "section": ".text._Z7DSPOp0Ev"
       },
       {
         "symbol": "_Z7DSPOp0Bv",
@@ -2326,6 +2384,25 @@
         "section": ".text._Z9DSP2_Op0Dv"
       },
       {
+        "symbol": "_Z11DSP1SetByteht",
+        "size": 4084,
+        "address": 1238864,
+        "binding": 1,
+        "witness": {
+          "address": 1238864,
+          "name": "dsp_set_byte",
+          "new_bytes": 4084,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/DSP1.o",
+          "raw_sha256": "970d7ba44319b072753bb05a5dd6892449964f44410583c42a8708703d343cdf",
+          "relocations": 465,
+          "section": ".text",
+          "size": 4084,
+          "source_offset": 0,
+          "symbol": "_Z11DSP1SetByteht"
+        },
+        "section": ".text._Z11DSP1SetByteht"
+      },
+      {
         "symbol": "_Z11DSP1GetBytet",
         "size": 356,
         "address": 1242948,
@@ -2409,7 +2486,7 @@
       {
         "symbol": "_Z7DSPOp0Av",
         "section": ".text._Z7DSPOp0Av",
-        "address": 18350080
+        "address": 1232408
       },
       {
         "symbol": "_Z7DSPOp06v",
@@ -2469,7 +2546,7 @@
       {
         "symbol": "_Z7DSPOp0Ev",
         "section": ".text._Z7DSPOp0Ev",
-        "address": 19922944
+        "address": 1236448
       },
       {
         "symbol": "_Z7DSPOp0Bv",
@@ -2544,7 +2621,7 @@
       {
         "symbol": "_Z11DSP1SetByteht",
         "section": ".text._Z11DSP1SetByteht",
-        "address": 21889024
+        "address": 1238864
       },
       {
         "symbol": "_Z11DSP1GetBytet",
@@ -2584,10 +2661,10 @@
     ],
     "reference_assignments": {
       "_Z7InitDSPv": 1228844,
-      "_Z7DSPOp0Av": 1232408,
-      "_Z7DSPOp0Ev": 1236448,
+      "_Z7DSPOp02v": 1230168,
+      "_Z9GetRXYPosv": 1231832,
+      "_Z7DSPOp06v": 1232988,
       "_Z7DSPOp28v": 1237068,
-      "_Z11DSP1SetByteht": 1238864,
       "_Z11S9xInitDSP1v": 1238664,
       "S9xResetDSP1": 1238724,
       "S9xGetDSP": 1238788,
@@ -2595,8 +2672,8 @@
       "_Z11DSP2SetByteht": 1243304,
       "_Z11DSP2GetBytet": 1244036
     },
-    "ledger": "analysis/functions/native_bulk_dsp1_exact_6100.tsv",
-    "ledger_sha256": "6fa06e83279bfdf51b8ef6455c377e9e74687cdc96cc410104ba343be8e0f6a7",
+    "ledger": "analysis/functions/native_bulk_dsp1_exact_10892.tsv",
+    "ledger_sha256": "11bbbcc38777777e365de70c4bccc99df3aa833300cc23125ffa5d0b093620c4",
     "objects": [
       {
         "symbol": "CosTable2",
@@ -4634,7 +4711,7 @@
         "symbol": "DSP1ROM",
         "size": 2048,
         "address": 1778848,
-        "section": ".rodata",
+        "section": ".rodata.native_dsp1_rom",
         "binding": 0,
         "linked_sha256": "8546cbac530830446bb8a277f6b139d4ad64d650bdbac7e4e150e2f095665049"
       }
@@ -4642,8 +4719,36 @@
     "bss_geometry": {
       ".bss": 0
     },
-    "rodata_size": 2048,
-    "rodata_sha256": "8546cbac530830446bb8a277f6b139d4ad64d650bdbac7e4e150e2f095665049"
+    "rodata_size": 2816,
+    "rodata_sha256": "2b14c73f75814fe567757991a11a1ccbae08a24668b6dc294729784ab9497a28",
+    "readonly_sections": [
+      {
+        "section": ".rodata",
+        "address": 1777952,
+        "reference_offset": 0
+      },
+      {
+        "section": ".rodata.native_dsp1_rom",
+        "address": 1778848,
+        "reference_offset": 896
+      }
+    ],
+    "readonly_slices": [
+      {
+        "section": ".rodata",
+        "address": 1777952,
+        "reference_offset": 0,
+        "size": 768,
+        "sha256": "8d7e2bf88f096d337c9dcbbacfa993acef7eb56440fee6785361c822eb2ad025"
+      },
+      {
+        "section": ".rodata.native_dsp1_rom",
+        "address": 1778848,
+        "reference_offset": 896,
+        "size": 2048,
+        "sha256": "8546cbac530830446bb8a277f6b139d4ad64d650bdbac7e4e150e2f095665049"
+      }
+    ]
   },
   {
     "key": "apu",
@@ -4653,7 +4758,7 @@
     "data": 3363696,
     "rodata": 1774832,
     "bss": 4376576,
-    "rodata_shift": 520,
+    "rodata_shift": 0,
     "reference_providers": {
       "IAPU": 3429528,
       "malloc": 1696948,
@@ -4678,8 +4783,8 @@
       "_Z16S9xSetEchoVolumess": 1523868,
       "_Z31S9xSetFrequencyModulationEnableh": 1524456,
       "_Z15S9xSetSoundTypeii": 1525856,
-      "_Z13S9xPlaySamplei": 0,
-      "S9xGetFilenameInc": 0,
+      "_Z13S9xPlaySamplei": 1539692,
+      "S9xGetFilenameInc": 1055136,
       "S9xSPCDump": 1517292,
       "_Z17S9xSetSoundKeyOffi": 1524472,
       "_Z17S9xSetSoundVolumeiss": 1523536,
@@ -4698,17 +4803,38 @@
       "DAT_00345498": 3429528,
       "malloc": 1696948,
       "free": 1697668,
+      "g_APU_003453b8": 3429304,
+      "_Z15S9xSetSoundMuteh": 1525884,
+      "DAT_003f3fc0": 4145088,
+      "DAT_0034db50": 3464016,
+      "S9xSetSoundFrequency": 1525544,
+      "_Z18S9xSetMasterVolumess": 1523696,
+      "_Z18S9xSetEchoFeedbacki": 1524228,
+      "_Z16S9xSetEchoVolumess": 1523868,
+      "_Z31S9xSetFrequencyModulationEnableh": 1524456,
+      "_Z15S9xSetSoundTypeii": 1525856,
+      "_Z13S9xPlaySamplei": 1539692,
+      "DAT_003454d8": 3429592,
+      "S9xGetFilenameInc": 1055136,
+      "S9xSPCDump": 1517292,
+      "_Z17S9xSetSoundKeyOffi": 1524472,
+      "_Z17S9xSetSoundVolumeiss": 1523536,
+      "_Z16S9xSetSoundHertzii": 1525808,
+      "_Z17S9xSetSoundSampleit": 1525536,
+      "S9xSetEchoDelay": 1524268,
+      "_Z23S9xSetFilterCoefficientii": 1524944,
       "_Z15S9xSetSoundModeii": 1539504,
       "_Z18S9xSetEnvelopeRateimii": 1523492,
       "_Z20S9xSetEnvelopeHeightii": 1525272,
       "DAT_003454e0": 3429600,
       "_Z15S9xSetSoundADSRiiiiii": 1525092,
-      "g_APU_003453b8": 3429304,
       "DAT_003f4068": 4145256,
       "memmove": 1688736,
-      "DAT_0034db50": 3464016,
       "_Z20S9xGetEnvelopeHeighti": 1525412,
-      "__gxx_personality_v0": 1742632
+      "__gxx_personality_v0": 1742632,
+      "S9xResetSound": 1538692,
+      "S9xSetEchoEnable": 1524000,
+      "S9xSetEchoWriteEnable": 1524404
     },
     "functions": [
       {
@@ -4750,6 +4876,26 @@
           "derived_from_whole_window": "apu"
         },
         "section": ".text.S9xDeinitAPU"
+      },
+      {
+        "symbol": "S9xSetAPUDSP",
+        "size": 1576,
+        "address": 1092936,
+        "binding": 1,
+        "witness": {
+          "address": 1092936,
+          "name": "apu",
+          "new_bytes": 4196,
+          "object": "build/matching/hunt1041-v52-closure/objects/apu-short.o",
+          "raw_sha256": "2450974474dd3a627d3595405512ed56d4e9fbebe67b15a8599d71e71072e3cd",
+          "relocations": 258,
+          "section": ".text",
+          "size": 1576,
+          "source_offset": 0,
+          "symbol": "S9xSetAPUDSP",
+          "derived_from_whole_window": "apu"
+        },
+        "section": ".text.S9xSetAPUDSP"
       },
       {
         "symbol": "_Z14S9xFixEnvelopeihhh",
@@ -4851,7 +4997,7 @@
       {
         "symbol": "S9xSetAPUDSP",
         "section": ".text.S9xSetAPUDSP",
-        "address": 17170432
+        "address": 1092936
       },
       {
         "symbol": "_Z14S9xFixEnvelopeihhh",
@@ -4875,11 +5021,10 @@
       }
     ],
     "reference_assignments": {
-      "S9xResetAPU": 1091892,
-      "S9xSetAPUDSP": 1092936
+      "S9xResetAPU": 1091892
     },
-    "ledger": "analysis/functions/native_bulk_apu_exact_1576.tsv",
-    "ledger_sha256": "cb8a16e1f03914f5e7eaf79355437ca8896f376e8a5cf5d7e06fd68eba2120c0",
+    "ledger": "analysis/functions/native_bulk_apu_exact_3152.tsv",
+    "ledger_sha256": "c0ac8fc9e3532826c06494c642b64ce1b74f473a4c5cd97e99a7b4d651af43f0",
     "objects": [
       {
         "symbol": "spc_is_dumping",
@@ -4947,10 +5092,19 @@
       }
     ],
     "bss_geometry": {
-      ".bss": 0
+      ".bss": 4
     },
-    "rodata_size": 468,
-    "rodata_sha256": "e9b713c998c6ee1fb591a27752426c4abe8f46ba66b3ffcc5c71ecb018a188dd"
+    "rodata_size": 992,
+    "rodata_sha256": "25e9b0d33f72b161a37d741e7e786648b7700632bc89548e75b617e83ff95699",
+    "readonly_slices": [
+      {
+        "section": ".rodata",
+        "address": 1774832,
+        "reference_offset": 0,
+        "size": 992,
+        "sha256": "25e9b0d33f72b161a37d741e7e786648b7700632bc89548e75b617e83ff95699"
+      }
+    ]
   },
   {
     "key": "memmap",
@@ -5558,7 +5712,16 @@
       ".bss": 8192
     },
     "rodata_size": 0,
-    "rodata_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "rodata_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "readonly_slices": [
+      {
+        "section": ".rodata",
+        "address": 1795032,
+        "reference_offset": 0,
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
   },
   {
     "key": "soundux",
@@ -6239,7 +6402,16 @@
       ".bss": 0
     },
     "rodata_size": 36,
-    "rodata_sha256": "6c97c6991304ca97270b4e5f0b248b56902ca441497ea9c97118f40431be88c6"
+    "rodata_sha256": "6c97c6991304ca97270b4e5f0b248b56902ca441497ea9c97118f40431be88c6",
+    "readonly_slices": [
+      {
+        "section": ".rodata",
+        "address": 1803372,
+        "reference_offset": 100,
+        "size": 36,
+        "sha256": "6c97c6991304ca97270b4e5f0b248b56902ca441497ea9c97118f40431be88c6"
+      }
+    ]
   },
   {
     "key": "snapshot",
@@ -6744,7 +6916,16 @@
       ".bss": 1024
     },
     "rodata_size": 400,
-    "rodata_sha256": "e8e7145af216456cff2c96e8f5cb2b6a7c023d5ee52bca289ef52a2f71fe269f"
+    "rodata_sha256": "e8e7145af216456cff2c96e8f5cb2b6a7c023d5ee52bca289ef52a2f71fe269f",
+    "readonly_slices": [
+      {
+        "section": ".rodata",
+        "address": 1802736,
+        "reference_offset": 0,
+        "size": 400,
+        "sha256": "e8e7145af216456cff2c96e8f5cb2b6a7c023d5ee52bca289ef52a2f71fe269f"
+      }
+    ]
   },
   {
     "key": "snaporig",
@@ -6985,6 +7166,15 @@
       ".bss": 0
     },
     "rodata_size": 208,
-    "rodata_sha256": "d52a2e7178e03bbbe3f17f4f8472d2aa6a5e595a3b9860dd01387eacd2aab999"
+    "rodata_sha256": "d52a2e7178e03bbbe3f17f4f8472d2aa6a5e595a3b9860dd01387eacd2aab999",
+    "readonly_slices": [
+      {
+        "section": ".rodata",
+        "address": 1802480,
+        "reference_offset": 0,
+        "size": 208,
+        "sha256": "d52a2e7178e03bbbe3f17f4f8472d2aa6a5e595a3b9860dd01387eacd2aab999"
+      }
+    ]
   }
 ]

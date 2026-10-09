@@ -1278,3 +1278,44 @@ retained owners/proofs, and 48 pending functions, including the two unclaimed
 clip helpers. These are subset counts, not the whole project's remaining work.
 All owned native storage and readonly slices are checked separately. No new
 private-ELF, complete payload, or replacement-image comparison is claimed.
+
+## Native DSP dispatch and APU DSP follow-up
+
+The eight-module native proof now covers **151 functions / 84,756 complete
+linked historical instruction bytes**. This batch adds **four bodies / 6,368
+bytes**: DSPOp0A (580), DSPOp0E (128), DSP1SetByte (4,084), and S9xSetAPUDSP
+(1,576). Their target entries are 0x0012ce18, 0x0012dde0, 0x0012e750 and
+0x0010ad48. All eight original APU functions now have maintained native proofs,
+including the earlier separate 1,044-byte S9xResetAPU proof.
+
+DSP1SetByte's 768-byte switch table remains at 0x001b2120. DSP1ROM uses an
+explicit readonly section at 0x001b24a0, corresponding to historical readonly
+offset 896. This preserves both original relocation destinations while leaving
+the 128-byte block of unselected floating-point constants unclaimed. Each
+readonly section is checked separately against its complete linked historical
+slice, and the proof rejects additional unclaimed native readonly sections.
+The APU retains its complete 992-byte readonly section in original order.
+Original typed sound callbacks reuse already proved native C entry points;
+remaining math and playback callbacks retain reviewed address/ABI contracts,
+without claiming recovery of their bodies.
+
+Run tools/run-native-bulk-source-recovery.py or make source-recovery-check. The
+250-entry ten-module census now contains **152 newly proved bodies**, **54
+retained owners/proofs**, and **44 pending functions**. Pending entries comprise
+35 without a complete frozen witness, seven blocked by full link checks, and
+the two clip comparators whose complete original target bodies remain uncaptured.
+These counts concern this subset, not the entire project.
+
+The canonical tree retains **187 translation units**, with **3,685 defined
+symbols** and **1,878 external contracts**. The 1,547 link contracts include
+1,293 resolved and 254 blocked; after the ten private-asset address contracts,
+the remaining 244 providers comprise 200 address anchors, five semantic aliases
+and 39 compatibility stores. Source-namespace closure is checked separately
+from any private payload or complete replacement image. Frozen payload hashes,
+source pins, target geometry and earlier comparison results remain unchanged.
+No fresh private-ELF comparison is asserted.
+
+Validation for this batch: **604 tool tests passed** (one existing skip),
+**84/84 maintained recovery proofs passed**, and **187/187 canonical EE source
+units passed**. Namespace-only links reduce 1,863 -> 1,532 -> 254 externals;
+ten frozen private-asset addresses, without their payloads, then leave 244 -> 0.

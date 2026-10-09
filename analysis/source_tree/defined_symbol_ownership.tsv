@@ -1145,9 +1145,12 @@ S9xDeinitAPU	global	text	0x78	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_
 S9xGetAPUDSP	global	text	0xac	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
 S9xInitAPU	global	text	0x7c	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
 S9xSetAPUControl	global	text	0x1c8	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
+S9xSetAPUDSP	global	text	0x628	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
 S9xSetAPUTimer	global	text	0xcc	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
 _GLOBAL__F_spc_is_dumping	global	data	0x0	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
 _Z14S9xFixEnvelopeihhh	global	text	0x1f4	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
+_ZZ12S9xSetAPUDSPE5KeyOn	local	bss	0x0	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
+_ZZ12S9xSetAPUDSPE9KeyOnPrev	local	bss	0x0	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
 _ZZ14S9xFixEnvelopeihhhE10AttackRate	local	data	0x80	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
 _ZZ14S9xFixEnvelopeihhhE11SustainRate	local	data	0x100	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
 _ZZ14S9xFixEnvelopeihhhE12IncreaseRate	local	data	0x100	src/snes9x/native_bulk_apu.cpp	snes9x/native_bulk_apu.o
@@ -1406,6 +1409,7 @@ ViewerZ1	global	data	0x4	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1
 ViewerZc	global	data	0x4	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _GLOBAL__F_CosTable2	global	data	0x0	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z11DSP1GetBytet	global	text	0x164	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
+_Z11DSP1SetByteht	global	text	0xff4	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z12DSP1_InversessPsS_	global	text	0x11c	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z6CosInts	global	text	0xac	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z6SinInts	global	text	0xbc	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
@@ -1414,9 +1418,11 @@ _Z7DSPOp01v	global	text	0x178	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk
 _Z7DSPOp03v	global	text	0xc0	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z7DSPOp04v	global	text	0x64	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z7DSPOp08v	global	text	0x60	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
+_Z7DSPOp0Av	global	text	0x244	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z7DSPOp0Bv	global	text	0x50	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z7DSPOp0Cv	global	text	0xb0	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z7DSPOp0Dv	global	text	0xc0	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
+_Z7DSPOp0Ev	global	text	0x80	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z7DSPOp0Fv	global	text	0xc	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z7DSPOp10v	global	text	0x38	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o
 _Z7DSPOp11v	global	text	0x178	src/snes9x/native_bulk_dsp1.cpp	snes9x/native_bulk_dsp1.o

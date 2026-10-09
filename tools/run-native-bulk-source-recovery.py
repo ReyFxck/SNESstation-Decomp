@@ -18,8 +18,8 @@ from compare_elf_functions import ELFFile
 from build_source_tree import SOURCE_FIXED_FLAGS
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / 'build/matching/native-bulk-source-recovery'
-CONFIG = ROOT / 'analysis/functions/native_bulk_78388_config.json'
-CONFIG_SHA256 = '6326a975093a4ba1a4cb6b9f0410b197905436a5efe1644f3f5fe963558b006e'
+CONFIG = ROOT / 'analysis/functions/native_bulk_84756_config.json'
+CONFIG_SHA256 = '4bdfe75e10df4cf5885b23c24a75e4ea484a502b76c76f6f5d95334df511931f'
 
 
 def load_proof(name):
@@ -60,7 +60,10 @@ def script(module, reference=False):
     for index, row in enumerate(sections):
         body += f".fn{index} {row['address']:#x} : {{ *({row['section']}) }}\n"
     body += f".data {module['data']:#x} : {{ *(.data*) }}\n"
-    if module['rodata']:
+    if not reference and module.get('readonly_sections'):
+        for row in module['readonly_sections']:
+            body += f"{row['section']} {row['address']:#x} : {{ *({row['section']}) }}\n"
+    elif module['rodata']:
         address = module['rodata'] + (0 if reference else module['rodata_shift'])
         body += f'.rodata {address:#x} : {{ *(.rodata*) }}\n'
     if module['bss']:
@@ -190,11 +193,24 @@ def run_batch(record=False):
                 raise SystemExit('original owned storage mismatch: ' + obj.name)
             storage.append(dict(symbol=obj.name, size=obj.size, address=placed.value, section=native.sections[obj.section_index].name,
                 binding=obj.info >> 4, linked_sha256=digest(linked.symbol_bytes(placed, placed.size))))
-        raw_rodata = section_bytes(linked, '.rodata')
-        if raw_rodata:
-            offset = module['rodata_shift']
-            if raw_rodata != section_bytes(reference, '.rodata')[offset:offset + len(raw_rodata)]:
+        readonly_slices = []
+        specifications = module.get('readonly_sections', [dict(section='.rodata', address=module['rodata'] + module['rodata_shift'], reference_offset=module['rodata_shift'])])
+        for specification in specifications:
+            raw = section_bytes(linked, specification['section'])
+            offset = specification['reference_offset']
+            actual_section = next((s for s in linked.sections if s.name == specification['section']), None)
+            if raw and (actual_section.address != specification['address'] or raw != section_bytes(reference, '.rodata')[offset:offset + len(raw)]):
                 raise SystemExit('retained complete readonly slice mismatch: ' + key)
+            readonly_slices.append(dict(**specification, size=len(raw), sha256=digest(raw)))
+        actual_ro_sections = {s.name for s in native.sections if s.size and s.name.startswith('.rodata')}
+        claimed_ro_sections = {r['section'] for r in readonly_slices if r['size']}
+        if actual_ro_sections != claimed_ro_sections:
+            raise SystemExit('unclaimed native readonly section')
+        raw_rodata = b''.join(section_bytes(linked, r['section']) for r in readonly_slices)
+        if record:
+            module['readonly_slices'] = readonly_slices
+        elif readonly_slices != module['readonly_slices']:
+            raise SystemExit('native readonly placement/slice inventory drift')
         geometry = {s.name: s.size for s in native.sections if s.name.startswith('.bss')}
         if record:
             module['objects'], module['bss_geometry'] = storage, geometry
@@ -209,16 +225,16 @@ def run_batch(record=False):
             if actual != wanted:
                 raise SystemExit('canonical native batch ownership drift: ' + key)
         reports.append(dict(module=key, routines=len(rows), instruction_bytes=sum(int(r['size']) for r in rows), owned_storage_bytes=sum(s.size for s in objects), readonly_bytes=len(raw_rodata)))
-    if len(aggregate) != 78388 or sum(r['routines'] for r in reports) != 147:
+    if len(aggregate) != 84756 or sum(r['routines'] for r in reports) != 151:
         raise SystemExit('complete native batch inventory drift')
-    result = dict(modules=reports, routines=147, instruction_bytes=len(aggregate), linked_code_sha256=digest(aggregate),
+    result = dict(modules=reports, routines=151, instruction_bytes=len(aggregate), linked_code_sha256=digest(aggregate),
         proof_level='linked-historical-reference', fresh_private_elf=False, replacement_image=False)
     if record:
         CONFIG.write_text(json.dumps(modules, indent=2) + '\n')
         path = Path(__file__)
         path.write_text(re.sub(r"CONFIG_SHA256 = '[0-9a-f]{64}'", "CONFIG_SHA256 = " + repr(digest(CONFIG.read_bytes())), path.read_text(), count=1))
     (BUILD / 'report.json').write_text(json.dumps(result, indent=2) + '\n')
-    print('native batch: MATCH 147/147 routines, 78388/78388 complete linked historical instruction bytes; owned data and readonly slices checked separately')
+    print('native batch: MATCH 151/151 routines, 84756/84756 complete linked historical instruction bytes; owned data and readonly slices checked separately')
 
 
 if __name__ == '__main__':

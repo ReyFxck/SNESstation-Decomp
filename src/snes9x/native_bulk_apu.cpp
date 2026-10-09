@@ -73,11 +73,12 @@
   Nintendo Co., Limited and its subsidiary companies.
 *******************************************************************************/
 
-/* Native bulk proof: analysis/functions/native_bulk_apu_exact_1576.tsv
- * 6 routines / 1576 complete linked historical instruction bytes.
- * Frozen audit entry points:
+/* Native bulk proof: analysis/functions/native_bulk_apu_exact_3152.tsv
+ * 7 routines / 3152 complete linked historical instruction bytes.
+ * Reviewed native entry points:
  * 0x0010a840 S9xInitAPU (124 bytes)
  * 0x0010a8bc S9xDeinitAPU (120 bytes)
+ * 0x0010ad48 S9xSetAPUDSP (1576 bytes)
  * 0x0010b370 _Z14S9xFixEnvelopeihhh (500 bytes)
  * 0x0010b564 S9xSetAPUControl (456 bytes)
  * 0x0010b72c S9xSetAPUTimer (204 bytes)
@@ -1304,7 +1305,7 @@ typedef struct
 extern "C" SSoundData SoundData __asm__("DAT_0034db50");
 
 void S9xSetSoundVolume (int channel, short volume_left, short volume_right);
-void S9xSetSoundFrequency (int channel, int hertz);
+void S9xSetSoundFrequency (int channel, int hertz) __asm__("S9xSetSoundFrequency");
 void S9xSetSoundHertz (int channel, int hertz);
 void S9xSetSoundType (int channel, int type_of_sound);
 void S9xSetMasterVolume (short master_volume_left, short master_volume_right);
@@ -1320,16 +1321,16 @@ void S9xSetSoundAttachMode (int channel);
 void S9xSoundStartEnvelope (Channel *);
 void S9xSetSoundSample (int channel, uint16 sample_number);
 void S9xSetEchoFeedback (int echo_feedback);
-void S9xSetEchoEnable (uint8 byte);
-void S9xSetEchoDelay (int byte);
-void S9xSetEchoWriteEnable (uint8 byte);
+void S9xSetEchoEnable (uint8 byte) __asm__("S9xSetEchoEnable");
+void S9xSetEchoDelay (int byte) __asm__("S9xSetEchoDelay");
+void S9xSetEchoWriteEnable (uint8 byte) __asm__("S9xSetEchoWriteEnable");
 void S9xSetFilterCoefficient (int tap, int value);
 void S9xSetFrequencyModulationEnable (uint8 byte);
 void S9xSetEnvelopeRate (int channel, unsigned long rate, int direction,
                          int target);
 bool8 S9xSetSoundMode (int channel, int mode);
 int S9xGetEnvelopeHeight (int channel);
-void S9xResetSound (bool8 full);
+void S9xResetSound (bool8 full) __asm__("S9xResetSound");
 void S9xFixSoundAfterSnapshotLoad ();
 void S9xPlaybackSoundSetting (int channel);
 void S9xPlaySample (int channel);
@@ -2267,7 +2268,472 @@ void S9xResetAPU ()
 ;
 
 void S9xSetAPUDSP (uint8 byte)
-;
+{
+    uint8 reg = IAPU.RAM [0xf2];
+        static uint8 KeyOn;
+        static uint8 KeyOnPrev;
+    int i;
+
+        spc_dump_dsp[reg] = byte;
+
+    switch (reg)
+    {
+    case 0x6c:
+                if (byte & 0x80)
+                {
+                        APU.DSP [reg] = 0x40 | 0x20 | (byte & 0x1f);
+                        APU.DSP [0x7c] = 0;
+                        APU.DSP [0x5c] = 0;
+                        APU.DSP [0x4c] = 0;
+                        S9xSetEchoWriteEnable (0);
+
+
+
+
+
+                        S9xResetSound (0);
+                }
+                else
+                {
+                        S9xSetEchoWriteEnable (!(byte & 0x20));
+                        if (byte & 0x40)
+                        {
+
+
+
+
+                                S9xSetSoundMute (1);
+                        }
+                        else
+                                S9xSetSoundMute (0);
+
+                        SoundData.noise_hertz = NoiseFreq [byte & 0x1f];
+                        for (i = 0; i < 8; i++)
+                        {
+                                if (SoundData.channels [i].type == SOUND_NOISE)
+                                        S9xSetSoundFrequency (i, SoundData.noise_hertz);
+                        }
+                }
+                break;
+    case 0x3d:
+                if (byte != APU.DSP [0x3d])
+                {
+
+
+
+
+                        uint8 mask = 1;
+                        for (int c = 0; c < 8; c++, mask <<= 1)
+                        {
+                                int type;
+                                if (byte & mask)
+                                {
+                                        type = SOUND_NOISE;
+                                }
+                                else
+                                {
+                                        type = SOUND_SAMPLE;
+
+
+
+
+
+
+
+                                }
+                                S9xSetSoundType (c, type);
+                        }
+
+
+
+
+                }
+                break;
+    case 0x0c:
+                if (byte != APU.DSP [0x0c])
+                {
+
+
+
+
+
+                        S9xSetMasterVolume ((signed char) byte,
+                                (signed char) APU.DSP [0x1c]);
+                }
+                break;
+    case 0x1c:
+                if (byte != APU.DSP [0x1c])
+                {
+
+
+
+
+
+                        S9xSetMasterVolume ((signed char) APU.DSP [0x0c],
+                                (signed char) byte);
+                }
+                break;
+    case 0x2c:
+                if (byte != APU.DSP [0x2c])
+                {
+
+
+
+
+
+                        S9xSetEchoVolume ((signed char) byte,
+                                (signed char) APU.DSP [0x3c]);
+                }
+                break;
+    case 0x3c:
+                if (byte != APU.DSP [0x3c])
+                {
+
+
+
+
+
+                        S9xSetEchoVolume ((signed char) APU.DSP [0x2c],
+                                (signed char) byte);
+                }
+                break;
+    case 0x7c:
+
+
+
+
+                byte = 0;
+                break;
+
+    case 0x5c:
+
+                {
+                        uint8 mask = 1;
+
+
+
+
+                        for (int c = 0; c < 8; c++, mask <<= 1)
+                        {
+                                if ((byte & mask) != 0)
+                                {
+
+
+
+
+
+                                        if (APU.KeyedChannels & mask)
+                                        {
+                                                {
+                                                        KeyOnPrev&=~mask;
+                                                        APU.KeyedChannels &= ~mask;
+                                                        APU.DSP [0x4c] &= ~mask;
+
+                                                        S9xSetSoundKeyOff (c);
+                                                }
+                                        }
+                                }
+                                else if((KeyOnPrev&mask)!=0)
+                                {
+                                        KeyOnPrev&=~mask;
+                                        APU.KeyedChannels |= mask;
+
+                                        APU.DSP [0x5c] &= ~mask;
+                                        APU.DSP [0x7c] &= ~mask;
+                                        S9xPlaySample (c);
+                                }
+                        }
+
+
+
+
+                }
+
+                APU.DSP [0x5c] = byte;
+                return;
+    case 0x4c:
+                if (spc_is_dumping)
+                {
+                        if (byte & ~spc_is_dumping_temp)
+                        {
+                                APURegisters.PC = IAPU.PC - IAPU.RAM;
+                                S9xAPUPackStatus();
+                                S9xSPCDump (S9xGetFilenameInc (".spc"));
+                                spc_is_dumping = 0;
+                        }
+                }
+                if (byte)
+                {
+                        uint8 mask = 1;
+
+
+
+
+
+                        for (int c = 0; c < 8; c++, mask <<= 1)
+                        {
+                                if ((byte & mask) != 0)
+                                {
+
+
+
+
+
+
+                                        if((APU.DSP [0x5c] & mask) ==0)
+                                        {
+                                                KeyOnPrev&=~mask;
+                                                APU.KeyedChannels |= mask;
+
+
+                                                APU.DSP [0x7c] &= ~mask;
+                                                S9xPlaySample (c);
+                                        }
+                                        else KeyOn|=mask;
+                                }
+                        }
+
+
+
+
+                }
+                spc_is_dumping_temp = byte;
+                return;
+
+    case 0x00 + 0x00:
+    case 0x00 + 0x10:
+    case 0x00 + 0x20:
+    case 0x00 + 0x30:
+    case 0x00 + 0x40:
+    case 0x00 + 0x50:
+    case 0x00 + 0x60:
+    case 0x00 + 0x70:
+
+
+                {
+
+
+
+
+
+                        S9xSetSoundVolume (reg >> 4, (signed char) byte,
+                                (signed char) APU.DSP [reg + 1]);
+                }
+                break;
+    case 0x01 + 0x00:
+    case 0x01 + 0x10:
+    case 0x01 + 0x20:
+    case 0x01 + 0x30:
+    case 0x01 + 0x40:
+    case 0x01 + 0x50:
+    case 0x01 + 0x60:
+    case 0x01 + 0x70:
+
+
+                {
+
+
+
+
+
+                        S9xSetSoundVolume (reg >> 4, (signed char) APU.DSP [reg - 1],
+                                (signed char) byte);
+                }
+                break;
+
+    case 0x02 + 0x00:
+    case 0x02 + 0x10:
+    case 0x02 + 0x20:
+    case 0x02 + 0x30:
+    case 0x02 + 0x40:
+    case 0x02 + 0x50:
+    case 0x02 + 0x60:
+    case 0x02 + 0x70:
+
+
+
+
+
+                S9xSetSoundHertz (reg >> 4, ((byte + (APU.DSP [reg + 1] << 8)) & 0x3fff) * 8);
+                break;
+
+    case 0x03 + 0x00:
+    case 0x03 + 0x10:
+    case 0x03 + 0x20:
+    case 0x03 + 0x30:
+    case 0x03 + 0x40:
+    case 0x03 + 0x50:
+    case 0x03 + 0x60:
+    case 0x03 + 0x70:
+
+
+
+
+
+                S9xSetSoundHertz (reg >> 4,
+                        (((byte << 8) + APU.DSP [reg - 1]) & 0x3fff) * 8);
+                break;
+
+    case 0x04 + 0x00:
+    case 0x04 + 0x10:
+    case 0x04 + 0x20:
+    case 0x04 + 0x30:
+    case 0x04 + 0x40:
+    case 0x04 + 0x50:
+    case 0x04 + 0x60:
+    case 0x04 + 0x70:
+                if (byte != APU.DSP [reg])
+                {
+
+
+
+
+
+                        S9xSetSoundSample (reg >> 4, byte);
+                }
+                break;
+
+    case 0x05 + 0x00:
+    case 0x05 + 0x10:
+    case 0x05 + 0x20:
+    case 0x05 + 0x30:
+    case 0x05 + 0x40:
+    case 0x05 + 0x50:
+    case 0x05 + 0x60:
+    case 0x05 + 0x70:
+                if (byte != APU.DSP [reg])
+                {
+
+
+
+
+
+                        {
+                                S9xFixEnvelope (reg >> 4, APU.DSP [reg + 2], byte,
+                                        APU.DSP [reg + 1]);
+                        }
+                }
+                break;
+
+    case 0x06 + 0x00:
+    case 0x06 + 0x10:
+    case 0x06 + 0x20:
+    case 0x06 + 0x30:
+    case 0x06 + 0x40:
+    case 0x06 + 0x50:
+    case 0x06 + 0x60:
+    case 0x06 + 0x70:
+                if (byte != APU.DSP [reg])
+                {
+
+
+
+
+
+                        {
+                                S9xFixEnvelope (reg >> 4, APU.DSP [reg + 1], APU.DSP [reg - 1],
+                                        byte);
+                        }
+                }
+                break;
+
+    case 0x07 + 0x00:
+    case 0x07 + 0x10:
+    case 0x07 + 0x20:
+    case 0x07 + 0x30:
+    case 0x07 + 0x40:
+    case 0x07 + 0x50:
+    case 0x07 + 0x60:
+    case 0x07 + 0x70:
+                if (byte != APU.DSP [reg])
+                {
+
+
+
+
+
+                        {
+                                S9xFixEnvelope (reg >> 4, byte, APU.DSP [reg - 2],
+                                        APU.DSP [reg - 1]);
+                        }
+                }
+                break;
+
+    case 0x08 + 0x00:
+    case 0x08 + 0x10:
+    case 0x08 + 0x20:
+    case 0x08 + 0x30:
+    case 0x08 + 0x40:
+    case 0x08 + 0x50:
+    case 0x08 + 0x60:
+    case 0x08 + 0x70:
+                break;
+
+    case 0x09 + 0x00:
+    case 0x09 + 0x10:
+    case 0x09 + 0x20:
+    case 0x09 + 0x30:
+    case 0x09 + 0x40:
+    case 0x09 + 0x50:
+    case 0x09 + 0x60:
+    case 0x09 + 0x70:
+                break;
+
+    case 0x5d:
+
+
+
+
+
+                break;
+
+    case 0x2d:
+                if (byte != APU.DSP [0x2d])
+                {
+                        S9xSetFrequencyModulationEnable (byte);
+                }
+                break;
+
+    case 0x4d:
+                if (byte != APU.DSP [0x4d])
+                {
+                        S9xSetEchoEnable (byte);
+                }
+                break;
+
+    case 0x0d:
+                S9xSetEchoFeedback ((signed char) byte);
+                break;
+
+    case 0x6d:
+                break;
+
+    case 0x7d:
+                S9xSetEchoDelay (byte & 0xf);
+                break;
+
+    case 0x0f:
+    case 0x1f:
+    case 0x2f:
+    case 0x3f:
+    case 0x4f:
+    case 0x5f:
+    case 0x6f:
+    case 0x7f:
+                S9xSetFilterCoefficient (reg >> 4, (signed char) byte);
+                break;
+    default:
+
+
+                break;
+    }
+
+        KeyOnPrev|=KeyOn;
+        KeyOn=0;
+
+    if (reg < 0x80)
+                APU.DSP [reg] = byte;
+}
 
 void S9xFixEnvelope (int channel, uint8 gain, uint8 adsr1, uint8 adsr2)
 {

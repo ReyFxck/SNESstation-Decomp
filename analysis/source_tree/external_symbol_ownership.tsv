@@ -351,7 +351,7 @@ DAT_003454c2	target-address-data	program-data	reserved:target-data.o	program-dat
 DAT_003454c8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_003454cc	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_003454d0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_003454d8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/apu_reset.o;snes9x/cpu_execution.o;snes9x/native_bulk_snaporig.o;snes9x/native_bulk_snapshot.o
+DAT_003454d8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/apu_reset.o;snes9x/cpu_execution.o;snes9x/native_bulk_apu.o;snes9x/native_bulk_snaporig.o;snes9x/native_bulk_snapshot.o
 DAT_003454da	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_003454dc	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_003454dd	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
@@ -917,7 +917,7 @@ DAT_003f2eb0	target-address-data	program-data	reserved:target-data.o	program-dat
 DAT_003f2eb8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/native_gfx.o;snes9x/native_hdma.o
 DAT_003f2f78	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/native_gfx.o
 DAT_003f2f80	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/native_bulk_tile.o;snes9x/native_gfx.o
-DAT_003f3fc0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/native_sound_controls.o
+DAT_003f3fc0	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/native_bulk_apu.o;snes9x/native_sound_controls.o
 DAT_003f4068	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/apu_reset.o;snes9x/native_bulk_apu.o;snes9x/native_bulk_tile.o
 DAT_003f40a8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/apu_reset.o
 DAT_003f44a8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
@@ -1526,9 +1526,11 @@ S9xBasename	named-external	link-contract	reserved:link-contract	link-identity	sn
 S9xBuildDirectColourMaps_0014308c	target-address-symbol	source-address-alias	src/ps2/progress28_structural_lift_recovered.c;src/snes9x/draw_large_pixel_recovered.c;src/snes9x/native_gfx.cpp;src/snes9x/progress11_core_recovered.c;src/snes9x/tile_16bit_recovered.c;src/snes9x/tile_color_math_recovered.c;src/snes9x/tile_draw_clipped_recovered.c;src/snes9x/tile_draw_recovered.c;src/snes9x/tile_large16_recovered.c;src/snes9x/tile_scaled_remaining_recovered.c;src/snes9x/tile_x2_recovered.c	link-identity	snes9x/draw_large_pixel_recovered.o;snes9x/tile_16bit_recovered.o;snes9x/tile_color_math_recovered.o;snes9x/tile_draw_clipped_recovered.o;snes9x/tile_draw_recovered.o;snes9x/tile_large16_recovered.o;snes9x/tile_scaled_remaining_recovered.o;snes9x/tile_x2_recovered.o
 S9xCloseSnapshotFile	target-function-contract	link-contract	src/snes9x/native_bulk_snapshot.cpp	link-identity	snes9x/native_bulk_snapshot.o
 S9xEndScreenRefresh	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
+S9xGetFilenameInc	named-external	link-contract	reserved:link-contract	link-identity	snes9x/native_bulk_apu.o
 S9xLoadOrigSnapshot	named-external	link-contract	reserved:link-contract	link-identity	snes9x/native_bulk_snapshot.o
 S9xOpenSnapshotFile	target-function-contract	link-contract	src/snes9x/native_bulk_snapshot.cpp	link-identity	snes9x/native_bulk_snapshot.o
 S9xReadJoypad	named-external	link-contract	reserved:link-contract	link-identity	snes9x/native_controllers.o
+S9xSPCDump	named-external	link-contract	reserved:link-contract	link-identity	snes9x/native_bulk_apu.o
 S9xSetC4	target-function-contract	link-contract	src/snes9x/s9xsetbyte.cpp	link-identity	snes9x/s9xsetbyte.o;snes9x/s9xsetword.o
 S9xStartScreenRefresh	named-external	link-contract	reserved:link-contract	link-identity	snes9x/cpu_execution.o
 S9xSync_AudioActive	named-external	link-contract	reserved:link-contract	link-identity	ps2/path_helpers_recovered.o
@@ -1599,11 +1601,14 @@ _DAT_00413511	target-address-data	program-data	reserved:target-data.o	program-da
 _DAT_00413518	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 _DAT_00413540	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 _DAT_00423554	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-_Z11DSP1SetByteht	target-function-contract	link-contract	src/snes9x/native_bulk_dsp1.cpp	link-identity	snes9x/native_bulk_dsp1.o
 _Z11FreezeBlockPvPcPhi	target-function-contract	link-contract	src/snes9x/native_bulk_snapshot.cpp	link-identity	snes9x/native_bulk_snapshot.o
+_Z13S9xPlaySamplei	target-function-contract	link-contract	src/snes9x/native_bulk_apu.cpp	link-identity	snes9x/native_bulk_apu.o
 _Z14S9xSpc7110Initv	target-function-contract	link-contract	src/snes9x/native_rom_maps.cpp	link-identity	snes9x/native_rom_maps.o
 _Z16S9xUnfreezeZSNESPKc	target-function-contract	link-contract	src/snes9x/native_bulk_snapshot.cpp	link-identity	snes9x/native_bulk_snapshot.o
-_Z7DSPOp0Av	target-function-contract	link-contract	src/snes9x/native_bulk_dsp1.cpp	link-identity	snes9x/native_bulk_dsp1.o
+_Z7DSPOp02v	target-function-contract	link-contract	src/snes9x/native_bulk_dsp1.cpp	link-identity	snes9x/native_bulk_dsp1.o
+_Z7DSPOp06v	target-function-contract	link-contract	src/snes9x/native_bulk_dsp1.cpp	link-identity	snes9x/native_bulk_dsp1.o
+_Z7DSPOp28v	target-function-contract	link-contract	src/snes9x/native_bulk_dsp1.cpp	link-identity	snes9x/native_bulk_dsp1.o
+_Z9GetRXYPosv	target-function-contract	link-contract	src/snes9x/native_bulk_dsp1.cpp	link-identity	snes9x/native_bulk_dsp1.o
 _ZN7CMemory7InitROMEh	target-function-contract	link-contract	src/snes9x/native_rom_deinterleave.cpp	link-identity	snes9x/native_rom_deinterleave.o
 _ZdaPv	cxx-runtime	historical-archive	libsupc++/libstdc++	archive-identity	snes9x/native_bulk_snaporig.o;snes9x/native_bulk_snapshot.o;snes9x/native_dma.o
 _ZdlPv	cxx-runtime	historical-archive	libsupc++/libstdc++	archive-identity	snes9x/native_bulk_snapshot.o

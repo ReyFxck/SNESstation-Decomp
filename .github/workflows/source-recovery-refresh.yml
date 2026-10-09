@@ -38,13 +38,13 @@ on:
       - src/snes9x/native_bulk_snaporig.cpp
       - analysis/functions/native_bulk_tile_exact_48552.tsv
       - analysis/functions/native_bulk_2xsai_exact_6888.tsv
-      - analysis/functions/native_bulk_dsp1_exact_6100.tsv
-      - analysis/functions/native_bulk_apu_exact_1576.tsv
+      - analysis/functions/native_bulk_dsp1_exact_10892.tsv
+      - analysis/functions/native_bulk_apu_exact_3152.tsv
       - analysis/functions/native_bulk_memmap_exact_1924.tsv
       - analysis/functions/native_bulk_soundux_exact_4076.tsv
       - analysis/functions/native_bulk_snapshot_exact_5368.tsv
       - analysis/functions/native_bulk_snaporig_exact_3904.tsv
-      - analysis/functions/native_bulk_78388_config.json
+      - analysis/functions/native_bulk_84756_config.json
       - analysis/functions/native_bulk_census.tsv
       - tools/run-native-bulk-source-recovery.py
       - src/snes9x/native_clip.cpp

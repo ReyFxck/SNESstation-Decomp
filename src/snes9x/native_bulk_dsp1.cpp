@@ -73,8 +73,8 @@
   Nintendo Co., Limited and its subsidiary companies.
 *******************************************************************************/
 
-/* Native bulk proof: analysis/functions/native_bulk_dsp1_exact_6100.tsv
- * 32 routines / 6100 complete linked historical instruction bytes.
+/* Native bulk proof: analysis/functions/native_bulk_dsp1_exact_10892.tsv
+ * 35 routines / 10892 complete linked historical instruction bytes.
  * Reviewed native entry points:
  * 0x0012c13c _Z7DSPOp00v (36 bytes)
  * 0x0012c160 _Z7DSPOp20v (40 bytes)
@@ -84,6 +84,7 @@
  * 0x0012c398 _Z6CosInts (172 bytes)
  * 0x0012c444 _Z7DSPOp04v (100 bytes)
  * 0x0012c4a8 _Z7DSPOp0Cv (176 bytes)
+ * 0x0012ce18 _Z7DSPOp0Av (580 bytes)
  * 0x0012d334 _Z7DSPOp01v (376 bytes)
  * 0x0012d4ac _Z7DSPOp11v (376 bytes)
  * 0x0012d624 _Z7DSPOp21v (376 bytes)
@@ -94,6 +95,7 @@
  * 0x0012da9c _Z7DSPOp13v (192 bytes)
  * 0x0012db5c _Z7DSPOp23v (192 bytes)
  * 0x0012dc1c _Z7DSPOp14v (452 bytes)
+ * 0x0012dde0 _Z7DSPOp0Ev (128 bytes)
  * 0x0012de60 _Z7DSPOp0Bv (80 bytes)
  * 0x0012deb0 _Z7DSPOp1Bv (80 bytes)
  * 0x0012df00 _Z7DSPOp2Bv (80 bytes)
@@ -107,6 +109,7 @@
  * 0x0012e374 _Z9DSP2_Op01v (500 bytes)
  * 0x0012e568 _Z9DSP2_Op06v (80 bytes)
  * 0x0012e5b8 _Z9DSP2_Op0Dv (208 bytes)
+ * 0x0012e750 _Z11DSP1SetByteht (4084 bytes)
  * 0x0012f744 _Z11DSP1GetBytet (356 bytes)
  */
 /* Pinned Snes9x native dsp1 recovery; original declarations/macros and bodies expanded with the historical EE profile. */
@@ -1734,7 +1737,7 @@ enum __fdlibm_version
 extern const enum __fdlibm_version __fdlib_version;
 }
 typedef __gnuc_va_list va_list;
-const unsigned short DSP1ROM[1024] = {
+const unsigned short DSP1ROM[1024] __attribute__((section(".rodata.native_dsp1_rom"))) = {
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
@@ -2206,7 +2209,44 @@ double RVPos,RHPos,RXRes,RYRes;
 void GetRXYPos();
 
 void DSPOp0A()
-;
+{
+  double x2,y2,x3,y3,x4,y4,m,ypos;
+
+
+   if(Op0AVS==0) {Op0AVS++; return;}
+   ypos=Op0AVS-ScrDispl;
+
+
+   RVPos = ypos; RHPos = 0;
+   GetRXYPos(); x2 = RXRes; y2 = RYRes;
+
+   RVPos = ypos; RHPos = -128;
+   GetRXYPos(); x3 = RXRes; y3 = RYRes;
+
+   RVPos = ypos; RHPos = 127;
+   GetRXYPos(); x4 = RXRes; y4 = RYRes;
+
+
+   m = (x4-x3)/256*256; if (m>32767) m=32767; if (m<-32768) m=-32768;
+   Op0AA = (short)(m);
+
+   m = (y4-y3)/256*256; if (m>32767) m=32767; if (m<-32768) m=-32768;
+   Op0AC = (short)(m);
+   if (ypos==0){
+     Op0AB = 0;
+     Op0AD = 0;
+   }
+   else {
+
+     m = (x2-CenterX)/ypos*256; if (m>32767) m=32767; if (m<-32768) m=-32768;
+     Op0AB = (short)(m);
+
+     m = (y2-CenterY)/ypos*256; if (m>32767) m=32767; if (m<-32768) m=-32768;
+     Op0AD = (short)(m);
+   }
+
+   Op0AVS+=1;
+}
 
 short Op06X;
 short Op06Y;
@@ -2468,7 +2508,19 @@ short Op0EX;
 short Op0EY;
 
 void DSPOp0E()
-;
+{
+
+
+   RVPos = Op0EV;
+   RHPos = Op0EH;
+   GetRXYPos();
+   Op0EX = (short)(RXRes);
+   Op0EY = (short)(RYRes);
+
+
+
+
+}
 
 short Op0BX;
 short Op0BY;
@@ -2763,7 +2815,582 @@ void S9xSetDSP (uint8 byte, uint16 address)
 
 
 void DSP1SetByte(uint8 byte, uint16 address)
-;
+{
+    if( (address & 0xf000) == 0x6000 || (address & 0x7fff) < 0x4000 )
+    {
+
+
+                if((DSP1.command==0x0A||DSP1.command==0x1A)&&DSP1.out_count!=0)
+                {
+                        DSP1.out_count--;
+                        DSP1.out_index++;
+                        return;
+                }
+                else if (DSP1.waiting4command)
+                {
+                        DSP1.command = byte;
+                        DSP1.in_index = 0;
+                        DSP1.waiting4command = 0;
+                        DSP1.first_parameter = 1;
+
+
+                        switch (byte)
+                        {
+                        case 0x00: DSP1.in_count = 2; break;
+                        case 0x30:
+                        case 0x10: DSP1.in_count = 2; break;
+                        case 0x20: DSP1.in_count = 2; break;
+                        case 0x24:
+                        case 0x04: DSP1.in_count = 2; break;
+                        case 0x08: DSP1.in_count = 3; break;
+                        case 0x18: DSP1.in_count = 4; break;
+                        case 0x28: DSP1.in_count = 3; break;
+                        case 0x38: DSP1.in_count = 4; break;
+                        case 0x2c:
+                        case 0x0c: DSP1.in_count = 3; break;
+                        case 0x3c:
+                        case 0x1c: DSP1.in_count = 6; break;
+                        case 0x32:
+                        case 0x22:
+                        case 0x12:
+                        case 0x02: DSP1.in_count = 7; break;
+                        case 0x0a: DSP1.in_count = 1; break;
+                        case 0x3a:
+                        case 0x2a:
+                        case 0x1a:
+                                DSP1. command =0x1a;
+                                DSP1.in_count = 1; break;
+                        case 0x16:
+                        case 0x26:
+                        case 0x36:
+                        case 0x06: DSP1.in_count = 3; break;
+                        case 0x1e:
+                        case 0x2e:
+                        case 0x3e:
+                        case 0x0e: DSP1.in_count = 2; break;
+                        case 0x05:
+                        case 0x35:
+                        case 0x31:
+                        case 0x01: DSP1.in_count = 4; break;
+                        case 0x15:
+                        case 0x11: DSP1.in_count = 4; break;
+                        case 0x25:
+                        case 0x21: DSP1.in_count = 4; break;
+                        case 0x09:
+                        case 0x39:
+                        case 0x3d:
+                        case 0x0d: DSP1.in_count = 3; break;
+                        case 0x19:
+                        case 0x1d: DSP1.in_count = 3; break;
+                        case 0x29:
+                        case 0x2d: DSP1.in_count = 3; break;
+                        case 0x33:
+                        case 0x03: DSP1.in_count = 3; break;
+                        case 0x13: DSP1.in_count = 3; break;
+                        case 0x23: DSP1.in_count = 3; break;
+                        case 0x3b:
+                        case 0x0b: DSP1.in_count = 3; break;
+                        case 0x1b: DSP1.in_count = 3; break;
+                        case 0x2b: DSP1.in_count = 3; break;
+                        case 0x34:
+                        case 0x14: DSP1.in_count = 6; break;
+                        case 0x07:
+                        case 0x0f: DSP1.in_count = 1; break;
+                        case 0x27:
+                        case 0x2F: DSP1.in_count=1; break;
+                        case 0x17:
+                        case 0x37:
+                        case 0x3F:
+                                DSP1.command=0x1f;
+                        case 0x1f: DSP1.in_count = 1; break;
+
+                        default:
+
+                        case 0x80:
+                                DSP1.in_count = 0;
+                                DSP1.waiting4command = 1;
+                                DSP1.first_parameter = 1;
+                                break;
+                        }
+                        DSP1.in_count<<=1;
+                }
+                else
+                {
+                        DSP1.parameters [DSP1.in_index] = byte;
+                        DSP1.first_parameter = 0;
+                        DSP1.in_index++;
+                }
+
+                if (DSP1.waiting4command ||
+                        (DSP1.first_parameter && byte == 0x80))
+                {
+                        DSP1.waiting4command = 1;
+                        DSP1.first_parameter = 0;
+                }
+                else if(DSP1.first_parameter && (DSP1.in_count != 0 || (DSP1.in_count==0&&DSP1.in_index==0)))
+                {
+                }
+
+
+
+                else
+                {
+                        if (DSP1.in_count)
+                        {
+
+                                if (--DSP1.in_count == 0)
+                                {
+
+                                        DSP1.waiting4command = 1;
+                                        DSP1.out_index = 0;
+                                        switch (DSP1.command)
+                                        {
+                                        case 0x1f:
+                                                DSP1.out_count=2048;
+                                                break;
+                                        case 0x00:
+                                                Op00Multiplicand = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op00Multiplier = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+
+                                                DSPOp00 ();
+
+                                                DSP1.out_count = 2;
+                                                DSP1.output [0] = Op00Result&0xFF;
+                                                DSP1.output [1] = (Op00Result>>8)&0xFF;
+                                                break;
+
+                                        case 0x20:
+                                                Op20Multiplicand = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op20Multiplier = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+
+                                                DSPOp20 ();
+
+                                                DSP1.out_count = 2;
+                                                DSP1.output [0] = Op20Result&0xFF;
+                                                DSP1.output [1] = (Op20Result>>8)&0xFF;
+                                                break;
+
+                                        case 0x30:
+                                        case 0x10:
+                                                Op10Coefficient = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op10Exponent = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+
+                                                DSPOp10 ();
+
+                                                DSP1.out_count = 4;
+                                                DSP1.output [0] = (uint8) (((int16) Op10CoefficientR)&0xFF);
+                                                DSP1.output [1] = (uint8) ((((int16) Op10CoefficientR)>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (((int16) Op10ExponentR)&0xff);
+                                                DSP1.output [3] = (uint8) ((((int16) Op10ExponentR)>>8)&0xff);
+                                                break;
+
+                                        case 0x24:
+                                        case 0x04:
+                                                Op04Angle = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op04Radius = (uint16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+
+                                                DSPOp04 ();
+
+                                                DSP1.out_count = 4;
+                                                DSP1.output [0] = (uint8) (Op04Sin&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op04Sin>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op04Cos&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op04Cos>>8)&0xFF);
+                                                break;
+
+                                        case 0x08:
+                                                Op08X = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op08Y = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op08Z = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp08 ();
+
+                                                DSP1.out_count = 4;
+                                                DSP1.output [0] = (uint8) (((int16) Op08Ll)&0xFF);
+                                                DSP1.output [1] = (uint8) ((((int16) Op08Ll)>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (((int16) Op08Lh)&0xFF);
+                                                DSP1.output [3] = (uint8) ((((int16) Op08Lh)>>8)&0xFF);
+                                                break;
+
+                                        case 0x18:
+
+                                                Op18X = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op18Y = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op18Z = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+                                                Op18R = (int16) (DSP1.parameters [6]|(DSP1.parameters[7]<<8));
+
+                                                DSPOp18 ();
+
+                                                DSP1.out_count = 2;
+                                                DSP1.output [0] = (uint8) (Op18D&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op18D>>8)&0xFF);
+                                                break;
+
+                                        case 0x38:
+
+                                                Op38X = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op38Y = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op38Z = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+                                                Op38R = (int16) (DSP1.parameters [6]|(DSP1.parameters[7]<<8));
+
+                                                DSPOp38 ();
+
+                                                DSP1.out_count = 2;
+                                                DSP1.output [0] = (uint8) (Op38D&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op38D>>8)&0xFF);
+                                                break;
+
+                                        case 0x28:
+                                                Op28X = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op28Y = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op28Z = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp28 ();
+
+                                                DSP1.out_count = 2;
+                                                DSP1.output [0] = (uint8) (Op28R&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op28R>>8)&0xFF);
+                                                break;
+
+                                        case 0x2c:
+                                        case 0x0c:
+                                                Op0CA = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op0CX1 = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op0CY1 = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp0C ();
+
+                                                DSP1.out_count = 4;
+                                                DSP1.output [0] = (uint8) (Op0CX2&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op0CX2>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op0CY2&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op0CY2>>8)&0xFF);
+                                                break;
+
+                                        case 0x3c:
+                                        case 0x1c:
+                                                Op1CZ = (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+
+                                                Op1CY = (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op1CX = (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+                                                Op1CXBR = (DSP1.parameters [6]|(DSP1.parameters[7]<<8));
+                                                Op1CYBR = (DSP1.parameters [8]|(DSP1.parameters[9]<<8));
+                                                Op1CZBR = (DSP1.parameters [10]|(DSP1.parameters[11]<<8));
+
+                                                DSPOp1C ();
+
+                                                DSP1.out_count = 6;
+                                                DSP1.output [0] = (uint8) (Op1CXAR&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op1CXAR>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op1CYAR&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op1CYAR>>8)&0xFF);
+                                                DSP1.output [4] = (uint8) (Op1CZAR&0xFF);
+                                                DSP1.output [5] = (uint8) ((Op1CZAR>>8)&0xFF);
+                                                break;
+
+                                        case 0x32:
+                                        case 0x22:
+                                        case 0x12:
+                                        case 0x02:
+                                                Op02FX = (short)(DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op02FY = (short)(DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op02FZ = (short)(DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+                                                Op02LFE = (short)(DSP1.parameters [6]|(DSP1.parameters[7]<<8));
+                                                Op02LES = (short)(DSP1.parameters [8]|(DSP1.parameters[9]<<8));
+                                                Op02AAS = (unsigned short)(DSP1.parameters [10]|(DSP1.parameters[11]<<8));
+                                                Op02AZS = (unsigned short)(DSP1.parameters [12]|(DSP1.parameters[13]<<8));
+
+                                                DSPOp02 ();
+
+                                                DSP1.out_count = 8;
+                                                DSP1.output [0] = (uint8) (Op02VOF&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op02VOF>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op02VVA&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op02VVA>>8)&0xFF);
+                                                DSP1.output [4] = (uint8) (Op02CX&0xFF);
+                                                DSP1.output [5] = (uint8) ((Op02CX>>8)&0xFF);
+                                                DSP1.output [6] = (uint8) (Op02CY&0xFF);
+                                                DSP1.output [7] = (uint8) ((Op02CY>>8)&0xFF);
+                                                break;
+
+                                        case 0x3a:
+                                        case 0x2a:
+                                        case 0x1a:
+                                        case 0x0a:
+                                                Op0AVS = (short)(DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+
+                                                DSPOp0A ();
+
+                                                DSP1.out_count = 8;
+                                                DSP1.output [0] = (uint8) (Op0AA&0xFF);
+                                                DSP1.output [2] = (uint8) (Op0AB&0xFF);
+                                                DSP1.output [4] = (uint8) (Op0AC&0xFF);
+                                                DSP1.output [6] = (uint8) (Op0AD&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op0AA>>8)&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op0AB>>8)&0xFF);
+                                                DSP1.output [5] = (uint8) ((Op0AC>>8)&0xFF);
+                                                DSP1.output [7] = (uint8) ((Op0AD>>8)&0xFF);
+                                                DSP1.in_index=0;
+                                                break;
+
+                                        case 0x16:
+                                        case 0x26:
+                                        case 0x36:
+                                        case 0x06:
+                                                Op06X = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op06Y = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op06Z = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp06 ();
+
+                                                DSP1.out_count = 6;
+                                                DSP1.output [0] = (uint8) (Op06H&0xff);
+                                                DSP1.output [1] = (uint8) ((Op06H>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op06V&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op06V>>8)&0xFF);
+                                                DSP1.output [4] = (uint8) (Op06S&0xFF);
+                                                DSP1.output [5] = (uint8) ((Op06S>>8)&0xFF);
+                                                break;
+
+                                        case 0x1e:
+                                        case 0x2e:
+                                        case 0x3e:
+                                        case 0x0e:
+                                                Op0EH = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op0EV = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+
+                                                DSPOp0E ();
+
+                                                DSP1.out_count = 4;
+                                                DSP1.output [0] = (uint8) (Op0EX&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op0EX>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op0EY&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op0EY>>8)&0xFF);
+                                                break;
+
+
+                                        case 0x05:
+                                        case 0x35:
+                                        case 0x31:
+                                        case 0x01:
+                                                Op01m = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op01Zr = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op01Yr = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+                                                Op01Xr = (int16) (DSP1.parameters [6]|(DSP1.parameters[7]<<8));
+
+                                                DSPOp01 ();
+                                                break;
+
+                                        case 0x15:
+                                        case 0x11:
+                                                Op11m = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op11Zr = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op11Yr = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+                                                Op11Xr = (int16) (DSP1.parameters [7]|(DSP1.parameters[7]<<8));
+
+                                                DSPOp11 ();
+                                                break;
+
+                                        case 0x25:
+                                        case 0x21:
+                                                Op21m = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op21Zr = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op21Yr = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+                                                Op21Xr = (int16) (DSP1.parameters [6]|(DSP1.parameters[7]<<8));
+
+                                                DSPOp21 ();
+                                                break;
+
+                                        case 0x09:
+                                        case 0x39:
+                                        case 0x3d:
+                                        case 0x0d:
+                                                Op0DX = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op0DY = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op0DZ = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp0D ();
+
+                                                DSP1.out_count = 6;
+                                                DSP1.output [0] = (uint8) (Op0DF&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op0DF>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op0DL&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op0DL>>8)&0xFF);
+                                                DSP1.output [4] = (uint8) (Op0DU&0xFF);
+                                                DSP1.output [5] = (uint8) ((Op0DU>>8)&0xFF);
+                                                break;
+
+                                        case 0x19:
+                                        case 0x1d:
+                                                Op1DX = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op1DY = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op1DZ = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp1D ();
+
+                                                DSP1.out_count = 6;
+                                                DSP1.output [0] = (uint8) (Op1DF&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op1DF>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op1DL&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op1DL>>8)&0xFF);
+                                                DSP1.output [4] = (uint8) (Op1DU&0xFF);
+                                                DSP1.output [5] = (uint8) ((Op1DU>>8)&0xFF);
+                                                break;
+
+                                        case 0x29:
+                                        case 0x2d:
+                                                Op2DX = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op2DY = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op2DZ = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp2D ();
+
+                                                DSP1.out_count = 6;
+                                                DSP1.output [0] = (uint8) (Op2DF&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op2DF>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op2DL&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op2DL>>8)&0xFF);
+                                                DSP1.output [4] = (uint8) (Op2DU&0xFF);
+                                                DSP1.output [5] = (uint8) ((Op2DU>>8)&0xFF);
+                                                break;
+
+                                        case 0x33:
+                                        case 0x03:
+                                                Op03F = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op03L = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op03U = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp03 ();
+
+                                                DSP1.out_count = 6;
+                                                DSP1.output [0] = (uint8) (Op03X&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op03X>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op03Y&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op03Y>>8)&0xFF);
+                                                DSP1.output [4] = (uint8) (Op03Z&0xFF);
+                                                DSP1.output [5] = (uint8) ((Op03Z>>8)&0xFF);
+                                                break;
+
+                                        case 0x13:
+                                                Op13F = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op13L = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op13U = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp13 ();
+
+                                                DSP1.out_count = 6;
+                                                DSP1.output [0] = (uint8) (Op13X&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op13X>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op13Y&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op13Y>>8)&0xFF);
+                                                DSP1.output [4] = (uint8) (Op13Z&0xFF);
+                                                DSP1.output [5] = (uint8) ((Op13Z>>8)&0xFF);
+                                                break;
+
+                                        case 0x23:
+                                                Op23F = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op23L = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op23U = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp23 ();
+
+                                                DSP1.out_count = 6;
+                                                DSP1.output [0] = (uint8) (Op23X&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op23X>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op23Y&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op23Y>>8)&0xFF);
+                                                DSP1.output [4] = (uint8) (Op23Z&0xFF);
+                                                DSP1.output [5] = (uint8) ((Op23Z>>8)&0xFF);
+                                                break;
+
+                                        case 0x3b:
+                                        case 0x0b:
+                                                Op0BX = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op0BY = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op0BZ = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp0B ();
+
+                                                DSP1.out_count = 2;
+                                                DSP1.output [0] = (uint8) (Op0BS&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op0BS>>8)&0xFF);
+                                                break;
+
+                                        case 0x1b:
+                                                Op1BX = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op1BY = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op1BZ = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp1B ();
+
+                                                DSP1.out_count = 2;
+                                                DSP1.output [0] = (uint8) (Op1BS&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op1BS>>8)&0xFF);
+                                                break;
+
+                                        case 0x2b:
+                                                Op2BX = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op2BY = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op2BZ = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+
+                                                DSPOp0B ();
+
+                                                DSP1.out_count = 2;
+                                                DSP1.output [0] = (uint8) (Op2BS&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op2BS>>8)&0xFF);
+                                                break;
+
+                                        case 0x34:
+                                        case 0x14:
+                                                Op14Zr = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+                                                Op14Xr = (int16) (DSP1.parameters [2]|(DSP1.parameters[3]<<8));
+                                                Op14Yr = (int16) (DSP1.parameters [4]|(DSP1.parameters[5]<<8));
+                                                Op14U = (int16) (DSP1.parameters [6]|(DSP1.parameters[7]<<8));
+                                                Op14F = (int16) (DSP1.parameters [8]|(DSP1.parameters[9]<<8));
+                                                Op14L = (int16) (DSP1.parameters [10]|(DSP1.parameters[11]<<8));
+
+                                                DSPOp14 ();
+
+                                                DSP1.out_count = 6;
+                                                DSP1.output [0] = (uint8) (Op14Zrr&0xFF);
+                                                DSP1.output [1] = (uint8) ((Op14Zrr>>8)&0xFF);
+                                                DSP1.output [2] = (uint8) (Op14Xrr&0xFF);
+                                                DSP1.output [3] = (uint8) ((Op14Xrr>>8)&0xFF);
+                                                DSP1.output [4] = (uint8) (Op14Yrr&0xFF);
+                                                DSP1.output [5] = (uint8) ((Op14Yrr>>8)&0xFF);
+                                                break;
+
+
+                                        case 0x27:
+                                        case 0x2F:
+                                                Op2FUnknown = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+
+                                                DSPOp2F ();
+
+                                                DSP1.out_count = 2;
+                                                DSP1.output [0] = (uint8)(Op2FSize&0xFF);
+                                                DSP1.output [1] = (uint8)((Op2FSize>>8)&0xFF);
+                                                break;
+
+                                        case 0x07:
+                                        case 0x0F:
+                                                Op0FRamsize = (int16) (DSP1.parameters [0]|(DSP1.parameters[1]<<8));
+
+                                                DSPOp0F ();
+
+                                                DSP1.out_count = 2;
+                                                DSP1.output [0] = (uint8)(Op0FPass&0xFF);
+                                                DSP1.output [1] = (uint8)((Op0FPass>>8)&0xFF);
+                                                break;
+
+                                        default:
+                                                break;
+                                        }
+                                }
+                        }
+                }
+    }
+}
 
 uint8 DSP1GetByte(uint16 address)
 {

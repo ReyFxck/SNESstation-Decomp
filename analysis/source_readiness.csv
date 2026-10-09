@@ -99,7 +99,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0010a840,apu_buffer_allocator,audio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/apu_alloc_recovered.c;src/snes9x/native_bulk_apu.cpp,MATCHING
 0x0010a8bc,snes_p11_0010a8bc,frontend,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libmtap_recovered.c;src/ps2/progress11_frontend_recovered.c;src/snes9x/apu_alloc_recovered.c;src/snes9x/native_bulk_apu.cpp,MATCHING
 0x0010a934,snes_p16_0010a934,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/apu_reset.cpp,MATCHING
-0x0010ad48,snes_p16_0010ad48,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/apumem.cpp,MATCHING
+0x0010ad48,snes_p16_0010ad48,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/apumem.cpp;src/snes9x/native_bulk_apu.cpp,MATCHING
 0x0010b370,snes_p16_0010b370,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_bulk_apu.cpp,MATCHING
 0x0010b564,snes_p16_0010b564,frontend-core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/apumem.cpp;src/snes9x/native_bulk_apu.cpp,MATCHING
 0x0010b72c,snes_p13_apu_io_write_0010b72c,audio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_bulk_apu.cpp;src/snes9x/progress13_core_helpers_recovered.c,MATCHING
@@ -165,7 +165,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0012c4a8,snes_p16_0012c4a8,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_bulk_dsp1.cpp,MATCHING
 0x0012c558,snes_p17_0012c558,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0012cbd8,snes_p16_0012cbd8,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x0012ce18,snes_p17_0012ce18,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x0012ce18,snes_p17_0012ce18,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_bulk_dsp1.cpp,MATCHING
 0x0012d05c,snes_p17_0012d05c,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0012d334,snes_p16_0012d334,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress26_dsp_runtime_batch_recovered.c;src/snes9x/native_bulk_dsp1.cpp,MATCHING
 0x0012d4ac,snes_p16_0012d4ac,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress26_dsp_runtime_batch_recovered.c;src/snes9x/native_bulk_dsp1.cpp,MATCHING
@@ -177,7 +177,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0012da9c,snes_p12_0012da9c,fixed-transform,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/native_bulk_dsp1.cpp;src/snes9x/progress12_fixed_transform_recovered.c,MATCHING
 0x0012db5c,snes_p12_0012db5c,fixed-transform,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/snes9x/native_bulk_dsp1.cpp;src/snes9x/progress12_fixed_transform_recovered.c,MATCHING
 0x0012dc1c,snes_p17_0012dc1c,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_bulk_dsp1.cpp,MATCHING
-0x0012dde0,snes_p11_0012dde0,frontend,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c,MATCHING
+0x0012dde0,snes_p11_0012dde0,frontend,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress11_frontend_recovered.c;src/snes9x/native_bulk_dsp1.cpp,MATCHING
 0x0012de60,snes_leaf_0012de60,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/snes9x/native_bulk_dsp1.cpp,MATCHING
 0x0012deb0,snes_leaf_0012deb0,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/snes9x/native_bulk_dsp1.cpp,MATCHING
 0x0012df50,snes_leaf_0012df50,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/snes9x/native_bulk_dsp1.cpp,MATCHING

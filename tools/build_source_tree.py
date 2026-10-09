@@ -391,12 +391,15 @@ SOURCE_COMPILER_PROFILES = {
 # the mangled spelling itself does not encode an address and therefore must not
 # be sent through the address-suffix alias gate.
 HISTORICAL_CPP_PEERS = {
-    "_Z7DSPOp0Av": "src/snes9x/native_bulk_dsp1.cpp",
+    '_Z9GetRXYPosv': 'src/snes9x/native_bulk_dsp1.cpp',
+    '_Z7DSPOp02v': 'src/snes9x/native_bulk_dsp1.cpp',
+    '_Z7DSPOp06v': 'src/snes9x/native_bulk_dsp1.cpp',
+    '_Z7DSPOp28v': 'src/snes9x/native_bulk_dsp1.cpp',
+    '_Z13S9xPlaySamplei': 'src/snes9x/native_bulk_apu.cpp',
     "_Z11FreezeBlockPvPcPhi": "src/snes9x/native_bulk_snapshot.cpp",
     "_Z16S9xUnfreezeZSNESPKc": "src/snes9x/native_bulk_snapshot.cpp",
     "S9xOpenSnapshotFile": "src/snes9x/native_bulk_snapshot.cpp",
     "S9xCloseSnapshotFile": "src/snes9x/native_bulk_snapshot.cpp",
-    '_Z11DSP1SetByteht': 'src/snes9x/native_bulk_dsp1.cpp',
     "_Z14S9xSpc7110Initv": "src/snes9x/native_rom_maps.cpp",
     '_ZN7CMemory7InitROMEh': 'src/snes9x/native_rom_deinterleave.cpp',
     "rand": "src/snes9x/native_ppu_registers.cpp",

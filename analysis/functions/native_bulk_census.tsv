@@ -66,59 +66,59 @@ tile	_Z22DrawLargePixel16Sub1_2jjjjjj	1636	proved-native-full-linked-function	sr
 2xsai	_Z11Scale_2xSaIPhjS_S_jjjii	912	proved-native-full-linked-function	src/snes9x/native_bulk_2xsai.cpp	analysis/functions/native_bulk_2xsai_exact_6888.tsv
 dsp1	_Z4Atand	116	no-complete-frozen-function-witness		
 dsp1	_Z7InitDSPv	260	no-complete-frozen-function-witness		
-dsp1	_Z7DSPOp00v	36	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp20v	40	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z12DSP1_InversessPsS_	284	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp10v	56	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z6SinInts	188	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z6CosInts	172	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp04v	100	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp0Cv	176	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
+dsp1	_Z7DSPOp00v	36	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp20v	40	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z12DSP1_InversessPsS_	284	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp10v	56	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z6SinInts	188	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z6CosInts	172	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp04v	100	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp0Cv	176	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
 dsp1	_Z7DSPOp02v	1588	no-complete-frozen-function-witness		
 dsp1	_Z9GetRXYPosv	512	no-complete-frozen-function-witness		
-dsp1	_Z7DSPOp0Av	580	blocked-after-full-link-check		
+dsp1	_Z7DSPOp0Av	580	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
 dsp1	_Z7DSPOp06v	648	no-complete-frozen-function-witness		
-dsp1	_Z7DSPOp01v	376	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp11v	376	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp21v	376	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp0Dv	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp1Dv	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp2Dv	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp03v	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp13v	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp23v	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp14v	452	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp0Ev	128	blocked-after-full-link-check		
-dsp1	_Z7DSPOp0Bv	80	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp1Bv	80	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp2Bv	80	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp08v	96	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp18v	76	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp38v	80	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
+dsp1	_Z7DSPOp01v	376	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp11v	376	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp21v	376	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp0Dv	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp1Dv	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp2Dv	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp03v	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp13v	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp23v	192	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp14v	452	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp0Ev	128	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp0Bv	80	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp1Bv	80	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp2Bv	80	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp08v	96	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp18v	76	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp38v	80	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
 dsp1	_Z7DSPOp28v	128	blocked-after-full-link-check		
-dsp1	_Z7DSPOp1Cv	504	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp0Fv	12	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z7DSPOp2Fv	16	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z9DSP2_Op05v	148	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z9DSP2_Op01v	500	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z9DSP2_Op06v	80	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z9DSP2_Op0Dv	208	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
-dsp1	_Z11DSP1SetByteht	4084	blocked-after-full-link-check		
-dsp1	_Z11DSP1GetBytet	356	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_6100.tsv
+dsp1	_Z7DSPOp1Cv	504	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp0Fv	12	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z7DSPOp2Fv	16	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z9DSP2_Op05v	148	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z9DSP2_Op01v	500	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z9DSP2_Op06v	80	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z9DSP2_Op0Dv	208	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z11DSP1SetByteht	4084	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
+dsp1	_Z11DSP1GetBytet	356	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
 dsp1	_Z11S9xInitDSP1v	60	retained-canonical-owner		
 dsp1	S9xResetDSP1	64	retained-canonical-owner		
 dsp1	S9xGetDSP	36	retained-canonical-owner		
 dsp1	S9xSetDSP	40	retained-canonical-owner		
 dsp1	_Z11DSP2SetByteht	732	no-complete-frozen-function-witness		
 dsp1	_Z11DSP2GetBytet	100	no-complete-frozen-function-witness		
-apu	S9xInitAPU	124	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_1576.tsv
-apu	S9xDeinitAPU	120	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_1576.tsv
+apu	S9xInitAPU	124	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_3152.tsv
+apu	S9xDeinitAPU	120	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_3152.tsv
 apu	S9xResetAPU	1044	retained-canonical-owner		
-apu	S9xSetAPUDSP	1576	blocked-after-full-link-check		
-apu	_Z14S9xFixEnvelopeihhh	500	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_1576.tsv
-apu	S9xSetAPUControl	456	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_1576.tsv
-apu	S9xSetAPUTimer	204	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_1576.tsv
-apu	S9xGetAPUDSP	172	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_1576.tsv
+apu	S9xSetAPUDSP	1576	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_3152.tsv
+apu	_Z14S9xFixEnvelopeihhh	500	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_3152.tsv
+apu	S9xSetAPUControl	456	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_3152.tsv
+apu	S9xSetAPUTimer	204	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_3152.tsv
+apu	S9xGetAPUDSP	172	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_3152.tsv
 memmap	_Z30ForceInterleave1OverrideSnes9xi	372	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
 memmap	_ZN7CMemory8AllASCIIEPhi	60	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
 memmap	_ZN7CMemory10ScoreHiROMEh	332	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
