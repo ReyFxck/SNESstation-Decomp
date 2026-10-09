@@ -85,6 +85,15 @@ int64_t snes___divdi3(int64_t numerator, int64_t denominator)
     return neg ? -(int64_t)q : (int64_t)q;
 }
 
+#if defined(PS2_EE) && defined(__GNUC__)
+/* Historical C++ sources emit this DI-mode libcall. Share the existing
+ * behavioral provider without adding another division implementation.
+ * Exact target archive identity remains owned by the historical proof.
+ */
+extern int64_t __divdi3(int64_t, int64_t)
+    __attribute__((alias("snes___divdi3")));
+#endif
+
 /* 0x001a25b0 — _udivdi3.o public wrapper. */
 uint64_t snes___udivdi3(uint64_t numerator, uint64_t denominator)
 {

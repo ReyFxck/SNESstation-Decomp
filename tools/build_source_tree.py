@@ -51,6 +51,270 @@ DEFAULT_CFLAGS = (
     "-Iinclude -Iinclude/ee_stage1_compat -w"
 )
 
+# kernel.S is the exact historical selector-based PS2SDK source.  Keep the
+# source byte-identical and select only the members owned by this canonical TU
+# at compile time instead of adding recovery-only #defines to the source.
+SOURCE_FIXED_FLAGS = {
+    'src/snes9x/native_dsp_atan.c': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-O2', '-falign-functions=4', '-ffunction-sections', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DALIGN_DWORD', '-DCODE_PLATFORM=3'),
+    'src/snes9x/native_dsp2_get.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/ps2/native_sound_callback.c': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_c4_wave.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-fno-builtin', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_c4_raster.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-fno-builtin', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_sa1.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_sa1_execution.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_sa1_opcodes.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_cpu_interrupts.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_cpu_opcodes.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_fx_opcodes.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_gfx.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_bulk_tile.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_bulk_2xsai.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_bulk_dsp1.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_bulk_apu.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_bulk_memmap.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_bulk_soundux.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_bulk_snapshot.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_clip.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_bulk_snaporig.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_chip_io.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_controllers.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_rom_deinterleave.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_rom_maps.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/s9xsetpcbase.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/native_dma.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_ppu_registers.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections', '-fdata-sections'),
+    'src/snes9x/native_hdma.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_fxemu.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/ppu_reset.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_sound_controls.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_sound_reset.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/apu_reset.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/dsp_table_init.c': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/dsp_dispatch.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/native_chip_resets.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/cpu_execution.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/cpu_reset.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/spc7110_access.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/spc7110_rtc_io.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/spc7110_helpers.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/seta_dispatch.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/st010_helpers.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/c4_math.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-fno-builtin', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/sdd1_log_save.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/sdd1_log_load.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-O2', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-falign-functions=4'),
+    'src/snes9x/obc1.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/sdd1_map.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/memmap_methods.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/cheats2.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/cheat_search.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    "src/snes9x/getbasepointer.cpp": (
+        '-G0', '-EL', '-pipe', '-w',
+        '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double',
+        '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900',
+        '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE',
+        '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN',
+        '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET',
+    ),
+    "src/snes9x/rtc_days.cpp": (
+        '-G0', '-EL', '-pipe', '-w',
+        '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double',
+        '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900',
+        '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE',
+        '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN',
+        '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET',
+    ),
+    "src/snes9x/srtc.cpp": (
+        '-G0', '-EL', '-pipe', '-w',
+        '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double',
+        '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900',
+        '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE',
+        '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN',
+        '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET',
+    ),
+    'src/snes9x/selecttilerenderer.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/ps2/sjpcm_rpc.c': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DALIGN_DWORD', '-DCODE_PLATFORM=3', '-Iinclude', '-Iinclude/ee_stage1_compat'),
+    'src/ps2/amigamod_rpc.c': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DALIGN_DWORD', '-DCODE_PLATFORM=3', '-Iinclude', '-Iinclude/ee_stage1_compat'),
+    "src/snes9x/apumem.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
+        "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
+        "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
+    ),
+    # C4DrawWireFrame is a recovered historical Snes9x C++ translation unit.
+    # Keep the exact V77 compiler profile rather than inheriting application
+    # flags such as -fshort-double.
+    "src/snes9x/c4drawwireframe.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-mlong64", "-mhard-float",
+        "-mno-abicalls", "-march=r5900", "-mtune=r5900", "-Os",
+        "-fno-builtin", "-DPS2_EE", "-D_EE", "-DLSB_FIRST",
+        "-DVAR_CYCLES", "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN",
+        "-DEXECUTE_SUPERFX_PER_LINE", "-DSPC700_C", "-DUNZIP_SUPPORT",
+        "-DNO_INLINE_SET_GET",
+    ),
+    "src/snes9x/s9xgetmempointer.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
+        "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
+        "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
+    ),
+    "src/snes9x/s9xgetbyte.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
+        "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
+        "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
+    ),
+    "src/snes9x/s9xsetbyte.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
+        "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
+        "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
+    ),
+    "src/snes9x/s9xgetword.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
+        "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
+        "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
+        "-DFAST_LSB_WORD_ACCESS",
+    ),
+    "src/snes9x/s9xsetword.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
+        "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
+        "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
+    ),
+    "src/snes9x/cpushutdown.cpp": (
+        "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+        "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+        "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+        "-Os", "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
+        "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
+        "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
+    ),
+}
+
+SOURCE_FLAGS = {
+    # The selected PS2LIB libc/memcpy.o was built with the historical -Os
+    # profile.  Appending -Os after the source-tree's general -O2 reproduces
+    # the compiler-defined __OPTIMIZE_SIZE__ path without modifying memcpy.S.
+    "src/ps2/memcpy.S": ("-Os",),
+    "src/ps2/memset.S": ("-Os",),
+    "src/ps2/memmove.S": ("-Os",),
+    "src/ps2/strcat.S": ("-Os",),
+    "src/ps2/memcmp.S": ("-Os",),
+    "src/ps2/strcpy.S": ("-Os",),
+    "src/ps2/strlen.S": ("-Os",),
+    "src/ps2/strchr.S": ("-Os",),
+    "src/ps2/strcmp.S": ("-Os",),
+    "src/ps2/strncpy.S": ("-Os",),
+    "src/ps2/strncmp.S": ("-Os",),
+    "src/ps2/string.c": ("-Os",),
+    # Original PS2LIB F_strstr was built with 32-bit long and hosted builtin
+    # semantics, unlike the application's -mlong64 freestanding profile.
+    # Both the historical member AND this canonical TU must link 136/136 exact bytes.
+    "src/ps2/strstr.c": ("-Os", "-mlong32", "-fhosted"),
+    "src/ps2/strtol.c": ("-Os",),
+    "src/ps2/strcasecmp.c": ("-Os",),
+    "src/ps2/strtok.c": ("-Os",),
+    "src/ps2/strncasecmp.c": ("-Os",),
+    "src/ps2/ctype.c": ("-Os",),
+    "src/ps2/qsort.c": ("-Os",),
+    "src/ps2/sbrk.c": ("-Os",),
+}
+
+# The original 2004 libc/strtol.o compiled using the old compiler default
+# long ABI. Merely appending -mlong32 changes codegen: omit the application's
+# -mlong64 flag exclusively for this TU, without changing any other source.
+SOURCE_OMIT_FLAGS = {
+    "src/ps2/strtol.c": ("-mlong64",),
+    # Historical PS2LIB strncasecmp uses size_t under the compiler's default
+    # 32-bit long ABI.  Keeping the application-wide -mlong64 changes the
+    # n-- instruction by one opcode byte even though the source body is exact.
+    "src/ps2/strncasecmp.c": ("-mlong64",),
+    # PS2LIB sbrk.o was compiled with the small historical -Os profile, not
+    # the application's freestanding/-mlong64 tuning bundle.
+    "src/ps2/sbrk.c": (
+        "-O2", "-Wall", "-fomit-frame-pointer", "-fstrict-aliasing",
+        "-fno-common", "-ffreestanding", "-fno-builtin", "-fshort-double",
+        "-mlong64", "-mhard-float", "-mno-abicalls", "-march=r5900",
+        "-mtune=r5900", "-DLSB_FIRST", "-DALIGN_DWORD", "-DCODE_PLATFORM=3",
+    ),
+}
+
+
+def effective_source_cflags(cflags: Sequence[str], source: str) -> list[str]:
+    fixed = SOURCE_FIXED_FLAGS.get(source)
+    if fixed is not None:
+        return list(fixed)
+    omit = SOURCE_OMIT_FLAGS.get(source, ())
+    return [flag for flag in cflags if flag not in omit] + list(SOURCE_FLAGS.get(source, ()))
+
+
+SOURCE_DEFINES = {
+    "src/unzip/get_tree.S": (
+        "get_tree_candidate=get_tree_recovered",
+        "ReadByte=ReadByte_recovered",
+        "bytebuf=g_bytebuf_recovered",
+    ),
+    "src/ps2/c4convoam.S": (
+        "C4ConvOAM_candidate=snes_p28_0010c340",
+    ),
+    "src/ps2/progress28_structural_lift_recovered.c": (
+        "C4ConvOAM_exact_target=snes_p28_0010c340",
+        "C4DoScaleRotate_exact_target=snes_p28_0010c6f8",
+        "C4TransformLines_exact_target=snes_p28_0010cfa4",
+    ),
+    "src/ps2/numtestf.S": (
+        "numtestf_candidate=numtestf_001a06c0",
+    ),
+    "src/ps2/newlib_mathfp_recovered.c": (
+        "numtestf_target=numtestf_001a06c0",
+    ),
+    "src/ps2/strtol.c": ("F_strtol",),
+    "src/ps2/strcasecmp.c": ("F_strcasecmp",),
+    "src/ps2/strtok.c": ("F_strtok",),
+    "src/ps2/strncasecmp.c": ("F_strncasecmp",),
+    "src/ps2/ctype.c": ("F_ctype",),
+    "src/ps2/string.c": ("F_strrchr",),
+    "src/ps2/strstr.c": ("F_strstr",),
+    "src/ps2/kernel.S": (
+        "F_iWakeupThread",
+        "F_CreateSema",
+        "F_DeleteSema",
+        "F_iSignalSema",
+        "F_WaitSema",
+        "F_FlushCache",
+        "F_iFlushCache",
+        "F_SifDmaStat",
+        "F_SifSetDma",
+        "F_SifSetReg",
+        "F_SifGetReg",
+        "F_SifWriteBackDCache",
+        "F_AddDmacHandler",
+        "F_RemoveDmacHandler",
+        "F_SifStopDma",
+        "F_iSifSetDma",
+        "F_SifSetDChain",
+        "F_iSifSetDChain",
+        "F__EnableDmac",
+        "F__DisableDmac",
+        "F_SignalSema",
+        "F_PollSema",
+    ),
+}
+
 MANIFEST_FIELDS = (
     "order",
     "source",
@@ -118,6 +382,68 @@ PS2_RUNTIME_PREFIXES = (
 ZLIB_EXTERNAL_PREFIXES = (
     "adler32", "crc32", "deflate", "inflate", "zlib", "zError", "gz",
 )
+
+SOURCE_COMPILER_PROFILES = {
+    # V78 proves this isolated allocation tie-break for C4 wave rendering.
+    'src/snes9x/native_c4_wave.cpp': 'mips-local-t5-before-t4',
+}
+
+# Historical C++ peers that are program call contracts, not libsupc++ runtime
+# entries. Their target identity is pinned by the reviewed link-contract gate;
+# the mangled spelling itself does not encode an address and therefore must not
+# be sent through the address-suffix alias gate.
+HISTORICAL_CPP_PEERS = {
+    "_Z18S9xOpenSoundDeviceihi": "src/snes9x/native_bulk_soundux.cpp",
+    '_Z9GetRXYPosv': 'src/snes9x/native_bulk_dsp1.cpp',
+    '_Z7DSPOp02v': 'src/snes9x/native_bulk_dsp1.cpp',
+    '_Z7DSPOp06v': 'src/snes9x/native_bulk_dsp1.cpp',
+    '_Z7DSPOp28v': 'src/snes9x/native_bulk_dsp1.cpp',
+    '_Z13S9xPlaySamplei': 'src/snes9x/native_bulk_apu.cpp',
+    "_Z11FreezeBlockPvPcPhi": "src/snes9x/native_bulk_snapshot.cpp",
+    "_Z16S9xUnfreezeZSNESPKc": "src/snes9x/native_bulk_snapshot.cpp",
+    "S9xOpenSnapshotFile": "src/snes9x/native_bulk_snapshot.cpp",
+    "S9xCloseSnapshotFile": "src/snes9x/native_bulk_snapshot.cpp",
+    "_Z14S9xSpc7110Initv": "src/snes9x/native_rom_maps.cpp",
+    '_ZN7CMemory7InitROMEh': 'src/snes9x/native_rom_deinterleave.cpp',
+    "rand": "src/snes9x/native_ppu_registers.cpp",
+    'S9xUpdateScreen': "src/snes9x/native_ppu_registers.cpp",
+    'S9xSetSA1': "src/snes9x/native_ppu_registers.cpp",
+    'S9xGetSA1': "src/snes9x/native_ppu_registers.cpp",
+    'S9xDoDMA': "src/snes9x/native_ppu_registers.cpp",
+    '_ZN7CMemory11FixROMSpeedEv': "src/snes9x/native_ppu_registers.cpp",
+
+    "_Z10C4DrawLineiisiish": "src/ps2/progress28_structural_lift_recovered.c",
+    "S9xGetPPU": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetCPU": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetDSP": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetC4": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetSPC7110Byte": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetSPC7110": "src/snes9x/s9xgetbyte.cpp",
+    "GetOBC1": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetSetaDSP": "src/snes9x/s9xgetbyte.cpp",
+    "S9xGetST018": "src/snes9x/s9xgetbyte.cpp",
+    "S9xSetPPU": "src/snes9x/s9xsetbyte.cpp",
+    "S9xSetCPU": "src/snes9x/s9xsetbyte.cpp",
+    "S9xSetDSP": "src/snes9x/s9xsetbyte.cpp",
+    "S9xSetC4": "src/snes9x/s9xsetbyte.cpp",
+    "SetOBC1": "src/snes9x/s9xsetbyte.cpp",
+    "S9xSetSetaDSP": "src/snes9x/s9xsetbyte.cpp",
+    "S9xSetST018": "src/snes9x/s9xsetbyte.cpp",
+}
+
+# Data providers whose exact target addresses are part of byte-exact historical
+# source link proofs (S9xGetByte/S9xSetByte/CPUShutdown). Keep them out of the
+# historical Stage-3C tranche.
+EXACT_TARGET_DATA_PEERS = {
+    "g_CPU_blob",
+    "g_OpenBus_byte",
+    "g_SA1_blob",
+    "g_s7r_blob",
+    "g_ICPU_00345318",
+    "g_APU_003453b8",
+    "g_S9xAPUCycles_003f44a8",
+    "g_S9xApuOpcodes_00411010",
+}
 
 
 class GateError(RuntimeError):
@@ -262,8 +588,15 @@ def read_manifest(path: Path) -> list[TranslationUnit]:
             fail(f"duplicate source in manifest: {unit.source}")
         if unit.object in objects:
             fail(f"duplicate object in manifest: {unit.object}")
-        if unit.language != "c":
+        if unit.language not in {"c", "cpp", "asm-cpp"}:
             fail(f"unsupported language for {unit.source}: {unit.language}")
+        suffix = Path(unit.source).suffix
+        expected_language = {".c": "c", ".cpp": "cpp", ".S": "asm-cpp"}.get(suffix)
+        if expected_language != unit.language:
+            fail(
+                f"source/language mismatch for {unit.source}: "
+                f"{unit.language} != {expected_language}"
+            )
         if unit.link_role not in {"canonical", "alternate"}:
             fail(f"invalid link role for {unit.source}: {unit.link_role}")
         if not (ROOT / unit.source).is_file():
@@ -274,7 +607,8 @@ def read_manifest(path: Path) -> list[TranslationUnit]:
 
     actual = {
         path.relative_to(ROOT).as_posix()
-        for path in (ROOT / "src").rglob("*.c")
+        for pattern in ("*.c", "*.cpp", "*.S")
+        for path in (ROOT / "src").rglob(pattern)
     }
     if sources != actual:
         missing = sorted(actual - sources)
@@ -381,7 +715,13 @@ def classify_external(
         return "target-address-data", "program-data", "reserved:target-data.o", "program-data"
     if symbol.startswith("embedded_"):
         return "embedded-binary", "private-asset", "reserved:embedded-assets.o", "program-data"
-    if symbol.startswith("_Z"):
+    historical_cpp_owner = HISTORICAL_CPP_PEERS.get(symbol)
+    if historical_cpp_owner is not None:
+        return "target-function-contract", "link-contract", historical_cpp_owner, "link-identity"
+    # GCC's C++ personality entry uses a C ABI spelling rather than Itanium
+    # _Z mangling, but it is still historical libsupc++ runtime.  Classify it
+    # with the rest of the C++ archive family instead of Stage-3E named links.
+    if symbol == "__gxx_personality_v0" or symbol.startswith("_Z"):
         return "cxx-runtime", "historical-archive", "libsupc++/libstdc++", "archive-identity"
     if symbol.startswith(LIBGCC_PREFIXES):
         return "compiler-runtime", "historical-archive", "libgcc", "archive-identity"
@@ -403,6 +743,8 @@ def classify_external(
         return "ps2-runtime", "historical-archive", "PS2SDK runtime archives", "archive-identity"
     if symbol.startswith(ZLIB_EXTERNAL_PREFIXES):
         return "zlib-peer", "source-or-archive", "zlib object family", "link-identity"
+    if symbol in EXACT_TARGET_DATA_PEERS:
+        return "target-address-data", "program-data", "reserved:target-data.o", "program-data"
     if symbol.startswith(("g_", "GFX", "Memory", "CPU", "APU", "Settings", "IPPU", "PPU")):
         return "named-program-data", "program-data", "reserved:program-data.o", "program-data"
     if address:
@@ -457,6 +799,15 @@ def validate_special_ownership(
             token = match.group(1).lower()
             if not any(token in (ROOT / owner).read_text(encoding="utf-8").lower() for owner in owners):
                 fail(f"vtable address is not traced by its source owner: {row['identity']}")
+        elif row["kind"] == "retired-target-data":
+            if row["object_owner"] != "reserved:target-data.o":
+                fail(f"retired target data has unexpected reserved object: {row['identity']}")
+            if row["stage2_state"] != "consumer-retired":
+                fail(f"retired target data has unexpected Stage-2 state: {row['identity']}")
+            if not (TARGET_DATA_RE.match(row["identity"]) or row["identity"].startswith(("DAT_", "_DAT_"))):
+                fail(f"retired target data identity is not address-bearing: {row['identity']}")
+            if not any(row["identity"] in (ROOT / owner).read_text(encoding="utf-8") for owner in owners):
+                fail(f"retired target data lacks source trace: {row['identity']}")
         else:
             fail(f"unsupported special ownership kind: {row['kind']}")
         if not row["next_gate"]:
@@ -475,8 +826,40 @@ def compare_or_write(path: Path, content: str, update: bool) -> None:
         fail(f"stale ownership map: {path.relative_to(ROOT)}; run source-tree-refresh and review")
 
 
+# The old assembler promotes Atan's code-section alignment to eight bytes
+# because of li.d constants in a separate readonly section. Its frozen entry
+# is four-byte aligned. Change only sh_addralign, never code or relocations.
+SOURCE_SECTION_ALIGNMENTS = {
+    'src/snes9x/native_dsp_atan.c': {'.text.S9xDSPAtan': 4},
+}
+
+
+def set_instruction_section_alignment(path: Path, name: str, alignment: int) -> None:
+    from compare_elf_functions import ELFFile
+    elf = ELFFile(path)
+    if (elf.elf_class, elf.endian, elf.file_type, elf.machine) != (1, '<', 1, 8):
+        fail(f'instruction alignment requires an ELF32 little-endian MIPS object: {path}')
+    section = next((s for s in elf.sections if s.name == name), None)
+    if section is None or alignment != 4:
+        fail(f'unsupported instruction section alignment: {name}: {alignment}')
+    shoff = struct.unpack_from('<I', elf.data, 32)[0]
+    entsize = struct.unpack_from('<H', elf.data, 46)[0]
+    header = shoff + section.index * entsize
+    flags = struct.unpack_from('<I', elf.data, header + 8)[0]
+    old = struct.unpack_from('<I', elf.data, header + 32)[0]
+    if entsize != 40 or not flags & 4 or old not in (4, 8):
+        fail(f'unexpected instruction alignment metadata: {name}: {old}')
+    changed = bytearray(elf.data)
+    struct.pack_into('<I', changed, header + 32, alignment)
+    for s in elf.sections:
+        if s.type != 8 and changed[s.offset:s.offset + s.size] != elf.data[s.offset:s.offset + s.size]:
+            fail(f'alignment correction altered section payload: {s.name}')
+    path.write_bytes(changed)
+
+
 def compile_one(
     compiler: Path,
+    cxx: Path | None,
     cflags: Sequence[str],
     unit: TranslationUnit,
     build_dir: Path,
@@ -484,8 +867,29 @@ def compile_one(
     output = build_dir / "objects" / unit.object
     log = build_dir / "logs" / Path(unit.object).with_suffix(".log")
     output.parent.mkdir(parents=True, exist_ok=True)
-    command = [str(compiler), *cflags, "-c", unit.source, "-o", str(output)]
+    defines = ["-D" + name for name in SOURCE_DEFINES.get(unit.source, ())]
+    source_cflags = effective_source_cflags(cflags, unit.source)
+    driver = cxx if unit.language == "cpp" else compiler
+    if driver is None:
+        fail(f"C++ translation unit requires --cxx: {unit.source}")
+    profile_flags = []
+    profile_name = SOURCE_COMPILER_PROFILES.get(unit.source)
+    if profile_name is not None:
+        from build_ee_gcc_regalloc_profile import PROFILE_NAME, build_profile
+        if unit.language != "cpp" or profile_name != PROFILE_NAME:
+            fail(f"unsupported source compiler profile: {unit.source}: {profile_name}")
+        try:
+            profile = build_profile(driver)
+        except RuntimeError as exc:
+            fail(str(exc))
+        profile_flags.append(f"-B{profile.as_posix()}/")
+    command = [
+        str(driver), *profile_flags, *source_cflags, *defines,
+        "-c", unit.source, "-o", str(output)
+    ]
     run(command, log_path=log)
+    for name, alignment in SOURCE_SECTION_ALIGNMENTS.get(unit.source, {}).items():
+        set_instruction_section_alignment(output, name, alignment)
     validate_elf_object(output)
     return unit, output
 
@@ -497,6 +901,13 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     readelf = tool_family(compiler, args.readelf, "readelf")
     toolchain = validate_toolchain(compiler)
     units = read_manifest(args.manifest)
+    cxx: Path | None = None
+    cxx_toolchain: dict[str, str] | None = None
+    if any(unit.language == "cpp" for unit in units):
+        if not args.cxx:
+            fail("manifest contains C++ translation units; pass --cxx")
+        cxx = resolve_tool(args.cxx)
+        cxx_toolchain = validate_toolchain(cxx)
     cflags = shlex.split(args.cflags)
     build_dir: Path = args.build_dir
     build_dir.mkdir(parents=True, exist_ok=True)
@@ -521,7 +932,7 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     workers = max(1, min(args.jobs, len(units)))
     with ThreadPoolExecutor(max_workers=workers) as pool:
         futures = {
-            pool.submit(compile_one, compiler, cflags, unit, build_dir): unit
+            pool.submit(compile_one, compiler, cxx, cflags, unit, build_dir): unit
             for unit in units
         }
         try:
@@ -611,8 +1022,16 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     canonical_objects = [compiled[unit.source] for unit in units if unit.canonical]
     aggregate = build_dir / "source-tree.partial.o"
     map_path = build_dir / "source-tree.partial.map"
+    # _end is a linker-script absolute in the original executable. The exact
+    # startup integration freezes it at 0x00450c18; resolve that same symbol
+    # during the ownership partial-link so canonical sbrk.c does not create a
+    # synthetic Stage-3 external contract.
     run(
-        [str(linker), "-EL", "-r", "-Map", str(map_path), "-o", str(aggregate), *map(str, canonical_objects)],
+        [
+            str(linker), "-EL", "-r", "--defsym=_end=0x00450c18",
+            "-Map", str(map_path), "-o", str(aggregate),
+            *map(str, canonical_objects),
+        ],
         log_path=build_dir / "logs" / "partial-link.log",
     )
     validate_elf_object(aggregate)
@@ -669,8 +1088,38 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         )
 
     defined_rows.sort(key=lambda row: (row["object"], row["symbol"], row["binding"]))
-    external_rows.sort(key=lambda row: row["symbol"])
     special_rows = validate_special_ownership(args.special_map, defined_rows)
+
+    # Exact assembly promotions can retire a provisional C consumer while the
+    # target-address data contract it exposed remains part of the historical
+    # link universe. Keep those reviewed contracts explicit without restoring
+    # the provisional function body or inventing a live undefined reference.
+    source_objects = {unit.source: unit.object for unit in units if unit.canonical}
+    live_external_symbols = {row["symbol"] for row in external_rows}
+    for row in special_rows:
+        if row["kind"] != "retired-target-data":
+            continue
+        symbol = row["identity"]
+        if symbol in live_external_symbols:
+            fail(f"retired target-data contract returned to live externals: {symbol}")
+        requesters = []
+        for owner in row["source_owner"].split(";"):
+            if owner not in source_objects:
+                fail(f"retired target-data source is not canonical: {owner}")
+            requesters.append(source_objects[owner])
+        external_rows.append(
+            {
+                "symbol": symbol,
+                "category": "target-address-data",
+                "provider_kind": "program-data",
+                "owner": row["object_owner"],
+                "resolution_gate": row["next_gate"],
+                "requesters": ";".join(sorted(set(requesters))),
+            }
+        )
+        live_external_symbols.add(symbol)
+
+    external_rows.sort(key=lambda row: row["symbol"])
     defined_text = render_tsv(DEFINED_FIELDS, defined_rows)
     external_text = render_tsv(EXTERNAL_FIELDS, external_rows)
     fingerprints_text = render_tsv(FINGERPRINT_FIELDS, fingerprint_rows)
@@ -693,6 +1142,8 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         "claim": "build-ready-source-ownership",
         "compiler": str(compiler),
         "toolchain": toolchain,
+        "cxx": str(cxx) if cxx is not None else "",
+        "cxx_toolchain": cxx_toolchain,
         "linker": str(linker),
         "nm": str(nm),
         "readelf": str(readelf),
@@ -722,7 +1173,11 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     report = [
         "# EE build-ready source-tree report",
         "",
-        f"- Historical compiler: `{toolchain['banner']}` (`{toolchain['target']}`)",
+        f"- Historical C compiler: `{toolchain['banner']}` (`{toolchain['target']}`)",
+        *(
+            [f"- Historical C++ compiler: `{cxx_toolchain['banner']}` (`{cxx_toolchain['target']}`)"]
+            if cxx_toolchain is not None else []
+        ),
         f"- Translation units compiled: **{len(units)}/{len(units)}**",
         f"- Canonical objects in relocatable aggregate: **{len(canonical_objects)}**",
         f"- Explicit alternate objects: **{len(units) - len(canonical_objects)}**",
@@ -743,6 +1198,7 @@ def build(args: argparse.Namespace) -> dict[str, object]:
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--compiler", default="ee-gcc")
+    parser.add_argument("--cxx")
     parser.add_argument("--ld")
     parser.add_argument("--nm")
     parser.add_argument("--readelf")

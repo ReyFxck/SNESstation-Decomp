@@ -63,9 +63,9 @@ typedef struct {
     file_in_zip_read_info_recovered *pfile_in_zip_read;
 } unz_state_recovered;
 
-extern int fioRead_0019d120(int file, void *dst, int size);
-extern int fioClose_0019d090(int file);
-extern int fioLseek_0019d360(int file, int offset, int whence);
+extern int fioRead(int file, void *dst, int size);
+extern int fioClose(int file);
+extern int fioLseek(int file, int offset, int whence);
 extern int inflateEnd_00192784(void *stream);
 
 int unzCloseCurrentFile_recovered(unz_state_recovered *s);
@@ -80,7 +80,7 @@ extern int unzlocal_GetCurrentFileInfoInternal_0018f6cc(
 int unzlocal_getByte_recovered(int fin, uint64_t *pi)
 {
     uint8_t c = 0;
-    int got = fioRead_0019d120(fin, &c, 1);
+    int got = fioRead(fin, &c, 1);
     if (got == 1) {
         *pi = c;
         return UNZ_OK;
@@ -145,7 +145,7 @@ uint64_t unzlocal_SearchCentralDir_recovered(int fin)
     uint8_t *buf;
     uint64_t size, back, max_back = 0xffffu, found = 0;
     {
-        int end = fioLseek_0019d360(fin, 0, 2);
+        int end = fioLseek(fin, 0, 2);
         if (end < 0) return 0;
         size = (uint64_t)(uint32_t)end;
     }
@@ -159,8 +159,8 @@ uint64_t unzlocal_SearchCentralDir_recovered(int fin)
         read_pos = size - back;
         read_size = (BUFREADCOMMENT + 4u < size - read_pos)
                   ? BUFREADCOMMENT + 4u : size - read_pos;
-        if (fioLseek_0019d360(fin, (int)read_pos, 0) < 0) break;
-        if (fioRead_0019d120(fin, buf, (int)read_size) != (int)read_size) break;
+        if (fioLseek(fin, (int)read_pos, 0) < 0) break;
+        if (fioRead(fin, buf, (int)read_size) != (int)read_size) break;
         for (i = 0; i + 3 < read_size; ++i) {
             if (buf[i] == 0x50 && buf[i + 1] == 0x4b &&
                 buf[i + 2] == 0x05 && buf[i + 3] == 0x06) {
@@ -181,7 +181,7 @@ int unzClose_recovered(unz_state_recovered *s)
     /* Target closes an active current file before closing the archive. */
     if (s->pfile_in_zip_read != NULL)
         (void)unzCloseCurrentFile_recovered(s);
-    (void)fioClose_0019d090(s->file);
+    (void)fioClose(s->file);
     free(s);
     return UNZ_OK;
 }
@@ -300,10 +300,10 @@ int unzGetLocalExtrafield_recovered(unz_state_recovered *s, void *buf, unsigned 
     if (buf == NULL) return (int)available;
     now = len > available ? (unsigned)available : len;
     if (now == 0) return 0;
-    if (fioLseek_0019d360(r->file,
+    if (fioLseek(r->file,
         (int)(r->offset_local_extrafield + r->pos_local_extrafield), 0) < 0)
         return UNZ_ERRNO;
-    if (fioRead_0019d120(r->file, buf, (int)now) != (int)now)
+    if (fioRead(r->file, buf, (int)now) != (int)now)
         return UNZ_ERRNO;
     return (int)now;
 }
@@ -334,11 +334,11 @@ int unzGetGlobalComment_recovered(unz_state_recovered *s, char *comment,
     uint64_t n;
     if (s == NULL) return UNZ_PARAMERROR;
     n = buffer_size > s->gi.size_comment ? s->gi.size_comment : buffer_size;
-    if (fioLseek_0019d360(s->file, (int)(s->central_pos + 22u), 0) < 0)
+    if (fioLseek(s->file, (int)(s->central_pos + 22u), 0) < 0)
         return UNZ_ERRNO;
     if (n != 0) {
         if (comment != NULL) comment[0] = 0;
-        if (comment == NULL || fioRead_0019d120(s->file, comment, (int)n) != (int)n)
+        if (comment == NULL || fioRead(s->file, comment, (int)n) != (int)n)
             return UNZ_ERRNO;
     }
     if (comment != NULL && buffer_size > s->gi.size_comment)

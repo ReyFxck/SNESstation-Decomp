@@ -2,7 +2,7 @@
 """Prove the V92 snprintf source-contract refactor, not an archive identity.
 
 Four SHA-frozen target spans have direct JALs to sprintf at 0x0019e3d0.
-The source model uses the existing sprintf provider and emits no snprintf
+The source model uses the canonical historical sprintf provider and emits no snprintf
 import or compatibility runtime shim.  Hashes/addresses only are public;
 the private verifier never publishes reference bytes.
 """
@@ -95,28 +95,29 @@ def validate_live_contracts(
     external: Sequence[dict[str, str]], contracts: Sequence[dict[str, str]],
     frontier: Sequence[dict[str, str]],
 ) -> None:
-    for label, rows in (("externals", external), ("contracts", contracts), ("frontier", frontier)):
-        if any(row["symbol"] == "snprintf" for row in rows):
-            fail(f"snprintf returned to live {label}")
-    if (len(external), len(contracts), len(frontier)) != (1863, 1530, 223):
+    for symbol in ("snprintf", "sprintf"):
+        for label, rows in (("externals", external), ("contracts", contracts), ("frontier", frontier)):
+            if any(row["symbol"] == symbol for row in rows):
+                fail(f"{symbol} returned to live {label}")
+    # Exact XPRINTF, ALLOC, LIBKERNEL and PS2LIB string/ctype promotions now
+    # provide their symbols directly from canonical historical source.
+    # Native C4 raster source now supplies the reviewed C4DrawLine callee.
+    # Canonical S9xGetMemPointer, S9xGetByte and S9xSetByte now define their
+    # historical mangled symbols. S9xSetByte adds nine proved address contracts
+    # on top of the post-S9xGetByte live frontier. OBC1 supplies GetOBC1 and
+    # SetOBC1 directly, closing two remaining function contracts.
+    if (len(external), len(contracts), len(frontier)) != (1880, 1549, 246):
         fail("post-refactor namespace count drift")
-    expected_requesters = {
-        "ps2/small_dispatch_recovered.o", "snes9x/memmap_metadata_recovered.o",
-    }
-    providers = [row for row in external if row["symbol"] == "sprintf"]
-    if len(providers) != 1 or not expected_requesters <= set(providers[0]["requesters"].split(";")):
-        fail("sprintf requester ownership drift")
-    aliases = [row for row in contracts if row["symbol"] == "sprintf"]
-    if len(aliases) != 1 or any(aliases[0][key] != value for key, value in {
-        "status": "RESOLVED", "resolution_kind": "semantic-text-alias",
-        "canonical_symbol": "sprintf_recovered", "target_address": "0x0019e3d0",
-    }.items()):
-        fail("sprintf canonical target drift")
     if any(row["resolution_kind"] == "compatibility-runtime-shim" for row in frontier):
         fail("compatibility runtime shim returned")
     runtime = Counter(row["category"] for row in external
                       if row["provider_kind"] in ("historical-archive", "recovered-runtime"))
-    if runtime != {"ps2-runtime": 25, "c-runtime": 20, "compiler-runtime": 4}:
+    if runtime != {
+        "ps2-runtime": 9,
+        "c-runtime": 3,
+        "compiler-runtime": 4,
+        "cxx-runtime": 4,
+    }:
         fail(f"live Stage-3D partition drift: {dict(runtime)}")
 
 

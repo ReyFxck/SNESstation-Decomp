@@ -12,14 +12,14 @@
  *   0x001a045c  atanf (with atangentf non-atan2 path inlined)
  *   0x001a06a0  sqrtf EE leaf
  *   0x001a06b0  fabsf EE leaf
- *   0x001a06c0  numtestf
+ *   numtestf is now a separate byte-exact canonical TU
  *
  * The transcendental algorithms and constants independently line up with the
  * old Newlib mathfp/Cody-Waite family.  This file is a behavioural recovery of
  * the target, not a claim of compiler matching.
  *
  * Important target quirk: the program was built with the old EE long64 ABI.
- * numtestf's nominal 32-bit word is sign-extended in a 64-bit GPR before the
+ * The target numtest helper's nominal 32-bit word is sign-extended in a 64-bit GPR before the
  * `>> 23` / `& 0x7f8` test.  Positive NaN/+Inf therefore fall through as NUM,
  * while negative NaN/-Inf can still reach the special-value branch.  The code
  * below models that observed machine-code behaviour deliberately.
@@ -58,25 +58,8 @@ static float target_notanum(void)
     return float_from_word(UINT32_C(0xffd00000));
 }
 
-/* Target 0x001a06c0. */
-int numtestf_001a06c0(float x)
-{
-    const int64_t sign_extended_word = (int64_t)(int32_t)float_word(x);
-    const uint64_t shifted = (uint64_t)sign_extended_word >> 23;
-    const uint32_t exp = (uint32_t)(shifted & UINT64_C(0x7f8));
-    const uint32_t raw = (uint32_t)sign_extended_word;
-
-    if (x == 0.0f)
-        return MATHFP_ZERO;
-
-    if (exp == UINT32_C(0x7f8)) {
-        if (raw & UINT32_C(0x007fffff))
-            return MATHFP_NAN;
-        return MATHFP_INF;
-    }
-
-    return MATHFP_NUM;
-}
+/* The target numtest helper now lives in the exact canonical assembly TU. */
+extern int numtestf_target(float x);
 
 /* Target 0x001a06b0: one `abs.s` in the return delay slot. */
 float fabsf_001a06b0(float x)
@@ -104,7 +87,7 @@ static float sine_generator_target(float x, int cosine)
     float xn;
     float result;
 
-    switch (numtestf_001a06c0(x)) {
+    switch (numtestf_target(x)) {
     case MATHFP_NAN:
         errno = EDOM;
         return x;
@@ -181,7 +164,7 @@ float tanf_001a0254(float x)
     float xden;
     int n;
 
-    switch (numtestf_001a06c0(x)) {
+    switch (numtestf_target(x)) {
     case MATHFP_NAN:
         errno = EDOM;
         return x;
@@ -243,7 +226,7 @@ float atanf_001a045c(float x)
     float result;
     int n;
 
-    switch (numtestf_001a06c0(x)) {
+    switch (numtestf_target(x)) {
     case MATHFP_NAN:
         errno = EDOM;
         return x;

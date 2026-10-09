@@ -1,0 +1,515 @@
+name: Source recovery ledger refresh
+# Every maintained recovery proof must pass before ownership/provenance refresh.
+# Canonical source-tree target: 174 TUs, including historical APUMEM, renderer-selector, audio-RPC and RTC sources.
+
+on:
+  push:
+    branches:
+      - source-recovery-file-by-file
+    paths:
+      - .github/workflows/source-recovery-refresh.yml
+      - Makefile
+      - analysis/link_identity/*.json
+      - tools/build_source_tree.py
+      - src/snes9x/native_sa1_opcodes.cpp
+      - src/snes9x/native_sa1_opcode_state.h
+      - analysis/functions/native_sa1_opcodes_exact_67008.tsv
+      - analysis/functions/native_sa1_opcode_tables_exact_4096.tsv
+      - tools/run-native-sa1-opcodes-source-recovery.py
+      - src/snes9x/native_cpu_opcodes.cpp
+      - src/snes9x/native_fx_opcodes.cpp
+      - src/snes9x/native_gfx.cpp
+      - src/snes9x/native_cpu_opcodes_state.h
+      - src/snes9x/native_fx_opcode_types.h
+      - src/snes9x/native_gfx_state.h
+      - src/snes9x/native_gfx_font.h
+      - analysis/functions/native_cpu_opcodes_exact_77476.tsv
+      - analysis/functions/native_fx_opcodes_exact_73372.tsv
+      - analysis/functions/native_gfx_exact_55256.tsv
+      - analysis/functions/native_core_206104_config.json
+      - tools/run-native-core-200k-source-recovery.py
+      - src/snes9x/native_bulk_tile.cpp
+      - src/snes9x/native_bulk_2xsai.cpp
+      - src/snes9x/native_bulk_dsp1.cpp
+      - src/snes9x/native_bulk_apu.cpp
+      - src/snes9x/native_bulk_memmap.cpp
+      - src/snes9x/native_bulk_soundux.cpp
+      - src/snes9x/native_bulk_snapshot.cpp
+      - src/snes9x/native_bulk_snaporig.cpp
+      - analysis/functions/native_bulk_tile_exact_48552.tsv
+      - analysis/functions/native_bulk_2xsai_exact_6888.tsv
+      - analysis/functions/native_bulk_dsp1_exact_10892.tsv
+      - analysis/functions/native_bulk_apu_exact_3152.tsv
+      - analysis/functions/native_bulk_memmap_exact_2280.tsv
+      - analysis/functions/native_bulk_soundux_exact_4300.tsv
+      - analysis/functions/native_bulk_snapshot_exact_5368.tsv
+      - analysis/functions/native_bulk_snaporig_exact_3904.tsv
+      - analysis/functions/native_bulk_85336_config.json
+      - analysis/functions/native_bulk_census.tsv
+      - tools/run-native-bulk-source-recovery.py
+      - src/snes9x/native_clip.cpp
+      - src/snes9x/native_dsp_atan.c
+      - src/snes9x/native_dsp2_get.cpp
+      - tools/run-native-dsp-profiles-source-recovery.py
+      - analysis/functions/native_dsp_profiles_exact_308.tsv
+      - tools/run-native-clip-source-recovery.py
+      - analysis/functions/native_clip_exact_4572.tsv
+      - src/snes9x/native_rom_maps.cpp
+      - analysis/functions/native_rom_maps_exact_12816.tsv
+      - tools/run-native-rom-maps-source-recovery.py
+      - tools/unnamed_data.py
+      - src/ps2/cdvd_rpc.c
+      - include/cdvd_legacy_compat.h
+      - src/ps2/sifrpc.c
+      - include/sifrpc_legacy_compat.h
+      - src/ps2/sifcmd.c
+      - include/sifcmd_legacy_compat.h
+      - src/ps2/glue.c
+      - include/glue_legacy_compat.h
+      - src/ps2/sifcmd_recovered.c
+      - src/ps2/fileio.c
+      - src/ps2/alloc.c
+      - src/ps2/libkernel_heap_recovered.c
+      - src/ps2/kernel.S
+      - src/ps2/libkernel_leaf_recovered.c
+      - analysis/functions/libkernel_leaf_exact_508.tsv
+      - tools/run-libkernel-leaf-source-recovery.py
+      - .github/workflows/libkernel-leaf-source-recovery.yml
+      - src/ps2/libkernel_strings_recovered.c
+      - src/ps2/memcpy.S
+      - analysis/functions/memcpy_exact_56.tsv
+      - tools/run-memcpy-source-recovery.py
+      - .github/workflows/memcpy-source-recovery.yml
+      - src/ps2/memset.S
+      - analysis/functions/memset_exact_56.tsv
+      - tools/run-memset-source-recovery.py
+      - .github/workflows/memset-source-recovery.yml
+      - src/ps2/memmove.S
+      - analysis/functions/memmove_exact_136.tsv
+      - tools/run-memmove-source-recovery.py
+      - .github/workflows/memmove-source-recovery.yml
+      - src/ps2/strcat.S
+      - analysis/functions/strcat_exact_56.tsv
+      - tools/run-strcat-source-recovery.py
+      - .github/workflows/strcat-source-recovery.yml
+      - src/ps2/memcmp.S
+      - analysis/functions/memcmp_exact_72.tsv
+      - tools/run-memcmp-source-recovery.py
+      - .github/workflows/memcmp-source-recovery.yml
+      - src/ps2/strcpy.S
+      - analysis/functions/strcpy_exact_40.tsv
+      - tools/run-strcpy-source-recovery.py
+      - src/ps2/strlen.S
+      - analysis/functions/strlen_exact_40.tsv
+      - tools/run-strlen-source-recovery.py
+      - .github/workflows/strlen-source-recovery.yml
+      - src/ps2/strchr.S
+      - analysis/functions/strchr_exact_56.tsv
+      - tools/run-strchr-source-recovery.py
+      - .github/workflows/strchr-source-recovery.yml
+      - src/ps2/strcmp.S
+      - analysis/functions/strcmp_exact_64.tsv
+      - tools/run-strcmp-source-recovery.py
+      - .github/workflows/strcmp-source-recovery.yml
+      - src/ps2/strncpy.S
+      - analysis/functions/strncpy_exact_88.tsv
+      - tools/run-strncpy-source-recovery.py
+      - .github/workflows/strncpy-source-recovery.yml
+      - src/ps2/strncmp.S
+      - analysis/functions/strncmp_exact_72.tsv
+      - tools/run-strncmp-source-recovery.py
+      - .github/workflows/strncmp-source-recovery.yml
+      - src/ps2/string.c
+      - include/string_legacy_compat.h
+      - analysis/functions/strrchr_exact_84.tsv
+      - tools/run-string-source-recovery.py
+      - .github/workflows/string-source-recovery.yml
+      - src/ps2/strstr.c
+      - analysis/functions/strstr_exact_136.tsv
+      - tools/run-strstr-source-recovery.py
+      - .github/workflows/strstr-source-recovery.yml
+      - src/ps2/strtol.c
+      - include/strtol_legacy_compat.h
+      - analysis/functions/strtol_exact_556.tsv
+      - tools/run-strtol-source-recovery.py
+      - .github/workflows/strtol-source-recovery.yml
+      - src/ps2/strcasecmp.c
+      - include/strcasecmp_legacy_compat.h
+      - analysis/functions/strcasecmp_exact_132.tsv
+      - tools/run-strcasecmp-source-recovery.py
+      - .github/workflows/strcasecmp-source-recovery.yml
+      - src/ps2/strtok.c
+      - include/strtok_legacy_compat.h
+      - analysis/functions/strtok_exact_264.tsv
+      - tools/run-strtok-source-recovery.py
+      - .github/workflows/strtok-source-recovery.yml
+      - src/ps2/strncasecmp.c
+      - include/strncasecmp_legacy_compat.h
+      - analysis/functions/strncasecmp_exact_184.tsv
+      - tools/run-strncasecmp-source-recovery.py
+      - .github/workflows/strncasecmp-source-recovery.yml
+      - src/ps2/ctype.c
+      - include/ctype_legacy_compat.h
+      - analysis/functions/ctype_exact_616.tsv
+      - tools/run-ctype-source-recovery.py
+      - .github/workflows/ctype-source-recovery.yml
+      - src/ps2/qsort.c
+      - include/qsort_legacy_compat.h
+      - analysis/functions/qsort_historical_object.tsv
+      - tools/run-qsort-source-recovery.py
+      - .github/workflows/qsort-source-recovery.yml
+      - src/ps2/sbrk.c
+      - include/sbrk_legacy_compat.h
+      - analysis/functions/sbrk_historical_object.tsv
+      - tools/run-sbrk-source-recovery.py
+      - .github/workflows/sbrk-source-recovery.yml
+      - src/unzip/get_tree.S
+      - matching/candidates/get_tree.c
+      - analysis/functions/get_tree_exact_212.tsv
+      - analysis/functions/unzip_explode_0018c124.asm
+      - tools/run-get-tree-source-recovery.py
+      - .github/workflows/get-tree-source-recovery.yml
+      - src/ps2/numtestf.S
+      - matching/candidates/mathfp_numtest.c
+      - analysis/functions/numtestf_exact_128.tsv
+      - analysis/functions/math_frontier_0019fddc.asm
+      - tools/run-numtestf-source-recovery.py
+      - .github/workflows/numtestf-source-recovery.yml
+      - src/ps2/c4convoam.S
+      - src/snes9x/c4_ps2_recovered.cpp
+      - analysis/functions/c4convoam_exact_952.tsv
+      - analysis/matching/hunt1041-v79-validated-c4conv-1.tsv
+      - tools/run-c4convoam-source-recovery.py
+      - .github/workflows/c4convoam-source-recovery.yml
+      - src/ps2/c4doscalerotate.S
+      - analysis/functions/c4doscalerotate_exact_1208.tsv
+      - analysis/matching/hunt1041-v81-validated-final20.tsv
+      - tools/run-c4doscalerotate-source-recovery.py
+      - .github/workflows/c4doscalerotate-source-recovery.yml
+      - src/ps2/c4transformlines.S
+      - analysis/functions/c4transformlines_exact_772.tsv
+      - tools/run-c4transformlines-source-recovery.py
+      - .github/workflows/c4transformlines-source-recovery.yml
+      - src/snes9x/c4drawwireframe.cpp
+      - analysis/matching/hunt1041-v77-validated-c4draw-1.tsv
+      - tools/run-c4drawwireframe-source-recovery.py
+      - .github/workflows/c4drawwireframe-source-recovery.yml
+      - src/snes9x/s9xgetmempointer.cpp
+      - tools/run-s9xgetmempointer-source-recovery.py
+      - .github/workflows/s9xgetmempointer-source-recovery.yml
+      - src/snes9x/s9xgetbyte.cpp
+      - tools/run-s9xgetbyte-source-recovery.py
+      - .github/workflows/s9xgetbyte-source-recovery.yml
+      - src/snes9x/s9xsetbyte.cpp
+      - tools/run-s9xsetbyte-source-recovery.py
+      - .github/workflows/s9xsetbyte-source-recovery.yml
+      - src/snes9x/s9xgetword.cpp
+      - tools/run-s9xgetword-source-recovery.py
+      - .github/workflows/s9xgetword-source-recovery.yml
+      - src/snes9x/s9xsetpcbase.cpp
+      - tools/run-s9xsetpcbase-source-recovery.py
+      - .github/workflows/s9xsetpcbase-source-recovery.yml
+      - src/snes9x/s9xsetword.cpp
+      - tools/run-s9xsetword-source-recovery.py
+      - .github/workflows/s9xsetword-source-recovery.yml
+      - src/ps2/sjpcm_rpc.c
+      - src/ps2/amigamod_rpc.c
+      - src/snes9x/selecttilerenderer.cpp
+      - tools/run-audio-rpc-source-recovery.py
+      - tools/run-selecttilerenderer-source-recovery.py
+      - include/audio_rpc_legacy_compat.h
+      - include/sjpcm_legacy.h
+      - include/amigamod_legacy.h
+      - analysis/functions/audio_rpc_exact_2892.tsv
+      - analysis/functions/selecttilerenderer_exact_348.tsv
+      - src/snes9x/getbasepointer.cpp
+      - src/snes9x/rtc_days.cpp
+      - src/snes9x/srtc.cpp
+      - src/snes9x/cheats2.cpp
+      - src/snes9x/memmap_methods.cpp
+      - src/snes9x/obc1.cpp
+      - src/snes9x/sdd1_map.cpp
+      - src/snes9x/dsp_table_init.c
+      - src/snes9x/apu_reset.cpp
+      - src/snes9x/native_sound_reset.cpp
+      - src/snes9x/native_sound_controls.cpp
+      - src/snes9x/ppu_reset.cpp
+      - src/snes9x/native_fxemu.cpp
+      - src/snes9x/native_fxemu.h
+      - src/snes9x/native_fxinst.h
+      - tools/run-native-fxemu-source-recovery.py
+      - analysis/functions/native_fxemu_exact_3456.tsv
+      - tools/run-ppu-reset-source-recovery.py
+      - tools/run-superfx-execution-source-recovery.py
+      - src/snes9x/native_ppu_registers.cpp
+      - analysis/functions/native_ppu_registers_exact_13580.tsv
+      - tools/run-native-ppu-registers-source-recovery.py
+      - src/snes9x/native_sa1_execution.cpp
+      - src/snes9x/native_cpu_interrupts.cpp
+      - src/snes9x/native_controllers.cpp
+      - src/snes9x/native_chip_io.cpp
+      - analysis/functions/native_controller_chip_io_exact_1548.tsv
+      - tools/run-native-controller-chip-io-source-recovery.py
+      - analysis/functions/native_cpu_interrupts_exact_1296.tsv
+      - tools/run-native-cpu-interrupts-source-recovery.py
+      - analysis/functions/native_sa1_execution_exact_552.tsv
+      - tools/run-native-sa1-execution-source-recovery.py
+      - src/snes9x/native_sa1.cpp
+      - analysis/functions/native_sa1_exact_6172.tsv
+      - tools/run-native-sa1-source-recovery.py
+      - src/snes9x/native_dma.cpp
+      - analysis/functions/native_dma_exact_7668.tsv
+      - tools/run-native-dma-source-recovery.py
+      - src/snes9x/native_hdma.cpp
+      - tools/run-native-hdma-source-recovery.py
+      - analysis/functions/native_hdma_exact_1468.tsv
+      - analysis/functions/superfx_execution_exact_184.tsv
+      - analysis/functions/ppu_reset_exact_3372.tsv
+      - tools/run-native-sound-controls-source-recovery.py
+      - analysis/functions/native_sound_controls_exact_452.tsv
+      - tools/run-native-sound-reset-source-recovery.py
+      - analysis/functions/native_sound_reset_exact_844.tsv
+      - tools/run-apu-reset-source-recovery.py
+      - analysis/functions/apu_reset_exact_1044.tsv
+      - tools/run-dsp-table-init-source-recovery.py
+      - analysis/functions/dsp_table_init_exact_272.tsv
+      - src/snes9x/dsp_dispatch.cpp
+      - tools/run-dsp-dispatch-source-recovery.py
+      - analysis/functions/dsp_dispatch_exact_200.tsv
+      - src/snes9x/native_chip_resets.cpp
+      - tools/run-native-chip-resets-source-recovery.py
+      - analysis/functions/native_chip_resets_exact_416.tsv
+      - src/snes9x/cpu_execution.cpp
+      - tools/run-cpu-execution-source-recovery.py
+      - analysis/functions/cpu_execution_exact_2448.tsv
+      - src/snes9x/cpu_reset.cpp
+      - tools/run-cpu-reset-source-recovery.py
+      - analysis/functions/cpu_reset_exact_956.tsv
+      - src/snes9x/spc7110_access.cpp
+      - tools/run-spc7110-access-source-recovery.py
+      - analysis/functions/spc7110_access_exact_4596.tsv
+      - src/snes9x/spc7110_helpers.cpp
+      - src/snes9x/spc7110_rtc_io.cpp
+      - tools/run-spc7110-source-recovery.py
+      - analysis/functions/spc7110_exact_1784.tsv
+      - src/snes9x/seta_dispatch.cpp
+      - src/snes9x/st010_helpers.cpp
+      - tools/run-seta-source-recovery.py
+      - analysis/functions/seta_helpers_exact_440.tsv
+      - src/snes9x/c4_math.cpp
+      - tools/run-c4-math-source-recovery.py
+      - analysis/functions/c4_math_exact_2652.tsv
+      - src/snes9x/sdd1_log_save.cpp
+      - src/snes9x/sdd1_log_load.cpp
+      - tools/run-sdd1-logs-source-recovery.py
+      - analysis/functions/sdd1_logs_exact_324.tsv
+      - tools/run-otherchips-source-recovery.py
+      - analysis/functions/otherchips_exact_1616.tsv
+      - tools/run-memmap-methods-source-recovery.py
+      - analysis/functions/memmap_methods_exact_1168.tsv
+      - src/snes9x/cheat_search.cpp
+      - tools/run-cheats-source-recovery.py
+      - analysis/functions/cheats2_exact_1768.tsv
+      - analysis/functions/cheat_search_exact_23936.tsv
+      - src/ps2/libgcc_runtime_recovered.c
+      - tools/run-calendar-memory-source-recovery.py
+      - analysis/functions/calendar_memory_exact_2300.tsv
+      - src/snes9x/apumem.cpp
+      - tools/run-apumem-source-recovery.py
+      - tools/run-source-recovery.py
+      - tools/refresh_source_provenance.py
+      - analysis/functions/apumem_exact_880.tsv
+      - src/snes9x/cpushutdown.cpp
+      - tools/run-cpushutdown-source-recovery.py
+      - .github/workflows/cpushutdown-source-recovery.yml
+      - src/ps2/progress28_structural_lift_recovered.c
+      - src/ps2/s9xsetc4.S
+      - analysis/functions/s9xsetc4_exact_2912.tsv
+      - tools/run-s9xsetc4-source-recovery.py
+      - .github/workflows/s9xsetc4-source-recovery.yml
+      - .github/workflows/strcpy-source-recovery.yml
+      - include/alloc_legacy_compat.h
+      - tools/run-alloc-source-recovery.py
+      - .github/workflows/alloc-source-recovery.yml
+      - src/ps2/iopheap.c
+      - src/ps2/loadfile.c
+      - src/ps2/iopcontrol.c
+      - src/ps2/iop_reset_recovered.c
+      - include/iopcontrol_legacy_compat.h
+      - tools/run-iopcontrol-source-recovery.py
+      - src/ps2/xprintf.c
+      - include/xprintf_legacy_compat.h
+      - tools/run-xprintf-source-recovery.py
+      - .github/workflows/xprintf-source-recovery.yml
+      - src/ps2/ps2lib_formatter_recovered.c
+      - src/ps2/stdio_wrappers_recovered.c
+      - include/loadfile_legacy_compat.h
+      - tools/run-loadfile-source-recovery.py
+      - include/iopheap_legacy_compat.h
+      - tools/run-iopheap-source-recovery.py
+      - src/ps2/fileio_recovered.c
+      - include/fileio_legacy_compat.h
+      - tools/run-fileio-source-recovery.py
+      - analysis/source_tree/translation_units.tsv
+      - analysis/source_promotions.csv
+      - src/ps2/progress22_more_small_helpers_recovered.c
+      - src/unzip/unzip_api_recovered.c
+      - src/unzip/explode_recovered.c
+      - tools/test_progress43_cdvd_historical.py
+      - tools/test_build_source_tree.py
+      - tools/audit_source_completeness.py
+      - tools/runtime_refactors.py
+      - tools/runtime_overrides.py
+      - tools/runtime_members.py
+      - tools/named_data.py
+      - analysis/link_identity/runtime_members.tsv
+      - tools/update_progress.py
+      - tools/test_named_contracts.py
+      - tools/named_contracts.py
+      - tools/provider_frontier.py
+      - analysis/link_identity/named_contracts.tsv
+      - analysis/link_identity/link_contract_reviews.tsv
+      - analysis/link_identity/source_alias_reviews.tsv
+
+concurrency:
+  group: source-recovery-ledger-writer-v4-${{ github.ref }}
+  # Only the newest branch state can write the generated ledgers. Cancelling
+  # obsolete runs prevents an older toolchain rebuild from blocking HEAD.
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: source-recovery-file-by-file
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore EE GCC 3.2.2
+        uses: actions/cache@v4
+        with:
+          path: build/toolchains/ee-gcc-3.2.2-stage1
+          key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+
+      - name: Restore EE GCC 3.2.2 C++ frontend
+        uses: actions/cache@v4
+        with:
+          path: build/toolchains/ee-gcc-3.2.2-cxx-stage1
+          key: ee-gxx-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+          save-always: true
+
+      - name: Ensure historical EE compilers
+        env:
+          MAKEFLAGS: MAKEINFO=true
+        run: |
+          make bootstrap-ee-stage1
+          make bootstrap-ee-cxx-stage1
+
+      - name: Reprove every maintained recovered source
+        run: make source-recovery-check
+
+      - name: Refresh source ownership ledgers
+        run: |
+          set -eux
+          EE_CC="$PWD/build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
+          EE_CXX="$PWD/build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++"
+          make audit-source
+          make source-tree-refresh EE_CC="$EE_CC" EE_CXX="$EE_CXX"
+          make source-aliases-refresh
+          make link-contracts-refresh
+          make provider-frontier-refresh
+
+      - name: Refresh public ownership provenance
+        run: python3 tools/refresh_source_provenance.py
+
+      - name: Commit regenerated ownership ledgers before docs
+        run: |
+          set -eux
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            analysis/source_readiness.csv \
+            docs/SOURCE_COMPLETENESS.generated.md \
+            analysis/source_tree/defined_symbol_ownership.tsv \
+            analysis/source_tree/external_symbol_ownership.tsv \
+            analysis/source_tree/object_fingerprints.tsv \
+            analysis/link_identity/source_address_aliases.tsv \
+            analysis/link_identity/link_contracts.tsv \
+            analysis/link_identity/provider_frontier_closure.tsv \
+            analysis/link_identity/named_data.tsv \
+            analysis/link_identity/named_contracts.tsv \
+            analysis/link_identity/unnamed_data_accesses.tsv \
+            analysis/link_identity/data_backing.tsv \
+            analysis/link_identity/data_backing_sections.tsv \
+            analysis/link_identity/link_layout_probe.json \
+            analysis/link_identity/startup_integration.json \
+            analysis/link_identity/frontend_eh_frames.json \
+            analysis/link_identity/historical_tail_data.json \
+            analysis/link_identity/runtime_tail_data.json \
+            analysis/link_identity/tail_metadata.json \
+            analysis/link_identity/window36_data.json \
+            analysis/link_identity/media_assets.json \
+            analysis/link_identity/window35_data.json \
+            analysis/link_identity/window11_rodata.json \
+            analysis/link_identity/code_windows.json
+          if git diff --cached --quiet; then
+            echo "No pre-doc ledger changes."
+          else
+            git commit -m "refresh generated source recovery ledgers"
+            git pull --rebase origin source-recovery-file-by-file
+            git push origin HEAD:source-recovery-file-by-file
+          fi
+
+      - name: Refresh generated docs
+        run: make docs
+
+      - name: Refresh decomp.dev public input hashes
+        run: |
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path(".")
+          path = root / "analysis/decompdev/report_contract.json"
+          data = json.loads(path.read_text())
+          for rel in list(data.get("inputs", {})):
+              p = root / rel
+              data["inputs"][rel] = hashlib.sha256(p.read_bytes()).hexdigest()
+          path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+          PY
+
+      - name: Commit generated ledgers to recovery branch
+        run: |
+          set -eux
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            analysis/source_readiness.csv \
+            docs/SOURCE_COMPLETENESS.generated.md \
+            docs/PROGRESS.generated.md \
+            docs/status/PROJECT_STATUS.generated.md \
+            assets/progress.svg \
+            README.md \
+            analysis/source_tree/defined_symbol_ownership.tsv \
+            analysis/source_tree/external_symbol_ownership.tsv \
+            analysis/source_tree/object_fingerprints.tsv \
+            analysis/link_identity/source_address_aliases.tsv \
+            analysis/link_identity/link_contracts.tsv \
+            analysis/link_identity/provider_frontier_closure.tsv \
+            analysis/link_identity/runtime_members.tsv \
+            analysis/link_identity/runtime_member_objects.tsv \
+            analysis/decompdev/report_contract.json
+          if git diff --cached --quiet; then
+            echo "No generated ledger changes."
+          else
+            git commit -m "refresh ledgers after exact source recovery"
+            git pull --rebase origin source-recovery-file-by-file
+            git push origin HEAD:source-recovery-file-by-file
+          fi

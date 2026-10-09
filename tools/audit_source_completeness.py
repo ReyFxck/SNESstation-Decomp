@@ -18,6 +18,409 @@ P17_TARGETS = ROOT / "analysis" / "progress17_recovered_targets.csv"
 P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.c.txt"
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
+EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0012bf5c': {'source_file': 'src/snes9x/native_dsp_atan.c', 'evidence': 'analysis/functions/native_dsp_profiles_exact_308.tsv', 'evidence_token': 'S9xDSPAtan'},
+    '0x00176578': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': 'S9xMixSamples'},
+    '0x00177cec': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': 'S9xInitSound'},
+    '0x00153354': {'source_file': 'src/snes9x/native_bulk_memmap.cpp', 'evidence': 'analysis/functions/native_bulk_memmap_exact_2280.tsv', 'evidence_token': '_ZN7CMemory8LoadSRAMEPKc'},
+    '0x0012ce18': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp0Av'},
+    '0x0012dde0': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp0Ev'},
+    '0x0010ad48': {'source_file': 'src/snes9x/native_bulk_apu.cpp', 'evidence': 'analysis/functions/native_bulk_apu_exact_3152.tsv', 'evidence_token': 'S9xSetAPUDSP'},
+    '0x00114818': {'source_file': 'src/snes9x/native_clip.cpp', 'evidence': 'analysis/functions/native_clip_exact_4572.tsv', 'evidence_token': '_Z18ComputeClipWindowsv'},
+    '0x0012d79c': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp0Dv'},
+    '0x0012d85c': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp1Dv'},
+    '0x0012d91c': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp2Dv'},
+    '0x0012d9dc': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp03v'},
+    '0x0012da9c': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp13v'},
+    '0x0012db5c': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp23v'},
+    '0x00171348': {'source_file': 'src/snes9x/native_bulk_snapshot.cpp', 'evidence': 'analysis/functions/native_bulk_snapshot_exact_5368.tsv', 'evidence_token': '_Z6FreezePv'},
+    '0x0017124c': {'source_file': 'src/snes9x/native_bulk_snapshot.cpp', 'evidence': 'analysis/functions/native_bulk_snapshot_exact_5368.tsv', 'evidence_token': 'S9xUnfreezeGame'},
+    '0x00171700': {'source_file': 'src/snes9x/native_bulk_snapshot.cpp', 'evidence': 'analysis/functions/native_bulk_snapshot_exact_5368.tsv', 'evidence_token': '_Z8UnfreezePv'},
+    '0x00171e0c': {'source_file': 'src/snes9x/native_bulk_snapshot.cpp', 'evidence': 'analysis/functions/native_bulk_snapshot_exact_5368.tsv', 'evidence_token': '_Z12FreezeStructPvPcS_P10FreezeDatai'},
+    '0x001721ec': {'source_file': 'src/snes9x/native_bulk_snapshot.cpp', 'evidence': 'analysis/functions/native_bulk_snapshot_exact_5368.tsv', 'evidence_token': '_Z14UnfreezeStructPvPcS_P10FreezeDatai'},
+    '0x00173c24': {'source_file': 'src/snes9x/native_bulk_snapshot.cpp', 'evidence': 'analysis/functions/native_bulk_snapshot_exact_5368.tsv', 'evidence_token': '_Z12S9xFixCyclesv'},
+    '0x00170398': {'source_file': 'src/snes9x/native_bulk_snaporig.cpp', 'evidence': 'analysis/functions/native_bulk_snaporig_exact_3904.tsv', 'evidence_token': '_Z16ReadOrigSnapshotPv'},
+    '0x00171160': {'source_file': 'src/snes9x/native_bulk_snaporig.cpp', 'evidence': 'analysis/functions/native_bulk_snaporig_exact_3904.tsv', 'evidence_token': '_Z12S9xFixCyclesv'},
+    '0x00183e04': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z11ConvertTilePhj'},
+    '0x0018428c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z8DrawTilejjjj'},
+    '0x001acd04': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z13WRITE_4PIXELSjPh'},
+    '0x001ace28': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z21WRITE_4PIXELS_FLIPPEDjPh'},
+    '0x001845a8': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z15DrawClippedTilejjjjjj'},
+    '0x00184a40': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z10DrawTilex2jjjj'},
+    '0x001acf4c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z15WRITE_4PIXELSx2jPh'},
+    '0x001ad090': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z23WRITE_4PIXELS_FLIPPEDx2jPh'},
+    '0x00184d5c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z17DrawClippedTilex2jjjjjj'},
+    '0x001851f4': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z12DrawTilex2x2jjjj'},
+    '0x001ad1d4': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z17WRITE_4PIXELSx2x2jPh'},
+    '0x001ad398': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z25WRITE_4PIXELS_FLIPPEDx2x2jPh'},
+    '0x00185510': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z19DrawClippedTilex2x2jjjjjj'},
+    '0x001859a8': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z14DrawLargePixeljjjjjj'},
+    '0x00185d8c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z10DrawTile16jjjj'},
+    '0x001ad55c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z15WRITE_4PIXELS16jPh'},
+    '0x001ad684': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z23WRITE_4PIXELS16_FLIPPEDjPh'},
+    '0x001860a8': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z17DrawClippedTile16jjjjjj'},
+    '0x00186540': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z12DrawTile16x2jjjj'},
+    '0x001ad7ac': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z17WRITE_4PIXELS16x2jPh'},
+    '0x001ad8f4': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z25WRITE_4PIXELS16_FLIPPEDx2jPh'},
+    '0x0018685c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z19DrawClippedTile16x2jjjjjj'},
+    '0x00186cf4': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z14DrawTile16x2x2jjjj'},
+    '0x001ada3c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z19WRITE_4PIXELS16x2x2jPh'},
+    '0x001adc34': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z27WRITE_4PIXELS16_FLIPPEDx2x2jPh'},
+    '0x00187010': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z21DrawClippedTile16x2x2jjjjjj'},
+    '0x001874a8': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z16DrawLargePixel16jjjjjj'},
+    '0x0018789c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z13DrawTile16Addjjjj'},
+    '0x001ade2c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z19WRITE_4PIXELS16_ADDjPh'},
+    '0x001ae2c0': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z27WRITE_4PIXELS16_FLIPPED_ADDjPh'},
+    '0x00187bb8': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z20DrawClippedTile16Addjjjjjj'},
+    '0x00188050': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z16DrawTile16Add1_2jjjj'},
+    '0x001ae754': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z22WRITE_4PIXELS16_ADD1_2jPh'},
+    '0x001aeb58': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z30WRITE_4PIXELS16_FLIPPED_ADD1_2jPh'},
+    '0x0018836c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z23DrawClippedTile16Add1_2jjjjjj'},
+    '0x00188804': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z13DrawTile16Subjjjj'},
+    '0x001aef5c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z19WRITE_4PIXELS16_SUBjPh'},
+    '0x001af310': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z27WRITE_4PIXELS16_FLIPPED_SUBjPh'},
+    '0x00188b20': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z20DrawClippedTile16Subjjjjjj'},
+    '0x00188fb8': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z16DrawTile16Sub1_2jjjj'},
+    '0x001af6c4': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z22WRITE_4PIXELS16_SUB1_2jPh'},
+    '0x001afa88': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z30WRITE_4PIXELS16_FLIPPED_SUB1_2jPh'},
+    '0x001892d4': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z23DrawClippedTile16Sub1_2jjjjjj'},
+    '0x0018976c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z21DrawTile16FixedAdd1_2jjjj'},
+    '0x001afe4c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z23WRITE_4PIXELS16_ADDF1_2jPh'},
+    '0x001b008c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z31WRITE_4PIXELS16_FLIPPED_ADDF1_2jPh'},
+    '0x00189a88': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z28DrawClippedTile16FixedAdd1_2jjjjjj'},
+    '0x00189f20': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z21DrawTile16FixedSub1_2jjjj'},
+    '0x001b02cc': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z23WRITE_4PIXELS16_SUBF1_2jPh'},
+    '0x001b052c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z31WRITE_4PIXELS16_FLIPPED_SUBF1_2jPh'},
+    '0x0018a23c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z28DrawClippedTile16FixedSub1_2jjjjjj'},
+    '0x0018a6d4': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z19DrawLargePixel16Addjjjjjj'},
+    '0x0018adb8': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z22DrawLargePixel16Add1_2jjjjjj'},
+    '0x0018b43c': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z19DrawLargePixel16Subjjjjjj'},
+    '0x0018bac0': {'source_file': 'src/snes9x/native_bulk_tile.cpp', 'evidence': 'analysis/functions/native_bulk_tile_exact_48552.tsv', 'evidence_token': '_Z22DrawLargePixel16Sub1_2jjjjjj'},
+    '0x0010a7fc': {'source_file': 'src/snes9x/native_bulk_2xsai.cpp', 'evidence': 'analysis/functions/native_bulk_2xsai_exact_6888.tsv', 'evidence_token': '_Z9GetResultjjjj'},
+    '0x0010a768': {'source_file': 'src/snes9x/native_bulk_2xsai.cpp', 'evidence': 'analysis/functions/native_bulk_2xsai_exact_6888.tsv', 'evidence_token': '_Z10GetResult1jjjjj'},
+    '0x0010a7ac': {'source_file': 'src/snes9x/native_bulk_2xsai.cpp', 'evidence': 'analysis/functions/native_bulk_2xsai_exact_6888.tsv', 'evidence_token': '_Z10GetResult2jjjjj'},
+    '0x0010a18c': {'source_file': 'src/snes9x/native_bulk_2xsai.cpp', 'evidence': 'analysis/functions/native_bulk_2xsai_exact_6888.tsv', 'evidence_token': '_Z8Bilinearjjj'},
+    '0x0010a264': {'source_file': 'src/snes9x/native_bulk_2xsai.cpp', 'evidence': 'analysis/functions/native_bulk_2xsai_exact_6888.tsv', 'evidence_token': '_Z9Bilinear4jjjjjj'},
+    '0x0012c13c': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp00v'},
+    '0x0012c160': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp20v'},
+    '0x0012c188': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z12DSP1_InversessPsS_'},
+    '0x0012c2a4': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp10v'},
+    '0x0012c2dc': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z6SinInts'},
+    '0x0012c398': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z6CosInts'},
+    '0x0012c444': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp04v'},
+    '0x0012c4a8': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp0Cv'},
+    '0x0012d334': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp01v'},
+    '0x0012d4ac': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp11v'},
+    '0x0012d624': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp21v'},
+    '0x0012dc1c': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp14v'},
+    '0x0012de60': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp0Bv'},
+    '0x0012deb0': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp1Bv'},
+    '0x0012df50': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp08v'},
+    '0x0012dfb0': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp18v'},
+    '0x0012dffc': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp38v'},
+    '0x0012e0cc': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp1Cv'},
+    '0x0012e2c4': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp0Fv'},
+    '0x0012e2d0': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp2Fv'},
+    '0x0012e2e0': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z9DSP2_Op05v'},
+    '0x0012e374': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z9DSP2_Op01v'},
+    '0x0012e568': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z9DSP2_Op06v'},
+    '0x0012e5b8': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z9DSP2_Op0Dv'},
+    '0x0010a840': {'source_file': 'src/snes9x/native_bulk_apu.cpp', 'evidence': 'analysis/functions/native_bulk_apu_exact_3152.tsv', 'evidence_token': 'S9xInitAPU'},
+    '0x0010a8bc': {'source_file': 'src/snes9x/native_bulk_apu.cpp', 'evidence': 'analysis/functions/native_bulk_apu_exact_3152.tsv', 'evidence_token': 'S9xDeinitAPU'},
+    '0x0010b370': {'source_file': 'src/snes9x/native_bulk_apu.cpp', 'evidence': 'analysis/functions/native_bulk_apu_exact_3152.tsv', 'evidence_token': '_Z14S9xFixEnvelopeihhh'},
+    '0x0010b564': {'source_file': 'src/snes9x/native_bulk_apu.cpp', 'evidence': 'analysis/functions/native_bulk_apu_exact_3152.tsv', 'evidence_token': 'S9xSetAPUControl'},
+    '0x0010b72c': {'source_file': 'src/snes9x/native_bulk_apu.cpp', 'evidence': 'analysis/functions/native_bulk_apu_exact_3152.tsv', 'evidence_token': 'S9xSetAPUTimer'},
+    '0x0010b7f8': {'source_file': 'src/snes9x/native_bulk_apu.cpp', 'evidence': 'analysis/functions/native_bulk_apu_exact_3152.tsv', 'evidence_token': 'S9xGetAPUDSP'},
+    '0x00150b1c': {'source_file': 'src/snes9x/native_bulk_memmap.cpp', 'evidence': 'analysis/functions/native_bulk_memmap_exact_2280.tsv', 'evidence_token': '_Z30ForceInterleave1OverrideSnes9xi'},
+    '0x00150c90': {'source_file': 'src/snes9x/native_bulk_memmap.cpp', 'evidence': 'analysis/functions/native_bulk_memmap_exact_2280.tsv', 'evidence_token': '_ZN7CMemory8AllASCIIEPhi'},
+    '0x00150ccc': {'source_file': 'src/snes9x/native_bulk_memmap.cpp', 'evidence': 'analysis/functions/native_bulk_memmap_exact_2280.tsv', 'evidence_token': '_ZN7CMemory10ScoreHiROMEh'},
+    '0x00150e18': {'source_file': 'src/snes9x/native_bulk_memmap.cpp', 'evidence': 'analysis/functions/native_bulk_memmap_exact_2280.tsv', 'evidence_token': '_ZN7CMemory10ScoreLoROMEh'},
+    '0x00151360': {'source_file': 'src/snes9x/native_bulk_memmap.cpp', 'evidence': 'analysis/functions/native_bulk_memmap_exact_2280.tsv', 'evidence_token': '_ZN7CMemory12FreeSDD1DataEv'},
+    '0x00158974': {'source_file': 'src/snes9x/native_bulk_memmap.cpp', 'evidence': 'analysis/functions/native_bulk_memmap_exact_2280.tsv', 'evidence_token': '_Z6is_bsxPh'},
+    '0x001534b8': {'source_file': 'src/snes9x/native_bulk_memmap.cpp', 'evidence': 'analysis/functions/native_bulk_memmap_exact_2280.tsv', 'evidence_token': '_ZN7CMemory8SaveSRAMEPKc'},
+    '0x00158a58': {'source_file': 'src/snes9x/native_bulk_memmap.cpp', 'evidence': 'analysis/functions/native_bulk_memmap_exact_2280.tsv', 'evidence_token': '_Z7bs_namePh'},
+    '0x00158b3c': {'source_file': 'src/snes9x/native_bulk_memmap.cpp', 'evidence': 'analysis/functions/native_bulk_memmap_exact_2280.tsv', 'evidence_token': '_Z10check_charj'},
+    '0x00173dfc': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z20S9xAPUSetEndOfSampleiP7Channel'},
+    '0x00173e4c': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z13S9xAPUSetEndXi'},
+    '0x00173e6c': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z13S9xSetEnvRateP7Channelmii'},
+    '0x00173f24': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z18S9xSetEnvelopeRateimii'},
+    '0x00173f50': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z17S9xSetSoundVolumeiss'},
+    '0x00173ff0': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z18S9xSetMasterVolumess'},
+    '0x0017409c': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z16S9xSetEchoVolumess'},
+    '0x00174204': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z18S9xSetEchoFeedbacki'},
+    '0x001742e8': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z31S9xSetFrequencyModulationEnableh'},
+    '0x001742f8': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z17S9xSetSoundKeyOffi'},
+    '0x00174350': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z28S9xFixSoundAfterSnapshotLoadv'},
+    '0x001744d0': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z23S9xSetFilterCoefficientii'},
+    '0x00174564': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z15S9xSetSoundADSRiiiiii'},
+    '0x00174618': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z20S9xSetEnvelopeHeightii'},
+    '0x001746a4': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z20S9xGetEnvelopeHeighti'},
+    '0x00174720': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z17S9xSetSoundSampleit'},
+    '0x00174830': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z16S9xSetSoundHertzii'},
+    '0x00174860': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z15S9xSetSoundTypeii'},
+    '0x0017487c': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z15S9xSetSoundMuteh'},
+    '0x00174898': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z14AltDecodeBlockP7Channel'},
+    '0x00174b94': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z15AltDecodeBlock2P7Channel'},
+    '0x00177db0': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': '_Z15S9xSetSoundModeii'},
+    '0x0019c5cc': {'source_file': 'src/snes9x/native_bulk_snapshot.cpp', 'evidence': 'analysis/functions/native_bulk_snapshot_exact_5368.tsv', 'evidence_token': 'Snapshot'},
+    '0x001711e8': {'source_file': 'src/snes9x/native_bulk_snapshot.cpp', 'evidence': 'analysis/functions/native_bulk_snapshot_exact_5368.tsv', 'evidence_token': 'S9xFreezeGame'},
+    '0x001725ac': {'source_file': 'src/snes9x/native_bulk_snapshot.cpp', 'evidence': 'analysis/functions/native_bulk_snapshot_exact_5368.tsv', 'evidence_token': '_Z13UnfreezeBlockPvPcPhi'},
+    '0x00171de8': {'source_file': 'src/snes9x/native_bulk_snapshot.cpp', 'evidence': 'analysis/functions/native_bulk_snapshot_exact_5368.tsv', 'evidence_token': '_Z10FreezeSizeii'},
+    '0x0017028c': {'source_file': 'src/snes9x/native_bulk_snaporig.cpp', 'evidence': 'analysis/functions/native_bulk_snaporig_exact_3904.tsv', 'evidence_token': '_Z9ReadBlockPKcPviS1_'},
+    '0x001291e4': {'source_file': 'src/snes9x/native_cpu_opcodes.cpp', 'evidence': 'analysis/functions/native_cpu_opcodes_exact_77476.tsv', 'evidence_token': '_Z12S9xFixCyclesv'},
+    '0x00129250': {'source_file': 'src/snes9x/native_cpu_opcodes.cpp', 'evidence': 'analysis/functions/native_cpu_opcodes_exact_77476.tsv', 'evidence_token': '_Z4ADC8v'},
+    '0x00129420': {'source_file': 'src/snes9x/native_cpu_opcodes.cpp', 'evidence': 'analysis/functions/native_cpu_opcodes_exact_77476.tsv', 'evidence_token': '_Z5ADC16v'},
+    '0x001296c4': {'source_file': 'src/snes9x/native_cpu_opcodes.cpp', 'evidence': 'analysis/functions/native_cpu_opcodes_exact_77476.tsv', 'evidence_token': '_Z5SBC16v'},
+    '0x0012993c': {'source_file': 'src/snes9x/native_cpu_opcodes.cpp', 'evidence': 'analysis/functions/native_cpu_opcodes_exact_77476.tsv', 'evidence_token': '_Z4SBC8v'},
+    '0x00130c78': {'source_file': 'src/snes9x/native_fx_opcodes.cpp', 'evidence': 'analysis/functions/native_fx_opcodes_exact_73372.tsv', 'evidence_token': '_Z8fx_cachev'},
+    '0x0014080c': {'source_file': 'src/snes9x/native_fx_opcodes.cpp', 'evidence': 'analysis/functions/native_fx_opcodes_exact_73372.tsv', 'evidence_token': '_Z9fx_dec_r7v'},
+    '0x00142a78': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': 'S9xGraphicsInit'},
+    '0x0014308c': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': 'S9xBuildDirectColourMaps'},
+    '0x00143390': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': 'RenderLine'},
+    '0x0014368c': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z11S9xSetupOBJv'},
+    '0x001437d8': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z8DrawOBJShh'},
+    '0x00143e7c': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z20DrawBackgroundMosaicjjhh'},
+    '0x001443ec': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z20DrawBackgroundOffsetjjhh'},
+    '0x00144ad8': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z19DrawBackgroundMode5jjhh'},
+    '0x001452b0': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z14DrawBackgroundjjhh'},
+    '0x00145c08': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z21DrawBGMode7BackgroundPhi'},
+    '0x001461a8': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z23DrawBGMode7Background16Phi'},
+    '0x00146720': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z26DrawBGMode7Background16AddPhi'},
+    '0x00146e6c': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z29DrawBGMode7Background16Add1_2Phi'},
+    '0x00147578': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z26DrawBGMode7Background16SubPhi'},
+    '0x00147c68': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z29DrawBGMode7Background16Sub1_2Phi'},
+    '0x00148338': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z13Q_INTERPOLATEjjjj'},
+    '0x00148394': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z25DrawBGMode7Background16_iPhi'},
+    '0x001493a8': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z28DrawBGMode7Background16Add_iPhi'},
+    '0x0014a784': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z31DrawBGMode7Background16Add1_2_iPhi'},
+    '0x0014babc': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z28DrawBGMode7Background16Sub_iPhi'},
+    '0x0014ce24': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z31DrawBGMode7Background16Sub1_2_iPhi'},
+    '0x0014e140': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z12RenderScreenPhhhh'},
+    '0x0014e828': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z11DisplayCharPhh'},
+    '0x0014eaa4': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': '_Z16S9xDisplayStringPKc'},
+    '0x0014ec54': {'source_file': 'src/snes9x/native_gfx.cpp', 'evidence': 'analysis/functions/native_gfx_exact_55256.tsv', 'evidence_token': 'S9xUpdateScreen'},
+    '0x0016f0a0': {'source_file': 'src/snes9x/native_sa1_opcodes.cpp', 'evidence': 'analysis/functions/native_sa1_opcodes_exact_67008.tsv', 'evidence_token': '_Z15S9xSA1FixCyclesv'},
+    '0x0016f10c': {'source_file': 'src/snes9x/native_sa1_opcodes.cpp', 'evidence': 'analysis/functions/native_sa1_opcodes_exact_67008.tsv', 'evidence_token': '_Z4ADC8v'},
+    '0x0016f2dc': {'source_file': 'src/snes9x/native_sa1_opcodes.cpp', 'evidence': 'analysis/functions/native_sa1_opcodes_exact_67008.tsv', 'evidence_token': '_Z5ADC16v'},
+    '0x0016f580': {'source_file': 'src/snes9x/native_sa1_opcodes.cpp', 'evidence': 'analysis/functions/native_sa1_opcodes_exact_67008.tsv', 'evidence_token': '_Z5SBC16v'},
+    '0x0016f7f8': {'source_file': 'src/snes9x/native_sa1_opcodes.cpp', 'evidence': 'analysis/functions/native_sa1_opcodes_exact_67008.tsv', 'evidence_token': '_Z4SBC8v'},
+    '0x00153674': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory6MapRAMEv'},
+    '0x00153780': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory11MapExtraRAMEv'},
+    '0x001538b0': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory8LoROMMapEv'},
+    '0x00153da4': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory10BSLoROMMapEv'},
+    '0x001541e0': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory8HiROMMapEv'},
+    '0x0015458c': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory11TalesROMMapEh'},
+    '0x00154a24': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory11AlphaROMMapEv'},
+    '0x00154c2c': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory13SuperFXROMMapEv'},
+    '0x00154f9c': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory9SA1ROMMapEv'},
+    '0x00155334': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory13LoROM24MBSMapEv'},
+    '0x0015568c': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory19SufamiTurboLoROMMapEv'},
+    '0x00155a44': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory16SRAM512KLoROMMapEv'},
+    '0x00155ca0': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory10BSHiROMMapEv'},
+    '0x00156118': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory13JumboLoROMMapEv'},
+    '0x00156514': {'source_file': 'src/snes9x/native_rom_maps.cpp', 'evidence': 'analysis/functions/native_rom_maps_exact_12816.tsv', 'evidence_token': '_ZN7CMemory15SPC7110HiROMMapEv'},
+    '0x00101904': {'source_file': 'src/ps2/native_sound_callback.c', 'evidence': 'analysis/functions/native_sound_callback_exact_8.tsv', 'evidence_token': 'S9xGenerateSound'},
+
+    '0x0010d2a8': {'source_file': 'src/snes9x/native_c4_wave.cpp', 'evidence': 'analysis/functions/native_c4_wave_exact_584.tsv', 'evidence_token': '_Z14C4BitPlaneWavev'},
+
+    '0x0010cbb0': {'source_file': 'src/snes9x/native_c4_raster.cpp', 'evidence': 'analysis/functions/native_c4_raster_exact_1120.tsv', 'evidence_token': '_Z10C4DrawLineiisiish'},
+    '0x0010d4f0': {'source_file': 'src/snes9x/native_c4_raster.cpp', 'evidence': 'analysis/functions/native_c4_raster_exact_1120.tsv', 'evidence_token': '_Z17C4SprDisintegratev'},
+
+    '0x001056b0': {'source_file': 'src/snes9x/native_rom_deinterleave.cpp', 'evidence': 'analysis/functions/native_rom_deinterleave_exact_552.tsv', 'evidence_token': 'S9xMessage'},
+    '0x001520b8': {'source_file': 'src/snes9x/native_rom_deinterleave.cpp', 'evidence': 'analysis/functions/native_rom_deinterleave_exact_552.tsv', 'evidence_token': 'S9xDeinterleaveMode2'},
+
+    '0x00104e50': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xReadMousePosition'},
+    '0x00101880': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': '_Z18JustifierOffscreenv'},
+    '0x00101888': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': '_Z16JustifierButtonsRj'},
+    '0x00104e48': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xReadSuperScopePosition'},
+    '0x0015cce4': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': '_Z17ProcessSuperScopev'},
+    '0x0015cea4': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': '_Z19S9xUpdateJustifiersv'},
+    '0x0015d0bc': {'source_file': 'src/snes9x/native_controllers.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xUpdateJoypads'},
+    '0x0010c328': {'source_file': 'src/snes9x/native_chip_io.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xGetC4'},
+    '0x001701fc': {'source_file': 'src/snes9x/native_chip_io.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xGetST018'},
+    '0x00170204': {'source_file': 'src/snes9x/native_chip_io.cpp', 'evidence': 'analysis/functions/native_controller_chip_io_exact_1548.tsv', 'evidence_token': 'S9xSetST018'},
+    '0x00127b78': {'source_file': 'src/snes9x/native_cpu_interrupts.cpp', 'evidence': 'analysis/functions/native_cpu_interrupts_exact_1296.tsv', 'evidence_token': '_Z13S9xOpcode_IRQv'},
+    '0x00127e00': {'source_file': 'src/snes9x/native_cpu_interrupts.cpp', 'evidence': 'analysis/functions/native_cpu_interrupts_exact_1296.tsv', 'evidence_token': '_Z13S9xOpcode_NMIv'},
+    '0x0016ded4': {'source_file': 'src/snes9x/native_sa1_execution.cpp', 'evidence': 'analysis/functions/native_sa1_execution_exact_552.tsv', 'evidence_token': '_Z16S9xSA1Opcode_IRQv'},
+    '0x0016efa0': {'source_file': 'src/snes9x/native_sa1_execution.cpp', 'evidence': 'analysis/functions/native_sa1_execution_exact_552.tsv', 'evidence_token': 'S9xSA1MainLoop'},
+    '0x0015d9ac': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z11S9xSA1Resetv'},
+    '0x0015dab4': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z20S9xSA1SetBWRAMMemMaph'},
+    '0x0015db74': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xFixSA1AfterSnapshotLoad'},
+    '0x0015dc84': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1GetByte'},
+    '0x0015de14': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1GetWord'},
+    '0x0015de68': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1SetByte'},
+    '0x0015e034': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1SetWord'},
+    '0x0015e07c': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1SetPCBase'},
+    '0x0015e190': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSA1ExecuteDuringSleep'},
+    '0x0015e198': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z15S9xSetSA1MemMapjh'},
+    '0x0015e298': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xGetSA1'},
+    '0x0015e40c': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": 'S9xSetSA1'},
+    '0x0015ecec': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z15S9xSA1CharConv2v'},
+    '0x0015eeac': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z9S9xSA1DMAv'},
+    '0x0015f030': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z28S9xSA1ReadVariableLengthDatahh'},
+    '0x0015f15c': {"source_file": "src/snes9x/native_sa1.cpp", "evidence": "analysis/functions/native_sa1_exact_6172.tsv", "evidence_token": '_Z15S9xSA1FixCyclesv'},
+
+    '0x00129af4': {"source_file": "src/snes9x/native_dma.cpp", "evidence": "analysis/functions/native_dma_exact_7668.tsv", "evidence_token": 'S9xDoDMA'},
+    '0x0012a400': {"source_file": "src/snes9x/native_dma.cpp", "evidence": "analysis/functions/native_dma_exact_7668.tsv", "evidence_token": 'S9xDoDMA'},
+    '0x0012ba5c': {"source_file": "src/snes9x/native_dma.cpp", "evidence": "analysis/functions/native_dma_exact_7668.tsv", "evidence_token": '_Z13REGISTER_2104h'},
+    '0x0012bd48': {"source_file": "src/snes9x/native_dma.cpp", "evidence": "analysis/functions/native_dma_exact_7668.tsv", "evidence_token": '_Z13REGISTER_2122h'},
+
+    '0x00159058': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": '_Z15S9xUpdateHTimerv'},
+    '0x00159268': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": 'S9xSetPPU'},
+    '0x0015a5f0': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": 'S9xGetPPU'},
+    '0x0015ad6c': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": 'S9xSetCPU'},
+    '0x0015bc70': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": 'S9xGetCPU'},
+    '0x0015d3ec': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": '_Z13REGISTER_2104h'},
+    '0x0015d6d8': {"source_file": "src/snes9x/native_ppu_registers.cpp", "evidence": "analysis/functions/native_ppu_registers_exact_13580.tsv", "evidence_token": '_Z13REGISTER_2122h'},
+
+    '0x0012b3e8': {"source_file": 'src/snes9x/native_hdma.cpp', "evidence": "analysis/functions/native_hdma_exact_1468.tsv", "evidence_token": 'S9xStartHDMA'},
+    '0x0012b498': {"source_file": 'src/snes9x/native_hdma.cpp', "evidence": "analysis/functions/native_hdma_exact_1468.tsv", "evidence_token": 'S9xDoHDMA'},
+    '0x0015d334': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/superfx_execution_exact_184.tsv", "evidence_token": "S9xSuperFXExec"},
+    '0x0012fe5c': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z18FxCacheWriteAccesst'},
+    '0x0012fe9c': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z12FxFlushCachev'},
+    '0x0012feb4': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z14fx_backupCachev'},
+    '0x0012febc': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z15fx_restoreCachev'},
+    '0x0012fec4': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z13fx_flushCachev'},
+    '0x0012fef0': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z20fx_readRegisterSpacev'},
+    '0x00130134': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z24fx_computeScreenPointersv'},
+    '0x001305a0': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z21fx_writeRegisterSpacev'},
+    '0x001306f8': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": 'S9xFxReset'},
+    '0x001308f8': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z20fx_checkStartAddressv'},
+    '0x001309c4': {"source_file": 'src/snes9x/native_fxemu.cpp', "evidence": "analysis/functions/native_fxemu_exact_3456.tsv", "evidence_token": '_Z9FxEmulatej'},
+    '0x001591a8': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xFixColourBrightness'},
+    '0x0015c124': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xResetPPU'},
+    '0x0015c624': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xSoftResetPPU'},
+    '0x0015cae0': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xProcessMouse'},
+    '0x0015cdf8': {"source_file": 'src/snes9x/ppu_reset.cpp', "evidence": "analysis/functions/ppu_reset_exact_3372.tsv", "evidence_token": 'S9xNextController'},
+    '0x0017422c': {"source_file": 'src/snes9x/native_sound_controls.cpp', "evidence": "analysis/functions/native_sound_controls_exact_452.tsv", "evidence_token": 'S9xSetEchoDelay'},
+    '0x001742b4': {"source_file": 'src/snes9x/native_sound_controls.cpp', "evidence": "analysis/functions/native_sound_controls_exact_452.tsv", "evidence_token": 'S9xSetEchoWriteEnable'},
+    '0x00174728': {"source_file": 'src/snes9x/native_sound_controls.cpp', "evidence": "analysis/functions/native_sound_controls_exact_452.tsv", "evidence_token": 'S9xSetSoundFrequency'},
+    '0x00174120': {"source_file": 'src/snes9x/native_sound_reset.cpp', "evidence": "analysis/functions/native_sound_reset_exact_844.tsv", "evidence_token": 'S9xSetEchoEnable'},
+    '0x00177a84': {"source_file": 'src/snes9x/native_sound_reset.cpp', "evidence": "analysis/functions/native_sound_reset_exact_844.tsv", "evidence_token": 'S9xResetSound'},
+    '0x0010a934': {"source_file": 'src/snes9x/apu_reset.cpp', "evidence": "analysis/functions/apu_reset_exact_1044.tsv", "evidence_token": "S9xResetAPU"},
+    '0x0012c02c': {"source_file": 'src/snes9x/dsp_table_init.c', "evidence": "analysis/functions/dsp_table_init_exact_272.tsv", "evidence_token": "S9xInitDSP"},
+    '0x0012e688': {"source_file": 'src/snes9x/dsp_dispatch.cpp', "evidence": "analysis/functions/dsp_dispatch_exact_200.tsv", "evidence_token": '_Z11S9xInitDSP1v'},
+    '0x0012e6c4': {"source_file": 'src/snes9x/dsp_dispatch.cpp', "evidence": "analysis/functions/dsp_dispatch_exact_200.tsv", "evidence_token": 'S9xResetDSP1'},
+    '0x0012e704': {"source_file": 'src/snes9x/dsp_dispatch.cpp', "evidence": "analysis/functions/dsp_dispatch_exact_200.tsv", "evidence_token": 'S9xGetDSP'},
+    '0x0012e728': {"source_file": 'src/snes9x/dsp_dispatch.cpp', "evidence": "analysis/functions/dsp_dispatch_exact_200.tsv", "evidence_token": 'S9xSetDSP'},
+    '0x0010c300': {"source_file": 'src/snes9x/native_chip_resets.cpp', "evidence": "analysis/functions/native_chip_resets_exact_416.tsv", "evidence_token": 'S9xInitC4'},
+    '0x0012b9a4': {"source_file": 'src/snes9x/native_chip_resets.cpp', "evidence": "analysis/functions/native_chip_resets_exact_416.tsv", "evidence_token": 'S9xResetDMA'},
+    '0x0015d8ec': {"source_file": 'src/snes9x/native_chip_resets.cpp', "evidence": "analysis/functions/native_chip_resets_exact_416.tsv", "evidence_token": 'S9xSA1Init'},
+    '0x00115db0': {"source_file": 'src/snes9x/cpu_execution.cpp', "evidence": "analysis/functions/cpu_execution_exact_2448.tsv", "evidence_token": 'S9xMainLoop'},
+    '0x00116128': {"source_file": 'src/snes9x/cpu_execution.cpp', "evidence": "analysis/functions/cpu_execution_exact_2448.tsv", "evidence_token": 'S9xSetIRQ'},
+    '0x00116174': {"source_file": 'src/snes9x/cpu_execution.cpp', "evidence": "analysis/functions/cpu_execution_exact_2448.tsv", "evidence_token": 'S9xClearIRQ'},
+    '0x001161a8': {"source_file": 'src/snes9x/cpu_execution.cpp', "evidence": "analysis/functions/cpu_execution_exact_2448.tsv", "evidence_token": 'S9xDoHBlankProcessing'},
+    '0x001159f4': {"source_file": 'src/snes9x/cpu_reset.cpp', "evidence": "analysis/functions/cpu_reset_exact_956.tsv", "evidence_token": '_Z15S9xResetSuperFXv'},
+    '0x00115a18': {"source_file": 'src/snes9x/cpu_reset.cpp', "evidence": "analysis/functions/cpu_reset_exact_956.tsv", "evidence_token": '_Z11S9xResetCPUv'},
+    '0x00115b58': {"source_file": 'src/snes9x/cpu_reset.cpp', "evidence": "analysis/functions/cpu_reset_exact_956.tsv", "evidence_token": 'S9xReset'},
+    '0x001813f0': {"source_file": 'src/snes9x/spc7110_access.cpp', "evidence": "analysis/functions/spc7110_access_exact_4596.tsv", "evidence_token": 'S9xGetSPC7110'},
+    '0x00181bac': {"source_file": 'src/snes9x/spc7110_access.cpp', "evidence": "analysis/functions/spc7110_access_exact_4596.tsv", "evidence_token": '_Z13S9xSetSPC7110ht'},
+    '0x0018255c': {"source_file": 'src/snes9x/spc7110_access.cpp', "evidence": "analysis/functions/spc7110_access_exact_4596.tsv", "evidence_token": 'S9xGetSPC7110Byte'},
+    '0x00182638': {"source_file": 'src/snes9x/spc7110_helpers.cpp', "evidence": "analysis/functions/spc7110_exact_1784.tsv", "evidence_token": '_Z12S9xUpdateRTCv'},
+    '0x00182910': {"source_file": 'src/snes9x/spc7110_helpers.cpp', "evidence": "analysis/functions/spc7110_exact_1784.tsv", "evidence_token": 'Get7110BasePtr'},
+    '0x001832a4': {"source_file": 'src/snes9x/spc7110_helpers.cpp', "evidence": "analysis/functions/spc7110_exact_1784.tsv", "evidence_token": '_Z15S9xSpc7110Resetv'},
+    '0x001833a4': {"source_file": 'src/snes9x/spc7110_rtc_io.cpp', "evidence": "analysis/functions/spc7110_exact_1784.tsv", "evidence_token": '_Z17S9xSaveSPC7110RTCP10SPC7110RTC'},
+    '0x001834f0': {"source_file": 'src/snes9x/spc7110_rtc_io.cpp', "evidence": "analysis/functions/spc7110_exact_1784.tsv", "evidence_token": '_Z17S9xLoadSPC7110RTCP10SPC7110RTC'},
+    '0x0016fc48': {"source_file": 'src/snes9x/seta_dispatch.cpp', "evidence": "analysis/functions/seta_helpers_exact_440.tsv", "evidence_token": 'S9xGetSetaDSP'},
+    '0x0016fc6c': {"source_file": 'src/snes9x/seta_dispatch.cpp', "evidence": "analysis/functions/seta_helpers_exact_440.tsv", "evidence_token": 'S9xSetSetaDSP'},
+    '0x0016fcd4': {"source_file": 'src/snes9x/st010_helpers.cpp', "evidence": "analysis/functions/seta_helpers_exact_440.tsv", "evidence_token": '_Z10St010_Op03sssRiS_'},
+    '0x0016fd08': {"source_file": 'src/snes9x/st010_helpers.cpp', "evidence": "analysis/functions/seta_helpers_exact_440.tsv", "evidence_token": '_Z12St010_RotatesssRsS_'},
+    '0x0010b8a4': {"source_file": "src/snes9x/c4_math.cpp", "evidence": "analysis/functions/c4_math_exact_2652.tsv", "evidence_token": 'C4TransfWireFrame'},
+    '0x0010bbcc': {"source_file": "src/snes9x/c4_math.cpp", "evidence": "analysis/functions/c4_math_exact_2652.tsv", "evidence_token": 'C4TransfWireFrame2'},
+    '0x0010becc': {"source_file": "src/snes9x/c4_math.cpp", "evidence": "analysis/functions/c4_math_exact_2652.tsv", "evidence_token": 'C4CalcWireFrame'},
+    '0x0010c094': {"source_file": "src/snes9x/c4_math.cpp", "evidence": "analysis/functions/c4_math_exact_2652.tsv", "evidence_token": 'C4Op1F'},
+    '0x0010c1f8': {"source_file": "src/snes9x/c4_math.cpp", "evidence": "analysis/functions/c4_math_exact_2652.tsv", "evidence_token": 'C4Op0D'},
+    '0x0016fb04': {"source_file": 'src/snes9x/sdd1_log_save.cpp', "evidence": "analysis/functions/sdd1_logs_exact_324.tsv", "evidence_token": '_Z21S9xSDD1SaveLoggedDatav'},
+    '0x0016fbb4': {"source_file": 'src/snes9x/sdd1_log_load.cpp', "evidence": "analysis/functions/sdd1_logs_exact_324.tsv", "evidence_token": '_Z21S9xSDD1LoadLoggedDatav'},
+    '0x00158b5c': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'GetOBC1'},
+    '0x00158b74': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'SetOBC1'},
+    '0x00158fd0': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'GetBasePointerOBC1'},
+    '0x00158fdc': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'GetMemPointerOBC1'},
+    '0x00158ff0': {"source_file": 'src/snes9x/obc1.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": 'ResetOBC1'},
+    '0x0016f9b0': {"source_file": 'src/snes9x/sdd1_map.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": '_Z19S9xSetSDD1MemoryMapjj'},
+    '0x0016fa18': {"source_file": 'src/snes9x/sdd1_map.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": '_Z12S9xResetSDD1v'},
+    '0x0016fa7c': {"source_file": 'src/snes9x/sdd1_map.cpp', "evidence": "analysis/functions/otherchips_exact_1616.tsv", "evidence_token": '_Z20S9xSDD1PostLoadStatev'},
+    '0x001535c0': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory11FixROMSpeedEv'},
+    '0x00153608': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory15WriteProtectROMEv'},
+    '0x00156884': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory11SPC7110SramEh'},
+    '0x001568c4': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory10TVStandardEv'},
+    '0x00156914': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory7MapTypeEv'},
+    '0x00156934': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory13StaticRAMSizeEv'},
+    '0x00156994': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory4SizeEv'},
+    '0x00156a04': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory12KartContentsEv'},
+    '0x00156c0c': {"source_file": "src/snes9x/memmap_methods.cpp", "evidence": "analysis/functions/memmap_methods_exact_1168.tsv", "evidence_token": '_ZN7CMemory7MapModeEv'},
+    '0x001140e0': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z16S9xInitCheatDatav'},
+    '0x00114118': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z11S9xAddCheathhjh'},
+    '0x00114328': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z14S9xRemoveCheatj'},
+    '0x0011439c': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z13S9xApplyCheatj'},
+    '0x0011444c': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z14S9xApplyCheatsv'},
+    '0x001144d0': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z15S9xRemoveCheatsv'},
+    '0x00114544': {"source_file": "src/snes9x/cheats2.cpp", "evidence": "analysis/functions/cheats2_exact_1768.tsv", "evidence_token": '_Z16S9xLoadCheatFilePKc'},
+    '0x001825e4': {'source_file': 'src/snes9x/rtc_days.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z17S9xRTCDaysInMonthii'},
+    '0x00183660': {'source_file': 'src/snes9x/srtc.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z12S9xResetSRTCv'},
+    '0x00183678': {'source_file': 'src/snes9x/srtc.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z16S9xHardResetSRTCv'},
+    '0x001836d0': {'source_file': 'src/snes9x/srtc.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z23S9xSRTCComputeDayOfWeekv'},
+    '0x00183778': {'source_file': 'src/snes9x/srtc.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z19S9xSRTCDaysInMmonthii'},
+    '0x001837cc': {'source_file': 'src/snes9x/srtc.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z17S9xUpdateSrtcTimev'},
+    '0x00183aa4': {'source_file': 'src/snes9x/srtc.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z10S9xSetSRTCht'},
+    '0x00183bdc': {'source_file': 'src/snes9x/srtc.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z10S9xGetSRTCt'},
+    '0x00183c58': {'source_file': 'src/snes9x/srtc.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z19S9xSRTCPreSaveStatev'},
+    '0x00183d40': {'source_file': 'src/snes9x/srtc.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z20S9xSRTCPostLoadStatev'},
+    '0x001ac734': {'source_file': 'src/snes9x/getbasepointer.cpp', 'evidence': 'analysis/functions/calendar_memory_exact_2300.tsv', 'evidence_token': '_Z14GetBasePointerj'},
+    '0x0010768c': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'SjPCM_Play'},
+    '0x001076e4': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'SjPCM_Pause'},
+    '0x0010773c': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'SjPCM_Setvol'},
+    '0x001077f8': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'SjPCM_Init'},
+    '0x001078f8': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'SjPCM_Enqueue'},
+    '0x00107b1c': {'source_file': 'src/ps2/sjpcm_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'SjPCM_Quit'},
+    '0x00107b7c': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'amigaModInit'},
+    '0x00107c64': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'amigaModLoad'},
+    '0x00107d44': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'amigaModPlay'},
+    '0x00107db4': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'amigaModPause'},
+    '0x00107e14': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'amigaModSetVolume'},
+    '0x00107f18': {'source_file': 'src/ps2/amigamod_rpc.c', 'evidence': 'analysis/functions/audio_rpc_exact_2892.tsv', 'evidence_token': 'amigaModQuit'},
+    '0x001ac838': {'source_file': 'src/snes9x/selecttilerenderer.cpp', 'evidence': 'analysis/functions/selecttilerenderer_exact_348.tsv', 'evidence_token': '_Z18SelectTileRendererh'},
+    "0x001ac994": {
+        "source_file": "src/snes9x/apumem.cpp",
+        "evidence": "analysis/functions/apumem_exact_880.tsv",
+        "evidence_token": "_Z14S9xAPUGetByteZh",
+    },
+    "0x001aca50": {
+        "source_file": "src/snes9x/apumem.cpp",
+        "evidence": "analysis/functions/apumem_exact_880.tsv",
+        "evidence_token": "_Z14S9xAPUSetByteZhh",
+    },
+    "0x001acb3c": {
+        "source_file": "src/snes9x/apumem.cpp",
+        "evidence": "analysis/functions/apumem_exact_880.tsv",
+        "evidence_token": "_Z13S9xAPUGetBytej",
+    },
+    "0x001acbf0": {
+        "source_file": "src/snes9x/apumem.cpp",
+        "evidence": "analysis/functions/apumem_exact_880.tsv",
+        "evidence_token": "_Z13S9xAPUSetBytehj",
+    },
+    "0x001ab4e8": {
+        "source_file": "src/snes9x/s9xgetmempointer.cpp",
+        "evidence": "analysis/matching/hunt400-validated-19.tsv",
+        "evidence_token": "_Z16S9xGetMemPointerj",
+    },
+    "0x001ab63c": {
+        "source_file": "src/snes9x/s9xgetbyte.cpp",
+        "evidence": "analysis/matching/hunt500plus-v11-validated-4.tsv",
+        "evidence_token": "_Z10S9xGetBytej",
+    },
+    "0x001ab900": {
+        "source_file": "src/snes9x/s9xsetbyte.cpp",
+        "evidence": "analysis/matching/hunt500plus-v11-validated-4.tsv",
+        "evidence_token": "_Z10S9xSetBytehj",
+    },
+    "0x001abc28": {
+        "source_file": "src/snes9x/s9xgetword.cpp",
+        "evidence": "analysis/matching/hunt1041-v48-validated-25.tsv",
+        "evidence_token": "_Z10S9xGetWordj",
+    },
+}
 CSV_OUT = ROOT / "analysis" / "source_readiness.csv"
 DOC_OUT = ROOT / "docs" / "SOURCE_COMPLETENESS.generated.md"
 
@@ -25,6 +428,117 @@ EXPECTED_STRUCTURAL_TARGETS = 1041
 EXPECTED_P16_PSEUDOCODE = 165
 EXPECTED_P17_PSEUDOCODE = 74
 MARKER_RE = re.compile(r"^/\* ===== (0x[0-9a-fA-F]{8}) ===== \*/$", re.MULTILINE)
+
+EXACT_SOURCE_TRACES = (
+    (
+        ROOT / "analysis" / "functions" / "libkernel_leaf_exact_508.tsv",
+        "src/ps2/kernel.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "memcpy_exact_56.tsv",
+        "src/ps2/memcpy.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "memset_exact_56.tsv",
+        "src/ps2/memset.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "memmove_exact_136.tsv",
+        "src/ps2/memmove.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strcat_exact_56.tsv",
+        "src/ps2/strcat.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "memcmp_exact_72.tsv",
+        "src/ps2/memcmp.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strcpy_exact_40.tsv",
+        "src/ps2/strcpy.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strlen_exact_40.tsv",
+        "src/ps2/strlen.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strchr_exact_56.tsv",
+        "src/ps2/strchr.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strcmp_exact_64.tsv",
+        "src/ps2/strcmp.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strncpy_exact_88.tsv",
+        "src/ps2/strncpy.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strncmp_exact_72.tsv",
+        "src/ps2/strncmp.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strrchr_exact_84.tsv",
+        "src/ps2/string.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strstr_exact_136.tsv",
+        "src/ps2/strstr.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strtol_exact_556.tsv",
+        "src/ps2/strtol.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strcasecmp_exact_132.tsv",
+        "src/ps2/strcasecmp.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strtok_exact_264.tsv",
+        "src/ps2/strtok.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "strncasecmp_exact_184.tsv",
+        "src/ps2/strncasecmp.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "ctype_exact_616.tsv",
+        "src/ps2/ctype.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "qsort_historical_object.tsv",
+        "src/ps2/qsort.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "sbrk_historical_object.tsv",
+        "src/ps2/sbrk.c",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "get_tree_exact_212.tsv",
+        "src/unzip/get_tree.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "numtestf_exact_128.tsv",
+        "src/ps2/numtestf.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "c4convoam_exact_952.tsv",
+        "src/ps2/c4convoam.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "c4doscalerotate_exact_1208.tsv",
+        "src/ps2/c4doscalerotate.S",
+    ),
+    (
+        ROOT / "analysis" / "functions" / "c4transformlines_exact_772.tsv",
+        "src/ps2/c4transformlines.S",
+    ),
+    (
+        ROOT / "analysis" / "matching" / "hunt1041-v77-validated-c4draw-1.tsv",
+        "src/snes9x/c4drawwireframe.cpp",
+    ),
+)
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -57,17 +571,38 @@ def pseudocode_markers(path: Path) -> set[str]:
 def explicit_source_references(addresses: set[str]) -> tuple[dict[str, list[str]], int]:
     """Return conservative address-to-source traceability, not ownership proof."""
     references: dict[str, list[str]] = defaultdict(list)
-    translation_units = sorted((ROOT / "src").rglob("*.c"))
+    translation_units = sorted(
+        path
+        for pattern in ("*.c", "*.cpp", "*.S")
+        for path in (ROOT / "src").rglob(pattern)
+    )
     address_by_hex = {address[2:]: address for address in addresses}
 
-    for path in translation_units:
-        text = path.read_text(encoding="utf-8", errors="replace").lower()
-        relative = path.relative_to(ROOT).as_posix()
+    for source_path in translation_units:
+        text = source_path.read_text(encoding="utf-8", errors="replace").lower()
+        relative = source_path.relative_to(ROOT).as_posix()
         for token, address in address_by_hex.items():
             if token in text:
                 references[address].append(relative)
 
-    return dict(references), len(translation_units)
+    # Exact historical sources do not need recovery-only address comments added
+    # to their byte-identical source text.  Reviewed sidecars can therefore pin
+    # source traceability for selected target entries.
+    for table, source in EXACT_SOURCE_TRACES:
+        if not (ROOT / source).is_file():
+            fail(f"missing exact traced source {source}")
+        with table.open(encoding="utf-8", newline="") as stream:
+            for row in csv.DictReader(stream, delimiter="\t"):
+                address = row["address"].lower()
+                if address not in addresses:
+                    fail(f"exact source trace address outside target universe: {address}")
+                references[address].append(source)
+
+    normalized = {
+        address: sorted(set(files))
+        for address, files in references.items()
+    }
+    return normalized, len(translation_units)
 
 
 def render_csv(
@@ -142,7 +677,7 @@ these measurements remain deliberately distinct.
 | Audited structural entries | **{total:,}/{total:,} ({pct(total)})** | Every validated entry has a committed structural representation. |
 | Behavioral/source-model checkpoint | **{behavioral:,}/{total:,} ({pct(behavioral)})** | Typed behavioral/source-model reconstruction exists for every audited row; exact source provenance is a separate claim. |
 | Structural pseudocode only | **{pseudo:,}/{total:,} ({pct(pseudo)})** | Historical structural-only backlog after promotions: {p16_count} remaining from Progress 16 and {p17_count} remaining from Progress 17. |
-| Typed promotions from P16/P17 snapshots | **{promoted:,}** | Historical pseudocode evidence is retained while newer typed source overrides the readiness classification. |
+| Source promotions | **{promoted:,}** | Historical pseudocode promotions plus explicitly reviewed exact-historical promotions override older source models while retaining their evidence. |
 | Explicit address trace in `src/` | **{explicit:,}/{total:,} ({pct(explicit)})** | A conservative text-level traceability check; corridor files may cover additional entries without repeating every address. |
 | Build-ready EE source ownership | **{translation_units}/{translation_units} TUs** | `make source-tree` compiles every unit with EE GCC 3.2.2 and verifies the frozen canonical partial-link/ownership maps. |
 | Relocation-normalized machine-code matches | **{matching:,}/{total:,} ({pct(matching)})** | No function is promoted to `MATCHING` without generated-object evidence. |
@@ -155,13 +690,14 @@ these measurements remain deliberately distinct.
 - All {total:,} manifest rows are structurally reconstructed.
 - The historical {EXPECTED_P16_PSEUDOCODE} Progress-16 and {EXPECTED_P17_PSEUDOCODE} Progress-17 manifest sets exactly match the
   address markers in their committed pseudocode snapshots.
-- `analysis/source_promotions.csv` contains {promoted} typed promotion(s); every
-  promoted address belongs to a historical pseudocode checkpoint and names an
-  existing source/evidence file. The source file must explicitly carry the
-  promoted address token.
+- `analysis/source_promotions.csv` contains {promoted} source promotion(s); each
+  promoted address is either a historical pseudocode checkpoint or an explicitly
+  reviewed exact-historical target. Every promotion names an existing
+  source/evidence file, and the source file must explicitly carry the promoted
+  address token.
 - No address occurs in both pseudocode checkpoints.
-- The independent EE source gate freezes 97 source boundaries, 96 canonical
-  objects, the EE ABI and every emitted/unresolved symbol owner. See
+- The independent EE source gate freezes {translation_units} source boundaries and
+  their canonical objects, the EE ABI and every emitted/unresolved symbol owner. See
   [`docs/status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
 
 The machine-readable row-by-row classification is
@@ -172,9 +708,9 @@ The machine-readable row-by-row classification is
 "Nothing left behind" is defensible inside the closed structural universe and
 the manifest-defined EE source tree: 1,137 raw JAL-shaped targets − 292
 rejected post-code data patterns + 196 independently mapped non-JAL entries =
-1,041 validated entries, compiled through 97 explicit TUs. It does not prove
+1,041 validated entries, compiled through {translation_units} explicit TUs. It does not prove
 that 1,041 is the mathematically exact number of compiler-created functions,
-that the 97 boundaries are Hiryu's verbatim originals, or that the final ELF
+that those source boundaries are Hiryu's verbatim originals, or that the final ELF
 layout already matches.
 
 The next proof ladder is documented in
@@ -237,8 +773,22 @@ def main() -> None:
     promotion_rows = unique_by_address(read_csv(PROMOTIONS), "source promotion")
     promoted = set(promotion_rows)
     historical_pseudocode = p16 | p17
-    if not promoted <= historical_pseudocode:
-        fail("source promotion contains an address outside the historical pseudocode checkpoints")
+    if not promoted <= set(targets):
+        fail("source promotion contains an address outside the structural manifest")
+    non_pseudocode_promotions = promoted - historical_pseudocode
+    if not non_pseudocode_promotions <= set(EXACT_NON_PSEUDOCODE_PROMOTIONS):
+        fail("source promotion contains an unreviewed address outside the historical pseudocode checkpoints")
+    for address in sorted(non_pseudocode_promotions):
+        row = promotion_rows[address]
+        exact = EXACT_NON_PSEUDOCODE_PROMOTIONS[address]
+        for field in ("source_file", "evidence"):
+            if row.get(field, "").strip() != exact[field]:
+                fail(f"exact historical promotion {address} {field} drift")
+        evidence_text = (ROOT / exact["evidence"]).read_text(
+            encoding="utf-8", errors="replace"
+        )
+        if address not in evidence_text or exact["evidence_token"] not in evidence_text:
+            fail(f"exact historical promotion {address} evidence drift")
     for address, row in promotion_rows.items():
         source_rel = row.get("source_file", "").strip()
         evidence_rel = row.get("evidence", "").strip()

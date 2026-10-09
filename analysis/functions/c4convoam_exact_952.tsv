@@ -1,0 +1,2 @@
+symbol	address	size_hex	raw_text_sha256	relocations	candidate_source_sha256	evidence
+C4ConvOAM	0x0010c340	0x3b8	b429d0a5da3bb161b7b8000da3e1d516a7c8e47f413c73b31e2891a5c3f2ec7a	0	3c2905cd571060b6d95ced9d6e56f39a1ddf3a2aa6dd7987ffe84f27d3a38efc	analysis/matching/hunt1041-v79-validated-c4conv-1.tsv

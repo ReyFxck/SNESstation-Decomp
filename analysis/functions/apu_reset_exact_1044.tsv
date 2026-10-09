@@ -1,0 +1,2 @@
+address	symbol	source_file	size	relocations	raw_sha256	normalized_sha256	target_sha256	proof_level	evidence
+0x0010a934	S9xResetAPU	src/snes9x/apu_reset.cpp	1044	51	74aca7e57d128316da6d24a4dbf0f7384c751383521033fd2d414ca16ff03dce	bf0c125aa5fc5488289f958fea6d43b788f5017fcfefb7c4eef3a4c52d7d426a	7b9b22e9e4219577dc0519b524ba93e24e2829c425bdbcfe6b7213c47f245ac0	provider-linked-target	analysis/matching/hunt1041-v52-validated-17.tsv

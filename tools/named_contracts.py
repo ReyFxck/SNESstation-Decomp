@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the historical 212-row Stage-3E named-contract tranche.
+"""Close the historical 216-row Stage-3E named-contract tranche.
 
 The original Stage-2 plan assigned 205 named link contracts and seven zlib
 peers to Stage 3E.  This gate preserves that historical denominator while
@@ -64,6 +64,7 @@ DEFAULT_REFERENCE = ROOT / "build" / "SNES_EMU.unpacked.bin"
 DEFAULT_INPUT = ROOT / "build" / "private-assets" / "source-tree.private-assets.partial.o"
 DEFAULT_BUILD = ROOT / "build" / "named-contracts"
 DEFAULT_OUTPUT = DEFAULT_BUILD / "source-tree.named-contracts.partial.o"
+LIBKERNEL_EXACT = ROOT / "analysis" / "functions" / "libkernel_leaf_exact_508.tsv"
 DEFAULT_REPORT = DEFAULT_BUILD / "report.json"
 
 EXTERNAL_FIELDS = (
@@ -178,6 +179,45 @@ ERRNO_ALIAS = {
     "canonical_symbol": "ps2lib_errno_00425a70",
 }
 
+# Historical Stage-3E contract that left the live external namespace when the
+# exact ps2sdk kernel.S source became canonical.  Keep it in the historical
+# 216-row ledger instead of pretending the original contract never existed.
+PROMOTED_EXACT_SOURCE = {
+    "symbol": "iSifSetDChain",
+    "category": "named-external",
+    "status": TEXT_ALIAS_PROVED,
+    "target_address": "0x0019fd10",
+    "extent_hex": "",
+    "region": "text",
+    "sha256": "",
+    "canonical_symbol": "iSifSetDChain",
+    "evidence": "exact-historical-source-target-entry",
+    "requesters": "ps2/sifcmd.o",
+    "detail": "exact historical kernel.S source provides the target entry directly;evidence=analysis/functions/libkernel_leaf_exact_508.tsv#iSifSetDChain",
+}
+
+
+PROMOTED_EXACT_STRCASECMP = {
+    "symbol": "strcasecmp",
+    "category": "named-external",
+    "status": TEXT_ALIAS_PROVED,
+    "target_address": "0x0019e860",
+    "extent_hex": "",
+    "region": "text",
+    "sha256": "",
+    "canonical_symbol": "strcasecmp",
+    "evidence": "exact-historical-source-target-entry",
+    "requesters": "ps2/audio_rpc_recovered.o",
+    "detail": "exact historical PS2LIB F_strcasecmp source provides target entry directly;evidence=analysis/functions/strcasecmp_exact_132.tsv#strcasecmp",
+}
+
+PROMOTED_EXACT_CTYPE = (
+    ("tolower", "0x0019edac", "0x30", "ps2/strcasecmp.o"),
+    ("isupper", "0x0019ee0c", "0x14", "ps2/strtol.o"),
+    ("isalpha", "0x0019ee34", "0x4c", "ps2/strtol.o"),
+    ("isdigit", "0x0019ee80", "0x14", "ps2/progress21_small_helpers_recovered.o;ps2/strtol.o"),
+    ("isspace", "0x0019efac", "0x20", "ps2/strtol.o"),
+)
 
 class NamedContractError(RuntimeError):
     pass
@@ -207,8 +247,41 @@ def unique(rows: Sequence[dict[str, str]], field: str, label: str) -> dict[str, 
     return result
 
 
+# Native CPU-reset callees added after the historical 216-row tranche. Their
+# address contracts are covered by the complete CPU reset source proof, not
+# by a recapture or enlargement of the original private-data ledger.
+LATER_CPU_EXECUTION_CONTRACTS = {
+    'RenderLine': 0x143390,
+    'S9xEndScreenRefresh': 0x1434ac,
+    'S9xStartScreenRefresh': 0x14311c,
+}
+LATER_CONTROLLER_CONTRACTS = {'S9xReadJoypad': 0x104bbc}
+# New public native-batch consumers are reviewed independently of the frozen
+# historical 216-row private-data tranche.
+LATER_NATIVE_BULK_CONTRACTS = {
+    "_Z18S9xOpenSoundDeviceihi": (0x105cb8, "snes9x/native_bulk_soundux.o", "target-function-contract"),
+    "S9xMixSamplesO": (0x176594, "snes9x/native_bulk_soundux.o", "named-external"),
+    '_Z9GetRXYPosv': (1231832, 'snes9x/native_bulk_dsp1.o', 'target-function-contract'),
+    '_Z7DSPOp02v': (1230168, 'snes9x/native_bulk_dsp1.o', 'target-function-contract'),
+    '_Z7DSPOp06v': (1232988, 'snes9x/native_bulk_dsp1.o', 'target-function-contract'),
+    '_Z7DSPOp28v': (1237068, 'snes9x/native_bulk_dsp1.o', 'target-function-contract'),
+    '_Z13S9xPlaySamplei': (1539692, 'snes9x/native_bulk_apu.o', 'target-function-contract'),
+    'S9xGetFilenameInc': (1055136, 'snes9x/native_bulk_apu.o', 'named-external'),
+    'S9xSPCDump': (1517292, 'snes9x/native_bulk_apu.o', 'named-external'),
+    "S9xBasename": (0x101914, "snes9x/native_bulk_snaporig.o;snes9x/native_bulk_snapshot.o", "named-external"),
+    "S9xLoadOrigSnapshot": (0x17022c, "snes9x/native_bulk_snapshot.o", "named-external"),
+    "_Z11FreezeBlockPvPcPhi": (0x172174, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
+    "_Z16S9xUnfreezeZSNESPKc": (0x1728d4, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
+    "_ZdlPv": (0x1a90f8, "snes9x/native_bulk_snapshot.o", "cxx-runtime"),
+    "gzwrite": (0x193dbc, "snes9x/native_bulk_snapshot.o", "zlib-peer"),
+    "S9xOpenSnapshotFile": (0x101890, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
+    "S9xCloseSnapshotFile": (0x1018e0, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
+    "gzread": (0x193a34, "snes9x/native_bulk_snaporig.o;snes9x/native_bulk_snapshot.o", "zlib-peer"),
+    "gzseek": (0x1940ec, "snes9x/native_bulk_snapshot.o", "zlib-peer"),
+    "gztell": (0x194378, "snes9x/native_bulk_snapshot.o", "zlib-peer"),
+}
 def is_stage3e(row: dict[str, str]) -> bool:
-    return (row["category"], row["provider_kind"]) in {
+    return row["symbol"] not in (LATER_CPU_EXECUTION_CONTRACTS.keys() | LATER_CONTROLLER_CONTRACTS.keys() | LATER_NATIVE_BULK_CONTRACTS.keys()) and (row["category"], row["provider_kind"]) in {
         ("named-external", "link-contract"),
         ("zlib-peer", "source-or-archive"),
     }
@@ -271,12 +344,65 @@ def verify_refactor_evidence() -> None:
                 fail(f"Stage-3E source-refactor evidence drift: {symbol} ({relative}#{token})")
 
 
+def verify_promoted_exact_source(defined_rows: Sequence[dict[str, str]]) -> None:
+    matches = [
+        row for row in defined_rows
+        if row["symbol"] == PROMOTED_EXACT_SOURCE["symbol"]
+        and row["source"] == "src/ps2/kernel.S"
+        and row["object"] == "ps2/kernel.o"
+        and row["binding"] == "global"
+        and row["section_class"] == "text"
+    ]
+    if len(matches) != 1:
+        fail("promoted iSifSetDChain source ownership drift")
+    token = "iSifSetDChain\t0x0019fd10\t0x10\t"
+    if not LIBKERNEL_EXACT.is_file() or token not in LIBKERNEL_EXACT.read_text(encoding="utf-8"):
+        fail("promoted iSifSetDChain exact-source evidence drift")
+
+    # The original caller-side named contract is retained after the exact
+    # historical C source replaces the provisional strcasecmp model.
+    exact = [
+        row for row in defined_rows
+        if row["symbol"] == PROMOTED_EXACT_STRCASECMP["symbol"]
+        and row["source"] == "src/ps2/strcasecmp.c"
+        and row["object"] == "ps2/strcasecmp.o"
+        and row["binding"] == "global"
+        and row["section_class"] == "text"
+        and row["size_hex"] == "0x84"
+    ]
+    if len(exact) != 1:
+        fail("promoted strcasecmp source ownership drift")
+    reference = ROOT / "analysis" / "functions" / "strcasecmp_exact_132.tsv"
+    token = "strcasecmp\t0x0019e860\t0x84\t47c76055161ef2612a1ef56925c716c89012a7c1716ed9f0bf6d1b678338be4f"
+    if not reference.is_file() or token not in reference.read_text(encoding="utf-8"):
+        fail("promoted strcasecmp exact-source evidence drift")
+
+    ctype_reference = ROOT / "analysis" / "functions" / "ctype_exact_616.tsv"
+    ctype_text = ctype_reference.read_text(encoding="utf-8") if ctype_reference.is_file() else ""
+    for symbol, address, size, _requesters in PROMOTED_EXACT_CTYPE:
+        matches = [
+            row for row in defined_rows
+            if row["symbol"] == symbol
+            and row["source"] == "src/ps2/ctype.c"
+            and row["object"] == "ps2/ctype.o"
+            and row["binding"] == "global"
+            and row["section_class"] == "text"
+            and row["size_hex"] == size
+        ]
+        if len(matches) != 1:
+            fail(f"promoted ctype source ownership drift: {symbol}")
+        token = f"{symbol}\t{address}\t{size}\t"
+        if token not in ctype_text:
+            fail(f"promoted ctype exact-source evidence drift: {symbol}")
+
+
+
 def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str, int | str]]:
     external_rows = read_table(args.external_map, EXTERNAL_FIELDS)
     stage3c.stage3_partition(external_rows)
     live = sorted((row for row in external_rows if is_stage3e(row)), key=lambda row: row["symbol"])
-    if len(live) != 191:
-        fail(f"expected 191 live Stage-3E contracts after source cleanup, found {len(live)}")
+    if len(live) != 188:
+        fail(f"expected 188 live Stage-3E contracts after exact source promotions, found {len(live)}")
 
     contracts = unique(read_table(args.contracts, CONTRACT_FIELDS), "symbol", "link contract")
     frontier = unique(read_table(args.frontier_manifest, FRONTIER_FIELDS), "symbol", "provider row")
@@ -284,6 +410,247 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
     source_aliases = read_table(args.source_alias_manifest, SOURCE_ALIAS_FIELDS)
     layout = stage3c.load_layout(args.layout_manifest)
     verify_refactor_evidence()
+    verify_promoted_exact_source(defined_rows)
+
+    # Keep later native dependencies separate while verifying every excluded
+    # row remains a real address anchor with its original ABI requester.
+    external = unique(external_rows, "symbol", "external contract")
+    fx_reset = [row for row in defined_rows if row["symbol"] == "S9xFxReset"]
+    if (len(fx_reset) != 1 or fx_reset[0]["binding"] != "global"
+            or fx_reset[0]["section_class"] != "text"
+            or fx_reset[0]["size_hex"] != "0x200"
+            or fx_reset[0]["source"] != "src/snes9x/native_fxemu.cpp"
+            or fx_reset[0]["object"] != "snes9x/native_fxemu.o"):
+        fail("promoted native Super FX reset source ownership drift")
+
+    apu_reset = [row for row in defined_rows if row["symbol"] == "S9xResetAPU"]
+    if (len(apu_reset) != 1 or apu_reset[0]["binding"] != "global"
+            or apu_reset[0]["section_class"] != "text"
+            or apu_reset[0]["size_hex"] != "0x414"
+            or apu_reset[0]["source"] != "src/snes9x/apu_reset.cpp"
+            or apu_reset[0]["object"] != "snes9x/apu_reset.o"):
+        fail("promoted native APU reset source ownership drift")
+
+    for name, size in (("S9xResetSound", 436), ("S9xSetEchoEnable", 228), ("S9xSetPlaybackRate", 180)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/native_sound_reset.cpp"
+                or definitions[0]["object"] != "snes9x/native_sound_reset.o"):
+            fail(f"promoted native audio source ownership drift: {name}")
+
+    for name, size in (("S9xSetEchoDelay", 136), ("S9xSetEchoWriteEnable", 52), ("S9xSetSoundFrequency", 264)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/native_sound_controls.cpp"
+                or definitions[0]["object"] != "snes9x/native_sound_controls.o"):
+            fail(f"promoted native sound control source ownership drift: {name}")
+
+    for name, size in (("S9xFixColourBrightness", 192), ("S9xResetPPU", 1280),
+                       ("S9xSoftResetPPU", 1212), ("S9xProcessMouse", 516), ("S9xNextController", 172),
+                       ("S9xSuperFXExec", 184)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/ppu_reset.cpp"
+                or definitions[0]["object"] != "snes9x/ppu_reset.o"):
+            fail(f"promoted native PPU source ownership drift: {name}")
+
+    for name, size in (("_Z15S9xUpdateHTimerv", 336), ("S9xSetPPU", 5000),
+                       ("S9xGetPPU", 1916), ("S9xSetCPU", 3844), ("S9xGetCPU", 1204)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/native_ppu_registers.cpp"
+                or definitions[0]["object"] != "snes9x/native_ppu_registers.o"):
+            fail(f"promoted native register source ownership drift: {name}")
+
+    definitions = [row for row in defined_rows if row["symbol"] == "S9xDoDMA"]
+    if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+            or definitions[0]["section_class"] != "text"
+            or definitions[0]["size_hex"] != hex(6388)
+            or definitions[0]["source"] != "src/snes9x/native_dma.cpp"
+            or definitions[0]["object"] != "snes9x/native_dma.o"):
+        fail("promoted native DMA source ownership drift")
+
+    for name, size in (("_Z11S9xSA1Resetv", 264), ("_Z20S9xSA1SetBWRAMMemMaph", 192),
+                       ("S9xFixSA1AfterSnapshotLoad", 272), ("S9xSA1GetByte", 400),
+                       ("S9xSA1GetWord", 84), ("S9xSA1SetByte", 460),
+                       ("S9xSA1SetWord", 72), ("S9xSA1SetPCBase", 276),
+                       ("S9xSA1ExecuteDuringSleep", 8), ("_Z15S9xSetSA1MemMapjh", 256),
+                       ("S9xGetSA1", 372), ("S9xSetSA1", 2272)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/native_sa1.cpp"
+                or definitions[0]["object"] != "snes9x/native_sa1.o"):
+            fail(f"promoted native SA-1 source ownership drift: {name}")
+
+    for name, size in (("S9xSA1MainLoop", 256), ("_Z16S9xSA1Opcode_IRQv", 296)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/native_sa1_execution.cpp"
+                or definitions[0]["object"] != "snes9x/native_sa1_execution.o"):
+            fail(f"promoted native SA-1 execution ownership drift: {name}")
+
+    for name in ("_Z13S9xOpcode_IRQv", "_Z13S9xOpcode_NMIv"):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != "0x288"
+                or definitions[0]["source"] != "src/snes9x/native_cpu_interrupts.cpp"
+                or definitions[0]["object"] != "snes9x/native_cpu_interrupts.o"):
+            fail(f"promoted native CPU interrupt ownership drift: {name}")
+    if {"S9xOpcode_IRQ", "S9xOpcode_NMI"} & set(external):
+        fail("retired plain-name CPU interrupt imports remain active")
+
+    for source, entries in (("native_controllers", (("S9xUpdateJoypads", 632),
+                            ("_Z17ProcessSuperScopev", 276), ("_Z19S9xUpdateJustifiersv", 536),
+                            ("_Z18JustifierOffscreenv", 8), ("_Z16JustifierButtonsRj", 8),
+                            ("S9xReadSuperScopePosition", 8), ("S9xReadMousePosition", 8))),
+                            ("native_chip_io", (("S9xGetC4", 24), ("S9xGetST018", 8), ("S9xSetST018", 40))),
+                            ("native_rom_deinterleave", (("S9xMessage", 8), ("S9xDeinterleaveMode2", 544))),
+                            ("native_c4_raster", (("_Z10C4DrawLineiisiish", 540), ("_Z17C4SprDisintegratev", 580))),
+                            ("native_rom_maps", (
+                                ('_ZN7CMemory6MapRAMEv', 268),
+                                ('_ZN7CMemory11MapExtraRAMEv', 304),
+                                ('_ZN7CMemory8LoROMMapEv', 1268),
+                                ('_ZN7CMemory10BSLoROMMapEv', 1084),
+                                ('_ZN7CMemory8HiROMMapEv', 940),
+                                ('_ZN7CMemory11TalesROMMapEh', 1176),
+                                ('_ZN7CMemory11AlphaROMMapEv', 520),
+                                ('_ZN7CMemory13SuperFXROMMapEv', 880),
+                                ('_ZN7CMemory9SA1ROMMapEv', 920),
+                                ('_ZN7CMemory13LoROM24MBSMapEv', 856),
+                                ('_ZN7CMemory19SufamiTurboLoROMMapEv', 952),
+                                ('_ZN7CMemory16SRAM512KLoROMMapEv', 604),
+                                ('_ZN7CMemory10BSHiROMMapEv', 1144),
+                                ('_ZN7CMemory13JumboLoROMMapEv', 1020),
+                                ('_ZN7CMemory15SPC7110HiROMMapEv', 880),
+                            )),
+                            ("native_c4_wave", (("_Z14C4BitPlaneWavev", 584),))):
+        for name, size in entries:
+            definitions = [row for row in defined_rows if row["symbol"] == name]
+            if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                    or definitions[0]["section_class"] != "text"
+                    or definitions[0]["size_hex"] != hex(size)
+                    or definitions[0]["source"] != f"src/snes9x/{source}.cpp"
+                    or definitions[0]["object"] != f"snes9x/{source}.o"):
+                fail(f"promoted native controller/chip IO ownership drift: {name}")
+    for symbol, address in LATER_CONTROLLER_CONTRACTS.items():
+        ext, provider = external.get(symbol), frontier.get(symbol)
+        if (ext is None or ext["category"] != "named-external"
+                or ext["provider_kind"] != "link-contract"
+                or ext["requesters"] != "snes9x/native_controllers.o"
+                or provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
+                or provider["target_address"] != f"0x{address:08x}"):
+            fail(f"native controller frontend contract drift: {symbol}")
+
+    for symbol, (address, requesters, category) in LATER_NATIVE_BULK_CONTRACTS.items():
+        ext, contract = external.get(symbol), contracts.get(symbol)
+        if ext is None or ext["category"] != category or ext["requesters"] != requesters or contract is None:
+            fail("native batch original ABI contract drift: " + symbol)
+        if category == "zlib-peer":
+            if (contract["status"] != "RESOLVED" or contract["resolution_kind"] != "semantic-text-alias"
+                    or contract["target_address"] != f"0x{address:08x}" or symbol in frontier):
+                fail("native batch zlib source alias drift: " + symbol)
+        else:
+            provider = frontier.get(symbol)
+            if (provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
+                    or provider["target_address"] != f"0x{address:08x}"):
+                fail("native batch original callee address drift: " + symbol)
+
+    symbol = "_Z18ComputeClipWindowsv"
+    definitions = [row for row in defined_rows if row["symbol"] == symbol]
+    if (symbol in external or symbol in frontier or len(definitions) != 1
+            or definitions[0]["binding"] != "global" or definitions[0]["section_class"] != "text"
+            or definitions[0]["size_hex"] != hex(4572)
+            or definitions[0]["source"] != "src/snes9x/native_clip.cpp"):
+        fail("promoted native rendering clip-window ownership drift")
+    definitions = [row for row in defined_rows if row["symbol"] == "S9xUpdateScreen"]
+    if ("S9xUpdateScreen" in external or len(definitions) != 1
+            or definitions[0]["binding"] != "global" or definitions[0]["section_class"] != "text"
+            or definitions[0]["size_hex"] != "0x1a38"
+            or definitions[0]["source"] != "src/snes9x/native_gfx.cpp"):
+        fail("promoted native S9xUpdateScreen ownership drift")
+
+    symbol = "_Z14S9xSpc7110Initv"
+    ext, provider = external.get(symbol), frontier.get(symbol)
+    if (ext is None or ext["category"] != "target-function-contract"
+            or ext["requesters"] != "snes9x/native_rom_maps.o"
+            or provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
+            or provider["target_address"] != "0x001806a4"):
+        fail("native ROM SPC7110 initializer ABI/address contract drift")
+
+    definitions = [row for row in defined_rows if row["symbol"] == "S9xGenerateSound"]
+    if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+            or definitions[0]["section_class"] != "text" or definitions[0]["size_hex"] != "0x8"
+            or definitions[0]["source"] != "src/ps2/native_sound_callback.c"
+            or definitions[0]["object"] != "ps2/native_sound_callback.o"):
+        fail("promoted native PS2 sound callback ownership drift")
+
+    symbol = "_ZN7CMemory7InitROMEh"
+    ext, provider = external.get(symbol), frontier.get(symbol)
+    if (ext is None or ext["category"] != "target-function-contract"
+            or ext["requesters"] != "snes9x/native_rom_deinterleave.o"
+            or provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
+            or provider["target_address"] != "0x001522d8"):
+        fail("native ROM InitROM ABI/address contract drift")
+
+    for name, size in (("S9xStartHDMA", 176), ("S9xDoHDMA", 1292)):
+        definitions = [row for row in defined_rows if row["symbol"] == name]
+        if (len(definitions) != 1 or definitions[0]["binding"] != "global"
+                or definitions[0]["section_class"] != "text"
+                or definitions[0]["size_hex"] != hex(size)
+                or definitions[0]["source"] != "src/snes9x/native_hdma.cpp"
+                or definitions[0]["object"] != "snes9x/native_hdma.o"):
+            fail(f"promoted native HDMA source ownership drift: {name}")
+
+    native_aliases = {
+        "RenderLine": "snes_p28_00143390",
+        "S9xStartScreenRefresh": "snes_p28_0014311c",
+        "S9xEndScreenRefresh": "snes_p28_001434ac",
+    }
+    for symbol, address in LATER_CPU_EXECUTION_CONTRACTS.items():
+        if symbol == "RenderLine":
+            definitions = [row for row in defined_rows if row["symbol"] == symbol]
+            if (symbol in external or symbol in frontier or symbol in contracts
+                    or len(definitions) != 1 or definitions[0]["binding"] != "global"
+                    or definitions[0]["section_class"] != "text"
+                    or definitions[0]["size_hex"] != "0x11c"
+                    or definitions[0]["source"] != "src/snes9x/native_gfx.cpp"):
+                fail("promoted native RenderLine ownership drift")
+            continue
+        ext, provider, contract = external.get(symbol), frontier.get(symbol), contracts.get(symbol)
+        common = (ext is not None and ext["category"] == "named-external"
+                  and ext["provider_kind"] == "link-contract"
+                  and ext["requesters"] == "snes9x/cpu_execution.o")
+        if symbol in native_aliases:
+            proved = (contract is not None and contract["status"] == "RESOLVED"
+                      and contract["resolution_kind"] == "semantic-text-alias"
+                      and contract["canonical_symbol"] == native_aliases[symbol]
+                      and contract["target_address"] == f"0x{address:08x}")
+        else:
+            proved = (provider is not None and provider["resolution_kind"] == ABSOLUTE_ANCHOR
+                      and provider["target_address"] == f"0x{address:08x}")
+        if not common or not proved:
+            fail(f"later native CPU-execution callee drift: {symbol}")
+
+    dsp_init = [row for row in defined_rows if row["symbol"] == "S9xInitDSP"]
+    if (len(dsp_init) != 1 or dsp_init[0]["binding"] != "global"
+            or dsp_init[0]["section_class"] != "text"
+            or dsp_init[0]["size_hex"] != "0x110"
+            or dsp_init[0]["source"] != "src/snes9x/dsp_table_init.c"
+            or dsp_init[0]["object"] != "snes9x/dsp_table_init.o"):
+        fail("promoted native DSP initializer source ownership drift")
 
     errno_definitions = [
         row for row in defined_rows
@@ -364,6 +731,23 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
             "detail": detail,
         })
 
+    result.append(dict(PROMOTED_EXACT_SOURCE))
+    result.append(dict(PROMOTED_EXACT_STRCASECMP))
+    for symbol, address, _size, requesters in PROMOTED_EXACT_CTYPE:
+        result.append({
+            "symbol": symbol,
+            "category": "named-external",
+            "status": TEXT_ALIAS_PROVED,
+            "target_address": address,
+            "extent_hex": "",
+            "region": "text",
+            "sha256": "",
+            "canonical_symbol": symbol,
+            "evidence": "exact-historical-source-target-entry",
+            "requesters": requesters,
+            "detail": f"exact historical PS2LIB F_ctype source provides target entry directly;evidence=analysis/functions/ctype_exact_616.tsv#{symbol}",
+        })
+
     result.append({
         "symbol": ERRNO_ALIAS["symbol"],
         "category": "named-external",
@@ -394,10 +778,10 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
         })
 
     result.sort(key=lambda row: row["symbol"])
-    if len(result) != 212 or len({row["symbol"] for row in result}) != 212:
-        fail("historical Stage-3E 212-row ledger drift")
+    if len(result) != 216 or len({row["symbol"] for row in result}) != 216:
+        fail("historical Stage-3E 216-row ledger drift")
     expected_counts = {
-        TEXT_ALIAS_PROVED: 23,
+        TEXT_ALIAS_PROVED: 27,
         TARGET_RANGE_PROVED: 164,
         TARGET_ENTRY_PROVED: 2,
         EXTERNAL_ADDRESS_PROVED: 2,
@@ -437,8 +821,8 @@ def fingerprint_rows(
 def validate_manifest(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[str, int | str]]:
     expected, layout = derive_rows(args)
     actual = read_table(args.manifest, MANIFEST_FIELDS)
-    if len(actual) != 212:
-        fail(f"named-contract manifest must contain 212 rows, found {len(actual)}")
+    if len(actual) != 216:
+        fail(f"named-contract manifest must contain 216 rows, found {len(actual)}")
     actual_by_symbol = unique(actual, "symbol", "named-contract row")
     if set(actual_by_symbol) != {row["symbol"] for row in expected}:
         fail("named-contract manifest symbol set drift")
@@ -576,8 +960,8 @@ def link_exact_providers(
         fail("private reference does not match the frozen layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 223:
-        fail(f"expected 223 post-snprintf-refactor provider rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 219:
+        fail(f"expected 219 post-FILEIO provider rows, found {len(frontier_rows)}")
     frontier_by_name = unique(frontier_rows, "symbol", "provider row")
 
     stage3c_rows = read_table(args.stage3c_manifest, stage3c.MANIFEST_FIELDS)

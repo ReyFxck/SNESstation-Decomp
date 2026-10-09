@@ -176,47 +176,6 @@ static void sa1_ram_write_state(SnesGetSetContext *ctx)
     ctx->sa1_executing = ctx->sa1_waiting == 0;
 }
 
-/* 0x001ab4e8 */
-uint8_t *S9xGetMemPointer_001ab4e8(SnesGetSetContext *ctx, uint32_t address)
-{
-    uintptr_t entry = ctx->memory->map[block_for(address)];
-    unsigned code = (unsigned)entry;
-    uint32_t lo = address & 0xffffu;
-
-    if (is_direct(entry))
-        return direct_ptr(entry, address);
-
-    /* Target tests this before its <17 jump-table dispatch. */
-    if (ctx->memory->spc7110_enabled &&
-        (address & 0x007fffffu) == 0x4800u)
-        return ctx->memory->spc7110_dram;
-
-    if (code >= 17u)
-        return NULL;
-
-    switch (code) {
-    case SNES_MAP_PPU: return ctx->memory->fillram - 0x2000 + lo;
-    case SNES_MAP_CPU: return ctx->memory->fillram - 0x4000 + lo;
-    case SNES_MAP_DSP: return ctx->memory->fillram - 0x6000 + lo;
-    case SNES_MAP_LOROM_SRAM:
-    case SNES_MAP_SA1RAM: return ctx->memory->sram + lo;
-    case SNES_MAP_HIROM_SRAM: return ctx->memory->sram + lo;
-    case SNES_MAP_C4: return ctx->memory->c4ram != NULL ? ctx->memory->c4ram + lo : NULL;
-    case SNES_MAP_BWRAM: return ctx->memory->bwram + lo;
-    case SNES_MAP_SPC7110_DRAM:
-        return ctx->memory->spc7110_dram != NULL
-            ? ctx->memory->spc7110_dram + lo : NULL;
-    case SNES_MAP_OBC_RAM:
-        return ctx->pointer_special[code] != NULL
-            ? ctx->pointer_special[code](address, ctx->opaque) : NULL;
-    case SNES_MAP_SETA_DSP:
-        /* Target returns the SRAM base itself here, with no low-address add. */
-        return ctx->memory->sram;
-    default:
-        return NULL;
-    }
-}
-
 /* 0x001ab63c */
 uint8_t S9xGetByte_001ab63c(SnesGetSetContext *ctx, uint32_t address)
 {

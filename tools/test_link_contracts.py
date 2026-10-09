@@ -16,6 +16,7 @@ from link_contracts import (
     DEFAULT_SOURCE_ALIASES,
     MANIFEST_FIELDS,
     RESOLVED,
+    REVIEW_ABSOLUTE,
     SEMANTIC_ALIAS,
     ContractError,
     NmSymbol,
@@ -177,6 +178,22 @@ class LinkContractTests(unittest.TestCase):
         self.assertEqual("reviewed-semantic-contract", by_symbol["seek_like_00100020"]["evidence"])
         self.assertEqual("blocked-source-address-alias", by_symbol["FUN_00100050"]["resolution_kind"])
 
+    def test_reviewed_absolute_target_contract(self) -> None:
+        rows = derive_rows(
+            [external("_Z16S9xGetMemPointerj")],
+            [],
+            [progress("0x001ab4e8", "S9xGetMemPointer")],
+            [],
+            [review("_Z16S9xGetMemPointerj", REVIEW_ABSOLUTE, "0x001ab4e8")],
+            0x00100000,
+            0x00200000,
+        )
+        self.assertEqual(RESOLVED, rows[0]["status"])
+        self.assertEqual(ABSOLUTE_ANCHOR, rows[0]["resolution_kind"])
+        self.assertEqual("0x001ab4e8", rows[0]["target_address"])
+        self.assertEqual("", rows[0]["canonical_symbol"])
+        self.assertEqual("reviewed-absolute-contract", rows[0]["evidence"])
+
     def test_address_anchor_must_be_inside_frozen_layout(self) -> None:
         with self.assertRaisesRegex(ContractError, "outside the unpacked layout"):
             derive_rows(
@@ -238,6 +255,39 @@ class LinkContractTests(unittest.TestCase):
         ]
         self.assertEqual((3, 1), verify_link_result(input_symbols, output_symbols, rows))
 
+    def test_retired_data_is_bound_without_restoring_its_consumer(self) -> None:
+        rows = [
+            {"symbol": "retired", "status": RESOLVED,
+             "resolution_kind": ABSOLUTE_ANCHOR, "target_address": "0x00100010"},
+            {"symbol": "live", "status": BLOCKED},
+        ]
+        input_symbols = [NmSymbol("live", "U")]
+        output_symbols = [*input_symbols, NmSymbol("retired", "A", "00100010")]
+        self.assertEqual(
+            (1, 1), verify_link_result(input_symbols, output_symbols, rows, {"retired"}),
+        )
+        with self.assertRaisesRegex(ContractError, "aggregate/contract manifest drift"):
+            verify_link_result(
+                [*input_symbols, NmSymbol("retired", "U")], output_symbols, rows, {"retired"},
+            )
+        with self.assertRaisesRegex(ContractError, "retired data contracts"):
+            verify_link_result(
+                input_symbols, output_symbols,
+                [{**rows[0], "status": BLOCKED}, rows[1]], {"retired"},
+            )
+
+    def test_semantic_alias_can_bind_weak_text_without_accepting_data(self) -> None:
+        rows = [{"symbol": "call", "status": RESOLVED,
+                 "resolution_kind": SEMANTIC_ALIAS, "canonical_symbol": "weak_target"}]
+        input_symbols = [NmSymbol("call", "U")]
+        output_symbols = [NmSymbol("call", "T", "00000020"),
+                          NmSymbol("weak_target", "W", "00000020")]
+        self.assertEqual((1, 0), verify_link_result(input_symbols, output_symbols, rows))
+        for target in (NmSymbol("weak_target", "D", "00000020"),
+                       NmSymbol("weak_target", "W", "00000024")):
+            with self.assertRaisesRegex(ContractError, "semantic alias differs"):
+                verify_link_result(input_symbols, [output_symbols[0], target], rows)
+
     def test_frozen_repository_manifest_has_expected_live_counts(self) -> None:
         args = argparse.Namespace(
             external_map=DEFAULT_EXTERNAL,
@@ -250,17 +300,18 @@ class LinkContractTests(unittest.TestCase):
         )
         rows = validate_frozen_manifest(args)
         report = summarize(rows)
-        self.assertEqual(1530, report["contracts_total"])
-        self.assertEqual(1297, report["resolved"])
-        self.assertEqual(233, report["blocked"])
-        self.assertEqual(1234, report["address_anchors"])
-        self.assertEqual(63, report["semantic_aliases"])
+        self.assertEqual(1549, report["contracts_total"])
+        self.assertEqual(1293, report["resolved"])
+        self.assertEqual(256, report["blocked"])
+        self.assertEqual(1255, report["address_anchors"])
+        self.assertEqual(38, report["semantic_aliases"])
         self.assertEqual(
             {
                 "recovered-runtime": 1,
-                "link-contract": 176,
+                "link-contract": 192,
+                "historical-archive": 3,
                 "private-asset": 10,
-                "program-data": 32,
+                "program-data": 36,
                 "source-address-alias": 14,
             },
             report["blocked_provider_counts"],

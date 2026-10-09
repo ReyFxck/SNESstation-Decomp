@@ -1,5 +1,7 @@
 # Patch payloads keep historical upstream whitespace so they apply byte-for-byte.
 tools/patches/*.patch whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+# The generated alias ledger uses a trailing tab for an empty detail field.
+analysis/link_identity/source_address_aliases.tsv whitespace=-blank-at-eol
 third_party/toolchain/archive/*.tar.gz binary
 third_party/toolchain/newlib-1.10.0/*.tar.gz binary
 third_party/historical_refs/**/*.o binary

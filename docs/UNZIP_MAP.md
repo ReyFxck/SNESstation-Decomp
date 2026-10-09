@@ -11,7 +11,7 @@ were identified. Historical sources are used as post-identification validation.
 
 | Address | Function | Status / evidence |
 |---|---|---|
-| `0x0018c124` | `get_tree` | reconstructed; nibble-coded bit-length/repeat stream |
+| `0x0018c124` | `get_tree` | byte-exact canonical `.S`; 212/212 linked bytes, 9 relocations, historical K&R C provenance retained |
 | `0x0018c1f8` | `explode_lit8` | reconstructed; coded literals + 8K dictionary |
 | `0x0018c834` | `explode_lit4` | reconstructed; coded literals + 4K dictionary |
 | `0x0018ce70` | `explode_nolit8` | reconstructed; raw literals + 8K dictionary |

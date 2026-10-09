@@ -203,6 +203,64 @@ DETAILS = {
     "abort": "pinned terminate.o prints and calls _exit; rejected as selected provider; its weak abort body is only a puts caller witness",
 }
 
+# These PS2LIB members remain byte-exact historical source witnesses, while the
+# canonical source tree now defines promoted runtime symbols directly from the
+# recovered historical SIF, FILEIO, XPRINTF and ALLOC sources.
+PROMOTED_SOURCE_RUNTIME = {
+    "strtol": ("strtol", "ps2/progress21_small_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o"),
+    "strrchr": ("strrchr", "ps2/audio_rpc_recovered.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o"),
+    "strncpy": ("strncpy", "ps2/cdvd_rpc.o;ps2/fileio.o;ps2/iopcontrol.o;ps2/libmc_recovered.o;ps2/loadfile.o;ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o"),
+    "strcmp": ("strcmp", "unzip/unzip_api_recovered.o"),
+    "strchr": ("strchr", "ps2/path_helpers_recovered.o;ps2/progress21_small_helpers_recovered.o"),
+    "strlen": ("strlen", "ps2/iopcontrol.o;ps2/libmc_recovered.o;ps2/path_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o;ps2/xprintf.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o"),
+    "strcpy": ("strcpy", "ps2/libpad_recovered.o;ps2/path_helpers_recovered.o;ps2/strcat.o;snes9x/memmap_metadata_recovered.o;zlib/gzio_recovered.o"),
+    "memcmp": ("memcmp", "ps2/progress21_small_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o"),
+    "strcat": ("strcat", "ps2/path_helpers_recovered.o;zlib/gzio_recovered.o"),
+    "memmove": ("memmove", "ps2/progress26_dsp_runtime_batch_recovered.o;unzip/explode_recovered.o;zlib/deflate_engine_recovered.o;zlib/deflate_state_recovered.o;zlib/infblock_engine_recovered.o;zlib/infblock_frontend_recovered.o;zlib/infutil_recovered.o"),
+    "memset": ("memset", "app/main_flow_recovered.o;ps2/alloc.o;ps2/gcc_fde_runtime_recovered.o;ps2/iopcontrol.o;ps2/libpad_recovered.o;ps2/libsupcxx_rtti_recovered.o;ps2/loadfile.o;ps2/progress13_cpp_eh_recovered.o;ps2/progress22_more_small_helpers_recovered.o;ps2/progress24_core_helpers_recovered.o;ps2/progress25_small_core_helpers_recovered.o;ps2/progress26_dsp_runtime_batch_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o;ps2/small_dispatch_recovered.o;snes9x/memory_init_recovered.o;snes9x/progress11_core_recovered.o;snes9x/progress13_core_helpers_recovered.o;snes9x/progress13_frontend_more_recovered.o;snes9x/progress13_runtime_more_recovered.o;snes9x/sram_recovered.o;unzip/explode_recovered.o;unzip/unreduce_recovered.o;zlib/deflate_engine_recovered.o;zlib/deflate_state_recovered.o;zlib/gzio_recovered.o;zlib/infblock_frontend_recovered.o;zlib/inflate_state_recovered.o;zlib/zlib_buffer_api_recovered.o"),
+    "memcpy": ("memcpy", "ps2/alloc.o;ps2/cdvd_rpc.o;ps2/fileio.o;ps2/gcc_fde_runtime_recovered.o;ps2/gcc_unwind_pe_recovered.o;ps2/gs_fifo_recovered.o;ps2/gsfont_recovered.o;ps2/gspipe_recovered.o;ps2/libgcc_runtime_recovered.o;ps2/libmc_recovered.o;ps2/libpad_recovered.o;ps2/loadfile.o;ps2/newlib_mathfp_recovered.o;ps2/progress12_io_state_recovered.o;ps2/progress13_cpp_eh_recovered.o;ps2/progress15_pad_init_recovered.o;ps2/progress23_audio_helpers_recovered.o;ps2/progress27_large_state_cpu_batch_recovered.o;snes9x/progress11_core_recovered.o;snes9x/progress13_frontend_more_recovered.o;snes9x/progress13_runtime_more_recovered.o;unzip/explode_recovered.o;unzip/unreduce_recovered.o;zlib/deflate_state_recovered.o;zlib/gzio_recovered.o"),
+    "malloc": ("malloc", "ps2/gcc_fde_runtime_recovered.o;ps2/libsupcxx_rtti_recovered.o;snes9x/apu_alloc_recovered.o;snes9x/memory_init_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o"),
+    "calloc": ("calloc", "zlib/zutil_adler_recovered.o"),
+    "free": ("free", "ps2/gcc_fde_runtime_recovered.o;ps2/libsupcxx_rtti_recovered.o;snes9x/apu_alloc_recovered.o;snes9x/memory_cleanup_recovered.o;unzip/explode_recovered.o;unzip/unzip_api_recovered.o;zlib/gzio_recovered.o;zlib/zutil_adler_recovered.o"),
+    "vsprintf": ("vsprintf", "zlib/gzio_recovered.o"),
+    "printf": ("printf", "ps2/gspipe_recovered.o"),
+    "sprintf": ("sprintf", "ps2/path_helpers_recovered.o;ps2/progress12_io_state_recovered.o;ps2/small_dispatch_recovered.o;snes9x/memmap_metadata_recovered.o;zlib/gzio_recovered.o"),
+    "SifBindRpc": ("SifBindRpc", "ps2/cdvd_rpc.o"),
+    "SifCallRpc": ("SifCallRpc", "ps2/cdvd_rpc.o;ps2/fileio_recovered.o;ps2/loadfile_iop_recovered.o"),
+    "SifInitRpc": ("SifInitRpc", "app/main_bootstrap.o"),
+    "SifAddCmdHandler": ("SifAddCmdHandler", "ps2/sifrpc.o"),
+    "SifExitCmd": ("SifExitCmd", "ps2/sifrpc.o"),
+    "SifInitCmd": ("SifInitCmd", "ps2/sifrpc.o"),
+    "SifGetSreg": ("SifGetSreg", "ps2/sifrpc.o"),
+    "SifSendCmd": ("SifSendCmd", "ps2/sifrpc.o"),
+    "fioInit_recovered": ("fioInit", ""),
+    "SifAllocIopHeap": ("SifAllocIopHeap", "ps2/load_module_buffer.o"),
+    "SifFreeIopHeap": ("SifFreeIopHeap", "ps2/load_module_buffer.o"),
+    "SifInitIopHeap_recovered": ("SifInitIopHeap", ""),
+    "SifLoadFileInit_recovered": ("SifLoadFileInit", ""),
+    "SifLoadModule": ("SifLoadModule", "app/main_bootstrap.o"),
+    "SifLoadModuleBuffer": ("SifLoadModuleBuffer", "ps2/load_module_buffer.o"),
+    "SifIopReset": ("SifIopReset", "app/main_bootstrap.o"),
+}
+
+# Address-suffixed FILEIO names are now source-address aliases to the canonical
+# historical functions in src/ps2/fileio.c, not independent runtime members.
+PROMOTED_SOURCE_ALIASES = {
+    "qsort",
+    "fioClose_0019d090",
+    "fioLseek_0019d360",
+    "fioOpen_0019cfc0",
+    "fioRead_0019d120",
+    "fioWrite_0019d244",
+    "SifAllocIopHeap_0019d63c",
+    "SifFreeIopHeap_0019d6b8",
+    "SifInitIopHeap_0019f9e8",
+    "SifLoadFileInit_0019fd20",
+    "SifLoadModule_0019d600",
+    "SifLoadModuleBuffer_0019d620",
+    "SifIopReset_0019d740",
+}
+
 
 def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
@@ -251,8 +309,16 @@ def validate_inputs(path: Path) -> list[dict[str, str]]:
 def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], dict[str, str]]:
     external = libgcc.read_table(args.external_map, libgcc.EXTERNAL_FIELDS)
     active = {r["symbol"]: r for r in external if r["category"] in ("c-runtime", "ps2-runtime")
-              and r["provider_kind"] in ("historical-archive", "recovered-runtime")}
-    if set(active) != set(CONTRACT_BY_SYMBOL) or len(external) != 1863:
+              and r["provider_kind"] in ("historical-archive", "recovered-runtime")
+              and r["symbol"] not in PROMOTED_SOURCE_ALIASES}
+    expected_external = set(CONTRACT_BY_SYMBOL) - set(PROMOTED_SOURCE_RUNTIME)
+    # Exact kernel.S plus promoted libc/PS2LIB sources remove their former
+    # live external contracts from the global source-tree namespace.
+    # Native C4 raster source closes the reviewed C4DrawLine contract; the
+    # libsupc++ personality dependency; S9xGetMemPointer, S9xGetByte and
+    # S9xSetByte are now defined canonically. S9xSetByte adds nine exact
+    # address/data provider contracts to the global source-tree namespace.
+    if set(active) != expected_external or len(external) != 1880:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):
@@ -265,7 +331,9 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     for spec in CONTRACTS:
         if progress.get(spec.address, {}).get("status") != "MATCHING":
             fail(f"runtime target missing from frozen function universe: {spec.symbol}")
-        if spec.symbol == "abort":
+        if spec.symbol in PROMOTED_SOURCE_RUNTIME:
+            bindings[spec.symbol] = PROMOTED_SOURCE_RUNTIME[spec.symbol][0]
+        elif spec.symbol == "abort":
             row = frontier.get("abort", {})
             if (row.get("resolution_kind"), row.get("target_symbol")) != ("semantic-text-alias", "snes_fatal_spin_00107578"):
                 fail("abort source alias drift")
@@ -284,7 +352,8 @@ def fixed_contract(spec: Contract, active: dict[str, dict[str, str]], bindings: 
         "member_symbol": spec.member_symbol, "target_address": f"0x{spec.address:08x}",
         "member_offset_hex": hex(spec.offset), "target_symbol_size_hex": hex(spec.target_size),
         "member_symbol_size_hex": hex(spec.member_size), "canonical_symbol": bindings[spec.symbol],
-        "requesters": active[spec.symbol]["requesters"],
+        "requesters": (active[spec.symbol]["requesters"] if spec.symbol in active
+                       else PROMOTED_SOURCE_RUNTIME[spec.symbol][1]),
         "detail": DETAILS.get(spec.symbol, "complete member text and symbol offset; final relocation values/data placement remain separate"),
     }
 

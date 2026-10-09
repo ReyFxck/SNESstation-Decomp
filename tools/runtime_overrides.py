@@ -35,7 +35,7 @@ FLAGS = ("-G0", "-EL", "-pipe", "-w", "-Os", "-fomit-frame-pointer",
 SPECS = {
     "abort": (0x107578, 8, "snes_fatal_spin_00107578", "src/ps2/libc_misc_recovered.c",
               "analysis/matching/hunt1000plus-v41-validated-28.tsv"),
-    "puts": (0x19E414, 96, "puts_like_recovered", "src/ps2/stdio_wrappers_recovered.c",
+    "puts": (0x19E414, 96, "puts_like_recovered", "src/ps2/xprintf.c",
              "analysis/matching/hunt1000plus-v47-validated-79.tsv"),
 }
 # The termination witness is one complete 36-byte weak function, NOT a whole
@@ -190,7 +190,12 @@ def live_contracts(args: argparse.Namespace) -> dict[str, dict[str, str]]:
     frontier = {r["symbol"]: r for r in libgcc.read_table(args.frontier_manifest, libgcc.FRONTIER_FIELDS)}
     with args.defined_map.open(encoding="utf-8", newline="") as stream:
         defined = list(csv.DictReader(stream, delimiter="\t"))
-    if len(external) != 1863 or len(contracts) != 1530 or len(frontier) != 223:
+    # Exact kernel.S plus the promoted PS2LIB string/ctype sources collapse
+    # their former external/contract pairs without changing this override set.
+    # C4DrawWireFrame plus canonical S9xGetMemPointer retain this reviewed
+    # override set. Canonical S9xGetByte and S9xSetByte add exact provider-address
+    # contracts to the global namespace without changing the override set itself.
+    if len(external) != 1880 or len(contracts) != 1549 or len(frontier) != 246:
         fail("runtime override namespace count drift")
     for symbol, (address, size, canonical, source, _) in SPECS.items():
         row = external.get(symbol, {})

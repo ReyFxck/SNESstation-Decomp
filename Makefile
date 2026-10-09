@@ -6,6 +6,7 @@
 PYTHON ?= python3
 HOST_CC ?= cc
 EE_CC ?= $(if $(wildcard build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc),$(abspath build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc),ee-gcc)
+EE_CXX ?= $(if $(wildcard build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++),$(abspath build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++),ee-g++)
 EE_GCC_VERSION ?= 3.2.2-b1
 
 BUILD_DIR := build
@@ -16,7 +17,7 @@ EE_STAGE1_CXX := $(EE_CXX_STAGE1_WORK_DIR)/prefix/bin/ee-g++
 EE_BOOTSTRAP_JOBS_ARG := $(if $(strip $(EE_BUILD_JOBS)),--jobs "$(EE_BUILD_JOBS)",)
 MATCH_DIR := $(BUILD_DIR)/matching
 MATHFP_SOURCE := matching/candidates/mathfp.c
-MATHFP_NUMTEST_SOURCE := matching/candidates/mathfp_numtest.S
+MATHFP_NUMTEST_SOURCE := src/ps2/numtestf.S
 MATHFP_CORE_OBJECT := $(MATCH_DIR)/mathfp/mathfp_core.o
 MATHFP_NUMTEST_OBJECT := $(MATCH_DIR)/mathfp/mathfp_numtest.o
 MATHFP_OBJECT := $(MATCH_DIR)/mathfp/mathfp.o
@@ -25,7 +26,7 @@ MATHFP_MANIFEST := analysis/matching/mathfp.csv
 MATHFP_LISTING := analysis/functions/math_frontier_0019fddc.asm
 MATHFP_LISTING_RAW := $(MATCH_DIR)/mathfp/listing.bin
 MATHFP_LISTING_REPORT := analysis/matching/mathfp-listing-report.md
-GET_TREE_SOURCE := matching/candidates/get_tree.S
+GET_TREE_SOURCE := src/unzip/get_tree.S
 GET_TREE_OBJECT := $(MATCH_DIR)/get_tree/get_tree.o
 GET_TREE_REPORT := $(MATCH_DIR)/get_tree/report.md
 GET_TREE_MANIFEST := analysis/matching/get_tree.csv
@@ -182,13 +183,13 @@ SNESTICLE_REFERENCE_LIBS := -lmc -lpad -lps2ip -lkernel -lc -lm -lgcc -lstdc++
 
 .DEFAULT_GOAL := help
 
-.PHONY: help help-legacy status docs frontier-map check-generated check-links \
+.PHONY: help help-legacy status docs source-recovery-check frontier-map check-generated check-links \
 	checkpoint-1041-audit checkpoint-1041-check checkpoint-1041-reference-check \
 	reproduce-status reproduce-check reproduce \
 	audit-source audit-source-check host-syntax test-tools check \
 	reference verify-reference extract-assets fetch-newlib fetch-ee-toolchain-recipe \
 	layout-oracle layout-oracle-check layout-oracle-refresh layout-oracle-public-check compare-unpacked \
-	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 \
+	bootstrap-ee-stage1 bootstrap-ee-cxx-stage1 check-ee-compiler check-ee-cxx \
 	source-tree source-tree-check source-tree-refresh \
 	source-aliases source-aliases-check source-aliases-refresh source-aliases-public-check \
 	link-contracts link-contracts-check link-contracts-refresh link-contracts-public-check \
@@ -235,6 +236,7 @@ help:
 	@echo
 	@echo "  make status          show the current audited counts"
 	@echo "  make check           run every public repository check"
+	@echo "  make source-recovery-check rerun every maintained exact-source proof"
 	@echo "  make docs            regenerate the current status files"
 	@echo "  make reference       verify and unpack original/SNES_EMU.ELF privately"
 	@echo "  make reproduce-check run every implemented public and private gate"
@@ -256,6 +258,9 @@ help-legacy:
 
 status:
 	$(PYTHON) tools/project_status.py
+
+source-recovery-check:
+	$(PYTHON) tools/run-source-recovery.py
 
 docs: audit-source
 	$(PYTHON) tools/update_frontier_map.py
@@ -523,12 +528,22 @@ check-ee-compiler:
 		exit 2; \
 	}
 
-source-tree: bootstrap-ee-stage1
-	$(MAKE) source-tree-check EE_CC="$(EE_STAGE1_CC)"
+check-ee-cxx:
+	@command -v "$(EE_CXX)" >/dev/null 2>&1 || { \
+		echo "Missing EE C++ compiler: $(EE_CXX)" >&2; \
+		echo "Build the isolated historical C/C++ candidate with:" >&2; \
+		echo "  make bootstrap-ee-cxx-stage1" >&2; \
+		echo "Then select it explicitly with EE_CXX=/absolute/path/to/ee-g++" >&2; \
+		exit 2; \
+	}
 
-source-tree-check: check-ee-compiler
+source-tree: bootstrap-ee-stage1 bootstrap-ee-cxx-stage1
+	$(MAKE) source-tree-check EE_CC="$(EE_STAGE1_CC)" EE_CXX="$(EE_STAGE1_CXX)"
+
+source-tree-check: check-ee-compiler bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/build_source_tree.py \
 		--compiler "$(EE_CC)" \
+		--cxx "$(EE_CXX)" \
 		--cflags '$(EE_SOURCE_TREE_FLAGS)' \
 		--manifest "$(SOURCE_TREE_MANIFEST)" \
 		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \
@@ -541,9 +556,10 @@ source-tree-check: check-ee-compiler
 
 # Deliberately separate from the check target: refreshing ownership is a
 # reviewed source-boundary decision, never an automatic side effect.
-source-tree-refresh: check-ee-compiler
+source-tree-refresh: check-ee-compiler bootstrap-ee-cxx-stage1
 	$(PYTHON) tools/build_source_tree.py \
 		--compiler "$(EE_CC)" \
+		--cxx "$(EE_CXX)" \
 		--cflags '$(EE_SOURCE_TREE_FLAGS)' \
 		--manifest "$(SOURCE_TREE_MANIFEST)" \
 		--defined-map "$(SOURCE_TREE_DEFINED_MAP)" \

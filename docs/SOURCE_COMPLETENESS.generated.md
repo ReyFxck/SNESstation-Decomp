@@ -12,9 +12,9 @@ these measurements remain deliberately distinct.
 | Audited structural entries | **1,041/1,041 (100.00%)** | Every validated entry has a committed structural representation. |
 | Behavioral/source-model checkpoint | **1,041/1,041 (100.00%)** | Typed behavioral/source-model reconstruction exists for every audited row; exact source provenance is a separate claim. |
 | Structural pseudocode only | **0/1,041 (0.00%)** | Historical structural-only backlog after promotions: 0 remaining from Progress 16 and 0 remaining from Progress 17. |
-| Typed promotions from P16/P17 snapshots | **239** | Historical pseudocode evidence is retained while newer typed source overrides the readiness classification. |
+| Source promotions | **460** | Historical pseudocode promotions plus explicitly reviewed exact-historical promotions override older source models while retaining their evidence. |
 | Explicit address trace in `src/` | **1,018/1,041 (97.79%)** | A conservative text-level traceability check; corridor files may cover additional entries without repeating every address. |
-| Build-ready EE source ownership | **97/97 TUs** | `make source-tree` compiles every unit with EE GCC 3.2.2 and verifies the frozen canonical partial-link/ownership maps. |
+| Build-ready EE source ownership | **189/189 TUs** | `make source-tree` compiles every unit with EE GCC 3.2.2 and verifies the frozen canonical partial-link/ownership maps. |
 | Relocation-normalized machine-code matches | **1,041/1,041 (100.00%)** | No function is promoted to `MATCHING` without generated-object evidence. |
 | Complete replacement ELF | **Yes: 726,968/726,968 bytes** | The independent whole-image, compression and public SjCRUNCH wrapper gates close full-file identity. |
 
@@ -25,13 +25,14 @@ these measurements remain deliberately distinct.
 - All 1,041 manifest rows are structurally reconstructed.
 - The historical 165 Progress-16 and 74 Progress-17 manifest sets exactly match the
   address markers in their committed pseudocode snapshots.
-- `analysis/source_promotions.csv` contains 239 typed promotion(s); every
-  promoted address belongs to a historical pseudocode checkpoint and names an
-  existing source/evidence file. The source file must explicitly carry the
-  promoted address token.
+- `analysis/source_promotions.csv` contains 460 source promotion(s); each
+  promoted address is either a historical pseudocode checkpoint or an explicitly
+  reviewed exact-historical target. Every promotion names an existing
+  source/evidence file, and the source file must explicitly carry the promoted
+  address token.
 - No address occurs in both pseudocode checkpoints.
-- The independent EE source gate freezes 97 source boundaries, 96 canonical
-  objects, the EE ABI and every emitted/unresolved symbol owner. See
+- The independent EE source gate freezes 189 source boundaries and
+  their canonical objects, the EE ABI and every emitted/unresolved symbol owner. See
   [`docs/status/BUILD_READY_SOURCE_TREE.md`](status/BUILD_READY_SOURCE_TREE.md).
 
 The machine-readable row-by-row classification is
@@ -42,9 +43,9 @@ The machine-readable row-by-row classification is
 "Nothing left behind" is defensible inside the closed structural universe and
 the manifest-defined EE source tree: 1,137 raw JAL-shaped targets − 292
 rejected post-code data patterns + 196 independently mapped non-JAL entries =
-1,041 validated entries, compiled through 97 explicit TUs. It does not prove
+1,041 validated entries, compiled through 189 explicit TUs. It does not prove
 that 1,041 is the mathematically exact number of compiler-created functions,
-that the 97 boundaries are Hiryu's verbatim originals, or that the final ELF
+that those source boundaries are Hiryu's verbatim originals, or that the final ELF
 layout already matches.
 
 The next proof ladder is documented in

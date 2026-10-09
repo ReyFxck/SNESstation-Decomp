@@ -9,15 +9,15 @@
     "code_bytes": 722892,
     "entries": 1041,
     "linked_code_bytes": 722892,
-    "linked_units": 90,
+    "linked_units": 107,
     "terminal_function_size": 68,
-    "units": 90
+    "units": 107
   },
   "inputs": {
-    "analysis/link_identity/code_windows.json": "5fb5724dc0a38c796eda8e7d1a43394b2c694ba3530bae62e050b5437857ccbe",
+    "analysis/link_identity/code_windows.json": "bcd4473b2a505a23c91e98c99025d821a5cc942f02e06ffbbcf247bed3748b39",
     "analysis/progress_targets.csv": "528965a51814d44054dd7d01404c4b2ee428f275d2fb7e8673fb76a57f96e698",
-    "analysis/source_readiness.csv": "3d501952002b33837fc38ae000a66163ec652330df954e67a55d0aad37550573",
-    "analysis/source_tree/translation_units.tsv": "b69e90de05aebac109baf8ddb18a6ba58dce28e5e430eb33084316ab6eabc5da"
+    "analysis/source_readiness.csv": "2f0dc1b9d0c18e747f692d23efecb67244c4c6c7e13cb60fde4a88728585d2c9",
+    "analysis/source_tree/translation_units.tsv": "856afc870f2ea015de8b54e64c43fcac6cc3a9b3a5716c9afeca2651e6c02ce2"
   },
   "privacy": {
     "contains_binary_payloads": false,

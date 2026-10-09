@@ -66,38 +66,3 @@ ee_addr32_t EndOfHeap_0019f5c0(void)
 #endif
 }
 
-/* Target global at 0x00425a80. Zero means "not initialized yet". */
-static ee_addr32_t program_break_00425a80;
-
-/* Target: 0x0019f078. */
-ee_addr32_t ps2_sbrk_0019f078(int32_t increment)
-{
-    ee_addr32_t current;
-    ee_addr32_t next;
-    ee_addr32_t result = UINT32_MAX; /* target (void *)-1 */
-    int restore_interrupts;
-
-    if (program_break_00425a80 == 0u)
-        program_break_00425a80 = UINT32_C(0x00450c18);
-
-    current = program_break_00425a80;
-    if (increment == 0)
-        return current;
-
-    restore_interrupts =
-        (ee_status_recovered() & UINT32_C(0x00010000)) != 0u;
-    if (restore_interrupts)
-        (void)DIntr();
-
-    /* The target uses 32-bit ADDU here, so wrapping is intentional. */
-    next = current + (uint32_t)increment;
-    if (EndOfHeap_0019f5c0() >= next) {
-        result = current;
-        program_break_00425a80 = next;
-    }
-
-    if (restore_interrupts)
-        (void)EIntr();
-
-    return result;
-}
