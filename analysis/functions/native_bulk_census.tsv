@@ -65,7 +65,7 @@ tile	_Z22DrawLargePixel16Sub1_2jjjjjj	1636	proved-native-full-linked-function	sr
 2xsai	_Z9Bilinear4jjjjjj	372	proved-native-full-linked-function	src/snes9x/native_bulk_2xsai.cpp	analysis/functions/native_bulk_2xsai_exact_6888.tsv
 2xsai	_Z11Scale_2xSaIPhjS_S_jjjii	912	proved-native-full-linked-function	src/snes9x/native_bulk_2xsai.cpp	analysis/functions/native_bulk_2xsai_exact_6888.tsv
 dsp1	_Z4Atand	208	proved-native-full-linked-profile-variant	src/snes9x/native_dsp_atan.c	analysis/functions/native_dsp_profiles_exact_308.tsv
-dsp1	_Z7InitDSPv	260	no-complete-frozen-function-witness		
+dsp1	_Z7InitDSPv	272	retained-existing-native-proof-profile-variant	src/snes9x/dsp_table_init.c	analysis/functions/dsp_table_init_exact_272.tsv
 dsp1	_Z7DSPOp00v	36	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
 dsp1	_Z7DSPOp20v	40	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv
 dsp1	_Z12DSP1_InversessPsS_	284	proved-native-full-linked-function	src/snes9x/native_bulk_dsp1.cpp	analysis/functions/native_bulk_dsp1_exact_10892.tsv

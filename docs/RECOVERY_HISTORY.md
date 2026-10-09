@@ -1411,3 +1411,17 @@ original readonly prefix at 0x001b63d8, the dispatch slice at 0x001b1c80 (origin
 offset 2856), and CRC32table at 0x001b6ef8 (original offset 3328). S9xLoadOrigSnapshot
 stdio/zlib profiles still differ from its frozen raw witness. Preserve these
 blocks until complete linked comparisons, including their readonly data, pass.
+
+## DSP census retained-profile correction
+
+The public _Z7InitDSPv entry was still listed as pending with its 260-byte
+standard-profile size. Its PS2 float-table variant is already owned by
+src/snes9x/dsp_table_init.c as S9xInitDSP and has a maintained complete 272-byte
+target proof at 0x0012c02c in analysis/functions/dsp_table_init_exact_272.tsv.
+The original InitDSP caller in dsp_dispatch.cpp already binds that native
+entry. The census now records this retained profile explicitly; it adds no new
+functions or instruction bytes. The 250-entry subset therefore contains 157
+newly proved bodies, 55 retained owners/proofs and **38 pending entries**
+(32 without a complete witness, four blocked after full link comparisons and
+two unclaimed clip helpers). Code, canonical ownership and binary evidence are
+unchanged. The initializer and dispatcher proofs were rerun for this correction.
