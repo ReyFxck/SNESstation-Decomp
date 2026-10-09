@@ -119,14 +119,14 @@ apu	_Z14S9xFixEnvelopeihhh	500	proved-native-full-linked-function	src/snes9x/nat
 apu	S9xSetAPUControl	456	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_3152.tsv
 apu	S9xSetAPUTimer	204	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_3152.tsv
 apu	S9xGetAPUDSP	172	proved-native-full-linked-function	src/snes9x/native_bulk_apu.cpp	analysis/functions/native_bulk_apu_exact_3152.tsv
-memmap	_Z30ForceInterleave1OverrideSnes9xi	372	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
-memmap	_ZN7CMemory8AllASCIIEPhi	60	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
-memmap	_ZN7CMemory10ScoreHiROMEh	332	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
-memmap	_ZN7CMemory10ScoreLoROMEh	316	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
+memmap	_Z30ForceInterleave1OverrideSnes9xi	372	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_2280.tsv
+memmap	_ZN7CMemory8AllASCIIEPhi	60	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_2280.tsv
+memmap	_ZN7CMemory10ScoreHiROMEh	332	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_2280.tsv
+memmap	_ZN7CMemory10ScoreLoROMEh	316	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_2280.tsv
 memmap	_ZN7CMemory4SafeEPKc	288	no-complete-frozen-function-witness		
 memmap	_ZN7CMemory4InitEv	532	no-complete-frozen-function-witness		
 memmap	_ZN7CMemory6DeinitEv	384	no-complete-frozen-function-witness		
-memmap	_ZN7CMemory12FreeSDD1DataEv	92	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
+memmap	_ZN7CMemory12FreeSDD1DataEv	92	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_2280.tsv
 memmap	_ZN7CMemory7LoadROMEPKc	3324	blocked-after-full-link-check		
 memmap	_ZN7CMemory16CheckForIPSPatchEPKchRi	668	no-complete-frozen-function-witness		
 memmap	_ZN7CMemory7InitROMEh	4220	blocked-after-full-link-check		
@@ -151,9 +151,9 @@ memmap	_ZN7CMemory13SuperFXROMMapEv	880	retained-existing-native-proof	src/snes9
 memmap	_ZN7CMemory8HiROMMapEv	940	retained-existing-native-proof	src/snes9x/native_rom_maps.cpp	
 memmap	_ZN7CMemory15SPC7110HiROMMapEv	880	retained-existing-native-proof	src/snes9x/native_rom_maps.cpp	
 memmap	_ZN7CMemory10BSHiROMMapEv	1144	retained-existing-native-proof	src/snes9x/native_rom_maps.cpp	
-memmap	_Z6is_bsxPh	228	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
-memmap	_ZN7CMemory8LoadSRAMEPKc	356	blocked-after-full-link-check		
-memmap	_ZN7CMemory8SaveSRAMEPKc	264	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
+memmap	_Z6is_bsxPh	228	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_2280.tsv
+memmap	_ZN7CMemory8LoadSRAMEPKc	356	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_2280.tsv
+memmap	_ZN7CMemory8SaveSRAMEPKc	264	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_2280.tsv
 memmap	_ZN7CMemory11FixROMSpeedEv	72	retained-canonical-owner		
 memmap	_ZN7CMemory15WriteProtectROMEv	108	retained-canonical-owner		
 memmap	_ZN7CMemory6MapRAMEv	268	retained-existing-native-proof	src/snes9x/native_rom_maps.cpp	
@@ -162,8 +162,8 @@ memmap	_ZN7CMemory11SPC7110SramEh	64	retained-canonical-owner
 memmap	_ZN7CMemory5SpeedEv	44	retained-canonical-owner		
 memmap	_ZN7CMemory5ROMIDEv	12	retained-canonical-owner		
 memmap	_Z7ReadIntP7__sFILEj	112	no-complete-frozen-function-witness		
-memmap	_Z7bs_namePh	228	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
-memmap	_Z10check_charj	32	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_1924.tsv
+memmap	_Z7bs_namePh	228	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_2280.tsv
+memmap	_Z10check_charj	32	proved-native-full-linked-function	src/snes9x/native_bulk_memmap.cpp	analysis/functions/native_bulk_memmap_exact_2280.tsv
 memmap	_Z10S9xGetBytej	708	retained-canonical-owner		
 memmap	_Z10S9xGetWordj	1020	retained-canonical-owner		
 memmap	_Z10S9xSetBytehj	808	retained-canonical-owner		
@@ -171,40 +171,40 @@ memmap	_Z10S9xSetWordtj	1132	retained-canonical-owner
 memmap	_Z14GetBasePointerj	260	retained-canonical-owner		
 memmap	_Z16S9xGetMemPointerj	340	retained-canonical-owner		
 memmap	_Z12S9xSetPCBasej	364	retained-canonical-owner		
-soundux	_Z20S9xAPUSetEndOfSampleiP7Channel	80	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z13S9xAPUSetEndXi	32	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z13S9xSetEnvRateP7Channelmii	184	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z18S9xSetEnvelopeRateimii	44	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z17S9xSetSoundVolumeiss	160	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z18S9xSetMasterVolumess	172	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z16S9xSetEchoVolumess	132	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
+soundux	_Z20S9xAPUSetEndOfSampleiP7Channel	80	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z13S9xAPUSetEndXi	32	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z13S9xSetEnvRateP7Channelmii	184	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z18S9xSetEnvelopeRateimii	44	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z17S9xSetSoundVolumeiss	160	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z18S9xSetMasterVolumess	172	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z16S9xSetEchoVolumess	132	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
 soundux	_Z16S9xSetEchoEnableh	228	retained-existing-native-proof	src/snes9x/native_sound_reset.cpp	
-soundux	_Z18S9xSetEchoFeedbacki	40	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
+soundux	_Z18S9xSetEchoFeedbacki	40	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
 soundux	_Z15S9xSetEchoDelayi	136	retained-existing-native-proof	src/snes9x/native_sound_controls.cpp	
 soundux	_Z21S9xSetEchoWriteEnableh	52	retained-existing-native-proof	src/snes9x/native_sound_controls.cpp	
-soundux	_Z31S9xSetFrequencyModulationEnableh	16	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z17S9xSetSoundKeyOffi	88	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z28S9xFixSoundAfterSnapshotLoadv	384	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z23S9xSetFilterCoefficientii	148	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
+soundux	_Z31S9xSetFrequencyModulationEnableh	16	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z17S9xSetSoundKeyOffi	88	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z28S9xFixSoundAfterSnapshotLoadv	384	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z23S9xSetFilterCoefficientii	148	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
 soundux	_Z20S9xSetSoundFrequencyii	252	retained-existing-native-proof	src/snes9x/native_sound_controls.cpp	
-soundux	_Z15S9xSetSoundADSRiiiiii	180	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z20S9xSetEnvelopeHeightii	140	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z20S9xGetEnvelopeHeighti	124	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z17S9xSetSoundSampleit	8	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z16S9xSetSoundHertzii	48	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z15S9xSetSoundTypeii	28	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z15S9xSetSoundMuteh	28	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z14AltDecodeBlockP7Channel	764	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
-soundux	_Z15AltDecodeBlock2P7Channel	1104	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
+soundux	_Z15S9xSetSoundADSRiiiiii	180	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z20S9xSetEnvelopeHeightii	140	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z20S9xGetEnvelopeHeighti	124	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z17S9xSetSoundSampleit	8	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z16S9xSetSoundHertzii	48	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z15S9xSetSoundTypeii	28	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z15S9xSetSoundMuteh	28	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z14AltDecodeBlockP7Channel	764	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z15AltDecodeBlock2P7Channel	1104	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
 soundux	_Z11DecodeBlockP7Channel	796	no-complete-frozen-function-witness		
 soundux	_Z9MixStereoi	2536	no-complete-frozen-function-witness		
 soundux	_Z7MixMonoi	2192	no-complete-frozen-function-witness		
-soundux	S9xMixSamples	28	blocked-after-full-link-check		
+soundux	S9xMixSamples	28	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
 soundux	S9xMixSamplesO	4040	no-complete-frozen-function-witness		
 soundux	_Z13S9xResetSoundh	456	retained-existing-native-proof	src/snes9x/native_sound_reset.cpp	
 soundux	_Z18S9xSetPlaybackRatej	212	retained-existing-native-proof	src/snes9x/native_sound_reset.cpp	
-soundux	S9xInitSound	196	blocked-after-full-link-check		
-soundux	_Z15S9xSetSoundModeii	172	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4076.tsv
+soundux	S9xInitSound	196	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
+soundux	_Z15S9xSetSoundModeii	172	proved-native-full-linked-function	src/snes9x/native_bulk_soundux.cpp	analysis/functions/native_bulk_soundux_exact_4300.tsv
 soundux	_Z18S9xSetSoundControli	16	no-complete-frozen-function-witness		
 soundux	_Z13S9xPlaySamplei	648	no-complete-frozen-function-witness		
 snapshot	Snapshot	28	proved-native-full-linked-function	src/snes9x/native_bulk_snapshot.cpp	analysis/functions/native_bulk_snapshot_exact_5368.tsv

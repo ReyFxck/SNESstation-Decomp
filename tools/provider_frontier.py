@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-native-bulk 244-name source-link provider frontier.
+"""Close the post-native-bulk 246-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -130,6 +130,8 @@ SEMANTIC_ALIASES = {
 # source model does not export a signature-compatible canonical definition.
 # REG_GS_CSR is the documented PS2 privileged GS register, not image storage.
 EXPLICIT_ANCHORS = {
+    "_Z18S9xOpenSoundDeviceihi": 0x105cb8,
+    "S9xMixSamplesO": 0x176594,
     '_Z9GetRXYPosv': 0x12cbd8,
     '_Z7DSPOp02v': 0x12c558,
     '_Z7DSPOp06v': 0x12d05c,
@@ -302,8 +304,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 244:
-        fail(f"expected exact post-native-bulk frontier of 244 symbols, found {len(active)}")
+    if len(active) != 246:
+        fail(f"expected exact post-native-bulk frontier of 246 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -380,7 +382,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 200,
+        ABSOLUTE_ANCHOR: 202,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

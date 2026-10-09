@@ -292,8 +292,8 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
     # DSP dispatch closes three more, adds one native math initializer,
     # and reuses two newly named original state addresses. The original
     # native DSP table initializer then closes the remaining math entry.
-    expected = {"3B": 345, "3C": 50, "3D": 20, "3E": 212, "3F": 1251}
-    if partition != expected or sum(partition.values()) != 1878:
+    expected = {"3B": 345, "3C": 50, "3D": 20, "3E": 214, "3F": 1251}
+    if partition != expected or sum(partition.values()) != 1880:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 
@@ -645,8 +645,8 @@ def link_exact_providers(
         fail("private unpacked reference is missing or does not match the layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 244:
-        fail(f"expected post-S9xGetByte provider frontier of 244 rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 246:
+        fail(f"expected post-S9xGetByte provider frontier of 246 rows, found {len(frontier_rows)}")
     replacements = exact_provider_rows(named_rows, frontier_rows)
     replacement_names = {row["symbol"] for row in replacements}
     exact_ranges = [row for row in named_rows if row["status"] == RANGE_PROVED]

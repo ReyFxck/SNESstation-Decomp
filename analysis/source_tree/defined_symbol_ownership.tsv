@@ -1459,6 +1459,7 @@ _ZN7CMemory10ScoreHiROMEh	global	text	0x14c	src/snes9x/native_bulk_memmap.cpp	sn
 _ZN7CMemory10ScoreLoROMEh	global	text	0x13c	src/snes9x/native_bulk_memmap.cpp	snes9x/native_bulk_memmap.o
 _ZN7CMemory12FreeSDD1DataEv	global	text	0x5c	src/snes9x/native_bulk_memmap.cpp	snes9x/native_bulk_memmap.o
 _ZN7CMemory8AllASCIIEPhi	global	text	0x3c	src/snes9x/native_bulk_memmap.cpp	snes9x/native_bulk_memmap.o
+_ZN7CMemory8LoadSRAMEPKc	global	text	0x164	src/snes9x/native_bulk_memmap.cpp	snes9x/native_bulk_memmap.o
 _ZN7CMemory8SaveSRAMEPKc	global	text	0x108	src/snes9x/native_bulk_memmap.cpp	snes9x/native_bulk_memmap.o
 bytes0x2000	local	bss	0x0	src/snes9x/native_bulk_memmap.cpp	snes9x/native_bulk_memmap.o
 OrigAPU	global	data	0xe0	src/snes9x/native_bulk_snaporig.cpp	snes9x/native_bulk_snaporig.o
@@ -1496,6 +1497,8 @@ _Z13UnfreezeBlockPvPcPhi	global	text	0x140	src/snes9x/native_bulk_snapshot.cpp	s
 _Z14UnfreezeStructPvPcS_P10FreezeDatai	global	text	0x3c0	src/snes9x/native_bulk_snapshot.cpp	snes9x/native_bulk_snapshot.o
 _Z6FreezePv	local	text	0x3b8	src/snes9x/native_bulk_snapshot.cpp	snes9x/native_bulk_snapshot.o
 _Z8UnfreezePv	local	text	0x6e8	src/snes9x/native_bulk_snapshot.cpp	snes9x/native_bulk_snapshot.o
+S9xInitSound	global	text	0xc4	src/snes9x/native_bulk_soundux.cpp	snes9x/native_bulk_soundux.o
+S9xMixSamples	global	text	0x1c	src/snes9x/native_bulk_soundux.cpp	snes9x/native_bulk_soundux.o
 _GLOBAL__F__Z20S9xAPUSetEndOfSampleiP7Channel	global	data	0x0	src/snes9x/native_bulk_soundux.cpp	snes9x/native_bulk_soundux.o
 _Z13S9xAPUSetEndXi	global	text	0x20	src/snes9x/native_bulk_soundux.cpp	snes9x/native_bulk_soundux.o
 _Z13S9xSetEnvRateP7Channelmii	global	text	0xb8	src/snes9x/native_bulk_soundux.cpp	snes9x/native_bulk_soundux.o

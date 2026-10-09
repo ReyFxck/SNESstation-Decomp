@@ -36,6 +36,7 @@ S9xBasename	named-external	link-contract	absolute-target-anchor	0x00101914			rev
 S9xCloseSnapshotFile	target-function-contract	link-contract	absolute-target-anchor	0x001018e0			reviewed-target-or-hardware-address	snes9x/native_bulk_snapshot.o	reviewed low-level address binding; no storage bytes emitted
 S9xGetFilenameInc	named-external	link-contract	absolute-target-anchor	0x001019a0			reviewed-target-or-hardware-address	snes9x/native_bulk_apu.o	reviewed low-level address binding; no storage bytes emitted
 S9xLoadOrigSnapshot	named-external	link-contract	absolute-target-anchor	0x0017022c			reviewed-target-or-hardware-address	snes9x/native_bulk_snapshot.o	reviewed low-level address binding; no storage bytes emitted
+S9xMixSamplesO	named-external	link-contract	absolute-target-anchor	0x00176594			reviewed-target-or-hardware-address	snes9x/native_bulk_soundux.o	reviewed low-level address binding; no storage bytes emitted
 S9xOpenSnapshotFile	target-function-contract	link-contract	absolute-target-anchor	0x00101890			reviewed-target-or-hardware-address	snes9x/native_bulk_snapshot.o	reviewed low-level address binding; no storage bytes emitted
 S9xReadJoypad	named-external	link-contract	absolute-target-anchor	0x00104bbc			reviewed-target-or-hardware-address	snes9x/native_controllers.o	reviewed low-level address binding; no storage bytes emitted
 S9xSPCDump	named-external	link-contract	absolute-target-anchor	0x001726ec			reviewed-target-or-hardware-address	snes9x/native_bulk_apu.o	reviewed low-level address binding; no storage bytes emitted
@@ -54,6 +55,7 @@ _Z11FreezeBlockPvPcPhi	target-function-contract	link-contract	absolute-target-an
 _Z13S9xPlaySamplei	target-function-contract	link-contract	absolute-target-anchor	0x00177e6c			reviewed-target-or-hardware-address	snes9x/native_bulk_apu.o	reviewed low-level address binding; no storage bytes emitted
 _Z14S9xSpc7110Initv	target-function-contract	link-contract	absolute-target-anchor	0x001806a4			reviewed-target-or-hardware-address	snes9x/native_rom_maps.o	reviewed low-level address binding; no storage bytes emitted
 _Z16S9xUnfreezeZSNESPKc	target-function-contract	link-contract	absolute-target-anchor	0x001728d4			reviewed-target-or-hardware-address	snes9x/native_bulk_snapshot.o	reviewed low-level address binding; no storage bytes emitted
+_Z18S9xOpenSoundDeviceihi	target-function-contract	link-contract	absolute-target-anchor	0x00105cb8			reviewed-target-or-hardware-address	snes9x/native_bulk_soundux.o	reviewed low-level address binding; no storage bytes emitted
 _Z7DSPOp02v	target-function-contract	link-contract	absolute-target-anchor	0x0012c558			reviewed-target-or-hardware-address	snes9x/native_bulk_dsp1.o	reviewed low-level address binding; no storage bytes emitted
 _Z7DSPOp06v	target-function-contract	link-contract	absolute-target-anchor	0x0012d05c			reviewed-target-or-hardware-address	snes9x/native_bulk_dsp1.o	reviewed low-level address binding; no storage bytes emitted
 _Z7DSPOp28v	target-function-contract	link-contract	absolute-target-anchor	0x0012e04c			reviewed-target-or-hardware-address	snes9x/native_bulk_dsp1.o	reviewed low-level address binding; no storage bytes emitted

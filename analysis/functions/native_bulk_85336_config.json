@@ -5176,7 +5176,7 @@
       "_Z17S9xLoadSPC7110RTCP10SPC7110RTC": 1586416,
       "_Z20S9xSRTCPostLoadStatev": 1588544,
       "_Z12S9xResetSRTCv": 1586784,
-      "rtc": 0,
+      "rtc": 4339800,
       "fioWrite_like": 1692228,
       "_Z17S9xSaveSPC7110RTCP10SPC7110RTC": 1586084,
       "_Z21S9xSDD1SaveLoggedDatav": 1506052,
@@ -5218,15 +5218,24 @@
       "free": 1697668,
       "DAT_0034e2b0": 3465904,
       "memmove": 1688736,
+      "DAT_0035b738": 3520312,
+      "memset": 1688476,
+      "_Z21S9xSDD1LoadLoggedDatav": 1506228,
       "fioOpen_like": 1691584,
       "DAT_0034e298": 3465880,
-      "fioWrite_like": 1692228,
+      "fioRead_like": 1691936,
       "fioClose_like": 1691792,
+      "_Z16S9xHardResetSRTCv": 1586808,
+      "DAT_00423548": 4339016,
+      "_Z17S9xLoadSPC7110RTCP10SPC7110RTC": 1586416,
+      "_Z20S9xSRTCPostLoadStatev": 1588544,
+      "_Z12S9xResetSRTCv": 1586784,
+      "DAT_00423858": 4339800,
+      "fioWrite_like": 1692228,
       "_Z17S9xSaveSPC7110RTCP10SPC7110RTC": 1586084,
       "_Z21S9xSDD1SaveLoggedDatav": 1506052,
       "_Z19S9xSRTCPreSaveStatev": 1588312,
-      "__gxx_personality_v0": 1742632,
-      "DAT_00423548": 4339016
+      "__gxx_personality_v0": 1742632
     },
     "functions": [
       {
@@ -5325,23 +5334,23 @@
         "section": ".text._ZN7CMemory12FreeSDD1DataEv"
       },
       {
-        "symbol": "_Z6is_bsxPh",
-        "size": 228,
-        "address": 1411444,
+        "symbol": "_ZN7CMemory8LoadSRAMEPKc",
+        "size": 356,
+        "address": 1389396,
         "binding": 1,
         "witness": {
-          "address": 1411444,
-          "name": "tsv_00158974__Z6is_bsxPh",
-          "new_bytes": 228,
-          "object": "build/matching/hunt1000plus-v46-closure/snes/MEMMAP.o",
-          "raw_sha256": "fb1bc8a86510b5a7b2bf327cae02137ac3ba02ec3aa3e47017e99afbe317ba6d",
-          "relocations": 1,
+          "address": 1389396,
+          "name": "tsv_00153354__ZN7CMemory8LoadSRAMEPKc",
+          "new_bytes": 356,
+          "object": "build/matching/hunt1041-v52-closure/objects/memmap-short.o",
+          "raw_sha256": "58d662e7fb5be470dc6e5f6e6d5f3e6790bffb45d03f0dd36fbde10371246f55",
+          "relocations": 26,
           "section": ".text",
-          "size": 228,
+          "size": 356,
           "source_offset": 0,
-          "symbol": "_Z6is_bsxPh"
+          "symbol": "_ZN7CMemory8LoadSRAMEPKc"
         },
-        "section": ".text._Z6is_bsxPh"
+        "section": ".text._ZN7CMemory8LoadSRAMEPKc"
       },
       {
         "symbol": "_ZN7CMemory8SaveSRAMEPKc",
@@ -5361,6 +5370,25 @@
           "symbol": "_ZN7CMemory8SaveSRAMEPKc"
         },
         "section": ".text._ZN7CMemory8SaveSRAMEPKc"
+      },
+      {
+        "symbol": "_Z6is_bsxPh",
+        "size": 228,
+        "address": 1411444,
+        "binding": 1,
+        "witness": {
+          "address": 1411444,
+          "name": "tsv_00158974__Z6is_bsxPh",
+          "new_bytes": 228,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/MEMMAP.o",
+          "raw_sha256": "fb1bc8a86510b5a7b2bf327cae02137ac3ba02ec3aa3e47017e99afbe317ba6d",
+          "relocations": 1,
+          "section": ".text",
+          "size": 228,
+          "source_offset": 0,
+          "symbol": "_Z6is_bsxPh"
+        },
+        "section": ".text._Z6is_bsxPh"
       },
       {
         "symbol": "_Z7bs_namePh",
@@ -5570,7 +5598,7 @@
       {
         "symbol": "_ZN7CMemory8LoadSRAMEPKc",
         "section": ".text._ZN7CMemory8LoadSRAMEPKc",
-        "address": 21102592
+        "address": 1389396
       },
       {
         "symbol": "_ZN7CMemory8SaveSRAMEPKc",
@@ -5689,7 +5717,6 @@
       "_ZN7CMemory8HiROMMapEv": 1393120,
       "_ZN7CMemory15SPC7110HiROMMapEv": 1402132,
       "_ZN7CMemory10BSHiROMMapEv": 1399968,
-      "_ZN7CMemory8LoadSRAMEPKc": 1389396,
       "_ZN7CMemory11FixROMSpeedEv": 1390016,
       "_ZN7CMemory15WriteProtectROMEv": 1390088,
       "_ZN7CMemory6MapRAMEv": 1390196,
@@ -5705,8 +5732,8 @@
       "_Z16S9xGetMemPointerj": 1750248,
       "_Z12S9xSetPCBasej": 1753124
     },
-    "ledger": "analysis/functions/native_bulk_memmap_exact_1924.tsv",
-    "ledger_sha256": "b449732330a45f7a8b2a7e945641f4596bb401af9800077d6c6d8ee8a3c10f44",
+    "ledger": "analysis/functions/native_bulk_memmap_exact_2280.tsv",
+    "ledger_sha256": "5c52d27cf86e36a8b5e6dfd009046f79211cda6b10070816b594fd8d2b02f679",
     "objects": [],
     "bss_geometry": {
       ".bss": 8192
@@ -5731,7 +5758,7 @@
     "data": 4263680,
     "rodata": 1803272,
     "bss": 0,
-    "rodata_shift": 100,
+    "rodata_shift": 72,
     "reference_providers": {
       "APU": 3429304,
       "__muldi3": 1710880,
@@ -5753,7 +5780,7 @@
       "__floatdisf": 1711000,
       "MixBuffer": 4009544,
       "Z": 4140648,
-      "_Z18S9xOpenSoundDeviceihi": 0,
+      "_Z18S9xOpenSoundDeviceihi": 1072312,
       "S9xMessage": 1070768,
       "_Z14S9xFixEnvelopeihhh": 1094512,
       "__gxx_personality_v0": 1742632
@@ -5765,13 +5792,17 @@
       "DAT_003ab718": 3847960,
       "DAT_0034db50": 3464016,
       "DAT_003454e0": 3429600,
+      "S9xSetEchoDelay": 1524268,
+      "S9xSetSoundFrequency": 1525544,
       "DAT_00345498": 3429528,
       "DAT_003f2e48": 4140616,
       "DAT_0035b738": 3520312,
       "memset": 1688476,
-      "__gxx_personality_v0": 1742632,
-      "S9xSetEchoDelay": 1524268,
-      "S9xSetSoundFrequency": 1525544
+      "S9xMixSamplesO": 1533332,
+      "S9xResetSound": 1538692,
+      "_Z18S9xOpenSoundDeviceihi": 1072312,
+      "S9xMessage": 1070768,
+      "__gxx_personality_v0": 1742632
     },
     "functions": [
       {
@@ -6174,6 +6205,44 @@
         "section": ".text._Z15AltDecodeBlock2P7Channel"
       },
       {
+        "symbol": "S9xMixSamples",
+        "size": 28,
+        "address": 1533304,
+        "binding": 1,
+        "witness": {
+          "address": 1533304,
+          "name": "tsv_00176578_S9xMixSamples",
+          "new_bytes": 28,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+          "raw_sha256": "1a5484dfd0d37bf9dfbbe36dcb0f006fad2021f4dc759c80982fbbf660398cd9",
+          "relocations": 1,
+          "section": ".text",
+          "size": 28,
+          "source_offset": 0,
+          "symbol": "S9xMixSamples"
+        },
+        "section": ".text.S9xMixSamples"
+      },
+      {
+        "symbol": "S9xInitSound",
+        "size": 196,
+        "address": 1539308,
+        "binding": 1,
+        "witness": {
+          "address": 1539308,
+          "name": "tsv_00177cec_S9xInitSound",
+          "new_bytes": 196,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/SOUNDUX.o",
+          "raw_sha256": "287bd5935d2131ad7f1314dd83fd138c2dbfb9c909942e5bc60f29939070df05",
+          "relocations": 11,
+          "section": ".text",
+          "size": 196,
+          "source_offset": 0,
+          "symbol": "S9xInitSound"
+        },
+        "section": ".text.S9xInitSound"
+      },
+      {
         "symbol": "_Z15S9xSetSoundModeii",
         "size": 172,
         "address": 1539504,
@@ -6337,7 +6406,7 @@
       {
         "symbol": "S9xMixSamples",
         "section": ".text.S9xMixSamples",
-        "address": 20447232
+        "address": 1533304
       },
       {
         "symbol": "S9xMixSamplesO",
@@ -6357,7 +6426,7 @@
       {
         "symbol": "S9xInitSound",
         "section": ".text.S9xInitSound",
-        "address": 20971520
+        "address": 1539308
       },
       {
         "symbol": "_Z15S9xSetSoundModeii",
@@ -6381,13 +6450,12 @@
       "_Z21S9xSetEchoWriteEnableh": 1524404,
       "_Z20S9xSetSoundFrequencyii": 1525544,
       "_Z11DecodeBlockP7Channel": 1527780,
-      "S9xMixSamples": 1533304,
       "_Z13S9xResetSoundh": 1538692,
       "_Z18S9xSetPlaybackRatej": 1539128,
-      "S9xInitSound": 1539308
+      "S9xMixSamplesO": 1533332
     },
-    "ledger": "analysis/functions/native_bulk_soundux_exact_4076.tsv",
-    "ledger_sha256": "805da73002ccd91937845ecf7341d910c414655cf57a17059110df334b6555f5",
+    "ledger": "analysis/functions/native_bulk_soundux_exact_4300.tsv",
+    "ledger_sha256": "dd455cc0cb954bc7a3c2ed94b0a55b9442d577ca65ce5e48c7ab1561ca706bd6",
     "objects": [
       {
         "symbol": "_ZZ13S9xSetEnvRateP7ChannelmiiE5steps",
@@ -6401,15 +6469,15 @@
     "bss_geometry": {
       ".bss": 0
     },
-    "rodata_size": 36,
-    "rodata_sha256": "6c97c6991304ca97270b4e5f0b248b56902ca441497ea9c97118f40431be88c6",
+    "rodata_size": 64,
+    "rodata_sha256": "2d7f714ee5209d2aae27efe7076828698bc6967c72bc186056296bedec030c1d",
     "readonly_slices": [
       {
         "section": ".rodata",
-        "address": 1803372,
-        "reference_offset": 100,
-        "size": 36,
-        "sha256": "6c97c6991304ca97270b4e5f0b248b56902ca441497ea9c97118f40431be88c6"
+        "address": 1803344,
+        "reference_offset": 72,
+        "size": 64,
+        "sha256": "2d7f714ee5209d2aae27efe7076828698bc6967c72bc186056296bedec030c1d"
       }
     ]
   },

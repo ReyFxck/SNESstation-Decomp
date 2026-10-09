@@ -162,14 +162,14 @@ class PrivateAssetProviderTests(unittest.TestCase):
             contracts = list(csv.DictReader(stream, delimiter="\t"))
         report = summarize(rows, contracts)
         # Native CPU interrupts close two imports; the ten private-asset
-        # providers leave the reviewed 244-name frontier.
+        # providers leave the reviewed 246-name frontier.
         self.assertEqual(
             {
                 "bundles": 5,
                 "provider_symbols": 10,
                 "provider_bytes": 62736,
-                "input_frontier": 254,
-                "output_frontier": 244,
+                "input_frontier": 256,
+                "output_frontier": 246,
             },
             report,
         )

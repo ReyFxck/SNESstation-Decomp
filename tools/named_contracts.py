@@ -259,6 +259,8 @@ LATER_CONTROLLER_CONTRACTS = {'S9xReadJoypad': 0x104bbc}
 # New public native-batch consumers are reviewed independently of the frozen
 # historical 216-row private-data tranche.
 LATER_NATIVE_BULK_CONTRACTS = {
+    "_Z18S9xOpenSoundDeviceihi": (0x105cb8, "snes9x/native_bulk_soundux.o", "target-function-contract"),
+    "S9xMixSamplesO": (0x176594, "snes9x/native_bulk_soundux.o", "named-external"),
     '_Z9GetRXYPosv': (1231832, 'snes9x/native_bulk_dsp1.o', 'target-function-contract'),
     '_Z7DSPOp02v': (1230168, 'snes9x/native_bulk_dsp1.o', 'target-function-contract'),
     '_Z7DSPOp06v': (1232988, 'snes9x/native_bulk_dsp1.o', 'target-function-contract'),

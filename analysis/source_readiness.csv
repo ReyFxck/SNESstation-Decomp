@@ -255,7 +255,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x001513bc,CMemory_LoadROM,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/app/main_flow_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x001520b8,snes_p16_001520b8,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_rom_deinterleave.cpp,MATCHING
 0x001522d8,CMemory_InitROM,memory-ppu,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x00153354,CMemory_LoadSRAM,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/sram_recovered.c,MATCHING
+0x00153354,CMemory_LoadSRAM,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_bulk_memmap.cpp;src/snes9x/sram_recovered.c,MATCHING
 0x001534b8,CMemory_SaveSRAM,memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_bulk_memmap.cpp;src/snes9x/sram_recovered.c,MATCHING
 0x001535c0,snes_leaf_001535c0,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/memmap_methods.cpp,MATCHING
 0x00153608,CMemory_map_WriteProtectROM_00153608,snes9x-memory,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/memmap_metadata_recovered.c;src/snes9x/memmap_methods.cpp,MATCHING
@@ -386,10 +386,10 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x00174fe4,snes_p17_00174fe4,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x00175300,snes_p17_00175300,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x00175cb4,snes_p16_00175cb4,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
-0x00176578,snes_dispatch_00176578,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c,MATCHING
+0x00176578,snes_dispatch_00176578,dispatch-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/small_dispatch_recovered.c;src/snes9x/native_bulk_soundux.cpp,MATCHING
 0x00176594,snes_p16_00176594,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x00177a84,snes_p16_00177a84,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_sound_reset.cpp,MATCHING
-0x00177cec,snes_p16_00177cec,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress23_audio_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x00177cec,snes_p16_00177cec,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress23_audio_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_bulk_soundux.cpp,MATCHING
 0x00177db0,snes_p16_00177db0,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress23_audio_helpers_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_bulk_soundux.cpp,MATCHING
 0x00177e6c,snes_p16_00177e6c,cpu-audio-runtime,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c,MATCHING
 0x0017ec24,snes_leaf_0017ec24,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c,MATCHING

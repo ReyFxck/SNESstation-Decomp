@@ -73,9 +73,9 @@
   Nintendo Co., Limited and its subsidiary companies.
 *******************************************************************************/
 
-/* Native bulk proof: analysis/functions/native_bulk_soundux_exact_4076.tsv
- * 22 routines / 4076 complete linked historical instruction bytes.
- * Frozen audit entry points:
+/* Native bulk proof: analysis/functions/native_bulk_soundux_exact_4300.tsv
+ * 24 routines / 4300 complete linked historical instruction bytes.
+ * Reviewed native entry points:
  * 0x00173dfc _Z20S9xAPUSetEndOfSampleiP7Channel (80 bytes)
  * 0x00173e4c _Z13S9xAPUSetEndXi (32 bytes)
  * 0x00173e6c _Z13S9xSetEnvRateP7Channelmii (184 bytes)
@@ -97,6 +97,8 @@
  * 0x0017487c _Z15S9xSetSoundMuteh (28 bytes)
  * 0x00174898 _Z14AltDecodeBlockP7Channel (764 bytes)
  * 0x00174b94 _Z15AltDecodeBlock2P7Channel (1104 bytes)
+ * 0x00176578 S9xMixSamples (28 bytes)
+ * 0x00177cec S9xInitSound (196 bytes)
  * 0x00177db0 _Z15S9xSetSoundModeii (172 bytes)
  */
 /* Pinned Snes9x native soundux recovery; original declarations/macros and bodies expanded with the historical EE profile. */
@@ -1382,7 +1384,7 @@ void S9xSetEnvelopeRate (int channel, unsigned long rate, int direction,
                          int target);
 bool8 S9xSetSoundMode (int channel, int mode);
 int S9xGetEnvelopeHeight (int channel);
-void S9xResetSound (bool8 full);
+void S9xResetSound (bool8 full) __asm__("S9xResetSound");
 void S9xFixSoundAfterSnapshotLoad ();
 void S9xPlaybackSoundSetting (int channel);
 void S9xPlaySample (int channel);
@@ -2485,7 +2487,8 @@ void S9xSetEchoFeedback (int feedback)
     SoundData.echo_feedback = feedback;
 }
 
-void S9xSetEchoDelay (int delay) __asm__("S9xSetEchoDelay");
+void S9xSetEchoDelay (int delay)
+;
 
 void S9xSetEchoWriteEnable (uint8 byte)
 ;
@@ -2617,7 +2620,8 @@ int S9xGetEnvelopeHeight (int channel)
 void S9xSetSoundSample (int, uint16)
 {
 }
-void S9xSetSoundFrequency (int channel, int hertz) __asm__("S9xSetSoundFrequency");
+void S9xSetSoundFrequency (int channel, int hertz)
+;
 
 void S9xSetSoundHertz (int channel, int hertz)
 {
@@ -2902,7 +2906,9 @@ void MixStereo (int sample_count)
 void MixMono (int sample_count)
 ;
 void S9xMixSamples (uint8 *buffer, int sample_count)
-;
+{
+    S9xMixSamplesO (buffer, sample_count, 0);
+}
 
 
 
@@ -2914,14 +2920,37 @@ void S9xMixSamplesO (uint8 *buffer, int sample_count, int byte_offset)
 
 
 
-void S9xResetSound (bool8 full)
-;
+void S9xResetSound (bool8 full) __asm__("S9xResetSound");
 
 void S9xSetPlaybackRate (uint32 playback_rate)
 ;
 
 bool8 S9xInitSound (int mode, bool8 stereo, int buffer_size)
-;
+{
+    so.sound_fd = -1;
+    so.sound_switch = 255;
+
+    so.playback_rate = 0;
+    so.buffer_size = 0;
+    so.stereo = stereo;
+    so.sixteen_bit = Settings.SixteenBitSound;
+    so.encoded = 0;
+
+    S9xResetSound (1);
+
+    if (!(mode & 7))
+                return (1);
+
+    S9xSetSoundMute (1);
+    if (!S9xOpenSoundDevice (mode, stereo, buffer_size))
+    {
+                S9xMessage (S9X_ERROR, S9X_SOUND_DEVICE_OPEN_FAILED,
+                        "Sound device open failed");
+                return (0);
+    }
+
+    return (1);
+}
 
 bool8 S9xSetSoundMode (int channel, int mode)
 {

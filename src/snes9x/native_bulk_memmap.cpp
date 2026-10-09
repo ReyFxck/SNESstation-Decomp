@@ -73,16 +73,17 @@
   Nintendo Co., Limited and its subsidiary companies.
 *******************************************************************************/
 
-/* Native bulk proof: analysis/functions/native_bulk_memmap_exact_1924.tsv
- * 9 routines / 1924 complete linked historical instruction bytes.
- * Frozen audit entry points:
+/* Native bulk proof: analysis/functions/native_bulk_memmap_exact_2280.tsv
+ * 10 routines / 2280 complete linked historical instruction bytes.
+ * Reviewed native entry points:
  * 0x00150b1c _Z30ForceInterleave1OverrideSnes9xi (372 bytes)
  * 0x00150c90 _ZN7CMemory8AllASCIIEPhi (60 bytes)
  * 0x00150ccc _ZN7CMemory10ScoreHiROMEh (332 bytes)
  * 0x00150e18 _ZN7CMemory10ScoreLoROMEh (316 bytes)
  * 0x00151360 _ZN7CMemory12FreeSDD1DataEv (92 bytes)
- * 0x00158974 _Z6is_bsxPh (228 bytes)
+ * 0x00153354 _ZN7CMemory8LoadSRAMEPKc (356 bytes)
  * 0x001534b8 _ZN7CMemory8SaveSRAMEPKc (264 bytes)
+ * 0x00158974 _Z6is_bsxPh (228 bytes)
  * 0x00158a58 _Z7bs_namePh (228 bytes)
  * 0x00158b3c _Z10check_charj (32 bytes)
  */
@@ -2578,7 +2579,7 @@ typedef struct
     uint32 pad;
 } SRTC_DATA;
 
-extern SRTC_DATA rtc;
+extern SRTC_DATA rtc __asm__("DAT_00423858");
 
 void S9xUpdateSrtcTime ();
 void S9xSetSRTC (uint8 data, uint16 Address);
@@ -2970,6 +2971,54 @@ inline uint32 caCRC32(uint8 *array, uint32 size, register uint32 crc32 = 0xFFFFF
   return ~crc32;
 }
 
+
+bool8 CMemory::LoadSRAM (const char *filename)
+{
+    int size = Memory.SRAMSize ?
+               (1 << (Memory.SRAMSize + 3)) * 128 : 0;
+
+    memset (SRAM, SNESGameFixes.SRAMInitialValue, 0x20000);
+
+    if (size > 0x20000)
+                size = 0x20000;
+
+    if (size)
+    {
+                int file;
+                if ((file = fioOpen_like (filename, 1)))
+                {
+                        int len = fioRead_like (file, (char*) ::SRAM, 0x20000);
+                        fioClose_like (file);
+                        if (len - size == 512)
+                        {
+
+                                memmove (::SRAM, ::SRAM + 512, size);
+                        }
+                        if (len == size + (4 + 8 + 1 + 0xC))
+                        {
+                                S9xSRTCPostLoadState ();
+                                S9xResetSRTC ();
+                                rtc.index = -1;
+                                rtc.mode = 0;
+                        }
+                        else
+                                S9xHardResetSRTC ();
+
+                        if(Settings.SPC7110RTC)
+                        {
+                                S9xLoadSPC7110RTC (&rtc_f9);
+                        }
+
+                        return (1);
+                }
+                S9xHardResetSRTC ();
+                return (0);
+    }
+    if (Settings.SDD1)
+                S9xSDD1LoadLoggedData ();
+
+    return (1);
+}
 
 bool8 CMemory::SaveSRAM (const char *filename)
 {

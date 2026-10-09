@@ -391,6 +391,7 @@ SOURCE_COMPILER_PROFILES = {
 # the mangled spelling itself does not encode an address and therefore must not
 # be sent through the address-suffix alias gate.
 HISTORICAL_CPP_PEERS = {
+    "_Z18S9xOpenSoundDeviceihi": "src/snes9x/native_bulk_soundux.cpp",
     '_Z9GetRXYPosv': 'src/snes9x/native_bulk_dsp1.cpp',
     '_Z7DSPOp02v': 'src/snes9x/native_bulk_dsp1.cpp',
     '_Z7DSPOp06v': 'src/snes9x/native_bulk_dsp1.cpp',

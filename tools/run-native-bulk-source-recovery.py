@@ -18,8 +18,8 @@ from compare_elf_functions import ELFFile
 from build_source_tree import SOURCE_FIXED_FLAGS
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / 'build/matching/native-bulk-source-recovery'
-CONFIG = ROOT / 'analysis/functions/native_bulk_84756_config.json'
-CONFIG_SHA256 = '4bdfe75e10df4cf5885b23c24a75e4ea484a502b76c76f6f5d95334df511931f'
+CONFIG = ROOT / 'analysis/functions/native_bulk_85336_config.json'
+CONFIG_SHA256 = '8769799e741756db595a9511a0a7cdbbbc9151dd89c1644cc2e2f7a35a2eaa73'
 
 
 def load_proof(name):
@@ -225,16 +225,16 @@ def run_batch(record=False):
             if actual != wanted:
                 raise SystemExit('canonical native batch ownership drift: ' + key)
         reports.append(dict(module=key, routines=len(rows), instruction_bytes=sum(int(r['size']) for r in rows), owned_storage_bytes=sum(s.size for s in objects), readonly_bytes=len(raw_rodata)))
-    if len(aggregate) != 84756 or sum(r['routines'] for r in reports) != 151:
+    if len(aggregate) != 85336 or sum(r['routines'] for r in reports) != 154:
         raise SystemExit('complete native batch inventory drift')
-    result = dict(modules=reports, routines=151, instruction_bytes=len(aggregate), linked_code_sha256=digest(aggregate),
+    result = dict(modules=reports, routines=154, instruction_bytes=len(aggregate), linked_code_sha256=digest(aggregate),
         proof_level='linked-historical-reference', fresh_private_elf=False, replacement_image=False)
     if record:
         CONFIG.write_text(json.dumps(modules, indent=2) + '\n')
         path = Path(__file__)
         path.write_text(re.sub(r"CONFIG_SHA256 = '[0-9a-f]{64}'", "CONFIG_SHA256 = " + repr(digest(CONFIG.read_bytes())), path.read_text(), count=1))
     (BUILD / 'report.json').write_text(json.dumps(result, indent=2) + '\n')
-    print('native batch: MATCH 151/151 routines, 84756/84756 complete linked historical instruction bytes; owned data and readonly slices checked separately')
+    print('native batch: MATCH 154/154 routines, 85336/85336 complete linked historical instruction bytes; owned data and readonly slices checked separately')
 
 
 if __name__ == '__main__':

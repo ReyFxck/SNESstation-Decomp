@@ -82,7 +82,7 @@
       "size_word_address": 3363448
     }
   ],
-  "prior_manifest_sha256": "a2ada1d7dd9870b956b789d39c63ea2016e0441093051ff94e5964cfad60e564",
+  "prior_manifest_sha256": "5ef8612e8ab14a457d427d6895df5f76ced7a984235da76ec2042d849eccd4ef",
   "result": {
     "absorbed_fixed_sections": 2,
     "chunk_count": 51,

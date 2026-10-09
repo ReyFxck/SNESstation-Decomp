@@ -1319,3 +1319,37 @@ Validation for this batch: **604 tool tests passed** (one existing skip),
 **84/84 maintained recovery proofs passed**, and **187/187 canonical EE source
 units passed**. Namespace-only links reduce 1,863 -> 1,532 -> 254 externals;
 ten frozen private-asset addresses, without their payloads, then leave 244 -> 0.
+
+## Native SRAM loading and sound entry-point follow-up
+
+This batch adds **three functions / 580 complete linked historical instruction
+bytes**: CMemory::LoadSRAM (356) at 0x00153354, S9xMixSamples (28) at 0x00176578,
+and S9xInitSound (196) at 0x00177cec. The eight-module maintained proof now covers
+**154 functions / 85,336 bytes**. LoadSRAM reuses the original S-RTC layout and
+shared rtc address 0x00423858, already proved by the native calendar module;
+its complete callback relocations retain the original RTC and file-I/O ABI.
+Sound initialization calls the existing native sound-reset body with its
+original bool8 argument. The mixer wrapper and sound-device callback use their
+reviewed original entries 0x00176594 and 0x00105cb8 without claiming recovery of
+the external mixer body. The complete 64-byte retained sound readonly slice is
+checked at original section offset 72, including the device-open error string.
+
+The 250-entry module census now contains **155 newly proved functions**, 54
+retained owners/proofs and **41 pending entries** (35 without complete frozen
+witnesses, four blocked by full link comparisons and two unclaimed clip helpers).
+These are subset counts. Large memmap paths still require preservation of
+individual historical strings and the separately placed switch table; their
+compacted readonly section is not treated as exact recovery.
+
+The canonical tree retains 187 units, with 3,688 defined symbols and 1,880
+external contracts. Its 1,549 link contracts include 1,293 resolved and 256
+blocked. After ten private-asset address contracts, 246 providers remain: 202
+address anchors, five semantic aliases and 39 compatibility stores. No private
+payload or fresh full-ELF comparison is asserted.
+
+Validation: 604 tool tests passed (one existing skip), all 84 maintained source
+proofs passed, and all 187 canonical EE units passed. Namespace-only links close
+1,865 -> 1,534 -> 256 externals, then 246 -> 0 after ten frozen private-asset
+addresses are supplied without payloads. Source ownership and consumer provenance
+are updated; frozen binary results, providers and section inventories remain
+unchanged.
