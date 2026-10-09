@@ -246,6 +246,7 @@ PROMOTED_SOURCE_RUNTIME = {
 # Address-suffixed FILEIO names are now source-address aliases to the canonical
 # historical functions in src/ps2/fileio.c, not independent runtime members.
 PROMOTED_SOURCE_ALIASES = {
+    "qsort",
     "fioClose_0019d090",
     "fioLseek_0019d360",
     "fioOpen_0019cfc0",
@@ -317,7 +318,7 @@ def live_bindings(args: argparse.Namespace) -> tuple[dict[str, dict[str, str]], 
     # libsupc++ personality dependency; S9xGetMemPointer, S9xGetByte and
     # S9xSetByte are now defined canonically. S9xSetByte adds nine exact
     # address/data provider contracts to the global source-tree namespace.
-    if set(active) != expected_external or len(external) != 1868:
+    if set(active) != expected_external or len(external) != 1873:
         fail("live runtime contract universe drift")
     for symbol, row in active.items():
         if (row["owner"], row["resolution_gate"]) != ownership(symbol):

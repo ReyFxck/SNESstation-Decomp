@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-native-bulk 236-name source-link provider frontier.
+"""Close the post-native-bulk 239-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -130,12 +130,16 @@ SEMANTIC_ALIASES = {
 # source model does not export a signature-compatible canonical definition.
 # REG_GS_CSR is the documented PS2 privileged GS register, not image storage.
 EXPLICIT_ANCHORS = {
+    "_Z7DSPOp0Av": 0x12ce18,
+    "S9xBasename": 0x101914,
+    "S9xLoadOrigSnapshot": 0x17022c,
+    "_Z11FreezeBlockPvPcPhi": 0x172174,
+    "_Z16S9xUnfreezeZSNESPKc": 0x1728d4,
+    "_ZdlPv": 0x1a90f8,
     "S9xOpenSnapshotFile": 0x101890,
     "S9xCloseSnapshotFile": 0x1018e0,
     # Original native batch C++ signatures; earlier models use different ABIs.
-    '_Z11DSP1GetBytet': 0x12f744,
     '_Z11DSP1SetByteht': 0x12e750,
-    '_Z6FreezePv': 0x171348,
     # The earlier random-number model takes a state pointer. Preserve the
     # original zero-argument ABI used by the native PPU register path.
     "rand": 0x00108a34,
@@ -150,7 +154,6 @@ EXPLICIT_ANCHORS = {
     "_Z14S9xSpc7110Initv": 0x1806a4,
     # Preserve the original zero-argument C++ clip-window ABI; the earlier
     # structural lift uses an emulation-context model.
-    "_Z18ComputeClipWindowsv": 0x114818,
     # Native controller update calls the original one-argument PS2 reader.
     # The earlier multitap model at this address takes an extra RPC context.
     'S9xReadJoypad': 0x104bbc,
@@ -294,8 +297,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 236:
-        fail(f"expected exact post-native-bulk frontier of 236 symbols, found {len(active)}")
+    if len(active) != 239:
+        fail(f"expected exact post-native-bulk frontier of 239 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
@@ -372,7 +375,7 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 192,
+        ABSOLUTE_ANCHOR: 195,
         SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }

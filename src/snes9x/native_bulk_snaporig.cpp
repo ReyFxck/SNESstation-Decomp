@@ -73,10 +73,12 @@
   Nintendo Co., Limited and its subsidiary companies.
 *******************************************************************************/
 
-/* Native bulk proof: analysis/functions/native_bulk_snaporig_exact_268.tsv
- * 1 routines / 268 complete linked historical instruction bytes.
- * Frozen audit entry points:
+/* Native bulk proof: analysis/functions/native_bulk_snaporig_exact_3904.tsv
+ * 3 routines / 3904 complete linked historical instruction bytes.
+ * Reviewed native entry points:
  * 0x0017028c _Z9ReadBlockPKcPviS1_ (268 bytes)
+ * 0x00170398 _Z16ReadOrigSnapshotPv (3528 bytes)
+ * 0x00171160 _Z12S9xFixCyclesv (108 bytes)
  */
 /* Pinned Snes9x native snaporig recovery; original declarations/macros and bodies expanded with the historical EE profile. */
 extern "C" {
@@ -2216,8 +2218,51 @@ static inline void CLEAR_IRQ_SOURCE (uint32 M)
         CPU.Flags &= ~(1 << 11);
 }
 
-extern inline void S9xFixCycles ()
-;
+static inline void S9xFixCycles ()
+{
+    if ((Registers.P.W & 256))
+    {
+
+
+
+        ICPU.S9xOpcodes = S9xOpcodesM1X1;
+    }
+    else
+    if ((Registers.P.B.l & 32))
+    {
+        if ((Registers.P.B.l & 16))
+        {
+
+
+
+            ICPU.S9xOpcodes = S9xOpcodesM1X1;
+        }
+        else
+        {
+
+
+
+            ICPU.S9xOpcodes = S9xOpcodesM1X0;
+        }
+    }
+    else
+    {
+        if ((Registers.P.B.l & 16))
+        {
+
+
+
+            ICPU.S9xOpcodes = S9xOpcodesM0X1;
+        }
+        else
+        {
+
+
+
+            ICPU.S9xOpcodes = S9xOpcodesM0X0;
+        }
+    }
+}
 
 static inline void S9xReschedule ()
 {
@@ -2530,7 +2575,7 @@ SOrigSoundData OrigSoundData;
 struct SOrigAPURegisters OrigAPURegisters;
 char ROMFilename [1025];
 
-extern int ReadOrigSnapshot (gzFile);
+static int ReadOrigSnapshot (gzFile);
 
 bool8 S9xLoadOrigSnapshot (const char *filename)
 ;
@@ -2564,5 +2609,296 @@ static int ReadBlock (const char *key, void *block, int max_len, gzFile snap)
     return (1);
 }
 
-extern int ReadOrigSnapshot (gzFile snap)
-;
+static int ReadOrigSnapshot (gzFile snap)
+{
+    char buffer [1024];
+    char rom_filename [1024];
+    int result;
+    int i;
+    int j;
+
+    int version;
+    int len = strlen ("#!snes96") + 1 + 4 + 1;
+    if (gzread (snap,buffer,len) != len)
+        return ((-1));
+    if (strncmp (buffer, "#!snes96", strlen ("#!snes96")) != 0)
+        return ((-1));
+    if ((version = strtol (&buffer [strlen ("#!snes9x") + 1], __null, 10)) > 4)
+        return ((-2));
+
+    if ((result = ReadBlock ("NAM:", rom_filename, 1024, snap)) != 1)
+        return (result);
+
+    if ((result = ReadBlock ("HiR:", buffer, 0x41, snap)) != 1)
+        return (result);
+
+    if (strcasecmp (rom_filename, Memory.ROMFilename) != 0 &&
+        strcasecmp (S9xBasename (rom_filename), S9xBasename (Memory.ROMFilename)) != 0)
+    {
+        S9xMessage (S9X_WARNING, S9X_FREEZE_ROM_NAME,
+                    "Current loaded ROM image doesn't match that required by freeze-game file.");
+    }
+
+    S9xReset ();
+    S9xSetSoundMute (1);
+    if ((result = ReadBlock ("CPU:", &OrigCPU, sizeof (OrigCPU), snap)) != 1)
+        return (result);
+    OrigCPU.FastROMSpeed = OrigCPU.FastROMSpeed_old;
+    Memory.FixROMSpeed ();
+    if (version == 3)
+    {
+        OrigCPU.Cycles = OrigCPU.Cycles_old;
+        OrigCPU.NextEvent = OrigCPU.NextEvent_old;
+        OrigCPU.V_Counter = OrigCPU.V_Counter_old;
+        OrigCPU.MemSpeed = OrigCPU.MemSpeed_old;
+        OrigCPU.MemSpeedx2 = OrigCPU.MemSpeedx2_old;
+        OrigCPU.FastROMSpeed = OrigCPU.FastROMSpeed_old;
+    }
+    CPU.Flags = OrigCPU.Flags;
+    CPU.BranchSkip = OrigCPU.BranchSkip;
+    CPU.NMIActive = OrigCPU.NMIActive;
+    CPU.IRQActive = OrigCPU.IRQActive;
+    CPU.WaitingForInterrupt = OrigCPU.WaitingForInterrupt;
+    CPU.WhichEvent = OrigCPU.WhichEvent;
+    CPU.Cycles = OrigCPU.Cycles;
+    CPU.NextEvent = OrigCPU.NextEvent;
+    CPU.V_Counter = OrigCPU.V_Counter;
+    CPU.MemSpeed = OrigCPU.MemSpeed;
+    CPU.MemSpeedx2 = OrigCPU.MemSpeedx2;
+    CPU.FastROMSpeed = OrigCPU.FastROMSpeed;
+
+    if ((result = ReadBlock ("REG:", &OrigRegisters, sizeof (OrigRegisters), snap)) != 1)
+        return (result);
+
+    Registers = *(struct SRegisters *) &OrigRegisters;
+
+    if ((result = ReadBlock ("PPU:", &OrigPPU, sizeof (OrigPPU), snap)) != 1)
+        return (result);
+
+    if (version == 2)
+    {
+        OrigPPU.OBJNameSelect = OrigPPU.OBJNameSelect_old << 13;
+        OrigPPU.OBJNameBase <<= 1;
+        OrigPPU.OBJNameSelect <<= 13;
+    }
+    PPU.BGMode = OrigPPU.BGMode;
+    PPU.BG3Priority = OrigPPU.BG3Priority;
+    PPU.Brightness = OrigPPU.Brightness;
+
+    PPU.VMA.High = OrigPPU.VMA.High;
+    PPU.VMA.Increment = OrigPPU.VMA.Increment;
+    PPU.VMA.Address = OrigPPU.VMA.Address;
+    PPU.VMA.Mask1 = OrigPPU.VMA.Mask1;
+    PPU.VMA.FullGraphicCount = OrigPPU.VMA.FullGraphicCount;
+    PPU.VMA.Shift = OrigPPU.VMA.Shift;
+
+    for (i = 0; i < 4; i++)
+    {
+        PPU.BG[i].SCBase = OrigPPU.BG[i].SCBase;
+        PPU.BG[i].VOffset = OrigPPU.BG[i].VOffset;
+        PPU.BG[i].HOffset = OrigPPU.BG[i].HOffset;
+        PPU.BG[i].BGSize = OrigPPU.BG[i].BGSize;
+        PPU.BG[i].NameBase = OrigPPU.BG[i].NameBase;
+        PPU.BG[i].SCSize = OrigPPU.BG[i].SCSize;
+    }
+
+    PPU.CGFLIP = OrigPPU.CGFLIP;
+    for (i = 0; i < 256; i++)
+        PPU.CGDATA [i] = OrigPPU.CGDATA [i];
+    PPU.FirstSprite = OrigPPU.FirstSprite;
+    for (i = 0; i < 128; i++)
+    {
+        PPU.OBJ[i].HPos = OrigPPU.OBJ [i].HPos;
+        PPU.OBJ[i].VPos = OrigPPU.OBJ [i].VPos;
+        PPU.OBJ[i].Name = OrigPPU.OBJ [i].Name;
+        PPU.OBJ[i].VFlip = OrigPPU.OBJ [i].VFlip;
+        PPU.OBJ[i].HFlip = OrigPPU.OBJ [i].HFlip;
+        PPU.OBJ[i].Priority = OrigPPU.OBJ [i].Priority;
+        PPU.OBJ[i].Palette = OrigPPU.OBJ [i].Palette;
+        PPU.OBJ[i].Size = OrigPPU.OBJ [i].Size;
+    }
+    PPU.OAMPriorityRotation = OrigPPU.OAMPriorityRotation;
+    PPU.OAMAddr = OrigPPU.OAMAddr;
+
+    PPU.OAMFlip = OrigPPU.OAMFlip;
+    PPU.OAMTileAddress = OrigPPU.OAMTileAddress;
+    PPU.IRQVBeamPos = OrigPPU.IRQVBeamPos;
+    PPU.IRQHBeamPos = OrigPPU.IRQHBeamPos;
+    PPU.VBeamPosLatched = OrigPPU.VBeamPosLatched;
+    PPU.HBeamPosLatched = OrigPPU.HBeamPosLatched;
+
+    PPU.HBeamFlip = OrigPPU.HBeamFlip;
+    PPU.VBeamFlip = OrigPPU.VBeamFlip;
+    PPU.HVBeamCounterLatched = OrigPPU.HVBeamCounterLatched;
+
+    PPU.MatrixA = OrigPPU.MatrixA;
+    PPU.MatrixB = OrigPPU.MatrixB;
+    PPU.MatrixC = OrigPPU.MatrixC;
+    PPU.MatrixD = OrigPPU.MatrixD;
+    PPU.CentreX = OrigPPU.CentreX;
+    PPU.CentreY = OrigPPU.CentreY;
+    PPU.Joypad1ButtonReadPos = OrigPPU.Joypad1ButtonReadPos;
+    PPU.Joypad2ButtonReadPos = OrigPPU.Joypad2ButtonReadPos;
+    PPU.Joypad3ButtonReadPos = OrigPPU.Joypad3ButtonReadPos;
+
+    PPU.CGADD = OrigPPU.CGADD;
+    PPU.FixedColourRed = OrigPPU.FixedColourRed;
+    PPU.FixedColourGreen = OrigPPU.FixedColourGreen;
+    PPU.FixedColourBlue = OrigPPU.FixedColourBlue;
+    PPU.SavedOAMAddr = OrigPPU.SavedOAMAddr;
+    PPU.ScreenHeight = OrigPPU.ScreenHeight;
+    PPU.WRAM = OrigPPU.WRAM;
+    PPU.ForcedBlanking = OrigPPU.ForcedBlanking;
+    PPU.OBJNameSelect = OrigPPU.OBJNameSelect;
+    PPU.OBJSizeSelect = OrigPPU.OBJSizeSelect;
+    PPU.OBJNameBase = OrigPPU.OBJNameBase;
+    PPU.OAMReadFlip = OrigPPU.OAMReadFlip;
+    memmove (PPU.OAMData, OrigPPU.OAMData, sizeof (PPU.OAMData));
+    PPU.VTimerEnabled = OrigPPU.VTimerEnabled;
+    PPU.HTimerEnabled = OrigPPU.HTimerEnabled;
+    PPU.HTimerPosition = OrigPPU.HTimerPosition;
+    PPU.Mosaic = OrigPPU.Mosaic;
+    memmove (PPU.BGMosaic, OrigPPU.BGMosaic, sizeof (PPU.BGMosaic));
+    PPU.Mode7HFlip = OrigPPU.Mode7HFlip;
+    PPU.Mode7VFlip = OrigPPU.Mode7VFlip;
+    PPU.Mode7Repeat = OrigPPU.Mode7Repeat;
+    PPU.Window1Left = OrigPPU.Window1Left;
+    PPU.Window1Right = OrigPPU.Window1Right;
+    PPU.Window2Left = OrigPPU.Window2Left;
+    PPU.Window2Right = OrigPPU.Window2Right;
+    for (i = 0; i < 6; i++)
+    {
+        PPU.ClipWindowOverlapLogic [i] = OrigPPU.ClipWindowOverlapLogic [i];
+        PPU.ClipWindow1Enable [i] = OrigPPU.ClipWindow1Enable [i];
+        PPU.ClipWindow2Enable [i] = OrigPPU.ClipWindow2Enable [i];
+        PPU.ClipWindow1Inside [i] = OrigPPU.ClipWindow1Inside [i];
+        PPU.ClipWindow2Inside [i] = OrigPPU.ClipWindow2Inside [i];
+    }
+    PPU.CGFLIPRead = OrigPPU.CGFLIPRead;
+    PPU.Need16x8Mulitply = OrigPPU.Need16x8Mulitply;
+
+    IPPU.ColorsChanged = 1;
+    IPPU.OBJChanged = 1;
+    S9xFixColourBrightness ();
+    IPPU.RenderThisFrame = 0;
+
+    if ((result = ReadBlock ("DMA:", OrigDMA, sizeof (OrigDMA), snap)) != 1)
+        return (result);
+
+    for (i = 0; i < 8; i++)
+    {
+        DMA[i].TransferDirection = OrigDMA[i].TransferDirection;
+        DMA[i].AAddressFixed = OrigDMA[i].AAddressFixed;
+        DMA[i].AAddressDecrement = OrigDMA[i].AAddressDecrement;
+        DMA[i].TransferMode = OrigDMA[i].TransferMode;
+        DMA[i].ABank = OrigDMA[i].ABank;
+        DMA[i].AAddress = OrigDMA[i].AAddress;
+        DMA[i].Address = OrigDMA[i].Address;
+        DMA[i].BAddress = OrigDMA[i].BAddress;
+        DMA[i].TransferBytes = OrigDMA[i].TransferBytes;
+        DMA[i].HDMAIndirectAddressing = OrigDMA[i].HDMAIndirectAddressing;
+        DMA[i].IndirectAddress = OrigDMA[i].IndirectAddress;
+        DMA[i].IndirectBank = OrigDMA[i].IndirectBank;
+        DMA[i].Repeat = OrigDMA[i].Repeat;
+        DMA[i].LineCount = OrigDMA[i].LineCount;
+        DMA[i].FirstLine = OrigDMA[i].FirstLine;
+    }
+
+    if ((result = ReadBlock ("VRA:", Memory.VRAM, 0x10000, snap)) != 1)
+        return (result);
+    if ((result = ReadBlock ("RAM:", Memory.RAM, 0x20000, snap)) != 1)
+        return (result);
+    if ((result = ReadBlock ("SRA:", ::SRAM, 0x10000, snap)) != 1)
+        return (result);
+    if ((result = ReadBlock ("FIL:", Memory.FillRAM, 0x8000, snap)) != 1)
+        return (result);
+    if (ReadBlock ("APU:", &OrigAPU, sizeof (OrigAPU), snap) == 1)
+    {
+        APU = *(struct SAPU *) &OrigAPU;
+
+        if ((result = ReadBlock ("ARE:", &OrigAPURegisters,
+                                 sizeof (OrigAPURegisters), snap)) != 1)
+            return (result);
+        APURegisters = *(struct SAPURegisters *) &OrigAPURegisters;
+        if ((result = ReadBlock ("ARA:", IAPU.RAM, 0x10000, snap)) != 1)
+            return (result);
+        if ((result = ReadBlock ("SOU:", &OrigSoundData,
+                                 sizeof (SOrigSoundData), snap)) != 1)
+            return (result);
+
+        SoundData.master_volume_left = OrigSoundData.master_volume_left;
+        SoundData.master_volume_right = OrigSoundData.master_volume_right;
+        SoundData.echo_volume_left = OrigSoundData.echo_volume_left;
+        SoundData.echo_volume_right = OrigSoundData.echo_volume_right;
+        SoundData.echo_enable = OrigSoundData.echo_enable;
+        SoundData.echo_feedback = OrigSoundData.echo_feedback;
+        SoundData.echo_ptr = OrigSoundData.echo_ptr;
+        SoundData.echo_buffer_size = OrigSoundData.echo_buffer_size;
+        SoundData.echo_write_enabled = OrigSoundData.echo_write_enabled;
+        SoundData.echo_channel_enable = OrigSoundData.echo_channel_enable;
+        SoundData.pitch_mod = OrigSoundData.pitch_mod;
+
+        for (i = 0; i < 3; i++)
+            SoundData.dummy [i] = OrigSoundData.dummy [i];
+        for (i = 0; i < 8; i++)
+        {
+            SoundData.channels [i].state = OrigSoundData.channels [i].state;
+            SoundData.channels [i].type = OrigSoundData.channels [i].type;
+            SoundData.channels [i].volume_left = OrigSoundData.channels [i].volume_left;
+            SoundData.channels [i].volume_right = OrigSoundData.channels [i].volume_right;
+            SoundData.channels [i].hertz = OrigSoundData.channels [i].frequency;
+            SoundData.channels [i].count = OrigSoundData.channels [i].count;
+            SoundData.channels [i].loop = OrigSoundData.channels [i].loop;
+            SoundData.channels [i].envx = OrigSoundData.channels [i].envx;
+            SoundData.channels [i].left_vol_level = OrigSoundData.channels [i].left_vol_level;
+            SoundData.channels [i].right_vol_level = OrigSoundData.channels [i].right_vol_level;
+            SoundData.channels [i].envx_target = OrigSoundData.channels [i].envx_target;
+            SoundData.channels [i].env_error = OrigSoundData.channels [i].env_error;
+            SoundData.channels [i].erate = OrigSoundData.channels [i].erate;
+            SoundData.channels [i].direction = OrigSoundData.channels [i].direction;
+            SoundData.channels [i].attack_rate = OrigSoundData.channels [i].attack_rate;
+            SoundData.channels [i].decay_rate = OrigSoundData.channels [i].decay_rate;
+            SoundData.channels [i].sustain_rate = OrigSoundData.channels [i].sustain_rate;
+            SoundData.channels [i].release_rate = OrigSoundData.channels [i].release_rate;
+            SoundData.channels [i].sustain_level = OrigSoundData.channels [i].sustain_level;
+            SoundData.channels [i].sample = OrigSoundData.channels [i].sample;
+            for (j = 0; j < 16; j++)
+                SoundData.channels [i].decoded [j] = OrigSoundData.channels [i].decoded [j];
+
+            for (j = 0; j < 2; j++)
+                SoundData.channels [i].previous [j] = OrigSoundData.channels [i].previous [j];
+
+            SoundData.channels [i].sample_number = OrigSoundData.channels [i].sample_number;
+            SoundData.channels [i].last_block = OrigSoundData.channels [i].last_block;
+            SoundData.channels [i].needs_decode = OrigSoundData.channels [i].needs_decode;
+            SoundData.channels [i].block_pointer = OrigSoundData.channels [i].block_pointer;
+            SoundData.channels [i].sample_pointer = OrigSoundData.channels [i].sample_pointer;
+            SoundData.channels [i].mode = OrigSoundData.channels [i].mode;
+        }
+
+        S9xSetSoundMute (0);
+        IAPU.PC = IAPU.RAM + APURegisters.PC;
+        S9xAPUUnpackStatus ();
+        if ((APURegisters.P & 32))
+            IAPU.DirectPage = IAPU.RAM + 0x100;
+        else
+            IAPU.DirectPage = IAPU.RAM;
+        Settings.APUEnabled = 1;
+        IAPU.APUExecuting = 1;
+    }
+    else
+    {
+        Settings.APUEnabled = 0;
+        IAPU.APUExecuting = 0;
+        S9xSetSoundMute (1);
+    }
+    S9xFixSoundAfterSnapshotLoad ();
+    ICPU.ShiftedPB = Registers.PB << 16;
+    ICPU.ShiftedDB = Registers.DB << 16;
+    S9xSetPCBase (ICPU.ShiftedPB + Registers.PC);
+    S9xUnpackStatus ();
+    S9xFixCycles ();
+    S9xReschedule ();
+
+    return (1);
+}

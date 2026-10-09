@@ -1248,3 +1248,33 @@ source pins, target geometry and comparison results are preserved; only public
 consumer provenance and dependent hashes are refreshed. Complete selected code
 is proved against linked historical references. This batch does not assert a
 fresh private-ELF comparison or a complete native replacement image.
+
+## Native DSP, snapshot and clipping follow-up
+
+The eight-module native batch now proves **147 functions / 78,388 complete
+linked historical instruction bytes**, extending the preceding 132-function
+batch by **15 bodies / 10,056 bytes**. Six DSP matrix/vector transforms additionally
+match every byte in the committed target instruction listing; this disambiguates
+legacy windows that reused the same zero-relocation symbol. DSP1GetByte retains
+its original 2,048-byte readonly DSP ROM at section offset 896. Snapshot and
+legacy snapshot loading retain their own 108-byte local S9xFixCycles helpers at
+0x00173c24 and 0x00171160, respectively. Descriptor functions preserve the original
+compressed-stream pointer ABI while authenticating their legacy FILE* symbol
+witnesses; S9xUnfreezeGame authenticates the stdio witness before comparing the
+fully linked compressed-stream implementation.
+
+Native ComputeClipWindows separately matches **4,572/4,572 complete linked target
+bytes**. Its qsort declaration uses the independently proved historical signed
+32-bit count and stride ABI; the wider bootstrap size_t declaration generated an
+extra instruction and different scheduling. Its two 40-byte public upstream
+comparators remain unclaimed as target-body recovery because their complete
+target bodies were not captured.
+
+This follow-up therefore adds **16 proved bodies / 14,628 instruction bytes**.
+Run tools/run-native-bulk-source-recovery.py and
+tools/run-native-clip-source-recovery.py, or make source-recovery-check. The
+250-entry ten-module census contains 148 newly proved bodies, 54 previously
+retained owners/proofs, and 48 pending functions, including the two unclaimed
+clip helpers. These are subset counts, not the whole project's remaining work.
+All owned native storage and readonly slices are checked separately. No new
+private-ELF, complete payload, or replacement-image comparison is claimed.

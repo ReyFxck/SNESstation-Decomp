@@ -38,15 +38,18 @@ on:
       - src/snes9x/native_bulk_snaporig.cpp
       - analysis/functions/native_bulk_tile_exact_48552.tsv
       - analysis/functions/native_bulk_2xsai_exact_6888.tsv
-      - analysis/functions/native_bulk_dsp1_exact_4592.tsv
+      - analysis/functions/native_bulk_dsp1_exact_6100.tsv
       - analysis/functions/native_bulk_apu_exact_1576.tsv
       - analysis/functions/native_bulk_memmap_exact_1924.tsv
       - analysis/functions/native_bulk_soundux_exact_4076.tsv
-      - analysis/functions/native_bulk_snapshot_exact_456.tsv
-      - analysis/functions/native_bulk_snaporig_exact_268.tsv
-      - analysis/functions/native_bulk_68332_config.json
+      - analysis/functions/native_bulk_snapshot_exact_5368.tsv
+      - analysis/functions/native_bulk_snaporig_exact_3904.tsv
+      - analysis/functions/native_bulk_78388_config.json
       - analysis/functions/native_bulk_census.tsv
       - tools/run-native-bulk-source-recovery.py
+      - src/snes9x/native_clip.cpp
+      - tools/run-native-clip-source-recovery.py
+      - analysis/functions/native_clip_exact_4572.tsv
       - src/snes9x/native_rom_maps.cpp
       - analysis/functions/native_rom_maps_exact_12816.tsv
       - tools/run-native-rom-maps-source-recovery.py

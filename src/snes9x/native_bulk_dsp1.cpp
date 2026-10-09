@@ -73,9 +73,9 @@
   Nintendo Co., Limited and its subsidiary companies.
 *******************************************************************************/
 
-/* Native bulk proof: analysis/functions/native_bulk_dsp1_exact_4592.tsv
- * 25 routines / 4592 complete linked historical instruction bytes.
- * Frozen audit entry points:
+/* Native bulk proof: analysis/functions/native_bulk_dsp1_exact_6100.tsv
+ * 32 routines / 6100 complete linked historical instruction bytes.
+ * Reviewed native entry points:
  * 0x0012c13c _Z7DSPOp00v (36 bytes)
  * 0x0012c160 _Z7DSPOp20v (40 bytes)
  * 0x0012c188 _Z12DSP1_InversessPsS_ (284 bytes)
@@ -87,9 +87,16 @@
  * 0x0012d334 _Z7DSPOp01v (376 bytes)
  * 0x0012d4ac _Z7DSPOp11v (376 bytes)
  * 0x0012d624 _Z7DSPOp21v (376 bytes)
+ * 0x0012d79c _Z7DSPOp0Dv (192 bytes)
+ * 0x0012d85c _Z7DSPOp1Dv (192 bytes)
+ * 0x0012d91c _Z7DSPOp2Dv (192 bytes)
+ * 0x0012d9dc _Z7DSPOp03v (192 bytes)
+ * 0x0012da9c _Z7DSPOp13v (192 bytes)
+ * 0x0012db5c _Z7DSPOp23v (192 bytes)
  * 0x0012dc1c _Z7DSPOp14v (452 bytes)
  * 0x0012de60 _Z7DSPOp0Bv (80 bytes)
  * 0x0012deb0 _Z7DSPOp1Bv (80 bytes)
+ * 0x0012df00 _Z7DSPOp2Bv (80 bytes)
  * 0x0012df50 _Z7DSPOp08v (96 bytes)
  * 0x0012dfb0 _Z7DSPOp18v (76 bytes)
  * 0x0012dffc _Z7DSPOp38v (80 bytes)
@@ -100,6 +107,7 @@
  * 0x0012e374 _Z9DSP2_Op01v (500 bytes)
  * 0x0012e568 _Z9DSP2_Op06v (80 bytes)
  * 0x0012e5b8 _Z9DSP2_Op0Dv (208 bytes)
+ * 0x0012f744 _Z11DSP1GetBytet (356 bytes)
  */
 /* Pinned Snes9x native dsp1 recovery; original declarations/macros and bodies expanded with the historical EE profile. */
 extern "C" {
@@ -2333,13 +2341,36 @@ short Op2DL;
 short Op2DU;
 
 void DSPOp0D()
-;
+{
+        Op0DF = (Op0DX * matrixA[0][0] >> 15) + (Op0DY * matrixA[0][1] >> 15) + (Op0DZ * matrixA[0][2] >> 15);
+        Op0DL = (Op0DX * matrixA[1][0] >> 15) + (Op0DY * matrixA[1][1] >> 15) + (Op0DZ * matrixA[1][2] >> 15);
+        Op0DU = (Op0DX * matrixA[2][0] >> 15) + (Op0DY * matrixA[2][1] >> 15) + (Op0DZ * matrixA[2][2] >> 15);
+
+
+
+
+}
 
 void DSPOp1D()
-;
+{
+        Op1DF = (Op1DX * matrixB[0][0] >> 15) + (Op1DY * matrixB[0][1] >> 15) + (Op1DZ * matrixB[0][2] >> 15);
+        Op1DL = (Op1DX * matrixB[1][0] >> 15) + (Op1DY * matrixB[1][1] >> 15) + (Op1DZ * matrixB[1][2] >> 15);
+        Op1DU = (Op1DX * matrixB[2][0] >> 15) + (Op1DY * matrixB[2][1] >> 15) + (Op1DZ * matrixB[2][2] >> 15);
+
+
+
+
+}
 
 void DSPOp2D()
-;
+{
+        Op2DF = (Op2DX * matrixC[0][0] >> 15) + (Op2DY * matrixC[0][1] >> 15) + (Op2DZ * matrixC[0][2] >> 15);
+        Op2DL = (Op2DX * matrixC[1][0] >> 15) + (Op2DY * matrixC[1][1] >> 15) + (Op2DZ * matrixC[1][2] >> 15);
+        Op2DU = (Op2DX * matrixC[2][0] >> 15) + (Op2DY * matrixC[2][1] >> 15) + (Op2DZ * matrixC[2][2] >> 15);
+
+
+
+}
 
 short Op03F;
 short Op03L;
@@ -2361,13 +2392,35 @@ short Op23Y;
 short Op23Z;
 
 void DSPOp03()
-;
+{
+        Op03X = (Op03F * matrixA[0][0] >> 15) + (Op03L * matrixA[1][0] >> 15) + (Op03U * matrixA[2][0] >> 15);
+        Op03Y = (Op03F * matrixA[0][1] >> 15) + (Op03L * matrixA[1][1] >> 15) + (Op03U * matrixA[2][1] >> 15);
+        Op03Z = (Op03F * matrixA[0][2] >> 15) + (Op03L * matrixA[1][2] >> 15) + (Op03U * matrixA[2][2] >> 15);
+
+
+
+
+}
 
 void DSPOp13()
-;
+{
+        Op13X = (Op13F * matrixB[0][0] >> 15) + (Op13L * matrixB[1][0] >> 15) + (Op13U * matrixB[2][0] >> 15);
+        Op13Y = (Op13F * matrixB[0][1] >> 15) + (Op13L * matrixB[1][1] >> 15) + (Op13U * matrixB[2][1] >> 15);
+        Op13Z = (Op13F * matrixB[0][2] >> 15) + (Op13L * matrixB[1][2] >> 15) + (Op13U * matrixB[2][2] >> 15);
+
+
+
+}
 
 void DSPOp23()
-;
+{
+        Op23X = (Op23F * matrixC[0][0] >> 15) + (Op23L * matrixC[1][0] >> 15) + (Op23U * matrixC[2][0] >> 15);
+        Op23Y = (Op23F * matrixC[0][1] >> 15) + (Op23L * matrixC[1][1] >> 15) + (Op23U * matrixC[2][1] >> 15);
+        Op23Z = (Op23F * matrixC[0][2] >> 15) + (Op23L * matrixC[1][2] >> 15) + (Op23U * matrixC[2][2] >> 15);
+
+
+
+}
 
 short Op14Zr;
 short Op14Xr;
@@ -2713,7 +2766,63 @@ void DSP1SetByte(uint8 byte, uint16 address)
 ;
 
 uint8 DSP1GetByte(uint16 address)
-;
+{
+        uint8 t;
+    if ((address & 0xf000) == 0x6000 ||
+
+                (address&0x7fff) < 0x4000)
+    {
+                if (DSP1.out_count)
+                {
+
+                                t = (uint8) DSP1.output [DSP1.out_index];
+
+
+
+                                DSP1.out_index++;
+                                if (--DSP1.out_count == 0)
+                                {
+                                        if (DSP1.command == 0x1a || DSP1.command == 0x0a)
+                                        {
+                                                DSPOp0A ();
+                                                DSP1.out_count = 8;
+                                                DSP1.out_index = 0;
+                                                DSP1.output [0] = (Op0AA&0xFF);
+                                                DSP1.output [1] = (Op0AA>>8)&0xFF;
+                                                DSP1.output [2] = (Op0AB&0xFF);
+                                                DSP1.output [3] = (Op0AB>>8)&0xFF;
+                                                DSP1.output [4] = (Op0AC&0xFF);
+                                                DSP1.output [5] = (Op0AC>>8)&0xFF;
+                                                DSP1.output [6] = (Op0AD&0xFF);
+                                                DSP1.output [7] = (Op0AD>>8)&0xFF;
+                                        }
+                                        if(DSP1.command==0x1f)
+                                        {
+                                                if((DSP1.out_index%2)!=0)
+                                                {
+                                                        t=(uint8)DSP1ROM[DSP1.out_index>>1];
+                                                }
+                                                else
+                                                {
+                                                        t=DSP1ROM[DSP1.out_index>>1]>>8;
+                                                }
+                                        }
+                                }
+                                DSP1.waiting4command = 1;
+
+                }
+                else
+                {
+
+
+                                t = 0xff;
+
+
+                }
+    }
+    else t = 0x80;
+        return t;
+}
 
 void DSP2SetByte(uint8 byte, uint16 address)
 ;

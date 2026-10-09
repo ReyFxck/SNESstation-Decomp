@@ -259,11 +259,16 @@ LATER_CONTROLLER_CONTRACTS = {'S9xReadJoypad': 0x104bbc}
 # New public native-batch consumers are reviewed independently of the frozen
 # historical 216-row private-data tranche.
 LATER_NATIVE_BULK_CONTRACTS = {
+    "_Z7DSPOp0Av": (0x12ce18, "snes9x/native_bulk_dsp1.o", "target-function-contract"),
+    "S9xBasename": (0x101914, "snes9x/native_bulk_snaporig.o;snes9x/native_bulk_snapshot.o", "named-external"),
+    "S9xLoadOrigSnapshot": (0x17022c, "snes9x/native_bulk_snapshot.o", "named-external"),
+    "_Z11FreezeBlockPvPcPhi": (0x172174, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
+    "_Z16S9xUnfreezeZSNESPKc": (0x1728d4, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
+    "_ZdlPv": (0x1a90f8, "snes9x/native_bulk_snapshot.o", "cxx-runtime"),
+    "gzwrite": (0x193dbc, "snes9x/native_bulk_snapshot.o", "zlib-peer"),
     "S9xOpenSnapshotFile": (0x101890, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
     "S9xCloseSnapshotFile": (0x1018e0, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
-    "_Z6FreezePv": (0x171348, "snes9x/native_bulk_snapshot.o", "target-function-contract"),
     "_Z11DSP1SetByteht": (0x12e750, "snes9x/native_bulk_dsp1.o", "target-function-contract"),
-    "_Z11DSP1GetBytet": (0x12f744, "snes9x/native_bulk_dsp1.o", "target-function-contract"),
     "gzread": (0x193a34, "snes9x/native_bulk_snaporig.o;snes9x/native_bulk_snapshot.o", "zlib-peer"),
     "gzseek": (0x1940ec, "snes9x/native_bulk_snapshot.o", "zlib-peer"),
     "gztell": (0x194378, "snes9x/native_bulk_snapshot.o", "zlib-peer"),
@@ -557,12 +562,12 @@ def derive_rows(args: argparse.Namespace) -> tuple[list[dict[str, str]], dict[st
                 fail("native batch original callee address drift: " + symbol)
 
     symbol = "_Z18ComputeClipWindowsv"
-    ext, provider = external.get(symbol), frontier.get(symbol)
-    if (ext is None or ext["category"] != "target-function-contract"
-            or ext["requesters"] != "snes9x/native_gfx.o"
-            or provider is None or provider["resolution_kind"] != ABSOLUTE_ANCHOR
-            or provider["target_address"] != "0x00114818"):
-        fail("native rendering clip-window ABI/address contract drift")
+    definitions = [row for row in defined_rows if row["symbol"] == symbol]
+    if (symbol in external or symbol in frontier or len(definitions) != 1
+            or definitions[0]["binding"] != "global" or definitions[0]["section_class"] != "text"
+            or definitions[0]["size_hex"] != hex(4572)
+            or definitions[0]["source"] != "src/snes9x/native_clip.cpp"):
+        fail("promoted native rendering clip-window ownership drift")
     definitions = [row for row in defined_rows if row["symbol"] == "S9xUpdateScreen"]
     if ("S9xUpdateScreen" in external or len(definitions) != 1
             or definitions[0]["binding"] != "global" or definitions[0]["section_class"] != "text"

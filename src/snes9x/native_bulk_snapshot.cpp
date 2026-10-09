@@ -73,12 +73,18 @@
   Nintendo Co., Limited and its subsidiary companies.
 *******************************************************************************/
 
-/* Native bulk proof: analysis/functions/native_bulk_snapshot_exact_456.tsv
- * 4 routines / 456 complete linked historical instruction bytes.
- * Frozen audit entry points:
+/* Native bulk proof: analysis/functions/native_bulk_snapshot_exact_5368.tsv
+ * 10 routines / 5368 complete linked historical instruction bytes.
+ * Reviewed native entry points:
  * 0x0019c5cc Snapshot (28 bytes)
  * 0x001711e8 S9xFreezeGame (72 bytes)
+ * 0x00171348 _Z6FreezePv (952 bytes)
+ * 0x0017124c S9xUnfreezeGame (252 bytes)
+ * 0x00171700 _Z8UnfreezePv (1768 bytes)
+ * 0x00171e0c _Z12FreezeStructPvPcS_P10FreezeDatai (872 bytes)
  * 0x001725ac _Z13UnfreezeBlockPvPcPhi (320 bytes)
+ * 0x001721ec _Z14UnfreezeStructPvPcS_P10FreezeDatai (960 bytes)
+ * 0x00173c24 _Z12S9xFixCyclesv (108 bytes)
  * 0x00171de8 _Z10FreezeSizeii (36 bytes)
  */
 /* Pinned Snes9x native snapshot recovery; original declarations/macros and bodies expanded with the historical EE profile. */
@@ -2219,8 +2225,51 @@ static inline void CLEAR_IRQ_SOURCE (uint32 M)
         CPU.Flags &= ~(1 << 11);
 }
 
-extern inline void S9xFixCycles ()
-;
+static inline void S9xFixCycles ()
+{
+    if ((Registers.P.W & 256))
+    {
+
+
+
+        ICPU.S9xOpcodes = S9xOpcodesM1X1;
+    }
+    else
+    if ((Registers.P.B.l & 32))
+    {
+        if ((Registers.P.B.l & 16))
+        {
+
+
+
+            ICPU.S9xOpcodes = S9xOpcodesM1X1;
+        }
+        else
+        {
+
+
+
+            ICPU.S9xOpcodes = S9xOpcodesM1X0;
+        }
+    }
+    else
+    {
+        if ((Registers.P.B.l & 16))
+        {
+
+
+
+            ICPU.S9xOpcodes = S9xOpcodesM0X1;
+        }
+        else
+        {
+
+
+
+            ICPU.S9xOpcodes = S9xOpcodesM0X0;
+        }
+    }
+}
 
 static inline void S9xReschedule ()
 {
@@ -2785,8 +2834,8 @@ typedef struct SPC7110EmuVars
         uint8 bank50[0x10000];
 
 } SPC7110Regs;
-extern SPC7110Regs s7r;
-extern S7RTC rtc_f9;
+extern SPC7110Regs s7r __asm__("DAT_00413508");
+extern S7RTC rtc_f9 __asm__("DAT_00423548");
 
 bool8 S9xSaveSPC7110RTC (S7RTC *rtc_f9);
 bool8 S9xLoadSPC7110RTC (S7RTC *rtc_f9);
@@ -3116,8 +3165,8 @@ static FreezeData SnapS7RTC [] = {
 static char ROMFilename [1024];
 
 
-extern void Freeze (gzFile);
-extern int Unfreeze (gzFile);
+static void Freeze (gzFile);
+static int Unfreeze (gzFile);
 void FreezeStruct (gzFile stream, char *name, void *base, FreezeData *fields,
                                    int num_fields);
 void FreezeBlock (gzFile stream, char *name, uint8 *block, int size);
@@ -3148,13 +3197,252 @@ bool8 S9xLoadSnapshot (const char *filename)
 ;
 
 bool8 S9xUnfreezeGame (const char *filename)
-;
+{
+    if (S9xLoadOrigSnapshot (filename))
+                return (1);
 
-extern void Freeze (gzFile stream)
-;
+    if (S9xUnfreezeZSNES (filename))
+                return (1);
 
-extern int Unfreeze (gzFile stream)
-;
+    gzFile snapshot = __null;
+    if (S9xOpenSnapshotFile (filename, 1, &snapshot))
+    {
+                int result;
+                if ((result = Unfreeze (snapshot)) != 1)
+                {
+                        switch (result)
+                        {
+                        case (-1):
+                                S9xMessage (S9X_ERROR, S9X_WRONG_FORMAT,
+                                        "File not in Snes9x freeze format");
+                                break;
+                        case (-2):
+                                S9xMessage (S9X_ERROR, S9X_WRONG_VERSION,
+                                        "Incompatable Snes9x freeze file format version");
+                                break;
+                        default:
+                        case (-3):
+                                sprintf (String, "ROM image \"%s\" for freeze file not found",
+                                        ROMFilename);
+                                S9xMessage (S9X_ERROR, S9X_ROM_NOT_FOUND, String);
+                                break;
+                        }
+                        S9xCloseSnapshotFile (snapshot);
+                        return (0);
+                }
+                S9xCloseSnapshotFile (snapshot);
+                return (1);
+    }
+    return (0);
+}
+
+static void Freeze (gzFile stream)
+{
+    char buffer [1024];
+    int i;
+
+    S9xSetSoundMute (1);
+
+
+
+
+
+        S9xUpdateRTC();
+    S9xSRTCPreSaveState ();
+
+    for (i = 0; i < 8; i++)
+    {
+                SoundData.channels [i].previous16 [0] = (int16) SoundData.channels [i].previous [0];
+                SoundData.channels [i].previous16 [1] = (int16) SoundData.channels [i].previous [1];
+    }
+    sprintf (buffer, "%s:%04d\n", "#!snes9x", 1);
+    gzwrite (stream,buffer,strlen (buffer));
+    sprintf (buffer, "NAM:%06d:%s%c", strlen (Memory.ROMFilename) + 1,
+                Memory.ROMFilename, 0);
+    gzwrite (stream,buffer,strlen (buffer) + 1);
+    FreezeStruct (stream, "CPU", &CPU, SnapCPU, (sizeof (SnapCPU) / sizeof (SnapCPU[0])));
+    FreezeStruct (stream, "REG", &Registers, SnapRegisters, (sizeof (SnapRegisters) / sizeof (SnapRegisters[0])));
+    FreezeStruct (stream, "PPU", &PPU, SnapPPU, (sizeof (SnapPPU) / sizeof (SnapPPU[0])));
+    FreezeStruct (stream, "DMA", DMA, SnapDMA, (sizeof (SnapDMA) / sizeof (SnapDMA[0])));
+
+
+    FreezeBlock (stream, "VRA", Memory.VRAM, 0x10000);
+    FreezeBlock (stream, "RAM", Memory.RAM, 0x20000);
+    FreezeBlock (stream, "SRA", ::SRAM, 0x20000);
+    FreezeBlock (stream, "FIL", Memory.FillRAM, 0x8000);
+    if (Settings.APUEnabled)
+    {
+
+                FreezeStruct (stream, "APU", &APU, SnapAPU, (sizeof (SnapAPU) / sizeof (SnapAPU[0])));
+                FreezeStruct (stream, "ARE", &APURegisters, SnapAPURegisters,
+                        (sizeof (SnapAPURegisters) / sizeof (SnapAPURegisters[0])));
+                FreezeBlock (stream, "ARA", IAPU.RAM, 0x10000);
+                FreezeStruct (stream, "SOU", &SoundData, SnapSoundData,
+                        (sizeof (SnapSoundData) / sizeof (SnapSoundData[0])));
+    }
+    if (Settings.SA1)
+    {
+                SA1Registers.PC = SA1.PC - SA1.PCBase;
+                S9xSA1PackStatus ();
+                FreezeStruct (stream, "SA1", &SA1, SnapSA1, (sizeof (SnapSA1) / sizeof (SnapSA1[0])));
+                FreezeStruct (stream, "SAR", &SA1Registers, SnapSA1Registers,
+                        (sizeof (SnapSA1Registers) / sizeof (SnapSA1Registers[0])));
+    }
+
+        if (Settings.SPC7110)
+    {
+                FreezeStruct (stream, "SP7", &s7r, SnapSPC7110, (sizeof (SnapSPC7110) / sizeof (SnapSPC7110[0])));
+    }
+        if(Settings.SPC7110RTC)
+        {
+                FreezeStruct (stream, "RTC", &rtc_f9, SnapS7RTC, (sizeof (SnapS7RTC) / sizeof (SnapS7RTC[0])));
+        }
+
+    S9xSetSoundMute (0);
+
+
+
+
+}
+
+static int Unfreeze (gzFile stream)
+{
+    char buffer [1024 + 1];
+    char rom_filename [1024 + 1];
+    int result;
+
+    int version;
+    int len = strlen ("#!snes9x") + 1 + 4 + 1;
+    if (gzread (stream,buffer,len) != len)
+                return ((-1));
+    if (strncmp (buffer, "#!snes9x", strlen ("#!snes9x")) != 0)
+                return ((-1));
+    if ((version = strtol (&buffer [strlen ("#!snes9x") + 1], __null, 10)) > 1)
+                return ((-2));
+
+    if ((result = UnfreezeBlock (stream, "NAM", (uint8 *) rom_filename, 1024)) != 1)
+                return (result);
+
+    if (strcasecmp (rom_filename, Memory.ROMFilename) != 0 &&
+                strcasecmp (S9xBasename (rom_filename), S9xBasename (Memory.ROMFilename)) != 0)
+    {
+                S9xMessage (S9X_WARNING, S9X_FREEZE_ROM_NAME,
+                        "Current loaded ROM image doesn't match that required by freeze-game file.");
+    }
+
+    uint32 old_flags = CPU.Flags;
+    uint32 sa1_old_flags = SA1.Flags;
+    S9xReset ();
+    S9xSetSoundMute (1);
+
+    if ((result = UnfreezeStruct (stream, "CPU", &CPU, SnapCPU,
+                (sizeof (SnapCPU) / sizeof (SnapCPU[0])))) != 1)
+                return (result);
+    Memory.FixROMSpeed ();
+    CPU.Flags |= old_flags & ((1 << 0) | (1 << 1) |
+                (1 << 2) | (1 << 9));
+    if ((result = UnfreezeStruct (stream, "REG", &Registers, SnapRegisters, (sizeof (SnapRegisters) / sizeof (SnapRegisters[0])))) != 1)
+                return (result);
+    if ((result = UnfreezeStruct (stream, "PPU", &PPU, SnapPPU, (sizeof (SnapPPU) / sizeof (SnapPPU[0])))) != 1)
+                return (result);
+
+    IPPU.ColorsChanged = 1;
+    IPPU.OBJChanged = 1;
+    CPU.InDMA = 0;
+    S9xFixColourBrightness ();
+    IPPU.RenderThisFrame = 0;
+
+    if ((result = UnfreezeStruct (stream, "DMA", DMA, SnapDMA,
+                (sizeof (SnapDMA) / sizeof (SnapDMA[0])))) != 1)
+                return (result);
+    if ((result = UnfreezeBlock (stream, "VRA", Memory.VRAM, 0x10000)) != 1)
+                return (result);
+    if ((result = UnfreezeBlock (stream, "RAM", Memory.RAM, 0x20000)) != 1)
+                return (result);
+    if ((result = UnfreezeBlock (stream, "SRA", ::SRAM, 0x20000)) != 1)
+                return (result);
+    if ((result = UnfreezeBlock (stream, "FIL", Memory.FillRAM, 0x8000)) != 1)
+                return (result);
+    if (UnfreezeStruct (stream, "APU", &APU, SnapAPU, (sizeof (SnapAPU) / sizeof (SnapAPU[0]))) == 1)
+    {
+                if ((result = UnfreezeStruct (stream, "ARE", &APURegisters, SnapAPURegisters,
+                        (sizeof (SnapAPURegisters) / sizeof (SnapAPURegisters[0])))) != 1)
+                        return (result);
+                if ((result = UnfreezeBlock (stream, "ARA", IAPU.RAM, 0x10000)) != 1)
+                        return (result);
+                if ((result = UnfreezeStruct (stream, "SOU", &SoundData, SnapSoundData,
+                        (sizeof (SnapSoundData) / sizeof (SnapSoundData[0])))) != 1)
+                        return (result);
+
+                S9xSetSoundMute (0);
+                IAPU.PC = IAPU.RAM + APURegisters.PC;
+                S9xAPUUnpackStatus ();
+                if ((APURegisters.P & 32))
+                        IAPU.DirectPage = IAPU.RAM + 0x100;
+                else
+                        IAPU.DirectPage = IAPU.RAM;
+                Settings.APUEnabled = 1;
+                IAPU.APUExecuting = 1;
+    }
+    else
+    {
+                Settings.APUEnabled = 0;
+                IAPU.APUExecuting = 0;
+                S9xSetSoundMute (1);
+    }
+    if ((result = UnfreezeStruct (stream, "SA1", &SA1, SnapSA1,
+                (sizeof (SnapSA1) / sizeof (SnapSA1[0])))) == 1)
+    {
+                if ((result = UnfreezeStruct (stream, "SAR", &SA1Registers,
+                        SnapSA1Registers, (sizeof (SnapSA1Registers) / sizeof (SnapSA1Registers[0])))) != 1)
+                        return (result);
+
+                S9xFixSA1AfterSnapshotLoad ();
+                SA1.Flags |= sa1_old_flags & ((1 << 1));
+    }
+
+        if ((result = UnfreezeStruct (stream, "SP7", &s7r, SnapSPC7110,
+                (sizeof (SnapSPC7110) / sizeof (SnapSPC7110[0])))) != 1)
+    {
+                if(Settings.SPC7110)
+                        return result;
+        }
+        if ((result = UnfreezeStruct (stream, "RTC", &rtc_f9,
+                        SnapS7RTC, (sizeof (SnapS7RTC) / sizeof (SnapS7RTC[0])))) == 1)
+        {
+                S9xUpdateRTC();
+        }
+        else
+        {
+                if(Settings.SPC7110RTC)
+                        return result;
+        }
+    S9xFixSoundAfterSnapshotLoad ();
+
+        if(!Memory.FillRAM[0x4213]){
+
+                Memory.FillRAM[0x4213]=Memory.FillRAM[0x4201];
+                if(!Memory.FillRAM[0x4213])
+                        Memory.FillRAM[0x4213]=Memory.FillRAM[0x4201]=0xFF;
+        }
+
+    ICPU.ShiftedPB = Registers.PB << 16;
+    ICPU.ShiftedDB = Registers.DB << 16;
+    S9xSetPCBase (ICPU.ShiftedPB + Registers.PC);
+    S9xUnpackStatus ();
+    S9xFixCycles ();
+    S9xReschedule ();
+
+
+
+
+
+    S9xSRTCPostLoadState ();
+    if (Settings.SDD1)
+                S9xSDD1PostLoadState ();
+
+    return (1);
+}
 
 int FreezeSize (int size, int type)
 {
@@ -3171,14 +3459,187 @@ int FreezeSize (int size, int type)
 
 void FreezeStruct (gzFile stream, char *name, void *base, FreezeData *fields,
                                    int num_fields)
-;
+{
+
+    int len = 0;
+    int i;
+    int j;
+
+    for (i = 0; i < num_fields; i++)
+    {
+                if (fields [i].offset + FreezeSize (fields [i].size,
+                        fields [i].type) > len)
+                        len = fields [i].offset + FreezeSize (fields [i].size,
+                        fields [i].type);
+    }
+
+    uint8 *block = new uint8 [len];
+    uint8 *ptr = block;
+    uint16 word;
+    uint32 dword;
+    int64 qword;
+
+
+    for (i = 0; i < num_fields; i++)
+    {
+                switch (fields [i].type)
+                {
+                case INT_V:
+                        switch (fields [i].size)
+                        {
+                        case 1:
+                                *ptr++ = *((uint8 *) base + fields [i].offset);
+                                break;
+                        case 2:
+                                word = *((uint16 *) ((uint8 *) base + fields [i].offset));
+                                *ptr++ = (uint8) (word >> 8);
+                                *ptr++ = (uint8) word;
+                                break;
+                        case 4:
+                                dword = *((uint32 *) ((uint8 *) base + fields [i].offset));
+                                *ptr++ = (uint8) (dword >> 24);
+                                *ptr++ = (uint8) (dword >> 16);
+                                *ptr++ = (uint8) (dword >> 8);
+                                *ptr++ = (uint8) dword;
+                                break;
+                        case 8:
+                                qword = *((int64 *) ((uint8 *) base + fields [i].offset));
+                                *ptr++ = (uint8) (qword >> 56);
+                                *ptr++ = (uint8) (qword >> 48);
+                                *ptr++ = (uint8) (qword >> 40);
+                                *ptr++ = (uint8) (qword >> 32);
+                                *ptr++ = (uint8) (qword >> 24);
+                                *ptr++ = (uint8) (qword >> 16);
+                                *ptr++ = (uint8) (qword >> 8);
+                                *ptr++ = (uint8) qword;
+                                break;
+                        }
+                        break;
+                        case uint8_ARRAY_V:
+                                memmove (ptr, (uint8 *) base + fields [i].offset, fields [i].size);
+                                ptr += fields [i].size;
+                                break;
+                        case uint16_ARRAY_V:
+                                for (j = 0; j < fields [i].size; j++)
+                                {
+                                        word = *((uint16 *) ((uint8 *) base + fields [i].offset + j * 2));
+                                        *ptr++ = (uint8) (word >> 8);
+                                        *ptr++ = (uint8) word;
+                                }
+                                break;
+                        case uint32_ARRAY_V:
+                                for (j = 0; j < fields [i].size; j++)
+                                {
+                                        dword = *((uint32 *) ((uint8 *) base + fields [i].offset + j * 4));
+                                        *ptr++ = (uint8) (dword >> 24);
+                                        *ptr++ = (uint8) (dword >> 16);
+                                        *ptr++ = (uint8) (dword >> 8);
+                                        *ptr++ = (uint8) dword;
+                                }
+                                break;
+                }
+    }
+
+    FreezeBlock (stream, name, block, len);
+    delete[] block;
+}
 
 void FreezeBlock (gzFile stream, char *name, uint8 *block, int size)
 ;
 
 int UnfreezeStruct (gzFile stream, char *name, void *base, FreezeData *fields,
                                         int num_fields)
-;
+{
+
+    int len = 0;
+    int i;
+    int j;
+
+    for (i = 0; i < num_fields; i++)
+    {
+                if (fields [i].offset + FreezeSize (fields [i].size,
+                        fields [i].type) > len)
+                        len = fields [i].offset + FreezeSize (fields [i].size,
+                        fields [i].type);
+    }
+
+    uint8 *block = new uint8 [len];
+    uint8 *ptr = block;
+    uint16 word;
+    uint32 dword;
+    int64 qword;
+    int result;
+
+    if ((result = UnfreezeBlock (stream, name, block, len)) != 1)
+    {
+                delete block;
+                return (result);
+    }
+
+
+    for (i = 0; i < num_fields; i++)
+    {
+                switch (fields [i].type)
+                {
+                case INT_V:
+                        switch (fields [i].size)
+                        {
+                        case 1:
+                                *((uint8 *) base + fields [i].offset) = *ptr++;
+                                break;
+                        case 2:
+                                word = *ptr++ << 8;
+                                word |= *ptr++;
+                                *((uint16 *) ((uint8 *) base + fields [i].offset)) = word;
+                                break;
+                        case 4:
+                                dword = *ptr++ << 24;
+                                dword |= *ptr++ << 16;
+                                dword |= *ptr++ << 8;
+                                dword |= *ptr++;
+                                *((uint32 *) ((uint8 *) base + fields [i].offset)) = dword;
+                                break;
+                        case 8:
+                                qword = (int64) *ptr++ << 56;
+                                qword |= (int64) *ptr++ << 48;
+                                qword |= (int64) *ptr++ << 40;
+                                qword |= (int64) *ptr++ << 32;
+                                qword |= (int64) *ptr++ << 24;
+                                qword |= (int64) *ptr++ << 16;
+                                qword |= (int64) *ptr++ << 8;
+                                qword |= (int64) *ptr++;
+                                *((int64 *) ((uint8 *) base + fields [i].offset)) = qword;
+                                break;
+                        }
+                        break;
+                        case uint8_ARRAY_V:
+                                memmove ((uint8 *) base + fields [i].offset, ptr, fields [i].size);
+                                ptr += fields [i].size;
+                                break;
+                        case uint16_ARRAY_V:
+                                for (j = 0; j < fields [i].size; j++)
+                                {
+                                        word = *ptr++ << 8;
+                                        word |= *ptr++;
+                                        *((uint16 *) ((uint8 *) base + fields [i].offset + j * 2)) = word;
+                                }
+                                break;
+                        case uint32_ARRAY_V:
+                                for (j = 0; j < fields [i].size; j++)
+                                {
+                                        dword = *ptr++ << 24;
+                                        dword |= *ptr++ << 16;
+                                        dword |= *ptr++ << 8;
+                                        dword |= *ptr++;
+                                        *((uint32 *) ((uint8 *) base + fields [i].offset + j * 4)) = dword;
+                                }
+                                break;
+                }
+    }
+
+    delete [] block;
+    return (result);
+}
 
 int UnfreezeBlock (gzFile stream, char *name, uint8 *block, int size)
 {

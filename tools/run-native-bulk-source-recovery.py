@@ -12,13 +12,14 @@ import csv
 import importlib.util
 import json
 import struct
+import re
 from pathlib import Path
 from compare_elf_functions import ELFFile
 from build_source_tree import SOURCE_FIXED_FLAGS
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / 'build/matching/native-bulk-source-recovery'
-CONFIG = ROOT / 'analysis/functions/native_bulk_68332_config.json'
-CONFIG_SHA256 = 'e164a4d06b5a819c6125666a12a11c4f3ff90f8f9194384e26a56b1ee3aeb285'
+CONFIG = ROOT / 'analysis/functions/native_bulk_78388_config.json'
+CONFIG_SHA256 = '6326a975093a4ba1a4cb6b9f0410b197905436a5efe1644f3f5fe963558b006e'
 
 
 def load_proof(name):
@@ -98,6 +99,11 @@ def run_batch(record=False):
         run([cpu.CXX, *flags, '-ffunction-sections', '-DZLIB', *includes, '-x', 'c++', '-c', layout / module['original_source'], '-o', ff_path])
         run([cpu.CXX, *cpu.FLAGS, '-c', ROOT / source, '-o', native_path])
         original, ff, native = map(ELFFile, (original_path, ff_path, native_path))
+        witness_originals = {}
+        if any(row.get('witness_profile') for row in module['functions']):
+            stdio_path = BUILD / (key + '.stdio.o')
+            run([cpu.CXX, *flags, *includes, '-x', 'c++', '-c', layout / module['original_source'], '-o', stdio_path])
+            witness_originals['stdio'] = ELFFile(stdio_path)
         actual_functions = [s for s in native.symbols if s.info & 15 == 2 and s.size]
         if {(s.name, s.size, s.info >> 4) for s in actual_functions} != {(s['symbol'], s['size'], s['binding']) for s in module['functions']}:
             raise SystemExit('native batch function inventory drift: ' + key)
@@ -106,9 +112,15 @@ def run_batch(record=False):
         if any(value == 0 for value in module['native_providers'].values()):
             raise SystemExit('unproved comparison placeholder in native providers: ' + key)
         for row in module['functions']:
-            old = original.find_symbol(row['symbol'])
+            old_original = witness_originals[row['witness_profile']] if row.get('witness_profile') else original
+            old = old_original.find_symbol(row['symbol'])
             witness = row['witness']
-            raw = original.symbol_bytes(old, old.size)
+            raw = old_original.symbol_bytes(old, old.size)
+            if witness.get('symbol') != row['symbol']:
+                if row.get('historical_symbol_alias') != witness.get('symbol'):
+                    raise SystemExit('undeclared inherited symbol alias')
+                if not row.get('target_listing') and row.get('abi_alias') != 'original STREAM void* and legacy FILE* descriptor functions have identical complete code and pointer calling ABI':
+                    raise SystemExit('unreviewed historical symbol alias')
             if digest(raw) != witness['raw_sha256'] or old.size != row['size']:
                 raise SystemExit('original source function drift: ' + row['symbol'])
             if witness.get('derived_from_whole_window'):
@@ -120,7 +132,7 @@ def run_batch(record=False):
                 path = ROOT / witness['matching_ledger']
                 rows = list(csv.DictReader(path.open(), delimiter='\t'))
                 matches = [r for r in rows if r.get('object_symbol') == old.name and r.get('result') == 'MATCH' and int(r['address'], 0) == row['address'] and int(r['object_size']) == row['size']]
-                if len(matches) != 1 or digest(path.read_bytes()) != row['witness_ledger_sha256'] or normalized(original, old) != normalized(native, native.find_symbol(old.name)):
+                if len(matches) != 1 or digest(path.read_bytes()) != row['witness_ledger_sha256'] or normalized(old_original, old) != normalized(native, native.find_symbol(old.name)):
                     raise SystemExit('inherited weak-helper matching witness drift')
             elif not any(w == witness for w in windows):
                 raise SystemExit('frozen complete function window drift: ' + row['symbol'])
@@ -139,17 +151,26 @@ def run_batch(record=False):
         rows = []
         for row in module['functions']:
             name = row['symbol']
-            old, local, ref, placed = (e.find_symbol(name) for e in (original, native, reference, linked))
+            old_original = witness_originals[row['witness_profile']] if row.get('witness_profile') else original
+            old, local, ref, placed = (e.find_symbol(name) for e in (old_original, native, reference, linked))
             raw = linked.symbol_bytes(placed, placed.size)
             if (placed.value != row['address'] or ref.value != row['address']
                     or placed.size != row['size'] or ref.size != row['size']
-                    or normalized(original, old) != normalized(native, local)
+                    or normalized(old_original, old) != normalized(native, local)
                     or raw != reference.symbol_bytes(ref, ref.size)):
                 raise SystemExit('complete linked native function mismatch: ' + name)
             captured = dict(address=f'0x{placed.value:08x}', symbol=name, size=str(placed.size), source_file=source,
-                binding=str(local.info >> 4), historical_raw_sha256=digest(original.symbol_bytes(old, old.size)),
+                binding=str(local.info >> 4), historical_raw_sha256=digest(old_original.symbol_bytes(old, old.size)),
                 isolated_raw_sha256=digest(native.symbol_bytes(local, local.size)), normalized_sha256=digest(normalized(native, local)),
                 linked_sha256=digest(raw), proof_level='linked-historical-reference')
+            if row.get('target_listing'):
+                listing = ROOT / row['target_listing']
+                if digest(listing.read_bytes()) != row['target_listing_sha256']:
+                    raise SystemExit('complete target instruction listing drift')
+                words = {int(m[1], 16): bytes.fromhex(m[2]) for m in re.finditer(r'^\s*([0-9a-f]+): ((?:[0-9a-f]{2} ){3}[0-9a-f]{2})', listing.read_text(), re.M)}
+                target = b''.join(words[row['address'] + offset] for offset in range(0, row['size'], 4))
+                if raw != target:
+                    raise SystemExit('complete linked ambiguous DSP target mismatch')
             rows.append(captured)
             aggregate.extend(raw)
         ledger = ROOT / module['ledger']
@@ -188,16 +209,16 @@ def run_batch(record=False):
             if actual != wanted:
                 raise SystemExit('canonical native batch ownership drift: ' + key)
         reports.append(dict(module=key, routines=len(rows), instruction_bytes=sum(int(r['size']) for r in rows), owned_storage_bytes=sum(s.size for s in objects), readonly_bytes=len(raw_rodata)))
-    if len(aggregate) != 68332 or sum(r['routines'] for r in reports) != 132:
+    if len(aggregate) != 78388 or sum(r['routines'] for r in reports) != 147:
         raise SystemExit('complete native batch inventory drift')
-    result = dict(modules=reports, routines=132, instruction_bytes=len(aggregate), linked_code_sha256=digest(aggregate),
+    result = dict(modules=reports, routines=147, instruction_bytes=len(aggregate), linked_code_sha256=digest(aggregate),
         proof_level='linked-historical-reference', fresh_private_elf=False, replacement_image=False)
     if record:
         CONFIG.write_text(json.dumps(modules, indent=2) + '\n')
         path = Path(__file__)
-        path.write_text(path.read_text().replace("CONFIG_SHA256 = 'e164a4d06b5a819c6125666a12a11c4f3ff90f8f9194384e26a56b1ee3aeb285'", 'CONFIG_SHA256 = ' + repr(digest(CONFIG.read_bytes()))))
+        path.write_text(re.sub(r"CONFIG_SHA256 = '[0-9a-f]{64}'", "CONFIG_SHA256 = " + repr(digest(CONFIG.read_bytes())), path.read_text(), count=1))
     (BUILD / 'report.json').write_text(json.dumps(result, indent=2) + '\n')
-    print('native batch: MATCH 132/132 routines, 68332/68332 complete linked historical instruction bytes; owned data and readonly slices checked separately')
+    print('native batch: MATCH 147/147 routines, 78388/78388 complete linked historical instruction bytes; owned data and readonly slices checked separately')
 
 
 if __name__ == '__main__':

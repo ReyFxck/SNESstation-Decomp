@@ -72,6 +72,7 @@ SOURCE_FIXED_FLAGS = {
     'src/snes9x/native_bulk_memmap.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_bulk_soundux.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_bulk_snapshot.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_clip.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_bulk_snaporig.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_chip_io.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_controllers.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
@@ -390,13 +391,13 @@ SOURCE_COMPILER_PROFILES = {
 # the mangled spelling itself does not encode an address and therefore must not
 # be sent through the address-suffix alias gate.
 HISTORICAL_CPP_PEERS = {
+    "_Z7DSPOp0Av": "src/snes9x/native_bulk_dsp1.cpp",
+    "_Z11FreezeBlockPvPcPhi": "src/snes9x/native_bulk_snapshot.cpp",
+    "_Z16S9xUnfreezeZSNESPKc": "src/snes9x/native_bulk_snapshot.cpp",
     "S9xOpenSnapshotFile": "src/snes9x/native_bulk_snapshot.cpp",
     "S9xCloseSnapshotFile": "src/snes9x/native_bulk_snapshot.cpp",
-    '_Z11DSP1GetBytet': 'src/snes9x/native_bulk_dsp1.cpp',
     '_Z11DSP1SetByteht': 'src/snes9x/native_bulk_dsp1.cpp',
-    '_Z6FreezePv': 'src/snes9x/native_bulk_snapshot.cpp',
     "_Z14S9xSpc7110Initv": "src/snes9x/native_rom_maps.cpp",
-    "_Z18ComputeClipWindowsv": "src/snes9x/native_gfx.cpp",
     '_ZN7CMemory7InitROMEh': 'src/snes9x/native_rom_deinterleave.cpp',
     "rand": "src/snes9x/native_ppu_registers.cpp",
     'S9xUpdateScreen': "src/snes9x/native_ppu_registers.cpp",

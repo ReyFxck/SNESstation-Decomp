@@ -1707,7 +1707,7 @@
     "data": 3395192,
     "rodata": 1777952,
     "bss": 0,
-    "rodata_shift": 0,
+    "rodata_shift": 896,
     "reference_providers": {
       "cos": 0,
       "sin": 0,
@@ -1720,7 +1720,7 @@
     "native_providers": {
       "DAT_00345628": 3429928,
       "_Z11DSP1SetByteht": 1238864,
-      "_Z11DSP1GetBytet": 1242948,
+      "_Z7DSPOp0Av": 1232408,
       "__gxx_personality_v0": 1742632
     },
     "functions": [
@@ -1932,6 +1932,132 @@
           "symbol": "_Z7DSPOp21v"
         },
         "section": ".text._Z7DSPOp21v"
+      },
+      {
+        "symbol": "_Z7DSPOp0Dv",
+        "size": 192,
+        "address": 1234844,
+        "binding": 1,
+        "witness": {
+          "address": 1234844,
+          "name": "tsv_0012d79c__Z7DSPOp0Dv",
+          "new_bytes": 192,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/DSP1.o",
+          "raw_sha256": "266840470a6e4ffe2ebf27388561e286d8d6ebd93157b0d76177ebaa7c7e561b",
+          "relocations": 15,
+          "section": ".text",
+          "size": 192,
+          "source_offset": 0,
+          "symbol": "_Z7DSPOp0Dv"
+        },
+        "section": ".text._Z7DSPOp0Dv"
+      },
+      {
+        "symbol": "_Z7DSPOp1Dv",
+        "size": 192,
+        "address": 1235036,
+        "binding": 1,
+        "witness": {
+          "address": 1235036,
+          "name": "tsv_0012d85c__Z7DSPOp0Dv",
+          "new_bytes": 192,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/DSP1.o",
+          "raw_sha256": "266840470a6e4ffe2ebf27388561e286d8d6ebd93157b0d76177ebaa7c7e561b",
+          "relocations": 15,
+          "section": ".text",
+          "size": 192,
+          "source_offset": 0,
+          "symbol": "_Z7DSPOp0Dv"
+        },
+        "historical_symbol_alias": "_Z7DSPOp0Dv",
+        "target_listing": "analysis/functions/progress12_targets.asm",
+        "target_listing_sha256": "1312bed9c78d51669e6f2ed182621b596b37e6aa6257f2fb6992e605f28f3447",
+        "section": ".text._Z7DSPOp1Dv"
+      },
+      {
+        "symbol": "_Z7DSPOp2Dv",
+        "size": 192,
+        "address": 1235228,
+        "binding": 1,
+        "witness": {
+          "address": 1235228,
+          "name": "tsv_0012d91c__Z7DSPOp0Dv",
+          "new_bytes": 192,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/DSP1.o",
+          "raw_sha256": "266840470a6e4ffe2ebf27388561e286d8d6ebd93157b0d76177ebaa7c7e561b",
+          "relocations": 15,
+          "section": ".text",
+          "size": 192,
+          "source_offset": 0,
+          "symbol": "_Z7DSPOp0Dv"
+        },
+        "historical_symbol_alias": "_Z7DSPOp0Dv",
+        "target_listing": "analysis/functions/progress12_targets.asm",
+        "target_listing_sha256": "1312bed9c78d51669e6f2ed182621b596b37e6aa6257f2fb6992e605f28f3447",
+        "section": ".text._Z7DSPOp2Dv"
+      },
+      {
+        "symbol": "_Z7DSPOp03v",
+        "size": 192,
+        "address": 1235420,
+        "binding": 1,
+        "witness": {
+          "address": 1235420,
+          "name": "tsv_0012d9dc__Z7DSPOp03v",
+          "new_bytes": 192,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/DSP1.o",
+          "raw_sha256": "a024f8217d8ca6e1dc401179896f9a3d74572f648fc2041d45a84a6f63ca719d",
+          "relocations": 15,
+          "section": ".text",
+          "size": 192,
+          "source_offset": 0,
+          "symbol": "_Z7DSPOp03v"
+        },
+        "section": ".text._Z7DSPOp03v"
+      },
+      {
+        "symbol": "_Z7DSPOp13v",
+        "size": 192,
+        "address": 1235612,
+        "binding": 1,
+        "witness": {
+          "address": 1235612,
+          "name": "tsv_0012da9c__Z7DSPOp03v",
+          "new_bytes": 192,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/DSP1.o",
+          "raw_sha256": "a024f8217d8ca6e1dc401179896f9a3d74572f648fc2041d45a84a6f63ca719d",
+          "relocations": 15,
+          "section": ".text",
+          "size": 192,
+          "source_offset": 0,
+          "symbol": "_Z7DSPOp03v"
+        },
+        "historical_symbol_alias": "_Z7DSPOp03v",
+        "target_listing": "analysis/functions/progress12_targets.asm",
+        "target_listing_sha256": "1312bed9c78d51669e6f2ed182621b596b37e6aa6257f2fb6992e605f28f3447",
+        "section": ".text._Z7DSPOp13v"
+      },
+      {
+        "symbol": "_Z7DSPOp23v",
+        "size": 192,
+        "address": 1235804,
+        "binding": 1,
+        "witness": {
+          "address": 1235804,
+          "name": "tsv_0012db5c__Z7DSPOp03v",
+          "new_bytes": 192,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/DSP1.o",
+          "raw_sha256": "a024f8217d8ca6e1dc401179896f9a3d74572f648fc2041d45a84a6f63ca719d",
+          "relocations": 15,
+          "section": ".text",
+          "size": 192,
+          "source_offset": 0,
+          "symbol": "_Z7DSPOp03v"
+        },
+        "historical_symbol_alias": "_Z7DSPOp03v",
+        "target_listing": "analysis/functions/progress12_targets.asm",
+        "target_listing_sha256": "1312bed9c78d51669e6f2ed182621b596b37e6aa6257f2fb6992e605f28f3447",
+        "section": ".text._Z7DSPOp23v"
       },
       {
         "symbol": "_Z7DSPOp14v",
@@ -2198,6 +2324,25 @@
           "symbol": "_Z9DSP2_Op0Dv"
         },
         "section": ".text._Z9DSP2_Op0Dv"
+      },
+      {
+        "symbol": "_Z11DSP1GetBytet",
+        "size": 356,
+        "address": 1242948,
+        "binding": 1,
+        "witness": {
+          "address": 1242948,
+          "name": "dsp_get_byte",
+          "new_bytes": 356,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/DSP1.o",
+          "raw_sha256": "387e4deedd87ecb44a6c435e483a54ff4f38130631f668a92257936a3322c7bc",
+          "relocations": 23,
+          "section": ".text",
+          "size": 356,
+          "source_offset": 0,
+          "symbol": "_Z11DSP1GetBytet"
+        },
+        "section": ".text._Z11DSP1GetBytet"
       }
     ],
     "reference_functions": [
@@ -2289,32 +2434,32 @@
       {
         "symbol": "_Z7DSPOp0Dv",
         "section": ".text._Z7DSPOp0Dv",
-        "address": 19005440
+        "address": 1234844
       },
       {
         "symbol": "_Z7DSPOp1Dv",
         "section": ".text._Z7DSPOp1Dv",
-        "address": 19136512
+        "address": 1235036
       },
       {
         "symbol": "_Z7DSPOp2Dv",
         "section": ".text._Z7DSPOp2Dv",
-        "address": 19267584
+        "address": 1235228
       },
       {
         "symbol": "_Z7DSPOp03v",
         "section": ".text._Z7DSPOp03v",
-        "address": 19398656
+        "address": 1235420
       },
       {
         "symbol": "_Z7DSPOp13v",
         "section": ".text._Z7DSPOp13v",
-        "address": 19529728
+        "address": 1235612
       },
       {
         "symbol": "_Z7DSPOp23v",
         "section": ".text._Z7DSPOp23v",
-        "address": 19660800
+        "address": 1235804
       },
       {
         "symbol": "_Z7DSPOp14v",
@@ -2404,7 +2549,7 @@
       {
         "symbol": "_Z11DSP1GetBytet",
         "section": ".text._Z11DSP1GetBytet",
-        "address": 22020096
+        "address": 1242948
       },
       {
         "symbol": "_Z11S9xInitDSP1v",
@@ -2443,7 +2588,6 @@
       "_Z7DSPOp0Ev": 1236448,
       "_Z7DSPOp28v": 1237068,
       "_Z11DSP1SetByteht": 1238864,
-      "_Z11DSP1GetBytet": 1242948,
       "_Z11S9xInitDSP1v": 1238664,
       "S9xResetDSP1": 1238724,
       "S9xGetDSP": 1238788,
@@ -2451,8 +2595,8 @@
       "_Z11DSP2SetByteht": 1243304,
       "_Z11DSP2GetBytet": 1244036
     },
-    "ledger": "analysis/functions/native_bulk_dsp1_exact_4592.tsv",
-    "ledger_sha256": "a0d866fcebd3f3ae9eed924e610d4eb78f10a7f84a215cfb43aa9ea3a0e720a1",
+    "ledger": "analysis/functions/native_bulk_dsp1_exact_6100.tsv",
+    "ledger_sha256": "6fa06e83279bfdf51b8ef6455c377e9e74687cdc96cc410104ba343be8e0f6a7",
     "objects": [
       {
         "symbol": "CosTable2",
@@ -4485,13 +4629,21 @@
         "section": ".data",
         "binding": 1,
         "linked_sha256": "56c99cbb5f3bc2a572dc21b68f8f549a2df1f16dc749519690132e7c5a923352"
+      },
+      {
+        "symbol": "DSP1ROM",
+        "size": 2048,
+        "address": 1778848,
+        "section": ".rodata",
+        "binding": 0,
+        "linked_sha256": "8546cbac530830446bb8a277f6b139d4ad64d650bdbac7e4e150e2f095665049"
       }
     ],
     "bss_geometry": {
       ".bss": 0
     },
-    "rodata_size": 0,
-    "rodata_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "rodata_size": 2048,
+    "rodata_sha256": "8546cbac530830446bb8a277f6b139d4ad64d650bdbac7e4e150e2f095665049"
   },
   {
     "key": "apu",
@@ -6143,7 +6295,7 @@
       "_Znaj": 1744744,
       "_ZdaPv": 1741080,
       "memmove": 1688736,
-      "_ZdlPv": 0,
+      "_ZdlPv": 1741048,
       "gztell": 1655672,
       "gzseek": 1655020,
       "strncmp": 1688592,
@@ -6159,24 +6311,68 @@
       "S9xSetAPUTimer": 1095468,
       "S9xSetAPUDSP": 1092936,
       "S9xSetSA1": 1434636,
-      "S9xOpcodesM1X1": 0,
-      "S9xOpcodesM1X0": 0,
-      "S9xOpcodesM0X0": 0,
-      "S9xOpcodesM0X1": 0,
+      "S9xOpcodesM1X1": 3368952,
+      "S9xOpcodesM1X0": 3369976,
+      "S9xOpcodesM0X0": 3371000,
+      "S9xOpcodesM0X1": 3372024,
       "__gxx_personality_v0": 1742632
     },
     "native_providers": {
       "S9xOpenSnapshotFile": 1054864,
-      "_Z6FreezePv": 1512264,
       "S9xCloseSnapshotFile": 1054944,
+      "S9xLoadOrigSnapshot": 1507884,
+      "_Z16S9xUnfreezeZSNESPKc": 1517780,
+      "DAT_00345268": 3428968,
+      "sprintf": 1696720,
+      "S9xMessage": 1070768,
+      "_Z15S9xSetSoundMuteh": 1525884,
+      "_Z12S9xUpdateRTCv": 1582648,
+      "_Z19S9xSRTCPreSaveStatev": 1588312,
+      "DAT_0034db50": 3464016,
+      "DAT_0034e2b0": 3465904,
+      "strlen": 1689064,
+      "gzwrite": 1654204,
+      "g_CPU_blob": 3429184,
+      "DAT_003453a8": 3429288,
+      "DAT_0035b788": 3520392,
+      "DAT_0035d360": 3527520,
+      "_Z11FreezeBlockPvPcPhi": 1515892,
+      "DAT_0034e298": 3465880,
+      "DAT_003454e0": 3429600,
+      "DAT_00345af8": 3431160,
+      "DAT_00345ae8": 3431144,
+      "g_APU_003453b8": 3429304,
+      "DAT_003454d8": 3429592,
+      "DAT_00345498": 3429528,
       "gzread": 1653300,
+      "memcmp": 1688664,
+      "strtol": 1698688,
+      "strcasecmp": 1697888,
+      "S9xReset": 1137496,
+      "_ZN7CMemory11FixROMSpeedEv": 1390016,
+      "DAT_0035c268": 3523176,
+      "S9xFixColourBrightness": 1413544,
+      "_Z28S9xFixSoundAfterSnapshotLoadv": 1524560,
+      "g_ICPU_00345318": 3429144,
+      "_Z12S9xSetPCBasej": 1753124,
+      "_Z20S9xSRTCPostLoadStatev": 1588544,
+      "_Z20S9xSDD1PostLoadStatev": 1505916,
+      "S9xFixSA1AfterSnapshotLoad": 1432436,
+      "S9xBasename": 1054996,
+      "_Znaj": 1744744,
+      "_ZdaPv": 1741080,
+      "memmove": 1688736,
+      "_ZdlPv": 1741048,
       "gztell": 1655672,
       "gzseek": 1655020,
       "strncmp": 1688592,
-      "strtol": 1698688,
-      "_Znaj": 1744744,
-      "_ZdaPv": 1741080,
-      "__gxx_personality_v0": 1742632
+      "S9xOpcodesM1X1": 3368952,
+      "S9xOpcodesM1X0": 3369976,
+      "S9xOpcodesM0X0": 3371000,
+      "S9xOpcodesM0X1": 3372024,
+      "__gxx_personality_v0": 1742632,
+      "DAT_00413508": 4273416,
+      "DAT_00423548": 4339016
     },
     "functions": [
       {
@@ -6218,6 +6414,85 @@
         "section": ".text.S9xFreezeGame"
       },
       {
+        "symbol": "_Z6FreezePv",
+        "size": 952,
+        "address": 1512264,
+        "binding": 0,
+        "witness": {
+          "address": 1512264,
+          "name": "tsv_00171348__Z6FreezePv",
+          "new_bytes": 952,
+          "object": "build/matching/hunt1041-v52-closure/objects/snapshot-short.o",
+          "raw_sha256": "2c9a2cbae2e15f59fa605e58d25a1e6d4d78d4e961f044b75c8ade61c02083e0",
+          "relocations": 121,
+          "section": ".text",
+          "size": 952,
+          "source_offset": 0,
+          "symbol": "_Z6FreezePv"
+        },
+        "section": ".text._Z6FreezePv"
+      },
+      {
+        "symbol": "S9xUnfreezeGame",
+        "size": 252,
+        "address": 1512012,
+        "binding": 1,
+        "witness": {
+          "address": 1512012,
+          "name": "tsv_0017124c_S9xUnfreezeGame",
+          "new_bytes": 252,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/SNAPSHOT.o",
+          "raw_sha256": "49f1ee718aed525b2367175316ac3b7552c26a34018239a471f139f8b5abedfc",
+          "relocations": 18,
+          "section": ".text",
+          "size": 252,
+          "source_offset": 0,
+          "symbol": "S9xUnfreezeGame"
+        },
+        "witness_profile": "stdio",
+        "section": ".text.S9xUnfreezeGame"
+      },
+      {
+        "symbol": "_Z8UnfreezePv",
+        "size": 1768,
+        "address": 1513216,
+        "binding": 0,
+        "witness": {
+          "address": 1513216,
+          "name": "tsv_00171700__Z8UnfreezePv",
+          "new_bytes": 1768,
+          "object": "build/matching/hunt1041-v52-closure/objects/snapshot-short.o",
+          "raw_sha256": "80354f4c3fe45b751d974866ccaf2f59592504f5860a839f42ecebea0240e1e2",
+          "relocations": 182,
+          "section": ".text",
+          "size": 1768,
+          "source_offset": 0,
+          "symbol": "_Z8UnfreezePv"
+        },
+        "section": ".text._Z8UnfreezePv"
+      },
+      {
+        "symbol": "_Z12FreezeStructPvPcS_P10FreezeDatai",
+        "size": 872,
+        "address": 1515020,
+        "binding": 1,
+        "witness": {
+          "address": 1515020,
+          "name": "tsv_00171e0c__Z12FreezeStructP7__sFILEPcPvP10FreezeDatai",
+          "new_bytes": 872,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/SNAPSHOT.o",
+          "raw_sha256": "5421ab2818be5f4665dbad174e922519d6fd45b1e59a52dfa2065b78af3ea8a2",
+          "relocations": 6,
+          "section": ".text",
+          "size": 872,
+          "source_offset": 0,
+          "symbol": "_Z12FreezeStructP7__sFILEPcPvP10FreezeDatai"
+        },
+        "historical_symbol_alias": "_Z12FreezeStructP7__sFILEPcPvP10FreezeDatai",
+        "abi_alias": "original STREAM void* and legacy FILE* descriptor functions have identical complete code and pointer calling ABI",
+        "section": ".text._Z12FreezeStructPvPcS_P10FreezeDatai"
+      },
+      {
         "symbol": "_Z13UnfreezeBlockPvPcPhi",
         "size": 320,
         "address": 1516972,
@@ -6235,6 +6510,46 @@
           "symbol": "_Z13UnfreezeBlockPvPcPhi"
         },
         "section": ".text._Z13UnfreezeBlockPvPcPhi"
+      },
+      {
+        "symbol": "_Z14UnfreezeStructPvPcS_P10FreezeDatai",
+        "size": 960,
+        "address": 1516012,
+        "binding": 1,
+        "witness": {
+          "address": 1516012,
+          "name": "tsv_001721ec__Z14UnfreezeStructP7__sFILEPcPvP10FreezeDatai",
+          "new_bytes": 960,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/SNAPSHOT.o",
+          "raw_sha256": "af3264f0f657f0a951911c102b17f9f8f9d90b4b8897a6e300448a53bc77fd62",
+          "relocations": 7,
+          "section": ".text",
+          "size": 960,
+          "source_offset": 0,
+          "symbol": "_Z14UnfreezeStructP7__sFILEPcPvP10FreezeDatai"
+        },
+        "historical_symbol_alias": "_Z14UnfreezeStructP7__sFILEPcPvP10FreezeDatai",
+        "abi_alias": "original STREAM void* and legacy FILE* descriptor functions have identical complete code and pointer calling ABI",
+        "section": ".text._Z14UnfreezeStructPvPcS_P10FreezeDatai"
+      },
+      {
+        "symbol": "_Z12S9xFixCyclesv",
+        "size": 108,
+        "address": 1522724,
+        "binding": 0,
+        "witness": {
+          "address": 1522724,
+          "name": "tsv_00173c24__Z12S9xFixCyclesv",
+          "new_bytes": 108,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/CPUOPS.o",
+          "raw_sha256": "25026d3f587841d643dc7845198cf2e2696cda8df5ea9ea3d8fb2f0f395c9975",
+          "relocations": 13,
+          "section": ".text",
+          "size": 108,
+          "source_offset": 0,
+          "symbol": "_Z12S9xFixCyclesv"
+        },
+        "section": ".text._Z12S9xFixCyclesv"
       },
       {
         "symbol": "_Z10FreezeSizeii",
@@ -6280,7 +6595,7 @@
       {
         "symbol": "S9xUnfreezeGame",
         "section": ".text.S9xUnfreezeGame",
-        "address": 17301504
+        "address": 1512012
       },
       {
         "symbol": "_Z16S9xUnfreezeZSNESPKc",
@@ -6295,7 +6610,7 @@
       {
         "symbol": "_Z12FreezeStructPvPcS_P10FreezeDatai",
         "section": ".text._Z12FreezeStructPvPcS_P10FreezeDatai",
-        "address": 17694720
+        "address": 1515020
       },
       {
         "symbol": "_Z11FreezeBlockPvPcPhi",
@@ -6310,12 +6625,12 @@
       {
         "symbol": "_Z14UnfreezeStructPvPcS_P10FreezeDatai",
         "section": ".text._Z14UnfreezeStructPvPcS_P10FreezeDatai",
-        "address": 18087936
+        "address": 1516012
       },
       {
         "symbol": "_Z12S9xFixCyclesv",
         "section": ".text._Z12S9xFixCyclesv",
-        "address": 1216996
+        "address": 1522724
       },
       {
         "symbol": "_Z10FreezeSizeii",
@@ -6329,16 +6644,12 @@
       }
     ],
     "reference_assignments": {
-      "_Z6FreezePv": 1512264,
-      "S9xUnfreezeGame": 1512012,
-      "_Z8UnfreezePv": 1513216,
-      "_Z12FreezeStructPvPcS_P10FreezeDatai": 1515020,
-      "_Z14UnfreezeStructPvPcS_P10FreezeDatai": 1516012,
-      "_Z12S9xFixCyclesv": 1216996,
+      "_Z16S9xUnfreezeZSNESPKc": 1517780,
+      "_Z11FreezeBlockPvPcPhi": 1515892,
       "S9xSPCDump": 1517292
     },
-    "ledger": "analysis/functions/native_bulk_snapshot_exact_456.tsv",
-    "ledger_sha256": "6140736aa51fdf6884120739fb590b326b05ece8ed207157982d70a142cf317d",
+    "ledger": "analysis/functions/native_bulk_snapshot_exact_5368.tsv",
+    "ledger_sha256": "818695ba1c7b2fe426b19d67758b6ee05b5f89d53f2b0f31ce431a711ace45ba",
     "objects": [
       {
         "symbol": "SnapCPU",
@@ -6432,8 +6743,8 @@
     "bss_geometry": {
       ".bss": 1024
     },
-    "rodata_size": 0,
-    "rodata_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "rodata_size": 400,
+    "rodata_sha256": "e8e7145af216456cff2c96e8f5cb2b6a7c023d5ee52bca289ef52a2f71fe269f"
   },
   {
     "key": "snaporig",
@@ -6476,10 +6787,10 @@
       "SoundData": 3464016,
       "S9xBasename": 1054996,
       "S9xMessage": 1070768,
-      "S9xOpcodesM1X1": 0,
-      "S9xOpcodesM1X0": 0,
-      "S9xOpcodesM0X0": 0,
-      "S9xOpcodesM0X1": 0,
+      "S9xOpcodesM1X1": 3368952,
+      "S9xOpcodesM1X0": 3369976,
+      "S9xOpcodesM0X0": 3371000,
+      "S9xOpcodesM0X1": 3372024,
       "__gxx_personality_v0": 1742632
     },
     "native_providers": {
@@ -6488,6 +6799,34 @@
       "strtol": 1698688,
       "_Znaj": 1744744,
       "_ZdaPv": 1741080,
+      "memcmp": 1688664,
+      "DAT_0034e2b0": 3465904,
+      "strcasecmp": 1697888,
+      "S9xReset": 1137496,
+      "_Z15S9xSetSoundMuteh": 1525884,
+      "_ZN7CMemory11FixROMSpeedEv": 1390016,
+      "g_CPU_blob": 3429184,
+      "DAT_003453a8": 3429288,
+      "DAT_0035b788": 3520392,
+      "memmove": 1688736,
+      "DAT_0035c268": 3523176,
+      "S9xFixColourBrightness": 1413544,
+      "DAT_0035d360": 3527520,
+      "DAT_0034e298": 3465880,
+      "DAT_003454e0": 3429600,
+      "DAT_00345498": 3429528,
+      "_Z28S9xFixSoundAfterSnapshotLoadv": 1524560,
+      "g_ICPU_00345318": 3429144,
+      "_Z12S9xSetPCBasej": 1753124,
+      "g_APU_003453b8": 3429304,
+      "DAT_003454d8": 3429592,
+      "DAT_0034db50": 3464016,
+      "S9xBasename": 1054996,
+      "S9xMessage": 1070768,
+      "S9xOpcodesM1X1": 3368952,
+      "S9xOpcodesM1X0": 3369976,
+      "S9xOpcodesM0X0": 3371000,
+      "S9xOpcodesM0X1": 3372024,
       "__gxx_personality_v0": 1742632
     },
     "functions": [
@@ -6509,6 +6848,44 @@
           "symbol": "_Z9ReadBlockPKcPviS1_"
         },
         "section": ".text._Z9ReadBlockPKcPviS1_"
+      },
+      {
+        "symbol": "_Z16ReadOrigSnapshotPv",
+        "size": 3528,
+        "address": 1508248,
+        "binding": 0,
+        "witness": {
+          "address": 1508248,
+          "name": "tsv_00170398__Z16ReadOrigSnapshotPv",
+          "new_bytes": 3528,
+          "object": "build/matching/hunt1041-v52-closure/objects/snaporig-short.o",
+          "raw_sha256": "1a6aa3ee43abd612ffc05e8ebfb1f2ca5658bbd1e3d25f19fcd657098958a1e6",
+          "relocations": 187,
+          "section": ".text",
+          "size": 3528,
+          "source_offset": 0,
+          "symbol": "_Z16ReadOrigSnapshotPv"
+        },
+        "section": ".text._Z16ReadOrigSnapshotPv"
+      },
+      {
+        "symbol": "_Z12S9xFixCyclesv",
+        "size": 108,
+        "address": 1511776,
+        "binding": 0,
+        "witness": {
+          "address": 1511776,
+          "name": "tsv_00171160__Z12S9xFixCyclesv",
+          "new_bytes": 108,
+          "object": "build/matching/hunt1000plus-v46-closure/snes/CPUOPS.o",
+          "raw_sha256": "25026d3f587841d643dc7845198cf2e2696cda8df5ea9ea3d8fb2f0f395c9975",
+          "relocations": 13,
+          "section": ".text",
+          "size": 108,
+          "source_offset": 0,
+          "symbol": "_Z12S9xFixCyclesv"
+        },
+        "section": ".text._Z12S9xFixCyclesv"
       }
     ],
     "reference_functions": [
@@ -6530,16 +6907,14 @@
       {
         "symbol": "_Z12S9xFixCyclesv",
         "section": ".text._Z12S9xFixCyclesv",
-        "address": 1216996
+        "address": 1511776
       }
     ],
     "reference_assignments": {
-      "S9xLoadOrigSnapshot": 1507884,
-      "_Z16ReadOrigSnapshotPv": 1508248,
-      "_Z12S9xFixCyclesv": 1216996
+      "S9xLoadOrigSnapshot": 1507884
     },
-    "ledger": "analysis/functions/native_bulk_snaporig_exact_268.tsv",
-    "ledger_sha256": "c5026da02565384dc3f9f65e03ad5814a844d219742e62397e8b76e7334fea36",
+    "ledger": "analysis/functions/native_bulk_snaporig_exact_3904.tsv",
+    "ledger_sha256": "9f474dc220ebe341e217267062e48128972211c5c279b53297cc3d072cc3eb94",
     "objects": [
       {
         "symbol": "OrigPPU",
@@ -6609,7 +6984,7 @@
     "bss_geometry": {
       ".bss": 0
     },
-    "rodata_size": 0,
-    "rodata_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "rodata_size": 208,
+    "rodata_sha256": "d52a2e7178e03bbbe3f17f4f8472d2aa6a5e595a3b9860dd01387eacd2aab999"
   }
 ]
