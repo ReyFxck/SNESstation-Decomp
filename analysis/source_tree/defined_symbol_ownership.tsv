@@ -2078,6 +2078,8 @@ S9xDoDMA	global	text	0x18f4	src/snes9x/native_dma.cpp	snes9x/native_dma.o
 _GLOBAL__F_S9xDoDMA	global	data	0x0	src/snes9x/native_dma.cpp	snes9x/native_dma.o
 _Z13REGISTER_2104h	local	text	0x2ec	src/snes9x/native_dma.cpp	snes9x/native_dma.o
 _Z13REGISTER_2122h	local	text	0x214	src/snes9x/native_dma.cpp	snes9x/native_dma.o
+_Z11DSP2GetBytet	global	text	0x64	src/snes9x/native_dsp2_get.cpp	snes9x/native_dsp2_get.o
+S9xDSPAtan	global	text	0xd0	src/snes9x/native_dsp_atan.c	snes9x/native_dsp_atan.o
 _GLOBAL__F_gsu_bank	global	data	0x0	src/snes9x/native_fx_opcodes.cpp	snes9x/native_fx_opcodes.o
 _Z10fx_adc_i10v	local	text	0x9c	src/snes9x/native_fx_opcodes.cpp	snes9x/native_fx_opcodes.o
 _Z10fx_adc_i11v	local	text	0x9c	src/snes9x/native_fx_opcodes.cpp	snes9x/native_fx_opcodes.o

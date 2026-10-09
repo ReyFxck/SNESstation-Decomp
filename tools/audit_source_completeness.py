@@ -19,6 +19,7 @@ P16_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress16_r5900_pseudocode.
 P17_PSEUDOCODE = ROOT / "analysis" / "functions" / "progress17_r5900_pseudocode.c.txt"
 PROMOTIONS = ROOT / "analysis" / "source_promotions.csv"
 EXACT_NON_PSEUDOCODE_PROMOTIONS = {
+    '0x0012bf5c': {'source_file': 'src/snes9x/native_dsp_atan.c', 'evidence': 'analysis/functions/native_dsp_profiles_exact_308.tsv', 'evidence_token': 'S9xDSPAtan'},
     '0x00176578': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': 'S9xMixSamples'},
     '0x00177cec': {'source_file': 'src/snes9x/native_bulk_soundux.cpp', 'evidence': 'analysis/functions/native_bulk_soundux_exact_4300.tsv', 'evidence_token': 'S9xInitSound'},
     '0x00153354': {'source_file': 'src/snes9x/native_bulk_memmap.cpp', 'evidence': 'analysis/functions/native_bulk_memmap_exact_2280.tsv', 'evidence_token': '_ZN7CMemory8LoadSRAMEPKc'},

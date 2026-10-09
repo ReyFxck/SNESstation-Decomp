@@ -48,6 +48,10 @@ on:
       - analysis/functions/native_bulk_census.tsv
       - tools/run-native-bulk-source-recovery.py
       - src/snes9x/native_clip.cpp
+      - src/snes9x/native_dsp_atan.c
+      - src/snes9x/native_dsp2_get.cpp
+      - tools/run-native-dsp-profiles-source-recovery.py
+      - analysis/functions/native_dsp_profiles_exact_308.tsv
       - tools/run-native-clip-source-recovery.py
       - analysis/functions/native_clip_exact_4572.tsv
       - src/snes9x/native_rom_maps.cpp

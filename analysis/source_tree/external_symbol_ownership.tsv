@@ -422,7 +422,7 @@ DAT_0034560d	target-address-data	program-data	reserved:target-data.o	program-dat
 DAT_0034560e	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00345610	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00345618	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
-DAT_00345628	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/dsp_dispatch.o;snes9x/native_bulk_dsp1.o
+DAT_00345628	target-address-data	program-data	reserved:target-data.o	program-data	snes9x/dsp_dispatch.o;snes9x/native_bulk_dsp1.o;snes9x/native_dsp2_get.o
 DAT_00345ae8	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o;snes9x/native_bulk_snapshot.o;snes9x/native_sa1.o;snes9x/native_sa1_execution.o;snes9x/native_sa1_opcodes.o
 DAT_00345ae9	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o
 DAT_00345aea	target-address-data	program-data	reserved:target-data.o	program-data	ps2/progress28_structural_lift_recovered.o

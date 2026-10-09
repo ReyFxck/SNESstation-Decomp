@@ -153,7 +153,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0012b9a4,snes_p13_record_ram_init_0012b9a4,core,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress24_core_helpers_recovered.c;src/snes9x/native_chip_resets.cpp;src/snes9x/progress13_runtime_more_recovered.c,MATCHING
 0x0012ba5c,snes_p16_0012ba5c,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_dma.cpp,MATCHING
 0x0012bd48,snes_p16_0012bd48,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_dma.cpp,MATCHING
-0x0012bf5c,snes_p16_0012bf5c,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c,MATCHING
+0x0012bf5c,snes_p16_0012bf5c,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress27_large_state_cpu_batch_recovered.c;src/ps2/progress28_structural_lift_recovered.c;src/snes9x/native_dsp_atan.c,MATCHING
 0x0012c02c,snes_p16_0012c02c,snes-core-dsp,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/progress26_dsp_runtime_batch_recovered.c;src/snes9x/dsp_table_init.c,MATCHING
 0x0012c13c,snes_leaf_0012c13c,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/snes9x/native_bulk_dsp1.cpp,MATCHING
 0x0012c160,snes_leaf_0012c160,address-leaf,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/address_leaf_recovered.c;src/snes9x/native_bulk_dsp1.cpp,MATCHING

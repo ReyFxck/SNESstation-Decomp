@@ -55,6 +55,8 @@ DEFAULT_CFLAGS = (
 # source byte-identical and select only the members owned by this canonical TU
 # at compile time instead of adding recovery-only #defines to the source.
 SOURCE_FIXED_FLAGS = {
+    'src/snes9x/native_dsp_atan.c': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-O2', '-falign-functions=4', '-ffunction-sections', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DALIGN_DWORD', '-DCODE_PLATFORM=3'),
+    'src/snes9x/native_dsp2_get.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/ps2/native_sound_callback.c': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_c4_wave.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-fno-builtin', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_c4_raster.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-fno-builtin', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
@@ -824,6 +826,37 @@ def compare_or_write(path: Path, content: str, update: bool) -> None:
         fail(f"stale ownership map: {path.relative_to(ROOT)}; run source-tree-refresh and review")
 
 
+# The old assembler promotes Atan's code-section alignment to eight bytes
+# because of li.d constants in a separate readonly section. Its frozen entry
+# is four-byte aligned. Change only sh_addralign, never code or relocations.
+SOURCE_SECTION_ALIGNMENTS = {
+    'src/snes9x/native_dsp_atan.c': {'.text.S9xDSPAtan': 4},
+}
+
+
+def set_instruction_section_alignment(path: Path, name: str, alignment: int) -> None:
+    from compare_elf_functions import ELFFile
+    elf = ELFFile(path)
+    if (elf.elf_class, elf.endian, elf.file_type, elf.machine) != (1, '<', 1, 8):
+        fail(f'instruction alignment requires an ELF32 little-endian MIPS object: {path}')
+    section = next((s for s in elf.sections if s.name == name), None)
+    if section is None or alignment != 4:
+        fail(f'unsupported instruction section alignment: {name}: {alignment}')
+    shoff = struct.unpack_from('<I', elf.data, 32)[0]
+    entsize = struct.unpack_from('<H', elf.data, 46)[0]
+    header = shoff + section.index * entsize
+    flags = struct.unpack_from('<I', elf.data, header + 8)[0]
+    old = struct.unpack_from('<I', elf.data, header + 32)[0]
+    if entsize != 40 or not flags & 4 or old not in (4, 8):
+        fail(f'unexpected instruction alignment metadata: {name}: {old}')
+    changed = bytearray(elf.data)
+    struct.pack_into('<I', changed, header + 32, alignment)
+    for s in elf.sections:
+        if s.type != 8 and changed[s.offset:s.offset + s.size] != elf.data[s.offset:s.offset + s.size]:
+            fail(f'alignment correction altered section payload: {s.name}')
+    path.write_bytes(changed)
+
+
 def compile_one(
     compiler: Path,
     cxx: Path | None,
@@ -855,6 +888,8 @@ def compile_one(
         "-c", unit.source, "-o", str(output)
     ]
     run(command, log_path=log)
+    for name, alignment in SOURCE_SECTION_ALIGNMENTS.get(unit.source, {}).items():
+        set_instruction_section_alignment(output, name, alignment)
     validate_elf_object(output)
     return unit, output
 

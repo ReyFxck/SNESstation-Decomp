@@ -1291,7 +1291,7 @@ including the earlier separate 1,044-byte S9xResetAPU proof.
 DSP1SetByte's 768-byte switch table remains at 0x001b2120. DSP1ROM uses an
 explicit readonly section at 0x001b24a0, corresponding to historical readonly
 offset 896. This preserves both original relocation destinations while leaving
-the 128-byte block of unselected floating-point constants unclaimed. Each
+the 128-byte readonly block for the unselected DSP2 byte handler unclaimed. Each
 readonly section is checked separately against its complete linked historical
 slice, and the proof rejects additional unclaimed native readonly sections.
 The APU retains its complete 992-byte readonly section in original order.
@@ -1353,3 +1353,61 @@ proofs passed, and all 187 canonical EE units passed. Namespace-only links close
 addresses are supplied without payloads. Source ownership and consumer provenance
 are updated; frozen binary results, providers and section inventories remain
 unchanged.
+
+## Native DSP profile and reader-boundary follow-up
+
+This batch adds **two functions / 308 complete linked target instruction bytes**
+outside the unchanged 154-function / 85,336-byte bulk ledger. S9xDSPAtan matches
+the public PS2 float variant's complete 208-byte target at 0x0012bf5c, including
+its original OR condition and normal-width double intermediates. Its six runtime
+imports bind existing canonical runtime providers; no new runtime body claim is
+made. Symbol-only .equ directives emit no instructions. The old assembler's
+eight-byte code-section alignment is reduced to four in both the canonical
+compiler gate and the comparison objects. Only sh_addralign changes: every
+section payload, instruction and relocation remains untouched. Both complete
+linked functions match the frozen target digest at the actual reviewed entry.
+The 16-byte readonly slice at 0x001b20b8 is checked independently against the
+original 32-byte normal-double constant section; the existing DSP initializer
+owns the following 16-byte slice.
+
+DSP2GetByte matches all 100 target bytes at **0x0012fb78**, the entry named by
+PTR_FUN_0034165c in the pinned caller decompile. The old residual label starts
+at 0x0012fb84, twelve bytes into the function. Its actual complete body comprises
+the last twelve bytes of the adjacent DSP2SetByte capture and the first 88 bytes
+of the old reader capture. Both complete captures, their contiguous addresses
+and the reconstructed body digest are authenticated before comparison. The
+following function's twelve-byte head is excluded. Existing frozen windows,
+the 1,041-entry coarse audit and complete-image results are preserved; the old
+0x0012fb84 span is not promoted as a complete native body. The typed reader
+reuses the original SDSP1 layout and shared address 0x00345628 and owns no state.
+DSP2SetByte remains unproved: public variants still differ in their unaligned
+word store and register scheduling.
+
+Run tools/run-native-dsp-profiles-source-recovery.py or make source-recovery-check.
+The new ledger is analysis/functions/native_dsp_profiles_exact_308.tsv. The
+census retains the public double-profile name _Z4Atand with an explicit proved
+PS2 profile-variant status and the actual 208-byte size. Its 250 entries now
+contain **157 newly proved functions**, **54 retained owners/proofs** and **39
+pending entries**: 33 without a complete witness, four blocked after complete
+link comparison and two unclaimed clip helpers. These are subset counts.
+
+The canonical tree contains 189 units and 3,690 defined symbols. External
+contracts remain 1,880; the 1,549 link contracts retain 1,293 resolved and 256
+blocked. The frontier after ten private-asset address contracts remains 246
+providers. No fresh private-ELF or complete replacement-image comparison is
+claimed.
+
+Validation for this DSP batch: **604 tool tests passed** (one existing skip),
+**85/85 maintained proofs passed**, **189/189 canonical EE units passed**,
+and host syntax passed for 122 C units. Source-namespace links retain
+1,865 -> 1,534 -> 256 externals, then 246 -> 0 after the ten frozen private
+addresses are supplied without their payloads.
+
+Resume from the 39 pending census entries. DSP2SetByte variants produce 708 or
+716 bytes against the reviewed 720-byte body ending at the proved reader entry;
+their word-store addressing and scheduling still differ. DSPOp28 lacks an
+authenticated sqrt fallback destination. The large memmap functions need the
+original readonly prefix at 0x001b63d8, the dispatch slice at 0x001b1c80 (original
+offset 2856), and CRC32table at 0x001b6ef8 (original offset 3328). S9xLoadOrigSnapshot
+stdio/zlib profiles still differ from its frozen raw witness. Preserve these
+blocks until complete linked comparisons, including their readonly data, pass.
