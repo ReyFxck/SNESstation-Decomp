@@ -1425,3 +1425,33 @@ newly proved bodies, 55 retained owners/proofs and **38 pending entries**
 (32 without a complete witness, four blocked after full link comparisons and
 two unclaimed clip helpers). Code, canonical ownership and binary evidence are
 unchanged. The initializer and dispatcher proofs were rerun for this correction.
+
+## Final native Snes9x source-body archive
+
+The last **38/38 native census entries now have checked-in source bodies**.
+Six complete files from the pinned Snes9x 1.41-1 archive preserve the 36 bodies
+that were absent from the repository: five DSP1, eight MEMMAP, six SOUNDUX,
+four SNAPSHOT, one snaporig and twelve SPC7110 functions. The two remaining
+entries are the already checked-in `IntCompare` and `BandCompare` helpers in
+`src/snes9x/native_clip.cpp`. This closes the source-body inventory at **zero
+source gaps**.
+
+The six archive files contain 303,645 original bytes. Repository text uses
+UTF-8; converting it back to Latin-1 reproduces every byte of the pinned
+archive, whose SHA-256 is
+`5e8b72c88c889464746e2f2f10449b9b324451c095a343081057f8f7ceb8378b`.
+The maintained proof verifies those round trips, recompiles all 36 functions
+with EE GCC 3.2.2 and checks their historical symbol sizes. It also rebuilds
+the two clip helpers and checks their sizes.
+
+These preserved files remain reference-only and do not enter the canonical
+link tree. The binary-evidence classification therefore remains explicit:
+32 bodies have no complete frozen target witness, four retain blocked full-link
+comparisons and two are source-only helpers. No new exact-function promotion,
+private-ELF comparison or complete-image claim is made. The canonical tree
+remains at **189 translation units**.
+
+Validation for this closure: **604 tool tests passed** (one existing skip),
+**86/86 maintained recovery proofs passed**, and **189/189 canonical EE source
+units passed**. Run `tools/run-native-pending-archive-source-recovery.py` for
+the focused archive and compiler gate.

@@ -25,6 +25,7 @@ from typing import Iterable, Sequence
 
 
 ROOT = Path(__file__).resolve().parents[1]
+REFERENCE_SOURCE_ROOT = ROOT / "src/snes9x/historical_reference"
 DEFAULT_MANIFEST = ROOT / "analysis" / "source_tree" / "translation_units.tsv"
 DEFAULT_DEFINED = ROOT / "analysis" / "source_tree" / "defined_symbol_ownership.tsv"
 DEFAULT_EXTERNAL = ROOT / "analysis" / "source_tree" / "external_symbol_ownership.tsv"
@@ -609,6 +610,7 @@ def read_manifest(path: Path) -> list[TranslationUnit]:
         path.relative_to(ROOT).as_posix()
         for pattern in ("*.c", "*.cpp", "*.S")
         for path in (ROOT / "src").rglob(pattern)
+        if REFERENCE_SOURCE_ROOT not in path.parents
     }
     if sources != actual:
         missing = sorted(actual - sources)

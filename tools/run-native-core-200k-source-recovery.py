@@ -54,6 +54,7 @@ def main():
     archive = ROOT / 'build/upstream/hunt1000plus-v47-snes/source-1.41-1/snes9x-1.41-1-src'
     newlib = recipe.v47.PS2DEV / 'ps2toolchain/soft/newlib-1.10.0/newlib/libc/include'
     includes = ['-I' + str(p) for p in (fx.BUILD / 'compat', newlib, layout, layout / 'unzip', archive / 'zlib')]
+    BUILD.mkdir(parents=True, exist_ok=True)
     gfx_path = BUILD / 'gfx.historical.o'
     run([cpu.CXX, *cpu.FLAGS[:-1], '-DZLIB', *includes, '-x', 'c++', '-c', layout / 'GFX.CPP', '-o', gfx_path])
     windows = json.loads((ROOT / 'analysis/link_identity/code_windows.json').read_text())['result']['selected_sources']

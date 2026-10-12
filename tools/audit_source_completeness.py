@@ -11,6 +11,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+REFERENCE_SOURCE_ROOT = ROOT / "src/snes9x/historical_reference"
 TARGETS = ROOT / "analysis" / "progress_targets.csv"
 SYMBOLS = ROOT / "analysis" / "symbols.csv"
 P16_TARGETS = ROOT / "analysis" / "progress16_recovered_targets.csv"
@@ -575,6 +576,7 @@ def explicit_source_references(addresses: set[str]) -> tuple[dict[str, list[str]
         path
         for pattern in ("*.c", "*.cpp", "*.S")
         for path in (ROOT / "src").rglob(pattern)
+        if REFERENCE_SOURCE_ROOT not in path.parents
     )
     address_by_hex = {address[2:]: address for address in addresses}
 
