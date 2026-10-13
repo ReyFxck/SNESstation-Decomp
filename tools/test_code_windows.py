@@ -46,6 +46,22 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
         self.assertEqual(list(range(51)), result["exact_chunk_indices"])
         self.assertEqual([], result["mismatching_chunk_indices"])
+        self.assertEqual(gate.TARGET_SHA256, result["integrated_padded_sha256"])
+        self.assertEqual(
+            gate.EXPECTED["selected_source_contract_sha256"],
+            result["selected_source_contract_sha256"],
+        )
+
+    def test_final_linker_isolates_only_source_aggregate_models(self):
+        source_input = Path("build/test/source-tree.partial.o")
+        rule = gate.source_model_rule(source_input)
+        self.assertIn(f'"{source_input.resolve().as_posix()}"(', rule)
+        self.assertIn(".text.* .gnu.linkonce.t.* .rodata.native_dsp1_rom", rule)
+        self.assertIn(
+            ".data.*_ZZ9S9xSetPPUE8IncCount .data.*_ZZ9S9xSetPPUE5Shift",
+            rule,
+        )
+        self.assertNotIn("(.data.*", rule)
 
     def test_private_payload_is_not_frozen(self):
         self.assertFalse(self.document["claims"]["private_target_bytes_stored"])

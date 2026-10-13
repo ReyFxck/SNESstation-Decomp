@@ -44,6 +44,7 @@ STARTUP_END = 0x00100114
 STARTUP_SIZE = STARTUP_END - TARGET_BASE
 STARTUP_BSS = 0x00426E80
 STARTUP_BSS_SIZE = 0x180
+SOURCE_MODEL_TEXT_BASE = 0x00500000
 ABSORBED_ZERO_FILL = {
     ".bss.stage3ce.va_00426e80": ("iRam00426e80", 0x00426E80),
     ".bss.stage3ce.va_00426fa4": ("uRam00426fa4", 0x00426FA4),
@@ -85,6 +86,8 @@ EXPECTED = {
     "startup_relocations_applied": 27,
     "startup_bss_address": STARTUP_BSS,
     "startup_bss_size": STARTUP_BSS_SIZE,
+    "source_model_text_base": SOURCE_MODEL_TEXT_BASE,
+    "source_model_text_size": 406_744,
     "absorbed_zero_fill_sections": 4,
     "preserved_fixed_sections": 175,
     "fixed_sections_accounted": 179,
@@ -95,10 +98,10 @@ EXPECTED = {
     "chunk_count": 51,
     "exact_chunks": 12,
     "mismatching_chunks": 39,
-    "equal_bytes": 1_420_794,
-    "differing_bytes": 1_884_142,
-    "integrated_unpadded_sha256": "a753d3043db427ad9d4dac80dfe057bfe8a7f191ee3735e464ac463ac2fc2a89",
-    "integrated_padded_sha256": "0a6f0c0b8c84367e5e5d8ea44e40ae7e502a4bcba1967bbc5c45d20356ae5512",
+    "equal_bytes": 1_403_344,
+    "differing_bytes": 1_901_592,
+    "integrated_unpadded_sha256": "8cc916094ce1b4f2ec7af89e9498d577970ed87c5303ff166677bb2a9b3f270d",
+    "integrated_padded_sha256": "6a87f5b7412bca0e74fc3d54702f9128e3efc1b0c328ac08e0f71870a448da10",
     "target_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
 }
 EXACT_CHUNKS = [12, 13, *range(37, 47)]
@@ -141,6 +144,7 @@ def claims() -> dict[str, bool]:
         "startup_corridor_raw_exact": True,
         "elf_entry_exact": True,
         "startup_bss_layout_integrated": True,
+        "function_section_models_kept_without_image_bytes": True,
         "behavioral_startup_lift_removed": False,
         "exact_implementation_selection_complete": False,
         "historical_link_order_proved": False,
@@ -310,6 +314,7 @@ def render_script(sections: Sequence[dict[str, str]]) -> str:
         "  .rodata : { *(.rodata) }",
         "  .data : { *(.data) }",
         "  .bss (NOLOAD) : { *(.bss) *(.bss.stage3.compatibility) }",
+        f"  .text.stage3g.source_models 0x{SOURCE_MODEL_TEXT_BASE:08x} (NOLOAD) : {{ *(.text.*) }}",
     ])
     for row in sections:
         if row["section"] in ABSORBED_ZERO_FILL:
@@ -389,6 +394,9 @@ def verify_fixed_output(elf: ELFFile, sections: Sequence[dict[str, str]]) -> Non
     startup_bss = one_section(elf, ".bss.stage3g.crt0")
     if startup_bss.address != STARTUP_BSS or startup_bss.size != STARTUP_BSS_SIZE or startup_bss.type != 8:
         fail("linked startup BSS geometry drift")
+    source_models = one_section(elf, ".text.stage3g.source_models")
+    if source_models.address != SOURCE_MODEL_TEXT_BASE or source_models.type != 8:
+        fail("source-model function section geometry drift")
     preserved = 0
     for row in sections:
         name = row["section"]
@@ -476,6 +484,8 @@ def probe(args: argparse.Namespace, sections: Sequence[dict[str, str]], layout: 
         "startup_relocations_applied": relocation_count(ELFFile(renamed_object), ".text.stage3g.crt0"),
         "startup_bss_address": one_section(elf, ".bss.stage3g.crt0").address,
         "startup_bss_size": one_section(elf, ".bss.stage3g.crt0").size,
+        "source_model_text_base": one_section(elf, ".text.stage3g.source_models").address,
+        "source_model_text_size": one_section(elf, ".text.stage3g.source_models").size,
         "absorbed_zero_fill_sections": len(ABSORBED_ZERO_FILL),
         "preserved_fixed_sections": len(sections) - len(ABSORBED_ZERO_FILL),
         "fixed_sections_accounted": len(sections),

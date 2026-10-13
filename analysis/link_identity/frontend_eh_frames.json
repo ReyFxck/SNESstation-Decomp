@@ -177,8 +177,8 @@
   },
   "result": {
     "chunk_count": 51,
-    "differing_bytes": 1883635,
-    "equal_bytes": 1421301,
+    "differing_bytes": 1901085,
+    "equal_bytes": 1403851,
     "exact_chunk_indices": [
       12,
       13,
@@ -201,8 +201,8 @@
     "frontend_eh_relocations": 23,
     "frontend_fdes": 18,
     "integrated_entry_address": 1048584,
-    "integrated_padded_sha256": "9c88e92f2651a141233ec505135d75c23bb56d69662cf88c8fb82027a11a11b2",
-    "integrated_unpadded_sha256": "fa45d9cdb1569f55bc8a6108f822c938150c3aa1d66d406798181794b60c22aa",
+    "integrated_padded_sha256": "b06dba312cc84322fa32c1d3ecc0cee0bfddb1f16cf69367b4d18ec602638c21",
+    "integrated_unpadded_sha256": "1885e55ea58a354d34acc566ba762a88560087806185812381fdd7dcdd23ca59",
     "integrated_unpadded_size": 3304836,
     "mismatching_chunk_indices": [
       0,
@@ -245,7 +245,7 @@
       50
     ],
     "mismatching_chunks": 38,
-    "prior_differing_bytes": 1884142,
+    "prior_differing_bytes": 1901592,
     "prior_exact_chunks": 12,
     "target_entry_address": 1048584,
     "target_initialized_size": 3304936,
@@ -268,6 +268,6 @@
     "progress_targets_sha256": "528965a51814d44054dd7d01404c4b2ee428f275d2fb7e8673fb76a57f96e698",
     "source": "matching/candidates/stage3h_frontend_eh_frames.S",
     "source_sha256": "8d7d7d809e897666a3d62e27d6302df2d228c298302d5e98138f517bff5c6409",
-    "startup_manifest_sha256": "897afeacb62fc1121abe6287dc6137d777f35bcdb18b74c1e131d28c5f1272ca"
+    "startup_manifest_sha256": "d8c74a01798926929826ebb8ada22c71f6bc11174b8f7a64a4696e028e3ed43f"
   }
 }

@@ -182,7 +182,7 @@ SOURCE_SECTIONS = (
     P("terminate", "runtime:terminate", ".rodata", 0, 0x001BA460, 0x18, 0x18, 0,
       "402643e0be8a9b6b5c82d6a4a1bb0dbbbb385bccb8a17978c694e91f8015753f", "402643e0be8a9b6b5c82d6a4a1bb0dbbbb385bccb8a17978c694e91f8015753f", "402643e0be8a9b6b5c82d6a4a1bb0dbbbb385bccb8a17978c694e91f8015753f"),
     P("formatter", "source:formatter", ".rodata", 0, 0x001BA478, 0x230, 0x230, 121,
-      "1ab928fa0e3f7041873530ca72fc1d7d9089db1399cbdbb48f435e754fe22073", "1ab928fa0e3f7041873530ca72fc1d7d9089db1399cbdbb48f435e754fe22073", "1fbf1a5a03b710e6da91397155a00807b192bec33c21c6bfbf2f2abe006c008a"),
+      "90b6d07810a84cab0cb4ab1d19584a7796184160368ba6a433943c975070ebfa", "90b6d07810a84cab0cb4ab1d19584a7796184160368ba6a433943c975070ebfa", "1fbf1a5a03b710e6da91397155a00807b192bec33c21c6bfbf2f2abe006c008a"),
     P("libmc", "runtime:libmc", ".rodata", 0, 0x001BA758, 0x88, 0x88, 0,
       "f9f20fdd24810dbf0f5c4731b73781aa811d76e68ef6da15ef5f807d2c04a560", "f9f20fdd24810dbf0f5c4731b73781aa811d76e68ef6da15ef5f807d2c04a560", "f9f20fdd24810dbf0f5c4731b73781aa811d76e68ef6da15ef5f807d2c04a560"),
     P("unwind_fde", "libgcc:unwind-dw2-fde", ".rodata", 0, 0x001BA7F8, 0x34, 0x34, 13,
@@ -336,13 +336,13 @@ EXPECTED = {
     "window11_differing_bytes": 0,
     "exact_chunks": 40,
     "mismatching_chunks": 11,
-    "differing_bytes": 618_286,
-    "prior_differing_bytes": 644_215,
+    "differing_bytes": 635_736,
+    "prior_differing_bytes": 661_665,
     "differences_removed": 25_929,
     "chunk_count": 51,
     "target_initialized_size": 3_304_936,
     "first_differing_address": 0x00100114,
-    "integrated_padded_sha256": "58786ddd69f66f0d4bf17f2c0677e09a47fb3bea41a61f30042b9f54445a26a3",
+    "integrated_padded_sha256": "6765a02a3803f430d4f08b0fe18e93e7eaa66c18e58f578ba31b9eeb54ce07ea",
     "target_sha256": TARGET_SHA256,
 }
 
@@ -613,7 +613,9 @@ def prepare_objects(args: argparse.Namespace, cxx: Path) -> dict[str, Path]:
     objects.update({
         "runtime:terminate": args.runtime_build / "objects/libc/terminate.o",
         "runtime:libmc": args.runtime_build / "objects/mc/libmc.o",
-        "source:formatter": args.source_tree / "ps2/ps2lib_formatter_recovered.o",
+        # The historical xprintf lineage superseded the earlier formatter
+        # model while retaining the same 121 relocation-controlled words.
+        "source:formatter": args.source_tree / "ps2/xprintf.o",
         "source:libpad": args.source_tree / "ps2/libpad_recovered.o",
         "libgcc:unwind-dw2-fde": args.stage3k_build / "libgcc/unwind-dw2-fde.o",
         "libgcc:_clz": args.stage3k_build / "libgcc/_clz.o",

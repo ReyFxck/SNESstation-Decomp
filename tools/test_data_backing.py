@@ -60,6 +60,13 @@ class DataBackingTests(unittest.TestCase):
         self.assertFalse(stats["complete_object_extents_proved"])
         self.assertFalse(stats["replacement_elf"])
 
+    def test_only_reviewed_retired_target_data_may_lack_live_requesters(self):
+        retired = gate.retired_target_data(gate.DEFAULT_SPECIAL_OWNERSHIP)
+        self.assertEqual(15, len(retired))
+        self.assertTrue(retired <= {
+            row["symbol"] for row in self.rows if row["status"] == gate.BACKED
+        })
+
     def test_direct_accesses_fully_covered(self):
         rows = [r for r in self.rows if r["coverage_kind"] == "direct-access"]
         self.assertEqual(len(rows), 872)

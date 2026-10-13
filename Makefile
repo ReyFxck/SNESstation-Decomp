@@ -1562,7 +1562,7 @@ match-cpp-runtime-small-listing-strict:
 elf-status: audit-source-check
 	@echo "Completed:"
 	@echo "  functions             1041/1041"
-	@echo "  EE source ownership   97/97 translation units"
+	@echo "  EE source ownership   189/189 translation units"
 	@echo "  runtime contracts     53/53"
 	@echo "  address identities    1265/1265"
 	@echo "  historical backing    695316 public-source bytes"

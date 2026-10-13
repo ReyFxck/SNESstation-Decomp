@@ -202,10 +202,10 @@ EXPECTED = {
     "source_sections": 34, "source_bytes": 9428, "source_relocations": 151,
     "semantic_sections": 5, "semantic_bytes": 944, "spc7110_fdes": 14,
     "exact_chunks": 17, "mismatching_chunks": 34,
-    "differing_bytes": 1854246, "chunk50_differing_bytes": 0,
+    "differing_bytes": 1871696, "chunk50_differing_bytes": 0,
     "chunk_count": 51, "target_initialized_size": 3304936,
     "first_differing_address": 0x00100114, "target_sha256": TARGET_SHA256,
-    "prior_differing_bytes": 1857419,
+    "prior_differing_bytes": 1874869,
 }
 
 

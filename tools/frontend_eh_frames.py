@@ -114,14 +114,14 @@ EXPECTED = {
     "chunk_count": 51,
     "exact_chunks": 13,
     "mismatching_chunks": 38,
-    "equal_bytes": 1_421_301,
-    "differing_bytes": 1_883_635,
+    "equal_bytes": 1_403_851,
+    "differing_bytes": 1_901_085,
     "first_differing_address": 0x00100114,
-    "integrated_unpadded_sha256": "fa45d9cdb1569f55bc8a6108f822c938150c3aa1d66d406798181794b60c22aa",
-    "integrated_padded_sha256": "9c88e92f2651a141233ec505135d75c23bb56d69662cf88c8fb82027a11a11b2",
+    "integrated_unpadded_sha256": "1885e55ea58a354d34acc566ba762a88560087806185812381fdd7dcdd23ca59",
+    "integrated_padded_sha256": "b06dba312cc84322fa32c1d3ecc0cee0bfddb1f16cf69367b4d18ec602638c21",
     "target_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
     "prior_exact_chunks": 12,
-    "prior_differing_bytes": 1_884_142,
+    "prior_differing_bytes": 1_901_592,
 }
 EXACT_CHUNKS = [12, 13, 14, *range(37, 47)]
 
@@ -301,6 +301,8 @@ def render_script(sections: Sequence[dict[str, str]]) -> str:
         "  .rodata : { *(.rodata) }",
         "  .data : { *(.data) }",
         "  .bss (NOLOAD) : { *(.bss) *(.bss.stage3.compatibility) }",
+        f"  .text.stage3g.source_models 0x{startup.SOURCE_MODEL_TEXT_BASE:08x} "
+        "(NOLOAD) : { *(.text.*) }",
     ])
     placements = [
         (int(row["target_address"], 0), "fixed", row)

@@ -134,14 +134,14 @@ FIXED_SLICES = (
 # the evidence rebuild; recording them here makes stale ledger paths fail
 # closed instead of silently selecting a different compiler candidate.
 WINDOW0_FIXED_SLICES = (
-    SliceSpec("frontend_v48_001005b0", "build/matching/hunt1041-v48-closure/recovered/objects/o2/matching_candidates_hunt1041_v48.c-7406be02c459577a.o", 0x001005B0, 0x003C, symbol="v48_001005b0"),
-    SliceSpec("frontend_v48_00101924", "build/matching/hunt1041-v48-closure/recovered/objects/o2/matching_candidates_hunt1041_v48.c-7406be02c459577a.o", 0x00101924, 0x007C, symbol="v48_00101924"),
+    SliceSpec("frontend_v48_001005b0", "build/matching/hunt1041-v48-closure/recovered/objects/o2/matching_candidates_hunt1041_v48.c-e840b2b7cb96c8b6.o", 0x001005B0, 0x003C, symbol="v48_001005b0"),
+    SliceSpec("frontend_v48_00101924", "build/matching/hunt1041-v48-closure/recovered/objects/o2/matching_candidates_hunt1041_v48.c-e840b2b7cb96c8b6.o", 0x00101924, 0x007C, symbol="v48_00101924"),
     SliceSpec("frontend_swap_00101e8c", "build/matching/hunt1041-v49-closure/recovered/objects/os/src_ps2_progress11_frontend_recovered.c-19d249f9d6808a7c.o", 0x00101E8C, 0x0064, symbol="snes_p20_00101e8c"),
-    SliceSpec("frontend_sram_path", "build/matching/hunt1041-v48-closure/recovered/objects/os/src_ps2_path_helpers_recovered.c-83f874a273f6f677.o", 0x00105750, 0x00AC, symbol="build_sram_path_00105750"),
-    SliceSpec("frontend_makepath", "build/matching/hunt1041-v48-closure/recovered/objects/os/src_ps2_path_helpers_recovered.c-83f874a273f6f677.o", 0x001059CC, 0x011C, symbol="_makepath"),
-    SliceSpec("frontend_v48_00105cb8", "build/matching/hunt1041-v48-closure/recovered/objects/os/matching_candidates_hunt1041_v48.c-94d08b9934d7796d.o", 0x00105CB8, 0x0078, symbol="v48_00105cb8"),
-    SliceSpec("frontend_v48_00105d78", "build/matching/hunt1041-v48-closure/recovered/objects/os/matching_candidates_hunt1041_v48.c-94d08b9934d7796d.o", 0x00105D78, 0x008C, symbol="v48_00105d78"),
-    SliceSpec("frontend_v48_00106054", "build/matching/hunt1041-v48-closure/recovered/objects/os/matching_candidates_hunt1041_v48.c-94d08b9934d7796d.o", 0x00106054, 0x0088, symbol="v48_00106054"),
+    SliceSpec("frontend_sram_path", "build/matching/hunt1041-v48-closure/recovered/objects/os/src_ps2_path_helpers_recovered.c-ec4c51d1f4a0d84b.o", 0x00105750, 0x00AC, symbol="build_sram_path_00105750"),
+    SliceSpec("frontend_makepath", "build/matching/hunt1041-v48-closure/recovered/objects/os/src_ps2_path_helpers_recovered.c-ec4c51d1f4a0d84b.o", 0x001059CC, 0x011C, symbol="_makepath"),
+    SliceSpec("frontend_v48_00105cb8", "build/matching/hunt1041-v48-closure/recovered/objects/os/matching_candidates_hunt1041_v48.c-7796794481a74685.o", 0x00105CB8, 0x0078, symbol="v48_00105cb8"),
+    SliceSpec("frontend_v48_00105d78", "build/matching/hunt1041-v48-closure/recovered/objects/os/matching_candidates_hunt1041_v48.c-7796794481a74685.o", 0x00105D78, 0x008C, symbol="v48_00105d78"),
+    SliceSpec("frontend_v48_00106054", "build/matching/hunt1041-v48-closure/recovered/objects/os/matching_candidates_hunt1041_v48.c-7796794481a74685.o", 0x00106054, 0x0088, symbol="v48_00106054"),
     SliceSpec("frontend_srm_extension", "build/matching/hunt1041-v49-closure/recovered/objects/os/src_ps2_audio_rpc_recovered.c-bb25fcb1215428d2.o", 0x00106BCC, 0x003C, symbol="is_sram_extension_00106bcc"),
     SliceSpec("sjpcm_exact_suffix", "build/matching/hunt1000plus-v46-closure/pgen/sjpcm.o", 0x0010768C, 0x04F0, source_offset=0x00C0),
     SliceSpec("amigamod_exact_suffix", "build/matching/hunt1000plus-v46-closure/pgen/amiga.o", 0x00107D44, 0x0240, source_offset=0x01EC),
@@ -1047,7 +1047,7 @@ def selected_symbol_spans(
 EXPECTED: dict[str, object] = {
     "chunk_count": 51,
     "code_windows": 11,
-    "differences_removed": 618_286,
+    "differences_removed": 635_736,
     "differing_bytes": 0,
     "exact_chunks": 51,
     "mismatching_chunks": 0,
@@ -1055,11 +1055,11 @@ EXPECTED: dict[str, object] = {
     "historical_recovered_bytes": 525_460,
     "integrated_padded_sha256": TARGET_SHA256,
     "listing_bytes": 73_192,
-    "prior_differing_bytes": 618_286,
+    "prior_differing_bytes": 635_736,
     "prior_exact_assembly_bytes": 85_628,
     "relocation_fields": 39_226,
     "residual_bytes": 36_340,
-    "selected_source_contract_sha256": "520cf28fe8c51b9cdeb845bd6b74a808bbd9fb283fd1148b3b23e233f7d9ab87",
+    "selected_source_contract_sha256": "5c767308073b3157a08ffffe635373f81d2c5132fbc1d68046a462c9b92fbb8b",
     "selected_source_slices": 568,
     "source_bytes": 720_620,
     "target_initialized_size": 3_304_936,
@@ -1684,11 +1684,22 @@ def render_public_evidence_source(
     }
 
 
+def source_model_rule(source_model_input: Path) -> str:
+    """Keep canonical function/data models available without emitting bytes."""
+    return (
+        "  .stage3p.source_models 0x00500000 (NOLOAD) : { "
+        f'"{source_model_input.resolve().as_posix()}"('
+        ".text.* .gnu.linkonce.t.* .rodata.native_dsp1_rom "
+        ".data.*_ZZ9S9xSetPPUE8IncCount .data.*_ZZ9S9xSetPPUE5Shift) }"
+    )
+
+
 def update_linker_script(
     text: str,
     payload_parts: list[tuple[str, Path, int]],
     direct_sections: list[tuple[str, int, int, tuple[str, str] | None]],
     relocation_targets: dict[str, int],
+    source_model_input: Path = DEFAULT_INPUT,
 ) -> str:
     old = """  .text 0x00100114 : { *(.text) }
   .rodata : { *(.rodata) }
@@ -1730,6 +1741,11 @@ def update_linker_script(
     if text.count(old) != 1:
         fail("Stage-3O linker-script core drift")
     updated = text.replace(old, new)
+    old_models = "  .text.stage3g.source_models 0x00500000 (NOLOAD) : { *(.text.*) }"
+    new_models = source_model_rule(source_model_input)
+    if updated.count(old_models) != 1:
+        fail("Stage-3G source-model linker rule drift")
+    updated = updated.replace(old_models, new_models)
     old_sai2 = "  .data.stage3n.source.sai2_data_and_cfi 0x00335284 : { KEEP(*(.data.stage3n.source.sai2_data_and_cfi)) }"
     new_sai2 = "  .data.stage3p.direct.sai2 0x00335284 : { KEEP(*(.data.stage3p.direct.sai2)) }\n  /DISCARD/ : { *(.data.stage3n.source.sai2_data_and_cfi) }"
     if updated.count(old_sai2) != 1:
@@ -2168,7 +2184,7 @@ def link_historical_code(
             command.extend(("--redefine-sym", f"{name}={alias}"))
             relocation_targets[alias] = destination
     for index, entry in enumerate(original.symbols):
-        if (entry.name and entry.info >> 4 == 1
+        if (entry.name and entry.info >> 4 in (1, 2)
                 and entry.section_index == sections[".text"].index
                 and entry.name not in excluded_text):
             command.extend(("--redefine-sym", f"{entry.name}=stage3p_{tag}_direct_{index}"))
@@ -2325,10 +2341,14 @@ def link_historical_tile(
         alias = f"stage3p_tile_target_{symbol}"
         command.extend(("--redefine-sym", f"{symbol}={alias}"))
         relocation_targets[alias] = destination
+    # The direct object also carries TILE's unwind container in .data.  Its
+    # global container label now exists in the canonical source aggregate, so
+    # isolate data globals just like the selected code globals.
+    selected_symbol_sections = set(placements) | {".data"}
     for index, entry in enumerate(tile.symbols):
-        if (entry.name and entry.info >> 4 == 1
+        if (entry.name and entry.info >> 4 in (1, 2)
                 and entry.section_index < len(tile.sections)
-                and tile.sections[entry.section_index].name in placements):
+                and tile.sections[entry.section_index].name in selected_symbol_sections):
             command.extend(("--redefine-sym", f"{entry.name}=stage3p_tile_direct_{index}"))
     output = build_dir / "stage3p-tile-direct.o"
     run([*command, source_copy, output])
@@ -2616,7 +2636,7 @@ def probe(args: argparse.Namespace) -> dict:
         "--redefine-sym", "__gxx_personality_v0=stage3p_sai2_target_personality",
     ]
     for index, entry in enumerate(historical.symbols):
-        if (entry.name and entry.info >> 4 == 1
+        if (entry.name and entry.info >> 4 in (1, 2)
                 and entry.section_index in (indexed[".text"].index, indexed[".data"].index)):
             sai2_command.extend(("--redefine-sym", f"{entry.name}=stage3p_sai2_direct_{index}"))
     run([*sai2_command, ROOT / sai2_source, sai2_output])
@@ -2692,7 +2712,7 @@ def probe(args: argparse.Namespace) -> dict:
         fx_command.extend(("--redefine-sym", f"{symbol}={alias}"))
         relocation_targets[alias] = destination
     for index, entry in enumerate(fxemu.symbols):
-        if (entry.name and entry.info >> 4 == 1
+        if (entry.name and entry.info >> 4 in (1, 2)
                 and entry.section_index in (fx_sections[".text"].index,
                                             fx_sections[".data"].index)):
             fx_command.extend(("--redefine-sym", f"{entry.name}=stage3p_fxemu_direct_{index}"))
@@ -2788,7 +2808,7 @@ def probe(args: argparse.Namespace) -> dict:
         fi_command.extend(("--redefine-sym", f"{symbol}={alias}"))
         relocation_targets[alias] = destination
     for index, entry in enumerate(fxinst.symbols):
-        if (entry.name and entry.info >> 4 == 1
+        if (entry.name and entry.info >> 4 in (1, 2)
                 and entry.section_index in (fi_sections[".text"].index,
                                             fi_sections[".data"].index)):
             fi_command.extend(("--redefine-sym", f"{entry.name}=stage3p_fxinst_direct_{index}"))
@@ -2894,7 +2914,7 @@ def probe(args: argparse.Namespace) -> dict:
         sa_command.extend(("--redefine-sym", f"{symbol}={alias}"))
         relocation_targets[alias] = destination
     for index, entry in enumerate(sa.symbols):
-        if (entry.name and entry.info >> 4 == 1
+        if (entry.name and entry.info >> 4 in (1, 2)
                 and entry.section_index in (sa_sections[".text"].index,
                                             sa_sections[".data"].index)):
             sa_command.extend(("--redefine-sym", f"{entry.name}=stage3p_sa1cpu_direct_{index}"))
@@ -3020,7 +3040,7 @@ def probe(args: argparse.Namespace) -> dict:
         ppu_command.extend(("--redefine-sym", f"{symbol}={alias}"))
         relocation_targets[alias] = destination
     for index, entry in enumerate(ppu.symbols):
-        if (entry.name and entry.info >> 4 == 1
+        if (entry.name and entry.info >> 4 in (1, 2)
                 and entry.section_index in (
                     ppu_sections[".text"].index, ppu_sections[".data"].index,
                     ppu_sections[".rodata"].index, ppu_sections[".bss"].index
@@ -3163,7 +3183,7 @@ def probe(args: argparse.Namespace) -> dict:
         dma_command.extend(("--redefine-sym", f"{symbol}={alias}"))
         relocation_targets[alias] = destination
     for index, entry in enumerate(dma.symbols):
-        if (entry.name and entry.info >> 4 == 1
+        if (entry.name and entry.info >> 4 in (1, 2)
                 and entry.section_index in (
                     dma_sections[".text"].index, dma_sections[".rodata"].index,
                     dma_sections[".data"].index,
@@ -3274,7 +3294,7 @@ def probe(args: argparse.Namespace) -> dict:
         cx_command.extend(("--redefine-sym", f"{symbol}={alias}"))
         relocation_targets[alias] = destination
     for index, entry in enumerate(cx.symbols):
-        if (entry.name and entry.info >> 4 == 1
+        if (entry.name and entry.info >> 4 in (1, 2)
                 and entry.section_index in (
                     cx_sections[".text"].index, cx_sections[".data"].index
                 )):
@@ -3382,7 +3402,7 @@ def probe(args: argparse.Namespace) -> dict:
             command.extend(("--redefine-sym", f"{symbol}={alias}"))
             relocation_targets[alias] = destination
         for index, entry in enumerate(candidate.symbols):
-            if (entry.name and entry.info >> 4 == 1
+            if (entry.name and entry.info >> 4 in (1, 2)
                     and entry.section_index == sections[".text"].index):
                 command.extend(("--redefine-sym", f"{entry.name}=stage3p_{key}_direct_{index}"))
         run([*command, source_path, output])
@@ -3525,7 +3545,7 @@ def probe(args: argparse.Namespace) -> dict:
         gfx_command.extend(("--redefine-sym", f"{symbol}={alias}"))
         relocation_targets[alias] = destination
     for index, entry in enumerate(gfx.symbols):
-        if (entry.name and entry.info >> 4 == 1
+        if (entry.name and entry.info >> 4 in (1, 2)
                 and entry.section_index in (
                     gfx_sections[".text"].index,
                     gfx_sections[gfx_selector_name].index,
@@ -3715,7 +3735,7 @@ def probe(args: argparse.Namespace) -> dict:
         ops_command.extend(("--redefine-sym", f"{symbol}={alias}"))
         relocation_targets[alias] = destination
     for index, entry in enumerate(ops.symbols):
-        if (entry.name and entry.info >> 4 == 1
+        if (entry.name and entry.info >> 4 in (1, 2)
                 and entry.section_index in (
                     ops_sections[".text"].index, ops_sections[".data"].index,
                     ops_sections[shutdown_name].index,
@@ -4307,7 +4327,7 @@ def probe(args: argparse.Namespace) -> dict:
     linker_script.write_text(
         update_linker_script(
             base_script.read_text(encoding="utf-8"), [], direct_sections,
-            relocation_targets,
+            relocation_targets, args.input,
         ),
         encoding="utf-8",
     )

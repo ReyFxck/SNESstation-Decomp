@@ -75,12 +75,12 @@
       "size": 288
     }
   ],
-  "prior_manifest_sha256": "ad5e9edc3ea7994c2478ecd074b005cfb0eb32187ca59e500f45162e80473784",
+  "prior_manifest_sha256": "104ca4ed652128295c85b054a66deca93b3b132607f273b4046d91ac9c5a9024",
   "result": {
     "absorbed_fixed_sections": 24,
     "chunk_count": 51,
     "differences_removed": 17218,
-    "differing_bytes": 644215,
+    "differing_bytes": 661665,
     "exact_chunk_indices": [
       12,
       13,
@@ -124,7 +124,7 @@
     ],
     "exact_chunks": 39,
     "first_differing_address": 1048852,
-    "integrated_padded_sha256": "304312854c9ad688c461c9f1fafe1bb28a3e252c02e3964a993c1d66ffcca68d",
+    "integrated_padded_sha256": "a5915ad94c7e16de3b9c48d2bdc78beef2964e6baf346335ea31d95936f5a7e3",
     "mismatching_chunk_indices": [
       0,
       1,
@@ -140,7 +140,7 @@
       11
     ],
     "mismatching_chunks": 12,
-    "prior_differing_bytes": 661433,
+    "prior_differing_bytes": 678883,
     "semantic_bytes": 2216,
     "semantic_fdes": 47,
     "semantic_relocations": 45,

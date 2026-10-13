@@ -10,8 +10,8 @@ verified replacement artifact.
 | Work | Result | Why it matters |
 |---|---:|---|
 | Audited function entries | **1,041/1,041** | Every tracked entry has complete-boundary byte evidence and a source model |
-| EE source ownership | **97/97 translation units** | The recovered source compiles into 96 canonical objects plus one explicit alternate |
-| Source-link providers | **223/223** | The recovered aggregate has no undefined global providers |
+| EE source ownership | **189/189 translation units** | Every recovered unit compiles into the duplicate-free canonical aggregate |
+| Source-link providers | **246/246** | The recovered aggregate has no undefined global providers |
 | Runtime contracts | **53/53** | PS2LIB, libc, libgcc and target-selected runtime behavior is accounted for |
 | Address identities | **1,265/1,265** | Every tracked program-data address has a proved identity |
 | Startup | **276/276 bytes; 3/3 functions** | The target entry, startup code, 27 relocations and startup BSS are exact |

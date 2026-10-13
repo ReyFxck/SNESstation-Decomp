@@ -1464,3 +1464,24 @@ skip), **86/86 maintained recovery proofs passed**, and **189/189 canonical EE
 source units passed**. Run
 `tools/run-native-pending-archive-source-recovery.py` for the focused archive,
 compiler and target-relation gate.
+
+## Post-native full reproduction repair
+
+The final native promotions changed the canonical aggregate's function-section
+and provider rosters without changing the recovered target bytes. The private
+reproduction path now keeps canonical function models in a non-image linker
+section, isolates that aggregate precisely during the Stage-3P exact link, and
+renames both strong and weak globals in selected historical objects. The
+FILEIO and formatter evidence paths now select their canonical historical
+translation units, and the data-backing gate explicitly accounts for the 15
+reviewed retired target-data contracts that no longer have live requesters.
+
+All cumulative manifests were refreshed from the supplied reference. The
+unpacked result again passes **51/51 exact windows with zero differing bytes**;
+SJCRUNCH2 reproduces **13/13 blocks** and the 714,268-byte container; the public
+SjCRUNCH 2.1 wrapper produces a **726,968/726,968-byte exact ELF** with packed
+SHA-256 `4e7e2e22f7b4da9b861b884471f6343086765810581a4c00e96d0dce6754f487`.
+The private ELF and generated build products remain ignored and untracked.
+Final validation passed **607/607 tool tests**, **86/86 maintained source
+recovery proofs**, **189/189 canonical EE units**, and the official
+`make reproduce-check` public/private pipeline.

@@ -960,8 +960,13 @@ def link_exact_providers(
         fail("private reference does not match the frozen layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 219:
-        fail(f"expected 219 post-FILEIO provider rows, found {len(frontier_rows)}")
+    # The current source aggregate includes the post-FILEIO frontier plus the
+    # reviewed native Snes9x contracts.  Keep the private link gate pinned to
+    # that complete manifest: dropping one of those contracts must fail here,
+    # while the exact symbol-set check below prevents unrelated additions from
+    # being accepted merely because the total still happens to match.
+    if len(frontier_rows) != 246:
+        fail(f"expected 246 post-native-bulk provider rows, found {len(frontier_rows)}")
     frontier_by_name = unique(frontier_rows, "symbol", "provider row")
 
     stage3c_rows = read_table(args.stage3c_manifest, stage3c.MANIFEST_FIELDS)
