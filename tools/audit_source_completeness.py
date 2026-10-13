@@ -27,7 +27,7 @@ EXACT_NON_PSEUDOCODE_PROMOTIONS = {
     '0x0012ce18': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp0Av'},
     '0x0012dde0': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp0Ev'},
     '0x0010ad48': {'source_file': 'src/snes9x/native_bulk_apu.cpp', 'evidence': 'analysis/functions/native_bulk_apu_exact_3152.tsv', 'evidence_token': 'S9xSetAPUDSP'},
-    '0x00114818': {'source_file': 'src/snes9x/native_clip.cpp', 'evidence': 'analysis/functions/native_clip_exact_4572.tsv', 'evidence_token': '_Z18ComputeClipWindowsv'},
+    '0x00114818': {'source_file': 'src/snes9x/native_clip.cpp', 'evidence': 'analysis/functions/native_clip_exact_4652.tsv', 'evidence_token': '_Z18ComputeClipWindowsv'},
     '0x0012d79c': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp0Dv'},
     '0x0012d85c': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp1Dv'},
     '0x0012d91c': {'source_file': 'src/snes9x/native_bulk_dsp1.cpp', 'evidence': 'analysis/functions/native_bulk_dsp1_exact_10892.tsv', 'evidence_token': '_Z7DSPOp2Dv'},

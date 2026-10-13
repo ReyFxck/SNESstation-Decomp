@@ -1445,13 +1445,22 @@ with EE GCC 3.2.2 and checks their historical symbol sizes. It also rebuilds
 the two clip helpers and checks their sizes.
 
 These preserved files remain reference-only and do not enter the canonical
-link tree. The binary-evidence classification therefore remains explicit:
-32 bodies have no complete frozen target witness, four retain blocked full-link
-comparisons and two are source-only helpers. No new exact-function promotion,
-private-ELF comparison or complete-image claim is made. The canonical tree
-remains at **189 translation units**.
+link tree. A follow-up public-evidence pass now closes the old witness labels:
+all **38/38 bodies have an explicit frozen target relation**. Nine historical
+bodies are complete relocation-normalized target matches, the two clipping
+comparators reproduce all 80 linked target bytes, and the remaining 27 bodies
+map to exact target variants, aggregate windows, an inlined helper, or the
+eight-byte SPC7110 logging no-op. The relation ledger is
+`analysis/functions/native_pending_target_relations.tsv`.
 
-Validation for this closure: **604 tool tests passed** (one existing skip),
-**86/86 maintained recovery proofs passed**, and **189/189 canonical EE source
-units passed**. Run `tools/run-native-pending-archive-source-recovery.py` for
-the focused archive and compiler gate.
+This does not turn target variants into historical-source matches. Provider-
+linked target, relocation-normalized target, exact target assembly and raw
+historical source remain separate proof levels. No fresh private-ELF comparison
+or complete-image claim is made. The canonical tree remains at **189
+translation units**.
+
+Validation for the completed closure: **604 tool tests passed** (one existing
+skip), **86/86 maintained recovery proofs passed**, and **189/189 canonical EE
+source units passed**. Run
+`tools/run-native-pending-archive-source-recovery.py` for the focused archive,
+compiler and target-relation gate.

@@ -49,6 +49,7 @@ on:
       - analysis/functions/native_bulk_census.tsv
       - tools/run-native-bulk-source-recovery.py
       - analysis/functions/native_pending_source_archive.tsv
+      - analysis/functions/native_pending_target_relations.tsv
       - src/snes9x/historical_reference/**
       - tools/run-native-pending-archive-source-recovery.py
       - src/snes9x/native_clip.cpp
@@ -57,7 +58,7 @@ on:
       - tools/run-native-dsp-profiles-source-recovery.py
       - analysis/functions/native_dsp_profiles_exact_308.tsv
       - tools/run-native-clip-source-recovery.py
-      - analysis/functions/native_clip_exact_4572.tsv
+      - analysis/functions/native_clip_exact_4652.tsv
       - src/snes9x/native_rom_maps.cpp
       - analysis/functions/native_rom_maps_exact_12816.tsv
       - tools/run-native-rom-maps-source-recovery.py

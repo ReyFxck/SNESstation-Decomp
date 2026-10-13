@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Check native clipping against the complete frozen linked target function.
+"""Check native clipping against all three frozen linked target functions.
 
-The two original local comparators are rebuilt and compared with the pinned
-public source. Their target-body bytes were not captured and are excluded from
-the 4,572-byte target claim. qsort uses its independently proved signed int ABI.
+ComputeClipWindows and its two local comparators are rebuilt from the pinned
+public source and linked at their reviewed entries.  The comparators occupy the
+last 80 bytes of the preceding frozen exact-assembly window.  qsort uses its
+independently proved signed int ABI.
 """
 from __future__ import annotations
 import csv
@@ -19,11 +20,17 @@ from build_source_tree import SOURCE_FIXED_FLAGS
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / 'build/matching/native-clip-source-recovery'
 SOURCE = 'src/snes9x/native_clip.cpp'
-LEDGER = ROOT / 'analysis/functions/native_clip_exact_4572.tsv'
+LEDGER = ROOT / 'analysis/functions/native_clip_exact_4652.tsv'
 NAME = '_Z18ComputeClipWindowsv'
 ADDRESS, SIZE = 0x114818, 4572
 TARGET_SHA256 = '6e8218f0344f7df2d2002cdda3a01bab68e06dec7fa3230659f08d7249b50a56'
 ADDRESSES = {'_Z10IntComparePKvS0_': 0x1147c8, '_Z11BandComparePKvS0_': 0x1147f0, NAME: ADDRESS}
+SIZES = {'_Z10IntComparePKvS0_': 40, '_Z11BandComparePKvS0_': 40, NAME: SIZE}
+TARGET_HASHES = {
+    '_Z10IntComparePKvS0_': '9792f62b10067940165eb737cce03fc766349712464ae64b8aa7f2dca8b4fc52',
+    '_Z11BandComparePKvS0_': '9792f62b10067940165eb737cce03fc766349712464ae64b8aa7f2dca8b4fc52',
+    NAME: TARGET_SHA256,
+}
 
 
 def load(name):
@@ -103,41 +110,62 @@ def main(record=False):
         cpu.run([cpu.CXX.with_name('ee-ld'), '-EL', '-T', ld, obj, '-o', output])
         linked.append(ELFFile(output))
     windows = json.loads((ROOT / 'analysis/link_identity/code_windows.json').read_text())['result']['selected_sources']
-    witness = next(w for w in windows if w['name'] == 'stage3p_compute_clip_windows')
-    if (witness['address'], witness['size'], witness['relocations'], witness['raw_sha256']) != (ADDRESS, SIZE, 0, TARGET_SHA256):
+    compute_witness = next(w for w in windows if w['name'] == 'stage3p_compute_clip_windows')
+    prefix_witness = next(w for w in windows if w['name'] == 'stage3p_save_cheat_file')
+    if ((compute_witness['address'], compute_witness['size'], compute_witness['relocations'], compute_witness['raw_sha256'])
+            != (ADDRESS, SIZE, 0, TARGET_SHA256)):
         raise SystemExit('frozen complete clipping witness drift')
-    source = (ROOT / witness['object']).read_text()
-    body = source.split('stage3p_compute_clip_windows:\n', 1)[1].split('.size stage3p_compute_clip_windows', 1)[0]
-    target = b''.join(struct.pack('<I', int(m[1], 16)) for m in re.finditer(r'\.word (0x[0-9a-f]+)', body))
-    if len(target) != SIZE or hashlib.sha256(target).hexdigest() != TARGET_SHA256:
+    if ((prefix_witness['address'], prefix_witness['size'], prefix_witness['relocations'])
+            != (0x114674, 420, 0)):
+        raise SystemExit('frozen clipping comparator container drift')
+    if compute_witness['object'] != prefix_witness['object']:
+        raise SystemExit('split clipping assembly provenance')
+    source = (ROOT / compute_witness['object']).read_text()
+
+    def assembly_words(symbol):
+        body = source.split(symbol + ':\n', 1)[1].split('.size ' + symbol, 1)[0]
+        return b''.join(struct.pack('<I', int(m[1], 16)) for m in re.finditer(r'\.word (0x[0-9a-f]+)', body))
+
+    compute_target = assembly_words('stage3p_compute_clip_windows')
+    prefix_target = assembly_words('stage3p_save_cheat_file')
+    if (len(compute_target) != SIZE or hashlib.sha256(compute_target).hexdigest() != TARGET_SHA256
+            or len(prefix_target) != prefix_witness['size']
+            or hashlib.sha256(prefix_target).hexdigest() != prefix_witness['raw_sha256']):
         raise SystemExit('frozen clipping instruction bytes drift')
+    targets = {
+        '_Z10IntComparePKvS0_': prefix_target[0x1147c8 - 0x114674:0x1147f0 - 0x114674],
+        '_Z11BandComparePKvS0_': prefix_target[0x1147f0 - 0x114674:0x114818 - 0x114674],
+        NAME: compute_target,
+    }
+    rows = []
     for name in ADDRESSES:
         a, z = (e.find_symbol(name) for e in linked)
         raw = linked[1].symbol_bytes(z, z.size)
         if (a.value != ADDRESSES[name] or z.value != ADDRESSES[name]
+                or a.size != SIZES[name] or z.size != SIZES[name]
                 or cpu.normalized(reference, reference.find_symbol(name)) != cpu.normalized(candidate, candidate.find_symbol(name))
                 or linked[0].symbol_bytes(a, a.size) != raw):
             raise SystemExit('linked native clipping/public helper mismatch')
-        if name == NAME and raw != target:
-            raise SystemExit('complete linked clipping target mismatch')
-    row = dict(address=f'0x{ADDRESS:08x}', symbol=NAME, size=str(SIZE), source_file=SOURCE,
-               historical_raw_sha256=cpu.digest(reference.symbol_bytes(reference.find_symbol(NAME), SIZE)),
-               normalized_sha256=cpu.digest(cpu.normalized(candidate, candidate.find_symbol(NAME))),
-               linked_sha256=TARGET_SHA256, proof_level='complete-frozen-linked-target')
+        if raw != targets[name] or cpu.digest(raw) != TARGET_HASHES[name]:
+            raise SystemExit('complete linked clipping target mismatch: ' + name)
+        rows.append(dict(address=f'0x{ADDRESSES[name]:08x}', symbol=name, size=str(SIZES[name]), source_file=SOURCE,
+                    historical_raw_sha256=cpu.digest(reference.symbol_bytes(reference.find_symbol(name), SIZES[name])),
+                    normalized_sha256=cpu.digest(cpu.normalized(candidate, candidate.find_symbol(name))),
+                    linked_sha256=TARGET_HASHES[name], proof_level='complete-frozen-linked-target'))
     if record:
         with LEDGER.open('w', newline='') as stream:
-            writer = csv.DictWriter(stream, fieldnames=list(row), delimiter='\t', lineterminator='\n')
+            writer = csv.DictWriter(stream, fieldnames=list(rows[0]), delimiter='\t', lineterminator='\n')
             writer.writeheader()
-            writer.writerow(row)
-    elif list(csv.DictReader(LEDGER.open(), delimiter='\t')) != [row]:
+            writer.writerows(rows)
+    elif list(csv.DictReader(LEDGER.open(), delimiter='\t')) != rows:
         raise SystemExit('native clipping ledger drift')
     ownership = list(csv.DictReader((ROOT / 'analysis/source_tree/defined_symbol_ownership.tsv').open(), delimiter='\t'))
     if not record and not any(r['symbol'] == NAME and r['source'] == SOURCE and r['binding'] == 'global' and r['size_hex'] == hex(SIZE) for r in ownership):
         raise SystemExit('canonical native clipping ownership drift')
-    (BUILD / 'report.json').write_text(json.dumps(dict(target_routines=1, instruction_bytes=SIZE,
-        upstream_helpers=2, unclaimed_helper_bytes=80, target_sha256=TARGET_SHA256,
+    (BUILD / 'report.json').write_text(json.dumps(dict(target_routines=3, instruction_bytes=sum(SIZES.values()),
+        target_helpers=2, target_sha256=TARGET_SHA256,
         fresh_private_elf=False, replacement_image=False), indent=2) + '\n')
-    print('native clipping: MATCH 1/1 complete target function, 4572/4572 linked target bytes; 80 public helper bytes excluded from target claim')
+    print('native clipping: MATCH 3/3 complete target functions, 4652/4652 linked target bytes')
 
 
 if __name__ == '__main__':
