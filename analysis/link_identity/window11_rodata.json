@@ -77,12 +77,12 @@
   "pgen_commit": "403f1710e5eacb7d04e5031e1cb0a40435ff9d33",
   "pgen_gslib_sha256": "d50c700051c54c05ad2a4e511e794097d0c94b3a48c11f1a6334bdd53833dd4e",
   "pgen_unzip_sha256": "910f29e60e3837c78eed72810bd1d63722c67215681705cbeff56984b3f013f5",
-  "prior_manifest_sha256": "d4fb1bbea80548fb8d36c04100966fae5ab26d57de15e60b953ec3e58e98a7fd",
+  "prior_manifest_sha256": "8ac6b3481690da17778d0b569a4149b1437a136883cfa7bb8d1232f785b62d12",
   "result": {
     "absorbed_fixed_sections": 6,
     "chunk_count": 51,
     "differences_removed": 25929,
-    "differing_bytes": 618286,
+    "differing_bytes": 635736,
     "exact_chunk_indices": [
       11,
       12,
@@ -127,7 +127,7 @@
     ],
     "exact_chunks": 40,
     "first_differing_address": 1048852,
-    "integrated_padded_sha256": "58786ddd69f66f0d4bf17f2c0677e09a47fb3bea41a61f30042b9f54445a26a3",
+    "integrated_padded_sha256": "6765a02a3803f430d4f08b0fe18e93e7eaa66c18e58f578ba31b9eeb54ce07ea",
     "mismatching_chunk_indices": [
       0,
       1,
@@ -142,7 +142,7 @@
       10
     ],
     "mismatching_chunks": 11,
-    "prior_differing_bytes": 644215,
+    "prior_differing_bytes": 661665,
     "semantic_bytes": 2220,
     "semantic_relocations": 60,
     "semantic_sections": 10,
@@ -747,12 +747,12 @@
     },
     {
       "address": 1811576,
-      "full_sha256": "1ab928fa0e3f7041873530ca72fc1d7d9089db1399cbdbb48f435e754fe22073",
+      "full_sha256": "90b6d07810a84cab0cb4ab1d19584a7796184160368ba6a433943c975070ebfa",
       "full_size": 560,
       "linked_sha256": "1fbf1a5a03b710e6da91397155a00807b192bec33c21c6bfbf2f2abe006c008a",
       "name": "formatter",
       "object": "source:formatter",
-      "raw_sha256": "1ab928fa0e3f7041873530ca72fc1d7d9089db1399cbdbb48f435e754fe22073",
+      "raw_sha256": "90b6d07810a84cab0cb4ab1d19584a7796184160368ba6a433943c975070ebfa",
       "relocations": 121,
       "section": ".data.stage3o.source.formatter",
       "size": 560,

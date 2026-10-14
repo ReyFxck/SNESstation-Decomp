@@ -7,9 +7,10 @@ the small-batch plan.  Stage 3C is exactly the historical 43
 rows.  Four Stage-3C names were subsequently proved to be source-only adapters
 and removed.  The later Stage-3E cleanup removes 20 more source-only helpers
 and canonicalizes ``errno``; Stage 3D removes three compiler-libcall artifacts
-and the source-only ``snprintf`` dependency, so the live source map has
-1,892 externals while
-the historical 54-row Stage-3C ledger remains unchanged.
+and the source-only ``snprintf`` dependency.  Later exact source promotions,
+including the historical LIBKERNEL assembly, canonicalize additional live
+contracts, so the current source map has 1,838 externals while the historical
+54-row Stage-3C ledger remains unchanged.
 This gate keeps the historical 54-row definition stable and distinguishes
 three materially different closed claims:
 
@@ -271,13 +272,28 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
         "3D": counts[("ps2-runtime", "historical-archive")]
               + counts[("c-runtime", "historical-archive")]
               + counts[("c-runtime", "recovered-runtime")]
-              + counts[("compiler-runtime", "historical-archive")],
+              + counts[("compiler-runtime", "historical-archive")]
+              + counts[("cxx-runtime", "historical-archive")],
         "3E": counts[("named-external", "link-contract")]
+              + counts[("target-function-contract", "link-contract")]
               + counts[("zlib-peer", "source-or-archive")],
         "3F": counts[("target-address-data", "program-data")],
     }
-    expected = {"3B": 347, "3C": 50, "3D": 49, "3E": 191, "3F": 1226}
-    if partition != expected or sum(partition.values()) != 1863:
+    # C4DrawWireFrame retains one historical target-function contract plus the
+    # libsupc++ personality dependency. Canonical S9xGetMemPointer removes its
+    # former Stage-3E contract. Canonical S9xSetByte adds seven exact function
+    # contracts (3E) and two exact provider-data addresses (3F). Canonical
+    # OBC1 and SETA source close two chip functions and two dispatch wrappers
+    # (four Stage-3E contracts). SPC7110 contributes both read providers
+    # and closes another two Stage-3E contracts. CPU reset adds eight native
+    # callee contracts (3E) and the proved SuperFX state address (3F). CPU
+    # execution adds twelve native callees and the debug-state data address.
+    # Original C4/DMA/SA1 reset implementations close three native callees.
+    # DSP dispatch closes three more, adds one native math initializer,
+    # and reuses two newly named original state addresses. The original
+    # native DSP table initializer then closes the remaining math entry.
+    expected = {"3B": 345, "3C": 50, "3D": 20, "3E": 214, "3F": 1251}
+    if partition != expected or sum(partition.values()) != 1880:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 
@@ -629,8 +645,8 @@ def link_exact_providers(
         fail("private unpacked reference is missing or does not match the layout oracle")
 
     frontier_rows = read_table(args.frontier_manifest, FRONTIER_FIELDS)
-    if len(frontier_rows) != 223:
-        fail(f"expected post-snprintf-refactor provider frontier of 223 rows, found {len(frontier_rows)}")
+    if len(frontier_rows) != 246:
+        fail(f"expected post-S9xGetByte provider frontier of 246 rows, found {len(frontier_rows)}")
     replacements = exact_provider_rows(named_rows, frontier_rows)
     replacement_names = {row["symbol"] for row in replacements}
     exact_ranges = [row for row in named_rows if row["status"] == RANGE_PROVED]

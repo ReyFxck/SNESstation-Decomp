@@ -203,6 +203,13 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    source_units = list(csv.DictReader(
+        (ROOT / "analysis/source_tree/translation_units.tsv").open(encoding="utf-8"),
+        delimiter="\t",
+    ))
+    source_unit_count = len(source_units)
+    canonical_unit_count = sum(row["link_role"] == "canonical" for row in source_units)
+
     rows = list(csv.DictReader(MANIFEST.open(encoding="utf-8")))
     seen: set[tuple[str, str]] = set()
     for row in rows:
@@ -282,7 +289,7 @@ def main() -> None:
         or provider_symbols != expected_private_symbols
         or len(provider_symbols) != 10
         or provider_bytes != 62_736
-        or provider_frontier != 223
+        or provider_frontier != 246
     ):
         raise SystemExit("invalid private-asset provider manifest")
     closure_rows = list(
@@ -310,11 +317,11 @@ def main() -> None:
     )
     if (
         closure_symbols != active_provider_symbols
-        or len(closure_rows) != 223
+        or len(closure_rows) != 246
         or closure_kind_counts
         != {
-            "absolute-target-anchor": 175,
-            "semantic-text-alias": 9,
+            "absolute-target-anchor": 202,
+            "semantic-text-alias": 5,
             "compatibility-storage": 39,
             "compatibility-runtime-shim": 0,
         }
@@ -441,11 +448,11 @@ def main() -> None:
             combined_clusters[-1][1] = max(combined_clusters[-1][1], end_address)
     combined_cluster_bytes = sum(end - start for start, end in combined_clusters)
     if (
-        len(named_contract_rows) != 212
-        or len({row["symbol"] for row in named_contract_rows}) != 212
+        len(named_contract_rows) != 216
+        or len({row["symbol"] for row in named_contract_rows}) != 216
         or named_contract_statuses
         != {
-            "TEXT_ALIAS_PROVED": 23,
+            "TEXT_ALIAS_PROVED": 27,
             "TARGET_RANGE_PROVED": 164,
             "TARGET_ENTRY_PROVED": 2,
             "EXTERNAL_ADDRESS_PROVED": 2,
@@ -453,7 +460,7 @@ def main() -> None:
             "SOURCE_REFACTOR_CLOSED": 20,
         }
         or named_contract_fingerprinted != 165
-        or named_contract_addressed != 192
+        or named_contract_addressed != 196
         or named_contract_zlib != 7
         or len(stage3e_exact_storage) != 7
         or len(stage3e_clusters) != 49
@@ -573,7 +580,7 @@ The README graphic is generated to [`assets/progress.svg`](../assets/progress.sv
 All {VALIDATED_TARGETS:,} validated entries now have a behavioral/source-model
 representation and **{pseudocode_only_count:,}** remain only as structural
 pseudocode after typed promotions. The separate EE source gate compiles the
-frozen 97-unit tree into 96 canonical EE objects plus one explicit alternate.
+frozen {source_unit_count}-unit tree into {canonical_unit_count} canonical EE objects with no alternate objects.
 Source form, object ownership and original-source provenance remain distinct
 claims. See
 [`docs/SOURCE_COMPLETENESS.generated.md`](SOURCE_COMPLETENESS.generated.md) for
@@ -610,7 +617,7 @@ Until the exact original compiler/toolchain is reproduced, reconstructed and map
 | Measure | Result | Status |
 |---|---:|---|
 | Audited function entries | **{project_status.formal_matching:,}/{project_status.total:,} ({project_status.formal_percent:.0f}%)** | Complete |
-| EE source ownership | **97/97 translation units** | Complete |
+| EE source ownership | **{source_unit_count}/{source_unit_count} translation units** | Complete |
 | Runtime contracts | **{stage3d_closed}/53** | Complete |
 | Program-data address identities | **{backing_report['resolved_contracts']:,}/{backing_report['contracts_total']:,}** | Complete |
 | Exact 64 KiB image windows | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']}** | Complete |
@@ -629,12 +636,12 @@ row independently closes the complete file identity.
 |---|---:|---|
 | Function matching | **{project_status.formal_matching:,}/{project_status.total:,}** | Complete-boundary compiler/object evidence for every audited entry |
 | Readable source models | **{source_model_count:,}/{VALIDATED_TARGETS:,}** | Every audited entry has a behavioral/source representation |
-| Source ownership | **97/97 units** | 96 canonical EE objects plus one explicit alternate compile with the frozen ABI |
+| Source ownership | **{canonical_unit_count}/{source_unit_count} units** | {canonical_unit_count} canonical EE objects compile with the frozen ABI |
 | Source-address aliases | **{alias_proved}/{len(alias_rows)} proved** | {alias_blocked} intentionally blocked names remain outside the alias claim |
 | Zero-byte link contracts | **{contract_resolved:,}/{len(contract_rows):,}** | {contract_anchors:,} address anchors and {contract_aliases} semantic aliases |
 | Source-link providers | **{len(closure_rows)}/{len(active_provider_symbols)}** | The recovered relocatable aggregate has zero undefined globals |
 | Named data | **54/54** | {named_data_fingerprinted} exact target ranges and {named_data_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors |
-| Named link contracts | **212/212** | {named_contract_fingerprinted} fingerprinted ranges/data aliases and {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors |
+| Named link contracts | **216/216** | {named_contract_fingerprinted} fingerprinted ranges/data aliases and {named_contract_statuses['SOURCE_REFACTOR_CLOSED']} completed source refactors |
 | Compiler-runtime contracts | **7/7** | Four exact archive members plus three proved source refactors |
 | Runtime contracts | **{stage3d_closed}/53** | PS2LIB member text and target-selected `puts`/`abort` behavior accounted for |
 | Address identity | **{backing_report['resolved_contracts']:,}/{backing_report['contracts_total']:,}** | Every tracked address has a provider/refactor identity; full object bounds remain separate |
@@ -686,7 +693,7 @@ user-supplied reference without publishing its bytes.
 | Measure | Result | What it means | Status |
 |---|---:|---|---|
 | Audited function entries | **{project_status.formal_matching:,}/{VALIDATED_TARGETS:,} ({project_status.formal_percent:.0f}%)** | Every entry in the frozen audit has complete-boundary matching evidence and a readable source model. | Complete |
-| EE source ownership | **97/97 translation units** | All recovered units compile with the historical EE ABI; 96 canonical objects form the duplicate-free source aggregate. | Complete |
+| EE source ownership | **{canonical_unit_count}/{source_unit_count} translation units** | All recovered units compile with the historical EE ABI; {canonical_unit_count} canonical objects form the duplicate-free source aggregate. | Complete |
 | Runtime contracts | **{stage3d_closed}/53** | Every tracked PS2LIB, libc, libgcc and target-selected runtime dependency has an evidence-backed provider or refactor. | Complete |
 | Address identities | **{backing_report['resolved_contracts']:,}/{backing_report['contracts_total']:,}** | Every tracked program-data address has a proved identity; exact full object bounds are a separate question. | Complete |
 | Whole-image windows | **{code_window_result['exact_chunks']}/{code_window_result['chunk_count']} ({pct(code_window_result['exact_chunks'], code_window_result['chunk_count']):.2f}%)** | Every 64 KiB window in the unpacked image matches exactly. | Complete |

@@ -6,12 +6,13 @@ import tempfile
 import unittest
 from dataclasses import replace
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import libgcc_contracts as libgcc
 import runtime_members
 import runtime_overrides as runtime
-from compare_elf_functions import RelocationMask
+from compare_elf_functions import RelocationMask, Symbol
 
 
 class RuntimeOverrideTests(unittest.TestCase):
@@ -102,6 +103,22 @@ class RuntimeOverrideTests(unittest.TestCase):
     def fixture(callee=0x107578):
         return (struct.pack("<II", 0x0C000000, 0),
                 struct.pack("<II", 0x0C000000 | (callee >> 2), 0))
+
+    def test_named_relocations_preserve_odd_and_even_mips_types(self):
+        # HI16 (5) must remain distinct from JUMP26 (4): clearing the low
+        # type bit could make a different relocation pass a named-call gate.
+        data = (struct.pack("<IIII", 0, (1 << 8) | 5, 4, (1 << 8) | 4)
+                + bytes(16) + struct.pack("<IIIBBH", 1, 0, 0, 16, 0, 0)
+                + b"\0abort\0")
+        sections = [
+            SimpleNamespace(info=1, type=9, entry_size=8, size=16, offset=0, link=1),
+            SimpleNamespace(info=0, type=2, entry_size=16, size=32, offset=16, link=2),
+            SimpleNamespace(info=0, type=3, entry_size=0, size=7, offset=48, link=0),
+        ]
+        elf = SimpleNamespace(elf_class=1, endian="<", machine=8, file_type=1,
+                              data=data, sections=sections)
+        self.assertEqual([(0, 5, "abort"), (4, 4, "abort")],
+                         runtime.named_relocations(elf, Symbol("caller", 0, 8, 1, 2), "abort"))
 
     def test_named_jal_proves_the_exact_selected_target(self):
         image, target = self.fixture()

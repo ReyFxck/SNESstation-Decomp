@@ -1,0 +1,58 @@
+name: SIF RPC C source recovery
+# Read-only verifier; all metadata is published by source-recovery-refresh.yml.
+
+on:
+  push:
+    branches:
+      - source-recovery-file-by-file
+    paths:
+      - "src/ps2/sifrpc.c"
+      - "include/sifrpc_legacy_compat.h"
+      - "src/ps2/libkernel_client_init_recovered.c"
+      - "src/ps2/libmc_recovered.c"
+      - "analysis/source_tree/translation_units.tsv"
+      - "tools/test_build_source_tree.py"
+      - "tools/run-sifrpc-source-recovery.py"
+      - ".github/workflows/sifrpc-source-recovery.yml"
+      - "analysis/functions/sifrpc_0019c688.asm"
+      - "analysis/link_identity/runtime_member_inputs.tsv"
+      - "tools/runtime_members.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  match:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache EE GCC 3.2.2 stage1
+        uses: actions/cache@v4
+        with:
+          path: build/toolchains/ee-gcc-3.2.2-stage1
+          key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+
+      - name: Build historical EE compiler
+        env:
+          MAKEFLAGS: MAKEINFO=true
+        run: make bootstrap-ee-stage1
+
+      - name: Prove historical SIF RPC source
+        run: python3 tools/run-sifrpc-source-recovery.py
+
+      - name: Refresh source readiness and source-tree ownership
+        run: |
+          EE_CC="$PWD/build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
+          make audit-source
+          make source-tree-refresh EE_CC="$EE_CC"
+          make source-tree-check EE_CC="$EE_CC"
+          make source-aliases-refresh EE_CC="$EE_CC"
+          make source-aliases-check EE_CC="$EE_CC"
+          python3 tools/test_build_source_tree.py
+          git diff --check -- . ':(exclude)analysis/link_identity/source_address_aliases.tsv'
+

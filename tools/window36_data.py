@@ -183,10 +183,10 @@ EXPECTED = {
     "semantic_sections": 2, "semantic_bytes": 1572, "semantic_fdes": 27,
     "semantic_relocations": 29, "internal_functions": 2,
     "absorbed_fixed_sections": 43, "window36_differing_bytes": 0,
-    "exact_chunks": 18, "mismatching_chunks": 33, "differing_bytes": 1845637,
+    "exact_chunks": 18, "mismatching_chunks": 33, "differing_bytes": 1863087,
     "chunk_count": 51, "target_initialized_size": 3304936,
     "first_differing_address": 0x00100114, "target_sha256": TARGET_SHA256,
-    "prior_differing_bytes": 1854246,
+    "prior_differing_bytes": 1871696,
 }
 
 

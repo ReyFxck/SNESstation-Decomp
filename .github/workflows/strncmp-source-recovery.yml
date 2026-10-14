@@ -1,0 +1,31 @@
+name: STRNCMP assembly source recovery
+on:
+  push:
+    branches: [source-recovery-file-by-file]
+    paths:
+      - "tools/run-strncmp-source-recovery.py"
+      - "src/ps2/strncmp.S"
+      - "analysis/functions/libkernel_strings_0019c364.asm"
+      - "analysis/functions/strncmp_exact_72.tsv"
+      - "analysis/functions/strncmp_exact_64.tsv"
+      - "analysis/link_identity/runtime_member_inputs.tsv"
+      - "tools/runtime_members.py"
+      - ".github/workflows/strncmp-source-recovery.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  match:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/cache@v4
+        with:
+          path: build/toolchains/ee-gcc-3.2.2-stage1
+          key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+      - env: {MAKEFLAGS: "MAKEINFO=true"}
+        run: make bootstrap-ee-stage1
+      - run: python3 tools/run-strncmp-source-recovery.py

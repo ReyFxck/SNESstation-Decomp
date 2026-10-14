@@ -1,0 +1,24 @@
+name: S9xSetByte historical source probe
+
+on:
+  push:
+    branches:
+      - source-recovery-file-by-file
+    paths:
+      - "tools/probe-s9xsetbyte-historical.py"
+      - ".github/workflows/s9xsetbyte-historical-probe.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Extract exact Snes9x 1.40 S9xSetByte source
+        run: python3 tools/probe-s9xsetbyte-historical.py

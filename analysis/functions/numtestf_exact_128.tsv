@@ -1,0 +1,2 @@
+symbol	address	size_hex	raw_text_sha256	relocations	evidence
+numtestf	0x001a06c0	0x80	c9c5dc75b745f50ad623bdcb0bdc4d86336ec8a4e76f69e998acb166ae32da04	0	analysis/matching/mathfp-listing-report.md

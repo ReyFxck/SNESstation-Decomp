@@ -1581,17 +1581,17 @@ stage3p_dsp2_set_byte:
     .word 0xac830008    # +0x02c4
     .word 0x1000ff6e    # +0x02c8
     .word 0xa0500014    # +0x02cc
-    .word 0x3c020034    # +0x02d0
-    .word 0x3084ffff    # +0x02d4
-    .word 0x24455628    # +0x02d8
     .size stage3p_dsp2_set_byte, .-stage3p_dsp2_set_byte
 
-    /* DSP2GetByte @ 0x0012fb84..0x0012fbe8
-     * target span SHA-256: 37fd29a2296ae3baa7e4b2f73a64657497ed17a24087bd76b08246bfdd74644d
+    /* DSP2GetByte @ 0x0012fb78..0x0012fbdc
+     * target span SHA-256: d54cf4ce9e39b50a786d83481e479c96f0e820d38bebc45c6891b678716c342e
      */
     .globl stage3p_dsp2_get_byte
     .type stage3p_dsp2_get_byte, @function
 stage3p_dsp2_get_byte:
+    .word 0x3c020034    # +0x0000
+    .word 0x3084ffff    # +0x0004
+    .word 0x24455628    # +0x0008
     .word 0x24828000    # +0x0000
     .word 0x3042ffff    # +0x0004
     .word 0x3084f000    # +0x0008
@@ -1614,17 +1614,17 @@ stage3p_dsp2_get_byte:
     .word 0x00000000    # +0x004c
     .word 0x03e00008    # +0x0050
     .word 0xaca0000c    # +0x0054
-    .word 0x27bdff70    # +0x0058
-    .word 0x3c020034    # +0x005c
-    .word 0xffbf0080    # +0x0060
     .size stage3p_dsp2_get_byte, .-stage3p_dsp2_get_byte
 
-    /* FxPipeString @ 0x0012fbe8..0x0012fe5c
-     * target span SHA-256: a2aecca26ff765af1407c6290205986601bb4274c10aecb0f4fa05f9d19bf830
+    /* FxPipeString @ 0x0012fbdc..0x0012fe5c
+     * target span SHA-256: 7144194273fded45573bcae1ab2fc8e1a36035428ba5ab761be841b08ad72d7e
      */
     .globl stage3p_fx_pipe_string
     .type stage3p_fx_pipe_string, @function
 stage3p_fx_pipe_string:
+    .word 0x27bdff70    # +0x0000
+    .word 0x3c020034    # +0x0004
+    .word 0xffbf0080    # +0x0008
     .word 0xffb20020    # +0x0000
     .word 0x0080902d    # +0x0004
     .word 0xffb10010    # +0x0008
@@ -5086,9 +5086,15 @@ stage3p_tail_gap_0019272c:
     .word 0x01621026
     .word 0x03e00008
     .word 0x00000000
+    .size stage3p_tail_gap_0019272c, .-stage3p_tail_gap_0019272c
+
+    /* Anonymous leaf @ 0x00193290..0x00193298. */
+    .globl stage3p_tail_gap_00193290
+    .type stage3p_tail_gap_00193290, @function
+stage3p_tail_gap_00193290:
     .word 0x03e00008
     .word 0x28820000
-    .size stage3p_tail_gap_0019272c, .-stage3p_tail_gap_0019272c
+    .size stage3p_tail_gap_00193290, .-stage3p_tail_gap_00193290
 
     /* Exact public EE reconstruction @ 0x00196370..0x00196380
      * target span SHA-256: 374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb
@@ -6861,13 +6867,19 @@ stage3p_tail_gap_00197000:
     .word 0xdfb00000
     .word 0x03e00008
     .word 0x27bd0050
+    .size stage3p_tail_gap_00197000, .-stage3p_tail_gap_00197000
+
+    /* zutil prefix @ 0x00198a58..0x00198a70. */
+    .globl stage3p_tail_gap_00198a58
+    .type stage3p_tail_gap_00198a58, @function
+stage3p_tail_gap_00198a58:
     .word 0x3c02001c
     .word 0x03e00008
     .word 0x2442a240
     .word 0x24020002
     .word 0x3c030042
     .word 0x00441023
-    .size stage3p_tail_gap_00197000, .-stage3p_tail_gap_00197000
+    .size stage3p_tail_gap_00198a58, .-stage3p_tail_gap_00198a58
 
     /* Exact public EE reconstruction @ 0x00198bfc..0x00198c04
      * target span SHA-256: af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc

@@ -29,6 +29,11 @@ exact-assembly evidence policy:
   target span;
 - no relocation mask or ignored instruction byte is required.
 
+The reconstruction is now also promoted into the canonical source tree as
+[`src/ps2/c4convoam.S`](../../src/ps2/c4convoam.S). Its emitted target body
+remains 952/952 raw bytes with zero relocations; the original readable Snes9x
+model stays separate as provenance.
+
 The immutable proof is
 [`hunt1041-v79-validated-c4conv-1.tsv`](../../analysis/matching/hunt1041-v79-validated-c4conv-1.tsv).
 Reproduce it with the private reference and historical EE assembler:

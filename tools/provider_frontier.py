@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Close the post-snprintf-refactor 223-name source-link provider frontier.
+"""Close the post-native-bulk 246-name source-link provider frontier.
 
 This checkpoint has a deliberately narrow claim: the complete recovered EE
 source aggregate can be partially linked with no undefined global symbols.
@@ -123,10 +123,6 @@ SEMANTIC_ALIASES = {
     "S9xSync_SetVolume": "SjPCM_Setvol_001078f8",
     "abort": "snes_fatal_spin_00107578",
     "operator_new_u32": "snes_p13_operator_new",
-    "snes_p12_fio_close": "fioClose_0019d090",
-    "snes_p12_fio_open": "fioOpen_0019cfc0",
-    "snes_p12_fio_read": "fioRead_0019d120",
-    "snes_p12_fio_write": "fioWrite_0019d244",
     "snes_p12_qsort": "snes_qsort_001080cc",
 }
 
@@ -134,9 +130,57 @@ SEMANTIC_ALIASES = {
 # source model does not export a signature-compatible canonical definition.
 # REG_GS_CSR is the documented PS2 privileged GS register, not image storage.
 EXPLICIT_ANCHORS = {
+    "_Z18S9xOpenSoundDeviceihi": 0x105cb8,
+    "S9xMixSamplesO": 0x176594,
+    '_Z9GetRXYPosv': 0x12cbd8,
+    '_Z7DSPOp02v': 0x12c558,
+    '_Z7DSPOp06v': 0x12d05c,
+    '_Z7DSPOp28v': 0x12e04c,
+    '_Z13S9xPlaySamplei': 0x177e6c,
+    'S9xGetFilenameInc': 0x1019a0,
+    'S9xSPCDump': 0x1726ec,
+    "S9xBasename": 0x101914,
+    "S9xLoadOrigSnapshot": 0x17022c,
+    "_Z11FreezeBlockPvPcPhi": 0x172174,
+    "_Z16S9xUnfreezeZSNESPKc": 0x1728d4,
+    "_ZdlPv": 0x1a90f8,
+    "S9xOpenSnapshotFile": 0x101890,
+    "S9xCloseSnapshotFile": 0x1018e0,
+    # Original native batch C++ signatures; earlier models use different ABIs.
+    # The earlier random-number model takes a state pointer. Preserve the
+    # original zero-argument ABI used by the native PPU register path.
+    "rand": 0x00108a34,
+    # DMA retains native operator new[]/delete[] signatures. The earlier
+    # callback/opaque runtime models cannot provide these entry points.
+    "_Znaj": 0x001a9f68,
+    "_ZdaPv": 0x001a9118,
+    # Complete historical CPU execution module native callees.
+    '_ZN7CMemory7InitROMEh': 0x1522d8,
+    # Native memory maps retain the zero-argument C++ SPC7110 cache initializer.
+    # The older lifted initializer uses a different context-model signature.
+    "_Z14S9xSpc7110Initv": 0x1806a4,
+    # Preserve the original zero-argument C++ clip-window ABI; the earlier
+    # structural lift uses an emulation-context model.
+    # Native controller update calls the original one-argument PS2 reader.
+    # The earlier multitap model at this address takes an extra RPC context.
+    'S9xReadJoypad': 0x104bbc,
+    # Original CPU reset native callees. The earlier context-argument source
+    # models have different signatures; preserve the actual target ABI.
     "REG_GS_CSR": 0x12001000,
     "snes_p12_compare_sdd1_entries": 0x0016FAC4,
     "snes_p12_get_filename": 0x00101924,
+
+    # Exact Snes9x 1.40 S9xGetByte dependencies. These are target-address
+    # contracts proved by the same original-ELF link gate as the recovered TU;
+    # they are not aliases to the older context-argument behavioral models.
+    "g_CPU_blob": 0x00345340,
+    "g_OpenBus_byte": 0x0035B768,
+
+    # Exact Snes9x 1.40 S9xSetByte dependencies from the 808/808-byte
+    # provider-linked target proof.
+    "S9xSetC4": 0x0010D7DC,
+    "g_SA1_blob": 0x00345AF8,
+    "g_s7r_blob": 0x00413508,
 }
 
 # Real storage required by the buildable behavioral source.  Sizes are the
@@ -260,13 +304,13 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 223:
-        fail(f"expected exact post-snprintf-refactor frontier of 223 symbols, found {len(active)}")
+    if len(active) != 246:
+        fail(f"expected exact post-native-bulk frontier of 246 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]
         for row in defined_rows
-        if row["binding"] == "global" and row["section_class"] == "text"
+        if row["binding"] == "global" and row["section_class"] in {"text", "weak-text"}
     }
     missing_canonical = sorted(set(SEMANTIC_ALIASES.values()) - canonical_text)
     if missing_canonical:
@@ -338,8 +382,8 @@ def derive_rows(
 
     counts = Counter(row["resolution_kind"] for row in rows)
     expected = {
-        ABSOLUTE_ANCHOR: 175,
-        SEMANTIC_ALIAS: 9,
+        ABSOLUTE_ANCHOR: 202,
+        SEMANTIC_ALIAS: 5,
         COMPAT_STORAGE: 39,
     }
     if dict(counts) != expected:

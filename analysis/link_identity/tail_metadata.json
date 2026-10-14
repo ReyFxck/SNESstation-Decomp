@@ -7,11 +7,11 @@
     "window_50_exact": true
   },
   "format": "snesstation-stage3k-tail-metadata",
-  "prior_manifest_sha256": "fd111ebae1b4793644db7587c0daecedf529611388bea65c5e65ea39b0b055e0",
+  "prior_manifest_sha256": "93abaa7fbc347e73afc4d5c5f15c04108bb50967a85bd7e92ccf8c0bede9f7c0",
   "result": {
     "chunk50_differing_bytes": 0,
     "chunk_count": 51,
-    "differing_bytes": 1854246,
+    "differing_bytes": 1871696,
     "exact_chunk_indices": [
       12,
       13,
@@ -33,7 +33,7 @@
     ],
     "exact_chunks": 17,
     "first_differing_address": 1048852,
-    "integrated_padded_sha256": "b62e0993b535cf437cda3b004809e490debcf15a6fb45916b89d59c86ce0e3cc",
+    "integrated_padded_sha256": "a24bc97afa40c1d60fc061f4da7f04931e8e91fb1720701099bd49c44315cad4",
     "mismatching_chunk_indices": [
       0,
       1,
@@ -71,7 +71,7 @@
       36
     ],
     "mismatching_chunks": 34,
-    "prior_differing_bytes": 1857419,
+    "prior_differing_bytes": 1874869,
     "semantic_bytes": 944,
     "semantic_sections": 5,
     "source_bytes": 9428,

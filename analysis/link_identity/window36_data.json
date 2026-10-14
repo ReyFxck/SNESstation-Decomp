@@ -71,11 +71,11 @@
       "symbol": "_Z11DSP1GetBytet"
     }
   ],
-  "prior_manifest_sha256": "03698232ac47d9bce1746867481510375e4bea8f15b17f2afc9fe3ab2038816d",
+  "prior_manifest_sha256": "8a1ce1b815f1653f28f32c15b25194271a411e1cd9efaa05853f208819af10fa",
   "result": {
     "absorbed_fixed_sections": 43,
     "chunk_count": 51,
-    "differing_bytes": 1845637,
+    "differing_bytes": 1863087,
     "exact_chunk_indices": [
       12,
       13,
@@ -98,7 +98,7 @@
     ],
     "exact_chunks": 18,
     "first_differing_address": 1048852,
-    "integrated_padded_sha256": "1a2a611910c3f5588a30f9259b3143e60a9bffa1e3804a5de58aac2525721d89",
+    "integrated_padded_sha256": "cf77c0849542d7549c112de7c326c440b80ee42543768bfce448d10aefda938e",
     "internal_functions": 2,
     "mismatching_chunk_indices": [
       0,
@@ -136,7 +136,7 @@
       35
     ],
     "mismatching_chunks": 33,
-    "prior_differing_bytes": 1854246,
+    "prior_differing_bytes": 1871696,
     "semantic_bytes": 1572,
     "semantic_fdes": 27,
     "semantic_relocations": 29,

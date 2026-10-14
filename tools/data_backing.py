@@ -37,6 +37,7 @@ from source_aliases import alloc_section_fingerprints, resolve_tool, run, siblin
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "analysis/link_identity/data_backing.tsv"
 DEFAULT_SECTIONS = ROOT / "analysis/link_identity/data_backing_sections.tsv"
+DEFAULT_SPECIAL_OWNERSHIP = ROOT / "analysis/source_tree/special_ownership.tsv"
 DEFAULT_BUILD = ROOT / "build/data-backing"
 BACKED = "SECTION_BACKED_ADDRESS"
 UNBACKED = "NO_PROVED_BACKING"
@@ -49,6 +50,9 @@ FIELDS = ("symbol", "target_address", "status", "section", "section_offset_hex",
           "access_extent_hex", "coverage_kind", "requesters", "claim")
 SECTION_FIELDS = ("section", "target_address", "extent_hex", "origin", "region",
                   "alignment_hex", "sha256", "evidence_sha256")
+SPECIAL_OWNERSHIP_FIELDS = (
+    "kind", "identity", "source_owner", "object_owner", "stage2_state", "next_gate",
+)
 SECTION_RE = re.compile(r"\.(?:data|bss)\.[A-Za-z0-9_.]+")
 SYMBOL_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 POINTER_SECTION = ".data.stage3f.address_probe"
@@ -67,6 +71,18 @@ def fail(message: str) -> None:
 
 def digest(payload: bytes) -> str:
     return hashlib.sha256(payload).hexdigest()
+
+
+def retired_target_data(path: Path) -> set[str]:
+    rows = libgcc.read_table(path, SPECIAL_OWNERSHIP_FIELDS)
+    retired = {
+        row["identity"]
+        for row in rows
+        if row["kind"] == "retired-target-data"
+    }
+    if not retired:
+        fail("special ownership has no retired target-data contracts")
+    return retired
 
 
 def evidence_hash(rows: Sequence[dict]) -> str:
@@ -293,8 +309,13 @@ def validate(args: argparse.Namespace) -> tuple[list[dict[str, str]], list[dict[
     if len(frozen) != len(sections):
         fail("data-backing section roster drift")
     for expected, found in zip(sections, frozen):
-        if any(found[key] != expected[key] for key in SECTION_FIELDS if key != "sha256"):
-            fail("data-backing section geometry or evidence drift")
+        drift = {
+            key: (found[key], expected[key])
+            for key in SECTION_FIELDS
+            if key != "sha256" and found[key] != expected[key]
+        }
+        if drift:
+            fail(f"data-backing section geometry or evidence drift: {expected['section']}: {drift}")
         if not libgcc.SHA_RE.fullmatch(found["sha256"]):
             fail("backing section lacks SHA-256")
     return actual, frozen
@@ -644,8 +665,18 @@ def link(args: argparse.Namespace, rows: Sequence[dict[str, str]], sections: Seq
         fail("pre-existing allocated sections changed or unexpected sections added")
     names = {r["symbol"] for r in rows if r["status"] == BACKED}
     roster = reference_roster(before, names)
-    if roster != reference_roster(after, names) or {r[3] for r in roster} != names:
-        fail("source relocation roster changed or backed alias has no requester")
+    after_roster = reference_roster(after, names)
+    requested = {row[3] for row in roster}
+    unrequested = names - requested
+    retired = retired_target_data(args.special_ownership)
+    if roster != after_roster:
+        fail("source relocation roster changed")
+    if unrequested != retired:
+        fail(
+            "backed aliases without live requesters differ from retired target-data; "
+            f"unexpected={sorted(unrequested-retired)[:5]} "
+            f"missing={sorted(retired-unrequested)[:5]}"
+        )
     data_only = args.build_dir / "proved_backing_only.o"
     command = [str(objcopy)]
     for row in sections:
@@ -671,6 +702,7 @@ def link(args: argparse.Namespace, rows: Sequence[dict[str, str]], sections: Seq
             "input_sha256": digest(args.input.read_bytes()), "output_sha256": digest(args.output.read_bytes()),
             "existing_allocated_sections_unchanged": True, "global_symbol_roster_unchanged": True,
             "unbacked_anchors_unchanged": True, "source_relocations_preserved": len(roster),
+            "retired_unreferenced_backed_aliases": len(retired),
             "historical_backing_from_fresh_source": True,
             "historical_source_rebuilt_bytes": sum(int(r["extent_hex"], 0) for r in new if r["origin"] == HISTORICAL),
             "recovered_source_rebuilt_bytes": sum(int(r["extent_hex"], 0) for r in new if r["origin"] == RECOVERED),
@@ -687,6 +719,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--sections", type=Path, default=DEFAULT_SECTIONS)
     parser.add_argument("--access-manifest", type=Path, default=accesses.DEFAULT_MANIFEST)
+    parser.add_argument("--special-ownership", type=Path, default=DEFAULT_SPECIAL_OWNERSHIP)
     parser.add_argument("--reference", type=Path, default=libgcc.DEFAULT_REFERENCE)
     parser.add_argument("--compiler", default="ee-gcc")
     parser.add_argument("--historical-compiler", type=Path, default=historical_data.DEFAULT_COMPILER)

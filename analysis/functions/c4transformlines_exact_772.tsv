@@ -1,0 +1,2 @@
+symbol	address	size_hex	raw_text_sha256	relocations	evidence
+C4TransformLines	0x0010cfa4	0x304	ecd50e64600de46c56c6b1f0de28cb97ba401dcd5c6125c2dcd154c543462690	0	analysis/matching/hunt1041-v81-validated-final20.tsv

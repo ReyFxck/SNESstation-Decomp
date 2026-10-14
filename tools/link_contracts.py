@@ -31,6 +31,7 @@ from source_aliases import (
     alloc_section_fingerprints,
     global_symbols,
     read_table,
+    retired_data_names,
     resolve_tool,
     run,
     sha256_file,
@@ -108,6 +109,7 @@ RESOLVED = "RESOLVED"
 BLOCKED = "BLOCKED"
 ABSOLUTE_ANCHOR = "absolute-address-anchor"
 SEMANTIC_ALIAS = "semantic-text-alias"
+REVIEW_ABSOLUTE = "@absolute"
 SEMANTIC_PROVIDERS = {"historical-archive", "link-contract", "source-or-archive", "recovered-runtime"}
 
 
@@ -275,7 +277,7 @@ def derive_rows(
     global_text_by_name: dict[str, dict[str, str]] = {}
     global_text_by_suffix: dict[int, list[dict[str, str]]] = defaultdict(list)
     for row in defined_rows:
-        if row["binding"] != "global" or row["section_class"] != "text":
+        if row["binding"] != "global" or row["section_class"] not in {"text", "weak-text"}:
             continue
         symbol = row["symbol"]
         if symbol in global_text_by_name:
@@ -326,9 +328,10 @@ def derive_rows(
         external = remaining[symbol]
         if external["provider_kind"] not in SEMANTIC_PROVIDERS:
             fail(f"reviewed semantic contract has incompatible provider: {symbol}")
-        canonical = global_text_by_name.get(row["canonical_symbol"])
-        if canonical is None:
-            fail(f"reviewed canonical symbol is not global text: {row['canonical_symbol']}")
+        if row["canonical_symbol"] != REVIEW_ABSOLUTE:
+            canonical = global_text_by_name.get(row["canonical_symbol"])
+            if canonical is None:
+                fail(f"reviewed canonical symbol is not global text: {row['canonical_symbol']}")
         address = parse_address(row["target_address"], context=symbol)
         if not layout_base <= address < layout_end:
             fail(f"reviewed target is outside the unpacked layout: {symbol}")
@@ -362,14 +365,18 @@ def derive_rows(
             detail = "absolute value only; no storage, section bytes, size, or alignment emitted"
         elif symbol in reviews:
             review = reviews[symbol]
-            canonical = global_text_by_name[review["canonical_symbol"]]
             target_address = f"0x{parse_address(review['target_address'], context=symbol):08x}"
             status = RESOLVED
-            resolution_kind = SEMANTIC_ALIAS
-            canonical_symbol = canonical["symbol"]
-            canonical_source = canonical["source"]
-            canonical_object = canonical["object"]
-            evidence = "reviewed-semantic-contract"
+            if review["canonical_symbol"] == REVIEW_ABSOLUTE:
+                resolution_kind = ABSOLUTE_ANCHOR
+                evidence = "reviewed-absolute-contract"
+            else:
+                canonical = global_text_by_name[review["canonical_symbol"]]
+                resolution_kind = SEMANTIC_ALIAS
+                canonical_symbol = canonical["symbol"]
+                canonical_source = canonical["source"]
+                canonical_object = canonical["object"]
+                evidence = "reviewed-semantic-contract"
             detail = (
                 f"{review['detail']};evidence={review['evidence_path']}"
                 f"#{review['evidence_token']}"
@@ -493,8 +500,16 @@ def verify_link_result(
     input_symbols: Sequence[NmSymbol],
     output_symbols: Sequence[NmSymbol],
     rows: Sequence[dict[str, str]],
+    retired_names: set[str] | None = None,
 ) -> tuple[int, int]:
-    expected_input = {row["symbol"] for row in rows}
+    retired_names = retired_names or set()
+    row_names = {row["symbol"] for row in rows}
+    if (not retired_names <= row_names
+            or any(row["symbol"] in retired_names
+                   and (row["status"] != RESOLVED or row["resolution_kind"] != ABSOLUTE_ANCHOR)
+                   for row in rows)):
+        fail("retired data contracts must remain resolved absolute addresses")
+    expected_input = row_names - retired_names
     input_undefined = {symbol.name for symbol in input_symbols if symbol.undefined}
     if input_undefined != expected_input:
         missing = sorted(expected_input - input_undefined)[:5]
@@ -531,7 +546,9 @@ def verify_link_result(
             canonical = output_defined.get(row["canonical_symbol"])
             if canonical is None:
                 fail(f"semantic canonical symbol is absent: {row['canonical_symbol']}")
-            if symbol.value != canonical.value or symbol.type_code.upper() != canonical.type_code.upper():
+            text_types = {"T", "W"}
+            if (symbol.value != canonical.value or symbol.type_code.upper() not in text_types
+                    or canonical.type_code.upper() not in text_types):
                 fail(f"semantic alias differs from canonical: {row['symbol']} != {row['canonical_symbol']}")
         else:
             fail(f"unknown resolved contract kind: {row['resolution_kind']}")
@@ -560,7 +577,10 @@ def link_contracts(args: argparse.Namespace, rows: Sequence[dict[str, str]]) -> 
     run(command)
 
     output_symbols = global_symbols(nm, args.output)
-    input_count, output_count = verify_link_result(input_symbols, output_symbols, rows)
+    input_count, output_count = verify_link_result(
+        input_symbols, output_symbols, rows,
+        retired_data_names() & {row["symbol"] for row in rows},
+    )
     input_sections = alloc_section_fingerprints(args.input)
     output_sections = alloc_section_fingerprints(args.output)
     if output_sections != input_sections:

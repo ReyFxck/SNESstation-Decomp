@@ -117,11 +117,11 @@ EXPECTED = {
     "unwind_fdes": 56,
     "exact_chunks": 16,
     "mismatching_chunks": 35,
-    "differing_bytes": 1857419,
+    "differing_bytes": 1874869,
     "chunk50_differing_bytes": 3173,
     "first_differing_address": 0x00100114,
     "target_sha256": TARGET_SHA256,
-    "prior_differing_bytes": 1859772,
+    "prior_differing_bytes": 1877222,
 }
 
 

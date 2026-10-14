@@ -58,6 +58,10 @@ class StartupIntegrationTests(unittest.TestCase):
         self.assertIn("ENTRY(_start)", script)
         self.assertIn(".startup 0x00100000", script)
         self.assertIn(".text 0x00100114", script)
+        self.assertIn(
+            ".text.stage3g.source_models 0x00500000 (NOLOAD) : { *(.text.*) }",
+            script,
+        )
         for row in self.sections:
             if row["section"] in gate.ABSORBED_ZERO_FILL:
                 self.assertIn(f"*({row['section']})", script)
@@ -71,6 +75,12 @@ class StartupIntegrationTests(unittest.TestCase):
         self.assertEqual(4, result["absorbed_zero_fill_sections"])
         self.assertEqual(175, result["preserved_fixed_sections"])
         self.assertEqual(179, result["fixed_sections_accounted"])
+
+    def test_function_sections_are_retained_as_non_image_models(self):
+        result, claims = self.document["result"], self.document["claims"]
+        self.assertEqual(gate.SOURCE_MODEL_TEXT_BASE, result["source_model_text_base"])
+        self.assertEqual(406744, result["source_model_text_size"])
+        self.assertTrue(claims["function_section_models_kept_without_image_bytes"])
 
     def test_whole_image_accounting_remains_explicitly_incomplete(self):
         result, claims = self.document["result"], self.document["claims"]

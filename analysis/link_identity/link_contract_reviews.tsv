@@ -1,5 +1,10 @@
 symbol	canonical_symbol	target_address	evidence_path	evidence_token	detail
+fioSeek_like_0019d360	fioLseek	0x0019d360	analysis/progress_targets.csv	Old fileIO RPC fno 4	the source-model seek spelling maps to the recovered historical fioLseek entry
 FlushCache_0019ceb0	FlushCache	0x0019ceb0	analysis/progress_targets.csv	Leaf syscall wrapper	the address-qualified call contract is the recovered target FlushCache entry
-SifWriteBackDCache_0019cf10	SifWriteBackDCache	0x0019cf10	analysis/progress_targets.csv	64-byte cache-line writeback	the address-qualified call contract is the recovered target cache writeback entry
-fioSeek_like_0019d360	fioLseek_0019d360	0x0019d360	analysis/progress_targets.csv	Old fileIO RPC fno 4	the source-model seek spelling maps to the target's old fioLseek RPC entry
 puts	puts_like_recovered	0x0019e414	analysis/progress_targets.csv	not standard puts	the target's puts call contract intentionally writes without appending a newline
+SifWriteBackDCache_0019cf10	SifWriteBackDCache	0x0019cf10	analysis/progress_targets.csv	64-byte cache-line writeback	the address-qualified call contract is the recovered target cache writeback entry
+snes_p12_fio_close	fioClose	0x0019d090	analysis/progress_targets.csv	Old fileIO RPC fno 1	the Progress-12 source-model close call maps to the exact recovered historical fioClose entry
+snes_p12_fio_open	fioOpen	0x0019cfc0	analysis/progress_targets.csv	Old fileIO RPC fno 0	the Progress-12 source-model open call maps to the exact recovered historical fioOpen entry
+snes_p12_fio_read	fioRead	0x0019d120	analysis/progress_targets.csv	Old fileIO RPC fno 2	the Progress-12 source-model read call maps to the exact recovered historical fioRead entry
+snes_p12_fio_write	fioWrite	0x0019d244	analysis/progress_targets.csv	Old fileIO RPC fno 3	the Progress-12 source-model write call maps to the exact recovered historical fioWrite entry
+qsort	snes_qsort_001080cc	0x001080cc	analysis/matching/hunt1000plus-v47-validated-79.tsv	newlib-1.10-os-size_t-int	native clip declares the proved signed 32-bit count and stride ABI; complete linked clipping bytes include the original qsort call

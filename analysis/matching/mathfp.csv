@@ -5,4 +5,4 @@ address,end,name,object_symbol,source
 0x001a045c,0x001a0694,atanf,atanf_candidate,matching/candidates/mathfp.c
 0x001a06a0,0x001a06a8,sqrtf,sqrtf_candidate,matching/candidates/mathfp.c
 0x001a06b0,0x001a06b8,fabsf,fabsf_candidate,matching/candidates/mathfp.c
-0x001a06c0,0x001a0740,numtestf,numtestf_candidate,matching/candidates/mathfp_numtest.S
+0x001a06c0,0x001a0740,numtestf,numtestf_candidate,src/ps2/numtestf.S

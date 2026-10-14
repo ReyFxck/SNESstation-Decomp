@@ -120,7 +120,7 @@ CANDIDATES = (
     Candidate(0x00195B3C, "snes_p16_00195b3c", "pgen-inffast", "inflate_fast", 1092, 0, 4, "pgen-403f1710", "historical-symbol-slice-strict"),
     Candidate(0x00195B40, "inflate_fast", "pgen-inffast", "inflate_fast", 1092, 4, 1088, "pgen-403f1710", "historical-symbol-slice-strict"),
 
-    Candidate(0x0019D558, "fioGets", "fileio-os", "fioGets_0019d558", 168, 0, 168, "snesstation-v0.23-recovered", "recovered-source-strict; historical-identity=fioGets"),
+    Candidate(0x0019D558, "fioGets", "fileio-os", "fioGets", 168, 0, 168, "ps2sdk-a80df908+target-delta", "historical-source-strict; historical-identity=fioGets"),
     Candidate(0x001A086C, "mcStoreDir", "ps2lib-libmc", "mcStoreDir", 128, 0, 128, "ps2sdk-694100b", "historical-symbol-strict; corrected-entry=0x001a086c"),
     Candidate(0x001837CC, "snes_p17_001837cc", "snes-srtc", "_Z17S9xUpdateSrtcTimev", 728, 0, 728, "snes9x-1.41-1-official", "historical-symbol-strict; target-time=int32-at-0x14; wall-clock=zero"),
     Candidate(0x00183AA4, "snes_p16_00183aa4", "snes-srtc", "_Z10S9xSetSRTCht", 312, 0, 312, "snes9x-1.41-1-official", "historical-symbol-strict; target-time=int32-at-0x14; wall-clock=zero"),
@@ -324,7 +324,9 @@ def build_objects(compiler: Path, cxx: Path) -> dict[str, ObjectBuild]:
     dependency_id = dependency_identity()
     app = ROOT / "matching" / "candidates" / "hunt1041_v48.c"
     path_helpers = ROOT / "src" / "ps2" / "path_helpers_recovered.c"
-    fileio = ROOT / "src" / "ps2" / "fileio_recovered.c"
+    # The exact historical FILEIO translation unit superseded the earlier
+    # hand-recovered model while preserving the proved fioGets symbol.
+    fileio = ROOT / "src" / "ps2" / "fileio.c"
 
     objects = {
         "app-o2": recovered_object(compiler, compiler_id, dependency_id, app, "o2"),

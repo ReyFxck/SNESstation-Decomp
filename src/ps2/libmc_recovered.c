@@ -143,9 +143,9 @@ static int g_mclib_inited;
 static unsigned int g_current_cmd;
 static int g_mc_type;
 
-extern void SifInitRpc_0019cc0c(int mode);
-extern int SifBindRpc_0019c688(void *client, int sid, int mode);
-extern int SifCallRpc_0019c7b0(void *client, int fno, int mode,
+extern void SifInitRpc(int mode);
+extern int SifBindRpc(void *client, int sid, int mode);
+extern int SifCallRpc(void *client, int fno, int mode,
                                void *send, int ssize,
                                void *recv, int rsize,
                                void (*end_func)(void *), void *end_param);
@@ -174,7 +174,7 @@ static int mc_begin(void)
 
 static int mc_call_name(int rpc_cmd, int sync_cmd, void (*cb)(void *), void *cb_arg)
 {
-    int ret = SifCallRpc_0019c7b0(&g_cdata, mc_rpc_cmd[g_mc_type][rpc_cmd], 1,
+    int ret = SifCallRpc(&g_cdata, mc_rpc_cmd[g_mc_type][rpc_cmd], 1,
                                   &g_name_param, (int)sizeof(g_name_param),
                                   g_rdata, 4, cb, cb_arg);
     if (ret != 0)
@@ -185,7 +185,7 @@ static int mc_call_name(int rpc_cmd, int sync_cmd, void (*cb)(void *), void *cb_
 
 static int mc_call_desc(int rpc_cmd, int sync_cmd, void (*cb)(void *), void *cb_arg)
 {
-    int ret = SifCallRpc_0019c7b0(&g_cdata, mc_rpc_cmd[g_mc_type][rpc_cmd], 1,
+    int ret = SifCallRpc(&g_cdata, mc_rpc_cmd[g_mc_type][rpc_cmd], 1,
                                   &g_desc_param, (int)sizeof(g_desc_param),
                                   g_rdata, 4, cb, cb_arg);
     if (ret != 0)
@@ -250,17 +250,17 @@ int mcInit_001a08ec(int type)
     if (g_mclib_inited)
         return -1;
 
-    SifInitRpc_0019cc0c(0);
+    SifInitRpc(0);
     g_mc_type = type;
 
     do {
-        ret = SifBindRpc_0019c688(&g_cdata, (int)0x80000400u, 0);
+        ret = SifBindRpc(&g_cdata, (int)0x80000400u, 0);
         if (ret < 0)
             return ret;
     } while (g_cdata.server == 0);
 
     if (g_mc_type == MC_TYPE_XMC) {
-        ret = SifCallRpc_0019c7b0(&g_cdata, mc_rpc_cmd[g_mc_type][MC_RPCCMD_INIT], 0,
+        ret = SifCallRpc(&g_cdata, mc_rpc_cmd[g_mc_type][MC_RPCCMD_INIT], 0,
                                   &g_desc_param, (int)sizeof(g_desc_param),
                                   g_rdata, 12, NULL, NULL);
         if (ret < 0) {

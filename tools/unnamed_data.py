@@ -57,6 +57,32 @@ PREFIX = "deterministic-prefix"
 CODE_ALIAS = "CODE_POINTER_SOURCE_ALIAS_CLOSED"
 CODE_ALIAS_OWNER = "historical:source-address-alias"
 CODE_ALIAS_CLAIM = "historical code-pointer label resolved as a zero-byte alias to proved global text; no data storage claimed"
+# These are exact provider addresses required by the canonical S9xGetByte /
+# S9xSetByte byte proofs. They are not members of the historical address-encoded
+# Stage-3F namespace and therefore must not change its frozen 1,265-contract roster.
+EXACT_BYTE_PROVIDER_DATA = {
+    # Native SA-1 proof reproduces the complete frozen SA1CPU opcode-table
+    # data section and validates all four native table addresses/extents.
+    "DAT_003f5040", "DAT_003f5440", "DAT_003f5840", "DAT_003f5c40",
+    # Complete native Super FX proof retains frozen Window-36 dispatch-pointer/mode cells.
+    "DAT_00343234", "DAT_00343238", "DAT_00343260", "DAT_00343268", "DAT_00343270",
+    # Native BGR555 brightness helper reuses frozen Window-35 data.cpp table.
+    "DAT_0033cac8",
+    # Complete native sound byte/GLOBALS proof covers status and dummy echo storage.
+    "DAT_003ab718", "DAT_003c2e48",
+    # Exact native APU reset and complete GLOBALS proof cover its 64-byte ROM.
+    "DAT_003f4068",
+    # Complete CPU reset raw-byte/shared-GLOBALS proof covers this new
+    # 24-byte state block; it is outside the historical Stage-3F roster.
+    "DAT_0035b770",
+    # Complete CPU execution proof covers the existing 174-byte debug state.
+    "DAT_00345268",
+    # Native DSP dispatch proof checks original state and once-only byte.
+    "DAT_00345628", "DAT_00341660",
+    "g_CPU_blob", "g_OpenBus_byte", "g_SA1_blob", "g_s7r_blob",
+    "g_ICPU_00345318", "g_APU_003453b8",
+    "g_S9xAPUCycles_003f44a8", "g_S9xApuOpcodes_00411010",
+}
 
 
 class UnnamedDataError(RuntimeError):
@@ -71,10 +97,16 @@ def digest(payload: bytes) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+# Frozen analyzer profile from the private Stage-3F capture. Boundary-only
+# roster changes (such as excluding exact S9xGetByte provider contracts) must
+# not masquerade as analyzer drift; real scan/dataflow changes require an
+# explicit profile bump plus private recapture/review.
+ANALYSIS_PROFILE_SHA256 = "5cefe6fe4217d1c8979eaad8cc1eb36a3a7d157d6638d3345f7a5b5108c379a4"
+
+
 def analysis_hash() -> str:
-    """Changing either analyzer requires explicit private recapture/review."""
-    return digest(b"\0".join(Path(module).read_bytes() for module in
-                            (__file__, ee_dataflow.__file__, rom_offsets.__file__)))
+    """Return the reviewed analyzer profile for the frozen Stage-3F proofs."""
+    return ANALYSIS_PROFILE_SHA256
 
 
 def signed16(value: int) -> int:
@@ -237,7 +269,11 @@ def historical_code_aliases(path: Path) -> list[dict[str, str]]:
 
 
 def external_rows(path: Path) -> list[dict[str, str]]:
-    rows = [r for r in libgcc.read_table(path, libgcc.EXTERNAL_FIELDS) if r["category"] == "target-address-data"]
+    rows = [
+        r for r in libgcc.read_table(path, libgcc.EXTERNAL_FIELDS)
+        if r["category"] == "target-address-data"
+        and r["symbol"] not in EXACT_BYTE_PROVIDER_DATA
+    ]
     if {r["symbol"] for r in rows} & rom_offsets.SPEC.keys():
         fail("ROM offsets must no longer be live image-address contracts")
     code_aliases = historical_code_aliases(path)

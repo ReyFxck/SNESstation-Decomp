@@ -1,4 +1,5 @@
 name: Repository checks
+# Validate the frozen recovery state, including generated-ledger bot commits.
 
 on:
   push:

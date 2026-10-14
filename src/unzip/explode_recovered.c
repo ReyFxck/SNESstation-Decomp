@@ -1,7 +1,7 @@
 /*
  * SNES Station v0.23 WIP — legacy ZIP method 6 (Implode/Explode).
  *
- * Recovered from the target around 0x0018c124..0x0018e4c0.
+ * Recovered from the target around 0x0018c1f8..0x0018e4c0; exact get_tree is a separate TU.
  * Function names are assigned only after the target control flow, constants,
  * nibble-coded tree format, and four-way 4K/8K + literal/no-literal dispatch
  * were independently identified and then cross-checked against period
@@ -37,13 +37,13 @@ static const uint16_t mask_bits_recovered[17] = {
 };
 
 static unsigned g_hufts_recovered;
-static uint16_t g_bytebuf_recovered;
+uint16_t g_bytebuf_recovered;
 uint64_t g_legacy_zip_bitbuf;
 int g_legacy_zip_bits_left;
 uint8_t g_legacy_zip_zipeof;
 
-extern int fioRead_0019d120(int file, void *dst, int size);
-extern int fioLseek_0019d360(int file, int offset, int whence);
+extern int fioRead(int file, void *dst, int size);
+extern int fioLseek(int file, int offset, int whence);
 extern uint64_t crc32_recovered(uint64_t crc, const uint8_t *data,
                                 uint32_t size);
 
@@ -62,12 +62,12 @@ int ReadByte_recovered(uint16_t *out)
             want = (uint32_t)state->rest_read_compressed;
         if (want == 0)
             return 0;
-        if (fioLseek_0019d360(
+        if (fioLseek(
                 state->file,
                 (int)(state->pos_in_zipfile + state->byte_before_zipfile),
                 0) != 0)
             return -1;
-        got = fioRead_0019d120(state->file, legacy_zip_read_buffer(state),
+        got = fioRead(state->file, legacy_zip_read_buffer(state),
                                (int)want);
         if (got != (int)want)
             return -1;
@@ -131,29 +131,7 @@ static int need_local_bits(uint32_t *b, unsigned *k, unsigned n)
     return 1;
 }
 
-/* Target VA 0x0018c124. */
-int get_tree_recovered(unsigned *lengths, unsigned expected)
-{
-    unsigned pairs, written = 0;
-    uint16_t byte;
-
-    if (ReadByte_recovered(&byte) != 8)
-        return 4;
-    pairs = (unsigned)byte + 1;
-
-    while (pairs-- != 0) {
-        unsigned bit_length, repeat;
-        if (ReadByte_recovered(&byte) != 8)
-            return 4;
-        bit_length = ((unsigned)byte & 0x0fu) + 1u;
-        repeat = (((unsigned)byte >> 4) & 0x0fu) + 1u;
-        if (written + repeat > expected)
-            return 4;
-        while (repeat-- != 0)
-            lengths[written++] = bit_length;
-    }
-    return written == expected ? 0 : 4;
-}
+extern int get_tree_recovered(unsigned *lengths, unsigned expected);
 
 /* Target VA 0x0018e2e0. */
 int huft_free_recovered(struct huft_recovered *t)

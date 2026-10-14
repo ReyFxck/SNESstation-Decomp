@@ -313,14 +313,14 @@ EXPECTED = {
     "chunk_count": 51,
     "exact_chunks": 16,
     "mismatching_chunks": 35,
-    "equal_bytes": 1_445_164,
-    "differing_bytes": 1_859_772,
+    "equal_bytes": 1_427_714,
+    "differing_bytes": 1_877_222,
     "first_differing_address": 0x00100114,
-    "integrated_unpadded_sha256": "4270e812ae4a32b9085e33a63cd407fd7a6551697313ac5bb1f9180dd7be4f45",
-    "integrated_padded_sha256": "f1b99419c6a4c433b6e3564646aa2a210e6ed64d270f6fb4461c0b241546f0d4",
+    "integrated_unpadded_sha256": "b04837b6cdc5360154d24e463f7afaacd647ace81f6a987a2b88a5936941e34b",
+    "integrated_padded_sha256": "bd75d15c5c6f13990f23c83c90e08768d10efa1992b7a27c079dc99dd30b7ffb",
     "target_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
     "prior_exact_chunks": 13,
-    "prior_differing_bytes": 1_883_635,
+    "prior_differing_bytes": 1_901_085,
 }
 
 
@@ -725,6 +725,8 @@ def render_linker_script(
         "  .rodata : { *(.rodata) }",
         "  .data : { *(.data) }",
         "  .bss (NOLOAD) : { *(.bss) *(.bss.stage3.compatibility) }",
+        f"  .text.stage3g.source_models 0x{startup.SOURCE_MODEL_TEXT_BASE:08x} "
+        "(NOLOAD) : { *(.text.*) }",
     ])
     placements = []
     for row in sections:

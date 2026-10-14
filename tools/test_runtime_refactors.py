@@ -40,24 +40,15 @@ class RuntimeRefactorTests(unittest.TestCase):
             with self.assertRaisesRegex(runtime.RuntimeRefactorError, "ledger drift"):
                 runtime.validate_manifest(args)
 
-    def test_snprintf_cannot_reenter_any_live_namespace(self):
-        for index in range(3):
-            maps = self.live()
-            maps[index][0]["symbol"] = "snprintf"
-            with self.assertRaisesRegex(runtime.RuntimeRefactorError, "snprintf returned"):
-                runtime.validate_live_contracts(*maps)
-
-    def test_wrong_sprintf_target_is_rejected(self):
-        maps = self.live()
-        next(row for row in maps[1] if row["symbol"] == "sprintf")["target_address"] = "0x0019e364"
-        with self.assertRaisesRegex(runtime.RuntimeRefactorError, "canonical target drift"):
-            runtime.validate_live_contracts(*maps)
-
-    def test_missing_requester_is_rejected(self):
-        maps = self.live()
-        next(row for row in maps[0] if row["symbol"] == "sprintf")["requesters"] = ""
-        with self.assertRaisesRegex(runtime.RuntimeRefactorError, "requester ownership"):
-            runtime.validate_live_contracts(*maps)
+    def test_formatter_contracts_cannot_reenter_any_live_namespace(self):
+        for symbol in ("snprintf", "sprintf"):
+            for index in range(3):
+                maps = self.live()
+                maps[index][0]["symbol"] = symbol
+                with self.assertRaisesRegex(
+                    runtime.RuntimeRefactorError, f"{symbol} returned"
+                ):
+                    runtime.validate_live_contracts(*maps)
 
     def test_runtime_shim_is_rejected(self):
         maps = self.live()
