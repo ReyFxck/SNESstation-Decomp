@@ -56,8 +56,14 @@ DEFAULT_CFLAGS = (
 # source byte-identical and select only the members owned by this canonical TU
 # at compile time instead of adding recovery-only #defines to the source.
 SOURCE_FIXED_FLAGS = {
+    'src/ps2/native_frontend_wait.c': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-ffreestanding', '-fno-builtin', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DALIGN_DWORD', '-DCODE_PLATFORM=3', '-Iinclude', '-Iinclude/ee_stage1_compat', '-ffunction-sections'),
+    'src/ps2/native_frontend_leaves.c': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-ffreestanding', '-fno-builtin', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DALIGN_DWORD', '-DCODE_PLATFORM=3', '-Iinclude', '-Iinclude/ee_stage1_compat', '-ffunction-sections'),
+    'src/snes9x/native_parse_cheats.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_dsp_atan.c': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-O2', '-falign-functions=4', '-ffunction-sections', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DALIGN_DWORD', '-DCODE_PLATFORM=3'),
     'src/snes9x/native_dsp2_get.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_dsp2_set.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET'),
+    'src/snes9x/native_fx_pipe_string.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
+    'src/snes9x/native_memory_safe.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/ps2/native_sound_callback.c': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-fshort-double', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_c4_wave.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-fno-builtin', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
     'src/snes9x/native_c4_raster.cpp': ('-G0', '-EL', '-pipe', '-w', '-fomit-frame-pointer', '-fstrict-aliasing', '-fno-common', '-mlong64', '-mhard-float', '-mno-abicalls', '-march=r5900', '-mtune=r5900', '-Os', '-fno-builtin', '-DPS2_EE', '-D_EE', '-DLSB_FIRST', '-DVAR_CYCLES', '-DCPU_SHUTDOWN', '-DSPC700_SHUTDOWN', '-DEXECUTE_SUPERFX_PER_LINE', '-DSPC700_C', '-DUNZIP_SUPPORT', '-DNO_INLINE_SET_GET', '-ffunction-sections'),
@@ -598,7 +604,7 @@ def read_manifest(path: Path) -> list[TranslationUnit]:
                 f"source/language mismatch for {unit.source}: "
                 f"{unit.language} != {expected_language}"
             )
-        if unit.link_role not in {"canonical", "alternate"}:
+        if unit.link_role not in {"canonical", "alternate", "direct"}:
             fail(f"invalid link role for {unit.source}: {unit.link_role}")
         if not (ROOT / unit.source).is_file():
             fail(f"manifest source is missing: {unit.source}")
@@ -621,8 +627,10 @@ def read_manifest(path: Path) -> list[TranslationUnit]:
     for unit in units:
         if unit.canonical and unit.replaces:
             fail(f"canonical unit unexpectedly replaces another: {unit.source}")
-        if not unit.canonical and unit.replaces not in canonical_sources:
+        if unit.link_role == "alternate" and unit.replaces not in canonical_sources:
             fail(f"alternate {unit.source} has invalid canonical replacement {unit.replaces!r}")
+        if unit.link_role == "direct" and unit.replaces:
+            fail(f"direct-only unit unexpectedly replaces another: {unit.source}")
     if not units:
         fail("translation-unit manifest is empty")
     return units
@@ -997,7 +1005,7 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     # ownership decision rather than silently expanding the link set.
     alternates: list[dict[str, object]] = []
     for unit in units:
-        if unit.canonical:
+        if unit.link_role != "alternate":
             continue
         alternate_globals = {
             symbol.name for symbol in unit_symbols[unit.source]
@@ -1156,7 +1164,8 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         "fingerprints_sha256": sha256_file(args.fingerprints),
         "translation_units": len(units),
         "canonical_objects": len(canonical_objects),
-        "alternate_objects": len(units) - len(canonical_objects),
+        "alternate_objects": sum(unit.link_role == "alternate" for unit in units),
+        "direct_objects": sum(unit.link_role == "direct" for unit in units),
         "defined_symbols": len(defined_rows),
         "defined_global_symbols": sum(row["binding"] == "global" for row in defined_rows),
         "unresolved_external_symbols": len(external_rows),
@@ -1182,7 +1191,8 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         ),
         f"- Translation units compiled: **{len(units)}/{len(units)}**",
         f"- Canonical objects in relocatable aggregate: **{len(canonical_objects)}**",
-        f"- Explicit alternate objects: **{len(units) - len(canonical_objects)}**",
+        f"- Explicit alternate objects: **{metadata['alternate_objects']}**",
+        f"- Direct final-link provider objects: **{metadata['direct_objects']}**",
         f"- Owned defined symbols (global + local): **{len(defined_rows)}**",
         f"- Unique canonical global definitions: **{metadata['defined_global_symbols']}**",
         f"- Common or duplicate canonical definitions: **0**",
@@ -1249,6 +1259,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         f"translation_units={metadata['translation_units']} "
         f"canonical_objects={metadata['canonical_objects']} "
         f"alternate_objects={metadata['alternate_objects']} "
+        f"direct_objects={metadata['direct_objects']} "
         f"defined_symbols={metadata['defined_symbols']} "
         f"external_contracts={metadata['unresolved_external_symbols']}"
     )

@@ -18,12 +18,12 @@
     "code_windows": 11,
     "differences_removed": 635736,
     "differing_bytes": 0,
-    "direct_candidate_object_inputs": 138,
+    "direct_candidate_object_inputs": 173,
     "direct_object_bytes": 720620,
-    "direct_object_inputs": 145,
-    "direct_object_sections": 388,
-    "evidence_candidate_object_bytes": 10408,
-    "evidence_listing_bytes": 26300,
+    "direct_object_inputs": 177,
+    "direct_object_sections": 426,
+    "evidence_candidate_object_bytes": 10352,
+    "evidence_listing_bytes": 26100,
     "exact_chunk_indices": [
       0,
       1,
@@ -79,19 +79,19 @@
     ],
     "exact_chunks": 51,
     "first_differing_address": null,
-    "historical_recovered_bytes": 525460,
+    "historical_recovered_bytes": 562840,
     "incbin_payload_bytes": 0,
     "incbin_payload_sections": 0,
     "integrated_padded_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
-    "listing_bytes": 73192,
+    "listing_bytes": 72152,
     "mismatching_chunk_indices": [],
     "mismatching_chunks": 0,
     "prior_differing_bytes": 635736,
     "prior_exact_assembly_bytes": 85628,
-    "relocation_fields": 39226,
-    "residual_bytes": 36340,
-    "selected_source_contract_sha256": "5c767308073b3157a08ffffe635373f81d2c5132fbc1d68046a462c9b92fbb8b",
-    "selected_source_slices": 568,
+    "relocation_fields": 40351,
+    "residual_bytes": 0,
+    "selected_source_contract_sha256": "bbe482783a2fe7fcf812389841d60b41d64e4140b4634f9a42a05e3b4361853e",
+    "selected_source_slices": 617,
     "selected_sources": [
       {
         "address": 1050032,
@@ -296,6 +296,342 @@
         "size": 7328,
         "source_offset": 1024,
         "symbol": ""
+      },
+      {
+        "address": 1059268,
+        "name": "clean_frontend_wait",
+        "new_bytes": 236,
+        "object": "build/code-windows/clean-source/native_frontend_wait.o",
+        "raw_sha256": "03bf89d8a7cfeb5cb602f541dda3ace258aaf1b2c1cec202d98820fe6edc16c0",
+        "relocations": 12,
+        "section": ".text",
+        "size": 236,
+        "source_offset": 0,
+        "symbol": "snes_p28_001029c4"
+      },
+      {
+        "address": 1054776,
+        "name": "clean_frontend_control_101838",
+        "new_bytes": 32,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "d0c69f2a3a5e88a43aaf7bd9e783a172c3f6babeca6389170700084bbcae9154",
+        "relocations": 1,
+        "section": ".text",
+        "size": 32,
+        "source_offset": 0,
+        "symbol": "frontend_control_00101838"
+      },
+      {
+        "address": 1054808,
+        "name": "clean_frontend_leaf_101858",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101858"
+      },
+      {
+        "address": 1054816,
+        "name": "clean_frontend_leaf_101860",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101860"
+      },
+      {
+        "address": 1054824,
+        "name": "clean_frontend_leaf_101868",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101868"
+      },
+      {
+        "address": 1054832,
+        "name": "clean_frontend_leaf_101870",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101870"
+      },
+      {
+        "address": 1054840,
+        "name": "clean_frontend_leaf_101878",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101878"
+      },
+      {
+        "address": 1068616,
+        "name": "clean_superscope_position",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_controllers.o",
+        "raw_sha256": "008d26890102af179c703d77fae42cb7b3f424a11b8db552383dd8e5313f4061",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "S9xReadSuperScopePosition"
+      },
+      {
+        "address": 1068624,
+        "name": "clean_mouse_position",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_controllers.o",
+        "raw_sha256": "008d26890102af179c703d77fae42cb7b3f424a11b8db552383dd8e5313f4061",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "S9xReadMousePosition"
+      },
+      {
+        "address": 1054848,
+        "name": "clean_justifier_offscreen",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_controllers.o",
+        "raw_sha256": "008d26890102af179c703d77fae42cb7b3f424a11b8db552383dd8e5313f4061",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "_Z18JustifierOffscreenv"
+      },
+      {
+        "address": 1054856,
+        "name": "clean_justifier_buttons",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_controllers.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "_Z16JustifierButtonsRj"
+      },
+      {
+        "address": 1054944,
+        "name": "clean_frontend_clear_irq",
+        "new_bytes": 28,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "efeab6e4686e76aab3201bf30e8045fff9001d7a63efcb37418a20616008bb84",
+        "relocations": 1,
+        "section": ".text",
+        "size": 28,
+        "source_offset": 0,
+        "symbol": "frontend_clear_irq_001018e0"
+      },
+      {
+        "address": 1054972,
+        "name": "clean_frontend_leaf_1018fc",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_001018fc"
+      },
+      {
+        "address": 1054980,
+        "name": "clean_frontend_leaf_101904",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101904"
+      },
+      {
+        "address": 1054988,
+        "name": "clean_frontend_leaf_10190c",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_0010190c"
+      },
+      {
+        "address": 1054996,
+        "name": "clean_frontend_leaf_101914",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "008d26890102af179c703d77fae42cb7b3f424a11b8db552383dd8e5313f4061",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101914"
+      },
+      {
+        "address": 1055004,
+        "name": "clean_frontend_leaf_10191c",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_0010191c"
+      },
+      {
+        "address": 1055136,
+        "name": "clean_frontend_leaf_1019a0",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "008d26890102af179c703d77fae42cb7b3f424a11b8db552383dd8e5313f4061",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_001019a0"
+      },
+      {
+        "address": 1065444,
+        "name": "clean_frontend_control_1041e4",
+        "new_bytes": 32,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "d0c69f2a3a5e88a43aaf7bd9e783a172c3f6babeca6389170700084bbcae9154",
+        "relocations": 1,
+        "section": ".text",
+        "size": 32,
+        "source_offset": 0,
+        "symbol": "frontend_control_001041e4"
+      },
+      {
+        "address": 1065476,
+        "name": "clean_frontend_object_104204",
+        "new_bytes": 24,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "49591631d53c739fbf0ac285817982a0285e950e6d1311936512d130a800cbac",
+        "relocations": 2,
+        "section": ".text",
+        "size": 24,
+        "source_offset": 0,
+        "symbol": "frontend_object_init_00104204"
+      },
+      {
+        "address": 1065500,
+        "name": "clean_frontend_object_10421c",
+        "new_bytes": 24,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "49591631d53c739fbf0ac285817982a0285e950e6d1311936512d130a800cbac",
+        "relocations": 2,
+        "section": ".text",
+        "size": 24,
+        "source_offset": 0,
+        "symbol": "frontend_object_init_0010421c"
+      },
+      {
+        "address": 1070768,
+        "name": "clean_frontend_leaf_1056b0",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_001056b0"
+      },
+      {
+        "address": 1070776,
+        "name": "clean_frontend_leaf_1056b8",
+        "new_bytes": 8,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "5ce5ad86d452c4d2422bd63e15223d5d6b3dfb77f224a88c1f476e9fb34e359d",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_001056b8"
+      },
+      {
+        "address": 1070816,
+        "name": "clean_frontend_drawsync",
+        "new_bytes": 56,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "1c7ef0d30da8d49edcc5dad1244531859a6e4f54ac67ff25fea7c1cd399806ff",
+        "relocations": 5,
+        "section": ".text",
+        "size": 56,
+        "source_offset": 0,
+        "symbol": "frontend_drawsync_001056e0"
+      },
+      {
+        "address": 1072696,
+        "name": "clean_frontend_audio_compare",
+        "new_bytes": 16,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "c4be49d90bdc76bff518715da5282e61e011284b42877f9a5a872157ece9a29c",
+        "relocations": 0,
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "frontend_audio_compare_00105e38"
+      },
+      {
+        "address": 1106748,
+        "name": "clean_frontend_c4_leaf_10e33c",
+        "new_bytes": 12,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "7296d9fa4c85565515bd833836a5b04be5c1f9b6e1fe3a903b9be460d340c729",
+        "relocations": 2,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "snes_leaf_0010e33c"
+      },
+      {
+        "address": 1106760,
+        "name": "clean_frontend_c4_leaf_10e348",
+        "new_bytes": 12,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "1f41fa62e8d8b0e370215980aa45e07323ecb43bfb1704743882eb98400859ad",
+        "relocations": 2,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "snes_leaf_0010e348"
+      },
+      {
+        "address": 1106772,
+        "name": "clean_frontend_c4_leaf_10e354",
+        "new_bytes": 12,
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "raw_sha256": "e1e978b398ff6df0e602f883159e1c1d3103f42ccaf51351ffe8af4ac283fef6",
+        "relocations": 2,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "snes_leaf_0010e354"
       },
       {
         "address": 1048852,
@@ -982,69 +1318,9 @@
         "symbol": "v81_0010d7dc"
       },
       {
-        "address": 1054776,
-        "name": "stage3p_frontend_leaf_cluster_00101838",
-        "new_bytes": 88,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "fa175269c92ce45bb7ca773cac950d16299080aedd7b1cf7b5c4ab838f8f21ff",
-        "relocations": 0,
-        "section": ".text",
-        "size": 88,
-        "source_offset": 0,
-        "symbol": "stage3p_frontend_leaf_cluster_00101838"
-      },
-      {
-        "address": 1054944,
-        "name": "stage3p_frontend_dispatch_cluster_001018e0",
-        "new_bytes": 68,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "a7c2ce28b5d4d505465f2a60505ff4bc1d83add6be777dc665707cfdb9d87a8a",
-        "relocations": 0,
-        "section": ".text",
-        "size": 68,
-        "source_offset": 0,
-        "symbol": "stage3p_frontend_dispatch_cluster_001018e0"
-      },
-      {
-        "address": 1055136,
-        "name": "stage3p_frontend_leaf_001019a0",
-        "new_bytes": 8,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "008d26890102af179c703d77fae42cb7b3f424a11b8db552383dd8e5313f4061",
-        "relocations": 0,
-        "section": ".text",
-        "size": 8,
-        "source_offset": 0,
-        "symbol": "stage3p_frontend_leaf_001019a0"
-      },
-      {
-        "address": 1059268,
-        "name": "stage3p_frontend_regalloc_001029c4",
-        "new_bytes": 236,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "538c4ea3db3b400ce46ec0cee175d0209cf64def8b26cc585a65f405f5cb3a4c",
-        "relocations": 0,
-        "section": ".text",
-        "size": 236,
-        "source_offset": 0,
-        "symbol": "stage3p_frontend_regalloc_001029c4"
-      },
-      {
-        "address": 1065444,
-        "name": "stage3p_frontend_control_001041e4",
-        "new_bytes": 80,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "be05aaea7d445d83ba29928800a84dcbea7994c525e8a74362c678a0326e5f9d",
-        "relocations": 0,
-        "section": ".text",
-        "size": 80,
-        "source_offset": 0,
-        "symbol": "stage3p_frontend_control_001041e4"
-      },
-      {
         "address": 1068616,
         "name": "stage3p_frontend_module_bridge_00104e48",
-        "new_bytes": 208,
+        "new_bytes": 192,
         "object": "matching/candidates/stage3p_code_residual_exact.S",
         "raw_sha256": "4db790eec228d78f8d6f342ceb0573036597cffaea42645eddc20308804fc275",
         "relocations": 0,
@@ -1052,42 +1328,6 @@
         "size": 208,
         "source_offset": 0,
         "symbol": "stage3p_frontend_module_bridge_00104e48"
-      },
-      {
-        "address": 1070768,
-        "name": "stage3p_frontend_drawsync_leaf_001056b0",
-        "new_bytes": 16,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "0545bda3e48da9ffa736f04df8e435f9d6e044bbf4ed99eba3090f71764155fc",
-        "relocations": 0,
-        "section": ".text",
-        "size": 16,
-        "source_offset": 0,
-        "symbol": "stage3p_frontend_drawsync_leaf_001056b0"
-      },
-      {
-        "address": 1070816,
-        "name": "stage3p_frontend_drawsync_tail_001056e0",
-        "new_bytes": 56,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "c6c2febbc22b936c7553ed50c8396779c5d0d721a6906b2556da6ec5f33c746a",
-        "relocations": 0,
-        "section": ".text",
-        "size": 56,
-        "source_offset": 0,
-        "symbol": "stage3p_frontend_drawsync_tail_001056e0"
-      },
-      {
-        "address": 1072696,
-        "name": "stage3p_frontend_audio_tail_00105e38",
-        "new_bytes": 16,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "c4be49d90bdc76bff518715da5282e61e011284b42877f9a5a872157ece9a29c",
-        "relocations": 0,
-        "section": ".text",
-        "size": 16,
-        "source_offset": 0,
-        "symbol": "stage3p_frontend_audio_tail_00105e38"
       },
       {
         "address": 1078648,
@@ -1112,18 +1352,6 @@
         "size": 328,
         "source_offset": 0,
         "symbol": "stage3p_amigamod_log_tail_00107f84"
-      },
-      {
-        "address": 1106748,
-        "name": "stage3p_c4_leaf_cluster_0010e33c",
-        "new_bytes": 36,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "df7b7bd62a6597fac46bbe519e3428f5e43cba2366ef5b3c0e98af2046895c86",
-        "relocations": 0,
-        "section": ".text",
-        "size": 36,
-        "source_offset": 0,
-        "symbol": "stage3p_c4_leaf_cluster_0010e33c"
       },
       {
         "address": 1114112,
@@ -1307,9 +1535,9 @@
       },
       {
         "address": 1130720,
-        "name": "tsv_001140e0__Z16S9xInitCheatDatav",
+        "name": "clean_init_cheat_data",
         "new_bytes": 56,
-        "object": "build/matching/hunt1000plus-v46-closure/snes/cheats2.o",
+        "object": "build/code-windows/clean-source/cheats2.o",
         "raw_sha256": "fc7c409f7309ea848253e3c3bf02b5b5f109bf2e034063671f1f2f39196a2148",
         "relocations": 7,
         "section": ".text",
@@ -1319,9 +1547,9 @@
       },
       {
         "address": 1130776,
-        "name": "tsv_00114118__Z11S9xAddCheathhjh",
+        "name": "clean_add_cheat",
         "new_bytes": 180,
-        "object": "build/matching/hunt1000plus-v46-closure/snes/cheats2.o",
+        "object": "build/code-windows/clean-source/cheats2.o",
         "raw_sha256": "1402837e7efeb1b6489e28e582fcec320994f310b4a3103ff2cf6233e0b796fa",
         "relocations": 3,
         "section": ".text",
@@ -1330,10 +1558,58 @@
         "symbol": "_Z11S9xAddCheathhjh"
       },
       {
+        "address": 1130956,
+        "name": "clean_delete_cheat",
+        "new_bytes": 148,
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "raw_sha256": "cf3f5b5a37166df2b14d7df89faa057ff1ffce39b6d96967f1f59c92f1403756",
+        "relocations": 4,
+        "section": ".text",
+        "size": 148,
+        "source_offset": 0,
+        "symbol": "_Z14S9xDeleteCheatj"
+      },
+      {
+        "address": 1131104,
+        "name": "clean_delete_cheats",
+        "new_bytes": 36,
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "raw_sha256": "85b4f592a257ce499eb47c34979fcd33d23cd60108110fd4aca7c240d19e2f18",
+        "relocations": 3,
+        "section": ".text",
+        "size": 36,
+        "source_offset": 0,
+        "symbol": "_Z15S9xDeleteCheatsv"
+      },
+      {
+        "address": 1131140,
+        "name": "clean_enable_cheat",
+        "new_bytes": 76,
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "raw_sha256": "aa7b519f4e8be9d0beae1785c3f8d8715483b133f342ffda9d9ae590c8faf22e",
+        "relocations": 3,
+        "section": ".text",
+        "size": 76,
+        "source_offset": 0,
+        "symbol": "_Z14S9xEnableCheatj"
+      },
+      {
+        "address": 1131216,
+        "name": "clean_disable_cheat",
+        "new_bytes": 88,
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "raw_sha256": "4ebe967cd9c2a63f6a3833a0752b3a711e261be998231bcec6ab52a6d2847b58",
+        "relocations": 3,
+        "section": ".text",
+        "size": 88,
+        "source_offset": 0,
+        "symbol": "_Z15S9xDisableCheatj"
+      },
+      {
         "address": 1131304,
-        "name": "tsv_00114328__Z14S9xRemoveCheatj",
+        "name": "clean_remove_cheat",
         "new_bytes": 116,
-        "object": "build/matching/hunt1000plus-v46-closure/snes/cheats2.o",
+        "object": "build/code-windows/clean-source/cheats2.o",
         "raw_sha256": "378bd725f9f0bad926a5b99a934918b1c05282aa14c27767bfa1edf6a127dcc7",
         "relocations": 5,
         "section": ".text",
@@ -1343,9 +1619,9 @@
       },
       {
         "address": 1131420,
-        "name": "tsv_0011439c__Z13S9xApplyCheatj",
+        "name": "clean_apply_cheat",
         "new_bytes": 176,
-        "object": "build/matching/hunt1000plus-v46-closure/snes/cheats2.o",
+        "object": "build/code-windows/clean-source/cheats2.o",
         "raw_sha256": "9f41c3cc1947f72dd4f7254487c60fe2fc235f8b2a72a341a84f8b63a6ec9fbe",
         "relocations": 9,
         "section": ".text",
@@ -1355,9 +1631,9 @@
       },
       {
         "address": 1131596,
-        "name": "tsv_0011444c__Z14S9xApplyCheatsv",
+        "name": "clean_apply_cheats",
         "new_bytes": 132,
-        "object": "build/matching/hunt1000plus-v46-closure/snes/cheats2.o",
+        "object": "build/code-windows/clean-source/cheats2.o",
         "raw_sha256": "d4be809a043d470c8404995059cf7da005d16908309bea3d50fd292694769b3a",
         "relocations": 7,
         "section": ".text",
@@ -1367,9 +1643,9 @@
       },
       {
         "address": 1131728,
-        "name": "tsv_001144d0__Z15S9xRemoveCheatsv",
+        "name": "clean_remove_cheats",
         "new_bytes": 116,
-        "object": "build/matching/hunt1000plus-v46-closure/snes/cheats2.o",
+        "object": "build/code-windows/clean-source/cheats2.o",
         "raw_sha256": "374b42e2d7e8a3392f86ce4314f70277fce754e1c4ce7a5744ca662415cbb94b",
         "relocations": 5,
         "section": ".text",
@@ -1379,15 +1655,111 @@
       },
       {
         "address": 1131844,
-        "name": "tsv_00114544__Z16S9xLoadCheatFilePKc",
+        "name": "clean_load_cheat_file",
         "new_bytes": 304,
-        "object": "build/matching/hunt1041-v73-historical-io/objects/cheats2.o",
+        "object": "build/code-windows/clean-source/cheats2.o",
         "raw_sha256": "b100696f671b05cc264c05743c9ab945663347253b63fe60caf20635ba396ac3",
         "relocations": 8,
         "section": ".text",
         "size": 304,
         "source_offset": 0,
         "symbol": "_Z16S9xLoadCheatFilePKc"
+      },
+      {
+        "address": 1132148,
+        "name": "clean_save_cheat_file",
+        "new_bytes": 340,
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "raw_sha256": "8c517341da5726178e164fdff18fcd4f9e75c8725c739e6e7221d6cb4dbc7661",
+        "relocations": 10,
+        "section": ".text",
+        "size": 340,
+        "source_offset": 0,
+        "symbol": "_Z16S9xSaveCheatFilePKc"
+      },
+      {
+        "address": 1132488,
+        "name": "clean_int_compare",
+        "new_bytes": 40,
+        "object": "build/code-windows/clean-source/native_clip.o",
+        "raw_sha256": "9792f62b10067940165eb737cce03fc766349712464ae64b8aa7f2dca8b4fc52",
+        "relocations": 0,
+        "section": ".text",
+        "size": 40,
+        "source_offset": 0,
+        "symbol": "_Z10IntComparePKvS0_"
+      },
+      {
+        "address": 1132528,
+        "name": "clean_band_compare",
+        "new_bytes": 40,
+        "object": "build/code-windows/clean-source/native_clip.o",
+        "raw_sha256": "9792f62b10067940165eb737cce03fc766349712464ae64b8aa7f2dca8b4fc52",
+        "relocations": 0,
+        "section": ".text",
+        "size": 40,
+        "source_offset": 0,
+        "symbol": "_Z11BandComparePKvS0_"
+      },
+      {
+        "address": 1132568,
+        "name": "clean_compute_clip_windows",
+        "new_bytes": 4572,
+        "object": "build/code-windows/clean-source/native_clip.o",
+        "raw_sha256": "cd70b2dfb5e8599b6aee8a0e7d367c4fc94e9755879172fa137ce50f5ec59db4",
+        "relocations": 39,
+        "section": ".text",
+        "size": 4572,
+        "source_offset": 0,
+        "symbol": "_Z18ComputeClipWindowsv"
+      },
+      {
+        "address": 1244024,
+        "name": "clean_dsp2_get_byte",
+        "new_bytes": 100,
+        "object": "build/code-windows/clean-source/native_dsp2_get.o",
+        "raw_sha256": "f4cb2b31817132408c2d3c2d05d8a62d3f630d786e8797b50283ce4c0797337c",
+        "relocations": 2,
+        "section": ".text",
+        "size": 100,
+        "source_offset": 0,
+        "symbol": "_Z11DSP2GetBytet"
+      },
+      {
+        "address": 1244124,
+        "name": "clean_fx_pipe_string",
+        "new_bytes": 640,
+        "object": "build/code-windows/clean-source/native_fx_pipe_string.o",
+        "raw_sha256": "db6f2f020da8da79c306f1b7595d703efaa5d8285ebf92556ef223b2fd20947e",
+        "relocations": 30,
+        "section": ".text",
+        "size": 640,
+        "source_offset": 0,
+        "symbol": "_Z12FxPipeStringPc"
+      },
+      {
+        "address": 1380180,
+        "name": "clean_memory_safe",
+        "new_bytes": 288,
+        "object": "build/code-windows/clean-source/native_memory_safe.o",
+        "raw_sha256": "dbd5e0eab35cb5ea8687e30da2481279f00b734bf5118f25577c28c457ab9335",
+        "relocations": 21,
+        "section": ".text",
+        "size": 288,
+        "source_offset": 0,
+        "symbol": "_ZN7CMemory4SafeEPKc"
+      },
+      {
+        "address": 1522832,
+        "name": "clean_parse_cheats",
+        "new_bytes": 364,
+        "object": "build/code-windows/clean-source/native_parse_cheats.o",
+        "raw_sha256": "2c496f72bce21a70b5126993398792d5025d22cec37ff0810c2403ccf96883e9",
+        "relocations": 14,
+        "section": ".text",
+        "size": 364,
+        "source_offset": 0,
+        "symbol": "_Z18S9xParseCheatsFilePKc"
       },
       {
         "address": 1228636,
@@ -2456,6 +2828,18 @@
         "size": 148,
         "source_offset": 0,
         "symbol": "snes_p12_0016fbb4"
+      },
+      {
+        "address": 1507844,
+        "name": "tsv_00170204_S9xSetST018",
+        "new_bytes": 40,
+        "object": "build/window11-rodata/source-objects/snes-seta018.o",
+        "raw_sha256": "5a8b7dace6499cb88c05adca7dd00409c2d16af20505dfe0119534b02a1b4275",
+        "relocations": 3,
+        "section": ".text",
+        "size": 40,
+        "source_offset": 0,
+        "symbol": "S9xSetST018"
       },
       {
         "address": 1507884,
@@ -4078,6 +4462,126 @@
         "symbol": "deflate_slow"
       },
       {
+        "address": 1648428,
+        "name": "tsv_0019272c_inflateReset",
+        "new_bytes": 88,
+        "object": "build/window11-rodata/source-objects/zlib-inflate.o",
+        "raw_sha256": "39d0fb196aee88770e37bba09821cde6e550acf4b5bdf286818c3545faaa4b97",
+        "relocations": 1,
+        "section": ".text",
+        "size": 88,
+        "source_offset": 0,
+        "symbol": "inflateReset"
+      },
+      {
+        "address": 1648516,
+        "name": "tsv_00192784_inflateEnd",
+        "new_bytes": 124,
+        "object": "build/window11-rodata/source-objects/zlib-inflate.o",
+        "raw_sha256": "8532600496deff15f6bdea591ef79dbe543840e4a51fc3f14eafc4cd1498eedf",
+        "relocations": 1,
+        "section": ".text",
+        "size": 124,
+        "source_offset": 0,
+        "symbol": "inflateEnd"
+      },
+      {
+        "address": 1648640,
+        "name": "tsv_00192800_inflateInit2_",
+        "new_bytes": 328,
+        "object": "build/window11-rodata/source-objects/zlib-inflate.o",
+        "raw_sha256": "8a5f2a3e12bc1841bf471d1ed70680f543ac6ce5693865fcdb0aac4a38add40a",
+        "relocations": 10,
+        "section": ".text",
+        "size": 328,
+        "source_offset": 0,
+        "symbol": "inflateInit2_"
+      },
+      {
+        "address": 1648968,
+        "name": "tsv_00192948_inflateInit_",
+        "new_bytes": 36,
+        "object": "build/window11-rodata/source-objects/zlib-inflate.o",
+        "raw_sha256": "b54ce90e501523db451c7f4995ae1d16e657e40081f8b5de0ab6c5d34d748271",
+        "relocations": 1,
+        "section": ".text",
+        "size": 36,
+        "source_offset": 0,
+        "symbol": "inflateInit_"
+      },
+      {
+        "address": 1649004,
+        "name": "tsv_0019296c_inflate",
+        "new_bytes": 1268,
+        "object": "build/window11-rodata/source-objects/zlib-inflate.o",
+        "raw_sha256": "7e9ea229ba10557a3d991c49df70ce8c05cd9d206a372c2d34facdf0c6dd67fa",
+        "relocations": 14,
+        "section": ".text",
+        "size": 1268,
+        "source_offset": 0,
+        "symbol": "inflate"
+      },
+      {
+        "address": 1650272,
+        "name": "tsv_00192e60_inflateSetDictionary",
+        "new_bytes": 208,
+        "object": "build/window11-rodata/source-objects/zlib-inflate.o",
+        "raw_sha256": "cdb4fe3b6447ab704970663d18bd07a96b2b3a5334011337a7c9fbbff1096cef",
+        "relocations": 2,
+        "section": ".text",
+        "size": 208,
+        "source_offset": 0,
+        "symbol": "inflateSetDictionary"
+      },
+      {
+        "address": 1650480,
+        "name": "tsv_00192f30_inflateSync",
+        "new_bytes": 284,
+        "object": "build/window11-rodata/source-objects/zlib-inflate.o",
+        "raw_sha256": "7cb51e63117556e006afa7a1c275590a8082a429b70aa192c365aa24cb60a6f8",
+        "relocations": 4,
+        "section": ".text",
+        "size": 284,
+        "source_offset": 0,
+        "symbol": "inflateSync"
+      },
+      {
+        "address": 1650764,
+        "name": "tsv_0019304c_inflateSyncPoint",
+        "new_bytes": 72,
+        "object": "build/window11-rodata/source-objects/zlib-inflate.o",
+        "raw_sha256": "572b4b3da9d8cd25feea26cfc2f42b40df3f50a4b0cab473030b3e1bec286281",
+        "relocations": 1,
+        "section": ".text",
+        "size": 72,
+        "source_offset": 0,
+        "symbol": "inflateSyncPoint"
+      },
+      {
+        "address": 1650836,
+        "name": "tsv_00193094_get_crc_table",
+        "new_bytes": 12,
+        "object": "build/window11-rodata/source-objects/zlib-crc32.o",
+        "raw_sha256": "4484944742bb4e3f4faae7f9019d9d91cfb479369f87ba7092a559ffaf57c3ba",
+        "relocations": 2,
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "get_crc_table"
+      },
+      {
+        "address": 1650848,
+        "name": "tsv_001930a0_crc32",
+        "new_bytes": 496,
+        "object": "build/window11-rodata/source-objects/zlib-crc32.o",
+        "raw_sha256": "77bc342d993ddb44cef6f22856eb6db24ee815fcd41f04b99e84c17822f16f47",
+        "relocations": 4,
+        "section": ".text",
+        "size": 496,
+        "source_offset": 0,
+        "symbol": "crc32"
+      },
+      {
         "address": 1651352,
         "name": "tsv_00193298_gz_open",
         "new_bytes": 716,
@@ -4172,6 +4676,222 @@
         "size": 1088,
         "source_offset": 4,
         "symbol": "inflate_fast"
+      },
+      {
+        "address": 1665408,
+        "name": "tsv_00196980_tr_static_init",
+        "new_bytes": 8,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "tr_static_init"
+      },
+      {
+        "address": 1665536,
+        "name": "tsv_00196a00_init_block",
+        "new_bytes": 148,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "70ddffd9ba0043438a23358f8a020889886c714f7aa6e80de25de9e017cffd97",
+        "relocations": 0,
+        "section": ".text",
+        "size": 148,
+        "source_offset": 0,
+        "symbol": "init_block"
+      },
+      {
+        "address": 1665944,
+        "name": "tsv_00196b98_gen_bitlen",
+        "new_bytes": 744,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "c01f6a4ad6eed21d6e1a61ff07addd5052ef6e93eda3e43f63fa290d3721a379",
+        "relocations": 3,
+        "section": ".text",
+        "size": 744,
+        "source_offset": 0,
+        "symbol": "gen_bitlen"
+      },
+      {
+        "address": 1666852,
+        "name": "tsv_00196f24_build_tree",
+        "new_bytes": 712,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "a27fec0b4a3fb9d6840c935d7b01e5902542375d8072ad88143baafcfaccab59",
+        "relocations": 5,
+        "section": ".text",
+        "size": 712,
+        "source_offset": 0,
+        "symbol": "build_tree"
+      },
+      {
+        "address": 1667564,
+        "name": "tsv_001971ec_scan_tree",
+        "new_bytes": 264,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "39c260397d2572c5111ff01736802ed2e963c6c50aa6dcd47944551cdbbe8ac1",
+        "relocations": 0,
+        "section": ".text",
+        "size": 264,
+        "source_offset": 0,
+        "symbol": "scan_tree"
+      },
+      {
+        "address": 1667828,
+        "name": "tsv_001972f4_send_tree",
+        "new_bytes": 1408,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "1b734ee4476d16853b69778850e21f7739a01d30b1a594d5fd6e1a74589c72dd",
+        "relocations": 0,
+        "section": ".text",
+        "size": 1408,
+        "source_offset": 0,
+        "symbol": "send_tree"
+      },
+      {
+        "address": 1669236,
+        "name": "tsv_00197874_build_bl_tree",
+        "new_bytes": 156,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "850752a6d2afeb659bced9ff9707e671c55cab2060f4a5ff338fc81c1568dd93",
+        "relocations": 6,
+        "section": ".text",
+        "size": 156,
+        "source_offset": 0,
+        "symbol": "build_bl_tree"
+      },
+      {
+        "address": 1669392,
+        "name": "tsv_00197910_send_all_trees",
+        "new_bytes": 740,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "46b29a349c7b15d8334c017a603a0dff8801a5f697015854ecf511a9cf4f509c",
+        "relocations": 5,
+        "section": ".text",
+        "size": 740,
+        "source_offset": 0,
+        "symbol": "send_all_trees"
+      },
+      {
+        "address": 1670132,
+        "name": "tsv_00197bf4__tr_stored_block",
+        "new_bytes": 188,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "69ec10910d9788f66898fbb262abae407d90c8b87c949e8c847677ee42773e5c",
+        "relocations": 1,
+        "section": ".text",
+        "size": 188,
+        "source_offset": 0,
+        "symbol": "_tr_stored_block"
+      },
+      {
+        "address": 1670320,
+        "name": "tsv_00197cb0__tr_align",
+        "new_bytes": 692,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "813e33d1b704ea6762e26a070a0541fc869a6753b8c4c79bb4dc647c735a409f",
+        "relocations": 6,
+        "section": ".text",
+        "size": 692,
+        "source_offset": 0,
+        "symbol": "_tr_align"
+      },
+      {
+        "address": 1671012,
+        "name": "tsv_00197f64__tr_flush_block",
+        "new_bytes": 644,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "7770e83d611b0524b096952ba99e80e76ca17567582164c404a00b6e325e7e62",
+        "relocations": 13,
+        "section": ".text",
+        "size": 644,
+        "source_offset": 0,
+        "symbol": "_tr_flush_block"
+      },
+      {
+        "address": 1671656,
+        "name": "tsv_001981e8__tr_tally",
+        "new_bytes": 288,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "78d42b74726fa2deb40a8e30f902a355bd9456c0dc0c211de7df169b4b5c5c3b",
+        "relocations": 10,
+        "section": ".text",
+        "size": 288,
+        "source_offset": 0,
+        "symbol": "_tr_tally"
+      },
+      {
+        "address": 1671944,
+        "name": "tsv_00198308_compress_block",
+        "new_bytes": 1172,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "0921e85baee7871976ed1ab0d9867076e7df78d06075d71474e9933f840132d5",
+        "relocations": 13,
+        "section": ".text",
+        "size": 1172,
+        "source_offset": 0,
+        "symbol": "compress_block"
+      },
+      {
+        "address": 1673116,
+        "name": "tsv_0019879c_set_data_type",
+        "new_bytes": 164,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "0ffc138dfeab4d6cc5fb929f8004527319db5f3d603bb9d0e7e9ca86bfc8ccda",
+        "relocations": 0,
+        "section": ".text",
+        "size": 164,
+        "source_offset": 0,
+        "symbol": "set_data_type"
+      },
+      {
+        "address": 1673280,
+        "name": "tsv_00198840_bi_reverse",
+        "new_bytes": 44,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "2c3bb43a6fbe1d172bd76954cc7eebd98240d5b4840cb54d2db3cb8fd61c225e",
+        "relocations": 0,
+        "section": ".text",
+        "size": 44,
+        "source_offset": 0,
+        "symbol": "bi_reverse"
+      },
+      {
+        "address": 1673324,
+        "name": "tsv_0019886c_bi_flush",
+        "new_bytes": 152,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "8f08c84135f22cfb917a4ad3f1e268abff023903da550e8431ef492b395de5b6",
+        "relocations": 0,
+        "section": ".text",
+        "size": 152,
+        "source_offset": 0,
+        "symbol": "bi_flush"
+      },
+      {
+        "address": 1673476,
+        "name": "tsv_00198904_bi_windup",
+        "new_bytes": 120,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "ca30ec8c1fea9efb7307239e7acb4152b9f98565b07964749d0381b1ca48d349",
+        "relocations": 0,
+        "section": ".text",
+        "size": 120,
+        "source_offset": 0,
+        "symbol": "bi_windup"
+      },
+      {
+        "address": 1673596,
+        "name": "tsv_0019897c_copy_block",
+        "new_bytes": 220,
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "raw_sha256": "feffffeaca226e824a0e60bb358182f9e0d7d56459eac55cf11c07e03e141d72",
+        "relocations": 1,
+        "section": ".text",
+        "size": 220,
+        "source_offset": 0,
+        "symbol": "copy_block"
       },
       {
         "address": 1685488,
@@ -4352,6 +5072,42 @@
         "size": 132,
         "source_offset": 0,
         "symbol": "vsnprintf"
+      },
+      {
+        "address": 1696612,
+        "name": "tsv_0019e364_vsprintf",
+        "new_bytes": 36,
+        "object": "build/runtime-members/objects/libc/vsprintf.o",
+        "raw_sha256": "3233910aa0670b7878a35e91a1d5f21a89c624e3e68a3b5e4880973f4378199f",
+        "relocations": 1,
+        "section": ".text",
+        "size": 36,
+        "source_offset": 0,
+        "symbol": "vsprintf"
+      },
+      {
+        "address": 1696648,
+        "name": "tsv_0019e388_printf",
+        "new_bytes": 72,
+        "object": "build/runtime-members/objects/libc/printf.o",
+        "raw_sha256": "a3bc11c8735700c2e49c15298a061bd8d171eca5cceb019baa0145aeca35f979",
+        "relocations": 1,
+        "section": ".text",
+        "size": 72,
+        "source_offset": 0,
+        "symbol": "printf"
+      },
+      {
+        "address": 1696720,
+        "name": "tsv_0019e3d0_sprintf",
+        "new_bytes": 68,
+        "object": "build/runtime-members/objects/libc/sprintf.o",
+        "raw_sha256": "c5fda8afdb7788521f5fb2fe076bcd7f3c70c0bcd2f587eaa9686dc5edebcd4b",
+        "relocations": 1,
+        "section": ".text",
+        "size": 68,
+        "source_offset": 0,
+        "symbol": "sprintf"
       },
       {
         "address": 1696788,
@@ -5422,124 +6178,64 @@
         "symbol": "_Z11DSP1GetBytet"
       },
       {
-        "address": 1130956,
-        "name": "stage3p_delete_cheat",
-        "new_bytes": 148,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "e2e34a7c031d6307d39e812ee07f6873ceb51c841c4367e27123d5dd4b610239",
-        "relocations": 0,
+        "address": 1567820,
+        "name": "spc700_tail",
+        "new_bytes": 6744,
+        "object": "build/window11-rodata/source-objects/snes-SPC700.o",
+        "raw_sha256": "564e7c727bf2552b45aca5f76f0315a8b6f6d4016dfbe5928e91a8d863f44b54",
+        "relocations": 635,
         "section": ".text",
-        "size": 148,
-        "source_offset": 0,
-        "symbol": "stage3p_delete_cheat"
+        "size": 6744,
+        "source_offset": 27472,
+        "symbol": ""
       },
       {
-        "address": 1131104,
-        "name": "stage3p_delete_cheats",
-        "new_bytes": 36,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "4a32cd5594f1fac39e6a0bd973ffa148cd360a8e486c57caf02963900d22d5fb",
-        "relocations": 0,
+        "address": 1507328,
+        "name": "seta010_tail",
+        "new_bytes": 312,
+        "object": "build/window11-rodata/source-objects/snes-seta010.o",
+        "raw_sha256": "f3ef9dd2f90e9cee703cccac8c9999e3a3a2aa5694fe9897457747facd643cba",
+        "relocations": 10,
         "section": ".text",
-        "size": 36,
-        "source_offset": 0,
-        "symbol": "stage3p_delete_cheats"
+        "size": 312,
+        "source_offset": 880,
+        "symbol": ""
       },
       {
-        "address": 1131140,
-        "name": "stage3p_enable_cheat",
-        "new_bytes": 76,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "9ec3f9d32a90d4e38fa9b2016a72c46de9c09dbbcb1e2683663b991b9cccea26",
-        "relocations": 0,
+        "address": 1507640,
+        "name": "seta011_full",
+        "new_bytes": 196,
+        "object": "build/window11-rodata/source-objects/snes-seta011.o",
+        "raw_sha256": "d7202a75a6ca4e338b1520cd5c136e48b7364197119c28969d25419e3b3062a8",
+        "relocations": 14,
         "section": ".text",
-        "size": 76,
+        "size": 196,
         "source_offset": 0,
-        "symbol": "stage3p_enable_cheat"
+        "symbol": ""
       },
       {
-        "address": 1131216,
-        "name": "stage3p_disable_cheat",
-        "new_bytes": 88,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "ecae823bb01b6983dc733b734e38a6904810d12083ce68101c1bc2ed8b861d15",
-        "relocations": 0,
+        "address": 1507836,
+        "name": "seta018_full",
+        "new_bytes": 8,
+        "object": "build/window11-rodata/source-objects/snes-seta018.o",
+        "raw_sha256": "007c3cd3d10f813ca25ed6d191f3da346fa987369fa835c0bf5897fa20cc4338",
+        "relocations": 3,
         "section": ".text",
-        "size": 88,
+        "size": 48,
         "source_offset": 0,
-        "symbol": "stage3p_disable_cheat"
-      },
-      {
-        "address": 1132148,
-        "name": "stage3p_save_cheat_file",
-        "new_bytes": 420,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "c4feb0d58733f0c03ba2c07a06b3eac539e88d8a0d19a0a9132666e66a7abfa8",
-        "relocations": 0,
-        "section": ".text",
-        "size": 420,
-        "source_offset": 0,
-        "symbol": "stage3p_save_cheat_file"
-      },
-      {
-        "address": 1132568,
-        "name": "stage3p_compute_clip_windows",
-        "new_bytes": 4572,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "6e8218f0344f7df2d2002cdda3a01bab68e06dec7fa3230659f08d7249b50a56",
-        "relocations": 0,
-        "section": ".text",
-        "size": 4572,
-        "source_offset": 0,
-        "symbol": "stage3p_compute_clip_windows"
+        "symbol": ""
       },
       {
         "address": 1243304,
         "name": "stage3p_dsp2_set_byte",
-        "new_bytes": 732,
+        "new_bytes": 720,
         "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "88ad630d2863a33b2edafbe084f63f812db12f097891329e4b315448070299b4",
+        "raw_sha256": "53fb67dba2742012c1c9dfd932ea2a77066e1ffe738cb650f57e4dc0c111e548",
         "relocations": 0,
         "section": ".text",
-        "size": 732,
+        "size": 720,
         "source_offset": 0,
         "symbol": "stage3p_dsp2_set_byte"
-      },
-      {
-        "address": 1244036,
-        "name": "stage3p_dsp2_get_byte",
-        "new_bytes": 100,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "37fd29a2296ae3baa7e4b2f73a64657497ed17a24087bd76b08246bfdd74644d",
-        "relocations": 0,
-        "section": ".text",
-        "size": 100,
-        "source_offset": 0,
-        "symbol": "stage3p_dsp2_get_byte"
-      },
-      {
-        "address": 1244136,
-        "name": "stage3p_fx_pipe_string",
-        "new_bytes": 628,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "a2aecca26ff765af1407c6290205986601bb4274c10aecb0f4fa05f9d19bf830",
-        "relocations": 0,
-        "section": ".text",
-        "size": 628,
-        "source_offset": 0,
-        "symbol": "stage3p_fx_pipe_string"
-      },
-      {
-        "address": 1380180,
-        "name": "stage3p_memory_safe",
-        "new_bytes": 288,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "27ccb334b12de4a652c091b974cccb369939229ae01f3ed0e5ffa2ba50e07ce8",
-        "relocations": 0,
-        "section": ".text",
-        "size": 288,
-        "source_offset": 0,
-        "symbol": "stage3p_memory_safe"
       },
       {
         "address": 1687152,
@@ -6036,24 +6732,24 @@
       {
         "address": 1662848,
         "name": "listing_zlib_inftrees_00195f80",
-        "new_bytes": 2552,
+        "new_bytes": 2544,
         "object": "analysis/functions/zlib_inftrees_00195f80.asm",
         "raw_sha256": "441ff445ad55104cc35818ecef9d09a0991ad61b57efce835edd87cea5f3e9cc",
         "relocations": 0,
         "section": "objdump-byte-columns",
-        "size": 2568,
+        "size": 2560,
         "source_offset": 0,
         "symbol": ""
       },
       {
         "address": 1665416,
         "name": "listing_zlib_trees_start_00196980",
-        "new_bytes": 1576,
+        "new_bytes": 544,
         "object": "analysis/functions/zlib_trees_start_00196980.asm",
         "raw_sha256": "c06a42f4b93255b17555b9d541fee86a000a755bea64972595fd4e218f57457e",
         "relocations": 0,
         "section": "objdump-byte-columns",
-        "size": 1656,
+        "size": 1436,
         "source_offset": 0,
         "symbol": ""
       },
@@ -6068,18 +6764,6 @@
         "size": 488,
         "source_offset": 0,
         "symbol": ""
-      },
-      {
-        "address": 1507328,
-        "name": "stage3p_tail_gap_00170000",
-        "new_bytes": 556,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "e5e4e0b1bfa6e2aa52e87ff160eb4e1a6d1e9c77e731d9236e070ca18925359c",
-        "relocations": 0,
-        "section": ".text",
-        "size": 556,
-        "source_offset": 0,
-        "symbol": "stage3p_tail_gap_00170000"
       },
       {
         "address": 1511884,
@@ -6106,18 +6790,6 @@
         "symbol": "stage3p_tail_gap_00171230"
       },
       {
-        "address": 1522832,
-        "name": "stage3p_tail_gap_00173c90",
-        "new_bytes": 364,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "3400b9b3cd1881b255efda9a0c29fbccc97c266a61ea5a66ac67291d70db148e",
-        "relocations": 0,
-        "section": ".text",
-        "size": 364,
-        "source_offset": 0,
-        "symbol": "stage3p_tail_gap_00173c90"
-      },
-      {
         "address": 1539676,
         "name": "stage3p_tail_gap_00177e5c",
         "new_bytes": 16,
@@ -6128,18 +6800,6 @@
         "size": 16,
         "source_offset": 0,
         "symbol": "stage3p_tail_gap_00177e5c"
-      },
-      {
-        "address": 1567820,
-        "name": "stage3p_tail_gap_0017ec4c",
-        "new_bytes": 6744,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "1ea36dc28a541d23599155bde99bf8c67a1766230d97ba6aff8e6f1288789184",
-        "relocations": 0,
-        "section": ".text",
-        "size": 6744,
-        "source_offset": 0,
-        "symbol": "stage3p_tail_gap_0017ec4c"
       },
       {
         "address": 1622440,
@@ -6178,16 +6838,16 @@
         "symbol": "stage3p_tail_gap_0018e164"
       },
       {
-        "address": 1648428,
-        "name": "stage3p_tail_gap_0019272c",
-        "new_bytes": 2924,
+        "address": 1651344,
+        "name": "stage3p_tail_gap_00193290",
+        "new_bytes": 8,
         "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "ed4a9ba999458dae487376534cce7842cf0ec1dfeaab7fdc34bb71f71db8b83d",
+        "raw_sha256": "a71182550e9f98d1a056057f9a8fd89cafa469d25a537ebb31493e3e0c54bcca",
         "relocations": 0,
         "section": ".text",
-        "size": 2924,
+        "size": 8,
         "source_offset": 0,
-        "symbol": "stage3p_tail_gap_0019272c"
+        "symbol": "stage3p_tail_gap_00193290"
       },
       {
         "address": 1663856,
@@ -6202,76 +6862,16 @@
         "symbol": "stage3p_tail_gap_00196370"
       },
       {
-        "address": 1665552,
-        "name": "stage3p_tail_gap_00196a10",
-        "new_bytes": 16,
+        "address": 1673816,
+        "name": "stage3p_tail_gap_00198a58",
+        "new_bytes": 24,
         "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+        "raw_sha256": "b673f0e00c86cd11a690af27d9f27aaf23ddf3227bb7ed8869c7d2a4ba7a801c",
         "relocations": 0,
         "section": ".text",
-        "size": 16,
+        "size": 24,
         "source_offset": 0,
-        "symbol": "stage3p_tail_gap_00196a10"
-      },
-      {
-        "address": 1665592,
-        "name": "stage3p_tail_gap_00196a38",
-        "new_bytes": 16,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
-        "relocations": 0,
-        "section": ".text",
-        "size": 16,
-        "source_offset": 0,
-        "symbol": "stage3p_tail_gap_00196a38"
-      },
-      {
-        "address": 1665632,
-        "name": "stage3p_tail_gap_00196a60",
-        "new_bytes": 16,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
-        "relocations": 0,
-        "section": ".text",
-        "size": 16,
-        "source_offset": 0,
-        "symbol": "stage3p_tail_gap_00196a60"
-      },
-      {
-        "address": 1666056,
-        "name": "stage3p_tail_gap_00196c08",
-        "new_bytes": 16,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
-        "relocations": 0,
-        "section": ".text",
-        "size": 16,
-        "source_offset": 0,
-        "symbol": "stage3p_tail_gap_00196c08"
-      },
-      {
-        "address": 1666408,
-        "name": "stage3p_tail_gap_00196d68",
-        "new_bytes": 16,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
-        "relocations": 0,
-        "section": ".text",
-        "size": 16,
-        "source_offset": 0,
-        "symbol": "stage3p_tail_gap_00196d68"
-      },
-      {
-        "address": 1667072,
-        "name": "stage3p_tail_gap_00197000",
-        "new_bytes": 6768,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "08bb61d399d8f76c9374b11d7a36e43b4e6e18f9257331556b2020ed77202df4",
-        "relocations": 0,
-        "section": ".text",
-        "size": 6768,
-        "source_offset": 0,
-        "symbol": "stage3p_tail_gap_00197000"
+        "symbol": "stage3p_tail_gap_00198a58"
       },
       {
         "address": 1674236,
@@ -6404,18 +7004,6 @@
         "size": 8,
         "source_offset": 0,
         "symbol": "stage3p_tail_gap_0019cfb8"
-      },
-      {
-        "address": 1696612,
-        "name": "stage3p_tail_gap_0019e364",
-        "new_bytes": 176,
-        "object": "matching/candidates/stage3p_code_residual_exact.S",
-        "raw_sha256": "f307710d81d98e536bd7c418bc54d86fca64c28bcfaeeb40bf9558f19bca3ea8",
-        "relocations": 0,
-        "section": ".text",
-        "size": 176,
-        "source_offset": 0,
-        "symbol": "stage3p_tail_gap_0019e364"
       },
       {
         "address": 1699860,
@@ -6916,6 +7504,241 @@
   },
   "schema_version": 1,
   "source_contract": {
+    "clean_source_slices": [
+      {
+        "address": 1130720,
+        "name": "clean_init_cheat_data",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 56,
+        "source_offset": 0,
+        "symbol": "_Z16S9xInitCheatDatav"
+      },
+      {
+        "address": 1130776,
+        "name": "clean_add_cheat",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 180,
+        "source_offset": 0,
+        "symbol": "_Z11S9xAddCheathhjh"
+      },
+      {
+        "address": 1130956,
+        "name": "clean_delete_cheat",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 148,
+        "source_offset": 0,
+        "symbol": "_Z14S9xDeleteCheatj"
+      },
+      {
+        "address": 1131104,
+        "name": "clean_delete_cheats",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 36,
+        "source_offset": 0,
+        "symbol": "_Z15S9xDeleteCheatsv"
+      },
+      {
+        "address": 1131140,
+        "name": "clean_enable_cheat",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 76,
+        "source_offset": 0,
+        "symbol": "_Z14S9xEnableCheatj"
+      },
+      {
+        "address": 1131216,
+        "name": "clean_disable_cheat",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 88,
+        "source_offset": 0,
+        "symbol": "_Z15S9xDisableCheatj"
+      },
+      {
+        "address": 1131304,
+        "name": "clean_remove_cheat",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 116,
+        "source_offset": 0,
+        "symbol": "_Z14S9xRemoveCheatj"
+      },
+      {
+        "address": 1131420,
+        "name": "clean_apply_cheat",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 176,
+        "source_offset": 0,
+        "symbol": "_Z13S9xApplyCheatj"
+      },
+      {
+        "address": 1131596,
+        "name": "clean_apply_cheats",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 132,
+        "source_offset": 0,
+        "symbol": "_Z14S9xApplyCheatsv"
+      },
+      {
+        "address": 1131728,
+        "name": "clean_remove_cheats",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 116,
+        "source_offset": 0,
+        "symbol": "_Z15S9xRemoveCheatsv"
+      },
+      {
+        "address": 1131844,
+        "name": "clean_load_cheat_file",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 304,
+        "source_offset": 0,
+        "symbol": "_Z16S9xLoadCheatFilePKc"
+      },
+      {
+        "address": 1132148,
+        "name": "clean_save_cheat_file",
+        "object": "build/code-windows/clean-source/cheats2.o",
+        "section": ".text",
+        "size": 340,
+        "source_offset": 0,
+        "symbol": "_Z16S9xSaveCheatFilePKc"
+      },
+      {
+        "address": 1132488,
+        "name": "clean_int_compare",
+        "object": "build/code-windows/clean-source/native_clip.o",
+        "section": ".text",
+        "size": 40,
+        "source_offset": 0,
+        "symbol": "_Z10IntComparePKvS0_"
+      },
+      {
+        "address": 1132528,
+        "name": "clean_band_compare",
+        "object": "build/code-windows/clean-source/native_clip.o",
+        "section": ".text",
+        "size": 40,
+        "source_offset": 0,
+        "symbol": "_Z11BandComparePKvS0_"
+      },
+      {
+        "address": 1132568,
+        "name": "clean_compute_clip_windows",
+        "object": "build/code-windows/clean-source/native_clip.o",
+        "section": ".text",
+        "size": 4572,
+        "source_offset": 0,
+        "symbol": "_Z18ComputeClipWindowsv"
+      },
+      {
+        "address": 1244024,
+        "name": "clean_dsp2_get_byte",
+        "object": "build/code-windows/clean-source/native_dsp2_get.o",
+        "section": ".text",
+        "size": 100,
+        "source_offset": 0,
+        "symbol": "_Z11DSP2GetBytet"
+      },
+      {
+        "address": 1244124,
+        "name": "clean_fx_pipe_string",
+        "object": "build/code-windows/clean-source/native_fx_pipe_string.o",
+        "section": ".text",
+        "size": 640,
+        "source_offset": 0,
+        "symbol": "_Z12FxPipeStringPc"
+      },
+      {
+        "address": 1380180,
+        "name": "clean_memory_safe",
+        "object": "build/code-windows/clean-source/native_memory_safe.o",
+        "section": ".text",
+        "size": 288,
+        "source_offset": 0,
+        "symbol": "_ZN7CMemory4SafeEPKc"
+      },
+      {
+        "address": 1522832,
+        "name": "clean_parse_cheats",
+        "object": "build/code-windows/clean-source/native_parse_cheats.o",
+        "section": ".text",
+        "size": 364,
+        "source_offset": 0,
+        "symbol": "_Z18S9xParseCheatsFilePKc"
+      }
+    ],
+    "clean_source_units": [
+      {
+        "function_sections_added": true,
+        "name": "cheats2",
+        "source": "src/snes9x/cheats2.cpp",
+        "source_sha256": "f18118ff3b2fb98cf9b05f98086c7f38c2c9793756f08e4d631b3ee1d45cf108"
+      },
+      {
+        "function_sections_added": false,
+        "name": "native_clip",
+        "source": "src/snes9x/native_clip.cpp",
+        "source_sha256": "e50d3b9a9d6abb38dfab837745b42a43c4abf935c2f2bfb51ceffaa9465924f7"
+      },
+      {
+        "function_sections_added": false,
+        "name": "native_dsp2_set",
+        "source": "src/snes9x/native_dsp2_set.cpp",
+        "source_sha256": "e04792a29d4b776d7256734acd0e409e42a252b7ea87156cf92db75cef68044c"
+      },
+      {
+        "function_sections_added": false,
+        "name": "native_dsp2_get",
+        "source": "src/snes9x/native_dsp2_get.cpp",
+        "source_sha256": "a9ff2f1e6ec4a77f37d341feaf00b3ebca6dd76e96240886f5ec7741d352b634"
+      },
+      {
+        "function_sections_added": false,
+        "name": "native_fx_pipe_string",
+        "source": "src/snes9x/native_fx_pipe_string.cpp",
+        "source_sha256": "106005e502b06db7a5f71df17132c7247ae41906b020fc0f9e52773b28c73b52"
+      },
+      {
+        "function_sections_added": false,
+        "name": "native_memory_safe",
+        "source": "src/snes9x/native_memory_safe.cpp",
+        "source_sha256": "720b35da1013e10bcdd2bf02d6db6f89dc36cefa664d86df167ac0a0b991861f"
+      },
+      {
+        "function_sections_added": false,
+        "name": "native_frontend_wait",
+        "source": "src/ps2/native_frontend_wait.c",
+        "source_sha256": "4c61c8c4a9fab4596c811040835ba0aaa2c3a2a030f55a44dbc8670cbf90118c"
+      },
+      {
+        "function_sections_added": false,
+        "name": "native_controllers",
+        "source": "src/snes9x/native_controllers.cpp",
+        "source_sha256": "e575af2319dad3ffcbf12eaf7fe42ec5fe19798fdd2570d4baccfdedd813d24e"
+      },
+      {
+        "function_sections_added": false,
+        "name": "native_parse_cheats",
+        "source": "src/snes9x/native_parse_cheats.cpp",
+        "source_sha256": "f5979fcc90792d8781ab075995d41bd6ec42c7a9d464c7216ac03e9a5fa1a430"
+      },
+      {
+        "function_sections_added": false,
+        "name": "native_frontend_leaves",
+        "source": "src/ps2/native_frontend_leaves.c",
+        "source_sha256": "799cda16fdcf8b6d1e2ec44f3e6fcd23f9f9be9e7b2229dc3ca324937d415779"
+      }
+    ],
     "evidence_manifests": [
       "analysis/matching/hunt1000plus-v46-validated-42.tsv",
       "analysis/matching/hunt1000plus-v47-validated-79.tsv",
@@ -7014,6 +7837,96 @@
         "size": 48,
         "source_offset": 0,
         "symbol": "rom_cleanup_00151330"
+      },
+      {
+        "address": 1648428,
+        "name": "inflate_full",
+        "object": "build/window11-rodata/source-objects/zlib-inflate.o",
+        "section": ".text",
+        "size": 2408,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1650836,
+        "name": "crc32_full",
+        "object": "build/window11-rodata/source-objects/zlib-crc32.o",
+        "section": ".text",
+        "size": 508,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1667072,
+        "name": "trees_tail",
+        "object": "build/window11-rodata/source-objects/zlib-trees.o",
+        "section": ".text",
+        "size": 6744,
+        "source_offset": 1664,
+        "symbol": ""
+      },
+      {
+        "address": 1567820,
+        "name": "spc700_tail",
+        "object": "build/window11-rodata/source-objects/snes-SPC700.o",
+        "section": ".text",
+        "size": 6744,
+        "source_offset": 27472,
+        "symbol": ""
+      },
+      {
+        "address": 1696612,
+        "name": "runtime_vsprintf",
+        "object": "build/runtime-members/objects/libc/vsprintf.o",
+        "section": ".text",
+        "size": 36,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1696648,
+        "name": "runtime_printf",
+        "object": "build/runtime-members/objects/libc/printf.o",
+        "section": ".text",
+        "size": 72,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1696720,
+        "name": "runtime_sprintf",
+        "object": "build/runtime-members/objects/libc/sprintf.o",
+        "section": ".text",
+        "size": 68,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1507328,
+        "name": "seta010_tail",
+        "object": "build/window11-rodata/source-objects/snes-seta010.o",
+        "section": ".text",
+        "size": 312,
+        "source_offset": 880,
+        "symbol": ""
+      },
+      {
+        "address": 1507640,
+        "name": "seta011_full",
+        "object": "build/window11-rodata/source-objects/snes-seta011.o",
+        "section": ".text",
+        "size": 196,
+        "source_offset": 0,
+        "symbol": ""
+      },
+      {
+        "address": 1507836,
+        "name": "seta018_full",
+        "object": "build/window11-rodata/source-objects/snes-seta018.o",
+        "section": ".text",
+        "size": 48,
+        "source_offset": 0,
+        "symbol": ""
       }
     ],
     "fixed_slices": [
@@ -7533,62 +8446,12 @@
     "residual_source": "matching/candidates/stage3p_code_residual_exact.S",
     "residual_symbols": [
       {
-        "address": 1130956,
-        "size": 148,
-        "symbol": "stage3p_delete_cheat"
-      },
-      {
-        "address": 1131104,
-        "size": 36,
-        "symbol": "stage3p_delete_cheats"
-      },
-      {
-        "address": 1131140,
-        "size": 76,
-        "symbol": "stage3p_enable_cheat"
-      },
-      {
-        "address": 1131216,
-        "size": 88,
-        "symbol": "stage3p_disable_cheat"
-      },
-      {
-        "address": 1132148,
-        "size": 420,
-        "symbol": "stage3p_save_cheat_file"
-      },
-      {
-        "address": 1132568,
-        "size": 4572,
-        "symbol": "stage3p_compute_clip_windows"
-      },
-      {
         "address": 1243304,
-        "size": 732,
+        "size": 720,
         "symbol": "stage3p_dsp2_set_byte"
-      },
-      {
-        "address": 1244036,
-        "size": 100,
-        "symbol": "stage3p_dsp2_get_byte"
-      },
-      {
-        "address": 1244136,
-        "size": 628,
-        "symbol": "stage3p_fx_pipe_string"
-      },
-      {
-        "address": 1380180,
-        "size": 288,
-        "symbol": "stage3p_memory_safe"
       }
     ],
     "tail_residual_symbols": [
-      {
-        "address": 1507328,
-        "size": 556,
-        "symbol": "stage3p_tail_gap_00170000"
-      },
       {
         "address": 1511884,
         "size": 28,
@@ -7610,11 +8473,6 @@
         "symbol": "stage3p_tail_gap_00177e5c"
       },
       {
-        "address": 1567820,
-        "size": 6744,
-        "symbol": "stage3p_tail_gap_0017ec4c"
-      },
-      {
         "address": 1622440,
         "size": 12,
         "symbol": "stage3p_tail_gap_0018c1a8"
@@ -7630,9 +8488,9 @@
         "symbol": "stage3p_tail_gap_0018e164"
       },
       {
-        "address": 1648428,
-        "size": 2924,
-        "symbol": "stage3p_tail_gap_0019272c"
+        "address": 1651344,
+        "size": 8,
+        "symbol": "stage3p_tail_gap_00193290"
       },
       {
         "address": 1663856,
@@ -7665,9 +8523,9 @@
         "symbol": "stage3p_tail_gap_00196d68"
       },
       {
-        "address": 1667072,
-        "size": 6768,
-        "symbol": "stage3p_tail_gap_00197000"
+        "address": 1673816,
+        "size": 24,
+        "symbol": "stage3p_tail_gap_00198a58"
       },
       {
         "address": 1674236,
@@ -7723,11 +8581,6 @@
         "address": 1691576,
         "size": 8,
         "symbol": "stage3p_tail_gap_0019cfb8"
-      },
-      {
-        "address": 1696612,
-        "size": 176,
-        "symbol": "stage3p_tail_gap_0019e364"
       },
       {
         "address": 1699860,
@@ -7933,6 +8786,260 @@
         "address": 1750244,
         "size": 4,
         "symbol": "stage3p_tail_gap_001ab4e4"
+      }
+    ],
+    "window0_clean_source_slices": [
+      {
+        "address": 1059268,
+        "name": "clean_frontend_wait",
+        "object": "build/code-windows/clean-source/native_frontend_wait.o",
+        "section": ".text",
+        "size": 236,
+        "source_offset": 0,
+        "symbol": "snes_p28_001029c4"
+      },
+      {
+        "address": 1054776,
+        "name": "clean_frontend_control_101838",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 32,
+        "source_offset": 0,
+        "symbol": "frontend_control_00101838"
+      },
+      {
+        "address": 1054808,
+        "name": "clean_frontend_leaf_101858",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101858"
+      },
+      {
+        "address": 1054816,
+        "name": "clean_frontend_leaf_101860",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101860"
+      },
+      {
+        "address": 1054824,
+        "name": "clean_frontend_leaf_101868",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101868"
+      },
+      {
+        "address": 1054832,
+        "name": "clean_frontend_leaf_101870",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101870"
+      },
+      {
+        "address": 1054840,
+        "name": "clean_frontend_leaf_101878",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101878"
+      },
+      {
+        "address": 1068616,
+        "name": "clean_superscope_position",
+        "object": "build/code-windows/clean-source/native_controllers.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "S9xReadSuperScopePosition"
+      },
+      {
+        "address": 1068624,
+        "name": "clean_mouse_position",
+        "object": "build/code-windows/clean-source/native_controllers.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "S9xReadMousePosition"
+      },
+      {
+        "address": 1054848,
+        "name": "clean_justifier_offscreen",
+        "object": "build/code-windows/clean-source/native_controllers.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "_Z18JustifierOffscreenv"
+      },
+      {
+        "address": 1054856,
+        "name": "clean_justifier_buttons",
+        "object": "build/code-windows/clean-source/native_controllers.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "_Z16JustifierButtonsRj"
+      },
+      {
+        "address": 1054944,
+        "name": "clean_frontend_clear_irq",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 28,
+        "source_offset": 0,
+        "symbol": "frontend_clear_irq_001018e0"
+      },
+      {
+        "address": 1054972,
+        "name": "clean_frontend_leaf_1018fc",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_001018fc"
+      },
+      {
+        "address": 1054980,
+        "name": "clean_frontend_leaf_101904",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101904"
+      },
+      {
+        "address": 1054988,
+        "name": "clean_frontend_leaf_10190c",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_0010190c"
+      },
+      {
+        "address": 1054996,
+        "name": "clean_frontend_leaf_101914",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_00101914"
+      },
+      {
+        "address": 1055004,
+        "name": "clean_frontend_leaf_10191c",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_0010191c"
+      },
+      {
+        "address": 1055136,
+        "name": "clean_frontend_leaf_1019a0",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_001019a0"
+      },
+      {
+        "address": 1065444,
+        "name": "clean_frontend_control_1041e4",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 32,
+        "source_offset": 0,
+        "symbol": "frontend_control_001041e4"
+      },
+      {
+        "address": 1065476,
+        "name": "clean_frontend_object_104204",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 24,
+        "source_offset": 0,
+        "symbol": "frontend_object_init_00104204"
+      },
+      {
+        "address": 1065500,
+        "name": "clean_frontend_object_10421c",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 24,
+        "source_offset": 0,
+        "symbol": "frontend_object_init_0010421c"
+      },
+      {
+        "address": 1070768,
+        "name": "clean_frontend_leaf_1056b0",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_001056b0"
+      },
+      {
+        "address": 1070776,
+        "name": "clean_frontend_leaf_1056b8",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 8,
+        "source_offset": 0,
+        "symbol": "snes_leaf_001056b8"
+      },
+      {
+        "address": 1070816,
+        "name": "clean_frontend_drawsync",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 56,
+        "source_offset": 0,
+        "symbol": "frontend_drawsync_001056e0"
+      },
+      {
+        "address": 1072696,
+        "name": "clean_frontend_audio_compare",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 16,
+        "source_offset": 0,
+        "symbol": "frontend_audio_compare_00105e38"
+      },
+      {
+        "address": 1106748,
+        "name": "clean_frontend_c4_leaf_10e33c",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "snes_leaf_0010e33c"
+      },
+      {
+        "address": 1106760,
+        "name": "clean_frontend_c4_leaf_10e348",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "snes_leaf_0010e348"
+      },
+      {
+        "address": 1106772,
+        "name": "clean_frontend_c4_leaf_10e354",
+        "object": "build/code-windows/clean-source/native_frontend_leaves.o",
+        "section": ".text",
+        "size": 12,
+        "source_offset": 0,
+        "symbol": "snes_leaf_0010e354"
       }
     ],
     "window0_fixed_slices": [

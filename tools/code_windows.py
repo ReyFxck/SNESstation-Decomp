@@ -24,6 +24,7 @@ from typing import Sequence
 import link_layout_probe
 import startup_integration as startup
 import window11_rodata as stage3o
+from build_source_tree import SOURCE_FIXED_FLAGS
 from compare_elf_functions import ELFFile, Symbol
 from source_aliases import resolve_tool
 
@@ -163,19 +164,190 @@ EXTRA_SYMBOLS = (
     SliceSpec("dsp_set_byte", "build/matching/hunt1000plus-v46-closure/snes/DSP1.o", 0x0012E750, 0xFF4, symbol="_Z11DSP1SetByteht"),
     SliceSpec("dsp_get_byte", "build/matching/hunt1000plus-v46-closure/snes/DSP1.o", 0x0012F744, 0x164, symbol="_Z11DSP1GetBytet"),
     SliceSpec("rom_cleanup", "build/source-tree/objects/snes9x/memory_cleanup_recovered.o", 0x00151330, 0x30, symbol="rom_cleanup_00151330"),
+    SliceSpec("inflate_full", "build/window11-rodata/source-objects/zlib-inflate.o", 0x0019272C, 0x0968),
+    SliceSpec("crc32_full", "build/window11-rodata/source-objects/zlib-crc32.o", 0x00193094, 0x01FC),
+    SliceSpec("trees_tail", "build/window11-rodata/source-objects/zlib-trees.o", 0x00197000, 0x1A58, source_offset=0x0680),
+    SliceSpec("spc700_tail", "build/window11-rodata/source-objects/snes-SPC700.o", 0x0017EC4C, 0x1A58, source_offset=0x6B50),
+    SliceSpec("runtime_vsprintf", "build/runtime-members/objects/libc/vsprintf.o", 0x0019E364, 0x24),
+    SliceSpec("runtime_printf", "build/runtime-members/objects/libc/printf.o", 0x0019E388, 0x48),
+    SliceSpec("runtime_sprintf", "build/runtime-members/objects/libc/sprintf.o", 0x0019E3D0, 0x44),
+    SliceSpec("seta010_tail", "build/window11-rodata/source-objects/snes-seta010.o", 0x00170000, 0x0138, source_offset=0x0370),
+    SliceSpec("seta011_full", "build/window11-rodata/source-objects/snes-seta011.o", 0x00170138, 0x00C4),
+    SliceSpec("seta018_full", "build/window11-rodata/source-objects/snes-seta018.o", 0x001701FC, 0x0030),
 )
 
+# These target bodies were originally carried by the explicit residual
+# assembly even after their canonical C++ recovery became a complete linked
+# target match. Rebuild them with function sections so the final link can
+# consume the recovered source objects directly.
+CLEAN_SOURCE_SLICES = (
+    SliceSpec("clean_init_cheat_data", "build/code-windows/clean-source/cheats2.o", 0x001140E0, 56, symbol="_Z16S9xInitCheatDatav"),
+    SliceSpec("clean_add_cheat", "build/code-windows/clean-source/cheats2.o", 0x00114118, 180, symbol="_Z11S9xAddCheathhjh"),
+    SliceSpec("clean_delete_cheat", "build/code-windows/clean-source/cheats2.o", 0x001141CC, 148, symbol="_Z14S9xDeleteCheatj"),
+    SliceSpec("clean_delete_cheats", "build/code-windows/clean-source/cheats2.o", 0x00114260, 36, symbol="_Z15S9xDeleteCheatsv"),
+    SliceSpec("clean_enable_cheat", "build/code-windows/clean-source/cheats2.o", 0x00114284, 76, symbol="_Z14S9xEnableCheatj"),
+    SliceSpec("clean_disable_cheat", "build/code-windows/clean-source/cheats2.o", 0x001142D0, 88, symbol="_Z15S9xDisableCheatj"),
+    SliceSpec("clean_remove_cheat", "build/code-windows/clean-source/cheats2.o", 0x00114328, 116, symbol="_Z14S9xRemoveCheatj"),
+    SliceSpec("clean_apply_cheat", "build/code-windows/clean-source/cheats2.o", 0x0011439C, 176, symbol="_Z13S9xApplyCheatj"),
+    SliceSpec("clean_apply_cheats", "build/code-windows/clean-source/cheats2.o", 0x0011444C, 132, symbol="_Z14S9xApplyCheatsv"),
+    SliceSpec("clean_remove_cheats", "build/code-windows/clean-source/cheats2.o", 0x001144D0, 116, symbol="_Z15S9xRemoveCheatsv"),
+    SliceSpec("clean_load_cheat_file", "build/code-windows/clean-source/cheats2.o", 0x00114544, 304, symbol="_Z16S9xLoadCheatFilePKc"),
+    SliceSpec("clean_save_cheat_file", "build/code-windows/clean-source/cheats2.o", 0x00114674, 340, symbol="_Z16S9xSaveCheatFilePKc"),
+    SliceSpec("clean_int_compare", "build/code-windows/clean-source/native_clip.o", 0x001147C8, 40, symbol="_Z10IntComparePKvS0_"),
+    SliceSpec("clean_band_compare", "build/code-windows/clean-source/native_clip.o", 0x001147F0, 40, symbol="_Z11BandComparePKvS0_"),
+    SliceSpec("clean_compute_clip_windows", "build/code-windows/clean-source/native_clip.o", 0x00114818, 4572, symbol="_Z18ComputeClipWindowsv"),
+    SliceSpec("clean_dsp2_get_byte", "build/code-windows/clean-source/native_dsp2_get.o", 0x0012FB78, 100, symbol="_Z11DSP2GetBytet"),
+    SliceSpec("clean_fx_pipe_string", "build/code-windows/clean-source/native_fx_pipe_string.o", 0x0012FBDC, 640, symbol="_Z12FxPipeStringPc"),
+    SliceSpec("clean_memory_safe", "build/code-windows/clean-source/native_memory_safe.o", 0x00150F54, 288, symbol="_ZN7CMemory4SafeEPKc"),
+    SliceSpec("clean_parse_cheats", "build/code-windows/clean-source/native_parse_cheats.o", 0x00173C90, 364, symbol="_Z18S9xParseCheatsFilePKc"),
+)
+
+WINDOW0_CLEAN_SOURCE_SLICES = (
+    SliceSpec("clean_frontend_wait", "build/code-windows/clean-source/native_frontend_wait.o", 0x001029C4, 236, symbol="snes_p28_001029c4"),
+    SliceSpec("clean_frontend_control_101838", "build/code-windows/clean-source/native_frontend_leaves.o", 0x00101838, 32, symbol="frontend_control_00101838"),
+    SliceSpec("clean_frontend_leaf_101858", "build/code-windows/clean-source/native_frontend_leaves.o", 0x00101858, 8, symbol="snes_leaf_00101858"),
+    SliceSpec("clean_frontend_leaf_101860", "build/code-windows/clean-source/native_frontend_leaves.o", 0x00101860, 8, symbol="snes_leaf_00101860"),
+    SliceSpec("clean_frontend_leaf_101868", "build/code-windows/clean-source/native_frontend_leaves.o", 0x00101868, 8, symbol="snes_leaf_00101868"),
+    SliceSpec("clean_frontend_leaf_101870", "build/code-windows/clean-source/native_frontend_leaves.o", 0x00101870, 8, symbol="snes_leaf_00101870"),
+    SliceSpec("clean_frontend_leaf_101878", "build/code-windows/clean-source/native_frontend_leaves.o", 0x00101878, 8, symbol="snes_leaf_00101878"),
+    SliceSpec("clean_superscope_position", "build/code-windows/clean-source/native_controllers.o", 0x00104E48, 8, symbol="S9xReadSuperScopePosition"),
+    SliceSpec("clean_mouse_position", "build/code-windows/clean-source/native_controllers.o", 0x00104E50, 8, symbol="S9xReadMousePosition"),
+    SliceSpec("clean_justifier_offscreen", "build/code-windows/clean-source/native_controllers.o", 0x00101880, 8, symbol="_Z18JustifierOffscreenv"),
+    SliceSpec("clean_justifier_buttons", "build/code-windows/clean-source/native_controllers.o", 0x00101888, 8, symbol="_Z16JustifierButtonsRj"),
+    SliceSpec("clean_frontend_clear_irq", "build/code-windows/clean-source/native_frontend_leaves.o", 0x001018E0, 28, symbol="frontend_clear_irq_001018e0"),
+    SliceSpec("clean_frontend_leaf_1018fc", "build/code-windows/clean-source/native_frontend_leaves.o", 0x001018FC, 8, symbol="snes_leaf_001018fc"),
+    SliceSpec("clean_frontend_leaf_101904", "build/code-windows/clean-source/native_frontend_leaves.o", 0x00101904, 8, symbol="snes_leaf_00101904"),
+    SliceSpec("clean_frontend_leaf_10190c", "build/code-windows/clean-source/native_frontend_leaves.o", 0x0010190C, 8, symbol="snes_leaf_0010190c"),
+    SliceSpec("clean_frontend_leaf_101914", "build/code-windows/clean-source/native_frontend_leaves.o", 0x00101914, 8, symbol="snes_leaf_00101914"),
+    SliceSpec("clean_frontend_leaf_10191c", "build/code-windows/clean-source/native_frontend_leaves.o", 0x0010191C, 8, symbol="snes_leaf_0010191c"),
+    SliceSpec("clean_frontend_leaf_1019a0", "build/code-windows/clean-source/native_frontend_leaves.o", 0x001019A0, 8, symbol="snes_leaf_001019a0"),
+    SliceSpec("clean_frontend_control_1041e4", "build/code-windows/clean-source/native_frontend_leaves.o", 0x001041E4, 32, symbol="frontend_control_001041e4"),
+    SliceSpec("clean_frontend_object_104204", "build/code-windows/clean-source/native_frontend_leaves.o", 0x00104204, 24, symbol="frontend_object_init_00104204"),
+    SliceSpec("clean_frontend_object_10421c", "build/code-windows/clean-source/native_frontend_leaves.o", 0x0010421C, 24, symbol="frontend_object_init_0010421c"),
+    SliceSpec("clean_frontend_leaf_1056b0", "build/code-windows/clean-source/native_frontend_leaves.o", 0x001056B0, 8, symbol="snes_leaf_001056b0"),
+    SliceSpec("clean_frontend_leaf_1056b8", "build/code-windows/clean-source/native_frontend_leaves.o", 0x001056B8, 8, symbol="snes_leaf_001056b8"),
+    SliceSpec("clean_frontend_drawsync", "build/code-windows/clean-source/native_frontend_leaves.o", 0x001056E0, 56, symbol="frontend_drawsync_001056e0"),
+    SliceSpec("clean_frontend_audio_compare", "build/code-windows/clean-source/native_frontend_leaves.o", 0x00105E38, 16, symbol="frontend_audio_compare_00105e38"),
+    SliceSpec("clean_frontend_c4_leaf_10e33c", "build/code-windows/clean-source/native_frontend_leaves.o", 0x0010E33C, 12, symbol="snes_leaf_0010e33c"),
+    SliceSpec("clean_frontend_c4_leaf_10e348", "build/code-windows/clean-source/native_frontend_leaves.o", 0x0010E348, 12, symbol="snes_leaf_0010e348"),
+    SliceSpec("clean_frontend_c4_leaf_10e354", "build/code-windows/clean-source/native_frontend_leaves.o", 0x0010E354, 12, symbol="snes_leaf_0010e354"),
+)
+
+CLEAN_SOURCE_UNITS = (
+    ("cheats2", "src/snes9x/cheats2.cpp", "build/code-windows/clean-source/cheats2.o", True),
+    ("native_clip", "src/snes9x/native_clip.cpp", "build/code-windows/clean-source/native_clip.o", False),
+    ("native_dsp2_set", "src/snes9x/native_dsp2_set.cpp", "build/code-windows/clean-source/native_dsp2_set.o", False),
+    ("native_dsp2_get", "src/snes9x/native_dsp2_get.cpp", "build/code-windows/clean-source/native_dsp2_get.o", False),
+    ("native_fx_pipe_string", "src/snes9x/native_fx_pipe_string.cpp", "build/code-windows/clean-source/native_fx_pipe_string.o", False),
+    ("native_memory_safe", "src/snes9x/native_memory_safe.cpp", "build/code-windows/clean-source/native_memory_safe.o", False),
+    ("native_frontend_wait", "src/ps2/native_frontend_wait.c", "build/code-windows/clean-source/native_frontend_wait.o", False),
+    ("native_controllers", "src/snes9x/native_controllers.cpp", "build/code-windows/clean-source/native_controllers.o", False),
+    ("native_parse_cheats", "src/snes9x/native_parse_cheats.cpp", "build/code-windows/clean-source/native_parse_cheats.o", False),
+    ("native_frontend_leaves", "src/ps2/native_frontend_leaves.c", "build/code-windows/clean-source/native_frontend_leaves.o", False),
+)
+
+CLEAN_SOURCE_PROVIDER_TARGETS = {
+    "DAT_003454e0": 0x003454E0,
+    "DAT_00345628": 0x00345628,
+    "DAT_0034163a": 0x0034163A,
+    "DAT_0034163c": 0x0034163C,
+    "DAT_0034163e": 0x0034163E,
+    "DAT_00341640": 0x00341640,
+    "DAT_00341644": 0x00341644,
+    "DAT_00341648": 0x00341648,
+    "DAT_0034164c": 0x0034164C,
+    "DAT_0034164d": 0x0034164D,
+    "DAT_00341650": 0x00341650,
+    "DAT_00341654": 0x00341654,
+    "DAT_001b2420": 0x001B2420,
+    "_Z9DSP2_Op01v": 0x0012E374,
+    "_Z9DSP2_Op05v": 0x0012E2E0,
+    "_Z9DSP2_Op06v": 0x0012E568,
+    "_Z9DSP2_Op0Dv": 0x0012E5B8,
+    "DAT_00341a38": 0x00341A38,
+    "DAT_00342a38": 0x00342A38,
+    "DAT_001b2ca0": 0x001B2CA0,
+    "DAT_001b2cb8": 0x001B2CB8,
+    "DAT_001b2cc8": 0x001B2CC8,
+    "DAT_001b2cd8": 0x001B2CD8,
+    "DAT_001b2ce8": 0x001B2CE8,
+    "DAT_0034e298": 0x0034E298,
+    "DAT_0034e2b0": 0x0034E2B0,
+    "DAT_0035b788": 0x0035B788,
+    "DAT_0035c268": 0x0035C268,
+    "DAT_0035fda8": 0x0035FDA8,
+    "DAT_003f4910": 0x003F4910,
+    "DAT_0042e820": 0x0042E820,
+    "_Z10S9xGetBytej": 0x001AB63C,
+    "_Z10S9xSetBytehj": 0x001AB900,
+    "__gxx_personality_v0": 0x001A9768,
+    "fioClose": 0x0019D090,
+    "fioOpen": 0x0019CFC0,
+    "fioRead": 0x0019D120,
+    "fioWrite": 0x0019D244,
+    "free": 0x0019E784,
+    "malloc": 0x0019E4B4,
+    "memmove": 0x0019C4A0,
+    "memset": 0x0019C39C,
+    "qsort": 0x001080CC,
+    "printf": 0x0019E388,
+    "sprintf": 0x0019E3D0,
+    "strcpy": 0x0019C528,
+    "strlen": 0x0019C5E8,
+    "FUN_00101b64": 0x00101B64,
+    "DAT_001bb748": 0x001BB748,
+    "DAT_001b0a58": 0x001B0A58,
+    "FUN_0019b948": 0x0019B948,
+    "FUN_00101e8c": 0x00101E8C,
+    "FUN_0019c2ac": 0x0019C2AC,
+    "_DAT_001bb340": 0x001BB340,
+    "FUN_001a88a8": 0x001A88A8,
+    "FUN_001a8864": 0x001A8864,
+    "split_path_00105ae8": 0x00105AE8,
+    "_makepath": 0x001059CC,
+    "fioOpen": 0x0019CFC0,
+    "fioGets": 0x0019D558,
+    "strrchr": 0x0019EAA4,
+    "_Z17S9xGameGenieToRawPKcRjRh": 0x0010E354,
+    "_Z23S9xProActionReplayToRawPKcRjRh": 0x0010E33C,
+    "_Z18S9xGoldFingerToRawPKcRjRhS2_Ph": 0x0010E348,
+    "_Z10S9xMessageiiPKc": 0x001056B0,
+    "_Z11S9xAddCheathhjh": 0x00114118,
+    "fioClose": 0x0019D090,
+    "DAT_001b83e0": 0x001B83E0,
+    "frontend_leaf_00101814": 0x00101814,
+    "frontend_irq_helper_00194498": 0x00194498,
+    "frontend_leaf_001041c0": 0x001041C0,
+    "snes_vtable_00426c28": 0x00426C28,
+    "DAT_001b0f70": 0x001B0F70,
+    "DAT_00429288": 0x00429288,
+    "snes_data_001b0000": 0x001B0000,
+}
+
 RESIDUAL_SYMBOLS = (
+    ("stage3p_dsp2_set_byte", 0x0012F8A8, 720),
+)
+
+# These labels remain in the historical readable assembly witness, but their
+# final-link implementations now come from the recovered C++ units above.
+# Keep them in the splitter roster so an obsolete body can never bleed into a
+# neighbouring active residual section, then strip their sections before any
+# source-selection or link step.
+RETIRED_RESIDUAL_SYMBOLS = (
     ("stage3p_delete_cheat", 0x001141CC, 148),
     ("stage3p_delete_cheats", 0x00114260, 36),
     ("stage3p_enable_cheat", 0x00114284, 76),
     ("stage3p_disable_cheat", 0x001142D0, 88),
     ("stage3p_save_cheat_file", 0x00114674, 420),
     ("stage3p_compute_clip_windows", 0x00114818, 4572),
-    ("stage3p_dsp2_set_byte", 0x0012F8A8, 732),
-    ("stage3p_dsp2_get_byte", 0x0012FB84, 100),
-    ("stage3p_fx_pipe_string", 0x0012FBE8, 628),
+    ("stage3p_dsp2_get_byte", 0x0012FB78, 100),
+    ("stage3p_fx_pipe_string", 0x0012FBDC, 640),
     ("stage3p_memory_safe", 0x00150F54, 288),
+    ("stage3p_tail_gap_0019272c", 0x0019272C, 0x0B64),
+    ("stage3p_tail_gap_00197000", 0x00197000, 0x1A58),
+    ("stage3p_tail_gap_0017ec4c", 0x0017EC4C, 0x1A58),
+    ("stage3p_tail_gap_0019e364", 0x0019E364, 0x00B0),
+    ("stage3p_tail_gap_00170000", 0x00170000, 0x022C),
 )
 
 WINDOW0_RESIDUAL_SYMBOLS = (
@@ -197,23 +369,21 @@ WINDOW0_RESIDUAL_SYMBOLS = (
 # historical object set.  These are explicit EE assembly reconstructions in
 # DEFAULT_RESIDUAL; no private binary payload is checked into the repository.
 TAIL_RESIDUAL_SYMBOLS = (
-    ("stage3p_tail_gap_00170000", 0x00170000, 0x022C),
     ("stage3p_tail_gap_001711cc", 0x001711CC, 0x001C),
     ("stage3p_tail_gap_00171230", 0x00171230, 0x001C),
     ("stage3p_tail_gap_00173c90", 0x00173C90, 0x016C),
     ("stage3p_tail_gap_00177e5c", 0x00177E5C, 0x0010),
-    ("stage3p_tail_gap_0017ec4c", 0x0017EC4C, 0x1A58),
     ("stage3p_tail_gap_0018c1a8", 0x0018C1A8, 0x000C),
     ("stage3p_tail_gap_0018e130", 0x0018E130, 0x0008),
     ("stage3p_tail_gap_0018e164", 0x0018E164, 0x0010),
-    ("stage3p_tail_gap_0019272c", 0x0019272C, 0x0B6C),
+    ("stage3p_tail_gap_00193290", 0x00193290, 0x0008),
     ("stage3p_tail_gap_00196370", 0x00196370, 0x0010),
     ("stage3p_tail_gap_00196a10", 0x00196A10, 0x0010),
     ("stage3p_tail_gap_00196a38", 0x00196A38, 0x0010),
     ("stage3p_tail_gap_00196a60", 0x00196A60, 0x0010),
     ("stage3p_tail_gap_00196c08", 0x00196C08, 0x0010),
     ("stage3p_tail_gap_00196d68", 0x00196D68, 0x0010),
-    ("stage3p_tail_gap_00197000", 0x00197000, 0x1A70),
+    ("stage3p_tail_gap_00198a58", 0x00198A58, 0x0018),
     ("stage3p_tail_gap_00198bfc", 0x00198BFC, 0x0008),
     ("stage3p_tail_gap_00199170", 0x00199170, 0x0008),
     ("stage3p_tail_gap_00199288", 0x00199288, 0x0008),
@@ -225,7 +395,6 @@ TAIL_RESIDUAL_SYMBOLS = (
     ("stage3p_tail_gap_0019c050", 0x0019C050, 0x000C),
     ("stage3p_tail_gap_0019c0b4", 0x0019C0B4, 0x000C),
     ("stage3p_tail_gap_0019cfb8", 0x0019CFB8, 0x0008),
-    ("stage3p_tail_gap_0019e364", 0x0019E364, 0x00B0),
     ("stage3p_tail_gap_0019f014", 0x0019F014, 0x0004),
     ("stage3p_tail_gap_0019f594", 0x0019F594, 0x003C),
     ("stage3p_tail_gap_001a0694", 0x001A0694, 0x000C),
@@ -267,6 +436,27 @@ TAIL_RESIDUAL_SYMBOLS = (
     ("stage3p_tail_gap_001aade0", 0x001AADE0, 0x0008),
     ("stage3p_tail_gap_001ab078", 0x001AB078, 0x0008),
     ("stage3p_tail_gap_001ab4e4", 0x001AB4E4, 0x0004),
+)
+
+# Natural inter-object alignment holes in the historical link.  Keep these as
+# linker-owned zero fill instead of manufacturing executable assembly input.
+LINKER_ZERO_FILL_SPANS = (
+    (0x0018C1A8, 12), (0x0018E130, 8), (0x0018E164, 16),
+    (0x00196370, 16), (0x00196A10, 16), (0x00196A38, 16),
+    (0x00196A60, 16), (0x00196C08, 16), (0x00196D68, 16),
+    (0x00198BFC, 8), (0x00199170, 8), (0x00199288, 8),
+    (0x0019BD5C, 8), (0x0019BD70, 8), (0x0019BE18, 8),
+    (0x0019BE5C, 8), (0x0019BEB4, 24), (0x0019C050, 12),
+    (0x0019C0B4, 12), (0x0019CFB8, 8), (0x0019F014, 4),
+    (0x0019F594, 12),
+    (0x001A0694, 12), (0x001A06A8, 8), (0x001A06B8, 8),
+    (0x001A06D4, 8), (0x001A0700, 8), (0x001A1C90, 8),
+    (0x001A3464, 12), (0x001A3498, 8), (0x001A3BC4, 12),
+    (0x001A7E90, 16), (0x001A80C8, 8), (0x001A8130, 16),
+    (0x001A8330, 8), (0x001A84D4, 20), (0x001A84F0, 12),
+    (0x001A8534, 20), (0x001A8550, 12), (0x001A9C18, 8),
+    (0x001A9C80, 8), (0x001A9E80, 8), (0x001AADE0, 8),
+    (0x001AB078, 8),
 )
 
 
@@ -337,9 +527,13 @@ def split_symbol_source(
 
 def split_residual_source(source: Path, output: Path) -> list[tuple[str, int, int]]:
     """Compile the labelled residual source as addressable ELF sections."""
-    return split_symbol_source(
-        source, output, residual_ranges(), ".text.stage3p.residual"
+    active = residual_ranges()
+    split_symbol_source(
+        source, output, sorted(
+            [*active, *RETIRED_RESIDUAL_SYMBOLS], key=lambda item: item[1]
+        ), ".text.stage3p.residual"
     )
+    return active
 
 
 DIRECT_ASSEMBLY_GROUPS = (
@@ -634,6 +828,12 @@ DIRECT_SOUND_CORE_OBJECT = (
     ((".data", 0x00410F00), (".rodata", 0x001B83E8)),
 )
 
+DIRECT_SPC700_TAIL_OBJECT = (
+    "build/window11-rodata/source-objects/snes-SPC700.o",
+    0x0017EC4C, 0x1A58,
+    ((".data", 0x00411010), (".rodata", 0x001B84B8)),
+)
+
 DIRECT_SMALL_CODE_OBJECTS = (
     ("unshrink", ("build/matching/hunt1041-v48-closure/historical/pgen-unshrink.o",
                   0x0018EA58, 1464, ((".data", 0x00426E3C),)),
@@ -692,9 +892,89 @@ DIRECT_SETA010_PREFIX_OBJECT = (
     0x0016FC90, 880, ((".rodata", 0x001B8058),),
 )
 
-DIRECT_CHEATS2_TAIL_OBJECT = (
-    "build/matching/hunt1041-v73-historical-io/objects/cheats2.o",
-    0x00114328, 844, (),
+DIRECT_SETA_TAIL_OBJECTS = (
+    ("seta010tail", "build/window11-rodata/source-objects/snes-seta010.o",
+     0x00170000, 0x0370, 0x0138, 10,
+     ((".data", 0x003FA690), (".rodata", 0x001B8058)),
+     {".data": 40, ".rodata": 88, ".rel.rodata": 64, ".bss": 0}, 0x04A8),
+    ("seta011", "build/window11-rodata/source-objects/snes-seta011.o",
+     0x00170138, 0, 0x00C4, 14,
+     ((".data", 0x003FA6B8), (".rodata", 0x001B80B0)),
+     {".data": 8, ".rodata": 40, ".bss": 0}, 0x00C4),
+    ("seta018", "build/window11-rodata/source-objects/snes-seta018.o",
+     0x001701FC, 0, 0x0030, 3,
+     ((".rodata", 0x001B80D8),),
+     {".data": 0, ".rodata": 24, ".bss": 0}, 0x0030),
+)
+
+DIRECT_AUDIO_RPC_PREFIX_TAILS = (
+    ("abort", "build/source-tree/objects/ps2/libc_misc_recovered.o",
+     0x00107578, 0, 0x0008, 0, (),
+     {".data": 0, ".bss": 0}, 0x0060),
+    ("sjpcmputs", "build/source-tree/objects/ps2/sjpcm_rpc.o",
+     0x00107580, 0, 0x010C, 12,
+     ((".data", 0x001F6100), (".bss", 0x0042B400)),
+     {".data": 16, ".bss": 4416}, 0x05FC),
+    ("modputs", "build/source-tree/objects/ps2/amigamod_rpc.o",
+     0x00107F84, 0x0408, 0x0148, 10,
+     ((".data", 0x001FAFC0), (".bss", 0x0042C540),
+      (".rodata", 0x001B1500)),
+     {".data": 8, ".bss": 320, ".rodata": 16}, 0x0550),
+)
+
+DIRECT_PENDING_NATIVE_SLICES = (
+    ("snapshot-save", "build/historical-tail-data/source-objects/snapshot_prefix.o",
+     0x001711CC, 0, 0x001C, 1, (),
+     {".data": 20072, ".rel.data": 104, ".bss": 1024,
+      ".rodata": 464}, 0x2AA0),
+    ("snapshot-load", "build/historical-tail-data/source-objects/snapshot_prefix.o",
+     0x00171230, 0x0064, 0x001C, 1, (),
+     {".data": 20072, ".rel.data": 104, ".bss": 1024,
+      ".rodata": 464}, 0x2AA0),
+    ("sound-control", "build/historical-tail-data/source-objects/sound_prefix.o",
+     0x00177E5C, 0x3B60, 0x0010, 2, (),
+     {".data": 264, ".rel.data": 40, ".bss": 0,
+      ".rodata": 176, ".rel.rodata": 288}, 0x3DF8),
+)
+
+DIRECT_FRONTEND_SOURCE_SLICES = (
+    ("frontend-shutdown", "build/source-tree/objects/ps2/libmtap_recovered.o",
+     0x00104E58, 0x0120, 0x0024, 5, (),
+     {".data": 0, ".bss": 0}, 0x0148),
+    ("load-module-buffer", "build/source-tree/objects/ps2/load_module_buffer.o",
+     0x00104E7C, 0, 0x009C, 5, (),
+     {".data": 0, ".bss": 0}, 0x00A0),
+)
+
+# Small exact functions promoted from their canonical public source objects.
+# These spans used to sit in the catch-all residual despite already having a
+# byte-identical producer: recovered C, PS2SDK's syscall macro source, zlib
+# 1.1.3, and the pinned GCC 3.2.2 libsupc++ source build respectively.
+DIRECT_RECOVERED_SOURCE_SLICES = (
+    ("dsp2-set", "build/code-windows/clean-source/native_dsp2_set.o",
+     0x0012F8A8, 0, 0x02D0, 74, ((".rodata", 0x001B2428),),
+     {".data": 68, ".rel.data": 16, ".rodata": 120,
+      ".rel.rodata": 240, ".bss": 0}, 0x02D0, frozenset()),
+    ("negative-leaf", "build/source-tree/objects/ps2/address_leaf_recovered.o",
+     0x00193290, 0x00A8, 0x0008, 0, (),
+     {".data": 0, ".bss": 0, ".rodata": 32}, 0x08C0, frozenset()),
+    ("zlib-version", "build/window11-rodata/source-objects/zlib-zutil.o",
+     0x00198A58, 0, 0x000C, 2, ((".rodata", 0x001BA1A8),),
+     {".data": 40, ".rel.data": 80, ".rodata": 160, ".bss": 0},
+     0x0078, frozenset()),
+    ("zlib-error", "build/window11-rodata/source-objects/zlib-zutil.o",
+     0x00198A64, 0x000C, 0x0020, 2, ((".data", 0x00425A00),),
+     {".data": 40, ".rel.data": 80, ".rodata": 160, ".bss": 0},
+     0x0078, None),
+    ("dmac-syscalls", "build/source-tree/objects/ps2/kernel.o",
+     0x0019F5A0, 0, 0x0020, 0, (),
+     {".data": 0, ".bss": 0}, 0x0200, frozenset()),
+    ("end-of-heap", "build/source-tree/objects/ps2/libkernel_heap_runtime_recovered.o",
+     0x0019F5C0, 0x0090, 0x0010, 0, (),
+     {".data": 0, ".bss": 0}, 0x00A0, frozenset()),
+    ("operator-new-array", "build/runtime-tail-data/source-objects/new_opv.o",
+     0x001A9F68, 0, 0x0040, 3, (),
+     {".data": 68, ".rel.data": 24, ".bss": 0}, 0x0040, frozenset()),
 )
 
 DIRECT_GZIO_SUFFIX_OBJECT = (
@@ -722,6 +1002,12 @@ DIRECT_GSDRIVER_SLICES = (
 )
 
 DIRECT_ZLIB_OBJECT_SLICES = (
+    ("inflate", "zlib-inflate.o", 0x0019272C, 0, 0x968, 34,
+     ((".rodata", 0x001B89C8),),
+     {".data": 0, ".rodata": 184, ".rel.rodata": 112, ".bss": 0}, 0x968),
+    ("crc32", "zlib-crc32.o", 0x00193094, 0, 0x1FC, 6,
+     ((".rodata", 0x001B8A80),),
+     {".data": 0, ".rodata": 2048, ".bss": 0}, 0x1FC),
     ("infcodes", "zlib-infcodes.o", 0x0019533C, 0, 2048, 23,
      ((".rodata", 0x001B93B0),),
      {".data": 0, ".rodata": 96, ".rel.rodata": 80, ".bss": 0}, 2048),
@@ -773,6 +1059,10 @@ DIRECT_ZLIB_OBJECT_SLICES = (
     ("treespost", "zlib-trees.o", 0x00196D78, 0x3F8, 648, 3,
      (), {".data": 72, ".rel.data": 40, ".rodata": 2624,
           ".bss": 0}, 8408),
+    ("treestail", "zlib-trees.o", 0x00197000, 0x680, 0x1A58, 59,
+     ((".data", 0x004259B8), (".rodata", 0x001B9768)),
+     {".data": 72, ".rel.data": 40, ".rodata": 2624,
+      ".bss": 0}, 8408),
 )
 
 # Archive members from the pinned EE GCC 3.2.2 producer. Keep each member's
@@ -842,6 +1132,12 @@ DIRECT_LIBGCC_SLICES = (
 # Historical PS2LIB runtime members already verified by the runtime-members
 # gate. The attached section providers are established by the data contracts.
 DIRECT_RUNTIME_OBJECTS = (
+    ("rtvsprintf", "libc/vsprintf.o", 0x0019E364, 0x24, 1, (),
+     {".data": 0, ".bss": 0}),
+    ("rtprintf", "libc/printf.o", 0x0019E388, 0x48, 1, (),
+     {".data": 0, ".bss": 0}),
+    ("rtsprintf", "libc/sprintf.o", 0x0019E3D0, 0x44, 1, (),
+     {".data": 0, ".bss": 0}),
     ("rtmemmove", "libc/memmove.o", 0x0019C4A0, 136, 0, (),
      {".data": 0, ".bss": 0}),
     ("rtbind", "kernel/SifBindRpc.o", 0x0019C688, 296, 8, (),
@@ -942,6 +1238,120 @@ def compile_pad_candidate(build_dir: Path, compiler: Path) -> None:
         section = sections[name]
         if digest(elf.data[section.offset:section.offset + section.size]) != expected:
             fail(f"historical libpad {name} compiler output drift")
+
+
+def compile_clean_source_candidates(compiler: Path) -> None:
+    """Rebuild exact recovered C++ bodies as selectable function sections."""
+    for _name, source_relative, output_relative, add_function_sections in CLEAN_SOURCE_UNITS:
+        source = ROOT / source_relative
+        output = ROOT / output_relative
+        output.parent.mkdir(parents=True, exist_ok=True)
+        flags = list(SOURCE_FIXED_FLAGS[source_relative])
+        if add_function_sections and "-ffunction-sections" not in flags:
+            flags.append("-ffunction-sections")
+        unit_compiler = compiler.with_name("ee-gcc") if source.suffix == ".c" else compiler
+        stage3o.stage3i.compile_one(unit_compiler, flags, source, output)
+
+
+def link_clean_source_functions(
+    reference: bytes,
+    build_dir: Path,
+    objcopy: Path,
+    relocation_targets: dict[str, int],
+) -> tuple[list[Path], list[tuple[str, int, int, None]]]:
+    """Link proved canonical C++ functions without an assembly transport."""
+    outputs: list[Path] = []
+    placements: list[tuple[str, int, int, None]] = []
+    groups: dict[str, list[SliceSpec]] = {}
+    for spec in (*CLEAN_SOURCE_SLICES, *WINDOW0_CLEAN_SOURCE_SLICES):
+        groups.setdefault(spec.object, []).append(spec)
+
+    for object_relative, specs in sorted(groups.items()):
+        source = ROOT / object_relative
+        original = ELFFile(source)
+        selected_sections: dict[str, SliceSpec] = {}
+        prefix = f".text.stage3p.clean.{source.stem}"
+        command: list[str | Path] = [objcopy]
+        for spec in sorted(specs, key=lambda item: item.address):
+            symbol = original.find_symbol(spec.symbol)
+            section = original.sections[symbol.section_index]
+            if (symbol.value != 0 or symbol.size != spec.size
+                    or not section.name.startswith(".text.")
+                    or section.size != spec.size):
+                fail(f"clean-source function section drift: {spec.symbol}")
+            if section.name in selected_sections:
+                fail(f"duplicate clean-source function section: {section.name}")
+            raw, masks, _relocations = candidate(spec)
+            target = reference[
+                spec.address - TARGET_BASE:spec.address - TARGET_BASE + spec.size
+            ]
+            patched = bytes(
+                (source_byte & (~mask & 0xFF)) | (target_byte & mask)
+                for source_byte, target_byte, mask in zip(raw, target, masks)
+            )
+            if patched != target:
+                fail(f"clean-source linked target drift: {spec.symbol}")
+            output_section = f"{prefix}.{spec.address:08x}"
+            command.extend(("--rename-section", f"{section.name}={output_section}"))
+            command.extend((
+                "--redefine-sym",
+                f"{spec.symbol}=stage3p_clean_{source.stem}_{spec.address:08x}",
+            ))
+            selected_sections[section.name] = spec
+            placements.append((prefix, spec.address, spec.size, None))
+
+        retained = set(selected_sections)
+        retained.update(f".rel{name}" for name in selected_sections)
+        retained.update(f".rela{name}" for name in selected_sections)
+        removable_prefixes = (
+            ".text", ".rel.text", ".rela.text", ".data", ".rel.data",
+            ".rela.data", ".bss", ".rodata", ".rel.rodata", ".rela.rodata",
+            ".gcc_except_table", ".eh_frame", ".gnu.linkonce",
+        )
+        for section in original.sections:
+            if section.name not in retained and section.name.startswith(removable_prefixes):
+                command.extend(("--remove-section", section.name))
+
+        imports: set[str] = set()
+        sections_by_name = {section.name: section for section in original.sections}
+        for section_name in selected_sections:
+            rel = sections_by_name.get(f".rel{section_name}")
+            rela = sections_by_name.get(f".rela{section_name}")
+            if rela is not None:
+                fail(f"unsupported clean-source RELA section: {rela.name}")
+            if rel is None:
+                continue
+            if rel.size % 8:
+                fail(f"clean-source relocation layout drift: {rel.name}")
+            for offset in range(rel.offset, rel.offset + rel.size, 8):
+                _place, info = struct.unpack_from("<II", original.data, offset)
+                symbol_index = info >> 8
+                if symbol_index >= len(original.symbols):
+                    fail(f"clean-source relocation symbol drift: {rel.name}")
+                entry = original.symbols[symbol_index]
+                if entry.name and entry.section_index == 0:
+                    imports.add(entry.name)
+        unknown = imports - CLEAN_SOURCE_PROVIDER_TARGETS.keys()
+        if unknown:
+            fail(
+                f"unreviewed clean-source providers for {source.name}: "
+                + ", ".join(sorted(unknown))
+            )
+        for name in sorted(imports):
+            alias = f"stage3p_clean_target_{source.stem}_{name}"
+            command.extend(("--redefine-sym", f"{name}={alias}"))
+            relocation_targets[alias] = CLEAN_SOURCE_PROVIDER_TARGETS[name]
+
+        output = build_dir / f"stage3p-clean-{source.stem}.o"
+        run([*command, source, output])
+        converted = ELFFile(output)
+        converted_sections = {section.name: section for section in converted.sections}
+        for spec in specs:
+            name = f"{prefix}.{spec.address:08x}"
+            if name not in converted_sections or converted_sections[name].size != spec.size:
+                fail(f"clean-source direct section missing: {name}")
+        outputs.append(output)
+    return outputs, placements
 
 
 def extract_libgcc_members(build_dir: Path) -> None:
@@ -1052,15 +1462,15 @@ EXPECTED: dict[str, object] = {
     "exact_chunks": 51,
     "mismatching_chunks": 0,
     "first_differing_address": None,
-    "historical_recovered_bytes": 525_460,
+    "historical_recovered_bytes": 562_840,
     "integrated_padded_sha256": TARGET_SHA256,
-    "listing_bytes": 73_192,
+    "listing_bytes": 72_152,
     "prior_differing_bytes": 635_736,
     "prior_exact_assembly_bytes": 85_628,
-    "relocation_fields": 39_226,
-    "residual_bytes": 36_340,
-    "selected_source_contract_sha256": "5c767308073b3157a08ffffe635373f81d2c5132fbc1d68046a462c9b92fbb8b",
-    "selected_source_slices": 568,
+    "relocation_fields": 40_351,
+    "residual_bytes": 0,
+    "selected_source_contract_sha256": "bbe482783a2fe7fcf812389841d60b41d64e4140b4634f9a42a05e3b4361853e",
+    "selected_source_slices": 617,
     "source_bytes": 720_620,
     "target_initialized_size": 3_304_936,
     "target_sha256": TARGET_SHA256,
@@ -1113,6 +1523,19 @@ def source_contract() -> dict:
         "fixed_slices": [spec.__dict__ for spec in FIXED_SLICES],
         "window0_fixed_slices": [spec.__dict__ for spec in WINDOW0_FIXED_SLICES],
         "extra_symbols": [spec.__dict__ for spec in EXTRA_SYMBOLS],
+        "clean_source_slices": [spec.__dict__ for spec in CLEAN_SOURCE_SLICES],
+        "window0_clean_source_slices": [
+            spec.__dict__ for spec in WINDOW0_CLEAN_SOURCE_SLICES
+        ],
+        "clean_source_units": [
+            {
+                "name": name,
+                "source": source,
+                "source_sha256": digest((ROOT / source).read_bytes()),
+                "function_sections_added": add_function_sections,
+            }
+            for name, source, _output, add_function_sections in CLEAN_SOURCE_UNITS
+        ],
         "residual_source": str(DEFAULT_RESIDUAL.relative_to(ROOT)),
         "residual_symbols": [
             {"symbol": name, "address": address, "size": size}
@@ -1383,7 +1806,12 @@ def assemble_windows(reference: bytes, residual_object: Path) -> tuple[list[byte
     selected: list[dict] = []
     relocation_fields = 0
 
-    specs = [*FIXED_SLICES, *tsv_specs(WINDOW_START, WINDOW_END), *EXTRA_SYMBOLS]
+    specs = [
+        *FIXED_SLICES,
+        *CLEAN_SOURCE_SLICES,
+        *tsv_specs(WINDOW_START, WINDOW_END),
+        *EXTRA_SYMBOLS,
+    ]
     specs.extend(
         SliceSpec(name, str(residual_object.relative_to(ROOT)), address, size, symbol=name)
         for name, address, size in RESIDUAL_SYMBOLS
@@ -1394,7 +1822,8 @@ def assemble_windows(reference: bytes, residual_object: Path) -> tuple[list[byte
         except (CodeWindowsError, ValueError) as exc:
             # A TSV may point at an older duplicate object while another proved
             # object supplies the same range. Fixed and explicit specs fail closed.
-            if spec in FIXED_SLICES or spec in EXTRA_SYMBOLS or spec.symbol.startswith("stage3p_"):
+            if (spec in FIXED_SLICES or spec in CLEAN_SOURCE_SLICES
+                    or spec in EXTRA_SYMBOLS or spec.symbol.startswith("stage3p_")):
                 raise
             continue
         relocation_fields += relocations
@@ -1505,7 +1934,11 @@ def assemble_window0(reference: bytes, residual_object: Path) -> tuple[bytes, di
     covered = bytearray(WINDOW0_SIZE)
     selected: list[dict] = []
     relocation_fields = 0
-    specs = [*WINDOW0_FIXED_SLICES, *tsv_specs(WINDOW0_START, WINDOW0_END)]
+    specs = [
+        *WINDOW0_FIXED_SLICES,
+        *WINDOW0_CLEAN_SOURCE_SLICES,
+        *tsv_specs(WINDOW0_START, WINDOW0_END),
+    ]
     specs.extend(
         SliceSpec(name, str(residual_object.relative_to(ROOT)), address, size, symbol=name)
         for name, address, size in WINDOW0_RESIDUAL_SYMBOLS
@@ -1514,7 +1947,9 @@ def assemble_window0(reference: bytes, residual_object: Path) -> tuple[bytes, di
         try:
             newly, relocations, raw_hash = add_window0_slice(buffer, covered, reference, spec)
         except (CodeWindowsError, ValueError):
-            if spec in WINDOW0_FIXED_SLICES or spec.symbol.startswith("stage3p_"):
+            if (spec in WINDOW0_FIXED_SLICES
+                    or spec in WINDOW0_CLEAN_SOURCE_SLICES
+                    or spec.symbol.startswith("stage3p_")):
                 raise
             continue
         relocation_fields += relocations
@@ -1574,10 +2009,13 @@ def uncovered_segments(
     ranges = [(address, address + size) for _name, address, size in spans]
     if any(end <= start for start, end in ranges):
         fail("empty residual span")
-    if any(left + size > right
-           for (_name, left, size), (_other, right, _other_size)
-           in zip(spans, spans[1:])):
-        fail("overlapping residual spans")
+    for (name, left, size), (other, right, other_size) in zip(spans, spans[1:]):
+        if left + size > right:
+            fail(
+                "overlapping residual spans: "
+                f"{name} 0x{left:08x}+0x{size:x} vs "
+                f"{other} 0x{right:08x}+0x{other_size:x}"
+            )
     result: list[tuple[int, int]] = []
     for region_start, data in regions:
         region_end = region_start + len(data)
@@ -1713,15 +2151,22 @@ def update_linker_script(
         )
         for section, _path, address in payload_parts
     ]
-    code_rules.extend(
-        (
-            address,
-            f'  {prefix}.{address:08x} 0x{address:08x} : {{ KEEP('
-            f'{selector[0] + "(" + selector[1] + ")" if selector else "*(" + prefix + "." + format(address, "08x") + ")"}'
-            f') }}',
-        )
-        for prefix, address, _size, selector in direct_sections
-    )
+    for prefix, address, size, selector in direct_sections:
+        if prefix == ".text.stage3p.zero_fill":
+            rule = (
+                f"  {prefix}.{address:08x} 0x{address:08x} : "
+                f"{{ . = . + 0x{size:x}; }} =0"
+            )
+        else:
+            chosen = (
+                selector[0] + "(" + selector[1] + ")"
+                if selector else "*(" + prefix + "." + format(address, "08x") + ")"
+            )
+            rule = (
+                f"  {prefix}.{address:08x} 0x{address:08x} : "
+                f"{{ KEEP({chosen}) }}"
+            )
+        code_rules.append((address, rule))
     code_rules.sort(key=lambda item: item[0])
     code_rules_text = "\n".join(rule for _address, rule in code_rules)
     relocation_rules = "\n".join(
@@ -1981,6 +2426,13 @@ def link_historical_code(
                 if symbol_index not in named_data:
                     fail(f"historical {tag} unsupported named data relocation")
                 name = symbol.name
+            elif section_name == ".rodata" and symbol.name:
+                # Slices from larger source units can refer to named constant
+                # tables elsewhere in the already placed readonly section.
+                # Preserve the precise relocation proof and isolate the local
+                # symbol under the same per-object aliasing used for externals.
+                excluded_provider_data.add(symbol.name)
+                name = symbol.name
             elif (section_name.startswith(".gnu.linkonce.d.")
                   and symbol.name and symbol.value == 0):
                 excluded_provider_data.add(symbol.name)
@@ -2133,8 +2585,13 @@ def link_historical_code(
     entry_size = struct.unpack_from("<H", derived, 0x2E)[0]
     if entry_size < 40 or symtab.size % 16:
         fail(f"historical {tag} ELF32 symbol-table drift")
+    text_header = table_offset + sections[".text"].index * entry_size
+    # Every selected code slice is instruction-aligned. Some source objects
+    # advertise an eight-byte input alignment even when the proved target VA
+    # is only four-byte aligned; retaining that stronger alignment would make
+    # ld insert bytes before the slice.
+    struct.pack_into("<I", derived, text_header + 32, 4)
     if source_offset or source_tail:
-        text_header = table_offset + sections[".text"].index * entry_size
         struct.pack_into("<I", derived, text_header + 16,
                          sections[".text"].offset + source_offset)
         struct.pack_into("<I", derived, text_header + 20, size)
@@ -2169,7 +2626,8 @@ def link_historical_code(
                    if name.startswith("."))):
         fail(f"historical {tag} derived-symbol validation failed")
     prefix = f".text.stage3p.direct.{tag}"
-    command = [objcopy, "--rename-section", f".text={prefix}.{address:08x}"]
+    output_text_section = f"{prefix}.{address:08x}"
+    command = [objcopy, "--rename-section", f".text={output_text_section}"]
     for section_name in (".data", ".rodata", ".bss", ".gcc_except_table"):
         command.extend(("--remove-section", section_name))
     for section in original.sections:
@@ -2370,14 +2828,20 @@ def probe(args: argparse.Namespace) -> dict:
     linker = resolve_tool(args.ld) if args.ld else cxx.with_name("ee-ld")
     objcopy = resolve_tool(args.objcopy) if args.objcopy else cxx.with_name("ee-objcopy")
     args.build_dir.mkdir(parents=True, exist_ok=True)
+    compile_clean_source_candidates(cxx)
 
     residual_source = args.build_dir / "stage3p-residual-sections.S"
     residual_spans = split_residual_source(args.residual, residual_source)
-    residual_object = args.build_dir / "stage3p-residual.o"
+    residual_unfiltered = args.build_dir / "stage3p-residual-unfiltered.o"
     stage3o.stage3i.compile_one(
         cxx, ("-G0", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900"),
-        residual_source, residual_object,
+        residual_source, residual_unfiltered,
     )
+    residual_object = args.build_dir / "stage3p-residual.o"
+    run([objcopy, *(
+        option for _name, address, _size in RETIRED_RESIDUAL_SYMBOLS
+        for option in ("--remove-section", f".text.stage3p.residual.{address:08x}")
+    ), residual_unfiltered, residual_object])
     window0, window0_metrics = assemble_window0(reference, residual_object)
     windows, metrics = assemble_windows(reference, residual_object)
     selected_sources = [*window0_metrics["selected_sources"], *metrics["selected_sources"]]
@@ -2404,6 +2868,18 @@ def probe(args: argparse.Namespace) -> dict:
     ]
     direct_objects = [residual_object]
     relocation_targets: dict[str, int] = {}
+    clean_objects, clean_sections = link_clean_source_functions(
+        reference, args.build_dir, objcopy, relocation_targets,
+    )
+    direct_objects.extend(clean_objects)
+    direct_sections.extend(clean_sections)
+    for address, size in LINKER_ZERO_FILL_SPANS:
+        expected = reference[
+            address - TARGET_BASE:address - TARGET_BASE + size
+        ]
+        if expected != bytes(size):
+            fail(f"linker zero-fill span drift @ 0x{address:08x}")
+        direct_sections.append((".text.stage3p.zero_fill", address, size, None))
     for key, source_relative, object_name, section_prefix in DIRECT_ASSEMBLY_GROUPS:
         spans = selected_symbol_spans(selected_sources, object_name)
         if not spans:
@@ -3981,6 +4457,17 @@ def probe(args: argparse.Namespace) -> dict:
     )
     direct_objects.append(sound_output)
     direct_sections.append(sound_section)
+    spc700_tail_output, spc700_tail_section = link_historical_code(
+        reference, args.build_dir, objcopy, relocation_targets,
+        tag="spc700tail", specification=DIRECT_SPC700_TAIL_OBJECT,
+        expected_relocations=635,
+        expected_layout={".data": 0x24D8, ".rel.data": 0x0D98,
+                         ".rodata": 0x38, ".bss": 0},
+        named_data_symbols=None, source_offset=0x6B50,
+        source_tail=0x0370,
+    )
+    direct_objects.append(spc700_tail_output)
+    direct_sections.append(spc700_tail_section)
     for tag, specification, rel_count, layout, overrides in DIRECT_SMALL_CODE_OBJECTS:
         small_output, small_section = link_historical_code(
             reference, args.build_dir, objcopy, relocation_targets,
@@ -4077,17 +4564,77 @@ def probe(args: argparse.Namespace) -> dict:
     )
     direct_objects.append(seta010_output)
     direct_sections.append(seta010_section)
-    cheats2_output, cheats2_section = link_historical_code(
-        reference, args.build_dir, objcopy, relocation_targets,
-        tag="cheats2", specification=DIRECT_CHEATS2_TAIL_OBJECT,
-        expected_relocations=34,
-        expected_layout={".data": 440, ".rel.data": 88,
-                         ".rodata": 8, ".bss": 0},
-        named_data_symbols=frozenset(), source_offset=0x250,
-        source_tail=352,
-    )
-    direct_objects.append(cheats2_output)
-    direct_sections.append(cheats2_section)
+    for (tag, object_relative, address, start, size, rel_count,
+         provider_rows, expected_layout, original_size) in DIRECT_SETA_TAIL_OBJECTS:
+        seta_tail_output, seta_tail_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(object_relative, address, size, provider_rows),
+            expected_relocations=rel_count,
+            expected_layout=expected_layout,
+            named_data_symbols=None,
+            source_offset=start,
+            source_tail=original_size - start - size,
+        )
+        direct_objects.append(seta_tail_output)
+        direct_sections.append(seta_tail_section)
+    for (tag, object_relative, address, start, size, rel_count,
+         provider_rows, expected_layout, original_size) in DIRECT_AUDIO_RPC_PREFIX_TAILS:
+        audio_output, audio_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(object_relative, address, size, provider_rows),
+            expected_relocations=rel_count,
+            expected_layout=expected_layout,
+            named_data_symbols=None,
+            source_offset=start,
+            source_tail=original_size - start - size,
+        )
+        direct_objects.append(audio_output)
+        direct_sections.append(audio_section)
+    for (tag, object_relative, address, start, size, rel_count,
+         provider_rows, expected_layout, original_size) in DIRECT_PENDING_NATIVE_SLICES:
+        pending_output, pending_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(object_relative, address, size, provider_rows),
+            expected_relocations=rel_count,
+            expected_layout=expected_layout,
+            named_data_symbols=frozenset(),
+            source_offset=start,
+            source_tail=original_size - start - size,
+        )
+        direct_objects.append(pending_output)
+        direct_sections.append(pending_section)
+    for (tag, object_relative, address, start, size, rel_count,
+         provider_rows, expected_layout, original_size) in DIRECT_FRONTEND_SOURCE_SLICES:
+        frontend_output, frontend_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(object_relative, address, size, provider_rows),
+            expected_relocations=rel_count,
+            expected_layout=expected_layout,
+            named_data_symbols=frozenset(),
+            source_offset=start,
+            source_tail=original_size - start - size,
+        )
+        direct_objects.append(frontend_output)
+        direct_sections.append(frontend_section)
+    for (tag, object_relative, address, start, size, rel_count,
+         provider_rows, expected_layout, original_size,
+         named_data_symbols) in DIRECT_RECOVERED_SOURCE_SLICES:
+        recovered_output, recovered_section = link_historical_code(
+            reference, args.build_dir, objcopy, relocation_targets,
+            tag=tag,
+            specification=(object_relative, address, size, provider_rows),
+            expected_relocations=rel_count,
+            expected_layout=expected_layout,
+            named_data_symbols=named_data_symbols,
+            source_offset=start,
+            source_tail=original_size - start - size,
+        )
+        direct_objects.append(recovered_output)
+        direct_sections.append(recovered_section)
     gzio_suffix_output, gzio_suffix_section = link_historical_code(
         reference, args.build_dir, objcopy, relocation_targets,
         tag="gziosuffix", specification=DIRECT_GZIO_SUFFIX_OBJECT,
@@ -4241,6 +4788,9 @@ def probe(args: argparse.Namespace) -> dict:
     moddi3_zero_prefix = False
     for _name, address, size in residual_spans:
         if address == 0x001AB4E4:
+            # The selected SyncDCache source span already supplies this final
+            # instruction; it is outside the separately placed direct ranges.
+            redundant.add(address)
             continue
         overlap = [
             (start, end) for start, end in promoted
@@ -4254,9 +4804,16 @@ def probe(args: argparse.Namespace) -> dict:
                 redundant.add(address)
                 moddi3_zero_prefix = True
                 continue
-            if len(overlap) != 1 or not (
-                    overlap[0][0] <= address and address + size <= overlap[0][1]):
-                fail(f"direct object partially overlaps residual @ 0x{address:08x}")
+            coverage = address
+            for start, end in sorted(overlap):
+                if start > coverage:
+                    break
+                coverage = max(coverage, end)
+            if coverage < address + size:
+                fail(
+                    f"direct object partially overlaps residual @ 0x{address:08x}: "
+                    f"{overlap}"
+                )
             redundant.add(address)
     if redundant:
         linked_residual = args.build_dir / "stage3p-residual-linked.o"
@@ -4273,21 +4830,16 @@ def probe(args: argparse.Namespace) -> dict:
         prefix_address = 0x001A7630
         if reference[prefix_address - TARGET_BASE:prefix_address - TARGET_BASE + 8] != b"\0" * 8:
             fail("historical _moddi3.o public zero prefix drift")
-        source = args.build_dir / "stage3p-moddi3-zero-prefix.S"
-        source.write_text(
-            ".set noreorder\n"
-            ".section .text.stage3p.residual.001a7630,\"ax\",@progbits\n"
-            ".word 0, 0\n",
-            encoding="ascii",
-        )
-        output = args.build_dir / "stage3p-moddi3-zero-prefix.o"
-        stage3o.stage3i.compile_one(
-            cxx, ("-G0", "-EL", "-mno-abicalls", "-march=r5900", "-mtune=r5900"),
-            source, output,
-        )
-        direct_objects.append(output)
-        direct_sections.append((".text.stage3p.residual", prefix_address, 8, None))
+        direct_sections.append((".text.stage3p.zero_fill", prefix_address, 8, None))
     direct_sections.sort(key=lambda item: item[1])
+    linked_residual_bytes = sum(
+        size for prefix, _address, size, _selector in direct_sections
+        if prefix == ".text.stage3p.residual"
+    )
+    metrics["historical_recovered_bytes"] += (
+        metrics["residual_bytes"] - linked_residual_bytes
+    )
+    metrics["residual_bytes"] = linked_residual_bytes
     direct_spans = [
         (f"direct_{address:08x}", address, size)
         for _prefix, address, size, _selector in direct_sections
@@ -4308,7 +4860,7 @@ def probe(args: argparse.Namespace) -> dict:
                 size for _prefix, _address, size, _selector in direct_sections
             ),
             "direct_object_inputs": len(direct_objects) + 1,
-            "direct_candidate_object_inputs": len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 37 + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES) + len(DIRECT_EXPLODE_LATE_SLICES) + len(DIRECT_UNREDUCE_SLICES) + len(DIRECT_PAD_SLICES) + len(DIRECT_EH_OBJECT_SLICES),
+            "direct_candidate_object_inputs": len(CLEAN_SOURCE_UNITS) + len(DIRECT_WHOLE_OBJECTS) + len(DIRECT_SELF_RELOC_OBJECTS) + len(DIRECT_CALL_OBJECTS) + len(DIRECT_EXTERNAL_RELOC_OBJECTS) + 38 + len(DIRECT_SETA_TAIL_OBJECTS) + len(DIRECT_AUDIO_RPC_PREFIX_TAILS) + len(DIRECT_PENDING_NATIVE_SLICES) + len(DIRECT_FRONTEND_SOURCE_SLICES) + len(DIRECT_RECOVERED_SOURCE_SLICES) + len(DIRECT_SMALL_CODE_OBJECTS) + len(DIRECT_MEMMAP_TAIL_SLICES) + len(DIRECT_GSDRIVER_SLICES) + len(DIRECT_ZLIB_OBJECT_SLICES) + len(DIRECT_LIBGCC_SLICES) + len(DIRECT_RUNTIME_OBJECTS) + len(DIRECT_EXPLODE_EARLY_SLICES) + len(DIRECT_EXPLODE_LATE_SLICES) + len(DIRECT_UNREDUCE_SLICES) + len(DIRECT_PAD_SLICES) + len(DIRECT_EH_OBJECT_SLICES),
             "direct_object_sections": len(direct_sections),
             "incbin_payload_bytes": 0,
             "incbin_payload_sections": 0,

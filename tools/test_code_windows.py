@@ -35,12 +35,12 @@ class CodeWindowsTests(unittest.TestCase):
     def test_all_code_windows_are_exact(self):
         result = self.document["result"]
         self.assertEqual((65536 - 0x114) + 10 * 65536, result["source_bytes"])
-        self.assertEqual(36340, result["residual_bytes"])
-        self.assertEqual(73192, result["listing_bytes"])
+        self.assertEqual(0, result["residual_bytes"])
+        self.assertEqual(72152, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(138, result["direct_candidate_object_inputs"])
-        self.assertEqual(10408, result["evidence_candidate_object_bytes"])
-        self.assertEqual(26300, result["evidence_listing_bytes"])
+        self.assertEqual(173, result["direct_candidate_object_inputs"])
+        self.assertEqual(10352, result["evidence_candidate_object_bytes"])
+        self.assertEqual(26100, result["evidence_listing_bytes"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
