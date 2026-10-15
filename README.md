@@ -4,6 +4,8 @@
 
 # SNES Station Decompilation
 
+> decomp.dev has disabled all decomp graphics projects xddd :')
+
 Source recovery and exact-binary preservation of **SNES Station v0.23 WIP**
 (24 January 2004) for PlayStation 2.
 
