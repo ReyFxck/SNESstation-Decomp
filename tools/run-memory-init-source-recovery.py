@@ -57,6 +57,36 @@ def run(command):
     return cp.stdout
 
 
+def lower_text_section_alignment(source: Path, destination: Path) -> None:
+    """Set only ELF32 .text sh_addralign to 4; leave every byte of code intact."""
+    data = bytearray(source.read_bytes())
+    if data[:4] != b"\\x7fELF" or data[4] != 1 or data[5] != 1:
+        raise SystemExit("expected ELF32 little-endian EE object")
+    shoff = struct.unpack_from("<I", data, 32)[0]
+    shentsize = struct.unpack_from("<H", data, 46)[0]
+    shnum = struct.unpack_from("<H", data, 48)[0]
+    shstrndx = struct.unpack_from("<H", data, 50)[0]
+    if shentsize != 40 or shstrndx >= shnum:
+        raise SystemExit("unexpected ELF section-header geometry")
+    shstr = shoff + shstrndx * shentsize
+    names_off = struct.unpack_from("<I", data, shstr + 16)[0]
+    names_size = struct.unpack_from("<I", data, shstr + 20)[0]
+    names = data[names_off:names_off + names_size]
+    for index in range(shnum):
+        header = shoff + index * shentsize
+        name_off = struct.unpack_from("<I", data, header)[0]
+        if name_off >= len(names):
+            continue
+        end = names.find(b"\\x00", name_off)
+        if end < 0:
+            continue
+        if names[name_off:end] == b".text":
+            struct.pack_into("<I", data, header + 32, 4)
+            destination.write_bytes(data)
+            return
+    raise SystemExit("object has no .text section")
+
+
 def target_bytes() -> bytes:
     text = LISTING.read_text(encoding="utf-8")
     start = text.index("/* CMemory_Init @ 0x00151074..0x00151330")
@@ -87,8 +117,7 @@ def main() -> None:
     # 8-byte aligned. Lower only the standalone object's section metadata;
     # objcopy does not change any instruction bytes.
     aligned_obj = BUILD / "memory_init_recovered.align4.o"
-    objcopy = CC.with_name("ee-objcopy")
-    run([objcopy, "--set-section-alignment", ".text=4", obj, aligned_obj])
+    lower_text_section_alignment(obj, aligned_obj)
 
     elf = ELFFile(obj)
     sym = elf.find_symbol(SYMBOL)
