@@ -116,6 +116,7 @@ def main() -> None:
         "-Os" if flag == "-O2" else flag
         for flag in shlex.split(source_tree.DEFAULT_CFLAGS)
     ]
+    flags.append("-mbranch-likely")
     run([CC, *flags, "-c", SOURCE, "-o", obj])
 
     # In the original shared .text, this function is 4-byte aligned but not
