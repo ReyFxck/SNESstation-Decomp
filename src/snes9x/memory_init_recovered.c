@@ -131,7 +131,7 @@ int CMemory_Init_recovered(void *memory)
     memset((void *)(uintptr_t)g_tile_cache_state.tile_8bpp_valid, 0, 0x0400);
 
     /* SDD1 data/index fields in the recovered CMemory object. */
-    FIELD32(memory, 0x3068) = 0;
-    FIELD32(memory, 0x3064) = 0;
+    FIELD32(memory, 0xb068) = 0;
+    FIELD32(memory, 0xb064) = 0;
     return 1;
 }
