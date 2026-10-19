@@ -3,8 +3,8 @@
 The exact-image pipeline and the clean object link are tracked separately.
 
 Stage-3P proves all **720,620/720,620 code bytes** and the complete
-replacement ELF. 178 ELF inputs provide **720,620 code bytes** directly
-through 426 placed code sections. 174 inputs are checked candidate/source
+replacement ELF. 179 ELF inputs provide **720,620 code bytes** directly
+through 426 placed code sections. 175 inputs are checked candidate/source
 objects or slices;
 multiple inputs may derive from distinct slices of the same original object,
 including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o`,
@@ -16,8 +16,7 @@ including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o`,
 Where exact, original data and read-only sections replace constructed providers
 at their historical addresses. The `dma.o` read-only dispatch table is linked
 from the object; its 260-byte data section has one nonrelocation byte mismatch,
-so the proved semantic data provider remains. The other 43 candidate objects
-remain evidence sources. `CPUOPS.o` supplies its original code and the exact
+so the proved semantic data provider remains. Other candidate objects remain evidence sources. `CPUOPS.o` supplies its original code and the exact
 20,876-byte data prefix; its 172-byte CFI tail differs outside relocations and
 continues to use the proved semantic provider. `tile.o` contributes 33,568 bytes
 of main code, 20 selected inline renderer sections and its original 2,220-byte
@@ -79,12 +78,13 @@ to the already proved read-only, vtable and BSS providers. Additional exact
 `explode.o`, `unreduce.o` and zlib `infblock.o` slices link from their historical
 objects after checking source layouts, relocation targets and byte identity.
 
-The remaining **35,980 evidence-backed code bytes** are compiled into
+The remaining **35,440 evidence-backed code bytes** are compiled into
 `code-windows.o` from the same frozen public evidence that admitted them to the
-exact-window roster: 9,880 bytes come from selected candidate-object slices and
-26,100 bytes from committed public instruction listings. `C4DrawWireFrame`
-(472 bytes at `0x0010cdcc`) is no longer part of that aggregate: its canonical
-recovered C++ object is linked directly with all 15 relocations checked. Every nonrelocation bit from an ELF
+exact-window roster: 9,340 bytes come from selected candidate-object slices and
+26,100 bytes from committed public instruction listings. `C4DrawWireFrame` (472 bytes at `0x0010cdcc`) and `C4DrawLine` (540 bytes
+at `0x0010cbb0`) are no longer part of that aggregate: their canonical
+recovered C++ objects/functions are linked directly, with 15 and 36
+relocations checked respectively. Every nonrelocation bit from an ELF
 candidate is checked before its relocation-controlled bits are resolved; every
 listing word is checked against the exact-image oracle. No generated binary
 payload or `.incbin` directive participates in the code link.
@@ -100,7 +100,7 @@ an original historical C/C++ producer.
 | Measure | Result |
 |---|---:|
 | Exact code-window bytes | **720,620/720,620** |
-| Candidate ELF objects rebuilt and checked | **114** |
+| Candidate ELF objects rebuilt and checked | **115** |
 | Candidate-object slices selected | **508** |
 | Candidate-object evidence bytes | **636,696** |
 | Historical/recovered object construction bucket | **562,840 bytes** |
@@ -108,10 +108,10 @@ an original historical C/C++ producer.
 | Explicit residual assembly | **0 bytes** |
 | Public listing construction bucket | **72,152 bytes** |
 | Bytes linked from source-built ELF objects | **720,620/720,620 (100%)** |
-| Final evidence object from candidate slices | **9,880 bytes** |
+| Final evidence object from candidate slices | **9,340 bytes** |
 | Final evidence object from public listings | **26,100 bytes** |
-| Direct candidate/source object inputs | **174** |
-| Direct ELF object inputs | **178** |
+| Direct candidate/source object inputs | **175** |
+| Direct ELF object inputs | **179** |
 | Direct placed sections | **426** |
 | Bytes remaining behind generated payload | **0** |
 | Strict source-object linkage | **Complete** |

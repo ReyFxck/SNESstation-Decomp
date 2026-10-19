@@ -38,8 +38,8 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(72152, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(174, result["direct_candidate_object_inputs"])
-        self.assertEqual(9880, result["evidence_candidate_object_bytes"])
+        self.assertEqual(175, result["direct_candidate_object_inputs"])
+        self.assertEqual(9340, result["evidence_candidate_object_bytes"])
         self.assertEqual(26100, result["evidence_listing_bytes"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
@@ -65,6 +65,35 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(row[7], {})
         self.assertEqual(row[8], 0x01D8)
         self.assertEqual(row[9], frozenset())
+
+    def test_c4drawline_links_from_clean_cpp_function_section(self):
+        slices = [
+            row for row in gate.CLEAN_SOURCE_SLICES
+            if row.name == "clean_c4_draw_line"
+        ]
+        self.assertEqual(len(slices), 1)
+        row = slices[0]
+        self.assertEqual(row.object, "build/code-windows/clean-source/native_c4_raster.o")
+        self.assertEqual((row.address, row.size, row.symbol),
+                         (0x0010CBB0, 540, "_Z10C4DrawLineiisiish"))
+        units = [row for row in gate.CLEAN_SOURCE_UNITS if row[0] == "native_c4_raster"]
+        self.assertEqual(
+            units,
+            [("native_c4_raster", "src/snes9x/native_c4_raster.cpp",
+              "build/code-windows/clean-source/native_c4_raster.o", False)],
+        )
+        for name, address in {
+            "_DAT_00335938": 0x00335938,
+            "_DAT_0033593a": 0x0033593A,
+            "DAT_0033593c": 0x0033593C,
+            "DAT_0033593e": 0x0033593E,
+            "DAT_00335940": 0x00335940,
+            "DAT_00335942": 0x00335942,
+            "DAT_00335944": 0x00335944,
+            "C4TransfWireFrame2": 0x0010BBCC,
+            "C4CalcWireFrame": 0x0010BECC,
+        }.items():
+            self.assertEqual(gate.CLEAN_SOURCE_PROVIDER_TARGETS[name], address)
 
     def test_final_linker_isolates_only_source_aggregate_models(self):
         source_input = Path("build/test/source-tree.partial.o")

@@ -200,6 +200,7 @@ CLEAN_SOURCE_SLICES = (
     SliceSpec("clean_fx_pipe_string", "build/code-windows/clean-source/native_fx_pipe_string.o", 0x0012FBDC, 640, symbol="_Z12FxPipeStringPc"),
     SliceSpec("clean_memory_safe", "build/code-windows/clean-source/native_memory_safe.o", 0x00150F54, 288, symbol="_ZN7CMemory4SafeEPKc"),
     SliceSpec("clean_parse_cheats", "build/code-windows/clean-source/native_parse_cheats.o", 0x00173C90, 364, symbol="_Z18S9xParseCheatsFilePKc"),
+    SliceSpec("clean_c4_draw_line", "build/code-windows/clean-source/native_c4_raster.o", 0x0010CBB0, 540, symbol="_Z10C4DrawLineiisiish"),
 )
 
 WINDOW0_CLEAN_SOURCE_SLICES = (
@@ -244,6 +245,7 @@ CLEAN_SOURCE_UNITS = (
     ("native_controllers", "src/snes9x/native_controllers.cpp", "build/code-windows/clean-source/native_controllers.o", False),
     ("native_parse_cheats", "src/snes9x/native_parse_cheats.cpp", "build/code-windows/clean-source/native_parse_cheats.o", False),
     ("native_frontend_leaves", "src/ps2/native_frontend_leaves.c", "build/code-windows/clean-source/native_frontend_leaves.o", False),
+    ("native_c4_raster", "src/snes9x/native_c4_raster.cpp", "build/code-windows/clean-source/native_c4_raster.o", False),
 )
 
 CLEAN_SOURCE_PROVIDER_TARGETS = {
@@ -273,6 +275,15 @@ CLEAN_SOURCE_PROVIDER_TARGETS = {
     "DAT_001b2ce8": 0x001B2CE8,
     "DAT_0034e298": 0x0034E298,
     "DAT_0034e2b0": 0x0034E2B0,
+    "_DAT_00335938": 0x00335938,
+    "_DAT_0033593a": 0x0033593A,
+    "DAT_0033593c": 0x0033593C,
+    "DAT_0033593e": 0x0033593E,
+    "DAT_00335940": 0x00335940,
+    "DAT_00335942": 0x00335942,
+    "DAT_00335944": 0x00335944,
+    "C4TransfWireFrame2": 0x0010BBCC,
+    "C4CalcWireFrame": 0x0010BECC,
     "DAT_0035b788": 0x0035B788,
     "DAT_0035c268": 0x0035C268,
     "DAT_0035fda8": 0x0035FDA8,
@@ -1471,7 +1482,7 @@ EXPECTED: dict[str, object] = {
     "prior_exact_assembly_bytes": 85_628,
     "relocation_fields": 40_351,
     "residual_bytes": 0,
-    "selected_source_contract_sha256": "bbe482783a2fe7fcf812389841d60b41d64e4140b4634f9a42a05e3b4361853e",
+    "selected_source_contract_sha256": "863735812695b0f3a39000442f5d234162624c3158e28988c1e134824cb62d23",
     "selected_source_slices": 617,
     "source_bytes": 720_620,
     "target_initialized_size": 3_304_936,
