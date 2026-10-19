@@ -90,7 +90,8 @@ int CMemory_Init_recovered(void *memory)
         g_tile_cache_state.tile_8bpp_valid = alloc32(0x0400);
 
     if (!FIELD32(memory, 0x0000) || !FIELD32(memory, 0x000c) ||
-        !FIELD32(memory, 0x0008) || !FIELD32(memory, 0x0004) ||
+        !FIELD32(memory, 0x0008) ||
+        !(rom_storage = FIELD32(memory, 0x0004)) ||
         !FIELD32(memory, 0xd480) ||
         !g_tile_cache_state.tile_2bpp_cache ||
         !g_tile_cache_state.tile_4bpp_cache ||
@@ -102,26 +103,28 @@ int CMemory_Init_recovered(void *memory)
         return 0;
     }
 
-    /* Classic Snes9x ROM-storage bias: keep raw pointer and expose ROM+0x8000. */
-    rom_storage = FIELD32(memory, 0x0004);
+    /*
+     * Preserve the raw ROM pointer in FillRAM first, then expose ROM+0x8000
+     * and the C4RAM window at ROM+0x410000, matching the EE target's CFG.
+     */
     FIELD32(memory, 0x0014) = rom_storage;
     FIELD32(memory, 0x0004) = rom_storage + 0x8000;
     FIELD32(memory, 0x0018) = rom_storage + 0x8000 + 0x410000;
-
-    /* Export the CMemory pointers consumed by the SNES Station EE core. */
-    g_global_sram = FIELD32(memory, 0x000c);
-    g_global_rom = FIELD32(memory, 0x0004);
-    g_global_regram = FIELD32(memory, 0x0014);
 
     /* Rebuild the historical SuperFX register/RAM/ROM aliases. */
     g_superfx_state.pv_registers = g_memory_fillram + 0x3000;
     g_superfx_state.n_ram_banks = 1;
     g_superfx_state.pv_ram = FIELD32(memory, 0x000c);
     g_superfx_state.n_rom_banks = 64;
+
+    /* Global aliases are written in the same order as the original EE code. */
+    g_global_rom = FIELD32(memory, 0x0004);
     g_superfx_state.pv_rom = FIELD32(memory, 0x0004);
+    g_global_regram = FIELD32(memory, 0x0014);
 
     /* The decoded caches need not be cleared; validity maps gate their use. */
     memset((void *)(uintptr_t)g_tile_cache_state.tile_2bpp_valid, 0, 0x1000);
+    g_global_sram = FIELD32(memory, 0x000c);
     memset((void *)(uintptr_t)g_tile_cache_state.tile_4bpp_valid, 0, 0x0800);
     memset((void *)(uintptr_t)g_tile_cache_state.tile_8bpp_valid, 0, 0x0400);
 
