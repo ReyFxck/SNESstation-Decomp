@@ -110,7 +110,12 @@ def main() -> None:
 
     BUILD.mkdir(parents=True, exist_ok=True)
     obj = BUILD / "memory_init_recovered.o"
-    flags = shlex.split(source_tree.DEFAULT_CFLAGS)
+    # The target's compact branch layout may use the size-optimized EE
+    # profile; test that profile while keeping every other historical flag.
+    flags = [
+        "-Os" if flag == "-O2" else flag
+        for flag in shlex.split(source_tree.DEFAULT_CFLAGS)
+    ]
     run([CC, *flags, "-c", SOURCE, "-o", obj])
 
     # In the original shared .text, this function is 4-byte aligned but not
