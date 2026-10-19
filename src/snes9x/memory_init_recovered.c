@@ -28,10 +28,24 @@ struct RecoveredTileCacheState {
 extern struct RecoveredTileCacheState g_tile_cache_state;
 extern void rom_cleanup_00151330(void *memory);
 
-static uint32_t alloc32(size_t size)
-{
-    return (uint32_t)(uintptr_t)malloc(size);
-}
+/* Canonical EE aliases used by CMemory::Init and the SuperFX setup path. */
+struct RecoveredSuperFXState {
+    uint32_t unknown_0000;
+    uint32_t pv_registers;
+    uint32_t n_ram_banks;
+    uint32_t pv_ram;
+    uint32_t n_rom_banks;
+    uint32_t pv_rom;
+};
+
+extern uint32_t g_global_sram;
+extern uint32_t g_global_rom;
+extern uint32_t g_global_regram;
+extern volatile uint32_t g_memory_fillram;
+extern struct RecoveredSuperFXState g_superfx_state;
+
+/* Keep one direct malloc call site per allocation, as in the EE target CFG. */
+#define alloc32(size) ((uint32_t)(uintptr_t)malloc(size))
 
 int CMemory_Init_recovered(void *memory)
 {
@@ -50,6 +64,10 @@ int CMemory_Init_recovered(void *memory)
     /* 0x80000 scratch/BSRAM-sized allocation at object offset 0xd480. */
     if (!FIELD32(memory, 0xd480))
         FIELD32(memory, 0xd480) = alloc32(0x80000);
+
+    /* Target order: clear BSRAM and null FillRAM before cache allocation. */
+    memset((void *)(uintptr_t)FIELD32(memory, 0xd480), 0, 0x80000);
+    FIELD32(memory, 0x0014) = 0;
 
     /*
      * Important preservation detail: the original allocates 128 bytes per
@@ -84,19 +102,31 @@ int CMemory_Init_recovered(void *memory)
         return 0;
     }
 
-    memset((void *)(uintptr_t)FIELD32(memory, 0xd480), 0, 0x80000);
-
     /* Classic Snes9x ROM-storage bias: keep raw pointer and expose ROM+0x8000. */
     rom_storage = FIELD32(memory, 0x0004);
     FIELD32(memory, 0x0014) = rom_storage;
     FIELD32(memory, 0x0004) = rom_storage + 0x8000;
     FIELD32(memory, 0x0018) = rom_storage + 0x8000 + 0x410000;
 
+    /* Export the CMemory pointers consumed by the SNES Station EE core. */
+    g_global_sram = FIELD32(memory, 0x000c);
+    g_global_rom = FIELD32(memory, 0x0004);
+    g_global_regram = FIELD32(memory, 0x0014);
+
+    /* Rebuild the historical SuperFX register/RAM/ROM aliases. */
+    g_superfx_state.pv_registers = g_memory_fillram + 0x3000;
+    g_superfx_state.n_ram_banks = 1;
+    g_superfx_state.pv_ram = FIELD32(memory, 0x000c);
+    g_superfx_state.n_rom_banks = 64;
+    g_superfx_state.pv_rom = FIELD32(memory, 0x0004);
+
     /* The decoded caches need not be cleared; validity maps gate their use. */
     memset((void *)(uintptr_t)g_tile_cache_state.tile_2bpp_valid, 0, 0x1000);
     memset((void *)(uintptr_t)g_tile_cache_state.tile_4bpp_valid, 0, 0x0800);
     memset((void *)(uintptr_t)g_tile_cache_state.tile_8bpp_valid, 0, 0x0400);
 
-    /* Global aliases/strides at 0x1511e0..0x151278 remain to be typed exactly. */
+    /* SDD1 data/index fields in the recovered CMemory object. */
+    FIELD32(memory, 0x3068) = 0;
+    FIELD32(memory, 0x3064) = 0;
     return 1;
 }
