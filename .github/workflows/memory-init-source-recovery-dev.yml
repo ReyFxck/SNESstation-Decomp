@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: build/toolchains/ee-gcc-3.2.2-cxx-stage1
-          key: ee-gxx-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+          key: ee-gxx-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_cxx_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
       - name: Build historical EE C++ compiler
         env:
           MAKEFLAGS: MAKEINFO=true
@@ -43,7 +43,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: build/toolchains/ee-gcc-3.2.2-cxx-stage1
-          key: ee-gxx-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+          key: ee-gxx-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_cxx_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
       - name: Ensure historical EE C++ compiler
         env:
           MAKEFLAGS: MAKEINFO=true
