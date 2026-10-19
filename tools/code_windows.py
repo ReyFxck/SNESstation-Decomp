@@ -1482,7 +1482,7 @@ EXPECTED: dict[str, object] = {
     "prior_exact_assembly_bytes": 85_628,
     "relocation_fields": 40_351,
     "residual_bytes": 0,
-    "selected_source_contract_sha256": "bbe482783a2fe7fcf812389841d60b41d64e4140b4634f9a42a05e3b4361853e",
+    "selected_source_contract_sha256": "863735812695b0f3a39000442f5d234162624c3158e28988c1e134824cb62d23",
     "selected_source_slices": 617,
     "source_bytes": 720_620,
     "target_initialized_size": 3_304_936,
