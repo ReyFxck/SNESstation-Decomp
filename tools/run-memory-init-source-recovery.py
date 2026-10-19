@@ -34,6 +34,11 @@ PROVIDERS = {
     "memset": 0x0019C39C,
     "rom_cleanup_00151330": 0x00151330,
     "g_tile_cache_state": 0x0035C268,
+    "g_global_sram": 0x0034E298,
+    "g_global_rom": 0x0034E29C,
+    "g_global_regram": 0x0034E2A0,
+    "g_memory_fillram": 0x0034E2C4,
+    "g_superfx_state": 0x0035B770,
 }
 
 
@@ -98,7 +103,7 @@ def main() -> None:
     script.write_text(
         "".join(f"PROVIDE({name} = 0x{address:08x});\n" for name, address in PROVIDERS.items())
         + "SECTIONS {\n"
-        + f"  .text 0x{base:08x} : SUBALIGN(4) {{ *(.text) }}\n"
+        + f"  .text 0x{base:08x} : {{ *(.text) }}\n"
         + "  /DISCARD/ : { *(.data*) *(.rodata*) *(.bss*) *(COMMON) *(.reginfo) *(.pdr) *(.mdebug*) *(.comment) *(.note*) *(.eh_frame*) }\n"
         + "}\n",
         encoding="utf-8",
