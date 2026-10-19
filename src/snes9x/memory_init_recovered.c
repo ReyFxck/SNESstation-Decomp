@@ -49,7 +49,7 @@ extern struct RecoveredSuperFXState g_superfx_state;
 
 int CMemory_Init_recovered(void *memory)
 {
-    uint32_t rom_storage;
+    uint32_t rom_storage, sram_storage, rom_pointer;
 
     /* Old CMemory leading fields, recovered independently from allocation use. */
     if (!FIELD32(memory, 0x0000)) /* RAM */
@@ -89,7 +89,8 @@ int CMemory_Init_recovered(void *memory)
     if (!g_tile_cache_state.tile_8bpp_valid)
         g_tile_cache_state.tile_8bpp_valid = alloc32(0x0400);
 
-    if (!FIELD32(memory, 0x0000) || !FIELD32(memory, 0x000c) ||
+    if (!FIELD32(memory, 0x0000) ||
+        !(sram_storage = FIELD32(memory, 0x000c)) ||
         !FIELD32(memory, 0x0008) ||
         !(rom_storage = FIELD32(memory, 0x0004)) ||
         !FIELD32(memory, 0xd480) ||
@@ -108,23 +109,24 @@ int CMemory_Init_recovered(void *memory)
      * and the C4RAM window at ROM+0x410000, matching the EE target's CFG.
      */
     FIELD32(memory, 0x0014) = rom_storage;
-    FIELD32(memory, 0x0004) = rom_storage + 0x8000;
-    FIELD32(memory, 0x0018) = rom_storage + 0x8000 + 0x410000;
+    rom_pointer = rom_storage + 0x8000;
+    FIELD32(memory, 0x0004) = rom_pointer;
+    FIELD32(memory, 0x0018) = rom_pointer + 0x410000;
 
     /* Rebuild the historical SuperFX register/RAM/ROM aliases. */
     g_superfx_state.pv_registers = g_memory_fillram + 0x3000;
     g_superfx_state.n_ram_banks = 1;
-    g_superfx_state.pv_ram = FIELD32(memory, 0x000c);
+    g_superfx_state.pv_ram = sram_storage;
     g_superfx_state.n_rom_banks = 64;
 
-    /* Global aliases are written in the same order as the original EE code. */
-    g_global_rom = FIELD32(memory, 0x0004);
+    /* Reuse the recovered pointer values rather than reloading the fields. */
+    g_global_rom = rom_pointer;
     g_superfx_state.pv_rom = FIELD32(memory, 0x0004);
-    g_global_regram = FIELD32(memory, 0x0014);
+    g_global_regram = rom_storage;
 
     /* The decoded caches need not be cleared; validity maps gate their use. */
     memset((void *)(uintptr_t)g_tile_cache_state.tile_2bpp_valid, 0, 0x1000);
-    g_global_sram = FIELD32(memory, 0x000c);
+    g_global_sram = sram_storage;
     memset((void *)(uintptr_t)g_tile_cache_state.tile_4bpp_valid, 0, 0x0800);
     memset((void *)(uintptr_t)g_tile_cache_state.tile_8bpp_valid, 0, 0x0400);
 
