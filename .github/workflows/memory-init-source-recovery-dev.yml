@@ -1,0 +1,34 @@
+name: CMemory Init source recovery dev
+
+on:
+  push:
+    branches:
+      - source-cleanup
+    paths:
+      - "src/snes9x/memory_init_recovered.c"
+      - "tools/run-memory-init-source-recovery.py"
+      - ".github/workflows/memory-init-source-recovery-dev.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Cache EE GCC 3.2.2 stage1
+        uses: actions/cache@v4
+        with:
+          path: build/toolchains/ee-gcc-3.2.2-stage1
+          key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+      - name: Build historical EE compiler
+        env:
+          MAKEFLAGS: MAKEINFO=true
+        run: make bootstrap-ee-stage1
+      - name: Compare CMemory Init source with V80 target
+        run: python3 tools/run-memory-init-source-recovery.py
