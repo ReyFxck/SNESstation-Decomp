@@ -5,7 +5,7 @@ on:
     branches:
       - source-cleanup
     paths:
-      - "src/snes9x/memory_init_recovered.c"
+      - "src/snes9x/memory_init_target.cpp"
       - "tools/run-memory-init-source-recovery.py"
       - ".github/workflows/memory-init-source-recovery-dev.yml"
   workflow_dispatch:
@@ -21,15 +21,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Cache EE GCC 3.2.2 stage1
+      - name: Cache EE GCC 3.2.2 C++ stage1
         uses: actions/cache@v4
         with:
-          path: build/toolchains/ee-gcc-3.2.2-stage1
-          key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
-      - name: Build historical EE compiler
+          path: build/toolchains/ee-gcc-3.2.2-cxx-stage1
+          key: ee-gxx-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+      - name: Build historical EE C++ compiler
         env:
           MAKEFLAGS: MAKEINFO=true
-        run: make bootstrap-ee-stage1
+        run: make bootstrap-ee-cxx-stage1
 
   compare:
     needs: bootstrap
@@ -39,14 +39,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Restore EE GCC 3.2.2 stage1
+      - name: Restore EE GCC 3.2.2 C++ stage1
         uses: actions/cache@v4
         with:
-          path: build/toolchains/ee-gcc-3.2.2-stage1
-          key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
-      - name: Ensure historical EE compiler
+          path: build/toolchains/ee-gcc-3.2.2-cxx-stage1
+          key: ee-gxx-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+      - name: Ensure historical EE C++ compiler
         env:
           MAKEFLAGS: MAKEINFO=true
-        run: make bootstrap-ee-stage1
+        run: make bootstrap-ee-cxx-stage1
       - name: Compare CMemory Init source with V80 target
         run: python3 tools/run-memory-init-source-recovery.py
