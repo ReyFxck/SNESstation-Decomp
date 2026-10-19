@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""Development gate for recovering CMemory::Init from canonical C source.
-
-The target bytes come from the committed V80 exact public listing, not from a
-private ELF.  This runner recompiles src/snes9x/memory_init_recovered.c with the
-historical EE GCC 3.2.2 profile, links its live relocations to the target
-providers, and reports literal instruction differences against the 700-byte
-target span at 0x00151074.
-"""
+"""Compare standalone C++ CMemory::Init against the public 700-byte V80 span."""
 from __future__ import annotations
 
 import shlex
@@ -18,28 +11,36 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 
-import build_source_tree as source_tree  # noqa: E402
 from compare_elf_functions import ELFFile  # noqa: E402
 
-SOURCE = ROOT / "src/snes9x/memory_init_recovered.c"
+SOURCE = ROOT / "src/snes9x/memory_init_target.cpp"
 LISTING = ROOT / "matching/candidates/hunt1041_v80_quickwins_exact.S"
 BUILD = ROOT / "build/matching/memory-init-source-recovery"
-CC = ROOT / "build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
+CXX = ROOT / "build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++"
 
-SYMBOL = "CMemory_Init_recovered"
+SYMBOL = "_ZN7CMemory4InitEv"
 TARGET_ADDRESS = 0x00151074
 TARGET_SIZE = 0x2BC
 PROVIDERS = {
     "malloc": 0x0019E4B4,
     "memset": 0x0019C39C,
     "rom_cleanup_00151330": 0x00151330,
-    "g_tile_cache_state": 0x0035C268,
-    "g_global_sram": 0x0034E298,
-    "g_global_rom": 0x0034E29C,
-    "g_global_regram": 0x0034E2A0,
-    "g_memory_fillram": 0x0034E2C4,
-    "g_superfx_state": 0x0035B770,
+    "IPPU": 0x0035C268,
+    "SuperFX": 0x0035B770,
+    "Memory": 0x0034E2B0,
+    "ROM": 0x0034E29C,
+    "SRAM": 0x0034E298,
+    "RegRAM": 0x0034E2A0,
 }
+FLAGS = (
+    "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
+    "-fstrict-aliasing", "-fno-common", "-fshort-double", "-mlong64",
+    "-mhard-float", "-mno-abicalls", "-march=r5900", "-mtune=r5900",
+    "-Os", "-fno-builtin", "-fno-exceptions", "-fno-rtti",
+    "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DVAR_CYCLES",
+    "-DCPU_SHUTDOWN", "-DSPC700_SHUTDOWN", "-DEXECUTE_SUPERFX_PER_LINE",
+    "-DSPC700_C", "-DUNZIP_SUPPORT", "-DNO_INLINE_SET_GET",
+)
 
 
 def run(command):
@@ -58,9 +59,9 @@ def run(command):
 
 
 def lower_text_section_alignment(source: Path, destination: Path) -> None:
-    """Set only ELF32 .text sh_addralign to 4; leave every byte of code intact."""
+    """Set only ELF32 .text sh_addralign to 4; instruction bytes stay unchanged."""
     data = bytearray(source.read_bytes())
-    if data[:4] != b"\x7fELF" or data[4] != 1 or data[5] != 1:
+    if data[:4] != b"\\x7fELF" or data[4] != 1 or data[5] != 1:
         raise SystemExit("expected ELF32 little-endian EE object")
     shoff = struct.unpack_from("<I", data, 32)[0]
     shentsize = struct.unpack_from("<H", data, 46)[0]
@@ -77,10 +78,8 @@ def lower_text_section_alignment(source: Path, destination: Path) -> None:
         name_off = struct.unpack_from("<I", data, header)[0]
         if name_off >= len(names):
             continue
-        end = names.find(b"\x00", name_off)
-        if end < 0:
-            continue
-        if names[name_off:end] == b".text":
+        end = names.find(b"\\x00", name_off)
+        if end >= 0 and names[name_off:end] == b".text":
             struct.pack_into("<I", data, header + 32, 4)
             destination.write_bytes(data)
             return
@@ -94,10 +93,8 @@ def target_bytes() -> bytes:
     words = []
     for line in text[start:end].splitlines():
         stripped = line.strip()
-        if not stripped.startswith(".word "):
-            continue
-        value = int(stripped.split()[1], 0)
-        words.append(value)
+        if stripped.startswith(".word "):
+            words.append(int(stripped.split()[1], 0))
     raw = b"".join(struct.pack("<I", word) for word in words)
     if len(raw) != TARGET_SIZE:
         raise SystemExit(f"target listing geometry drift: {len(raw)} != {TARGET_SIZE}")
@@ -105,40 +102,27 @@ def target_bytes() -> bytes:
 
 
 def main() -> None:
-    if run([CC, "-dumpmachine"]).strip() != "ee" or run([CC, "-dumpversion"]).strip() != "3.2.2":
-        raise SystemExit("wrong historical EE compiler")
+    if run([CXX, "-dumpmachine"]).strip() != "ee" or run([CXX, "-dumpversion"]).strip() != "3.2.2":
+        raise SystemExit("wrong historical EE C++ compiler")
 
     BUILD.mkdir(parents=True, exist_ok=True)
-    obj = BUILD / "memory_init_recovered.o"
-    # The target's compact branch layout may use the size-optimized EE
-    # profile; test that profile while keeping every other historical flag.
-    flags = [
-        "-Os" if flag == "-O2" else flag
-        for flag in shlex.split(source_tree.DEFAULT_CFLAGS)
-    ]
-    flags.append("-mbranch-likely")
-    run([CC, *flags, "-c", SOURCE, "-o", obj])
-
-    # In the original shared .text, this function is 4-byte aligned but not
-    # 8-byte aligned. Lower only the standalone object's section metadata;
-    # objcopy does not change any instruction bytes.
-    aligned_obj = BUILD / "memory_init_recovered.align4.o"
+    obj = BUILD / "memory_init_target.o"
+    aligned_obj = BUILD / "memory_init_target.align4.o"
+    run([CXX, *FLAGS, "-c", SOURCE, "-o", obj])
     lower_text_section_alignment(obj, aligned_obj)
 
     elf = ELFFile(obj)
     sym = elf.find_symbol(SYMBOL)
-    raw = elf.symbol_bytes(sym, sym.size)
     relocs = elf.relocation_ranges(sym, sym.size)
     imports = sorted(
         s.name for s in elf.symbols
         if s.section_index == 0 and s.name
     )
-
     unknown = [name for name in imports if name not in PROVIDERS]
     if unknown:
         raise SystemExit("unreviewed imports: " + ", ".join(unknown))
 
-    ld = CC.with_name("ee-ld")
+    ld = CXX.with_name("ee-ld")
     script = BUILD / "memory_init.target.ld"
     linked = BUILD / "memory_init.target.elf"
     base = TARGET_ADDRESS - sym.value
@@ -146,7 +130,7 @@ def main() -> None:
         "".join(f"PROVIDE({name} = 0x{address:08x});\n" for name, address in PROVIDERS.items())
         + "SECTIONS {\n"
         + f"  .text 0x{base:08x} : {{ *(.text) }}\n"
-        + "  /DISCARD/ : { *(.data*) *(.rodata*) *(.bss*) *(COMMON) *(.reginfo) *(.pdr) *(.mdebug*) *(.comment) *(.note*) *(.eh_frame*) }\n"
+        + "  /DISCARD/ : { *(.data*) *(.rodata*) *(.bss*) *(COMMON) *(.reginfo) *(.pdr) *(.mdebug*) *(.comment) *(.note*) *(.eh_frame*) *(.gcc_except_table*) }\n"
         + "}\n",
         encoding="utf-8",
     )
@@ -154,7 +138,7 @@ def main() -> None:
 
     linked_elf = ELFFile(linked)
     linked_sym = linked_elf.find_symbol(SYMBOL)
-    linked_raw = linked_elf.symbol_bytes(linked_sym, linked_sym.size)
+    candidate = linked_elf.symbol_bytes(linked_sym, linked_sym.size)
     target = target_bytes()
 
     print(
@@ -165,40 +149,35 @@ def main() -> None:
         f"placement: symbol=0x{linked_sym.value:08x} target=0x{TARGET_ADDRESS:08x} "
         f"object_text_offset=0x{sym.value:x}"
     )
-
-    limit = min(len(linked_raw), len(target))
-    byte_diffs = [i for i in range(limit) if linked_raw[i] != target[i]]
-    if len(linked_raw) != len(target):
-        byte_diffs.extend(range(limit, max(len(linked_raw), len(target))))
-
-    word_diffs = []
-    for off in range(0, min(len(linked_raw), len(target)), 4):
-        left = struct.unpack_from("<I", linked_raw, off)[0]
-        right = struct.unpack_from("<I", target, off)[0]
-        if left != right:
-            word_diffs.append((off, left, right))
-
     if linked_sym.value != TARGET_ADDRESS:
         raise SystemExit("linked placement drift")
 
-    if not byte_diffs and len(linked_raw) == TARGET_SIZE:
+    limit = min(len(candidate), len(target))
+    byte_diffs = [i for i in range(limit) if candidate[i] != target[i]]
+    if len(candidate) != len(target):
+        byte_diffs.extend(range(limit, max(len(candidate), len(target))))
+    if not byte_diffs and len(candidate) == TARGET_SIZE:
         print(f"CMemory::Init source recovery: MATCH bytes={TARGET_SIZE}/{TARGET_SIZE}")
         return
 
+    word_diffs = []
+    for off in range(0, limit, 4):
+        left = struct.unpack_from("<I", candidate, off)[0]
+        right = struct.unpack_from("<I", target, off)[0]
+        if left != right:
+            word_diffs.append((off, left, right))
     print(
         f"CMemory::Init source recovery: MISMATCH differing_bytes={len(byte_diffs)} "
-        f"candidate_size={len(linked_raw)} target_size={TARGET_SIZE}"
+        f"candidate_size={len(candidate)} target_size={len(target)}"
     )
     if byte_diffs:
         print("first differing byte offsets: " + ", ".join(f"+0x{x:x}" for x in byte_diffs[:24]))
-    if word_diffs:
-        print("first differing words (offset candidate target):")
-        for off, left, right in word_diffs[:40]:
-            print(f"  +0x{off:03x} 0x{left:08x} 0x{right:08x}")
-
+    print("first differing words (offset candidate target):")
+    for off, left, right in word_diffs[:40]:
+        print(f"  +0x{off:03x} 0x{left:08x} 0x{right:08x}")
     print("success-path words (offset candidate target):")
-    for off in range(0x160, min(max(len(linked_raw), len(target)), 0x214), 4):
-        left = struct.unpack_from("<I", linked_raw, off)[0] if off + 4 <= len(linked_raw) else None
+    for off in range(0x160, min(max(len(candidate), len(target)), 0x214), 4):
+        left = struct.unpack_from("<I", candidate, off)[0] if off + 4 <= len(candidate) else None
         right = struct.unpack_from("<I", target, off)[0] if off + 4 <= len(target) else None
         left_text = f"0x{left:08x}" if left is not None else "--------"
         right_text = f"0x{right:08x}" if right is not None else "--------"
