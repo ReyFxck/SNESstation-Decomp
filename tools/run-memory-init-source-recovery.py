@@ -81,10 +81,14 @@ def main() -> None:
     BUILD.mkdir(parents=True, exist_ok=True)
     obj = BUILD / "memory_init_recovered.o"
     flags = shlex.split(source_tree.DEFAULT_CFLAGS)
-    # The target function is 4-byte aligned inside its original shared .text;
-    # this standalone object must not inherit GCC's wider default entry align.
-    flags.append("-falign-functions=4")
     run([CC, *flags, "-c", SOURCE, "-o", obj])
+
+    # In the original shared .text, this function is 4-byte aligned but not
+    # 8-byte aligned. Lower only the standalone object's section metadata;
+    # objcopy does not change any instruction bytes.
+    aligned_obj = BUILD / "memory_init_recovered.align4.o"
+    objcopy = CC.with_name("ee-objcopy")
+    run([objcopy, "--set-section-alignment", ".text=4", obj, aligned_obj])
 
     elf = ELFFile(obj)
     sym = elf.find_symbol(SYMBOL)
@@ -111,7 +115,7 @@ def main() -> None:
         + "}\n",
         encoding="utf-8",
     )
-    run([ld, "-EL", "-T", script, obj, "-o", linked])
+    run([ld, "-EL", "-T", script, aligned_obj, "-o", linked])
 
     linked_elf = ELFFile(linked)
     linked_sym = linked_elf.find_symbol(SYMBOL)
