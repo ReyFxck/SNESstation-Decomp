@@ -60,7 +60,7 @@ def run(command):
 def lower_text_section_alignment(source: Path, destination: Path) -> None:
     """Set only ELF32 .text sh_addralign to 4; leave every byte of code intact."""
     data = bytearray(source.read_bytes())
-    if data[:4] != b"\\x7fELF" or data[4] != 1 or data[5] != 1:
+    if data[:4] != b"\x7fELF" or data[4] != 1 or data[5] != 1:
         raise SystemExit("expected ELF32 little-endian EE object")
     shoff = struct.unpack_from("<I", data, 32)[0]
     shentsize = struct.unpack_from("<H", data, 46)[0]
@@ -77,7 +77,7 @@ def lower_text_section_alignment(source: Path, destination: Path) -> None:
         name_off = struct.unpack_from("<I", data, header)[0]
         if name_off >= len(names):
             continue
-        end = names.find(b"\\x00", name_off)
+        end = names.find(b"\x00", name_off)
         if end < 0:
             continue
         if names[name_off:end] == b".text":
