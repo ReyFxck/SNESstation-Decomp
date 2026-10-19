@@ -5,7 +5,7 @@ on:
     branches:
       - source-cleanup
     paths:
-      - "src/snes9x/memory_init_target.cpp"
+      - "tools/memory_init_target.cpp"
       - "tools/run-memory-init-source-recovery.py"
       - ".github/workflows/memory-init-source-recovery-dev.yml"
   workflow_dispatch:
