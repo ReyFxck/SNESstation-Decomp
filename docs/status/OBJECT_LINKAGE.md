@@ -100,7 +100,7 @@ an original historical C/C++ producer.
 | Measure | Result |
 |---|---:|
 | Exact code-window bytes | **720,620/720,620** |
-| Candidate ELF objects rebuilt and checked | **114** |
+| Candidate ELF objects rebuilt and checked | **115** |
 | Candidate-object slices selected | **508** |
 | Candidate-object evidence bytes | **636,696** |
 | Historical/recovered object construction bucket | **562,840 bytes** |
