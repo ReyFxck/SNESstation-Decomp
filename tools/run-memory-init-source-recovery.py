@@ -187,8 +187,16 @@ def main() -> None:
         print("first differing byte offsets: " + ", ".join(f"+0x{x:x}" for x in byte_diffs[:24]))
     if word_diffs:
         print("first differing words (offset candidate target):")
-        for off, left, right in word_diffs[:24]:
+        for off, left, right in word_diffs[:40]:
             print(f"  +0x{off:03x} 0x{left:08x} 0x{right:08x}")
+
+    print("success-path words (offset candidate target):")
+    for off in range(0x160, min(max(len(linked_raw), len(target)), 0x214), 4):
+        left = struct.unpack_from("<I", linked_raw, off)[0] if off + 4 <= len(linked_raw) else None
+        right = struct.unpack_from("<I", target, off)[0] if off + 4 <= len(target) else None
+        left_text = f"0x{left:08x}" if left is not None else "--------"
+        right_text = f"0x{right:08x}" if right is not None else "--------"
+        print(f"  +0x{off:03x} {left_text} {right_text}")
     raise SystemExit(1)
 
 
