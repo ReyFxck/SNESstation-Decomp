@@ -60,7 +60,8 @@ extern uint8_t *RegRAM;
 
 unsigned char CMemory::Init()
 {
-    uint8_t *rom_pointer;
+    /* The target keeps the biased ROM pointer in EE register $7 (a3). */
+    register uint8_t *rom_pointer __asm__("$7");
 
     if (!RAM)
         RAM = (uint8_t *) malloc(0x20000);
