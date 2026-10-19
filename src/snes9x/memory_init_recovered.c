@@ -123,10 +123,10 @@ int CMemory_Init_recovered(void *memory)
     g_global_rom = rom_pointer;
     g_superfx_state.pv_rom = FIELD32(memory, 0x0004);
     g_global_regram = rom_storage;
+    g_global_sram = sram_storage;
 
     /* The decoded caches need not be cleared; validity maps gate their use. */
     memset((void *)(uintptr_t)g_tile_cache_state.tile_2bpp_valid, 0, 0x1000);
-    g_global_sram = sram_storage;
     memset((void *)(uintptr_t)g_tile_cache_state.tile_4bpp_valid, 0, 0x0800);
     memset((void *)(uintptr_t)g_tile_cache_state.tile_8bpp_valid, 0, 0x0400);
 
