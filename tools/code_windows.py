@@ -947,10 +947,12 @@ DIRECT_FRONTEND_SOURCE_SLICES = (
 )
 
 # Small exact functions promoted from their canonical public source objects.
-# These spans used to sit in the catch-all residual despite already having a
-# byte-identical producer: recovered C, PS2SDK's syscall macro source, zlib
-# 1.1.3, and the pinned GCC 3.2.2 libsupc++ source build respectively.
+# These spans used to sit in the catch-all evidence path despite already having
+# a byte-identical producer: recovered/historical C/C++, PS2SDK's syscall macro
+# source, zlib 1.1.3, and the pinned GCC 3.2.2 libsupc++ source build.
 DIRECT_RECOVERED_SOURCE_SLICES = (
+    ("c4draw-wireframe", "build/source-tree/objects/snes9x/c4drawwireframe.o",
+     0x0010CDCC, 0, 0x01D8, 15, (), {}, 0x01D8, frozenset()),
     ("dsp2-set", "build/code-windows/clean-source/native_dsp2_set.o",
      0x0012F8A8, 0, 0x02D0, 74, ((".rodata", 0x001B2428),),
      {".data": 68, ".rel.data": 16, ".rodata": 120,

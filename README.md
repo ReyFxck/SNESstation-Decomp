@@ -39,17 +39,18 @@ Detailed machine-generated counts are in
 ## Strict source-object linkage
 
 The replacement ELF matches byte for byte. The final linker now places
-**720,620/720,620 code bytes (100%)** from 145 ELF inputs, including
+**720,620/720,620 code bytes (100%)** from 178 ELF inputs, including
 `CPU.o`, `seta.o`, `tile.o`, `CPUOPS.o`, `gfx-short.o`, `CPUEXEC.o`, `dma.o`,
 `ppu-short.o`, `apu-short.o`, `c4.o`, `obc1.o`, `snes-sa1.o`, `snes-CHEATS.o`,
 `SA1CPU.o`, `deflate-1.41.o`, `unzip.o`, `xprintf.o`, `libmc.o`,
 `unwind-dw2-fde.o`, `snaporig-short.o`, `memmap-short.o`, `DSP1.o`,
 `spc7110.o`, `snapshot-short.o`, `sound-normal.o`, `gsFont.o`, `gsPipe.o`,
 original zlib objects, historical PS2LIB runtime members, EE GCC 3.2.2
-`libgcc.a` members and historical C++ exception/RTTI objects. The last
-**36,708 code bytes** are now compiled into a normal ELF input from already
-selected evidence: 10,408 bytes from checked candidate-object slices and
-26,300 bytes from committed public instruction listings. No code byte passes
+`libgcc.a` members and historical C++ exception/RTTI objects. The remaining
+**35,980 evidence-backed code bytes** are compiled into a normal ELF input from
+already selected evidence: 9,880 bytes from checked candidate-object slices and
+26,100 bytes from committed public instruction listings. `C4DrawWireFrame`
+(472 bytes) now links directly from its recovered historical C++ object. No code byte passes
 through a generated `.incbin` section. The audit preserves this distinction;
 listing-derived assembly is exact recovery evidence, not a claim that an
 unavailable historical C/C++ file was found.

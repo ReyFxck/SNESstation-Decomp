@@ -3,8 +3,9 @@
 The exact-image pipeline and the clean object link are tracked separately.
 
 Stage-3P proves all **720,620/720,620 code bytes** and the complete
-replacement ELF. 145 ELF inputs provide **720,620 code bytes** directly
-through 388 placed code sections. 138 inputs use historical producer code;
+replacement ELF. 178 ELF inputs provide **720,620 code bytes** directly
+through 426 placed code sections. 174 inputs are checked candidate/source
+objects or slices;
 multiple inputs may derive from distinct slices of the same original object,
 including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o`,
 `CPU.o`, `seta.o`, `CPUEXEC.o`, `dma.o`, `gfx-short.o`, `CPUOPS.o`, `tile.o`,
@@ -78,10 +79,12 @@ to the already proved read-only, vtable and BSS providers. Additional exact
 `explode.o`, `unreduce.o` and zlib `infblock.o` slices link from their historical
 objects after checking source layouts, relocation targets and byte identity.
 
-The final **36,708 code bytes** are compiled into `code-windows.o` from the
-same frozen public evidence that admitted them to the exact-window roster:
-10,408 bytes come from selected candidate-object slices and 26,300 bytes from
-committed public instruction listings. Every nonrelocation bit from an ELF
+The remaining **35,980 evidence-backed code bytes** are compiled into
+`code-windows.o` from the same frozen public evidence that admitted them to the
+exact-window roster: 9,880 bytes come from selected candidate-object slices and
+26,100 bytes from committed public instruction listings. `C4DrawWireFrame`
+(472 bytes at `0x0010cdcc`) is no longer part of that aggregate: its canonical
+recovered C++ object is linked directly with all 15 relocations checked. Every nonrelocation bit from an ELF
 candidate is checked before its relocation-controlled bits are resolved; every
 listing word is checked against the exact-image oracle. No generated binary
 payload or `.incbin` directive participates in the code link.
@@ -97,18 +100,19 @@ an original historical C/C++ producer.
 | Measure | Result |
 |---|---:|
 | Exact code-window bytes | **720,620/720,620** |
-| Candidate ELF objects rebuilt and checked | **97** |
-| Candidate-object slices selected | **432** |
-| Candidate-object evidence bytes | **611,088** |
-| Historical/recovered object construction bucket | **525,460 bytes** |
+| Candidate ELF objects rebuilt and checked | **114** |
+| Candidate-object slices selected | **508** |
+| Candidate-object evidence bytes | **636,696** |
+| Historical/recovered object construction bucket | **562,840 bytes** |
 | Earlier exact-assembly construction bucket | **85,628 bytes** |
-| Explicit residual assembly | **36,340 bytes** |
-| Public listing construction bucket | **73,192 bytes** |
+| Explicit residual assembly | **0 bytes** |
+| Public listing construction bucket | **72,152 bytes** |
 | Bytes linked from source-built ELF objects | **720,620/720,620 (100%)** |
-| Final evidence object from candidate slices | **10,408 bytes** |
-| Final evidence object from public listings | **26,300 bytes** |
-| Direct ELF object inputs | **145** (including **138** historical producer slices) |
-| Direct placed sections | **388** |
+| Final evidence object from candidate slices | **9,880 bytes** |
+| Final evidence object from public listings | **26,100 bytes** |
+| Direct candidate/source object inputs | **174** |
+| Direct ELF object inputs | **178** |
+| Direct placed sections | **426** |
 | Bytes remaining behind generated payload | **0** |
 | Strict source-object linkage | **Complete** |
 

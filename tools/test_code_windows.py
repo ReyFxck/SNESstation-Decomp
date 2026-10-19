@@ -38,8 +38,8 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(72152, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(173, result["direct_candidate_object_inputs"])
-        self.assertEqual(10352, result["evidence_candidate_object_bytes"])
+        self.assertEqual(174, result["direct_candidate_object_inputs"])
+        self.assertEqual(9880, result["evidence_candidate_object_bytes"])
         self.assertEqual(26100, result["evidence_listing_bytes"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
@@ -51,6 +51,20 @@ class CodeWindowsTests(unittest.TestCase):
             gate.EXPECTED["selected_source_contract_sha256"],
             result["selected_source_contract_sha256"],
         )
+
+    def test_c4drawwireframe_links_from_canonical_cpp_object(self):
+        matches = [
+            row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES
+            if row[0] == "c4draw-wireframe"
+        ]
+        self.assertEqual(len(matches), 1)
+        row = matches[0]
+        self.assertEqual(row[1], "build/source-tree/objects/snes9x/c4drawwireframe.o")
+        self.assertEqual(row[2:6], (0x0010CDCC, 0, 0x01D8, 15))
+        self.assertEqual(row[6], ())
+        self.assertEqual(row[7], {})
+        self.assertEqual(row[8], 0x01D8)
+        self.assertEqual(row[9], frozenset())
 
     def test_final_linker_isolates_only_source_aggregate_models(self):
         source_input = Path("build/test/source-tree.partial.o")
