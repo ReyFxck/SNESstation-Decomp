@@ -98,7 +98,7 @@ def main() -> None:
     script.write_text(
         "".join(f"PROVIDE({name} = 0x{address:08x});\n" for name, address in PROVIDERS.items())
         + "SECTIONS {\n"
-        + f"  .text 0x{base:08x} : SUBALIGN(4) { *(.text) }\n"
+        + f"  .text 0x{base:08x} : SUBALIGN(4) {{ *(.text) }}\n"
         + "  /DISCARD/ : { *(.data*) *(.rodata*) *(.bss*) *(COMMON) *(.reginfo) *(.pdr) *(.mdebug*) *(.comment) *(.note*) *(.eh_frame*) }\n"
         + "}\n",
         encoding="utf-8",
