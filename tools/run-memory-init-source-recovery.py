@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 from compare_elf_functions import ELFFile  # noqa: E402
 
-SOURCE = ROOT / "src/snes9x/memory_init_target.cpp"
+SOURCE = ROOT / "tools/memory_init_target.cpp"
 LISTING = ROOT / "matching/candidates/hunt1041_v80_quickwins_exact.S"
 BUILD = ROOT / "build/matching/memory-init-source-recovery"
 CXX = ROOT / "build/toolchains/ee-gcc-3.2.2-cxx-stage1/prefix/bin/ee-g++"
