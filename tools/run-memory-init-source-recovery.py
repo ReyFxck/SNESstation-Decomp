@@ -81,6 +81,9 @@ def main() -> None:
     BUILD.mkdir(parents=True, exist_ok=True)
     obj = BUILD / "memory_init_recovered.o"
     flags = shlex.split(source_tree.DEFAULT_CFLAGS)
+    # The target function is 4-byte aligned inside its original shared .text;
+    # this standalone object must not inherit GCC's wider default entry align.
+    flags.append("-falign-functions=4")
     run([CC, *flags, "-c", SOURCE, "-o", obj])
 
     elf = ELFFile(obj)
