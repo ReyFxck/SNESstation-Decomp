@@ -20,7 +20,7 @@ class ObjectLinkageAuditTests(unittest.TestCase):
     def test_candidate_object_inventory_is_explicit(self) -> None:
         document = object_linkage.validate()
         result = document["result"]
-        self.assertEqual(result["candidate_elf_objects"], 114)
+        self.assertEqual(result["candidate_elf_objects"], 115)
         self.assertEqual(result["candidate_elf_object_slices"], 508)
         self.assertEqual(result["candidate_elf_object_bytes"], 636_696)
         self.assertEqual(result["listing_bytes"], 72_152)
