@@ -26,6 +26,7 @@ jobs:
         with:
           path: build/toolchains/ee-gcc-3.2.2-stage1
           key: ee-gcc-stage1-${{ runner.os }}-${{ hashFiles('tools/bootstrap_ee_gcc_stage1.py', 'tools/fetch_ee_toolchain_recipe.py', 'tools/patches/**') }}
+          save-always: true
       - name: Build historical EE compiler
         env:
           MAKEFLAGS: MAKEINFO=true
