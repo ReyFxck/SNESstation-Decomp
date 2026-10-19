@@ -42,10 +42,10 @@ public:
     uint32_t unknown_0010;
     uint8_t *FillRAM;                     // 0x0014
     uint8_t *C4RAM;                       // 0x0018
-    uint8_t reserved_001c[0x3064 - 0x001c];
-    uint8_t *SDD1Index;                   // 0x3064
-    uint8_t *SDD1Data;                    // 0x3068
-    uint8_t reserved_306c[0xd480 - 0x306c];
+    uint8_t reserved_001c[0xb064 - 0x001c];
+    uint8_t *SDD1Index;                   // 0xb064
+    uint8_t *SDD1Data;                    // 0xb068
+    uint8_t reserved_b06c[0xd480 - 0xb06c];
     uint8_t *BSRAM;                       // 0xd480
 
     unsigned char Init();
@@ -60,6 +60,8 @@ extern uint8_t *RegRAM;
 
 unsigned char CMemory::Init()
 {
+    uint8_t *rom_pointer;
+
     if (!RAM)
         RAM = (uint8_t *) malloc(0x20000);
     if (!SRAM)
@@ -97,9 +99,10 @@ unsigned char CMemory::Init()
     }
 
     FillRAM = ROM;
-    ROM += 0x8000;
-    C4RAM = ROM + 0x400000 + 8192 * 8;
-    ::ROM = ROM;
+    rom_pointer = ROM + 0x8000;
+    ROM = rom_pointer;
+    C4RAM = rom_pointer + 0x400000 + 8192 * 8;
+    ::ROM = rom_pointer;
     ::SRAM = SRAM;
     ::RegRAM = FillRAM;
 
