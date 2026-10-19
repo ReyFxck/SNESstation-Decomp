@@ -14,7 +14,7 @@
   "result": {
     "candidate_elf_object_bytes": 636696,
     "candidate_elf_object_slices": 508,
-    "candidate_elf_objects": 114,
+    "candidate_elf_objects": 115,
     "direct_candidate_object_inputs": 175,
     "direct_object_bytes": 720620,
     "direct_object_inputs": 179,
