@@ -90,7 +90,7 @@
     "prior_exact_assembly_bytes": 85628,
     "relocation_fields": 40351,
     "residual_bytes": 0,
-    "selected_source_contract_sha256": "bbe482783a2fe7fcf812389841d60b41d64e4140b4634f9a42a05e3b4361853e",
+    "selected_source_contract_sha256": "863735812695b0f3a39000442f5d234162624c3158e28988c1e134824cb62d23",
     "selected_source_slices": 617,
     "selected_sources": [
       {
@@ -1234,18 +1234,6 @@
         "symbol": "v81_0010c6f8"
       },
       {
-        "address": 1100720,
-        "name": "tsv_0010cbb0__Z10C4DrawLineiisiish",
-        "new_bytes": 540,
-        "object": "build/matching/hunt1041-v76-c4spr/objects/c4emu.o",
-        "raw_sha256": "6c7d8e1c6ab5139b7ce0d86483541476800ac5c5c46555514c6c4622e87bbe58",
-        "relocations": 36,
-        "section": ".text",
-        "size": 540,
-        "source_offset": 0,
-        "symbol": "_Z10C4DrawLineiisiish"
-      },
-      {
         "address": 1101260,
         "name": "tsv_0010cdcc__Z15C4DrawWireFramev",
         "new_bytes": 472,
@@ -1760,6 +1748,18 @@
         "size": 364,
         "source_offset": 0,
         "symbol": "_Z18S9xParseCheatsFilePKc"
+      },
+      {
+        "address": 1100720,
+        "name": "clean_c4_draw_line",
+        "new_bytes": 540,
+        "object": "build/code-windows/clean-source/native_c4_raster.o",
+        "raw_sha256": "6c7d8e1c6ab5139b7ce0d86483541476800ac5c5c46555514c6c4622e87bbe58",
+        "relocations": 36,
+        "section": ".text",
+        "size": 540,
+        "source_offset": 0,
+        "symbol": "_Z10C4DrawLineiisiish"
       },
       {
         "address": 1228636,
