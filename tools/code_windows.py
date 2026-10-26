@@ -1006,6 +1006,18 @@ DIRECT_RECOVERED_SOURCE_SLICES = (
     ("operator-new-array", "build/runtime-tail-data/source-objects/new_opv.o",
      0x001A9F68, 0, 0x0040, 3, (),
      {".data": 68, ".rel.data": 24, ".bss": 0}, 0x0040, frozenset()),
+    ("libkernel-memset", "build/source-tree/objects/ps2/libkernel_size_strings_recovered.o",
+     0x0019C364, 0, 0x006C, 0, (),
+     {".data": 0, ".bss": 0}, 0x006C, frozenset()),
+    ("libkernel-strlen-setup", "build/source-tree/objects/ps2/libkernel_size_strings_recovered.o",
+     0x0019C39C, 0, 0x0034, 0, (),
+     {".data": 0, ".bss": 0}, 0x0034, frozenset()),
+    ("libkernel-memmove", "build/source-tree/objects/ps2/libkernel_size_strings_recovered.o",
+     0x0019C550, 0, 0x0050, 0, (),
+     {".data": 0, ".bss": 0}, 0x0050, frozenset()),
+    ("libkernel-strchr", "build/source-tree/objects/ps2/libkernel_size_strings_recovered.o",
+     0x0019C5E8, 0, 0x0024, 0, (),
+     {".data": 0, ".bss": 0}, 0x0024, frozenset()),
 )
 
 DIRECT_GZIO_SUFFIX_OBJECT = (
