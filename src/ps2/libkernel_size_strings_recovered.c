@@ -153,3 +153,362 @@ void strchr_frag_0019c5e8(const char *s, int c)
     (void)s; (void)c;
 #endif
 }
+
+/* 0x0019C3D4 - strcat */
+char *strcat_0019c3d4(char *dest, const char *src)
+{
+#if defined(__mips__)
+    register char *v0 __asm__("$2") = dest;
+    register const char *v1 __asm__("$3") = src;
+    register char *v2 __asm__("$4");
+    register char *v3 __asm__("$5");
+    register char *v4 __asm__("$6");
+    register int v5 __asm__("$7");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x18\n"
+        "sd    $ra, 0x10($sp)\n"
+        "sd    $16, 0x08($sp)\n"
+
+        /* Find end of dest */
+        "move  %4, %0\n"
+        "1:\n"
+        "lb    %5, 0(%4)\n"
+        "bnez  %5, 2f\n"
+        "addiu %4, %4, 1\n"
+        "b     1b\n"
+        "2:\n"
+
+        /* Copy src to dest end */
+        "3:\n"
+        "lb    %5, 0(%1)\n"
+        "sb    %5, 0(%4)\n"
+        "bnez  %5, 4f\n"
+        "addiu %4, %4, 1\n"
+        "addiu %1, %1, 1\n"
+        "b     3b\n"
+        "4:\n"
+
+        /* Return original dest */
+        "move  %0, %2\n"
+
+        /* Epilogue */
+        "ld    $ra, 0x10($sp)\n"
+        "ld    $16, 0x08($sp)\n"
+        "addiu $sp, $sp, 0x18\n"
+        "jr    $ra\n"
+        : "+r"(v0), "+r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5)
+        :
+        : "memory"
+    );
+    return v0;
+#else
+    return strcat(dest, src);
+#endif
+}
+
+/* 0x0019C408 - strncmp */
+int strncmp_0019c408(const char *s1, const char *s2, size_t n)
+{
+#if defined(__mips__)
+    register const char *v0 __asm__("$2") = s1;
+    register const char *v1 __asm__("$3") = s2;
+    register size_t v2 __asm__("$4") = n;
+    register int v3 __asm__("$5");
+    register int v4 __asm__("$6");
+    register int v5 __asm__("$7");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x18\n"
+        "sd    $ra, 0x10($sp)\n"
+        "sd    $16, 0x08($sp)\n"
+
+        "beqz  %2, 3f\n"
+        "1:\n"
+        "lb    %3, 0(%0)\n"
+        "lb    %4, 0(%1)\n"
+        "subu  %5, %3, %4\n"
+        "bnez  %5, 2f\n"
+        "addiu %2, %2, -1\n"
+        "beqz  %2, 3f\n"
+        "beqz  %3, 3f\n"
+        "addiu %0, %0, 1\n"
+        "addiu %1, %1, 1\n"
+        "b     1b\n"
+        "2:\n"
+        "move  %0, %5\n"
+        "b     4f\n"
+        "3:\n"
+        "move  %0, $0\n"
+        "4:\n"
+
+        /* Epilogue */
+        "ld    $ra, 0x10($sp)\n"
+        "ld    $16, 0x08($sp)\n"
+        "addiu $sp, $sp, 0x18\n"
+        "jr    $ra\n"
+        : "+r"(v0), "+r"(v1), "+r"(v2), "=r"(v3), "=r"(v4), "=r"(v5)
+        :
+        : "memory"
+    );
+    return v0;
+#else
+    return strncmp(s1, s2, n);
+#endif
+}
+
+/* 0x0019C458 - memcmp */
+int memcmp_0019c458(const void *s1, const void *s2, size_t n)
+{
+#if defined(__mips__)
+    register const char *v0 __asm__("$2") = s1;
+    register const char *v1 __asm__("$3") = s2;
+    register size_t v2 __asm__("$4") = n;
+    register int v3 __asm__("$5");
+    register int v4 __asm__("$6");
+    register int v5 __asm__("$7");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x18\n"
+        "sd    $ra, 0x10($sp)\n"
+        "sd    $16, 0x08($sp)\n"
+
+        "beqz  %2, 3f\n"
+        "1:\n"
+        "lbu   %3, 0(%0)\n"
+        "lbu   %4, 0(%1)\n"
+        "subu  %5, %3, %4\n"
+        "bnez  %5, 2f\n"
+        "addiu %2, %2, -1\n"
+        "beqz  %2, 3f\n"
+        "addiu %0, %0, 1\n"
+        "addiu %1, %1, 1\n"
+        "b     1b\n"
+        "2:\n"
+        "move  %0, %5\n"
+        "b     4f\n"
+        "3:\n"
+        "move  %0, $0\n"
+        "4:\n"
+
+        /* Epilogue */
+        "ld    $ra, 0x10($sp)\n"
+        "ld    $16, 0x08($sp)\n"
+        "addiu $sp, $sp, 0x18\n"
+        "jr    $ra\n"
+        : "+r"(v0), "+r"(v1), "+r"(v2), "=r"(v3), "=r"(v4), "=r"(v5)
+        :
+        : "memory"
+    );
+    return v0;
+#else
+    return memcmp(s1, s2, n);
+#endif
+}
+
+/* 0x0019C4A0 - memmove */
+void *memmove_0019c4a0(void *dest, const void *src, size_t n)
+{
+#if defined(__mips__)
+    register void *v0 __asm__("$2") = dest;
+    register const void *v1 __asm__("$3") = src;
+    register size_t v2 __asm__("$4") = n;
+    register void *v3 __asm__("$5");
+    register void *v4 __asm__("$6");
+    register int v5 __asm__("$7");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x18\n"
+        "sd    $ra, 0x10($sp)\n"
+        "sd    $16, 0x08($sp)\n"
+
+        "beqz  %2, 3f\n"
+        "move  %4, %0\n"
+
+        /* Check for overlap - forward copy if src >= dest or no overlap */
+        "subu  %3, %1, %0\n"
+        "sltu  %3, %2, %3\n"
+        "bnez  %3, 2f\n"
+        "nop\n"
+
+        /* Backward copy for overlapping regions */
+        "addu  %1, %1, %2\n"
+        "addu  %0, %0, %2\n"
+        "addiu %1, %1, -1\n"
+        "addiu %0, %0, -1\n"
+        "1:\n"
+        "lbu   %5, 0(%1)\n"
+        "sb    %5, 0(%0)\n"
+        "addiu %1, %1, -1\n"
+        "addiu %0, %0, -1\n"
+        "addiu %2, %2, -1\n"
+        "bnez  %2, 1b\n"
+        "b     3f\n"
+
+        "2:\n"
+        /* Forward copy */
+        "1:\n"
+        "lbu   %5, 0(%1)\n"
+        "sb    %5, 0(%0)\n"
+        "addiu %1, %1, 1\n"
+        "addiu %0, %0, 1\n"
+        "addiu %2, %2, -1\n"
+        "bnez  %2, 1b\n"
+
+        "3:\n"
+        "move  %0, %4\n"
+
+        /* Epilogue */
+        "ld    $ra, 0x10($sp)\n"
+        "ld    $16, 0x08($sp)\n"
+        "addiu $sp, $sp, 0x18\n"
+        "jr    $ra\n"
+        : "+r"(v0), "+r"(v1), "+r"(v2), "=r"(v3), "=r"(v4), "=r"(v5)
+        :
+        : "memory"
+    );
+    return v0;
+#else
+    return memmove(dest, src, n);
+#endif
+}
+
+/* 0x0019C550 - strcpy */
+char *strcpy_0019c550(char *dest, const char *src)
+{
+#if defined(__mips__)
+    register char *v0 __asm__("$2") = dest;
+    register const char *v1 __asm__("$3") = src;
+    register char *v2 __asm__("$4");
+    register char *v3 __asm__("$5");
+    register char *v4 __asm__("$6");
+    register int v5 __asm__("$7");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x18\n"
+        "sd    $ra, 0x10($sp)\n"
+        "sd    $16, 0x08($sp)\n"
+
+        "move  %4, %0\n"
+        "1:\n"
+        "lb    %5, 0(%1)\n"
+        "sb    %5, 0(%0)\n"
+        "bnez  %5, 2f\n"
+        "addiu %0, %0, 1\n"
+        "addiu %1, %1, 1\n"
+        "b     1b\n"
+        "2:\n"
+        "move  %0, %4\n"
+
+        /* Epilogue */
+        "ld    $ra, 0x10($sp)\n"
+        "ld    $16, 0x08($sp)\n"
+        "addiu $sp, $sp, 0x18\n"
+        "jr    $ra\n"
+        : "+r"(v0), "+r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5)
+        :
+        : "memory"
+    );
+    return v0;
+#else
+    return strcpy(dest, src);
+#endif
+}
+
+/* 0x0019C5E8 - strchr */
+char *strchr_0019c5e8(const char *s, int c)
+{
+#if defined(__mips__)
+    register const char *v0 __asm__("$2") = s;
+    register int v1 __asm__("$3") = c;
+    register const char *v2 __asm__("$4");
+    register const char *v3 __asm__("$5");
+    register int v4 __asm__("$6");
+    register int v5 __asm__("$7");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x18\n"
+        "sd    $ra, 0x10($sp)\n"
+        "sd    $16, 0x08($sp)\n"
+
+        "move  %4, %0\n"
+        "lb    %1, 0(%0)\n"
+        "beq   %1, $0, 2f\n"
+        "1:\n"
+        "addiu %0, %0, 1\n"
+        "lb    %1, 0(%0)\n"
+        "bne   %1, %3, 1b\n"
+        "move  %0, $0\n"
+        "b     3f\n"
+        "2:\n"
+        "move  %0, %4\n"
+        "3:\n"
+
+        /* Epilogue */
+        "ld    $ra, 0x10($sp)\n"
+        "ld    $16, 0x08($sp)\n"
+        "addiu $sp, $sp, 0x18\n"
+        "jr    $ra\n"
+        : "+r"(v0), "+r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5)
+        :
+        : "memory"
+    );
+    return (char *)v0;
+#else
+    return strchr(s, c);
+#endif
+}
+
+/* 0x0019C610 - strcmp */
+int strcmp_0019c610(const char *s1, const char *s2)
+{
+#if defined(__mips__)
+    register const char *v0 __asm__("$2") = s1;
+    register const char *v1 __asm__("$3") = s2;
+    register int v2 __asm__("$4");
+    register int v3 __asm__("$5");
+    register int v4 __asm__("$6");
+    register int v5 __asm__("$7");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x18\n"
+        "sd    $ra, 0x10($sp)\n"
+        "sd    $16, 0x08($sp)\n"
+
+        "1:\n"
+        "lb    %2, 0(%0)\n"
+        "lb    %3, 0(%1)\n"
+        "subu  %4, %2, %3\n"
+        "bnez  %4, 2f\n"
+        "beqz  %2, 3f\n"
+        "addiu %0, %0, 1\n"
+        "addiu %1, %1, 1\n"
+        "b     1b\n"
+        "2:\n"
+        "move  %0, %4\n"
+        "b     4f\n"
+        "3:\n"
+        "move  %0, $0\n"
+        "4:\n"
+
+        /* Epilogue */
+        "ld    $ra, 0x10($sp)\n"
+        "ld    $16, 0x08($sp)\n"
+        "addiu $sp, $sp, 0x18\n"
+        "jr    $ra\n"
+        : "+r"(v0), "+r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5)
+        :
+        : "memory"
+    );
+    return v0;
+#else
+    return strcmp(s1, s2);
+#endif
+}
