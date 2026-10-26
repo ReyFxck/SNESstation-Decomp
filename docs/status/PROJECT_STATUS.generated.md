@@ -7,7 +7,7 @@
 | Measure | Result | Status |
 |---|---:|---|
 | Audited function entries | **1,041/1,041 (100%)** | Complete |
-| EE source ownership | **195/195 translation units** | Complete |
+| EE source ownership | **198/198 translation units** | Complete |
 | Runtime contracts | **53/53** | Complete |
 | Program-data address identities | **1,265/1,265** | Complete |
 | Exact 64 KiB image windows | **51/51** | Complete |
@@ -26,7 +26,7 @@ row independently closes the complete file identity.
 |---|---:|---|
 | Function matching | **1,041/1,041** | Complete-boundary compiler/object evidence for every audited entry |
 | Readable source models | **1,041/1,041** | Every audited entry has a behavioral/source representation |
-| Source ownership | **189/195 units** | 189 canonical EE objects compile with the frozen ABI |
+| Source ownership | **192/198 units** | 192 canonical EE objects compile with the frozen ABI |
 | Source-address aliases | **331/345 proved** | 14 intentionally blocked names remain outside the alias claim |
 | Zero-byte link contracts | **1,293/1,549** | 1,255 address anchors and 38 semantic aliases |
 | Source-link providers | **246/246** | The recovered relocatable aggregate has zero undefined globals |
@@ -52,7 +52,7 @@ row independently closes the complete file identity.
 | Exact-window coverage | **51/51 (100.00%)** |
 | Remaining different bytes | **0** |
 | Integrated code evidence across windows 0–10 | **720,620 bytes** |
-| Existing public instruction listings reused | **72,152 bytes** |
+| Existing public instruction listings reused | **71,848 bytes** |
 | Newly labelled exact scheduling residual | **0 bytes** |
 | Exact SJCRUNCH2 blocks | **13/13** |
 | Exact SJCRUNCH2 container | **714,268/714,268 bytes** |

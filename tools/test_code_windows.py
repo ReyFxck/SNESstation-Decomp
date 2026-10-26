@@ -36,11 +36,11 @@ class CodeWindowsTests(unittest.TestCase):
         result = self.document["result"]
         self.assertEqual((65536 - 0x114) + 10 * 65536, result["source_bytes"])
         self.assertEqual(0, result["residual_bytes"])
-        self.assertEqual(71896, result["listing_bytes"])
+        self.assertEqual(71848, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(178, result["direct_candidate_object_inputs"])
-        self.assertEqual(9596, result["evidence_candidate_object_bytes"])
-        self.assertEqual(25748, result["evidence_listing_bytes"])
+        self.assertEqual(179, result["direct_candidate_object_inputs"])
+        self.assertEqual(9644, result["evidence_candidate_object_bytes"])
+        self.assertEqual(25700, result["evidence_listing_bytes"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -106,6 +106,20 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(row[6], ())
         self.assertEqual(row[7], {".data": 0, ".bss": 0})
         self.assertEqual(row[8], 0x00B0)
+        self.assertEqual(row[9], frozenset())
+
+    def test_libkernel_sif_syscalls_links_from_canonical_c_object(self):
+        matches = [
+            row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES
+            if row[0] == "libkernel-sif-syscalls"
+        ]
+        self.assertEqual(len(matches), 1)
+        row = matches[0]
+        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_sif_syscalls_recovered.o")
+        self.assertEqual(row[2:6], (0x0019F5D0, 0, 0x0030, 0))
+        self.assertEqual(row[6], ())
+        self.assertEqual(row[7], {".data": 0, ".bss": 0})
+        self.assertEqual(row[8], 0x0030)
         self.assertEqual(row[9], frozenset())
 
     def test_c4drawline_links_from_clean_cpp_function_section(self):

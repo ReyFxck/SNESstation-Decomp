@@ -691,7 +691,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019cd4c,SifExitRpc,sifrpc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/sifrpc.c,MATCHING
 0x0019cd70,_rpc_get_packet,sifrpc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/sifrpc.c,MATCHING
 0x0019ce2c,_rpc_get_fpacket,sifrpc,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/sifrpc.c,MATCHING
-0x0019ce60,iWakeupThread,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
+0x0019ce60,iWakeupThread,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S;src/ps2/libkernel_syscalls2_recovered.c,MATCHING
 0x0019ce70,CreateSema,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
 0x0019ce80,DeleteSema,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
 0x0019ce90,iSignalSema,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
@@ -767,7 +767,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019f5a0,AddDmacHandler,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
 0x0019f5b0,RemoveDmacHandler,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
 0x0019f5c0,EndOfHeap,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/libkernel_heap_runtime_recovered.c,MATCHING
-0x0019f5d0,SifStopDma,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
+0x0019f5d0,SifStopDma,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S;src/ps2/libkernel_sif_syscalls_recovered.c,MATCHING
 0x0019f5e0,iSifSetDma,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
 0x0019f5f0,SifSetDChain,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
 0x0019f600,fioInit,fileio,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/fileio.c;src/ps2/libkernel_client_init_recovered.c,MATCHING
@@ -779,7 +779,7 @@ address,name,area,manifest_status,source_form,explicit_src_reference,source_file
 0x0019fb00,EnableDmac,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/glue.c,MATCHING
 0x0019fb78,DisableDmac,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/glue.c,MATCHING
 0x0019fbf0,_SifCmdIntHandler,sifcmd,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/sifcmd.c,MATCHING
-0x0019fcd0,_EnableDmac,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
+0x0019fcd0,_EnableDmac,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S;src/ps2/libkernel_syscalls_recovered.c,MATCHING
 0x0019fce0,_DisableDmac,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
 0x0019fcf0,SignalSema,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING
 0x0019fd00,PollSema,libkernel,MATCHING,BEHAVIORAL_SOURCE_MODEL,yes,src/ps2/kernel.S,MATCHING

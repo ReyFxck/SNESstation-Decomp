@@ -23,8 +23,8 @@ class BuildSourceTreeTests(unittest.TestCase):
         units = MODULE.read_manifest(
             ROOT / "analysis" / "source_tree" / "translation_units.tsv"
         )
-        self.assertEqual(195, len(units))
-        self.assertEqual(189, sum(unit.canonical for unit in units))
+        self.assertEqual(198, len(units))
+        self.assertEqual(192, sum(unit.canonical for unit in units))
         alternate = [unit for unit in units if unit.link_role == "alternate"]
         self.assertEqual([], alternate)
         direct = [unit for unit in units if unit.link_role == "direct"]
