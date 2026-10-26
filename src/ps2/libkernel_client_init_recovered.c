@@ -326,3 +326,161 @@ int SifLoadFileInit_0019fd20(void)
     return 0;
 #endif
 }
+
+/* Global state for fio at 0x425AB0. */
+#if defined(__mips__)
+static int *const fio_init_ptr = (int *)0x425AB0;
+static int *const fio_mode_ptr = (int *)0x426E48;
+static int *const fio_handle_ptr = (int *)0x426E44;
+#else
+static int fio_init_host = 0;
+static int fio_mode_host = 0;
+static int fio_handle_host = 0;
+static int *const fio_init_ptr = &fio_init_host;
+static int *const fio_mode_ptr = &fio_mode_host;
+static int *const fio_handle_ptr = &fio_handle_host;
+#endif
+
+extern int fioInit_0019f600(void);
+extern int func_0019fd00(int);
+extern int func_0019fcf0(int);
+extern int func_0019cea0(int);
+
+/* 0x0019f708 - fio I/O function (read/write) */
+int fio_io_0019f708(void *buf, int mode, void *user_ptr, int size)
+{
+#if defined(__mips__)
+    register int v0 __asm__("$2") = (int)buf;
+    register int v1 __asm__("$3") = mode;
+    register int v2 __asm__("$4") = (int)user_ptr;
+    register int v3 __asm__("$5") = size;
+    register int v4 __asm__("$6");
+    register int v5 __asm__("$7");
+    register int v6 __asm__("$8");
+    register int v7 __asm__("$16");
+    register int v8 __asm__("$17");
+    register int v9 __asm__("$ra");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x30\n"
+        "sd    $17, 0x10($sp)\n"
+        "sd    $16, 0x00($sp)\n"
+        "sd    $ra, 0x20($sp)\n"
+
+        /* Move $5 (size) to $17 */
+        "move  %7, %3\n"
+
+        /* Load fio_init_recovered at 0x425AB0 */
+        "lui   %8, 0x42\n"
+        "lw    %0, 0x5ab0(%8)\n"
+
+        /* If fio not initialized, call fioInit */
+        "bnez  %0, fio_check_mode\n"
+        "nop\n"
+
+        /* Call fioInit */
+        "jal   fioInit_0019f600\n"
+        "nop\n"
+
+        /* Check fioInit result */
+        "bgez  %2, fio_check_mode\n"
+        "move  %6, %2\n"
+
+        /* fioInit failed - return error */
+        "ld    $ra, 0x20($sp)\n"
+        "lui   %8, 0x42\n"
+        "jr    $ra\n"
+        "sw    %6, 0x6e48(%8)\n"
+
+        "fio_check_mode:\n"
+        /* Move $4 (buf) to $16 */
+        "move  %8, %0\n"
+
+        /* Load fio_mode at 0x426E48 */
+        "lui   %0, 0x42\n"
+        "lw    %4, 0x6e48(%0)\n"
+
+        /* Check if mode == 1 */
+        "addiu %1, $0, 1\n"
+        "beq   %4, %1, fio_mode_ok\n"
+        "nop\n"
+
+        /* Mode not 1 - return error 0xFFFF29FB */
+        "lui   %3, 0xffff\n"
+        "ori   %6, %3, 0x29fb\n"
+        "ld    $ra, 0x20($sp)\n"
+        "move  %2, %6\n"
+        "ld    $17, 0x10($sp)\n"
+        "ld    $16, 0x00($sp)\n"
+        "addiu $sp, $sp, 0x30\n"
+        "jr    $ra\n"
+
+        "fio_mode_ok:\n"
+        /* Call func_0019fd00 */
+        "lui   %8, 0x42\n"
+        "lw    %4, 0x6e44(%8)\n"
+        "jal   func_0019fd00\n"
+        "nop\n"
+
+        /* Check result */
+        "bltz  %2, fio_error_exit\n"
+        "move  %0, $0\n"
+
+        /* Call func_0019fcf0 */
+        "lw    %4, 0x6e44(%8)\n"
+        "jal   func_0019fcf0\n"
+        "nop\n"
+
+        /* Check user_ptr ($17) */
+        "beqz  %7, fio_skip_user\n"
+        "nop\n"
+
+        /* Load value from 0x450003C0 */
+        "lui   %4, 0x45\n"
+        "lui   %5, 0x2000\n"
+        "addiu %4, %4, 0x3c0\n"
+        "or    %4, %4, %5\n"
+        "lw    %5, 0x0(%4)\n"
+        "sw    %5, 0x0(%7)\n"
+
+        "fio_skip_user:\n"
+        /* Return success */
+        "addiu %6, $0, 1\n"
+        "b     fio_error_exit\n"
+        "move  %0, %6\n"
+
+        /* Call func_0019cea0 */
+        "lw    %4, 0x6e44(%8)\n"
+        "jal   func_0019cea0\n"
+        "nop\n"
+
+        /* Loop back */
+        "b     fio_mode_ok\n"
+        "nop\n"
+
+        "fio_error_exit:\n"
+        /* Epilogue */
+        "ld    $ra, 0x20($sp)\n"
+        "ld    $17, 0x10($sp)\n"
+        "ld    $16, 0x00($sp)\n"
+        "addiu $sp, $sp, 0x30\n"
+        "jr    $ra\n"
+        "move  %2, %6\n"
+        : "=r"(v0), "=r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5), "=r"(v6),
+          "=r"(v7), "=r"(v8), "=r"(v9)
+        : "r"(v0), "r"(v1), "r"(v2), "r"(v3)
+        : "memory", "$1", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
+    );
+    return v2;
+#else
+    /* Host fallback */
+    if (!*fio_init_ptr) {
+        int res = fioInit_0019f600();
+        if (res < 0)
+            return res;
+    }
+    (void)buf; (void)mode; (void)user_ptr; (void)size;
+    return 0;
+#endif
+}
