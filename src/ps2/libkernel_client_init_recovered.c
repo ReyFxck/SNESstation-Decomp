@@ -5,6 +5,7 @@
  */
 #include <stdint.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "../../include/ps2_libkernel_recovered.h"
 
@@ -323,6 +324,55 @@ int SifLoadFileInit_0019fd20(void)
         return res;
 
     *sif_loadfile_init_ptr = 1;
+    return 0;
+#endif
+}
+
+/* 0x0019FAA8 - vprintf */
+int vprintf_0019faa8(const char *fmt, va_list ap)
+{
+#if defined(__mips__)
+    register int v0 __asm__("$2") = (int)fmt;
+    register int v1 __asm__("$3");
+    register int v2 __asm__("$4") = (int)ap;
+    register int v3 __asm__("$5");
+    register int v4 __asm__("$16");
+    register int v5 __asm__("$17");
+    register int v6 __asm__("$ra");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x30\n"
+        "sd    $16, 0x00($sp)\n"
+        "sd    $ra, 0x20($sp)"
+        "move  %4, %2\n"      /* v4 ($16) = ap */
+        "lui   %5, 0x44\n"    /* v5 ($17) = 0x4454C0 */
+        "addiu %5, %5, 0x54c0"
+        "move  $4, %5\n"
+        "sd    $17, 0x10($sp)\n"
+        "addiu $4, $0, 0x1\n"
+        "jal   0x19e2e0\n"
+        "move  %3, %4\n"
+        "move  $4, %5\n"
+        "move  $5, %5\n"
+        "move  $6, %1\n"
+        "jal   0x19d244\n"
+        "move  %1, %3\n"
+        /* Epilogue */
+        "ld    $16, 0x00($sp)\n"
+        "move  %0, %1\n"
+        "ld    $ra, 0x20($sp)\n"
+        "ld    $17, 0x10($sp)\n"
+        "addiu $sp, $sp, 0x30\n"
+        "jr    $ra\n"
+        "nop\n"
+        : "=r"(v0), "=r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5), "=r"(v6)
+        : "r"(v0), "r"(v2)
+        : "memory", "$1", "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
+    );
+    return v0;
+#else
+    (void)fmt; (void)ap;
     return 0;
 #endif
 }
