@@ -78,13 +78,14 @@ to the already proved read-only, vtable and BSS providers. Additional exact
 `explode.o`, `unreduce.o` and zlib `infblock.o` slices link from their historical
 objects after checking source layouts, relocation targets and byte identity.
 
-The remaining **35,440 evidence-backed code bytes** are compiled into
+The remaining **35,344 evidence-backed code bytes** are compiled into
 `code-windows.o` from the same frozen public evidence that admitted them to the
 exact-window roster: 9,340 bytes come from selected candidate-object slices and
-26,100 bytes from committed public instruction listings. `C4DrawWireFrame` (472 bytes at `0x0010cdcc`) and `C4DrawLine` (540 bytes
-at `0x0010cbb0`) are no longer part of that aggregate: their canonical
-recovered C++ objects/functions are linked directly, with 15 and 36
-relocations checked respectively. Every nonrelocation bit from an ELF
+26,004 bytes from committed public instruction listings. `C4DrawWireFrame` (472 bytes at `0x0010cdcc`), `C4DrawLine` (540 bytes
+at `0x0010cbb0`), and `libkernel_intr`/`DIntr`/`EIntr` (96 bytes at
+`0x0019f018`) are no longer part of that aggregate: their canonical recovered
+C/C++ objects/functions are linked directly, with 15, 36, and 0 relocations
+checked respectively. Every nonrelocation bit from an ELF
 candidate is checked before its relocation-controlled bits are resolved; every
 listing word is checked against the exact-image oracle. No generated binary
 payload or `.incbin` directive participates in the code link.
