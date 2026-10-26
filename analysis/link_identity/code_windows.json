@@ -14,16 +14,19 @@
   "format": "snesstation-stage3p-public-code-windows",
   "prior_manifest_sha256": "157f199cf131d5aa9b5eb7533e2bd8238eb7d9fbfed024df7323ff601106dbed",
   "result": {
+    "candidate_elf_object_bytes": 636760,
+    "candidate_elf_object_slices": 509,
+    "candidate_elf_objects": 116,
     "chunk_count": 51,
     "code_windows": 11,
     "differences_removed": 635736,
     "differing_bytes": 0,
-    "direct_candidate_object_inputs": 179,
+    "direct_candidate_object_inputs": 180,
     "direct_object_bytes": 720620,
-    "direct_object_inputs": 179,
+    "direct_object_inputs": 180,
     "direct_object_sections": 426,
-    "evidence_candidate_object_bytes": 9644,
-    "evidence_listing_bytes": 25700,
+    "evidence_candidate_object_bytes": 9708,
+    "evidence_listing_bytes": 25636,
     "exact_chunk_indices": [
       0,
       1,
@@ -83,14 +86,15 @@
     "incbin_payload_bytes": 0,
     "incbin_payload_sections": 0,
     "integrated_padded_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
-    "listing_bytes": 71848,
+    "listing_bytes": 71784,
+    "listing_sources": 43,
     "mismatching_chunk_indices": [],
     "mismatching_chunks": 0,
     "prior_differing_bytes": 635736,
     "prior_exact_assembly_bytes": 85628,
     "relocation_fields": 40351,
     "residual_bytes": 0,
-    "selected_source_contract_sha256": "863735812695b0f3a39000442f5d234162624c3158e28988c1e134824cb62d23",
+    "selected_source_contract_sha256": "149f77f173be5fa060ec054ddb3ec5ad5400f430c8d3d457a2e634f278a669fc",
     "selected_source_slices": 617,
     "selected_sources": [
       {
@@ -6394,18 +6398,6 @@
         "symbol": ""
       },
       {
-        "address": 1696884,
-        "name": "listing_libkernel_heap_0019e474",
-        "new_bytes": 64,
-        "object": "analysis/functions/libkernel_heap_0019e474.asm",
-        "raw_sha256": "976a2ef4e5ace574fe49ac05879156305021241a8de9316ce1cb75d4352154a6",
-        "relocations": 0,
-        "section": "objdump-byte-columns",
-        "size": 64,
-        "source_offset": 0,
-        "symbol": ""
-      },
-      {
         "address": 1699864,
         "name": "listing_libkernel_intr_0019f018",
         "new_bytes": 96,
@@ -6476,6 +6468,18 @@
         "size": 80,
         "source_offset": 0,
         "symbol": ""
+      },
+      {
+        "address": 1696884,
+        "name": "libkernel-heap-find-block",
+        "new_bytes": 64,
+        "object": "build/source-tree/objects/ps2/libkernel_heap_runtime_recovered.o",
+        "raw_sha256": "0",
+        "relocations": 0,
+        "section": "direct-recovered-source",
+        "size": 64,
+        "source_offset": 0,
+        "symbol": "HeapFindBlock_0019e474"
       },
       {
         "address": 1705792,

@@ -66,3 +66,57 @@ ee_addr32_t EndOfHeap_0019f5c0(void)
 #endif
 }
 
+/* Target: 0x0019e474. Heap block search for available space. */
+void *HeapFindBlock_0019e474(void *head, size_t min_space)
+{
+#if defined(__mips__)
+    register void *v0 __asm__("$2") = head;
+    register void *v1 __asm__("$3") = head;
+    register size_t v2 __asm__("$4") = (size_t)head;
+    register size_t v3 __asm__("$5") = min_space;
+    register void *v4 __asm__("$6") = 0;
+    register void *v5 __asm__("$7");
+    register size_t v6 __asm__("$8");
+
+    __asm__ volatile(
+        "1:\n"
+        "beqz %2, 2f\n"
+        "nop\n"
+        "lw %4, 0xc(%2)\n"
+        "beqz %4, 2f\n"
+        "nop\n"
+        "lw %5, 0x0(%2)\n"
+        "lw %6, 0x4(%2)\n"
+        "addu %5, %5, %6\n"
+        "subu %5, %4, %5\n"
+        "sltu %5, %5, %3\n"
+        "beqz %5, 2f\n"
+        "nop\n"
+        "bnez %4, 1b\n"
+        "move %2, %4\n"
+        "2:\n"
+        "jr $ra\n"
+        "move %0, %2\n"
+        : "=r"(v0), "+r"(v1), "+r"(v2), "+r"(v3), "=r"(v4), "=r"(v5), "=r"(v6)
+        :
+        : "memory"
+    );
+    return v0;
+#else
+    /* Host fallback: simple linear scan of a notional block list. */
+    struct heap_block {
+        struct heap_block *next;
+        uint32_t start;
+        uint32_t size;
+    };
+    struct heap_block *cur = (struct heap_block *)head;
+    while (cur && cur->next) {
+        uint32_t end = cur->start + cur->size;
+        if ((uint32_t)cur->next - end >= min_space)
+            return cur;
+        cur = cur->next;
+    }
+    return cur;
+#endif
+}
+
