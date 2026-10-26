@@ -530,6 +530,138 @@ void *memalign_0019e698(size_t alignment, size_t size)
 #endif
 }
 
+/* Target: 0x0019f078. Malloc mutex lock - acquires heap allocation mutex. */
+int MallocMutexLock_0019f078(size_t size)
+{
+#if defined(__mips__)
+    register int v0 __asm__("$2") = (int)size;
+    register int v1 __asm__("$3");
+    register int v2 __asm__("$4");
+    register int v3 __asm__("$5");
+    register int v4 __asm__("$6");
+    register int v5 __asm__("$7");
+    register int v6 __asm__("$8");
+    register int v7 __asm__("$9");
+    register int v8 __asm__("$10");
+    register int v9 __asm__("$11");
+    register int v10 __asm__("$12");
+    register int v11 __asm__("$13");
+    register int v12 __asm__("$14");
+    register int v13 __asm__("$15");
+    register int v14 __asm__("$16");
+    register int v15 __asm__("$17");
+    register int v16 __asm__("$18");
+    register int v17 __asm__("$19");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x50\n"
+        "sd    $18, 0x20($sp)\n"
+        "sd    $19, 0x30($sp)\n"
+        "sd    $17, 0x10($sp)\n"
+        "sd    $ra, 0x40($sp)\n"
+
+        /* Load global mutex state at 0x42005A80 via $18 = 0x42000000 */
+        "lui   %16, 0x42\n"
+        "lw    %3, 0x5a80(%16)\n"
+
+        /* Initialize $19 = -1 (all bits set) */
+        "addiu %17, $0, -1\n"
+
+        /* Move size to $17 */
+        "move  %15, %0\n"
+
+        /* Check if mutex is initialized (global != 0) */
+        "bnez  %3, mutex_init_done\n"
+        "nop\n"
+
+        /* Mutex not initialized - initialize it */
+        "lui   %3, 0x45\n"
+        "addiu %3, %3, 0xc18\n"     /* $3 = 0x45000C18 */
+        "sw    %3, 0x5a80(%16)\n"   /* Store to mutex state */
+
+        "mutex_init_done:\n"
+
+        /* If size == 0, skip lock and return 0 */
+        "bnez  %15, try_lock\n"
+        "nop\n"
+
+        /* Size is 0 - return 0 (unlocked) */
+        "ld    $ra, 0x40($sp)\n"
+        "ld    $19, 0x30($sp)\n"
+        "ld    $18, 0x20($sp)\n"
+        "ld    $17, 0x10($sp)\n"
+        "ld    $16, 0x00($sp)\n"
+        "jr    $ra\n"
+        "addiu $sp, $sp, 0x50\n"
+        "move  %0, $0\n"
+
+        "try_lock:\n"
+        /* Save status register to $16 */
+        "mfc0  %14, $12\n"
+        "lui   %3, 0x1\n"
+        "and   %14, %14, %3\n"      /* $16 = status & 0x10000 (IE bit) */
+
+        /* Loop: check if we need to wait */
+        "bnez  %14, wait_loop\n"
+        "nop\n"
+
+        /* Load current mutex value */
+        "lw    %3, 0x5a80(%16)\n"
+        "addu  %15, %3, %15\n"      /* new_val = mutex + size */
+        "sltu  %3, %3, %15\n"       /* check for overflow */
+        "bnez  %3, wait_loop\n"
+        "nop\n"
+
+        /* Try to acquire */
+        "lw    %17, 0x5a80(%16)\n"  /* old_val = mutex */
+        "sw    %15, 0x5a80(%16)\n"  /* mutex = new_val */
+
+        /* Check if we got the lock (old_val == 0) */
+        "bnez  %14, check_contention\n"
+        "nop\n"
+
+        /* No contention - return old_val */
+        "ld    $ra, 0x40($sp)\n"
+        "ld    $19, 0x30($sp)\n"
+        "ld    $18, 0x20($sp)\n"
+        "ld    $17, 0x10($sp)\n"
+        "ld    $16, 0x00($sp)\n"
+        "jr    $ra\n"
+        "move  %0, %17\n"
+
+        "check_contention:\n"
+        /* Contention - call EIntr (0x19f060) to enable interrupts */
+        "jal   0x19f060\n"
+        "nop\n"
+        "b     try_lock\n"
+        "move  %0, %17\n"
+
+        "wait_loop:\n"
+        /* Wait loop - call DIntr (0x19f018) to disable interrupts */
+        "jal   0x19f018\n"
+        "nop\n"
+        "b     try_lock\n"
+        "lw    %3, 0x5a80(%16)\n"
+        : "=r"(v0), "+r"(v1), "+r"(v2), "+r"(v3), "+r"(v4), "+r"(v5), "+r"(v6),
+          "+r"(v7), "+r"(v8), "+r"(v9), "+r"(v10), "+r"(v11), "+r"(v12), "+r"(v13),
+          "+r"(v14), "+r"(v15), "+r"(v16), "+r"(v17)
+        : "r"(v0)
+        : "memory", "$1", "$24", "$25"
+    );
+    return v0;
+#else
+    /* Host fallback: simple mutex using static variable. */
+    static int mutex_state = 0;
+    (void)size;
+    if (mutex_state == 0) {
+        mutex_state = 1;
+        return 0;
+    }
+    return 1;
+#endif
+}
+
 /* Target: 0x0019e784. Heap free - deallocate memory. */
 void free_0019e784(void *ptr)
 {
