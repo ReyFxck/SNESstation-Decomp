@@ -80,11 +80,11 @@ objects after checking source layouts, relocation targets and byte identity.
 
 The remaining **35,344 evidence-backed code bytes** are compiled into
 `code-windows.o` from the same frozen public evidence that admitted them to the
-exact-window roster: 9,420 bytes come from selected candidate-object slices and
-25,924 bytes from committed public instruction listings. `C4DrawWireFrame` (472 bytes at `0x0010cdcc`), `C4DrawLine` (540 bytes
+exact-window roster: 9,596 bytes come from selected candidate-object slices and
+25,748 bytes from committed public instruction listings. `C4DrawWireFrame` (472 bytes at `0x0010cdcc`), `C4DrawLine` (540 bytes
 at `0x0010cbb0`), `libkernel_intr`/`DIntr`/`EIntr` (96 bytes at
-`0x0019f018`), and `libkernel_syscalls` (80 bytes at `0x0019fcd0`) are no longer part of that aggregate: their canonical recovered
-C/C++ objects/functions are linked directly, with 15, 36, 0, and 0 relocations
+`0x0019f018`), `libkernel_syscalls` (80 bytes at `0x0019fcd0`), and `libkernel_syscalls2` (176 bytes at `0x0019ce60`) are no longer part of that aggregate: their canonical recovered
+C/C++ objects/functions are linked directly, with 15, 36, 0, 0, and 0 relocations
 checked respectively. Every nonrelocation bit from an ELF
 candidate is checked before its relocation-controlled bits are resolved; every
 listing word is checked against the exact-image oracle. No generated binary
@@ -107,11 +107,11 @@ an original historical C/C++ producer.
 | Historical/recovered object construction bucket | **562,840 bytes** |
 | Earlier exact-assembly construction bucket | **85,628 bytes** |
 | Explicit residual assembly | **0 bytes** |
-| Public listing construction bucket | **72,072 bytes** |
+| Public listing construction bucket | **71,896 bytes** |
 | Bytes linked from source-built ELF objects | **720,620/720,620 (100%)** |
-| Final evidence object from candidate slices | **9,420 bytes** |
-| Final evidence object from public listings | **25,924 bytes** |
-| Direct candidate/source object inputs | **176** |
+| Final evidence object from candidate slices | **9,596 bytes** |
+| Final evidence object from public listings | **25,748 bytes** |
+| Direct candidate/source object inputs | **177** |
 | Direct ELF object inputs | **179** |
 | Direct placed sections | **426** |
 | Bytes remaining behind generated payload | **0** |
