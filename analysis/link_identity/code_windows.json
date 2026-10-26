@@ -21,12 +21,12 @@
     "code_windows": 11,
     "differences_removed": 635736,
     "differing_bytes": 0,
-    "direct_candidate_object_inputs": 180,
+    "direct_candidate_object_inputs": 181,
     "direct_object_bytes": 720620,
-    "direct_object_inputs": 180,
+    "direct_object_inputs": 181,
     "direct_object_sections": 426,
-    "evidence_candidate_object_bytes": 9708,
-    "evidence_listing_bytes": 25636,
+    "evidence_candidate_object_bytes": 9964,
+    "evidence_listing_bytes": 25332,
     "exact_chunk_indices": [
       0,
       1,
@@ -86,7 +86,7 @@
     "incbin_payload_bytes": 0,
     "incbin_payload_sections": 0,
     "integrated_padded_sha256": "739e058834564ba81c2d8fc61fd9977502e9714c7eaafdd3a4ce3ec546fad71b",
-    "listing_bytes": 71784,
+    "listing_bytes": 71480,
     "listing_sources": 43,
     "mismatching_chunk_indices": [],
     "mismatching_chunks": 0,
@@ -94,8 +94,8 @@
     "prior_exact_assembly_bytes": 85628,
     "relocation_fields": 40351,
     "residual_bytes": 0,
-    "selected_source_contract_sha256": "149f77f173be5fa060ec054ddb3ec5ad5400f430c8d3d457a2e634f278a669fc",
-    "selected_source_slices": 617,
+    "selected_source_contract_sha256": "43b1b37dddd1fe59116c0af9205f12fae1d853fb229b5b1405e38c43ab906572",
+    "selected_source_slices": 618,
     "selected_sources": [
       {
         "address": 1050032,
@@ -6386,18 +6386,6 @@
         "symbol": ""
       },
       {
-        "address": 1701328,
-        "name": "listing_libkernel_client_init_0019f5d0",
-        "new_bytes": 304,
-        "object": "analysis/functions/libkernel_client_init_0019f5d0.asm",
-        "raw_sha256": "238cde9c71f9c1f50fe80e779a77c0cf558edb64dc685715b1eb7fd0dbc42cbb",
-        "relocations": 0,
-        "section": "objdump-byte-columns",
-        "size": 536,
-        "source_offset": 0,
-        "symbol": ""
-      },
-      {
         "address": 1699864,
         "name": "listing_libkernel_intr_0019f018",
         "new_bytes": 96,
@@ -6480,6 +6468,30 @@
         "size": 64,
         "source_offset": 0,
         "symbol": "HeapFindBlock_0019e474"
+      },
+      {
+        "address": 1701328,
+        "name": "libkernel-sif-syscalls",
+        "new_bytes": 48,
+        "object": "build/source-tree/objects/ps2/libkernel_sif_syscalls_recovered.o",
+        "raw_sha256": "0",
+        "relocations": 0,
+        "section": "direct-recovered-source",
+        "size": 48,
+        "source_offset": 0,
+        "symbol": "SifSyscall_0019f5d0"
+      },
+      {
+        "address": 1701376,
+        "name": "libkernel-client-init",
+        "new_bytes": 256,
+        "object": "build/source-tree/objects/ps2/libkernel_client_init_recovered.o",
+        "raw_sha256": "0",
+        "relocations": 0,
+        "section": "direct-recovered-source",
+        "size": 256,
+        "source_offset": 0,
+        "symbol": "fioInit_0019f600"
       },
       {
         "address": 1705792,

@@ -52,7 +52,7 @@ row independently closes the complete file identity.
 | Exact-window coverage | **51/51 (100.00%)** |
 | Remaining different bytes | **0** |
 | Integrated code evidence across windows 0–10 | **720,620 bytes** |
-| Existing public instruction listings reused | **71,784 bytes** |
+| Existing public instruction listings reused | **71,480 bytes** |
 | Newly labelled exact scheduling residual | **0 bytes** |
 | Exact SJCRUNCH2 blocks | **13/13** |
 | Exact SJCRUNCH2 container | **714,268/714,268 bytes** |
