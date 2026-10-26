@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <string.h>
+#include <stdlib.h>
 #include "../../include/ps2_libkernel_recovered.h"
 
 /*
@@ -395,6 +396,287 @@ void *calloc_0019e648(size_t nmemb, size_t size)
     if (ptr)
         memset_0019c39c(ptr, 0, nmemb * size);
     return ptr;
+#endif
+}
+
+/* Target: 0x0019e698. Heap memalign - allocate aligned memory. */
+void *memalign_0019e698(size_t alignment, size_t size)
+{
+#if defined(__mips__)
+    register size_t v0 __asm__("$2") = alignment;
+    register size_t v1 __asm__("$3") = size;
+    register void *v2 __asm__("$4");
+    register void *v3 __asm__("$5");
+    register void *v4 __asm__("$6");
+    register void *v5 __asm__("$7");
+    register void *v6 __asm__("$8");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x30\n"
+        "sd    $16, 0x10($sp)\n"
+        "sd    $ra, 0x20($sp)\n"
+        "move  %3, %0\n"
+
+        /* If alignment < 17, just call malloc(size + alignment) */
+        "sltiu %4, %0, 0x11\n"
+        "beqz  %4, memalign_complex\n"
+        "nop\n"
+
+        /* Simple case: malloc(size + alignment) */
+        "addu  $4, %1, %0\n"
+        "jal   malloc_0019e4b4\n"
+        "nop\n"
+        "move  %2, $2\n"
+        "b     memalign_exit\n"
+        "nop\n"
+
+        "memalign_complex:\n"
+        /* Complex case: malloc(size + alignment), then align */
+        "addu  $4, %1, %0\n"
+        "jal   malloc_0019e4b4\n"
+        "nop\n"
+        "move  %2, $2\n"
+        "beqz  %2, memalign_exit\n"
+        "move  %6, $0\n"
+
+        /* Save original pointer in $8 */
+        "move  %4, %2\n"
+
+        /* $7 = alignment - 1 */
+        "addiu %5, %0, -1\n"
+
+        /* Align the pointer */
+        "lw    %4, 0x4(%2)\n"  /* load size from header */
+        "and   %6, %4, %5\n"   /* check if already aligned */
+        "move  %7, %4\n"
+        "subu  %4, %4, %0\n"
+        "beqz  %6, memalign_aligned\n"
+        "nop\n"
+
+        /* Not aligned - need to adjust */
+        "sw    %4, 0x4(%2)\n"  /* update size in header */
+        "move  %5, %2\n"       /* save original pointer */
+        "addu  %2, %4, %0\n"   /* new aligned pointer */
+        "sw    %2, 0x8(%4)\n"  /* set prev of new block */
+        "sw    %4, 0x0(%2)\n"  /* set next of original to new */
+        "sw    %4, 0x0(%4)\n"  /* set prev of new to original */
+        "sw    $0, 0xc(%4)\n"  /* clear end of new block */
+        "b     memalign_loop\n"
+        "nop\n"
+
+        "memalign_aligned:\n"
+        /* Already aligned - just return pointer */
+        "b     memalign_exit\n"
+        "nop\n"
+
+        "memalign_loop:\n"
+        /* Complex alignment adjustment using ldl/ldr/sdl/sdr */
+        "addiu %4, %4, -1\n"
+        "nor   %6, $0, %5\n"
+        "and   %7, %4, %6\n"
+        "ldl   %6, 0x7($sp)\n"
+        "ldr   %6, 0x0($sp)\n"
+        "ldl   %7, 0xf($sp)\n"
+        "ldr   %7, 0x8($sp)\n"
+        "sdl   %6, -0x9(%7)\n"
+        "sdr   %6, -0x10(%7)\n"
+        "sdl   %7, -0x1(%7)\n"
+        "sdr   %7, -0x8(%7)\n"
+        "addiu %5, %7, -0x10\n"
+        "lw    %4, 0x8(%5)\n"
+        "bnezl %4, memalign_next\n"
+        "sw    %5, 0xc(%4)\n"
+        "lw    %4, 0xc(%5)\n"
+        "bnezl %4, memalign_next2\n"
+        "sw    %5, 0x8(%4)\n"
+        "sw    %7, -0x10(%7)\n"
+        "b     memalign_exit\n"
+        "sw    %4, -0x10(%4)\n"
+
+        "memalign_next:\n"
+        "b     memalign_loop\n"
+        "nop\n"
+
+        "memalign_next2:\n"
+        "b     memalign_loop\n"
+        "nop\n"
+
+        "memalign_exit:\n"
+        /* Epilogue */
+        "ld    $ra, 0x20($sp)\n"
+        "ld    $16, 0x10($sp)\n"
+        "addiu $sp, $sp, 0x30\n"
+        "jr    $ra\n"
+        "move  %0, %2\n"
+        : "=r"(v0), "+r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5), "=r"(v6)
+        : "r"(v0), "r"(v1)
+        : "memory", "$1", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
+    );
+    return v0;
+#else
+    /* Host fallback: simple aligned allocation using host malloc. */
+    if (alignment < 17) {
+        return malloc_0019e4b4(size + alignment);
+    }
+    void *ptr = malloc_0019e4b4(size + alignment);
+    if (!ptr) return NULL;
+    /* Align the pointer */
+    uintptr_t aligned = (uintptr_t)ptr;
+    aligned = (aligned + alignment - 1) & ~(alignment - 1);
+    /* Store original pointer before aligned address */
+    ((void **)aligned)[-1] = ptr;
+    return (void *)aligned;
+#endif
+}
+
+/* Target: 0x0019e784. Heap free - deallocate memory. */
+void free_0019e784(void *ptr)
+{
+#if defined(__mips__)
+    register void *v0 __asm__("$2") = ptr;
+    register void *v1 __asm__("$3");
+    register void *v2 __asm__("$4");
+    register void *v3 __asm__("$5");
+    register void *v4 __asm__("$6");
+    register void *v5 __asm__("$7");
+    register void *v6 __asm__("$8");
+    register void *v7 __asm__("$9");
+    register void *v8 __asm__("$10");
+    register void *v9 __asm__("$11");
+    register void *v10 __asm__("$12");
+    register void *v11 __asm__("$13");
+    register void *v12 __asm__("$14");
+    register void *v13 __asm__("$15");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x20\n"
+        "sd    $ra, 0x10($sp)\n"
+        "sd    $16, 0x00($sp)\n"
+
+        /* Load heap globals base (0x420000) */
+        "lui   %3, 0x42\n"
+
+        /* If ptr is NULL, return */
+        "beqz  %0, free_exit\n"
+        "nop\n"
+
+        /* Load free list head */
+        "lw    %4, 0x5a78(%3)\n"
+        "beqz  %4, free_exit\n"
+        "nop\n"
+
+        /* Check if ptr matches head */
+        "lw    %1, 0x0(%4)\n"
+        "beq   %0, %1, free_head\n"
+        "nop\n"
+
+        /* Traverse free list to find block before ptr */
+        "move  %5, %4\n"
+        "free_search:\n"
+        "lw    %6, 0xc(%5)\n"
+        "beqz  %6, free_exit\n"
+        "nop\n"
+        "lw    %1, 0x0(%6)\n"
+        "beq   %0, %1, free_found\n"
+        "nop\n"
+        "move  %5, %6\n"
+        "b     free_search\n"
+        "nop\n"
+
+        "free_found:\n"
+        /* Found block - check if we can merge with previous */
+        "lw    %1, 0x4(%6)\n"  /* size of prev block */
+        "addu  %1, %5, %1\n"   /* end of prev block */
+        "beq   %1, %0, free_merge_prev\n"
+        "nop\n"
+
+        /* Check if we can merge with next */
+        "lw    %1, 0x8(%0)\n"  /* next block */
+        "beqz  %1, free_no_merge\n"
+        "nop\n"
+        "lw    %2, 0x4(%1)\n"  /* size of next block */
+        "addu  %1, %0, %2\n"   /* end of this block */
+        "lw    %2, 0x0(%1)\n"  /* next of next */
+        "beq   %1, %2, free_merge_next\n"
+        "nop\n"
+
+        "free_no_merge:\n"
+        /* Insert into free list */
+        "lw    %1, 0x0(%6)\n"  /* next of prev */
+        "sw    %1, 0xc(%6)\n"  /* next of prev = next of this */
+        "sw    %0, 0xc(%5)\n"  /* next of prev = this */
+        "sw    %5, 0x8(%0)\n"  /* prev of this = prev */
+        "sw    %6, 0x0(%0)\n"  /* next of this = next of prev */
+        "b     free_exit\n"
+        "nop\n"
+
+        "free_merge_prev:\n"
+        /* Merge with previous block */
+        "lw    %1, 0x4(%6)\n"  /* size of prev block */
+        "addu  %1, %1, %2\n"   /* add size of this block */
+        "sw    %1, 0x4(%5)\n"  /* update size of prev */
+        "lw    %1, 0xc(%0)\n"  /* next of this */
+        "sw    %1, 0xc(%5)\n"  /* next of prev = next of this */
+        "beqz  %1, free_check_tail\n"
+        "sw    %5, 0x8(%1)\n"  /* prev of next = prev */
+        "b     free_check_tail\n"
+        "nop\n"
+
+        "free_merge_next:\n"
+        /* Merge with next block */
+        "lw    %1, 0x4(%0)\n"  /* size of this block */
+        "addu  %1, %1, %2\n"   /* add size of next block */
+        "sw    %1, 0x4(%0)\n"  /* update size of this */
+        "lw    %1, 0xc(%1)\n"  /* next of next */
+        "sw    %1, 0xc(%0)\n"  /* next of this = next of next */
+        "beqz  %1, free_check_tail\n"
+        "sw    %0, 0x8(%1)\n"  /* prev of next = this */
+        "b     free_check_tail\n"
+        "nop\n"
+
+        "free_head:\n"
+        /* ptr is head of free list */
+        "lw    %1, 0xc(%4)\n"  /* next of head */
+        "sw    %1, 0x5a78(%3)\n"  /* update free list head */
+        "beqz  %1, free_check_tail\n"
+        "sw    $0, 0x8(%1)\n"  /* prev of next = NULL */
+        "b     free_check_tail\n"
+        "nop\n"
+
+        "free_check_tail:\n"
+        /* Check if we need to update tail */
+        "lw    %1, 0x5a7c(%3)\n"  /* tail */
+        "beq   %1, %0, free_update_tail\n"
+        "nop\n"
+        "b     free_exit\n"
+        "nop\n"
+
+        "free_update_tail:\n"
+        /* Update tail */
+        "lw    %1, 0x8(%0)\n"  /* prev of this */
+        "sw    %1, 0x5a7c(%3)\n"  /* update tail */
+        "b     free_exit\n"
+        "nop\n"
+
+        "free_exit:\n"
+        /* Epilogue */
+        "ld    $ra, 0x10($sp)\n"
+        "ld    $16, 0x00($sp)\n"
+        "addiu $sp, $sp, 0x20\n"
+        "jr    $ra\n"
+        : "=r"(v0), "=r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5), "=r"(v6),
+          "=r"(v7), "=r"(v8), "=r"(v9), "=r"(v10), "=r"(v11), "=r"(v12), "=r"(v13)
+        : "r"(v0)
+        : "memory", "$1", "$24", "$25"
+    );
+#else
+    /* Host fallback: simple free using host free. */
+    if (ptr) {
+        void *orig = ((void **)ptr)[-1];
+        free(orig ? orig : ptr);
+    }
 #endif
 }
 
