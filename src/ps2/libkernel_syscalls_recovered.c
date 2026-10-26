@@ -6,12 +6,12 @@
  * Byte-identical with original SNES Station v0.23 WIP executable.
  */
 
-#include <sys/syscall.h>
+#include <stdint.h>
 
 /* Syscall 0x16 (22) */
 int syscall_0x16(void)
 {
-    register int v0 __asm__("$v0") = 0x16;
+    register int v0 __asm__("$2") = 0x16;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -19,7 +19,7 @@ int syscall_0x16(void)
 /* Syscall 0x17 (23) */
 int syscall_0x17(void)
 {
-    register int v0 __asm__("$v0") = 0x17;
+    register int v0 __asm__("$2") = 0x17;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -27,7 +27,7 @@ int syscall_0x17(void)
 /* Syscall 0x42 (66) */
 int syscall_0x42(void)
 {
-    register int v0 __asm__("$v0") = 0x42;
+    register int v0 __asm__("$2") = 0x42;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -35,7 +35,7 @@ int syscall_0x42(void)
 /* Syscall 0x45 (69) */
 int syscall_0x45(void)
 {
-    register int v0 __asm__("$v0") = 0x45;
+    register int v0 __asm__("$2") = 0x45;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -43,7 +43,7 @@ int syscall_0x45(void)
 /* Syscall 0x88 (-120 / 0xFFFFFF88) */
 int syscall_0x88(void)
 {
-    register int v0 __asm__("$v0") = 0xFFFFFF88;
+    register int v0 __asm__("$2") = 0xFFFFFF88;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }

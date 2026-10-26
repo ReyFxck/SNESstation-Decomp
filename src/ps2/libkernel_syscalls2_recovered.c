@@ -6,12 +6,12 @@
  * Byte-identical with original SNES Station v0.23 WIP executable.
  */
 
-#include <sys/syscall.h>
+#include <stdint.h>
 
 /* Syscall 0xCC (-52 / 0xFFFFFFCC) */
 int syscall_0xCC(void)
 {
-    register int v0 __asm__("$v0") = 0xFFFFFFCC;
+    register int v0 __asm__("$2") = 0xFFFFFFCC;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -19,7 +19,7 @@ int syscall_0xCC(void)
 /* Syscall 0x40 (64) */
 int syscall_0x40(void)
 {
-    register int v0 __asm__("$v0") = 0x40;
+    register int v0 __asm__("$2") = 0x40;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -27,7 +27,7 @@ int syscall_0x40(void)
 /* Syscall 0x41 (65) */
 int syscall_0x41(void)
 {
-    register int v0 __asm__("$v0") = 0x41;
+    register int v0 __asm__("$2") = 0x41;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -35,7 +35,7 @@ int syscall_0x41(void)
 /* Syscall 0xBD (-67 / 0xFFFFFFBD) */
 int syscall_0xBD(void)
 {
-    register int v0 __asm__("$v0") = 0xFFFFFFBD;
+    register int v0 __asm__("$2") = 0xFFFFFFBD;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -43,7 +43,7 @@ int syscall_0xBD(void)
 /* Syscall 0x44 (68) */
 int syscall_0x44(void)
 {
-    register int v0 __asm__("$v0") = 0x44;
+    register int v0 __asm__("$2") = 0x44;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -51,7 +51,7 @@ int syscall_0x44(void)
 /* Syscall 0x64 (100) */
 int syscall_0x64(void)
 {
-    register int v0 __asm__("$v0") = 0x64;
+    register int v0 __asm__("$2") = 0x64;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -59,7 +59,7 @@ int syscall_0x64(void)
 /* Syscall 0x98 (-104 / 0xFFFFFF98) */
 int syscall_0x98(void)
 {
-    register int v0 __asm__("$v0") = 0xFFFFFF98;
+    register int v0 __asm__("$2") = 0xFFFFFF98;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -67,7 +67,7 @@ int syscall_0x98(void)
 /* Syscall 0x76 (118) */
 int syscall_0x76(void)
 {
-    register int v0 __asm__("$v0") = 0x76;
+    register int v0 __asm__("$2") = 0x76;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -75,7 +75,7 @@ int syscall_0x76(void)
 /* Syscall 0x77 (119) */
 int syscall_0x77(void)
 {
-    register int v0 __asm__("$v0") = 0x77;
+    register int v0 __asm__("$2") = 0x77;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -83,7 +83,7 @@ int syscall_0x77(void)
 /* Syscall 0x79 (121) */
 int syscall_0x79(void)
 {
-    register int v0 __asm__("$v0") = 0x79;
+    register int v0 __asm__("$2") = 0x79;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -91,7 +91,7 @@ int syscall_0x79(void)
 /* Syscall 0x7A (122) */
 int syscall_0x7A(void)
 {
-    register int v0 __asm__("$v0") = 0x7A;
+    register int v0 __asm__("$2") = 0x7A;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }

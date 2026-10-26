@@ -6,12 +6,12 @@
  * Byte-identical with original SNES Station v0.23 WIP executable.
  */
 
-#include <sys/syscall.h>
+#include <stdint.h>
 
 /* Syscall 0x6B (107) - SifStopDma */
 int syscall_0x6B(void)
 {
-    register int v0 __asm__("$v0") = 0x6B;
+    register int v0 __asm__("$2") = 0x6B;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -19,7 +19,7 @@ int syscall_0x6B(void)
 /* Syscall 0x89 (-119 / 0xFFFFFF89) */
 int syscall_0x89(void)
 {
-    register int v0 __asm__("$v0") = 0xFFFFFF89;
+    register int v0 __asm__("$2") = 0xFFFFFF89;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
@@ -27,7 +27,7 @@ int syscall_0x89(void)
 /* Syscall 0x78 (120) */
 int syscall_0x78(void)
 {
-    register int v0 __asm__("$v0") = 0x78;
+    register int v0 __asm__("$2") = 0x78;
     __asm__ volatile("syscall" : "+r"(v0) : : "memory");
     return v0;
 }
