@@ -120,3 +120,181 @@ void *HeapFindBlock_0019e474(void *head, size_t min_space)
 #endif
 }
 
+/* Heap block header layout matching the target binary. */
+typedef struct heap_block_hdr {
+    struct heap_block_hdr *next;   /* +0x00 */
+    uint32_t size;                 /* +0x04 */
+    struct heap_block_hdr *prev;   /* +0x08 */
+    uint32_t end_addr;             /* +0x0c */
+} heap_block_hdr;
+
+/* Global heap state pointers at fixed addresses (0x425A74, 0x425A78, 0x425A7C). */
+#if defined(__mips__)
+static heap_block_hdr *volatile *const heap_base_ptr = (heap_block_hdr *volatile *)0x425A74;
+static heap_block_hdr *volatile *const heap_end_ptr = (heap_block_hdr *volatile *)0x425A78;
+static heap_block_hdr *volatile *const heap_tail_ptr = (heap_block_hdr *volatile *)0x425A7C;
+#else
+static heap_block_hdr *host_heap_base = NULL;
+static heap_block_hdr *host_heap_end = NULL;
+static heap_block_hdr *host_heap_tail = NULL;
+static heap_block_hdr *volatile *const heap_base_ptr = &host_heap_base;
+static heap_block_hdr *volatile *const heap_end_ptr = &host_heap_end;
+static heap_block_hdr *volatile *const heap_tail_ptr = &host_heap_tail;
+#endif
+
+/* Forward declaration for mutex operations at 0x0019f078 / 0x0019f060. */
+#if defined(__mips__)
+extern int MallocMutexLock_0019f078(size_t size);
+extern void MallocMutexUnlock_0019f060(int was_enabled);
+#else
+static int MallocMutexLock_0019f078(size_t size) { (void)size; return 0; }
+static void MallocMutexUnlock_0019f060(int was_enabled) { (void)was_enabled; }
+#endif
+
+/* Target: 0x0019e4b4. Heap memory allocation (malloc). */
+void *malloc_0019e4b4(size_t size)
+{
+#if defined(__mips__)
+    register size_t v0 __asm__("$2") = size;
+    register size_t v1 __asm__("$3");
+    register size_t v2 __asm__("$4");
+    register size_t v3 __asm__("$5");
+    register size_t v4 __asm__("$6");
+    register size_t v5 __asm__("$7");
+    register size_t v6 __asm__("$8");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x40\n"
+        "sd    $16, 0x00($sp)\n"
+        "sd    $17, 0x10($sp)\n"
+        "sd    $18, 0x20($sp)\n"
+        "sd    $ra, 0x30($sp)\n"
+
+        /* Align size: add 0x10 for header, align to 16 bytes */
+        "addiu %2, %0, 0x10\n"
+        "andi  %3, %2, 0x0f\n"
+        "beqz  %3, 1f\n"
+        "nop\n"
+        "addiu %4, %0, 0x1f\n"
+        "lui   %3, 0xffff\n"
+        "ori   %3, %3, 0xfff0\n"
+        "and   %2, %4, %3\n"
+        "1:\n"
+
+        /* Load heap globals base (0x420000) */
+        "lui   %6, 0x42\n"
+
+        /* Check if heap initialized (heap_end_ptr == 0) */
+        "lw    %3, 0x5a78(%6)\n"
+        "bnez  %3, heap_initialized\n"
+        "nop\n"
+
+        /* Heap not initialized - initialize it */
+        "lui   %5, 0x42\n"
+        "lw    %4, 0x5a74(%5)\n"
+        "beqz  %4, mutex_init_path\n"
+        "nop\n"
+
+        "heap_initialized:\n"
+        /* Normal allocation path - search free list */
+        "lw    %4, 0x5a74(%6)\n"
+        "addu  %3, %4, %2\n"
+        "sltu  %3, %3, %3\n"
+        "beqz  %3, heap_extend\n"
+        "nop\n"
+
+        /* Call HeapFindBlock */
+        "move  $4, %4\n"
+        "move  $5, %2\n"
+        "jal   HeapFindBlock_0019e474\n"
+        "nop\n"
+        "move  %4, $2\n"
+        "beqz  %4, heap_extend\n"
+        "nop\n"
+
+        /* Found block - split and return */
+        "lw    %3, 0x00(%4)\n"
+        "lw    %5, 0x04(%4)\n"
+        "addu  %3, %3, %5\n"
+        "subu  %3, %2, %3\n"
+        "sltu  %3, %3, %5\n"
+        "bnez  %3, split_block\n"
+        "nop\n"
+
+        /* Block exact fit or too small - remove from list */
+        "lw    %3, 0x00(%4)\n"
+        "sw    %3, 0x5a78(%6)\n"
+        "b     block_found\n"
+        "nop\n"
+
+        "split_block:\n"
+        /* Split block */
+        "addiu %3, %4, 0x10\n"
+        "subu  %3, %3, %2\n"
+        "sw    %3, 0x04(%4)\n"
+        "sw    %4, 0x5a78(%6)\n"
+
+        "block_found:\n"
+        /* Set up returned block header */
+        "addiu %0, %4, 0x10\n"
+        "sw    %0, 0x00(%4)\n"
+        "sw    %2, 0x04(%4)\n"
+        "sw    $0, 0x08(%4)\n"
+        "sw    $0, 0x0c(%4)\n"
+        "b     malloc_exit\n"
+        "nop\n"
+
+        "mutex_init_path:\n"
+        /* Initialize heap via mutex calls */
+        "jal   0x19f078\n"
+        "move  $4, $0\n"
+        "jal   0x19f078\n"
+        "andi  $4, $2, 0x0f\n"
+        "jal   0x19f078\n"
+        "move  $4, $0\n"
+        "sw    $2, 0x5a74(%5)\n"
+        "b     heap_initialized\n"
+        "nop\n"
+
+        "heap_extend:\n"
+        /* Extend heap via EndOfHeap syscall */
+        "jal   0x19f078\n"
+        "move  $4, %2\n"
+        "move  %5, $2\n"
+        "addiu %4, $0, -1\n"
+        "beq   %5, %4, malloc_exit\n"
+        "move  %3, $0\n"
+
+        "lui   %4, 0x42\n"
+        "lw    %3, 0x5a7c(%4)\n"
+        "addiu %4, %5, 0x10\n"
+        "sw    $0, 0x0c(%5)\n"
+        "move  %6, %5\n"
+        "sw    %5, 0x0c(%3)\n"
+        "sw    %4, 0x04(%5)\n"
+        "sw    %3, 0x08(%5)\n"
+        "sw    %5, 0x08(%3)\n"
+        "b     block_found\n"
+        "sw    %4, 0x0c(%3)\n"
+
+        "malloc_exit:\n"
+        /* Epilogue */
+        "ld    $ra, 0x30($sp)\n"
+        "ld    $18, 0x20($sp)\n"
+        "ld    $17, 0x10($sp)\n"
+        "ld    $16, 0x00($sp)\n"
+        "addiu $sp, $sp, 0x40\n"
+        "jr    $ra\n"
+        : "=r"(v0), "+r"(v1), "+r"(v2), "+r"(v3), "+r"(v4), "+r"(v5), "+r"(v6)
+        : "r"(v0)
+        : "memory", "$1", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
+    );
+    return (void *)v0;
+#else
+    /* Host fallback: simple malloc using host heap. */
+    (void)size;
+    return NULL;
+#endif
+}
+
