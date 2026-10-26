@@ -331,3 +331,233 @@ int func_0019f2f0(void *base, void *index)
     return 0;
 #endif
 }
+
+/* 0x0019FB00 - SifCmd IRQ handler 1 */
+int SifCmdIrq_0019fb00(int arg)
+{
+#if defined(__mips__)
+    register int v0 __asm__("$2") = arg;
+    register int v1 __asm__("$3");
+    register int v2 __asm__("$16");
+    register int v3 __asm__("$17");
+    register int v4 __asm__("$ra");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x30\n"
+        "sd    $17, 0x10($sp)\n"
+        "move  %3, %0\n"      /* v3 ($17) = arg */
+        "sd    $ra, 0x20($sp)\n"
+        "sd    $16, 0x0($sp)\n"
+        "mfc0  %2, $12, 0\n"  /* v2 ($16) = COP0 Status */
+        "lui   %1, 0x1\n"
+        "and   %2, %2, %1\n"  /* v2 = Status & 1 */
+
+        /* If Status & 1 != 0, jump to label */
+        "bnez  %2, 1f\n"
+        "nop\n"
+
+        /* Call func_0019fcd0 (syscall 0x16) */
+        "jal   0x19fcd0\n"
+        "move  $4, %3\n"
+        "move  %3, %1\n"      /* v3 = result */
+        "sync\n"
+        "bnez  %2, 2f\n"
+        "nop\n"
+
+        /* Return result in v0 */
+        "move  %0, %3\n"
+        "b     3f\n"
+
+        "2:\n"
+        /* Call 0x19f060 */
+        "jal   0x19f060\n"
+        "nop\n"
+        "b     3f\n"
+        "move  %0, %3\n"
+
+        "1:\n"
+        /* Call 0x19f018 (DIntr) */
+        "jal   0x19f018\n"
+        "nop\n"
+        "b     1b\n"
+        "nop\n"
+
+        "3:\n"
+        /* Epilogue */
+        "ld    $ra, 0x20($sp)\n"
+        "ld    $17, 0x10($sp)\n"
+        "ld    $16, 0x0($sp)\n"
+        "addiu $sp, $sp, 0x30\n"
+        "jr    $ra\n"
+        "nop\n"
+        : "=r"(v0), "=r"(v1), "=r"(v2), "=r"(v3), "=r"(v4)
+        : "r"(v0)
+        : "memory", "$1", "$4", "$5", "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
+    );
+    return v0;
+#else
+    (void)arg;
+    return 0;
+#endif
+}
+
+/* 0x0019FB78 - SifCmd IRQ handler 2 (variant calling syscall 0x17) */
+int SifCmdIrq2_0019fb78(int arg)
+{
+#if defined(__mips__)
+    register int v0 __asm__("$2") = arg;
+    register int v1 __asm__("$3");
+    register int v2 __asm__("$16");
+    register int v3 __asm__("$17");
+    register int v4 __asm__("$ra");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x30\n"
+        "sd    $17, 0x10($sp)\n"
+        "move  %3, %0\n"      /* v3 ($17) = arg */
+        "sd    $ra, 0x20($sp)\n"
+        "sd    $16, 0x0($sp)\n"
+        "mfc0  %2, $12, 0\n"  /* v2 ($16) = COP0 Status */
+        "lui   %1, 0x1\n"
+        "and   %2, %2, %1\n"  /* v2 = Status & 1 */
+
+        /* If Status & 1 != 0, jump to label */
+        "bnez  %2, 1f\n"
+        "nop\n"
+
+        /* Call func_0019fce0 (syscall 0x17) */
+        "jal   0x19fce0\n"
+        "move  $4, %3\n"
+        "move  %3, %1\n"      /* v3 = result */
+        "sync\n"
+        "bnez  %2, 2f\n"
+        "nop\n"
+
+        /* Return result in v0 */
+        "move  %0, %3\n"
+        "b     3f\n"
+
+        "2:\n"
+        /* Call 0x19f060 */
+        "jal   0x19f060\n"
+        "nop\n"
+        "b     3f\n"
+        "move  %0, %3\n"
+
+        "1:\n"
+        /* Call 0x19f018 (DIntr) */
+        "jal   0x19f018\n"
+        "nop\n"
+        "b     1b\n"
+        "nop\n"
+
+        "3:\n"
+        /* Epilogue */
+        "ld    $ra, 0x20($sp)\n"
+        "ld    $17, 0x10($sp)\n"
+        "ld    $16, 0x0($sp)\n"
+        "addiu $sp, $sp, 0x30\n"
+        "jr    $ra\n"
+        "nop\n"
+        : "=r"(v0), "=r"(v1), "=r"(v2), "=r"(v3), "=r"(v4)
+        : "r"(v0)
+        : "memory", "$1", "$4", "$5", "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
+    );
+    return v0;
+#else
+    (void)arg;
+    return 0;
+#endif
+}
+
+/* 0x0019FBF0 - Complex SIF command handler */
+int SifCmdHandler_0019fbf0(void)
+{
+#if defined(__mips__)
+    register int v0 __asm__("$2");
+    register int v1 __asm__("$3");
+    register int v2 __asm__("$4");
+    register int v3 __asm__("$5");
+    register int v4 __asm__("$6");
+    register int v5 __asm__("$16");
+    register int v6 __asm__("$ra");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0xa0\n"
+        "sd    $16, 0x80($sp)\n"
+        "sd    $ra, 0x90($sp)\n"
+        "jal   0x19f060\n"
+        "lui   %5, 0x42\n"
+        "lw    %4, 0x5a88(%5)\n"
+        "move  %6, $0\n"
+        "lbu   %0, 0x0(%4)\n"
+        "beqz  %0, exit_path\n"
+        "addiu %5, %5, 0x5a88\n"
+        "addiu %1, %0, 0x1e\n"
+        "sra   %2, %1, 4\n"
+        "beqz  %2, loop_check\n"
+        "sw    $0, 0x0(%4)\n"
+        "addiu %2, %2, -1\n"
+        "addiu %0, $0, -1\n"
+        "beq   %2, %0, loop_check\n"
+        "nop\n"
+
+        "loop_body:\n"
+        "sll   %1, %6, 4\n"
+        "addiu %2, %2, -1\n"
+        "addu  %0, %1, %4\n"
+        "lq    %1, 0x0(%1)\n"
+        "addu  %3, %1, $sp\n"
+        "ext   %1, %3, 0, 1\n"
+        "addiu %0, $0, -1\n"
+        "bne   %2, %0, loop_body\n"
+        "addiu %6, %6, 1\n"
+
+        "loop_check:\n"
+        "jal   0x19fd10\n"
+        "nop\n"
+        "lw    %1, 0x8($sp)\n"
+        "lui   %0, 0x7fff\n"
+        "ori   %0, %0, 0xffff\n"
+        "and   %2, %1, %0\n"
+        "slti  %0, %2, 0x20\n"
+        "beqz  %0, exit_path\n"
+        "nop\n"
+        "bgezl %1, load_ptr\n"
+        "lw    %5, 0x14(%5)\n"
+        "lw    %5, 0xc(%5)\n"
+
+        "load_ptr:\n"
+        "sll   %0, %2, 3\n"
+        "addu  %0, %0, %5\n"
+        "lw    %1, 0x0(%0)\n"
+        "bnezl %1, call_func\n"
+        "lw    %4, 0x4(%0)\n"
+
+        "exit_path:\n"
+        "sync\n"
+        "jal   0x19f060\n"
+        "nop\n"
+        "ld    $16, 0x80($sp)\n"
+        "ld    $ra, 0x90($sp)\n"
+        "move  %0, $0\n"
+        "jr    $ra\n"
+        "addiu $sp, $sp, 0xa0\n"
+
+        "call_func:\n"
+        "jalr  %1\n"
+        "move  $4, $sp\n"
+        "b     exit_path\n"
+        "nop\n"
+        : "=r"(v0), "=r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5), "=r"(v6)
+        :
+        : "memory", "$1", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
+    );
+    return v0;
+#else
+    return 0;
+#endif
+}
