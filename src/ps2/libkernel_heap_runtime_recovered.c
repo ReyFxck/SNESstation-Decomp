@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <string.h>
 #include "../../include/ps2_libkernel_recovered.h"
 
 /*
@@ -295,6 +296,105 @@ void *malloc_0019e4b4(size_t size)
     /* Host fallback: simple malloc using host heap. */
     (void)size;
     return NULL;
+#endif
+}
+
+/* Target: 0x0019c39c. Memory set (memset) - called by calloc. */
+void *memset_0019c39c(void *dst, int c, size_t n)
+{
+#if defined(__mips__)
+    register void *v0 __asm__("$2") = dst;
+    register int v1 __asm__("$3") = c;
+    register size_t v2 __asm__("$4") = n;
+    register void *v3 __asm__("$5");
+    register void *v4 __asm__("$6");
+    register int v5 __asm__("$7");
+
+    __asm__ volatile(
+        /* 0x0019C39C - memset */
+        "move   %3, %0       \n"  /* v3 = dst */
+        "lui    %4, 0xffff   \n"  /* v4 = 0xffff0000 */
+        "addiu  %2, %2, -1   \n"  /* n-- */
+        "ori    %4, %4, 0xffff\n" /* v4 = 0xffffffff */
+        "beq    %2, %4, 2f   \n"  /* if (n == -1) goto end (2) */
+        "nop                  \n"
+        "lui    %4, 0xffff   \n"  /* v4 = 0xffff0000 */
+        "ori    %4, %4, 0xffff\n" /* v4 = 0xffffffff */
+        "1:                   \n"  /* loop start (1) */
+        "sb     %1, 0(%3)    \n"  /* *v3 = c */
+        "addiu  %2, %2, -1   \n"  /* n-- */
+        "bne    %2, %4, 1b   \n"  /* if (n != -1) goto loop (1) */
+        "addiu  %3, %3, 1    \n"  /* v3++ */
+        "2:                   \n"  /* end (2) */
+        "jr     $ra          \n"  /* return */
+        "move   %0, %3       \n"  /* v0 = v3 (dst) */
+        : "+r"(v0), "+r"(v1), "+r"(v2), "=r"(v3), "=r"(v4), "=r"(v5)
+        :
+        : "memory"
+    );
+    return v0;
+#else
+    return memset(dst, c, n);
+#endif
+}
+
+/* Target: 0x0019e648. Heap calloc - allocate and zero memory. */
+void *calloc_0019e648(size_t nmemb, size_t size)
+{
+#if defined(__mips__)
+    register size_t v0 __asm__("$2") = nmemb;
+    register size_t v1 __asm__("$3") = size;
+    register void *v2 __asm__("$4");
+    register void *v3 __asm__("$5");
+    register void *v4 __asm__("$6");
+    register void *v5 __asm__("$7");
+
+    __asm__ volatile(
+        /* Prologue */
+        "addiu $sp, $sp, -0x30\n"
+        "sd    $16, 0x00($sp)\n"
+        "sd    $17, 0x10($sp)\n"
+        "sd    $ra, 0x20($sp)\n"
+
+        /* Compute total size = nmemb * size (in $17) */
+        "mul   %3, %0, %1\n"
+        "move  %2, %3\n"
+
+        /* Call malloc */
+        "move  $4, %3\n"
+        "jal   malloc_0019e4b4\n"
+        "nop\n"
+        "move  %2, $2\n"
+
+        /* If malloc returned NULL, skip memset */
+        "beqz  %2, calloc_exit\n"
+        "nop\n"
+
+        /* Call memset(ptr, 0, size) */
+        "move  $4, %2\n"
+        "move  $5, $0\n"
+        "move  $6, %3\n"
+        "jal   memset_0019c39c\n"
+        "nop\n"
+
+        "calloc_exit:\n"
+        /* Epilogue */
+        "ld    $ra, 0x20($sp)\n"
+        "ld    $17, 0x10($sp)\n"
+        "ld    $16, 0x00($sp)\n"
+        "addiu $sp, $sp, 0x30\n"
+        "jr    $ra\n"
+        "move  %0, %2\n"
+        : "=r"(v0), "+r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5)
+        : "r"(v0), "r"(v1)
+        : "memory", "$1", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
+    );
+    return v0;
+#else
+    void *ptr = malloc_0019e4b4(nmemb * size);
+    if (ptr)
+        memset_0019c39c(ptr, 0, nmemb * size);
+    return ptr;
 #endif
 }
 
