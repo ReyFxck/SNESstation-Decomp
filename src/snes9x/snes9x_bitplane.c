@@ -1,6 +1,6 @@
 /*
- * SNES Station v0.23 SNES9X - Bitplane Transpose
- * Canonical source from progress13_frontend_more_recovered.c @ 0x0012e374
+ * SNES Station v0.23 - SNES9X Bitplane Transpose
+ * Canonical source from progress13_frontend_more.c (0x0012e374 range)
  */
 
 #include <stddef.h>
@@ -8,11 +8,12 @@
 
 /* 0x0012e374 -- transpose eight groups of four source bytes into four bit-plane
  * bytes. This is a direct expression of the target shifts/masks. */
-void snes9x_bitplane_transpose(const uint8_t src[32],
-                                uint8_t dst_a[16],
-                                uint8_t dst_b[16])
+void snes9x_bitplane_transpose_0012e374(const uint8_t src[32],
+                                         uint8_t dst_a[16],
+                                         uint8_t dst_b[16])
 {
-    for (unsigned i = 0; i < 8; ++i) {
+    unsigned i;
+    for (i = 0; i < 8; ++i) {
         uint8_t b0 = src[i * 4 + 0];
         uint8_t b1 = src[i * 4 + 1];
         uint8_t b2 = src[i * 4 + 2];

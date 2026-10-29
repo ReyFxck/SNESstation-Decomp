@@ -31,189 +31,229 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 30	src/ps2/iopcontrol.c	ps2	c	canonical	ps2/iopcontrol.o		Recovered historical PS2LIB IOP control translation unit; SifIopReset is byte-exact 268/268.
 31	src/ps2/newlib_mathfp_.c	ps2	c	canonical	ps2/newlib_mathfp_recovered.o		Canonical recovered translation unit.
 32	src/ps2/path_helpers.c	ps2	c	canonical	ps2/path_helpers.o		Canonical recovered translation unit.
-33	src/ps2/progress11_frontend.c	ps2	c	canonical	ps2/progress11_frontend.o		Canonical recovered translation unit.
-34	src/ps2/xprintf.c	ps2	c	canonical	ps2/xprintf.o		Recovered PS2LIB xprintf lineage; formatter core and target wrappers are byte-exact, with the target no-newline puts override.
-35	src/ps2/glue.c	ps2	c	canonical	ps2/glue.o		Byte-exact historical PS2LIB DMAC glue wrappers recovered from ps2sdk@a80df908.
-36	src/ps2/sifcmd.c	ps2	c	canonical	ps2/sifcmd.o		Byte-exact historical PS2LIB SIF command source recovered from ps2sdk@a80df908.
-37	src/ps2/sifrpc.c	ps2	c	canonical	ps2/sifrpc.o		Historical PS2LIB SIF RPC source recovered byte-exact from ps2sdk@a80df908; combined canonical TU preserves original F_* object bodies.
-38	src/ps2/small_dispatch_.c	ps2	c	canonical	ps2/small_dispatch_recovered.o		Canonical recovered translation unit.
-39	src/snes9x/memory_cleanup.c	snes9x	c	canonical	snes9x/memory_cleanup.o		Canonical SNES9x per-ROM cleanup at 0x00151330; rom_cleanup and per_rom_buffer_cleanup; 2 functions.
-40	src/unzip/explode_.c	unzip	c	canonical	unzip/explode_recovered.o		Canonical recovered translation unit.
-41	src/unzip/unreduce_.c	unzip	c	canonical	unzip/unreduce_recovered.o		Canonical recovered translation unit.
-42	src/unzip/unshrink_.c	unzip	c	canonical	unzip/unshrink_recovered.o		Canonical recovered translation unit.
-43	src/unzip/unzip_api_.c	unzip	c	canonical	unzip/unzip_api_recovered.o		Canonical recovered translation unit.
-44	src/zlib/crc32_.c	zlib	c	canonical	zlib/crc32_recovered.o		Canonical recovered translation unit.
-45	src/zlib/deflate_engine_.c	zlib	c	canonical	zlib/deflate_engine_recovered.o		Canonical recovered translation unit.
-46	src/zlib/deflate_state_.c	zlib	c	canonical	zlib/deflate_state_recovered.o		Canonical recovered translation unit.
-47	src/zlib/gzio_.c	zlib	c	canonical	zlib/gzio_recovered.o		Canonical recovered translation unit.
-48	src/zlib/infblock_engine_.c	zlib	c	canonical	zlib/infblock_engine_recovered.o		Canonical recovered translation unit.
-49	src/zlib/infblock_frontend_.c	zlib	c	canonical	zlib/infblock_frontend_recovered.o		Canonical recovered translation unit.
-50	src/zlib/infcodes_.c	zlib	c	canonical	zlib/infcodes_recovered.o		Canonical recovered translation unit.
-51	src/zlib/inffast_.c	zlib	c	canonical	zlib/inffast_recovered.o		Canonical recovered translation unit.
-52	src/zlib/inflate_state_.c	zlib	c	canonical	zlib/inflate_state_recovered.o		Canonical recovered translation unit.
-53	src/zlib/inftrees_.c	zlib	c	canonical	zlib/inftrees_recovered.o		Canonical recovered translation unit.
-54	src/zlib/infutil_.c	zlib	c	canonical	zlib/infutil_recovered.o		Canonical recovered translation unit.
-55	src/zlib/trees_.c	zlib	c	canonical	zlib/trees_recovered.o		Canonical recovered translation unit.
-56	src/zlib/zlib_buffer_api_.c	zlib	c	canonical	zlib/zlib_buffer_api_recovered.o		Canonical recovered translation unit.
-57	src/zlib/zutil_adler_.c	zlib	c	canonical	zlib/zutil_adler_recovered.o		Canonical recovered translation unit.
-58	src/ps2/iopheap.c	ps2	c	canonical	ps2/iopheap.o		Recovered historical PS2LIB IOP heap translation unit; exact gate covers SifInitIopHeap, SifAllocIopHeap and SifFreeIopHeap.
-59	src/ps2/loadfile.c	ps2	c	canonical	ps2/loadfile.o		Byte-exact historical PS2LIB LOADFILE translation unit; five target members pass raw linked equality.
-60	src/ps2/memcpy.S	ps2	asm-cpp	canonical	ps2/memcpy.o		Exact historical ps2sdk@694100b7 memcpy.S; 1/1 object and 56/56 target bytes proved.
-61	src/ps2/memset.S	ps2	asm-cpp	canonical	ps2/memset.o		Exact historical ps2sdk@694100b7 memset.S; 1/1 object and 56/56 target bytes proved.
-62	src/ps2/memmove.S	ps2	asm-cpp	canonical	ps2/memmove.o		Exact historical ps2sdk@694100b7 memmove.S; 1/1 object and 136/136 target bytes proved.
-63	src/ps2/strcat.S	ps2	asm-cpp	canonical	ps2/strcat.o		Exact historical ps2sdk@694100b7 strcat.S; raw-linked 56/56 target bytes proved.
-64	src/ps2/memcmp.S	ps2	asm-cpp	canonical	ps2/memcmp.o		Exact historical ps2sdk@694100b7 memcmp.S; 1/1 object and 72/72 target bytes proved.
-65	src/ps2/strcpy.S	ps2	asm-cpp	canonical	ps2/strcpy.o		Exact historical ps2sdk@694100b7 strcpy.S; 1/1 object and 40/40 target bytes proved.
-66	src/ps2/strlen.S	ps2	asm-cpp	canonical	ps2/strlen.o		Exact historical ps2sdk@694100b7 strlen.S; 1/1 object and 40/40 target bytes proved.
-67	src/ps2/strchr.S	ps2	asm-cpp	canonical	ps2/strchr.o		Exact historical ps2sdk@694100b7 strchr.S; 1/1 object and 56/56 target bytes proved.
-68	src/ps2/strcmp.S	ps2	asm-cpp	canonical	ps2/strcmp.o		Exact historical ps2sdk@694100b7 strcmp.S; 1/1 object and 64/64 target bytes proved.
-69	src/ps2/strncpy.S	ps2	asm-cpp	canonical	ps2/strncpy.o		Exact historical ps2sdk@694100b7 strncpy.S; 84-byte function plus 4-byte linked alignment, 88/88 target bytes proved.
-70	src/ps2/string.c	ps2	c	canonical	ps2/string.o		Historical PS2LIB string.c F_strrchr body restored; 84/84 linked target bytes with two resolved relocations.
-71	src/ps2/strstr.c	ps2	c	canonical	ps2/strstr.o		Historical PS2LIB string.c F_strstr body restored; 136/136 linked target bytes with two resolved relocations.
-72	src/ps2/strtol.c	ps2	c	canonical	ps2/strtol.o		Exact 2004 PS2LIB F_strtol original C; EE GCC 3.2.2 556/556 target bytes with nine linked relocations, selected historical default-long ABI.
-73	src/ps2/strcasecmp.c	ps2	c	canonical	ps2/strcasecmp.o		Exact historical PS2LIB F_strcasecmp selector from ps2sdk@694100b7, 132/132 raw ELF target bytes after four relocations.
-74	src/ps2/strtok.c	ps2	c	canonical	ps2/strtok.o		Exact historical PS2LIB F_strtok selector from ps2sdk@694100b7; 264/264 target text bytes with 27 relocations and static state linked at 0x00445140/0x00445144.
-75	src/ps2/strncasecmp.c	ps2	c	canonical	ps2/strncasecmp.o		Exact historical PS2LIB F_strncasecmp selector from ps2sdk@694100b7; target 184/184 bytes proved after four tolower relocations.
-76	src/ps2/ctype.c	ps2	c	canonical	ps2/ctype.o		Exact historical PS2LIB F_ctype selector from ps2sdk@694100b7; complete 616-byte ctype corridor from tolower through isxdigit recovered.
-77	src/ps2/qsort.c	ps2	c	canonical	ps2/qsort.o		Exact historical Newlib 1.10 qsort.c from PS2DEV bac0006c; EE GCC 3.2.2 target entry 2408/2408 raw bytes with one relocation.
-78	src/ps2/sbrk.c	ps2	c	canonical	ps2/sbrk.o		Exact historical PS2LIB sbrk.c from ps2sdk@694100b7; EE GCC 3.2.2 target entry 192/192 raw bytes with 13 relocations; _end is the frozen startup linker symbol at 0x00450c18.
-79	src/unzip/get_tree.S	unzip	asm-cpp	canonical	unzip/get_tree.o		Byte-exact EE reconstruction of get_tree @ 0x0018c124; 212/212 linked bytes with ReadByte=0x0018dc60 and bytebuf=0x00426e28; historical K&R C provenance retained separately.
-80	src/ps2/numtestf.S	ps2	asm-cpp	canonical	ps2/numtestf.o		Byte-exact EE reconstruction of numtestf @ 0x001a06c0; 128/128 raw bytes, zero relocations; Newlib behavioral C model retained separately.
-81	src/ps2/c4convoam.S	ps2	asm-cpp	canonical	ps2/c4convoam.o		Byte-exact EE reconstruction of C4ConvOAM @ 0x0010c340; 952/952 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
-82	src/ps2/c4doscalerotate.S	ps2	asm-cpp	canonical	ps2/c4doscalerotate.o		Byte-exact EE reconstruction of C4DoScaleRotate @ 0x0010c6f8; 1208/1208 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
-83	src/ps2/c4transformlines.S	ps2	asm-cpp	canonical	ps2/c4transformlines.o		Byte-exact EE reconstruction of C4TransformLines @ 0x0010cfa4; 772/772 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
-84	src/ps2/s9xsetc4.S	ps2	asm-cpp	canonical	ps2/s9xsetc4.o		Byte-exact EE reconstruction of S9xSetC4 @ 0x0010d7dc; 2912/2912 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
-85	src/snes9x/c4drawwireframe.cpp	snes9x	cpp	canonical	snes9x/c4drawwireframe.o		Historical Snes9x 1.41-1 C4DrawWireFrame source; V77 EE GCC 3.2.2 C++ proof matches 472/472 bytes outside 15 relocation fields at 0x0010cdcc.
-86	src/snes9x/s9xgetmempointer.cpp	snes9x	cpp	canonical	snes9x/s9xgetmempointer.o		Historical Snes9x 1.41 S9xGetMemPointer source; EE GCC 3.2.2 raw-linked proof matches 340/340 bytes at 0x001ab4e8.
-87	src/snes9x/s9xgetbyte.cpp	snes9x	cpp	canonical	snes9x/s9xgetbyte.o		Historical Snes9x 1.40 S9xGetByte source; EE GCC 3.2.2 proof matches 708/708 linked target bytes with 49 text relocations at 0x001ab63c.
-88	src/snes9x/s9xsetbyte.cpp	snes9x	cpp	canonical	snes9x/s9xsetbyte.o		Historical Snes9x 1.40 S9xSetByte source; EE GCC 3.2.2 proof matches 808/808 provider-linked target bytes with 53 text relocations at 0x001ab900.
-89	src/snes9x/s9xgetword.cpp	snes9x	cpp	canonical	snes9x/s9xgetword.o		Historical Snes9x 1.41-1 S9xGetWord source with target-proved packed R5900 direct access; EE GCC 3.2.2 proof matches 1020/1020 provider-linked target bytes with 62 text relocations at 0x001abc28.
-90	src/snes9x/s9xsetpcbase.cpp	snes9x	cpp	canonical	snes9x/s9xsetpcbase.o		Historical Snes9x 1.40 S9xSetPCBase source; EE GCC 3.2.2 proof matches 364/364 provider-linked target bytes with 29 text relocations at 0x001ac024.
-91	src/snes9x/s9xsetword.cpp	snes9x	cpp	canonical	snes9x/s9xsetword.o		Historical Snes9x 1.41-1 S9xSetWord source; EE GCC 3.2.2 proof matches 1140/1140 provider-linked target bytes with 64 text relocations at 0x001ac190.
-92	src/snes9x/cpushutdown.cpp	snes9x	cpp	canonical	snes9x/cpushutdown.o		Historical Snes9x 1.42 CPUShutdown source; EE GCC 3.2.2 proof matches 304/304 provider-linked target bytes with 29 text relocations at 0x001ac604.
-93	src/snes9x/apumem.cpp	snes9x	cpp	canonical	snes9x/apumem.o		Historical Snes9x 1.42 APU memory bodies; 4/4 functions and 880/880 provider-linked target bytes proved.
-94	src/snes9x/selecttilerenderer.cpp	snes9x	cpp	canonical	snes9x/selecttilerenderer.o		Historical Snes9x renderer selector; all 348 provider-linked target bytes proved.
-95	src/ps2/sjpcm_rpc.c	ps2	c	canonical	ps2/sjpcm_rpc.o		Historical PGEN SjPCM client; all ten historical bodies reproduced; four provider-linked functions checked.
-96	src/ps2/amigamod_rpc.c	ps2	c	canonical	ps2/amigamod_rpc.o		Historical PGEN AmigaMod client with two target-proven SNES Station deltas; all eight bodies reproduced; target log body checked after provider linkage.
-97	src/snes9x/getbasepointer.cpp	snes9x	cpp	canonical	snes9x/getbasepointer.o		Historical Snes9x base pointer helper; all 260 target bytes and 22 relocations checked after provider linkage.
-98	src/snes9x/rtc_days.cpp	snes9x	cpp	canonical	snes9x/rtc_days.o		Historical Snes9x SPC7110 RTC calendar helper; all 84 provider-linked target bytes checked.
-99	src/snes9x/srtc.cpp	snes9x	cpp	canonical	snes9x/srtc.o		Complete historical Snes9x S-RTC source with target-proven 32-bit timestamp and zero wall clock; nine functions and 1956 provider-linked bytes checked.
-100	src/snes9x/cheats2.cpp	snes9x	cpp	canonical	snes9x/cheats2.o		Complete historical Snes9x cheat management with target PS2 FIO deltas; twelve bodies and 1768 bytes proved, including 1408 provider-linked bytes.
-101	src/snes9x/cheat_search.cpp	snes9x	cpp	canonical	snes9x/cheat_search.o		Historical Snes9x RAM cheat searches; four functions and 23936 bytes match with 15 known relocation fields normalized; two large searches reproduce all 23364 raw bytes.
-102	src/snes9x/memmap_methods.cpp	snes9x	cpp	canonical	snes9x/memmap_methods.o		Eleven historical Snes9x memory-map and ROM metadata methods; 1168 normalized instruction bytes, 98 known relocation fields; V51 PS2 Settings layout retained.
-103	src/snes9x/obc1.cpp	snes9x	cpp	canonical	snes9x/obc1.o		Complete historical OBC1 source with target-proven packed reads and shared target state; five functions reproduce 1276 historical bytes; SetOBC1 matches all 1116 provider-linked bytes.
-104	src/snes9x/sdd1_map.cpp	snes9x	cpp	canonical	snes9x/sdd1_map.o		Historical S-DD1 mapping, reset, post-load and comparator; four functions reproduce all 340 historical bytes; bank mapping and reset match all 204 provider-linked bytes.
-105	src/snes9x/sdd1_log_save.cpp	snes9x	cpp	canonical	snes9x/sdd1_log_save.o		Historical S-DD1 PS2 FIO log writer; V51 -Os fingerprint and all 176 provider-linked target bytes reproduced.
-106	src/snes9x/sdd1_log_load.cpp	snes9x	cpp	canonical	snes9x/sdd1_log_load.o		Historical S-DD1 PS2 FIO log reader; V51 -O2 instruction fingerprint and all 148 provider-linked bytes reproduced with target four-byte function alignment.
-107	src/snes9x/c4_math.cpp	snes9x	cpp	canonical	snes9x/c4_math.o		Complete historical C4 math module with V75 float adaptation; six bodies include the 132-byte auxiliary C4Op15; all 2652 provider-linked bytes proved.
-108	src/snes9x/seta_dispatch.cpp	snes9x	cpp	canonical	snes9x/seta_dispatch.o		Complete historical SETA dispatch source, 72 historical bytes; shared target function-pointer slots; two real canonical dispatch providers.
-109	src/snes9x/st010_helpers.cpp	snes9x	cpp	canonical	snes9x/st010_helpers.o		Three complete historical ST010 helpers, 368 historical bytes; original rotation truncation with all 248 provider-linked target bytes proved; command writer remains outside this recovery.
-110	src/snes9x/spc7110_rtc_io.cpp	snes9x	cpp	canonical	snes9x/spc7110_rtc_io.o		Original V74 SPC7110 RTC PS2 FIO persistence, target ABI32 timestamp; two complete bodies reproduce all 692 provider-linked bytes.
-111	src/snes9x/spc7110_helpers.cpp	snes9x	cpp	canonical	snes9x/spc7110_helpers.o		Original RTC update, ROM base lookup and register/bank50 reset; target-disabled wall clock and shared state; all 1092 provider-linked bytes proved; function sections preserve target placements across the intervening loader.
-112	src/snes9x/spc7110_access.cpp	snes9x	cpp	canonical	snes9x/spc7110_access.o		Original SPC7110 register get/set and direct ROM read; 4596 historical instruction bytes, 2616 direct target bytes and 1980 fully linked historical-reference bytes; both real read providers close former externals.
-113	src/snes9x/cpu_reset.cpp	snes9x	cpp	canonical	snes9x/cpu_reset.o		Complete original CPU reset module: four functions, 956 complete raw historical bytes; original shared-state field addends and native callee ABIs retained.
-114	src/snes9x/cpu_execution.cpp	snes9x	cpp	canonical	snes9x/cpu_execution.o		Complete original CPU main loop, IRQ control, and HBlank processing: four functions, 2448 complete raw historical bytes and fully linked historical-reference match; shared CPU/APU/PPU state retained.
-115	src/snes9x/native_chip_resets.cpp	snes9x	cpp	canonical	snes9x/native_chip_resets.o		Original native C4/DMA/SA1 reset routines: 416 complete raw historical bytes, 376 full public target bytes; closes three actual CPU-reset native dependencies.
-116	src/snes9x/dsp_dispatch.cpp	snes9x	cpp	canonical	snes9x/dsp_dispatch.o		Original DSP1 once-only initialization, reset and two native dispatch wrappers: 200 historical instruction/linked-reference bytes; shared original init byte and function-pointer slots retained; closes three actual native call contracts.
-117	src/snes9x/dsp_table_init.c	snes9x	c	canonical	snes9x/dsp_table_init.o		Original DSP1 table initializer with the V51 PS2 float adaptation: all 272 provider-linked target bytes, native ABI and original 2048-float table providers; closes remaining DSP initialization contract.
-118	src/snes9x/apu_reset.cpp	snes9x	cpp	canonical	snes9x/apu_reset.o		Original native APU reset with PS2 byte-count ABI: 1044 provider-linked target bytes, 51 relocations, original state, boot ROM and cycle providers; closes CPU reset APU call.
-119	src/snes9x/native_sound_reset.cpp	snes9x	cpp	canonical	snes9x/native_sound_reset.o		Original native sound reset, echo enable and playback rate: 844 provider-linked target bytes; preserves original 224-byte channels and shared sound/echo/filter storage, closes APU sound calls.
-120	src/snes9x/native_sound_controls.cpp	snes9x	cpp	canonical	snes9x/native_sound_controls.o		Original native echo delay/write and sound frequency: 452 provider-linked target bytes, original shared sound and noise tables, closes native playback dependencies.
-121	src/snes9x/ppu_reset.cpp	snes9x	cpp	canonical	snes9x/ppu_reset.o		Original native PPU hard/soft resets, mouse, palette brightness and next controller: 3372 linked historical reset/helper bytes plus 184 fully provider-linked native Super FX execution bytes; original PS2 Settings/state/table providers and native execution/IRQ ABI retained.
-122	src/snes9x/native_fxemu.cpp	snes9x	cpp	canonical	snes9x/native_fxemu.o		Complete original 21-function Super FX control module: 3456 linked historical bytes, frozen native state/mode cells and dispatch tables, closes final CPU reset native callee without duplicate GSU storage.
-123	src/snes9x/native_hdma.cpp	snes9x	cpp	canonical	snes9x/native_hdma.o		Original native HDMA setup and scanline execution: 1468 linked historical bytes; exact shared channel, game-fix and pointer-table geometry, 64-bit CPU cycles and native memory/register ABI retained; closes two CPU execution callees.
-124	src/snes9x/native_ppu_registers.cpp	snes9x	cpp	canonical	snes9x/native_ppu_registers.o		Original PPU/CPU register access, horizontal timer and OAM/CGRAM helpers: 13580 linked historical instruction bytes, including 6292 complete provider-linked target bytes; native shared state and original VRAM tables preserved.
-125	src/snes9x/native_dma.cpp	snes9x	cpp	canonical	snes9x/native_dma.o		Original general DMA and local OAM/CGRAM helpers: 7668 linked historical instruction bytes, including 6920 complete provider-linked target bytes across both DMA partitions and CGRAM; native shared state and allocation ABI preserved.
-126	src/snes9x/native_sa1.cpp	snes9x	cpp	canonical	snes9x/native_sa1.o		Original SA-1 memory, register, reset, map, DMA, character-conversion and bit-reader control: 6172 linked historical instruction bytes, including 1632 complete public target-listing bytes; original shared state and opcode-table geometry preserved, initializer remains canonical in native_chip_resets.cpp.
-127	src/snes9x/native_sa1_execution.cpp	snes9x	cpp	canonical	snes9x/native_sa1_execution.o		Original SA-1 execution loop and IRQ entry: all 552 selected instruction bytes match the fully linked historical reference; native state reused and complete frozen original opcode-table data reproduced.
-128	src/snes9x/native_cpu_interrupts.cpp	snes9x	cpp	canonical	snes9x/native_cpu_interrupts.o		Original main-CPU IRQ and NMI entries: all 1296 raw instruction bytes and fully linked historical reference match; shared native state and zero-argument C++ ABI retained.
-129	src/snes9x/native_controllers.cpp	snes9x	cpp	canonical	snes9x/native_controllers.o		Original joypad, Super Scope and Justifier updates plus four native frontend callbacks: 1476 historical instruction bytes, including 664 complete target bytes; shared state and one-argument joypad backend ABI retained.
-130	src/snes9x/native_chip_io.cpp	snes9x	cpp	canonical	snes9x/native_chip_io.o		Original C4 read and ST018 register IO: 72 historical instruction bytes, including 8 complete target bytes and the full 24-byte target diagnostic string; shared Memory reused.
-131	src/snes9x/native_rom_deinterleave.cpp	snes9x	cpp	canonical	snes9x/native_rom_deinterleave.o		Native mode-2 ROM permutation and real PS2 message callback; 552 complete target instruction bytes; shared original Settings/Memory state.
-132	src/snes9x/native_c4_raster.cpp	snes9x	cpp	canonical	snes9x/native_c4_raster.o		Native C4 line drawing and sprite disintegration; 1120 historical instruction bytes; 580 complete target bytes; shared original C4 RAM and math state.
-133	src/snes9x/native_c4_wave.cpp	snes9x	cpp	canonical	snes9x/native_c4_wave.o		Native C4 wave rendering; 584 complete target instruction bytes and 80 target table bytes; isolated target-proved compiler profile.
-134	src/ps2/native_sound_callback.c	ps2	c	canonical	ps2/native_sound_callback.o		Native C-ABI PS2 sound callback; eight complete target instruction bytes; canonical CPU execution callee.
-135	src/snes9x/native_rom_maps.cpp	snes9x	cpp	canonical	snes9x/native_rom_maps.o		Fifteen original ROM/RAM maps: 12816 fully linked historical instruction bytes, including 2116 complete target code bytes and an 8-byte target literal; native Memory/Settings/SA1/SRAM/scratch providers retained.
-136	src/snes9x/native_sa1_opcodes.cpp	snes9x	cpp	canonical	snes9x/native_sa1_opcodes.o		465 original SA-1 opcode/helper routines: 67008 complete linked historical instruction bytes, plus four exact target-linked dispatch tables (4096 bytes); existing IRQ/main-loop owners and shared GLOBALS state retained.
-137	src/snes9x/native_cpu_opcodes.cpp	snes9x	cpp	canonical	snes9x/native_cpu_opcodes.o		464 original native routines / 77476 complete linked historical instruction bytes; dispatch/font data checked separately; preexisting helper owners and shared original state retained.
-138	src/snes9x/native_fx_opcodes.cpp	snes9x	cpp	canonical	snes9x/native_fx_opcodes.o		602 original native routines / 73372 complete linked historical instruction bytes; dispatch/font data checked separately; preexisting helper owners and shared original state retained.
-139	src/snes9x/native_gfx.cpp	snes9x	cpp	canonical	snes9x/native_gfx.o		28 original native routines / 55256 complete linked historical instruction bytes; dispatch/font data checked separately; preexisting helper owners and shared original state retained.
-140	src/snes9x/native_bulk_tile.cpp	snes9x	cpp	canonical	snes9x/native_bulk_tile.o		55 original native functions / 48552 complete linked historical instruction bytes; typed original storage and retained readonly slices checked separately.
-141	src/snes9x/native_bulk_2xsai.cpp	snes9x	cpp	canonical	snes9x/native_bulk_2xsai.o		10 original native functions / 6888 complete linked historical instruction bytes; typed original storage and retained readonly slices checked separately.
-142	src/snes9x/native_bulk_dsp1.cpp	snes9x	cpp	canonical	snes9x/native_bulk_dsp1.o		35 original native functions / 10892 complete linked historical instruction bytes; original callbacks and split readonly DSP ROM/switch table placement checked separately.
-143	src/snes9x/native_bulk_apu.cpp	snes9x	cpp	canonical	snes9x/native_bulk_apu.o		7 original native functions / 3152 complete linked historical instruction bytes; original callbacks and split readonly DSP ROM/switch table placement checked separately.
-144	src/snes9x/native_bulk_memmap.cpp	snes9x	cpp	canonical	snes9x/native_bulk_memmap.o		10 original native functions / 2280 complete linked historical instruction bytes; original callback ABI, shared-state addresses and readonly slices checked separately.
-145	src/snes9x/native_bulk_soundux.cpp	snes9x	cpp	canonical	snes9x/native_bulk_soundux.o		24 original native functions / 4300 complete linked historical instruction bytes; original callback ABI, shared-state addresses and readonly slices checked separately.
-146	src/snes9x/native_bulk_snapshot.cpp	snes9x	cpp	canonical	snes9x/native_bulk_snapshot.o		10 original native functions / 5368 complete linked historical instruction bytes; module-local helper addresses, legacy aliases and readonly placement checked separately.
-147	src/snes9x/native_bulk_snaporig.cpp	snes9x	cpp	canonical	snes9x/native_bulk_snaporig.o		3 original native functions / 3904 complete linked historical instruction bytes; module-local helper addresses, legacy aliases and readonly placement checked separately.
-148	src/snes9x/native_clip.cpp	snes9x	cpp	canonical	snes9x/native_clip.o		ComputeClipWindows matches all 4572 linked target instruction bytes; original upstream local comparator bodies retained separately without a complete target-body witness; signed 32-bit historical qsort ABI.
-149	src/snes9x/native_dsp_atan.c	snes9x	c	canonical	snes9x/native_dsp_atan.o		S9xDSPAtan; 208 complete linked frozen target bytes; separately reviewed profile/boundary and readonly storage.
-150	src/snes9x/native_dsp2_get.cpp	snes9x	cpp	canonical	snes9x/native_dsp2_get.o		_Z11DSP2GetBytet; 100 complete linked frozen target bytes; separately reviewed profile/boundary and readonly storage.
-151	src/ps2/native_frontend_leaves.c	ps2	c	direct	ps2/native_frontend_leaves.o		Direct Stage-3P provider set: exact frontend leaf routines kept out of the earlier canonical aggregate to avoid duplicate target code.
-152	src/ps2/native_frontend_wait.c	ps2	c	direct	ps2/native_frontend_wait.o		Direct Stage-3P provider: exact frontend wait routine kept out of the earlier canonical aggregate to avoid duplicate target code.
-153	src/snes9x/native_parse_cheats.cpp	snes9x	cpp	direct	snes9x/native_parse_cheats.o		Direct Stage-3P provider: exact cheat parser kept out of the earlier canonical aggregate to avoid duplicate target code and tables.
-154	src/snes9x/native_fx_pipe_string.cpp	snes9x	cpp	direct	snes9x/native_fx_pipe_string.o		Direct Stage-3P provider: exact Super FX pipeline string routine kept out of the earlier canonical aggregate.
-155	src/snes9x/native_memory_safe.cpp	snes9x	cpp	direct	snes9x/native_memory_safe.o		Direct Stage-3P provider: exact Memory::Safe routine kept out of the earlier canonical aggregate.
-156	src/snes9x/native_dsp2_set.cpp	snes9x	cpp	direct	snes9x/native_dsp2_set.o		Direct Stage-3P provider: _Z11DSP2SetBytet supplies 720 exact linked bytes plus switch-table relocations without duplicating the earlier aggregate.
-157	src/ps2/libkernel_syscalls.S	ps2	asm-cpp	canonical	ps2/libkernel_syscalls.o		Exact libkernel syscall wrappers at 0x0019FCD0; five syscall wrappers (0x16, 0x17, 0x42, 0x45, 0xFFFFFF88), 80 bytes total.
-158	src/ps2/libkernel_syscalls2.S	ps2	asm-cpp	canonical	ps2/libkernel_syscalls2.o		Exact libkernel syscall wrappers at 0x0019CE60; eleven syscall wrappers (0xCC, 0x40, 0x41, 0xBD, 0x44, 0x64, 0x98, 0x76, 0x77, 0x79, 0x7A), 176 bytes total.
-159	src/ps2/libkernel_sif_syscalls.S	ps2	asm-cpp	canonical	ps2/libkernel_sif_syscalls.o		Exact libkernel SIF syscall wrappers at 0x0019F5D0; three syscall wrappers (SifStopDma 0x6B, 0x89, SifSetDChain 0x78), 48 bytes total.
-160	src/ps2/libkernel_size_strings.c	ps2	c	canonical	ps2/libkernel_size_strings.o		Canonical libkernel string/size corridor at 0x0019C364; memset, strlen, memmove, strchr, strcat, strncmp, memcmp, strcpy, strcmp; 10 functions, ~300 bytes total.
-161	src/ps2/libkernel_sifcmd.c	ps2	c	canonical	ps2/libkernel_sifcmd.o		Canonical libkernel SIF command dispatcher at 0x0019F138; SifCmd, helpers (0x19F264, 0x19F2A0, 0x19F2DC, 0x19F2E4, 0x19F2F0), IRQ handlers (0x19FB00, 0x19FB78, 0x19FBF0); 9 functions, ~420 bytes total.
-162	src/ps2/snes_accel.c	ps2	c	canonical	ps2/snes_accel.o		Canonical recovered translation unit.
-163	src/ps2/snes_adc.c	ps2	c	canonical	ps2/snes_adc.o		Canonical recovered translation unit.
-164	src/ps2/snes_audio_runtime.c	ps2	c	canonical	ps2/snes_audio_runtime.o		Canonical recovered translation unit.
-165	src/ps2/snes_blend.c	ps2	c	canonical	ps2/snes_blend.o		Canonical recovered translation unit.
-166	src/ps2/snes_core_reset.c	ps2	c	canonical	ps2/snes_core_reset.o		Canonical recovered translation unit.
-167	src/ps2/snes_cpp_eh.c	ps2	c	canonical	ps2/snes_cpp_eh.o		Canonical recovered translation unit.
-168	src/ps2/snes_cpp_personality.c	ps2	c	canonical	ps2/snes_cpp_personality.o		Canonical recovered translation unit.
-169	src/ps2/snes_cpu_push.c	ps2	c	canonical	ps2/snes_cpu_push.o		Canonical recovered translation unit.
-170	src/ps2/snes_cpu_state.c	ps2	c	canonical	ps2/snes_cpu_state.o		Canonical recovered translation unit.
-171	src/ps2/snes_dsp_runtime.c	ps2	c	canonical	ps2/snes_dsp_runtime.o		Canonical recovered translation unit.
-172	src/ps2/snes_fileio.c	ps2	c	canonical	ps2/snes_fileio.o		Canonical recovered translation unit.
-173	src/ps2/snes_frontend_audio.c	ps2	c	canonical	ps2/snes_frontend_audio.o		Canonical recovered translation unit.
-174	src/ps2/snes_frontend_controller.c	ps2	c	canonical	ps2/snes_frontend_controller.o		Canonical recovered translation unit.
-175	src/ps2/snes_frontend_display.c	ps2	c	canonical	ps2/snes_frontend_display.o		Canonical recovered translation unit.
-176	src/ps2/snes_frontend_gs.c	ps2	c	canonical	ps2/snes_frontend_gs.o		Canonical recovered translation unit.
-177	src/ps2/snes_frontend_msg.c	ps2	c	canonical	ps2/snes_frontend_msg.o		Canonical recovered translation unit.
-178	src/ps2/snes_frontend_rpc.c	ps2	c	canonical	ps2/snes_frontend_rpc.o		Canonical recovered translation unit.
-179	src/ps2/snes_gs_state.c	ps2	c	canonical	ps2/snes_gs_state.o		Canonical recovered translation unit.
-180	src/ps2/snes_libgcc_int.c	ps2	c	canonical	ps2/snes_libgcc_int.o		Canonical recovered translation unit.
-181	src/ps2/snes_libgcc_softfloat.c	ps2	c	canonical	ps2/snes_libgcc_softfloat.o		Canonical recovered translation unit.
-182	src/ps2/snes_matrix_build.c	ps2	c	canonical	ps2/snes_matrix_build.o		Canonical recovered translation unit.
-183	src/ps2/snes_mc_probe.c	ps2	c	canonical	ps2/snes_mc_probe.o		Canonical recovered translation unit.
-184	src/ps2/snes_nibble_resample.c	ps2	c	canonical	ps2/snes_nibble_resample.o		Canonical recovered translation unit.
-185	src/ps2/snes_pad_init.c	ps2	c	canonical	ps2/snes_pad_init.o		Canonical recovered translation unit.
-186	src/ps2/snes_path.c	ps2	c	canonical	ps2/snes_path.o		Canonical recovered translation unit.
-187	src/ps2/snes_ppu_memory.c	ps2	c	canonical	ps2/snes_ppu_memory.o		Canonical recovered translation unit.
-188	src/ps2/snes_ppu_timing.c	ps2	c	canonical	ps2/snes_ppu_timing.o		Canonical recovered translation unit.
-189	src/ps2/snes_reg_read.c	ps2	c	canonical	ps2/snes_reg_read.o		Canonical recovered translation unit.
-190	src/ps2/snes_sdd1_save.c	ps2	c	canonical	ps2/snes_sdd1_save.o		Canonical recovered translation unit.
-191	src/ps2/snes_state_ext.c	ps2	c	canonical	ps2/snes_state_ext.o		Canonical recovered translation unit.
-192	src/ps2/snes_state_transfer.c	ps2	c	canonical	ps2/snes_state_transfer.o		Canonical recovered translation unit.
-193	src/ps2/snes_toc.c	ps2	c	canonical	ps2/snes_toc.o		Canonical recovered translation unit.
-194	src/ps2/snes_trig.c	ps2	c	canonical	ps2/snes_trig.o		Canonical recovered translation unit.
-195	src/ps2/snes_wave_table.c	ps2	c	canonical	ps2/snes_wave_table.o		Canonical recovered translation unit.
-196	src/snes9x/snes9x_apu_io.c	snes9x	c	canonical	snes9x/snes9x_apu_io.o		Canonical recovered translation unit.
-197	src/snes9x/snes9x_bitplane.c	snes9x	c	canonical	snes9x/snes9x_bitplane.o		Canonical recovered translation unit.
-198	src/snes9x/snes9x_controller.c	snes9x	c	canonical	snes9x/snes9x_controller.o		Canonical recovered translation unit.
-199	src/snes9x/snes9x_datetime.c	snes9x	c	canonical	snes9x/snes9x_datetime.o		Canonical recovered translation unit.
-200	src/snes9x/snes9x_frontend_init.c	snes9x	c	canonical	snes9x/snes9x_frontend_init.o		Canonical recovered translation unit.
-201	src/snes9x/snes9x_matrix.c	snes9x	c	canonical	snes9x/snes9x_matrix.o		Canonical recovered translation unit.
-202	src/snes9x/snes9x_memory_map.c	snes9x	c	canonical	snes9x/snes9x_memory_map.o		Canonical recovered translation unit.
-203	src/snes9x/snes9x_palette.c	snes9x	c	canonical	snes9x/snes9x_palette.o		Canonical recovered translation unit.
-204	src/snes9x/snes9x_path.c	snes9x	c	canonical	snes9x/snes9x_path.o		Canonical recovered translation unit.
-205	src/snes9x/snes9x_renderer_gate.c	snes9x	c	canonical	snes9x/snes9x_renderer_gate.o		Canonical recovered translation unit.
-206	src/snes9x/snes9x_renderer_leaf.c	snes9x	c	canonical	snes9x/snes9x_renderer_leaf.o		Canonical recovered translation unit.
-207	src/snes9x/snes9x_softfloat.c	snes9x	c	canonical	snes9x/snes9x_softfloat.o		Canonical recovered translation unit.
-208	src/snes9x/snes9x_state_machine.c	snes9x	c	canonical	snes9x/snes9x_state_machine.o		Canonical recovered translation unit.
-209	src/ps2/snes_startup.c	ps2	c	canonical	ps2/snes_startup.o		Canonical recovered translation unit from progress28.
-210	src/ps2/snes_frontend_menu.c	ps2	c	canonical	ps2/snes_frontend_menu.o		Canonical recovered translation unit from progress28.
-211	src/ps2/snes_frontend_splash.c	ps2	c	canonical	ps2/snes_frontend_splash.o		Canonical recovered translation unit from progress28.
-212	src/ps2/snes_frontend_gui.c	ps2	c	canonical	ps2/snes_frontend_gui.o		Canonical recovered translation unit from progress28.
-213	src/ps2/snes_frontend_options.c	ps2	c	canonical	ps2/snes_frontend_options.o		Canonical recovered translation unit from progress28.
-214	src/ps2/snes_config.c	ps2	c	canonical	ps2/snes_config.o		Canonical recovered translation unit from progress28.
-215	src/ps2/snes_frontend_main.c	ps2	c	canonical	ps2/snes_frontend_main.o		Canonical recovered translation unit from progress28.
-216	src/ps2/snes_sdd1.c	ps2	c	canonical	ps2/snes_sdd1.o		Canonical recovered translation unit from progress28.
-217	src/ps2/snes_file_browser.c	ps2	c	canonical	ps2/snes_file_browser.o		Canonical recovered translation unit from progress28.
-218	src/ps2/snes_hdd.c	ps2	c	canonical	ps2/snes_hdd.o		Canonical recovered translation unit from progress28.
+33	src/ps2/xprintf.c	ps2	c	canonical	ps2/xprintf.o		Recovered PS2LIB xprintf lineage; formatter core and target wrappers are byte-exact, with the target no-newline puts override.
+34	src/ps2/glue.c	ps2	c	canonical	ps2/glue.o		Byte-exact historical PS2LIB DMAC glue wrappers recovered from ps2sdk@a80df908.
+35	src/ps2/sifcmd.c	ps2	c	canonical	ps2/sifcmd.o		Byte-exact historical PS2LIB SIF command source recovered from ps2sdk@a80df908.
+36	src/ps2/sifrpc.c	ps2	c	canonical	ps2/sifrpc.o		Historical PS2LIB SIF RPC source recovered byte-exact from ps2sdk@a80df908; combined canonical TU preserves original F_* object bodies.
+37	src/ps2/small_dispatch_.c	ps2	c	canonical	ps2/small_dispatch_recovered.o		Canonical recovered translation unit.
+38	src/snes9x/memory_cleanup.c	snes9x	c	canonical	snes9x/memory_cleanup.o		Canonical SNES9x per-ROM cleanup at 0x00151330; rom_cleanup and per_rom_buffer_cleanup; 2 functions.
+39	src/unzip/explode_.c	unzip	c	canonical	unzip/explode_recovered.o		Canonical recovered translation unit.
+40	src/unzip/unreduce_.c	unzip	c	canonical	unzip/unreduce_recovered.o		Canonical recovered translation unit.
+41	src/unzip/unshrink_.c	unzip	c	canonical	unzip/unshrink_recovered.o		Canonical recovered translation unit.
+42	src/unzip/unzip_api_.c	unzip	c	canonical	unzip/unzip_api_recovered.o		Canonical recovered translation unit.
+43	src/zlib/crc32_.c	zlib	c	canonical	zlib/crc32_recovered.o		Canonical recovered translation unit.
+44	src/zlib/deflate_engine_.c	zlib	c	canonical	zlib/deflate_engine_recovered.o		Canonical recovered translation unit.
+45	src/zlib/deflate_state_.c	zlib	c	canonical	zlib/deflate_state_recovered.o		Canonical recovered translation unit.
+46	src/zlib/gzio_.c	zlib	c	canonical	zlib/gzio_recovered.o		Canonical recovered translation unit.
+47	src/zlib/infblock_engine_.c	zlib	c	canonical	zlib/infblock_engine_recovered.o		Canonical recovered translation unit.
+48	src/zlib/infblock_frontend_.c	zlib	c	canonical	zlib/infblock_frontend_recovered.o		Canonical recovered translation unit.
+49	src/zlib/infcodes_.c	zlib	c	canonical	zlib/infcodes_recovered.o		Canonical recovered translation unit.
+50	src/zlib/inffast_.c	zlib	c	canonical	zlib/inffast_recovered.o		Canonical recovered translation unit.
+51	src/zlib/inflate_state_.c	zlib	c	canonical	zlib/inflate_state_recovered.o		Canonical recovered translation unit.
+52	src/zlib/inftrees_.c	zlib	c	canonical	zlib/inftrees_recovered.o		Canonical recovered translation unit.
+53	src/zlib/infutil_.c	zlib	c	canonical	zlib/infutil_recovered.o		Canonical recovered translation unit.
+54	src/zlib/trees_.c	zlib	c	canonical	zlib/trees_recovered.o		Canonical recovered translation unit.
+55	src/zlib/zlib_buffer_api_.c	zlib	c	canonical	zlib/zlib_buffer_api_recovered.o		Canonical recovered translation unit.
+56	src/zlib/zutil_adler_.c	zlib	c	canonical	zlib/zutil_adler_recovered.o		Canonical recovered translation unit.
+57	src/ps2/iopheap.c	ps2	c	canonical	ps2/iopheap.o		Recovered historical PS2LIB IOP heap translation unit; exact gate covers SifInitIopHeap, SifAllocIopHeap and SifFreeIopHeap.
+58	src/ps2/loadfile.c	ps2	c	canonical	ps2/loadfile.o		Byte-exact historical PS2LIB LOADFILE translation unit; five target members pass raw linked equality.
+59	src/ps2/memcpy.S	ps2	asm-cpp	canonical	ps2/memcpy.o		Exact historical ps2sdk@694100b7 memcpy.S; 1/1 object and 56/56 target bytes proved.
+60	src/ps2/memset.S	ps2	asm-cpp	canonical	ps2/memset.o		Exact historical ps2sdk@694100b7 memset.S; 1/1 object and 56/56 target bytes proved.
+61	src/ps2/memmove.S	ps2	asm-cpp	canonical	ps2/memmove.o		Exact historical ps2sdk@694100b7 memmove.S; 1/1 object and 136/136 target bytes proved.
+62	src/ps2/strcat.S	ps2	asm-cpp	canonical	ps2/strcat.o		Exact historical ps2sdk@694100b7 strcat.S; raw-linked 56/56 target bytes proved.
+63	src/ps2/memcmp.S	ps2	asm-cpp	canonical	ps2/memcmp.o		Exact historical ps2sdk@694100b7 memcmp.S; 1/1 object and 72/72 target bytes proved.
+64	src/ps2/strcpy.S	ps2	asm-cpp	canonical	ps2/strcpy.o		Exact historical ps2sdk@694100b7 strcpy.S; 1/1 object and 40/40 target bytes proved.
+65	src/ps2/strlen.S	ps2	asm-cpp	canonical	ps2/strlen.o		Exact historical ps2sdk@694100b7 strlen.S; 1/1 object and 40/40 target bytes proved.
+66	src/ps2/strchr.S	ps2	asm-cpp	canonical	ps2/strchr.o		Exact historical ps2sdk@694100b7 strchr.S; 1/1 object and 56/56 target bytes proved.
+67	src/ps2/strcmp.S	ps2	asm-cpp	canonical	ps2/strcmp.o		Exact historical ps2sdk@694100b7 strcmp.S; 1/1 object and 64/64 target bytes proved.
+68	src/ps2/strncpy.S	ps2	asm-cpp	canonical	ps2/strncpy.o		Exact historical ps2sdk@694100b7 strncpy.S; 84-byte function plus 4-byte linked alignment, 88/88 target bytes proved.
+69	src/ps2/string.c	ps2	c	canonical	ps2/string.o		Historical PS2LIB string.c F_strrchr body restored; 84/84 linked target bytes with two resolved relocations.
+70	src/ps2/strstr.c	ps2	c	canonical	ps2/strstr.o		Historical PS2LIB string.c F_strstr body restored; 136/136 linked target bytes with two resolved relocations.
+71	src/ps2/strtol.c	ps2	c	canonical	ps2/strtol.o		Exact 2004 PS2LIB F_strtol original C; EE GCC 3.2.2 556/556 target bytes with nine linked relocations, selected historical default-long ABI.
+72	src/ps2/strcasecmp.c	ps2	c	canonical	ps2/strcasecmp.o		Exact historical PS2LIB F_strcasecmp selector from ps2sdk@694100b7, 132/132 raw ELF target bytes after four relocations.
+73	src/ps2/strtok.c	ps2	c	canonical	ps2/strtok.o		Exact historical PS2LIB F_strtok selector from ps2sdk@694100b7; 264/264 target text bytes with 27 relocations and static state linked at 0x00445140/0x00445144.
+74	src/ps2/strncasecmp.c	ps2	c	canonical	ps2/strncasecmp.o		Exact historical PS2LIB F_strncasecmp selector from ps2sdk@694100b7; target 184/184 bytes proved after four tolower relocations.
+75	src/ps2/ctype.c	ps2	c	canonical	ps2/ctype.o		Exact historical PS2LIB F_ctype selector from ps2sdk@694100b7; complete 616-byte ctype corridor from tolower through isxdigit recovered.
+76	src/ps2/qsort.c	ps2	c	canonical	ps2/qsort.o		Exact historical Newlib 1.10 qsort.c from PS2DEV bac0006c; EE GCC 3.2.2 target entry 2408/2408 raw bytes with one relocation.
+77	src/ps2/sbrk.c	ps2	c	canonical	ps2/sbrk.o		Exact historical PS2LIB sbrk.c from ps2sdk@694100b7; EE GCC 3.2.2 target entry 192/192 raw bytes with 13 relocations; _end is the frozen startup linker symbol at 0x00450c18.
+78	src/unzip/get_tree.S	unzip	asm-cpp	canonical	unzip/get_tree.o		Byte-exact EE reconstruction of get_tree @ 0x0018c124; 212/212 linked bytes with ReadByte=0x0018dc60 and bytebuf=0x00426e28; historical K&R C provenance retained separately.
+79	src/ps2/numtestf.S	ps2	asm-cpp	canonical	ps2/numtestf.o		Byte-exact EE reconstruction of numtestf @ 0x001a06c0; 128/128 raw bytes, zero relocations; Newlib behavioral C model retained separately.
+80	src/ps2/c4convoam.S	ps2	asm-cpp	canonical	ps2/c4convoam.o		Byte-exact EE reconstruction of C4ConvOAM @ 0x0010c340; 952/952 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
+81	src/ps2/c4doscalerotate.S	ps2	asm-cpp	canonical	ps2/c4doscalerotate.o		Byte-exact EE reconstruction of C4DoScaleRotate @ 0x0010c6f8; 1208/1208 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
+82	src/ps2/c4transformlines.S	ps2	asm-cpp	canonical	ps2/c4transformlines.o		Byte-exact EE reconstruction of C4TransformLines @ 0x0010cfa4; 772/772 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
+83	src/ps2/s9xsetc4.S	ps2	asm-cpp	canonical	ps2/s9xsetc4.o		Byte-exact EE reconstruction of S9xSetC4 @ 0x0010d7dc; 2912/2912 raw bytes, zero relocations; Snes9x 1.41-1 readable C provenance retained separately.
+84	src/snes9x/c4drawwireframe.cpp	snes9x	cpp	canonical	snes9x/c4drawwireframe.o		Historical Snes9x 1.41-1 C4DrawWireFrame source; V77 EE GCC 3.2.2 C++ proof matches 472/472 bytes outside 15 relocation fields at 0x0010cdcc.
+85	src/snes9x/s9xgetmempointer.cpp	snes9x	cpp	canonical	snes9x/s9xgetmempointer.o		Historical Snes9x 1.41 S9xGetMemPointer source; EE GCC 3.2.2 raw-linked proof matches 340/340 bytes at 0x001ab4e8.
+86	src/snes9x/s9xgetbyte.cpp	snes9x	cpp	canonical	snes9x/s9xgetbyte.o		Historical Snes9x 1.40 S9xGetByte source; EE GCC 3.2.2 proof matches 708/708 linked target bytes with 49 text relocations at 0x001ab63c.
+87	src/snes9x/s9xsetbyte.cpp	snes9x	cpp	canonical	snes9x/s9xsetbyte.o		Historical Snes9x 1.40 S9xSetByte source; EE GCC 3.2.2 proof matches 808/808 provider-linked target bytes with 53 text relocations at 0x001ab900.
+88	src/snes9x/s9xgetword.cpp	snes9x	cpp	canonical	snes9x/s9xgetword.o		Historical Snes9x 1.41-1 S9xGetWord source with target-proved packed R5900 direct access; EE GCC 3.2.2 proof matches 1020/1020 provider-linked target bytes with 62 text relocations at 0x001abc28.
+89	src/snes9x/s9xsetpcbase.cpp	snes9x	cpp	canonical	snes9x/s9xsetpcbase.o		Historical Snes9x 1.40 S9xSetPCBase source; EE GCC 3.2.2 proof matches 364/364 provider-linked target bytes with 29 text relocations at 0x001ac024.
+90	src/snes9x/s9xsetword.cpp	snes9x	cpp	canonical	snes9x/s9xsetword.o		Historical Snes9x 1.41-1 S9xSetWord source; EE GCC 3.2.2 proof matches 1140/1140 provider-linked target bytes with 64 text relocations at 0x001ac190.
+91	src/snes9x/cpushutdown.cpp	snes9x	cpp	canonical	snes9x/cpushutdown.o		Historical Snes9x 1.42 CPUShutdown source; EE GCC 3.2.2 proof matches 304/304 provider-linked target bytes with 29 text relocations at 0x001ac604.
+92	src/snes9x/apumem.cpp	snes9x	cpp	canonical	snes9x/apumem.o		Historical Snes9x 1.42 APU memory bodies; 4/4 functions and 880/880 provider-linked target bytes proved.
+93	src/snes9x/selecttilerenderer.cpp	snes9x	cpp	canonical	snes9x/selecttilerenderer.o		Historical Snes9x renderer selector; all 348 provider-linked target bytes proved.
+94	src/ps2/sjpcm_rpc.c	ps2	c	canonical	ps2/sjpcm_rpc.o		Historical PGEN SjPCM client; all ten historical bodies reproduced; four provider-linked functions checked.
+95	src/ps2/amigamod_rpc.c	ps2	c	canonical	ps2/amigamod_rpc.o		Historical PGEN AmigaMod client with two target-proven SNES Station deltas; all eight bodies reproduced; target log body checked after provider linkage.
+96	src/snes9x/getbasepointer.cpp	snes9x	cpp	canonical	snes9x/getbasepointer.o		Historical Snes9x base pointer helper; all 260 target bytes and 22 relocations checked after provider linkage.
+97	src/snes9x/rtc_days.cpp	snes9x	cpp	canonical	snes9x/rtc_days.o		Historical Snes9x SPC7110 RTC calendar helper; all 84 provider-linked target bytes checked.
+98	src/snes9x/srtc.cpp	snes9x	cpp	canonical	snes9x/srtc.o		Complete historical Snes9x S-RTC source with target-proven 32-bit timestamp and zero wall clock; nine functions and 1956 provider-linked bytes checked.
+99	src/snes9x/cheats2.cpp	snes9x	cpp	canonical	snes9x/cheats2.o		Complete historical Snes9x cheat management with target PS2 FIO deltas; twelve bodies and 1768 bytes proved, including 1408 provider-linked bytes.
+100	src/snes9x/cheat_search.cpp	snes9x	cpp	canonical	snes9x/cheat_search.o		Historical Snes9x RAM cheat searches; four functions and 23936 bytes match with 15 known relocation fields normalized; two large searches reproduce all 23364 raw bytes.
+101	src/snes9x/memmap_methods.cpp	snes9x	cpp	canonical	snes9x/memmap_methods.o		Eleven historical Snes9x memory-map and ROM metadata methods; 1168 normalized instruction bytes, 98 known relocation fields; V51 PS2 Settings layout retained.
+102	src/snes9x/obc1.cpp	snes9x	cpp	canonical	snes9x/obc1.o		Complete historical OBC1 source with target-proven packed reads and shared target state; five functions reproduce 1276 historical bytes; SetOBC1 matches all 1116 provider-linked bytes.
+103	src/snes9x/sdd1_map.cpp	snes9x	cpp	canonical	snes9x/sdd1_map.o		Historical S-DD1 mapping, reset, post-load and comparator; four functions reproduce all 340 historical bytes; bank mapping and reset match all 204 provider-linked bytes.
+104	src/snes9x/sdd1_log_save.cpp	snes9x	cpp	canonical	snes9x/sdd1_log_save.o		Historical S-DD1 PS2 FIO log writer; V51 -Os fingerprint and all 176 provider-linked target bytes reproduced.
+105	src/snes9x/sdd1_log_load.cpp	snes9x	cpp	canonical	snes9x/sdd1_log_load.o		Historical S-DD1 PS2 FIO log reader; V51 -O2 instruction fingerprint and all 148 provider-linked bytes reproduced with target four-byte function alignment.
+106	src/snes9x/c4_math.cpp	snes9x	cpp	canonical	snes9x/c4_math.o		Complete historical C4 math module with V75 float adaptation; six bodies include the 132-byte auxiliary C4Op15; all 2652 provider-linked bytes proved.
+107	src/snes9x/seta_dispatch.cpp	snes9x	cpp	canonical	snes9x/seta_dispatch.o		Complete historical SETA dispatch source, 72 historical bytes; shared target function-pointer slots; two real canonical dispatch providers.
+108	src/snes9x/st010_helpers.cpp	snes9x	cpp	canonical	snes9x/st010_helpers.o		Three complete historical ST010 helpers, 368 historical bytes; original rotation truncation with all 248 provider-linked target bytes proved; command writer remains outside this recovery.
+109	src/snes9x/spc7110_rtc_io.cpp	snes9x	cpp	canonical	snes9x/spc7110_rtc_io.o		Original V74 SPC7110 RTC PS2 FIO persistence, target ABI32 timestamp; two complete bodies reproduce all 692 provider-linked bytes.
+110	src/snes9x/spc7110_helpers.cpp	snes9x	cpp	canonical	snes9x/spc7110_helpers.o		Original RTC update, ROM base lookup and register/bank50 reset; target-disabled wall clock and shared state; all 1092 provider-linked bytes proved; function sections preserve target placements across the intervening loader.
+111	src/snes9x/spc7110_access.cpp	snes9x	cpp	canonical	snes9x/spc7110_access.o		Original SPC7110 register get/set and direct ROM read; 4596 historical instruction bytes, 2616 direct target bytes and 1980 fully linked historical-reference bytes; both real read providers close former externals.
+112	src/snes9x/cpu_reset.cpp	snes9x	cpp	canonical	snes9x/cpu_reset.o		Complete original CPU reset module: four functions, 956 complete raw historical bytes; original shared-state field addends and native callee ABIs retained.
+113	src/snes9x/cpu_execution.cpp	snes9x	cpp	canonical	snes9x/cpu_execution.o		Complete original CPU main loop, IRQ control, and HBlank processing: four functions, 2448 complete raw historical bytes and fully linked historical-reference match; shared CPU/APU/PPU state retained.
+114	src/snes9x/native_chip_resets.cpp	snes9x	cpp	canonical	snes9x/native_chip_resets.o		Original native C4/DMA/SA1 reset routines: 416 complete raw historical bytes, 376 full public target bytes; closes three actual CPU-reset native dependencies.
+115	src/snes9x/dsp_dispatch.cpp	snes9x	cpp	canonical	snes9x/dsp_dispatch.o		Original DSP1 once-only initialization, reset and two native dispatch wrappers: 200 historical instruction/linked-reference bytes; shared original init byte and function-pointer slots retained; closes three actual native call contracts.
+116	src/snes9x/dsp_table_init.c	snes9x	c	canonical	snes9x/dsp_table_init.o		Original DSP1 table initializer with the V51 PS2 float adaptation: all 272 provider-linked target bytes, native ABI and original 2048-float table providers; closes remaining DSP initialization contract.
+117	src/snes9x/apu_reset.cpp	snes9x	cpp	canonical	snes9x/apu_reset.o		Original native APU reset with PS2 byte-count ABI: 1044 provider-linked target bytes, 51 relocations, original state, boot ROM and cycle providers; closes CPU reset APU call.
+118	src/snes9x/native_sound_reset.cpp	snes9x	cpp	canonical	snes9x/native_sound_reset.o		Original native sound reset, echo enable and playback rate: 844 provider-linked target bytes; preserves original 224-byte channels and shared sound/echo/filter storage, closes APU sound calls.
+119	src/snes9x/native_sound_controls.cpp	snes9x	cpp	canonical	snes9x/native_sound_controls.o		Original native echo delay/write and sound frequency: 452 provider-linked target bytes, original shared sound and noise tables, closes native playback dependencies.
+120	src/snes9x/ppu_reset.cpp	snes9x	cpp	canonical	snes9x/ppu_reset.o		Original native PPU hard/soft resets, mouse, palette brightness and next controller: 3372 linked historical reset/helper bytes plus 184 fully provider-linked native Super FX execution bytes; original PS2 Settings/state/table providers and native execution/IRQ ABI retained.
+121	src/snes9x/native_fxemu.cpp	snes9x	cpp	canonical	snes9x/native_fxemu.o		Complete original 21-function Super FX control module: 3456 linked historical bytes, frozen native state/mode cells and dispatch tables, closes final CPU reset native callee without duplicate GSU storage.
+122	src/snes9x/native_hdma.cpp	snes9x	cpp	canonical	snes9x/native_hdma.o		Original native HDMA setup and scanline execution: 1468 linked historical bytes; exact shared channel, game-fix and pointer-table geometry, 64-bit CPU cycles and native memory/register ABI retained; closes two CPU execution callees.
+123	src/snes9x/native_ppu_registers.cpp	snes9x	cpp	canonical	snes9x/native_ppu_registers.o		Original PPU/CPU register access, horizontal timer and OAM/CGRAM helpers: 13580 linked historical instruction bytes, including 6292 complete provider-linked target bytes; native shared state and original VRAM tables preserved.
+124	src/snes9x/native_dma.cpp	snes9x	cpp	canonical	snes9x/native_dma.o		Original general DMA and local OAM/CGRAM helpers: 7668 linked historical instruction bytes, including 6920 complete provider-linked target bytes across both DMA partitions and CGRAM; native shared state and allocation ABI preserved.
+125	src/snes9x/native_sa1.cpp	snes9x	cpp	canonical	snes9x/native_sa1.o		Original SA-1 memory, register, reset, map, DMA, character-conversion and bit-reader control: 6172 linked historical instruction bytes, including 1632 complete public target-listing bytes; original shared state and opcode-table geometry preserved, initializer remains canonical in native_chip_resets.cpp.
+126	src/snes9x/native_sa1_execution.cpp	snes9x	cpp	canonical	snes9x/native_sa1_execution.o		Original SA-1 execution loop and IRQ entry: all 552 selected instruction bytes match the fully linked historical reference; native state reused and complete frozen original opcode-table data reproduced.
+127	src/snes9x/native_cpu_interrupts.cpp	snes9x	cpp	canonical	snes9x/native_cpu_interrupts.o		Original main-CPU IRQ and NMI entries: all 1296 raw instruction bytes and fully linked historical reference match; shared native state and zero-argument C++ ABI retained.
+128	src/snes9x/native_controllers.cpp	snes9x	cpp	canonical	snes9x/native_controllers.o		Original joypad, Super Scope and Justifier updates plus four native frontend callbacks: 1476 historical instruction bytes, including 664 complete target bytes; shared state and one-argument joypad backend ABI retained.
+129	src/snes9x/native_chip_io.cpp	snes9x	cpp	canonical	snes9x/native_chip_io.o		Original C4 read and ST018 register IO: 72 historical instruction bytes, including 8 complete target bytes and the full 24-byte target diagnostic string; shared Memory reused.
+130	src/snes9x/native_rom_deinterleave.cpp	snes9x	cpp	canonical	snes9x/native_rom_deinterleave.o		Native mode-2 ROM permutation and real PS2 message callback; 552 complete target instruction bytes; shared original Settings/Memory state.
+131	src/snes9x/native_c4_raster.cpp	snes9x	cpp	canonical	snes9x/native_c4_raster.o		Native C4 line drawing and sprite disintegration; 1120 historical instruction bytes; 580 complete target bytes; shared original C4 RAM and math state.
+132	src/snes9x/native_c4_wave.cpp	snes9x	cpp	canonical	snes9x/native_c4_wave.o		Native C4 wave rendering; 584 complete target instruction bytes and 80 target table bytes; isolated target-proved compiler profile.
+133	src/ps2/native_sound_callback.c	ps2	c	canonical	ps2/native_sound_callback.o		Native C-ABI PS2 sound callback; eight complete target instruction bytes; canonical CPU execution callee.
+134	src/snes9x/native_rom_maps.cpp	snes9x	cpp	canonical	snes9x/native_rom_maps.o		Fifteen original ROM/RAM maps: 12816 fully linked historical instruction bytes, including 2116 complete target code bytes and an 8-byte target literal; native Memory/Settings/SA1/SRAM/scratch providers retained.
+135	src/snes9x/native_sa1_opcodes.cpp	snes9x	cpp	canonical	snes9x/native_sa1_opcodes.o		465 original SA-1 opcode/helper routines: 67008 complete linked historical instruction bytes, plus four exact target-linked dispatch tables (4096 bytes); existing IRQ/main-loop owners and shared GLOBALS state retained.
+136	src/snes9x/native_cpu_opcodes.cpp	snes9x	cpp	canonical	snes9x/native_cpu_opcodes.o		464 original native routines / 77476 complete linked historical instruction bytes; dispatch/font data checked separately; preexisting helper owners and shared original state retained.
+137	src/snes9x/native_fx_opcodes.cpp	snes9x	cpp	canonical	snes9x/native_fx_opcodes.o		602 original native routines / 73372 complete linked historical instruction bytes; dispatch/font data checked separately; preexisting helper owners and shared original state retained.
+138	src/snes9x/native_gfx.cpp	snes9x	cpp	canonical	snes9x/native_gfx.o		28 original native routines / 55256 complete linked historical instruction bytes; dispatch/font data checked separately; preexisting helper owners and shared original state retained.
+139	src/snes9x/native_bulk_tile.cpp	snes9x	cpp	canonical	snes9x/native_bulk_tile.o		55 original native functions / 48552 complete linked historical instruction bytes; typed original storage and retained readonly slices checked separately.
+140	src/snes9x/native_bulk_2xsai.cpp	snes9x	cpp	canonical	snes9x/native_bulk_2xsai.o		10 original native functions / 6888 complete linked historical instruction bytes; typed original storage and retained readonly slices checked separately.
+141	src/snes9x/native_bulk_dsp1.cpp	snes9x	cpp	canonical	snes9x/native_bulk_dsp1.o		35 original native functions / 10892 complete linked historical instruction bytes; original callbacks and split readonly DSP ROM/switch table placement checked separately.
+142	src/snes9x/native_bulk_apu.cpp	snes9x	cpp	canonical	snes9x/native_bulk_apu.o		7 original native functions / 3152 complete linked historical instruction bytes; original callbacks and split readonly DSP ROM/switch table placement checked separately.
+143	src/snes9x/native_bulk_memmap.cpp	snes9x	cpp	canonical	snes9x/native_bulk_memmap.o		10 original native functions / 2280 complete linked historical instruction bytes; original callback ABI, shared-state addresses and readonly slices checked separately.
+144	src/snes9x/native_bulk_soundux.cpp	snes9x	cpp	canonical	snes9x/native_bulk_soundux.o		24 original native functions / 4300 complete linked historical instruction bytes; original callback ABI, shared-state addresses and readonly slices checked separately.
+145	src/snes9x/native_bulk_snapshot.cpp	snes9x	cpp	canonical	snes9x/native_bulk_snapshot.o		10 original native functions / 5368 complete linked historical instruction bytes; module-local helper addresses, legacy aliases and readonly placement checked separately.
+146	src/snes9x/native_bulk_snaporig.cpp	snes9x	cpp	canonical	snes9x/native_bulk_snaporig.o		3 original native functions / 3904 complete linked historical instruction bytes; module-local helper addresses, legacy aliases and readonly placement checked separately.
+147	src/snes9x/native_clip.cpp	snes9x	cpp	canonical	snes9x/native_clip.o		ComputeClipWindows matches all 4572 linked target instruction bytes; original upstream local comparator bodies retained separately without a complete target-body witness; signed 32-bit historical qsort ABI.
+148	src/snes9x/native_dsp_atan.c	snes9x	c	canonical	snes9x/native_dsp_atan.o		S9xDSPAtan; 208 complete linked frozen target bytes; separately reviewed profile/boundary and readonly storage.
+149	src/snes9x/native_dsp2_get.cpp	snes9x	cpp	canonical	snes9x/native_dsp2_get.o		_Z11DSP2GetBytet; 100 complete linked frozen target bytes; separately reviewed profile/boundary and readonly storage.
+150	src/ps2/native_frontend_leaves.c	ps2	c	direct	ps2/native_frontend_leaves.o		Direct Stage-3P provider set: exact frontend leaf routines kept out of the earlier canonical aggregate to avoid duplicate target code.
+151	src/ps2/native_frontend_wait.c	ps2	c	direct	ps2/native_frontend_wait.o		Direct Stage-3P provider: exact frontend wait routine kept out of the earlier canonical aggregate to avoid duplicate target code.
+152	src/snes9x/native_parse_cheats.cpp	snes9x	cpp	direct	snes9x/native_parse_cheats.o		Direct Stage-3P provider: exact cheat parser kept out of the earlier canonical aggregate to avoid duplicate target code and tables.
+153	src/snes9x/native_fx_pipe_string.cpp	snes9x	cpp	direct	snes9x/native_fx_pipe_string.o		Direct Stage-3P provider: exact Super FX pipeline string routine kept out of the earlier canonical aggregate.
+154	src/snes9x/native_memory_safe.cpp	snes9x	cpp	direct	snes9x/native_memory_safe.o		Direct Stage-3P provider: exact Memory::Safe routine kept out of the earlier canonical aggregate.
+155	src/snes9x/native_dsp2_set.cpp	snes9x	cpp	direct	snes9x/native_dsp2_set.o		Direct Stage-3P provider: _Z11DSP2SetBytet supplies 720 exact linked bytes plus switch-table relocations without duplicating the earlier aggregate.
+156	src/ps2/libkernel_syscalls.S	ps2	asm-cpp	canonical	ps2/libkernel_syscalls.o		Exact libkernel syscall wrappers at 0x0019FCD0; five syscall wrappers (0x16, 0x17, 0x42, 0x45, 0xFFFFFF88), 80 bytes total.
+157	src/ps2/libkernel_syscalls2.S	ps2	asm-cpp	canonical	ps2/libkernel_syscalls2.o		Exact libkernel syscall wrappers at 0x0019CE60; eleven syscall wrappers (0xCC, 0x40, 0x41, 0xBD, 0x44, 0x64, 0x98, 0x76, 0x77, 0x79, 0x7A), 176 bytes total.
+158	src/ps2/libkernel_sif_syscalls.S	ps2	asm-cpp	canonical	ps2/libkernel_sif_syscalls.o		Exact libkernel SIF syscall wrappers at 0x0019F5D0; three syscall wrappers (SifStopDma 0x6B, 0x89, SifSetDChain 0x78), 48 bytes total.
+159	src/ps2/libkernel_size_strings.c	ps2	c	canonical	ps2/libkernel_size_strings.o		Canonical libkernel string/size corridor at 0x0019C364; memset, strlen, memmove, strchr, strcat, strncmp, memcmp, strcpy, strcmp; 10 functions, ~300 bytes total.
+160	src/ps2/libkernel_sifcmd.c	ps2	c	canonical	ps2/libkernel_sifcmd.o		Canonical libkernel SIF command dispatcher at 0x0019F138; SifCmd, helpers (0x19F264, 0x19F2A0, 0x19F2DC, 0x19F2E4, 0x19F2F0), IRQ handlers (0x19FB00, 0x19FB78, 0x19FBF0); 9 functions, ~420 bytes total.
+161	src/ps2/snes_accel.c	ps2	c	canonical	ps2/snes_accel.o		Canonical recovered translation unit.
+162	src/ps2/snes_adc.c	ps2	c	canonical	ps2/snes_adc.o		Canonical recovered translation unit.
+163	src/ps2/snes_audio_runtime.c	ps2	c	canonical	ps2/snes_audio_runtime.o		Canonical recovered translation unit.
+164	src/ps2/snes_blend.c	ps2	c	canonical	ps2/snes_blend.o		Canonical recovered translation unit.
+165	src/ps2/snes_core_reset.c	ps2	c	canonical	ps2/snes_core_reset.o		Canonical recovered translation unit.
+166	src/ps2/snes_cpp_eh.c	ps2	c	canonical	ps2/snes_cpp_eh.o		Canonical recovered translation unit.
+167	src/ps2/snes_cpp_personality.c	ps2	c	canonical	ps2/snes_cpp_personality.o		Canonical recovered translation unit.
+168	src/ps2/snes_cpu_push.c	ps2	c	canonical	ps2/snes_cpu_push.o		Canonical recovered translation unit.
+169	src/ps2/snes_cpu_state.c	ps2	c	canonical	ps2/snes_cpu_state.o		Canonical recovered translation unit.
+170	src/ps2/snes_dsp_runtime.c	ps2	c	canonical	ps2/snes_dsp_runtime.o		Canonical recovered translation unit.
+171	src/ps2/snes_fileio.c	ps2	c	canonical	ps2/snes_fileio.o		Canonical recovered translation unit.
+172	src/ps2/snes_frontend_audio.c	ps2	c	canonical	ps2/snes_frontend_audio.o		Canonical recovered translation unit.
+173	src/ps2/snes_frontend_controller.c	ps2	c	canonical	ps2/snes_frontend_controller.o		Canonical recovered translation unit.
+174	src/ps2/snes_frontend_display.c	ps2	c	canonical	ps2/snes_frontend_display.o		Canonical recovered translation unit.
+175	src/ps2/snes_frontend_gs.c	ps2	c	canonical	ps2/snes_frontend_gs.o		Canonical recovered translation unit.
+176	src/ps2/snes_frontend_msg.c	ps2	c	canonical	ps2/snes_frontend_msg.o		Canonical recovered translation unit.
+177	src/ps2/snes_frontend_rpc.c	ps2	c	canonical	ps2/snes_frontend_rpc.o		Canonical recovered translation unit.
+178	src/ps2/snes_gs_state.c	ps2	c	canonical	ps2/snes_gs_state.o		Canonical recovered translation unit.
+179	src/ps2/snes_libgcc_int.c	ps2	c	canonical	ps2/snes_libgcc_int.o		Canonical recovered translation unit.
+180	src/ps2/snes_libgcc_softfloat.c	ps2	c	canonical	ps2/snes_libgcc_softfloat.o		Canonical recovered translation unit.
+181	src/ps2/snes_matrix_build.c	ps2	c	canonical	ps2/snes_matrix_build.o		Canonical recovered translation unit.
+182	src/ps2/snes_mc_probe.c	ps2	c	canonical	ps2/snes_mc_probe.o		Canonical recovered translation unit.
+183	src/ps2/snes_nibble_resample.c	ps2	c	canonical	ps2/snes_nibble_resample.o		Canonical recovered translation unit.
+184	src/ps2/snes_pad_init.c	ps2	c	canonical	ps2/snes_pad_init.o		Canonical recovered translation unit.
+185	src/ps2/snes_path.c	ps2	c	canonical	ps2/snes_path.o		Canonical recovered translation unit.
+186	src/ps2/snes_ppu_memory.c	ps2	c	canonical	ps2/snes_ppu_memory.o		Canonical recovered translation unit.
+187	src/ps2/snes_ppu_timing.c	ps2	c	canonical	ps2/snes_ppu_timing.o		Canonical recovered translation unit.
+188	src/ps2/snes_reg_read.c	ps2	c	canonical	ps2/snes_reg_read.o		Canonical recovered translation unit.
+189	src/ps2/snes_sdd1_save.c	ps2	c	canonical	ps2/snes_sdd1_save.o		Canonical recovered translation unit.
+190	src/ps2/snes_state_ext.c	ps2	c	canonical	ps2/snes_state_ext.o		Canonical recovered translation unit.
+191	src/ps2/snes_state_transfer.c	ps2	c	canonical	ps2/snes_state_transfer.o		Canonical recovered translation unit.
+192	src/ps2/snes_toc.c	ps2	c	canonical	ps2/snes_toc.o		Canonical recovered translation unit.
+193	src/ps2/snes_trig.c	ps2	c	canonical	ps2/snes_trig.o		Canonical recovered translation unit.
+194	src/ps2/snes_wave_table.c	ps2	c	canonical	ps2/snes_wave_table.o		Canonical recovered translation unit.
+195	src/snes9x/snes9x_apu_io.c	snes9x	c	canonical	snes9x/snes9x_apu_io.o		Canonical recovered translation unit.
+196	src/snes9x/snes9x_bitplane.c	snes9x	c	canonical	snes9x/snes9x_bitplane.o		Canonical recovered translation unit.
+197	src/snes9x/snes9x_controller.c	snes9x	c	canonical	snes9x/snes9x_controller.o		Canonical recovered translation unit.
+198	src/snes9x/snes9x_datetime.c	snes9x	c	canonical	snes9x/snes9x_datetime.o		Canonical recovered translation unit.
+199	src/snes9x/snes9x_frontend_init.c	snes9x	c	canonical	snes9x/snes9x_frontend_init.o		Canonical recovered translation unit.
+200	src/snes9x/snes9x_matrix.c	snes9x	c	canonical	snes9x/snes9x_matrix.o		Canonical recovered translation unit.
+201	src/snes9x/snes9x_memory_map.c	snes9x	c	canonical	snes9x/snes9x_memory_map.o		Canonical recovered translation unit.
+202	src/snes9x/snes9x_palette.c	snes9x	c	canonical	snes9x/snes9x_palette.o		Canonical recovered translation unit.
+203	src/snes9x/snes9x_path.c	snes9x	c	canonical	snes9x/snes9x_path.o		Canonical recovered translation unit.
+204	src/snes9x/snes9x_renderer_gate.c	snes9x	c	canonical	snes9x/snes9x_renderer_gate.o		Canonical recovered translation unit.
+205	src/snes9x/snes9x_renderer_leaf.c	snes9x	c	canonical	snes9x/snes9x_renderer_leaf.o		Canonical recovered translation unit.
+206	src/snes9x/snes9x_softfloat.c	snes9x	c	canonical	snes9x/snes9x_softfloat.o		Canonical recovered translation unit.
+207	src/snes9x/snes9x_state_machine.c	snes9x	c	canonical	snes9x/snes9x_state_machine.o		Canonical recovered translation unit.
+208	src/ps2/snes_startup.c	ps2	c	canonical	ps2/snes_startup.o		Canonical recovered translation unit from progress28.
+209	src/ps2/snes_frontend_menu.c	ps2	c	canonical	ps2/snes_frontend_menu.o		Canonical recovered translation unit from progress28.
+210	src/ps2/snes_frontend_splash.c	ps2	c	canonical	ps2/snes_frontend_splash.o		Canonical recovered translation unit from progress28.
+211	src/ps2/snes_frontend_gui.c	ps2	c	canonical	ps2/snes_frontend_gui.o		Canonical recovered translation unit from progress28.
+212	src/ps2/snes_frontend_options.c	ps2	c	canonical	ps2/snes_frontend_options.o		Canonical recovered translation unit from progress28.
+213	src/ps2/snes_config.c	ps2	c	canonical	ps2/snes_config.o		Canonical recovered translation unit from progress28.
+214	src/ps2/snes_frontend_main.c	ps2	c	canonical	ps2/snes_frontend_main.o		Canonical recovered translation unit from progress28.
+215	src/ps2/snes_sdd1.c	ps2	c	canonical	ps2/snes_sdd1.o		Canonical recovered translation unit from progress28.
+216	src/ps2/snes_file_browser.c	ps2	c	canonical	ps2/snes_file_browser.o		Canonical recovered translation unit from progress28.
+217	src/ps2/snes_hdd.c	ps2	c	canonical	ps2/snes_hdd.o		Canonical recovered translation unit from progress28.
+218	src/ps2/snes_cdfs.c	ps2	c	canonical	ps2/snes_cdfs.o		Canonical recovered translation unit.
+219	src/ps2/snes_write.c	ps2	c	canonical	ps2/snes_write.o		Canonical recovered translation unit.
+220	src/ps2/snes_sdd1_io.c	ps2	c	canonical	ps2/snes_sdd1_io.o		Canonical recovered translation unit.
+221	src/ps2/snes_transfer.c	ps2	c	canonical	ps2/snes_transfer.o		Canonical recovered translation unit.
+222	src/ps2/snes_softdouble_add.c	ps2	c	canonical	ps2/snes_softdouble_add.o		Canonical recovered translation unit.
+223	src/ps2/snes_state_helpers.c	ps2	c	canonical	ps2/snes_state_helpers.o		Canonical recovered translation unit.
+224	src/ps2/snes_softdiv.c	ps2	c	canonical	ps2/snes_softdiv.o		Canonical recovered translation unit.
+225	src/ps2/snes_file_buffer.c	ps2	c	canonical	ps2/snes_file_buffer.o		Canonical recovered translation unit.
+226	src/ps2/snes_core_blend.c	ps2	c	canonical	ps2/snes_core_blend.o		Canonical recovered translation unit.
+227	src/ps2/snes_register_read.c	ps2	c	canonical	ps2/snes_register_read.o		Canonical recovered translation unit.
+228	src/ps2/snes_frontend_init.c	ps2	c	canonical	ps2/snes_frontend_init.o		Canonical recovered translation unit.
+229	src/ps2/snes_frontend_panel.c	ps2	c	canonical	ps2/snes_frontend_panel.o		Canonical recovered translation unit.
+230	src/ps2/snes_channel_state.c	ps2	c	canonical	ps2/snes_channel_state.o		Canonical recovered translation unit.
+231	src/ps2/snes_ppu_bounds.c	ps2	c	canonical	ps2/snes_ppu_bounds.o		Canonical recovered translation unit.
+232	src/snes9x/snes9x_io.c	snes9x	c	canonical	snes9x/snes9x_io.o		Canonical recovered translation unit.
+233	src/snes9x/snes9x_map.c	snes9x	c	canonical	snes9x/snes9x_map.o		Canonical recovered translation unit.
+234	src/snes9x/snes9x_cheat.c	snes9x	c	canonical	snes9x/snes9x_cheat.o		Canonical recovered translation unit.
+235	src/snes9x/snes9x_memory.c	snes9x	c	canonical	snes9x/snes9x_memory.o		Canonical recovered translation unit.
+236	src/snes9x/snes9x_code_stream.c	snes9x	c	canonical	snes9x/snes9x_code_stream.o		Canonical recovered translation unit.
+237	src/snes9x/snes9x_table.c	snes9x	c	canonical	snes9x/snes9x_table.o		Canonical recovered translation unit.
+238	src/snes9x/snes9x_state.c	snes9x	c	canonical	snes9x/snes9x_state.o		Canonical recovered translation unit.
+239	src/snes9x/snes9x_transform.c	snes9x	c	canonical	snes9x/snes9x_transform.o		Canonical recovered translation unit.
+240	src/snes9x/snes9x_slot_runtime.c	snes9x	c	canonical	snes9x/snes9x_slot_runtime.o		Canonical recovered translation unit.
+241	src/snes9x/snes9x_gate.c	snes9x	c	canonical	snes9x/snes9x_gate.o		Canonical recovered translation unit.
+242	src/snes9x/snes9x_palette_expand.c	snes9x	c	canonical	snes9x/snes9x_palette_expand.o		Canonical recovered translation unit.
+243	src/snes9x/snes9x_ppu_reset.c	snes9x	c	canonical	snes9x/snes9x_ppu_reset.o		Canonical recovered translation unit.
+244	src/snes9x/snes9x_map_window.c	snes9x	c	canonical	snes9x/snes9x_map_window.o		Canonical recovered translation unit.
+245	src/snes9x/snes9x_rotate.c	snes9x	c	canonical	snes9x/snes9x_rotate.o		Canonical recovered translation unit.
+246	src/snes9x/snes9x_runtime_block.c	snes9x	c	canonical	snes9x/snes9x_runtime_block.o		Canonical recovered translation unit.
+247	src/snes9x/snes9x_frontend_table.c	snes9x	c	canonical	snes9x/snes9x_frontend_table.o		Canonical recovered translation unit.
+248	src/snes9x/snes9x_multibyte.c	snes9x	c	canonical	snes9x/snes9x_multibyte.o		Canonical recovered translation unit.
+249	src/snes9x/snes9x_ppu_frontend.c	snes9x	c	canonical	snes9x/snes9x_ppu_frontend.o		Canonical recovered translation unit.
+250	src/snes9x/snes9x_record.c	snes9x	c	canonical	snes9x/snes9x_record.o		Canonical recovered translation unit.
+251	src/snes9x/snes9x_floatdidf.c	snes9x	c	canonical	snes9x/snes9x_floatdidf.o		Canonical recovered translation unit.
+252	src/snes9x/snes9x_days_in_month.c	snes9x	c	canonical	snes9x/snes9x_days_in_month.o		Canonical recovered translation unit.
+253	src/snes9x/snes9x_stage.c	snes9x	c	canonical	snes9x/snes9x_stage.o		Canonical recovered translation unit.
+254	src/snes9x/snes9x_record_ram.c	snes9x	c	canonical	snes9x/snes9x_record_ram.o		Canonical recovered translation unit.
+255	src/snes9x/snes9x_color_blend.c	snes9x	c	canonical	snes9x/snes9x_color_blend.o		Canonical recovered translation unit.
+256	src/snes9x/snes9x_map_cursor.c	snes9x	c	canonical	snes9x/snes9x_map_cursor.o		Canonical recovered translation unit.
+257	src/snes9x/snes9x_controller_mask.c	snes9x	c	canonical	snes9x/snes9x_controller_mask.o		Canonical recovered translation unit.
+258	src/snes9x/snes9x_weekday.c	snes9x	c	canonical	snes9x/snes9x_weekday.o		Canonical recovered translation unit.

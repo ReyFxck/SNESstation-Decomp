@@ -1,33 +1,28 @@
 /*
- * SNES Station v0.23 SNES9X - Palette Expansion
- * Canonical source from progress13_core_helpers_recovered.c @ 0x001591a8
+ * SNES Station v0.23 - SNES9X Palette Expansion
+ * Canonical source from progress11_core.c (0x0012e2e0 range)
  */
 
 #include <stddef.h>
 #include <stdint.h>
-#include <string.h>
 
-/* 0x001591a8 -- expand 256 packed 15-bit palette entries through a 32-entry
- * component lookup. The target also selects a 32-byte bank before the loop. */
-typedef struct {
-    const uint8_t *bank_base;
-    const uint8_t *selected_bank;
-    uint32_t component0[256];
-    uint32_t component1[256];
-    uint32_t component2[256];
-    uint16_t packed[256];
-} Snes9xPaletteExpand;
-
-void snes9x_palette_expand(Snes9xPaletteExpand *p)
+/* 0x0012e2e0: blend with transparent nibble */
+void snes9x_palette_blend_0012e2e0(uint8_t *base, uint32_t count,
+                                    uint8_t transparent_nibble)
 {
-    /* Select 32-byte bank */
-    p->selected_bank = p->bank_base + 32; /* placeholder - actual logic from target */
+    uint32_t i;
+    uint8_t key = transparent_nibble & 0x0fu;
 
-    /* Expand 256 packed 15-bit entries */
-    for (uint32_t i = 0; i < 256; ++i) {
-        uint16_t packed = p->packed[i];
-        p->component0[i] = p->selected_bank[(packed >> 0) & 0x1f];
-        p->component1[i] = p->selected_bank[(packed >> 5) & 0x1f];
-        p->component2[i] = p->selected_bank[(packed >> 10) & 0x1f];
+    for (i = 0u; i < count; ++i) {
+        uint8_t incoming = base[count + i];
+        uint8_t old = base[i];
+        uint8_t high = (uint8_t)(old & 0xf0u);
+        uint8_t low = (uint8_t)(incoming & 0x0fu);
+
+        if ((incoming >> 4) != key)
+            high = (uint8_t)(incoming & 0xf0u);
+        if ((incoming & 0x0fu) == key)
+            low = (uint8_t)(old & 0x0fu);
+        base[0x200u + i] = (uint8_t)(high | low);
     }
 }
