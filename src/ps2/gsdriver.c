@@ -178,18 +178,39 @@ void gsDriver_clearScreen_001990f8(gsDriverRecovered *self)
     gsDriver_swapBuffers_001991b0(self);
 }
 
-/* 0x00199160 is the old InitGraphField helper: syscall #2, field mode a2=0. */
+/* 0x00199160 - gsDriver_InitGraphField: Initialize video mode via BIOS syscall #2
+ * Args: interlace = interlace mode (0=non-interlaced, 1=interlaced?), mode = video mode
+ * Returns: Result from syscall #2
+ *
+ * Register usage:
+ *   $2 = v0 = return value (syscall result)
+ *   $3 = v1 = syscall number (2 = InitGraphField)
+ *   $4 = a0 = interlace mode
+ *   $5 = a1 = video mode
+ *   $6 = a2 = 0 (field mode)
+ *
+ * Syscall #2 (InitGraphField): Sets up video output mode
+ *   a0 = interlace (0=non-interlaced, 1=interlaced)
+ *   a1 = mode (2=NTSC, 3=PAL, etc.)
+ *   a2 = 0 (field mode)
+ *
+ * Inline assembly pattern:
+ * - Uses \n\t for instruction separation (GNU assembler style)
+ * - No branch delay slots visible (syscall is the last instruction)
+ * - Clobbers $3 (v1) and $6 (a2) explicitly
+ */
 int gsDriver_InitGraphField_00199160(int interlace, int mode)
 {
 #if defined(__mips__)
     register int result __asm__("$2");
     __asm__ volatile(
-        "ori $6,$0,0\n\t"
-        "addiu $3,$0,2\n\t"
-        "syscall"
-        : "=r"(result)
-        : "r"(interlace), "r"(mode)
-        : "$3", "$6", "memory");
+        "ori $6, $0, 0\n\t"      /* a2 = 0 (field mode) */
+        "addiu $3, $0, 2\n\t"    /* v1 = 2 (syscall number for InitGraphField) */
+        "syscall\n\t"            /* Execute syscall #2 */
+        : "=r"(result)           /* Output: $2 = result */
+        : "r"(interlace), "r"(mode)  /* Inputs: $4 = interlace, $5 = mode */
+        : "$3", "$6", "memory"   /* Clobbers: $3 (v1), $6 (a2), memory */
+    );
     return result;
 #else
     return ps2_bios_syscall_2(interlace, mode, 0);
