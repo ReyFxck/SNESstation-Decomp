@@ -73,7 +73,7 @@ class CodeWindowsTests(unittest.TestCase):
         ]
         self.assertEqual(len(matches), 1)
         row = matches[0]
-        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_heap_runtime_recovered.o")
+        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_heap_runtime.o")
         self.assertEqual(row[2:6], (0x0019F018, 0, 0x0060, 0))
         self.assertEqual(row[6], ())
         self.assertEqual(row[7], {".data": 0, ".bss": 0})
@@ -87,7 +87,7 @@ class CodeWindowsTests(unittest.TestCase):
         ]
         self.assertEqual(len(matches), 1)
         row = matches[0]
-        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_syscalls_recovered.o")
+        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_syscalls.o")
         self.assertEqual(row[2:6], (0x0019FCD0, 0, 0x0050, 0))
         self.assertEqual(row[6], ())
         self.assertEqual(row[7], {".data": 0, ".bss": 0})
@@ -101,7 +101,7 @@ class CodeWindowsTests(unittest.TestCase):
         ]
         self.assertEqual(len(matches), 1)
         row = matches[0]
-        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_syscalls2_recovered.o")
+        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_syscalls2.o")
         self.assertEqual(row[2:6], (0x0019CE60, 0, 0x00B0, 0))
         self.assertEqual(row[6], ())
         self.assertEqual(row[7], {".data": 0, ".bss": 0})
@@ -115,7 +115,7 @@ class CodeWindowsTests(unittest.TestCase):
         ]
         self.assertEqual(len(matches), 1)
         row = matches[0]
-        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_sif_syscalls_recovered.o")
+        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_sif_syscalls.o")
         self.assertEqual(row[2:6], (0x0019F5D0, 0, 0x0030, 0))
         self.assertEqual(row[6], ())
         self.assertEqual(row[7], {".data": 0, ".bss": 0})
@@ -129,7 +129,7 @@ class CodeWindowsTests(unittest.TestCase):
         ]
         self.assertEqual(len(matches), 1)
         row = matches[0]
-        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_heap_runtime_recovered.o")
+        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_heap_runtime.o")
         self.assertEqual(row[2:6], (0x0019E474, 0, 0x0040, 0))
         self.assertEqual(row[6], ())
         self.assertEqual(row[7], {".data": 0, ".bss": 0})
@@ -143,7 +143,7 @@ class CodeWindowsTests(unittest.TestCase):
         ]
         self.assertEqual(len(matches), 1)
         row = matches[0]
-        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_client_init_recovered.o")
+        self.assertEqual(row[1], "build/source-tree/objects/ps2/libkernel_client_init.o")
         self.assertEqual(row[2:6], (0x0019F600, 0x0040, 0x0100, 0))
         self.assertEqual(row[6], ())
         self.assertEqual(row[7], {".data": 56, ".bss": 0})

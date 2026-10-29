@@ -30,17 +30,17 @@
 extern uint8_t target_video_mode_byte_001fc752;
 
 /* These are inline BIOS/kernel operations in the target, not external calls. */
-#define ps2_bios_syscall_2_recovered(a0, a1, a2) \
+#define ps2_bios_syscall_2(a0, a1, a2) \
     snes_ee_syscall3(2, (uint32_t)(a0), (uint32_t)(a1), (uint32_t)(a2))
-#define ps2_gs_put_imr_recovered(value) snes_ee_gs_put_imr(value)
-#define ps2_add_intc_handler_recovered(cause, handler, arg) \
+#define ps2_gs_put_imr(value) snes_ee_gs_put_imr(value)
+#define ps2_add_intc_handler(cause, handler, arg) \
     ((uint32_t)snes_ee_syscall3(0x10, (uint32_t)(cause), \
         (uint32_t)(uintptr_t)(handler), (uint32_t)(uintptr_t)(arg)))
-#define ps2_remove_intc_handler_recovered(cause, id) \
+#define ps2_remove_intc_handler(cause, id) \
     ((void)snes_ee_syscall3(0x11, (uint32_t)(cause), (uint32_t)(id), 0))
-#define ps2_enable_intc_recovered(cause) \
+#define ps2_enable_intc(cause) \
     ((void)snes_ee_syscall3(0x14, (uint32_t)(cause), 0, 0))
-#define ps2_disable_intc_recovered(cause) \
+#define ps2_disable_intc(cause) \
     ((void)snes_ee_syscall3(0x15, (uint32_t)(cause), 0, 0))
 
 static uint32_t bytes_per_pixel(uint32_t psm)
@@ -131,8 +131,8 @@ void gsDriver_setDisplayMode_00198d78(gsDriverRecovered *self,
     write64(GS_PRIV_CSR, UINT64_C(0x200));
     /* Target executes sync.p here. */
     write64(GS_PRIV_CSR, 0);
-    ps2_gs_put_imr_recovered(0xff00u);
-    (void)ps2_bios_syscall_2_recovered((int)tv_interlace, (int)tv_mode, 0);
+    ps2_gs_put_imr(0xff00u);
+    (void)ps2_bios_syscall_2((int)tv_interlace, (int)tv_mode, 0);
 
     /* Privileged display setup is inline in the target, not a call to 0x199070. */
     write64(GS_PRIV_PMODE, UINT64_C(0xff61));
@@ -181,9 +181,7 @@ void gsDriver_clearScreen_001990f8(gsDriverRecovered *self)
 /* 0x00199160 is the old InitGraphField helper: syscall #2, field mode a2=0. */
 int gsDriver_InitGraphField_00199160(int interlace, int mode)
 {
-#if defined(SNESSTATION_HOST_SYNTAX)
-    return ps2_bios_syscall_2_recovered(interlace, mode, 0);
-#else
+#if defined(__mips__)
     register int result __asm__("$2");
     __asm__ volatile(
         "ori $6,$0,0\n\t"
@@ -193,6 +191,8 @@ int gsDriver_InitGraphField_00199160(int interlace, int mode)
         : "r"(interlace), "r"(mode)
         : "$3", "$6", "memory");
     return result;
+#else
+    return ps2_bios_syscall_2(interlace, mode, 0);
 #endif
 }
 
@@ -288,25 +288,25 @@ uint32_t gsDriver_AddVSyncCallback_001993c8(gsDriverRecovered *self,
                                             void (*callback)(void))
 {
     (void)self;
-    const uint32_t id = ps2_add_intc_handler_recovered(2, callback, 0);
-    ps2_enable_intc_recovered(2);
+    const uint32_t id = ps2_add_intc_handler(2, callback, 0);
+    ps2_enable_intc(2);
     return id;
 }
 
 void gsDriver_RemoveVSyncCallback_00199420(gsDriverRecovered *self, uint32_t id)
 {
     (void)self;
-    ps2_remove_intc_handler_recovered(2, id);
+    ps2_remove_intc_handler(2, id);
 }
 
 void gsDriver_EnableVSyncCallbacks_00199440(gsDriverRecovered *self)
 {
     (void)self;
-    ps2_enable_intc_recovered(2);
+    ps2_enable_intc(2);
 }
 
 void gsDriver_DisableVSyncCallbacks_00199460(gsDriverRecovered *self)
 {
     (void)self;
-    ps2_disable_intc_recovered(2);
+    ps2_disable_intc(2);
 }

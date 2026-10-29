@@ -227,7 +227,7 @@ void snes_p20_00101e8c(void)
     do {
         csr = *P20_GS_CSR;
         csr &= UINT64_C(8);
-        __asm__ volatile ("nop");
+        __asm__ volatile ("" ::: "memory"); /* compiler barrier replacing nop */
     } while (csr == 0);
 
     gsDriver_swapBuffers_001991b0(g_frontend_driver_001bb2c0);
