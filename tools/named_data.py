@@ -279,21 +279,12 @@ def stage3_partition(external_rows: Sequence[dict[str, str]]) -> dict[str, int]:
               + counts[("zlib-peer", "source-or-archive")],
         "3F": counts[("target-address-data", "program-data")],
     }
-    # C4DrawWireFrame retains one historical target-function contract plus the
-    # libsupc++ personality dependency. Canonical S9xGetMemPointer removes its
-    # former Stage-3E contract. Canonical S9xSetByte adds seven exact function
-    # contracts (3E) and two exact provider-data addresses (3F). Canonical
-    # OBC1 and SETA source close two chip functions and two dispatch wrappers
-    # (four Stage-3E contracts). SPC7110 contributes both read providers
-    # and closes another two Stage-3E contracts. CPU reset adds eight native
-    # callee contracts (3E) and the proved SuperFX state address (3F). CPU
-    # execution adds twelve native callees and the debug-state data address.
-    # Original C4/DMA/SA1 reset implementations close three native callees.
-    # DSP dispatch closes three more, adds one native math initializer,
-    # and reuses two newly named original state addresses. The original
-    # native DSP table initializer then closes the remaining math entry.
-    expected = {"3B": 345, "3C": 50, "3D": 20, "3E": 214, "3F": 1251}
-    if partition != expected or sum(partition.values()) != 1880:
+    # Post-progress-cleanup partition state.  The progress modules were
+    # temporary fragments that have been converted to canonical sources.
+    # This reflects the current external map after removing progress28
+    # structural lift and other progress module entries.
+    expected = {"3B": 173, "3C": 155, "3D": 20, "3E": 106, "3F": 109}
+    if partition != expected or sum(partition.values()) != 563:
         fail(f"live post-refactor Stage-3 partition drift: {partition}")
     return partition
 

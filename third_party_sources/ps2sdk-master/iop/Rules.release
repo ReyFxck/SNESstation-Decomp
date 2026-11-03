@@ -1,0 +1,75 @@
+# _____     ___ ____     ___ ____
+#  ____|   |    ____|   |        | |____|
+# |     ___|   |____ ___|    ____| |    \    PS2DEV Open Source Project.
+#-----------------------------------------------------------------------
+# Copyright 2001-2004, ps2dev - http://www.ps2dev.org
+# Licenced under Academic Free License version 2.0
+# Review ps2sdk README & LICENSE files for further details.
+
+
+#
+# Creates the base iop directory structure in target directory.
+#
+
+RELEASE_IOP_DIRS = iop/ iop/irx/ iop/lib iop/startup
+RELEASE_IOP_DIRS := $(RELEASE_IOP_DIRS:%=$(PS2SDK)/%)
+
+
+release-iop-dirs:
+	$(MKDIR) -p $(RELEASE_IOP_DIRS)
+
+
+#
+# Most targets will only have a single IOP_LIB target.  if the file
+# exists then copy it to the iop/lib directory.
+#
+
+release-iop-lib:
+	@if test $(IOP_LIB) ; then \
+	   $(PRINTF) 'Installing %s to %s/iop/lib\n' $(IOP_LIB) $(PS2SDK) ; \
+	   cp -f $(IOP_LIB) $(PS2SDK)/iop/lib/ ; \
+	   chmod 644 $(PS2SDK)/iop/lib/$$(basename $(IOP_LIB)) ; \
+	   for file in $(IOP_LIB_ALTNAMES); do \
+	      ln -sf $$(basename $(IOP_LIB)) $(PS2SDK)/iop/lib/$$file; \
+	   done; \
+	fi;
+
+
+#
+# Any irx files should go to iop/irx
+#
+
+release-iop-bin:
+	@if test $(IOP_BIN) ; then \
+	   $(PRINTF) 'Installing %s to %s/iop/irx\n' $(IOP_BIN) $(PS2SDK) ; \
+	   cp -f $(IOP_BIN) $(PS2SDK)/iop/irx/ ; \
+	   chmod 644 $(PS2SDK)/iop/irx/$$(basename $(IOP_BIN)) ; \
+	   for file in $(IOP_BIN_ALTNAMES); do \
+	      ln -sf $$(basename $(IOP_BIN)) $(PS2SDK)/iop/irx/$$file; \
+	   done; \
+	fi;
+
+#
+# Any file in the include directory will be copied to the iop/include
+# directory.
+#
+
+release-iop-include:
+	@if test -d include ; then \
+	   for file in $$(find include -type f | cut -d'/' -f2-); do \
+	      if test -f include/$$file ; then \
+	         $(PRINTF) 'Installing include/%s to %s/iop/include\n' $$file $(PS2SDK) ; \
+	         mkdir -p $(PS2SDK)/iop/include/$$(dirname $$file) ; \
+	         cp -f include/$$file $(PS2SDK)/iop/include/$$(dirname $$file) ; \
+	         chmod 644 $(PS2SDK)/iop/include/$$file ; \
+	      fi \
+	   done; \
+	fi;
+
+release: release-iop-dirs release-iop-lib release-iop-bin release-iop-include
+
+
+release-iop-clean:
+	rm -rf $(PS2SDK)/iop/include/
+	rm -rf $(PS2SDK)/iop/irx/
+	rm -rf $(PS2SDK)/iop/lib/

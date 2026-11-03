@@ -1,0 +1,29 @@
+# _____     ___ ____     ___ ____
+#  ____|   |    ____|   |        | |____|
+# |     ___|   |____ ___|    ____| |    \    PS2DEV Open Source Project.
+#-----------------------------------------------------------------------
+# Copyright 2001-2004, ps2dev - http://www.ps2dev.org
+# Licenced under Academic Free License version 2.0
+# Review ps2sdk README & LICENSE files for further details.
+
+#
+# Any file in the include directory will be copied to the common/include
+# directory.
+#
+
+release-include:
+	@if test -d include ; then \
+	   for file in $$(find include -type f | cut -d'/' -f2-); do \
+	      if test -f include/$$file ; then \
+	         $(PRINTF) 'Installing include/%s to %s/common/include\n' $$file $(PS2SDK) ; \
+	         mkdir -p $(PS2SDK)/common/include/$$(dirname $$file) ; \
+	         cp -f include/$$file $(PS2SDK)/common/include/$$(dirname $$file) ; \
+	         chmod 644 $(PS2SDK)/common/include/$$file ; \
+	      fi \
+	   done; \
+	fi;
+
+release: release-include
+
+release-clean:
+	rm -rf $(PS2SDK)/common/

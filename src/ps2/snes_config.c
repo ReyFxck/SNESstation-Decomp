@@ -20,6 +20,7 @@ extern uint32_t g_unk_1ebd50;                  /* 0x001ebd50 */
 extern uint32_t g_unk_1ebd54;                  /* 0x001ebd54 */
 extern uint32_t g_unk_1ebd58;                  /* 0x001ebd58 */
 extern uint32_t g_unk_1ebd5c;                  /* 0x001ebd5c */
+extern uint32_t g_unk_1ebaec;                  /* 0x001ebaec */
 
 /* External function declarations */
 extern void    snes_mem_copy_0019e3d0(void *dst, uint32_t src, uint32_t a, uint32_t b);
@@ -44,7 +45,7 @@ extern uint32_t snes_mem_alloc2_0019e4b4(uint64_t size);
 /* 0x00104418: Parse config file for a key */
 uint32_t snes_config_parse_00104418(int32_t param_1, uint64_t param_2, uint64_t param_3, uint64_t param_4)
 {
-    snes_mem_copy_0019e3d0((void *)0x427e18, 0x1b0e00, (uint32_t)param_2);
+    snes_mem_copy_0019e3d0((void *)0x427e18, 0x1b0e00, (uint32_t)param_2, 0);
 
     int32_t i5 = *(int32_t *)(param_1 + 8);
     if (i5 < 0) i5 += 0x3f;
@@ -52,6 +53,7 @@ uint32_t snes_config_parse_00104418(int32_t param_1, uint64_t param_2, uint64_t 
     snes_mem_set_0019c528(mem, *(uint32_t *)(param_1 + 4));
 
     uint8_t *ptr = snes_mem_find_0019e99c(mem, 0x1b0e08);
+    uint8_t *pc3 = NULL;
     while (ptr != NULL) {
         while (snes_mem_check_0019efac(*ptr) != 0) {
             ptr++;
@@ -60,7 +62,7 @@ uint32_t snes_config_parse_00104418(int32_t param_1, uint64_t param_2, uint64_t 
         if (next == ptr) {
             snes_mem_set_0019c528(mem, ptr + (*(int32_t *)(param_1 + 4) - (uint32_t)mem));
             snes_mem_find_0019e99c(mem, 0x1b0e08);
-            uint8_t *pc3 = snes_mem_find_0019e99c(0, 0x1b0e08);
+            pc3 = snes_mem_find_0019e99c(0, 0x1b0e08);
             if (pc3 != NULL) goto parse_loop;
             break;
         }
@@ -76,11 +78,14 @@ uint32_t snes_config_parse_00104418(int32_t param_1, uint64_t param_2, uint64_t 
             while (snes_mem_check_0019efac(*pc3) != 0) pc3++;
             if (*pc3 == '=') {
                 do { pc3++; } while (snes_mem_check_0019efac(*pc3) != 0);
-                for (int32_t i = snes_mem_len_0019c5e8(pc3); i > 0; i--) {
-                    if (snes_mem_check_0019efac(pc3[i - 1]) == 0) {
-                        i = 0;
-                    } else {
-                        pc3[i - 1] = '\0';
+                {
+                    int32_t i = snes_mem_len_0019c5e8(pc3);
+                    for (; i > 0; i--) {
+                        if (snes_mem_check_0019efac(pc3[i - 1]) == 0) {
+                            i = 0;
+                        } else {
+                            pc3[i - 1] = '\0';
+                        }
                     }
                 }
                 snes_mem_set_0019c528(param_4, pc3);
@@ -189,61 +194,61 @@ void snes_config_save_001064c0(void)
 
             snes_obj_write_0019d244(fd, (uint8_t *)0x1b1128, snes_mem_len_0019c5e8((uint8_t *)0x1b1128));
 
-            snes_mem_copy_0019e3d0(buf, 0x1b1158, g_unk_1ebd40);
+            snes_mem_copy_0019e3d0(buf, 0x1b1158, g_unk_1ebd40, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
-            snes_mem_copy_0019e3d0(buf, 0x1b1168, g_unk_1ebd41);
+            snes_mem_copy_0019e3d0(buf, 0x1b1168, g_unk_1ebd41, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
-            snes_mem_copy_0019e3d0(buf, 0x1b1178, g_unk_1ebd42);
+            snes_mem_copy_0019e3d0(buf, 0x1b1178, g_unk_1ebd42, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
-            snes_mem_copy_0019e3d0(buf, 0x1b1188, g_unk_1ebd43);
+            snes_mem_copy_0019e3d0(buf, 0x1b1188, g_unk_1ebd43, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
             snes_obj_write_0019d244(fd, (uint8_t *)0x1b1140, snes_mem_len_0019c5e8((uint8_t *)0x1b1140));
             snes_obj_write_0019d244(fd, (uint8_t *)0x1b1148, snes_mem_len_0019c5e8((uint8_t *)0x1b1148));
 
-            snes_mem_copy_0019e3d0(buf, 0x1b11b8, g_unk_1ebd44);
+            snes_mem_copy_0019e3d0(buf, 0x1b11b8, g_unk_1ebd44, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
             snes_obj_write_0019d244(fd, (uint8_t *)0x1b1140, snes_mem_len_0019c5e8((uint8_t *)0x1b1140));
             snes_obj_write_0019d244(fd, (uint8_t *)0x1b11a0, snes_mem_len_0019c5e8((uint8_t *)0x1b11a0));
 
-            snes_mem_copy_0019e3d0(buf, 0x1b11c8, g_unk_1ebd45);
+            snes_mem_copy_0019e3d0(buf, 0x1b11c8, g_unk_1ebd45, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
-            snes_mem_copy_0019e3d0(buf, 0x1b11e0, g_unk_1ebd46);
+            snes_mem_copy_0019e3d0(buf, 0x1b11e0, g_unk_1ebd46, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
-            snes_mem_copy_0019e3d0(buf, 0x1b11f8, g_unk_1ebd48);
+            snes_mem_copy_0019e3d0(buf, 0x1b11f8, g_unk_1ebd48, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
-            snes_mem_copy_0019e3d0(buf, 0x1b1208, g_unk_1ebd4c);
+            snes_mem_copy_0019e3d0(buf, 0x1b1208, g_unk_1ebd4c, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
-            snes_mem_copy_0019e3d0(buf, 0x1b1218, g_unk_1ebd58);
+            snes_mem_copy_0019e3d0(buf, 0x1b1218, g_unk_1ebd58, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
-            snes_mem_copy_0019e3d0(buf, 0x1b1228, g_unk_1ebd5c);
+            snes_mem_copy_0019e3d0(buf, 0x1b1228, g_unk_1ebd5c, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
-            snes_mem_copy_0019e3d0(buf, 0x1b1238, g_unk_1ebd50);
+            snes_mem_copy_0019e3d0(buf, 0x1b1238, g_unk_1ebd50, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 
-            snes_mem_copy_0019e3d0(buf, 0x1b1250, g_unk_1ebd54);
+            snes_mem_copy_0019e3d0(buf, 0x1b1250, g_unk_1ebd54, 10);
             len = snes_mem_len_0019c5e8(buf);
             snes_obj_write_0019d244(fd, buf, len);
 

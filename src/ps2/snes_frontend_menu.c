@@ -30,12 +30,13 @@ extern uint32_t g_unk_427000;                  /* 0x00427000 */
 extern uint32_t g_unk_427004;                  /* 0x00427004 */
 extern uint32_t g_unk_427008;                  /* 0x00427008 */
 extern uint8_t  g_unk_1fc7ff52;                /* 0x1fc7ff52 */
+extern uint8_t  g_unk_345501;                  /* 0x00345501 */
 
 /* External function declarations */
 extern uint32_t REG_GS_CSR;                    /* GS Control/Status Register */
 extern void    syscall(int n);
 extern void    snes_obj_set_00199aa8(void *obj, uint32_t val);
-extern void    snes_obj_config_0019adf8(void *obj, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f, uint32_t g);
+extern void    snes_obj_config_0019adf8(void *obj, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f);
 extern void    snes_obj_start_001990f8(void *obj);
 extern void    snes_obj_callback_0019a580(void *obj, uint32_t cb);
 extern uint32_t snes_obj_status_00199198(void *obj);
@@ -107,47 +108,47 @@ void snes_frontend_menu_loop_001008dc(void)
         snes_obj_config_0019adf8(g_vram_base, 0, 0, g_unk_427004, g_unk_427008, 0, 0xffffffff80000000);
         snes_obj_set_00199aa8(g_vram_base, 1);
 
-        snes_obj_vram_0019a588(g_vram_base, 0, 0, 0, i8 * 2, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, 0, 0, 0, i8 * 2, 1, 0xffffffff80ffffff, 0);
 
         int32_t i5 = g_unk_427004;
         if (i5 < 0) i5 += 7;
-        snes_obj_vram_0019a588(g_vram_base, 0, 0, i5 >> 3, 0, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, 0, 0, i5 >> 3, 0, 1, 0xffffffff80ffffff, 0);
 
         i5 = g_unk_427004;
         if (i5 < 0) i5 += 7;
-        snes_obj_vram_0019a588(g_vram_base, 0, i8, i5 >> 3, i8, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, 0, i8, i5 >> 3, i8, 1, 0xffffffff80ffffff, 0);
 
         i5 = g_unk_427004 + 7;
         if (g_unk_427004 >= 0) i5 = g_unk_427004;
-        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, 0, (g_unk_427004 - (i5 >> 3)) - 1, 0, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, 0, (g_unk_427004 - (i5 >> 3)) - 1, 0, 1, 0xffffffff80ffffff, 0);
 
-        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, 0, g_unk_427004 - 1, i8 * 2, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, 0, g_unk_427004 - 1, i8 * 2, 1, 0xffffffff80ffffff, 0);
 
         i5 = g_unk_427004 + 7;
         if (g_unk_427004 >= 0) i5 = g_unk_427004;
-        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, i8, (g_unk_427004 - (i5 >> 3)) - 1, i8, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, i8, (g_unk_427004 - (i5 >> 3)) - 1, i8, 1, 0xffffffff80ffffff, 0);
 
         i5 = g_unk_427004;
         if (i5 < 0) i5 += 7;
-        snes_obj_vram_0019a588(g_vram_base, 0, g_unk_427008 - 1, i5 >> 3, g_unk_427008 - 1, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, 0, g_unk_427008 - 1, i5 >> 3, g_unk_427008 - 1, 1, 0xffffffff80ffffff, 0);
 
-        snes_obj_vram_0019a588(g_vram_base, 0, g_unk_427008 - 1, 0, g_unk_427008 - 1 + i8 * -2 - 1, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, 0, g_unk_427008 - 1, 0, g_unk_427008 - 1 + i8 * -2 - 1, 1, 0xffffffff80ffffff, 0);
 
         i5 = g_unk_427004;
         if (i5 < 0) i5 += 7;
         int32_t i4 = (g_unk_427008 - i8) - 1;
-        snes_obj_vram_0019a588(g_vram_base, 0, i4, i5 >> 3, i4, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, 0, i4, i5 >> 3, i4, 1, 0xffffffff80ffffff, 0);
 
         i5 = g_unk_427004 + 7;
         if (g_unk_427004 >= 0) i5 = g_unk_427004;
-        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, g_unk_427008 - 1, (g_unk_427004 - (i5 >> 3)) - 1, g_unk_427008 - 1, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, g_unk_427008 - 1, (g_unk_427004 - (i5 >> 3)) - 1, g_unk_427008 - 1, 1, 0xffffffff80ffffff, 0);
 
-        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, g_unk_427008 - 1, g_unk_427004 - 1, g_unk_427008 - 1 + i8 * -2 - 1, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, g_unk_427008 - 1, g_unk_427004 - 1, g_unk_427008 - 1 + i8 * -2 - 1, 1, 0xffffffff80ffffff, 0);
 
         i5 = g_unk_427004 + 7;
         if (g_unk_427004 >= 0) i5 = g_unk_427004;
         i4 = (g_unk_427008 - i8) - 1;
-        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, i4, (g_unk_427004 - (i5 >> 3)) - 1, i4, 1, 0xffffffff80ffffff);
+        snes_obj_vram_0019a588(g_vram_base, g_unk_427004 - 1, i4, (g_unk_427004 - (i5 >> 3)) - 1, i4, 1, 0xffffffff80ffffff, 0);
 
         snes_obj_blend_0019b948(&g_unk_1baf20, 0, g_unk_427004, (g_unk_427008 - 0x10) / 2, 2, 0x80ffffff, 2, 0x1b0890);
 
@@ -200,6 +201,7 @@ void snes_frontend_menu_loop_001008dc(void)
 void snes_frontend_main_menu_00100e78(void)
 {
     int32_t menu_selection = 0;
+    uint32_t csr;
     snes_frontend_sub_0010773c(0);
     snes_obj_wait_001998f8(g_vram_base);
 
@@ -398,7 +400,8 @@ void snes_frontend_main_menu_00100e78(void)
         /* Draw menu items */
         snes_obj_blend_0019b948(&g_unk_1baf20, 0x20, 0xe0, 0x2a, 2, 0x80ffffff, 2, 0x1b0988);
 
-        for (int32_t i9 = 0; i9 < 7; i9++) {
+        int32_t i9;
+        for (i9 = 0; i9 < 7; i9++) {
             uint32_t color = 0x80ffffff;
             if (i9 != menu_selection) color = 0x802060ff;
 

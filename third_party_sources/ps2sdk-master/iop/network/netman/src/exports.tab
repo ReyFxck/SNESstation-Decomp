@@ -1,0 +1,53 @@
+
+DECLARE_EXPORT_TABLE(netman, 3, 1)
+	DECLARE_EXPORT(_start)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+
+	DECLARE_EXPORT(NetManRegisterNetworkStack)
+	DECLARE_EXPORT(NetManUnregisterNetworkStack)
+	DECLARE_EXPORT(NetManNetIFXmit)
+	DECLARE_EXPORT(NetManIoctl)
+	DECLARE_EXPORT(NetManNetProtStackAllocRxPacket)
+	DECLARE_EXPORT(NetManNetProtStackFreeRxPacket)
+	DECLARE_EXPORT(NetManNetProtStackEnQRxPacket)
+	DECLARE_EXPORT(NetManRegisterNetIF)
+	DECLARE_EXPORT(NetManUnregisterNetIF)
+	DECLARE_EXPORT(NetManToggleNetIFLinkState)
+	DECLARE_EXPORT(NetManGetGlobalNetIFLinkState)
+	DECLARE_EXPORT(NetManSetMainIF)
+	DECLARE_EXPORT(NetManQueryMainIF)
+	DECLARE_EXPORT(NetManSetLinkMode)
+	DECLARE_EXPORT(NetManTxPacketNext)
+	DECLARE_EXPORT(NetManTxPacketDeQ)
+END_EXPORT_TABLE
+
+DECLARE_EXPORT_TABLE(netdev, 1, 1)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(sceInetRegisterNetDevice)
+	DECLARE_EXPORT(sceInetUnregisterNetDevice)
+	DECLARE_EXPORT(sceInetAllocMem)
+	DECLARE_EXPORT(sceInetFreeMem)
+	DECLARE_EXPORT(sceInetPktEnQ)
+	DECLARE_EXPORT(sceInetPktDeQ)
+	DECLARE_EXPORT(sceInetRand)
+	DECLARE_EXPORT(sceInetPrintf)
+	DECLARE_EXPORT(sceInetAllocPkt)
+	DECLARE_EXPORT(sceInetFreePkt)
+	DECLARE_EXPORT(_retonly) // TODO sceInetRegisterPPPoE
+	DECLARE_EXPORT(_retonly) // TODO sceInetUnregisterPPPoE
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+END_EXPORT_TABLE
+
+void _retonly(){};

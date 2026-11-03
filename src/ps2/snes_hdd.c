@@ -34,6 +34,8 @@ extern void    snes_obj_poll_001991b0(void *obj);
 /* 0x0010689c: HDD check */
 int32_t snes_hdd_check_0010689c(void)
 {
+    int32_t local_2c, local_28;
+
     snes_frontend_sub_001019a8();
     g_unk_1ec1c4 = 0;
 
@@ -46,7 +48,6 @@ int32_t snes_hdd_check_0010689c(void)
             g_unk_1ec1c4 = 1;
             return 1;
         }
-        int32_t local_2c, local_28;
         snes_obj_func_001a0a68(0, 0, &local_2c, &local_28, (void *)0x427018);
         snes_file_stat_001a1974b(0, 0, (int32_t *)0x427018);
         if ((local_2c == 2) && (99 < local_28)) {
@@ -72,7 +73,7 @@ int32_t snes_hdd_check_0010689c(void)
             return 1;
         }
 
-        snes_obj_config_0019adf8(g_vram_base, 0, 0, 0x280, 0x1e0, 0, 0xffffffff80000000);
+        snes_obj_config_0019adf8(g_vram_base, 0, 0, 0x280, 0x1e0, 0, 0xffffffff80000000, 0);
         snes_frontend_sub_00101b64();
 
         if (local_2c != 2) {

@@ -5,20 +5,16 @@
 
 #include <stddef.h>
 #include <stdint.h>
-
-struct gsDriverRecovered;
-struct gsFontRecovered;
+#include "gslib_recovered.h"
 
 /* Forward declarations for external dependencies */
 extern void *operator_new_001a9e88(size_t size);
-extern void gsDriver_ctor_00198cc8(struct gsDriverRecovered *driver);
+extern void gsDriver_ctor_00198cc8(gsDriverRecovered *driver);
 extern void sub_001019a8(void);
 extern void CDVD_Stop(void);
 extern void sub_00101b64(void);
 extern void snes_p20_00101e8c(void);
-extern void gsPipe_setScissorRect_00199ef8(struct gsDriverRecovered *drawPipe,
-                                           int x1, int y1, int x2, int y2);
-extern void gsFont_Print_0019b948(struct gsFontRecovered *font, int x, int y,
+extern void gsFont_Print_0019b948(gsFontRecovered *font, int x, int y,
                                    int z, int w, uint64_t color, int scale,
                                    const char *text);
 

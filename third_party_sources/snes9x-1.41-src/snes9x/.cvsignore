@@ -1,0 +1,17 @@
+no_glide
+no_opengl
+offsets
+zsnes_fx
+*.O
+snes9x
+dependencies
+Makefile
+config.cache
+config.log
+config.status
+config.info
+autom4te.cache
+configure
+build
+vc60.pdb
+*.Obj

@@ -1,0 +1,36 @@
+# _____     ___ ____     ___ ____
+#  ____|   |    ____|   |        | |____|
+# |     ___|   |____ ___|    ____| |    \    PS2DEV Open Source Project.
+#-----------------------------------------------------------------------
+# Copyright 2001-2004, ps2dev - http://www.ps2dev.org
+# Licenced under Academic Free License version 2.0
+# Review ps2sdk README & LICENSE files for further details.
+
+#
+# Creates the base tools directory structure in target directory.
+#
+
+RELEASE_TOOLS_DIRS = bin/
+RELEASE_TOOLS_DIRS := $(RELEASE_TOOLS_DIRS:%=$(PS2SDK)/%)
+
+release-dirs:
+	$(MKDIR) -p $(RELEASE_TOOLS_DIRS)
+
+#
+# Any executable files should go to bin
+#
+
+release-bin:
+	 @if test $(TOOLS_BIN) ; then \
+	    $(PRINTF) 'Installing %s to %s\n' $(TOOLS_BIN) $(PS2SDK) ; \
+	    cp -f $(TOOLS_BIN) $(RELEASE_TOOLS_DIRS) ; \
+	       for file in $(TOOLS_BIN_ALTNAMES); do \
+	          ln -sf $$(basename $(TOOLS_BIN)) $(RELEASE_TOOLS_DIRS)/$$file; \
+	       done; \
+	 fi;
+
+release: release-dirs release-bin
+	chmod -R 755 $(RELEASE_TOOLS_DIRS)
+
+release-clean:
+	rm -f $(RELEASE_TOOLS_DIRS)*

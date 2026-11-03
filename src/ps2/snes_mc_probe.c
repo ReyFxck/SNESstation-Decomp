@@ -3,6 +3,7 @@
  * Canonical source from progress12_io_state_recovered.c @ 0x00106824.
  */
 
+#include <stddef.h>
 #include <stdint.h>
 
 typedef int (*SnesMcInitCallback)(int type, void *opaque);

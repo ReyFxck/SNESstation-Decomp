@@ -1,0 +1,58 @@
+CPUOBJ=cpuops.o cpuexec.o spc700.o sa1cpu.o
+CPUDEFINES=-DSPC700_C
+FXOBJ=fxinst.o fxemu.o fxdbg.o
+FXDEFINES=-DEXECUTE_SUPERFX_PER_LINE
+
+OBJECTS=$(CPUOBJ) cpu.o sa1.o debug.o tile.o \
+	gfx.o memmap.o snaporig.o clip.o dsp1.o \
+	ppu.o dma.o snes9x.o snapshot.o apu.o soundux.o \
+        cheats.o data.o unix/unix.o unix/config.o $(FXOBJ) globals.o
+
+OBJECTS += netplay.o
+NETPLAYDEFINES=-DNETPLAY_SUPPORT
+SERVER_OBJECTS=server.o
+
+OBJECTS += loadzip.o unzip/unzip.o unzip/explode.o unzip/unreduce.o \
+	   unzip/unshrink.o
+UNZIPDEFINES=-DUNZIP_SUPPORT
+
+X11R5=/usr/openwin
+ZLIB=../zlib-1.0.4
+CCC = CC -fast -O2 +w
+CCFLAGS =  -I$(X11R5)/include -DMITSHM \
+-I. \
+-DZLIB -I$(ZLIB) \
+-DSPC700_SHUTDOWN \
+-DCPU_SHUTDOWN \
+-DNO_INLINE_SET_GET \
+-DVAR_CYCLES \
+-DUSE_THREADS \
+$(FXDEFINES) \
+$(CPUDEFINES) \
+$(NETPLAYDEFINES) \
+$(UNZIPDEFINES)
+
+.SUFFIXES: .o .cpp .c .cc .h .m .i
+LDLIBS = -L$(X11R5)/lib -L$(ZLIB) -R$(ZLIB)
+
+all: snes9x s9xserver
+
+snes9x: $(OBJECTS) unix/x11.o
+	$(CCC) $(INCLUDES) -o $@ $(OBJECTS) unix/x11.o $(LDLIBS) -lXext -lX11 -lz -lnsl -lsocket -lpthread
+
+s9xserver: $(SERVER_OBJECTS)
+	$(CCC) $(INCLUDES) -o $@ $(SERVER_OBJECTS) -lnsl -lsocket
+
+.cpp.o:
+	$(CCC) $(INCLUDES) -c $(CCFLAGS) $*.cpp -o $@
+
+.cc.o:
+	$(CCC) $(INCLUDES) -c $(CCFLAGS) $*.cc -o $@
+
+.c.o:
+	$(CC) $(INCLUDES) -c $(CCFLAGS) $*.c -o $@
+
+clean:
+	rm -f $(OBJECTS) unix/x11.o
+
+release: clean all

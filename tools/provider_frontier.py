@@ -122,8 +122,7 @@ SEMANTIC_ALIASES = {
     "S9xSync_AudioStep": "snes_dispatch_00176578",
     "S9xSync_SetVolume": "SjPCM_Setvol_001078f8",
     "abort": "snes_fatal_spin_00107578",
-    "operator_new_u32": "snes_p13_operator_new",
-    "snes_p12_qsort": "snes_qsort_001080cc",
+    "operator_new_u32": "snes_cpp_operator_new_001a9e88",
 }
 
 # Two low-level adapters call exact target entries for which the buildable
@@ -156,6 +155,8 @@ EXPLICIT_ANCHORS = {
     "_ZdaPv": 0x001a9118,
     # Complete historical CPU execution module native callees.
     '_ZN7CMemory7InitROMEh': 0x1522d8,
+    'S9xStartScreenRefresh': 0x14311c,
+    'S9xEndScreenRefresh': 0x1434ac,
     # Native memory maps retain the zero-argument C++ SPC7110 cache initializer.
     # The older lifted initializer uses a different context-model signature.
     "_Z14S9xSpc7110Initv": 0x1806a4,
@@ -228,7 +229,12 @@ STORAGE_SIZES = {
     "g_tile_cache_state": 0x34,
 }
 
-RUNTIME_SHIMS: set[str] = set()
+RUNTIME_SHIMS: set[str] = {
+    "EI",
+    "__builtin_clz",
+    "__builtin_clzll",
+    "__gxx_personality_v0",
+}
 
 KNOWN_DATA_ADDRESSES = {
     "IPPU_FrameSync": 0x0035C268,
@@ -304,8 +310,8 @@ def derive_rows(
         for row in contract_rows
         if row["status"] == BLOCKED and row["symbol"] not in private_names
     }
-    if len(active) != 246:
-        fail(f"expected exact post-native-bulk frontier of 246 symbols, found {len(active)}")
+    if len(active) != 261:
+        fail(f"expected exact post-native-bulk frontier of 261 symbols, found {len(active)}")
 
     canonical_text = {
         row["symbol"]

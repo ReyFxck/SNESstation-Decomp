@@ -77,7 +77,7 @@ void snes_sdd1_init_00105e48(void)
 /* 0x00108a9c: Detect S-DD1 chip */
 int32_t snes_sdd1_detect_00108a9c(void)
 {
-    bool done;
+    int done = 0;
 
     if (g_unk_335280 == 0) {
         while (1) {

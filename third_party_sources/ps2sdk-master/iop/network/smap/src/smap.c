@@ -1,0 +1,1701 @@
+
+#include <errno.h>
+#include <stdio.h>
+#include <defs.h>
+#include <dmacman.h>
+#include <dev9.h>
+#include <intrman.h>
+#include <loadcore.h>
+#include <modload.h>
+#include <stdio.h>
+#include <sysclib.h>
+#include <ctype.h>
+#include <thbase.h>
+#include <thevent.h>
+#include <thsemap.h>
+#include <irx.h>
+
+#include <smapregs.h>
+#include <speedregs.h>
+
+#include "main.h"
+#include "xfer.h"
+#include "ipstack.h"
+
+/*  There is a difference in how the transmissions are made,
+    between this driver and the SONY original.
+
+    SONY:
+        1. NETDEV calls SMAP's xmit callback.
+        2. SMAP's xmit event handler issues that XMIT event (for the main thread).
+        3. XMIT event copies the frames to the Tx buffer and sets up the BDs.
+        4. Tx DNV handler is called (always, regardless of what event it is being handled!).
+        5. Interrupts are re-enabled, except for TXDNV.
+        6. If there are frames to transmit, write to TX_GNP_0 and enable the TXDNV interrupt
+
+        The TXDNV interrupt is hence always disabled, but only enabled when a frame(s) is sent.
+        Perhaps there is a lack of a check on the TXEND interrupt because it is polling on the TX BDs before every transmission.
+        Might be related to the TXEND/RXEND event race condition that was documented within the PS2Linux SMAP driver.
+
+        I don't know how to test this, but it seems like the TXDNV interrupt is asserted for as long as
+        there is no valid frame to transmit, hence this design by SONY.
+
+    Homebrew:
+        1. Network stack calls SMAPSendPacket().
+        2. If there is either insufficient space or no BD available, wait.
+        3. Frame is copied into the Tx buffer and a BD is set up.
+        4. SMAPSendPacket issues the XMIT event (for the main thread)
+        5. Tx DNV handler is called (always, regardless of what event it is being handled!).
+        6. Interrupts are re-enabled, except for TXDNV.
+        7. If there are frames to transmit, write to TX_GNP_0 and enable the TXDNV interrupt */
+
+#define DEV9_SMAP_ALL_INTR_MASK (SMAP_INTR_EMAC3 | SMAP_INTR_RXEND | SMAP_INTR_TXEND | SMAP_INTR_RXDNV | SMAP_INTR_TXDNV)
+#define DEV9_SMAP_INTR_MASK     (SMAP_INTR_EMAC3 | SMAP_INTR_RXEND | SMAP_INTR_RXDNV | SMAP_INTR_TXDNV)
+// The Tx interrupt events are handled separately
+#define DEV9_SMAP_INTR_MASK2    (SMAP_INTR_EMAC3 | SMAP_INTR_RXEND | SMAP_INTR_RXDNV)
+
+struct SmapDriverData SmapDriverData;
+
+static const char VersionString[]         = "Version 2.26.0";
+static unsigned int ThreadPriority        = 0x28;
+static unsigned int ThreadStackSize       = 0x1000;
+static unsigned int EnableVerboseOutput   = 0;
+static unsigned int EnableAutoNegotiation = 1;
+static unsigned int EnablePinStrapConfig  = 0;
+static unsigned int SmapConfiguration     = 0x5E0;
+
+int DisplayBanner(void)
+{
+    printf("SMAP (%s)\n", VersionString);
+    return MODULE_NO_RESIDENT_END;
+}
+
+static void _smap_write_phy(volatile u8 *emac3_regbase, unsigned int address, u16 value)
+{
+    u32 PHYRegisterValue;
+    unsigned int i;
+
+    PHYRegisterValue = (address & SMAP_E3_PHY_REG_ADDR_MSK) | SMAP_E3_PHY_WRITE | ((SMAP_DsPHYTER_ADDRESS & SMAP_E3_PHY_ADDR_MSK) << SMAP_E3_PHY_ADDR_BITSFT);
+    PHYRegisterValue |= ((u32)value) << SMAP_E3_PHY_DATA_BITSFT;
+
+    i = 0;
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_STA_CTRL, PHYRegisterValue);
+
+    for (; !(SMAP_EMAC3_GET32(SMAP_R_EMAC3_STA_CTRL) & SMAP_E3_PHY_OP_COMP); i++) {
+        DelayThread(1000);
+        if (i >= 100)
+            break;
+    }
+
+    if (i >= 100)
+        sceInetPrintf("smap: %s: > %u ms\n", "_smap_write_phy", i);
+}
+
+static u16 _smap_read_phy(volatile u8 *emac3_regbase, unsigned int address)
+{
+    unsigned int i;
+    u32 value, PHYRegisterValue;
+    u16 result;
+
+    PHYRegisterValue = (address & SMAP_E3_PHY_REG_ADDR_MSK) | SMAP_E3_PHY_READ | ((SMAP_DsPHYTER_ADDRESS & SMAP_E3_PHY_ADDR_MSK) << SMAP_E3_PHY_ADDR_BITSFT);
+
+    i      = 0;
+    result = 0;
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_STA_CTRL, PHYRegisterValue);
+
+    do {
+        if (SMAP_EMAC3_GET32(SMAP_R_EMAC3_STA_CTRL) & SMAP_E3_PHY_OP_COMP) {
+            if (SMAP_EMAC3_GET32(SMAP_R_EMAC3_STA_CTRL) & SMAP_E3_PHY_OP_COMP) {
+                if ((value = SMAP_EMAC3_GET32(SMAP_R_EMAC3_STA_CTRL)) & SMAP_E3_PHY_OP_COMP) {
+                    result = (u16)(value >> SMAP_E3_PHY_DATA_BITSFT);
+                    break;
+                }
+            }
+        }
+
+        DelayThread(1000);
+        i++;
+    } while (i < 100);
+
+    if (i >= 100)
+        sceInetPrintf("SMAP: %s: > %u ms\n", "_smap_read_phy", i);
+
+    return result;
+}
+
+static int DisplayHelpMessage(void)
+{
+    DisplayBanner();
+
+    printf("Usage: smap [<option>] [thpri=<prio>] [thstack=<stack>] [<conf>]\n"
+           "  <option>:\n"
+           "    -verbose       display verbose messages\n"
+           "    -auto          auto nego enable            [default]\n"
+           "    -no_auto       fixed mode\n"
+           "    -strap         use pin-strap config\n"
+           "    -no_strap      do not use pin-strap config [default]\n");
+
+    return 2;
+}
+
+static inline void RestartAutoNegotiation(volatile u8 *emac3_regbase, u16 bmsr)
+{
+    if (EnableVerboseOutput)
+        DEBUG_PRINTF("restarting auto nego (BMCR=0x%x, BMSR=0x%x)\n", _smap_read_phy(emac3_regbase, SMAP_DsPHYTER_BMCR), bmsr);
+    _smap_write_phy(emac3_regbase, SMAP_DsPHYTER_BMCR, SMAP_PHY_BMCR_ANEN | SMAP_PHY_BMCR_RSAN);
+}
+
+static int InitPHY(struct SmapDriverData *SmapDrivPrivData)
+{
+    int i, result;
+    unsigned int LinkSpeed100M, LinkFDX, FlowControlEnabled, AutoNegoRetries;
+    u32 emac3_value;
+    u16 RegDump[6], value, value2;
+    volatile u8 *emac3_regbase;
+
+    LinkSpeed100M = 0;
+    if (EnableVerboseOutput != 0)
+        DEBUG_PRINTF("Resetting PHY\n");
+
+    _smap_write_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMCR, SMAP_PHY_BMCR_RST);
+    for (i = 0; _smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMCR) & SMAP_PHY_BMCR_RST; i++) {
+        if (i <= 0) {
+            DEBUG_PRINTF("PHY reset error\n");
+            return -1;
+        }
+        if (SmapDrivPrivData->NetDevStopFlag)
+            return 0;
+
+        DelayThread(1000);
+    }
+
+    if (!EnableAutoNegotiation) {
+        if (EnableVerboseOutput != 0)
+            DEBUG_PRINTF("no auto mode (conf=0x%x)\n", SmapConfiguration);
+
+        LinkSpeed100M = 0 < (SmapConfiguration & 0x180); /* Toggles between SMAP_PHY_BMCR_10M and SMAP_PHY_BMCR_100M. */
+        value         = LinkSpeed100M << 13;
+        if (SmapConfiguration & 0x140)
+            value |= SMAP_PHY_BMCR_DUPM;
+        _smap_write_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMCR, value);
+
+    WaitLink:
+        DEBUG_PRINTF("Waiting Valid Link for %dMbps\n", LinkSpeed100M ? 100 : 10);
+
+        i = 0;
+        while (1) {
+            DelayThread(200000);
+            if (SmapDrivPrivData->NetDevStopFlag)
+                return 0;
+            i++;
+            if (_smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMSR) & SMAP_PHY_BMSR_LINK)
+                break;
+            if (i >= 5)
+                SmapDrivPrivData->LinkStatus = 0;
+        }
+
+        SmapDrivPrivData->LinkStatus = 1;
+    } else {
+        if (!EnablePinStrapConfig) {
+            unsigned int SmapConfiguration_old;
+            u16 anar_old;
+
+            SmapConfiguration_old = SmapConfiguration;
+            _smap_write_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMCR, 0);
+            value = _smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMSR);
+            if (!(value & 0x4000))
+                SmapConfiguration = SmapConfiguration & 0xFFFFFEFF; /* 100Base-TX FDX */
+            if (!(value & 0x2000))
+                SmapConfiguration = SmapConfiguration & 0xFFFFFF7F; /* 100Base-TX HDX */
+            if (!(value & 0x1000))
+                SmapConfiguration = SmapConfiguration & 0xFFFFFFBF; /* 10Base-TX FDX */
+            if (!(value & 0x0800))
+                SmapConfiguration = SmapConfiguration & 0xFFFFFFDF; /* 10Base-TX HDX */
+
+            DEBUG_PRINTF("no strap mode (conf=0x%x->0x%x, bmsr=0x%x)\n", SmapConfiguration_old, SmapConfiguration, value);
+
+            value    = _smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_ANAR);
+            anar_old = value;
+            value    = (SmapConfiguration & 0x5E0) | (value & 0x1F);
+            DEBUG_PRINTF("anar=0x%x->0x%x\n", anar_old, value);
+            _smap_write_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_ANAR, value);
+            _smap_write_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMCR, SMAP_PHY_BMCR_ANEN | SMAP_PHY_BMCR_RSAN);
+        } else {
+            if (!(_smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMCR) & SMAP_PHY_BMCR_ANEN)) {
+                goto WaitLink;
+            }
+        }
+
+        DEBUG_PRINTF("auto mode (BMCR=0x%x ANAR=0x%x)\n", _smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMCR), _smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_ANAR));
+
+    RepeatAutoNegoProcess:
+        for (AutoNegoRetries = 0; AutoNegoRetries < 3; AutoNegoRetries++) {
+            for (i = 0; i < 3; i++) {
+                DelayThread(1000000);
+                if (SmapDrivPrivData->NetDevStopFlag)
+                    return 0;
+            }
+
+            value = _smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMSR);
+            if ((value & (SMAP_PHY_BMSR_ANCP | 0x10)) == SMAP_PHY_BMSR_ANCP) { /* 0x30: SMAP_PHY_BMSR_ANCP and Remote fault. */
+                /* This seems to be checking for the link-up status. */
+                for (i = 0; !(_smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMSR) & SMAP_PHY_BMSR_LINK); i++) {
+                    DelayThread(200000);
+                    if (SmapDrivPrivData->NetDevStopFlag)
+                        return 0;
+                    if (i >= 20)
+                        break;
+                }
+
+                if (i < 20) {
+                    /* Auto negotiaton completed successfully. */
+                    SmapDrivPrivData->LinkStatus = 1;
+                    break;
+                } else
+                    RestartAutoNegotiation(SmapDrivPrivData->emac3_regbase, value);
+            } else
+                RestartAutoNegotiation(SmapDrivPrivData->emac3_regbase, value);
+        }
+
+        /* If automatic negotiation fails, manually figure out which speed and duplex mode to use. */
+        if (AutoNegoRetries >= 3) {
+            if (EnableVerboseOutput)
+                DEBUG_PRINTF("waiting valid link for 100Mbps Half-Duplex\n");
+
+            _smap_write_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMCR, SMAP_PHY_BMCR_100M);
+            DelayThread(1000000);
+            if (SmapDrivPrivData->NetDevStopFlag)
+                return 0;
+
+            for (i = 0; !(_smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMSR) & SMAP_PHY_BMSR_LINK); i++) {
+                DelayThread(100000);
+                if (SmapDrivPrivData->NetDevStopFlag)
+                    return 0;
+                if (i >= 30)
+                    break;
+            }
+
+            if (i >= 30) {
+                if (EnableVerboseOutput)
+                    DEBUG_PRINTF("waiting valid link for 10Mbps Half-Duplex\n");
+
+                _smap_write_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMCR, SMAP_PHY_BMCR_10M);
+                DelayThread(1000000);
+                if (SmapDrivPrivData->NetDevStopFlag)
+                    return 0;
+
+                for (i = 0; !(_smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMSR) & SMAP_PHY_BMSR_LINK); i++) {
+                    DelayThread(100000);
+                    if (SmapDrivPrivData->NetDevStopFlag)
+                        return 0;
+                    if (i >= 30)
+                        break;
+                }
+
+                if (i >= 0x1E)
+                    goto RepeatAutoNegoProcess;
+                else
+                    SmapDrivPrivData->LinkStatus = 1;
+            } else
+                SmapDrivPrivData->LinkStatus = 1;
+        }
+    }
+
+    for (i = 0; i < 6; i++)
+        RegDump[i] = _smap_read_phy(SmapDrivPrivData->emac3_regbase, i);
+
+    if (EnableVerboseOutput)
+        DEBUG_PRINTF("PHY: %04x %04x %04x %04x %04x %04x\n", RegDump[SMAP_DsPHYTER_BMCR], RegDump[SMAP_DsPHYTER_BMSR], RegDump[SMAP_DsPHYTER_PHYIDR1], RegDump[SMAP_DsPHYTER_PHYIDR2], RegDump[SMAP_DsPHYTER_ANAR], RegDump[SMAP_DsPHYTER_ANLPAR]);
+
+    /* Special initialization for the National Semiconductor DP83846A PHY. */
+    if (RegDump[SMAP_DsPHYTER_PHYIDR1] == SMAP_PHY_IDR1_VAL && (RegDump[SMAP_DsPHYTER_PHYIDR2] & SMAP_PHY_IDR2_MSK) == SMAP_PHY_IDR2_VAL) {
+        if (EnableAutoNegotiation) {
+            _smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_FCSCR);
+            _smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_RECR);
+            DelayThread(500000);
+            value  = _smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_FCSCR);
+            value2 = _smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_RECR);
+            if ((value2 != 0) || (value >= 0x11)) {
+                if (EnableVerboseOutput)
+                    DEBUG_PRINTF("FCSCR=%d RECR=%d\n", value, value2);
+                _smap_write_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMCR, 0);
+                goto WaitLink;
+            }
+        }
+
+        DEBUG_PRINTF("PHY chip: DP83846A%d\n", (RegDump[SMAP_DsPHYTER_PHYIDR2] & SMAP_PHY_IDR2_REV_MSK) + 1);
+
+        /* If operating in 10Mbit mode, disable the 10Mb/s Loopback mode. */
+        if (!EnableAutoNegotiation) {
+            if ((RegDump[SMAP_DsPHYTER_BMCR] & (SMAP_PHY_BMCR_DUPM | SMAP_PHY_BMCR_100M)) == 0)
+                _smap_write_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_10BTSCR, SMAP_PHY_10BTSCR_LOOPBACK_10_DIS | SMAP_PHY_10BTSCR_2);
+        } else {
+            if ((RegDump[SMAP_DsPHYTER_ANAR] & (SMAP_PHY_ANAR_TX_FD | SMAP_PHY_ANAR_TX | SMAP_PHY_ANAR_10_FD | SMAP_PHY_ANAR_10)) == SMAP_PHY_ANAR_10)
+                _smap_write_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_10BTSCR, SMAP_PHY_10BTSCR_LOOPBACK_10_DIS | SMAP_PHY_10BTSCR_2);
+        }
+
+        if ((RegDump[SMAP_DsPHYTER_PHYIDR2] & SMAP_PHY_IDR2_REV_MSK) == 0) {
+            _smap_write_phy(SmapDrivPrivData->emac3_regbase, 0x13, 1);
+            _smap_write_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_PHYCTRL, 0x1898);
+            _smap_write_phy(SmapDrivPrivData->emac3_regbase, 0x1F, 0);
+            _smap_write_phy(SmapDrivPrivData->emac3_regbase, 0x1D, 0x5040);
+            _smap_write_phy(SmapDrivPrivData->emac3_regbase, 0x1E, 0x8C);
+            _smap_write_phy(SmapDrivPrivData->emac3_regbase, 0x13, 0);
+        }
+    }
+
+    /* Determine what was negotiated for. */
+    FlowControlEnabled = 0;
+    if (RegDump[SMAP_DsPHYTER_BMCR] & SMAP_PHY_BMCR_ANEN) {
+        value         = RegDump[SMAP_DsPHYTER_ANAR] & RegDump[SMAP_DsPHYTER_ANLPAR];
+        LinkSpeed100M = 0 < (value & 0x180);
+        LinkFDX       = 0 < (value & 0x140);
+        if (LinkFDX)
+            FlowControlEnabled = 0 < (value & 0x400);
+    } else {
+        LinkSpeed100M      = RegDump[SMAP_DsPHYTER_BMCR] >> 13 & 1;
+        LinkFDX            = RegDump[SMAP_DsPHYTER_BMCR] >> 8 & 1;
+        FlowControlEnabled = SmapConfiguration >> 10 & 1;
+    }
+
+    if (LinkSpeed100M)
+        result = LinkFDX ? 8 : 4;
+    else
+        result = LinkFDX ? 2 : 1;
+
+    SmapDrivPrivData->LinkMode = result;
+    if (FlowControlEnabled)
+        SmapDrivPrivData->LinkMode |= 0x40;
+
+    DEBUG_PRINTF("%s %s Duplex Mode %s Flow Control\n", LinkSpeed100M ? "100BaseTX" : "10BaseT", LinkFDX ? "Full" : "Half", FlowControlEnabled ? "with" : "without");
+
+    emac3_regbase = SmapDrivPrivData->emac3_regbase;
+    emac3_value   = SMAP_EMAC3_GET32(SMAP_R_EMAC3_MODE1) & 0x67FFFFFF;
+    if (LinkFDX)
+        emac3_value |= SMAP_E3_FDX_ENABLE;
+    if (FlowControlEnabled)
+        emac3_value |= SMAP_E3_FLOWCTRL_ENABLE | SMAP_E3_ALLOW_PF;
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_MODE1, emac3_value);
+
+    return 0;
+}
+
+// This timer callback starts the Ethernet link check event.
+static unsigned int LinkCheckTimerCB(struct SmapDriverData *SmapDrivPrivData)
+{
+    iSetEventFlag(SmapDrivPrivData->Dev9IntrEventFlag, SMAP_EVENT_LINK_CHECK);
+    return SmapDrivPrivData->LinkCheckTimer.lo;
+}
+
+static int HandleTxIntr(struct SmapDriverData *SmapDrivPrivData)
+{
+    int result, i;
+    USE_SMAP_TX_BD;
+    u16 ctrl_stat;
+
+    result = 0;
+    while (SmapDrivPrivData->NumPacketsInTx > 0) {
+        ctrl_stat = tx_bd[SmapDrivPrivData->TxDNVBDIndex % SMAP_BD_MAX_ENTRY].ctrl_stat;
+        if (!(ctrl_stat & SMAP_BD_TX_READY)) {
+            if (ctrl_stat & (SMAP_BD_TX_UNDERRUN | SMAP_BD_TX_LCOLL | SMAP_BD_TX_ECOLL | SMAP_BD_TX_EDEFER | SMAP_BD_TX_LOSSCR)) {
+                for (i = 0; i < 16; i++)
+                    if ((ctrl_stat >> i) & 1) {
+                        SmapDrivPrivData->RuntimeStats.TxErrorCount++;
+#ifdef BUILDING_SMAP_NETDEV
+                        SmapDrivPrivData->RuntimeStats_NetDev.m_TxErrorVarious[i] += 1;
+#endif
+                    }
+
+                SmapDrivPrivData->RuntimeStats.TxDroppedFrameCount++;
+#ifdef BUILDING_SMAP_NETDEV
+                SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Errors += 1;
+#endif
+                if (ctrl_stat & SMAP_BD_TX_LOSSCR) {
+                    SmapDrivPrivData->RuntimeStats.TxFrameLOSSCRCount++;
+#ifdef BUILDING_SMAP_NETDEV
+                    SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Carrier_Er += 1;
+#endif
+                }
+                if (ctrl_stat & SMAP_BD_TX_EDEFER) {
+                    SmapDrivPrivData->RuntimeStats.TxFrameEDEFERCount++;
+#ifdef BUILDING_SMAP_NETDEV
+                    SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Window_Er += 1;
+#endif
+                }
+                if (ctrl_stat & (SMAP_BD_TX_SCOLL | SMAP_BD_TX_MCOLL | SMAP_BD_TX_LCOLL | SMAP_BD_TX_ECOLL)) {
+                    SmapDrivPrivData->RuntimeStats.TxFrameCollisionCount++;
+#ifdef BUILDING_SMAP_NETDEV
+                    SmapDrivPrivData->RuntimeStats_NetDev.m_Collisions += 1;
+#endif
+                }
+                if (ctrl_stat & SMAP_BD_TX_UNDERRUN) {
+                    SmapDrivPrivData->RuntimeStats.TxFrameUnderrunCount++;
+#ifdef BUILDING_SMAP_NETDEV
+                    SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Fifo_Er += 1;
+#endif
+                }
+            }
+        } else
+            break;
+
+        result++;
+        SmapDrivPrivData->TxBufferSpaceAvailable += (tx_bd[SmapDrivPrivData->TxDNVBDIndex & (SMAP_BD_MAX_ENTRY - 1)].length + 3) & ~3;
+        SmapDrivPrivData->TxDNVBDIndex++;
+        SmapDrivPrivData->NumPacketsInTx--;
+    }
+
+    return result;
+}
+
+#ifdef BUILDING_SMAP_NETDEV
+static void ClearPacketQueue(struct SmapDriverData *SmapDrivPrivData);
+#endif
+
+// Checks the status of the Ethernet link
+static void CheckLinkStatus(struct SmapDriverData *SmapDrivPrivData)
+{
+    if (!(_smap_read_phy(SmapDrivPrivData->emac3_regbase, SMAP_DsPHYTER_BMSR) & SMAP_PHY_BMSR_LINK)) {
+        // Link lost
+        SmapDrivPrivData->LinkStatus = 0;
+        SMapCommonLinkStateDown(SmapDrivPrivData);
+        InitPHY(SmapDrivPrivData);
+#ifdef BUILDING_SMAP_NETDEV
+        ClearPacketQueue(SmapDrivPrivData);
+#endif
+
+        // Link established
+        if (SmapDrivPrivData->LinkStatus)
+            SMapCommonLinkStateUp(SmapDrivPrivData);
+    }
+}
+
+#ifdef SMAP_RX_PACKETS_POLLING_MODE
+static unsigned int RxIntrPollingTimerCB(struct SmapDriverData *SmapDrivPrivData)
+{
+    iSetEventFlag(SmapDrivPrivData->Dev9IntrEventFlag, SMAP_EVENT_INTR);
+    return 0;
+}
+#endif
+
+static void IntrHandlerThread(struct SmapDriverData *SmapDrivPrivData)
+{
+    unsigned int PacketCount, IntrReg;
+    u32 EFBits;
+    int counter;
+    volatile u8 *smap_regbase, *emac3_regbase;
+    USE_SPD_REGS;
+
+    counter       = 3;
+    emac3_regbase = SmapDrivPrivData->emac3_regbase;
+    smap_regbase  = SmapDrivPrivData->smap_regbase;
+
+    SmapDrivPrivData->TxBufferSpaceAvailable = SMAP_TX_BUFSIZE;
+    SmapDrivPrivData->NumPacketsInTx         = 0;
+    SmapDrivPrivData->TxBDIndex              = 0;
+    SmapDrivPrivData->TxDNVBDIndex           = 0;
+    SmapDrivPrivData->RxBDIndex              = 0;
+    SmapDrivPrivData->packetToSend           = NULL;
+
+    while (1) {
+        int result;
+
+        if ((result = WaitEventFlag(SmapDrivPrivData->Dev9IntrEventFlag, SMAP_EVENT_START | SMAP_EVENT_STOP | SMAP_EVENT_INTR | SMAP_EVENT_XMIT | SMAP_EVENT_LINK_CHECK, WEF_OR | WEF_CLEAR, &EFBits)) != 0) {
+            DEBUG_PRINTF("WaitEventFlag -> %d\n", result);
+            break;
+        }
+
+        if (EFBits & SMAP_EVENT_STOP) {
+            if (SmapDrivPrivData->SmapIsInitialized) {
+                SpdIntrDisable(DEV9_SMAP_INTR_MASK2);
+                SMAP_EMAC3_SET32(SMAP_R_EMAC3_MODE0, 0);
+                SmapDrivPrivData->NetDevStopFlag     = 0;
+                SmapDrivPrivData->LinkStatus         = 0;
+                SmapDrivPrivData->SmapIsInitialized  = 0;
+                SmapDrivPrivData->SmapDriverStarting = 0;
+                SMapCommonLinkStateDown(SmapDrivPrivData);
+            }
+        }
+        if (EFBits & SMAP_EVENT_START) {
+            if (!SmapDrivPrivData->SmapIsInitialized) {
+                SmapDrivPrivData->SmapDriverStarting = 1;
+                SpdIntrEnable(DEV9_SMAP_INTR_MASK2);
+                if ((result = InitPHY(SmapDrivPrivData)) != 0)
+                    break;
+                if (SmapDrivPrivData->NetDevStopFlag) {
+                    SmapDrivPrivData->NetDevStopFlag     = 0;
+                    SmapDrivPrivData->SmapDriverStarting = 0;
+                    continue;
+                }
+
+                SMAP_EMAC3_SET32(SMAP_R_EMAC3_MODE0, SMAP_E3_TXMAC_ENABLE | SMAP_E3_RXMAC_ENABLE);
+                DelayThread(10000);
+                SmapDrivPrivData->SmapIsInitialized  = 1;
+                SmapDrivPrivData->SmapDriverStarting = 0;
+
+                SMapCommonLinkStateUp(SmapDrivPrivData);
+
+                if (!SmapDrivPrivData->EnableLinkCheckTimer) {
+                    USec2SysClock(1000000, &SmapDrivPrivData->LinkCheckTimer);
+                    SetAlarm(&SmapDrivPrivData->LinkCheckTimer, (void *)&LinkCheckTimerCB, SmapDrivPrivData);
+                    SmapDrivPrivData->EnableLinkCheckTimer = 1;
+                }
+            }
+        }
+
+        if (SmapDrivPrivData->SmapIsInitialized) {
+            PacketCount = 0;
+            if (EFBits & SMAP_EVENT_INTR) {
+                if ((IntrReg = SPD_REG16(SPD_R_INTR_STAT) & DEV9_SMAP_INTR_MASK) != 0) {
+                    /*    Original order/priority:
+                            1. EMAC3
+                            2. RXEND
+                            3. RXDNV
+                            4. TXDNV */
+                    if (IntrReg & SMAP_INTR_EMAC3) {
+                        SMAP_REG16(SMAP_R_INTR_CLR) = SMAP_INTR_EMAC3;
+                        SMAP_EMAC3_SET32(SMAP_R_EMAC3_INTR_STAT, SMAP_E3_INTR_TX_ERR_0 | SMAP_E3_INTR_SQE_ERR_0 | SMAP_E3_INTR_DEAD_0);
+                    }
+                    if (IntrReg & SMAP_INTR_RXEND) {
+                        SMAP_REG16(SMAP_R_INTR_CLR) = SMAP_INTR_RXEND;
+                        PacketCount                 = HandleRxIntr(SmapDrivPrivData);
+                    }
+                    if (IntrReg & SMAP_INTR_RXDNV) {
+                        SMAP_REG16(SMAP_R_INTR_CLR) = SMAP_INTR_RXDNV;
+                        SmapDrivPrivData->RuntimeStats.RxFrameOverrunCount++;
+#ifdef BUILDING_SMAP_NETDEV
+                        SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Over_Er += 1;
+#endif
+                    }
+                    if (IntrReg & SMAP_INTR_TXDNV) {
+                        SMAP_REG16(SMAP_R_INTR_CLR) = SMAP_INTR_TXDNV;
+                        HandleTxIntr(SmapDrivPrivData);
+                        EFBits |= SMAP_EVENT_XMIT;
+                    }
+                }
+            }
+
+            if (EFBits & SMAP_EVENT_XMIT)
+                HandleTxReqs(SmapDrivPrivData);
+            // This was added in later versions.
+            HandleTxIntr(SmapDrivPrivData);
+
+            // TXDNV is not enabled here, but only when frames are transmitted.
+#ifdef SMAP_RX_PACKETS_POLLING_MODE
+            SpdIntrEnable(SMAP_INTR_EMAC3 | SMAP_INTR_RXDNV);
+
+            if (PacketCount >= 1) {
+                // Receive packets in polling mode
+
+                // We're receiving packets at a maximum rate of 100 bits/us or 12.5 bytes/us
+#define ETH_KB_TO_US(B) (B * 80)
+
+                USec2SysClock(ETH_KB_TO_US(12), &SmapDrivPrivData->RxIntrPollingTimer);
+#undef ETH_KB_TO_US
+                SetAlarm(&SmapDrivPrivData->RxIntrPollingTimer, (void *)&RxIntrPollingTimerCB, SmapDrivPrivData);
+            } else {
+                // Receive packets in interrupt mode
+                SpdIntrEnable(SMAP_INTR_RXEND);
+            }
+#else
+            SpdIntrEnable(DEV9_SMAP_INTR_MASK2);
+#endif
+
+            // If there are frames to send out, let Tx channel 0 know and enable TXDNV.
+            if (SmapDrivPrivData->NumPacketsInTx > 0) {
+                SMAP_EMAC3_SET32(SMAP_R_EMAC3_TxMODE0, SMAP_E3_TX_GNP_0);
+                SpdIntrEnable(SMAP_INTR_TXDNV);
+            }
+
+            // Do the link check, only if there has not been any incoming traffic in a while.
+            if (PacketCount) {
+                counter = 3;
+                continue;
+            }
+
+            if (EFBits & SMAP_EVENT_LINK_CHECK) {
+                if (--counter <= 0)
+                    CheckLinkStatus(SmapDrivPrivData);
+            }
+        }
+    }
+}
+
+static int Dev9IntrCb(int flag)
+{
+#if USE_GP_REGISTER
+    void *OldGP;
+
+    OldGP = SetModuleGP();
+#endif
+
+    (void)flag;
+
+    SpdIntrDisable(DEV9_SMAP_ALL_INTR_MASK);
+    iSetEventFlag(SmapDriverData.Dev9IntrEventFlag, SMAP_EVENT_INTR);
+
+#if USE_GP_REGISTER
+    SetGP(OldGP);
+#endif
+
+    return 0;
+}
+
+static void Dev9PreDmaCbHandler(int bcr, int dir)
+{
+    // cppcheck-suppress constVariablePointer
+    volatile u8 *smap_regbase;
+    u16 SliceCount;
+
+    smap_regbase = SmapDriverData.smap_regbase;
+    SliceCount   = bcr >> 16;
+    if (dir != DMAC_TO_MEM) {
+        SMAP_REG16(SMAP_R_TXFIFO_SIZE) = SliceCount;
+        SMAP_REG8(SMAP_R_TXFIFO_CTRL)  = SMAP_TXFIFO_DMAEN;
+    } else {
+        SMAP_REG16(SMAP_R_RXFIFO_SIZE) = SliceCount;
+        SMAP_REG8(SMAP_R_RXFIFO_CTRL)  = SMAP_RXFIFO_DMAEN;
+    }
+}
+
+static void Dev9PostDmaCbHandler(int bcr, int dir)
+{
+    // cppcheck-suppress constVariablePointer
+    volatile u8 *smap_regbase;
+
+    (void)bcr;
+
+    smap_regbase = SmapDriverData.smap_regbase;
+    if (dir != DMAC_TO_MEM) {
+        while (SMAP_REG8(SMAP_R_TXFIFO_CTRL) & SMAP_TXFIFO_DMAEN) {};
+    } else {
+        while (SMAP_REG8(SMAP_R_RXFIFO_CTRL) & SMAP_RXFIFO_DMAEN) {};
+    }
+}
+
+#ifdef BUILDING_SMAP_PS2IP
+// For the initial startup, as legacy programs expect the Ethernet interface to be ready once SMAP finishes initialization.
+int SMAPInitStart(void)
+{
+    // cppcheck-suppress constVariablePointer
+    volatile u8 *emac3_regbase;
+
+#if USE_GP_REGISTER
+    void *OldGP;
+
+    OldGP = SetModuleGP();
+#endif
+
+    if (!SmapDriverData.SmapIsInitialized) {
+        emac3_regbase = SmapDriverData.emac3_regbase;
+
+        SpdIntrEnable(DEV9_SMAP_INTR_MASK2);
+        if (InitPHY(&SmapDriverData) == 0 && !SmapDriverData.NetDevStopFlag) {
+            SMAP_EMAC3_SET32(SMAP_R_EMAC3_MODE0, SMAP_E3_TXMAC_ENABLE | SMAP_E3_RXMAC_ENABLE);
+            DelayThread(10000);
+            SmapDriverData.SmapIsInitialized = 1;
+
+            SMapCommonLinkStateUp(&SmapDriverData);
+
+            if (!SmapDriverData.EnableLinkCheckTimer) {
+                USec2SysClock(1000000, &SmapDriverData.LinkCheckTimer);
+                SetAlarm(&SmapDriverData.LinkCheckTimer, (void *)&LinkCheckTimerCB, &SmapDriverData);
+                SmapDriverData.EnableLinkCheckTimer = 1;
+            }
+        } else
+            SmapDriverData.NetDevStopFlag = 0;
+    }
+
+#if USE_GP_REGISTER
+    SetGP(OldGP);
+#endif
+
+    return 0;
+}
+#endif
+
+#if defined(BUILDING_SMAP_NETMAN) || defined(BUILDING_SMAP_NETDEV)
+#ifdef BUILDING_SMAP_NETDEV
+static int SMAPStart(void *priv, int flags)
+#else
+static int SMAPStart(void)
+#endif
+{
+    struct SmapDriverData *SmapDrivPrivData;
+#if USE_GP_REGISTER
+    void *OldGP;
+
+    OldGP = SetModuleGP();
+#endif
+
+#ifdef BUILDING_SMAP_NETDEV
+    (void)flags;
+
+    SmapDrivPrivData = (struct SmapDriverData *)priv;
+#else
+    SmapDrivPrivData = &SmapDriverData;
+#endif
+
+    SetEventFlag(SmapDrivPrivData->Dev9IntrEventFlag, SMAP_EVENT_START);
+
+#if USE_GP_REGISTER
+    SetGP(OldGP);
+#endif
+
+    return 0;
+}
+
+#ifdef BUILDING_SMAP_NETDEV
+static int SMAPStop(void *priv, int flags)
+#else
+static void SMAPStop(void)
+#endif
+{
+    struct SmapDriverData *SmapDrivPrivData;
+#if USE_GP_REGISTER
+    void *OldGP;
+
+    OldGP = SetModuleGP();
+#endif
+
+#ifdef BUILDING_SMAP_NETDEV
+    (void)flags;
+
+    SmapDrivPrivData = (struct SmapDriverData *)priv;
+#else
+    SmapDrivPrivData = &SmapDriverData;
+#endif
+
+    SetEventFlag(SmapDrivPrivData->Dev9IntrEventFlag, SMAP_EVENT_STOP);
+    SmapDrivPrivData->NetDevStopFlag = 1;
+
+#if USE_GP_REGISTER
+    SetGP(OldGP);
+#endif
+
+#ifdef BUILDING_SMAP_NETDEV
+    return 0;
+#endif
+}
+#endif
+
+static void ClearPacketQueue(struct SmapDriverData *SmapDrivPrivData)
+{
+    int OldState;
+    void *data;
+    void *pbuf;
+
+    data = NULL;
+    CpuSuspendIntr(&OldState);
+    pbuf                           = SmapDrivPrivData->packetToSend;
+    SmapDrivPrivData->packetToSend = NULL;
+    CpuResumeIntr(OldState);
+
+    while (pbuf != NULL) {
+#ifdef BUILDING_SMAP_NETDEV
+        SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Dropped += 1;
+#endif
+        if (SMAPCommonTxPacketNext(SmapDrivPrivData, &data, &pbuf) <= 0)
+            break;
+        SMAPCommonTxPacketDeQ(SmapDrivPrivData, &data, &pbuf);
+    }
+}
+
+#ifdef BUILDING_SMAP_NETDEV
+static int SMAPXmit_NetDev(void *priv, int flags)
+#else
+void SMAPXmit(void)
+#endif
+{
+    struct SmapDriverData *SmapDrivPrivData;
+#if USE_GP_REGISTER
+    void *OldGP;
+
+    OldGP = SetModuleGP();
+#endif
+
+#ifdef BUILDING_SMAP_NETDEV
+    (void)flags;
+
+    SmapDrivPrivData = (struct SmapDriverData *)priv;
+#else
+    SmapDrivPrivData = &SmapDriverData;
+#endif
+
+    if (SmapDriverData.LinkStatus) {
+        if (QueryIntrContext())
+            iSetEventFlag(SmapDrivPrivData->Dev9IntrEventFlag, SMAP_EVENT_XMIT);
+        else
+            SetEventFlag(SmapDrivPrivData->Dev9IntrEventFlag, SMAP_EVENT_XMIT);
+    } else {
+        // No link. Clear the packet queue.
+        ClearPacketQueue(SmapDrivPrivData);
+    }
+
+#if USE_GP_REGISTER
+    SetGP(OldGP);
+#endif
+#ifdef BUILDING_SMAP_NETDEV
+    return 0;
+#endif
+}
+
+#ifdef BUILDING_SMAP_NETDEV
+void SMAPXmit(void)
+{
+    SMAPXmit_NetDev(&SmapDriverData, 0);
+}
+#endif
+
+#ifdef BUILDING_SMAP_NETMAN
+static int SMAPGetLinkMode(void)
+{
+    u16 value;
+    int result;
+
+    result = -1;
+    if (SmapDriverData.SmapIsInitialized && SmapDriverData.LinkStatus) {
+        value = SmapDriverData.LinkMode;
+        if (value & 0x08)
+            result = NETMAN_NETIF_ETH_LINK_MODE_100M_FDX; /* 100Base-TX FDX */
+        if (value & 0x04)
+            result = NETMAN_NETIF_ETH_LINK_MODE_100M_HDX; /* 100Base-TX HDX */
+        if (value & 0x02)
+            result = NETMAN_NETIF_ETH_LINK_MODE_10M_FDX; /* 10Base-TX FDX */
+        if (value & 0x01)
+            result = NETMAN_NETIF_ETH_LINK_MODE_10M_HDX; /* 10Base-TX HDX */
+        if (!(value & 0x40))
+            result |= NETMAN_NETIF_ETH_LINK_DISABLE_PAUSE;
+    }
+
+    return result;
+}
+
+static int SMAPSetLinkMode(int mode)
+{
+    int result;
+
+    if (SmapDriverData.SmapIsInitialized) {
+        int baseMode;
+
+        baseMode = mode & (~NETMAN_NETIF_ETH_LINK_DISABLE_PAUSE);
+
+        if (baseMode != NETMAN_NETIF_ETH_LINK_MODE_AUTO) {
+            EnableAutoNegotiation = 0;
+
+            switch (baseMode) {
+                case NETMAN_NETIF_ETH_LINK_MODE_10M_HDX:
+                    SmapConfiguration = 0x020;
+                    result            = 0;
+                    break;
+                case NETMAN_NETIF_ETH_LINK_MODE_10M_FDX:
+                    SmapConfiguration = 0x040;
+                    result            = 0;
+                    break;
+                case NETMAN_NETIF_ETH_LINK_MODE_100M_HDX:
+                    SmapConfiguration = 0x080;
+                    result            = 0;
+                    break;
+                case NETMAN_NETIF_ETH_LINK_MODE_100M_FDX:
+                    SmapConfiguration = 0x0100;
+                    result            = 0;
+                    break;
+                default:
+                    result = -1;
+            }
+        } else {
+            SmapConfiguration     = 0x1E0;
+            EnableAutoNegotiation = 1;
+            result                = 0;
+        }
+
+        if (result == 0) {
+            if (!(mode & NETMAN_NETIF_ETH_LINK_DISABLE_PAUSE))
+                SmapConfiguration |= 0x400; // Enable flow control.
+
+            SetEventFlag(SmapDriverData.Dev9IntrEventFlag, SMAP_EVENT_STOP | SMAP_EVENT_START);
+            SmapDriverData.NetDevStopFlag = 1;
+        }
+    } else
+        result = -ENXIO;
+
+    return result;
+}
+
+static inline int SMAPGetLinkStatus(void)
+{
+    return ((SmapDriverData.SmapIsInitialized && SmapDriverData.LinkStatus) ? NETMAN_NETIF_ETH_LINK_STATE_UP : NETMAN_NETIF_ETH_LINK_STATE_DOWN);
+}
+#endif
+
+#ifdef BUILDING_SMAP_NETDEV
+static int do_set_multicast_list_helper(const struct SmapDriverData *SmapDrivPrivData, u8 *in_out_ptr, int in_out_len)
+{
+    // cppcheck-suppress constVariablePointer
+    volatile u8 *emac3_regbase;
+    int i;
+    u16 group_hash[4];
+
+    emac3_regbase = SmapDrivPrivData->emac3_regbase;
+    bzero(group_hash, sizeof(group_hash));
+    if (in_out_len >= 0) {
+        int length_div_6;
+
+        length_div_6 = in_out_len / 6;
+        if (in_out_len != 6 * length_div_6) {
+            return -512;
+        }
+        if (in_out_ptr) {
+            int k;
+
+            for (k = 0; k < length_div_6; k += 1) {
+                if ((*in_out_ptr & 1) != 0) {
+                    unsigned int cur_group_1;
+                    unsigned int cur_group_2;
+
+                    cur_group_1 = (unsigned int)-1;
+                    for (i = 0; i < 4; i += 1) {
+                        u8 cur_item;
+                        int j;
+
+                        cur_item = *in_out_ptr++;
+                        // This is crc32
+                        for (j = 0; j < 6; j += 1) {
+                            cur_group_2 = cur_group_1 << 1;
+                            if (((((cur_group_1 & 0x80000000) != 0) ^ cur_item) & 1) != 0)
+                                cur_group_2 ^= 0x4C11DB7u;
+                            cur_group_1 = cur_group_2;
+                            cur_item >>= 1;
+                        }
+                    }
+                    group_hash[cur_group_2 >> 30] |= 1 << ((cur_group_2 >> 26) & 0xF);
+                } else {
+                    in_out_ptr += 6;
+                }
+            }
+        }
+    } else {
+        if (in_out_ptr)
+            return -512;
+        for (i = 0; i < 4; i += 1) {
+            group_hash[i] = -1;
+        }
+    }
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_GROUP_HASH1, group_hash[3]);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_GROUP_HASH2, group_hash[2]);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_GROUP_HASH3, group_hash[1]);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_GROUP_HASH4, group_hash[0]);
+    return 0;
+}
+#endif
+
+#if defined(BUILDING_SMAP_NETMAN) || defined(BUILDING_SMAP_NETDEV)
+#ifdef BUILDING_SMAP_NETDEV
+static int SMAPIoctl(void *priv, int command, void *in_out_ptr, int in_out_len)
+#else
+static int SMAPIoctl(unsigned int command, void *args, unsigned int args_len, void *output, unsigned int length)
+#endif
+{
+    int result;
+#ifdef BUILDING_SMAP_NETDEV
+    struct SmapDriverData *SmapDrivPrivData;
+    const void *tmpoutptr;
+    int bufasint;
+#endif
+#if USE_GP_REGISTER
+    void *OldGP;
+
+    OldGP = SetModuleGP();
+#endif
+
+#ifdef BUILDING_SMAP_NETDEV
+    SmapDrivPrivData = (struct SmapDriverData *)priv;
+    bufasint         = 0;
+    result           = -512;
+    tmpoutptr        = NULL;
+    switch (command) {
+        case sceInetNDCC_GET_IF_TYPE:
+            result = sceInetNDIFT_ETHERNET;
+            break;
+        case sceInetNDCC_GET_NEGO_STATUS: {
+            result = 0;
+            if ((int)(SmapDrivPrivData->LinkStatus) > 0)
+                result = SmapDrivPrivData->LinkMode;
+            break;
+        }
+        case sceInetNDCC_GET_LINK_STATUS:
+            result = SmapDrivPrivData->LinkStatus;
+            break;
+        case sceInetNDCC_GET_THPRI:
+            result = ThreadPriority;
+            break;
+        case sceInetNDCC_SET_THPRI: {
+            if (in_out_ptr && in_out_len == 4) {
+                result = -403;
+                memcpy(&bufasint, in_out_ptr, 4);
+                if ((unsigned int)(bufasint - 9) < 0x73) {
+                    ThreadPriority = bufasint;
+                    result         = ChangeThreadPriority(SmapDrivPrivData->IntrHandlerThreadID, bufasint);
+                }
+            }
+            break;
+        }
+        case sceInetNDCC_GET_NEGO_MODE: {
+            bufasint = 0;
+            if (EnableAutoNegotiation != 0)
+                bufasint |= sceInetNDNEGO_AUTO;
+            if ((SmapConfiguration & 0x400) != 0)
+                bufasint |= sceInetNDNEGO_PAUSE;
+            if ((SmapConfiguration & 0x100) != 0)
+                bufasint |= sceInetNDNEGO_TX_FD;
+            if ((SmapConfiguration & 0x80) != 0)
+                bufasint |= sceInetNDNEGO_TX;
+            if ((SmapConfiguration & 0x40) != 0)
+                bufasint |= sceInetNDNEGO_10_FD;
+            if ((SmapConfiguration & 0x20) != 0)
+                bufasint |= sceInetNDNEGO_10;
+            tmpoutptr = &bufasint;
+            break;
+        }
+        case sceInetNDCC_SET_NEGO_MODE: {
+            if (in_out_ptr && in_out_len == 4) {
+                int tmpconfig;
+
+                tmpconfig = 0;
+                memcpy(&bufasint, in_out_ptr, 4);
+                EnableAutoNegotiation = ((bufasint & sceInetNDNEGO_AUTO) != 0 ? 1 : 0);
+                if ((bufasint & sceInetNDNEGO_PAUSE) != 0)
+                    tmpconfig |= 0x400;
+                if ((bufasint & sceInetNDNEGO_TX_FD) != 0)
+                    tmpconfig |= 0x100;
+                if ((bufasint & sceInetNDNEGO_TX) != 0)
+                    tmpconfig |= 0x80;
+                if ((bufasint & sceInetNDNEGO_10_FD) != 0)
+                    tmpconfig |= 0x40;
+                if ((bufasint & sceInetNDNEGO_10) != 0)
+                    tmpconfig |= 0x20;
+                SmapConfiguration = tmpconfig;
+                result            = 0;
+            }
+            break;
+        }
+        case sceInetNDCC_GET_MULTICAST:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Multicast;
+            break;
+        case sceInetNDCC_GET_COLLISIONS:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Collisions;
+            break;
+        case sceInetNDCC_GET_RX_LENGTH_ER:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Length_Er;
+            break;
+        case sceInetNDCC_GET_RX_OVER_ER:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Over_Er;
+            break;
+        case sceInetNDCC_GET_RX_CRC_ER:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Crc_Er;
+            break;
+        case sceInetNDCC_GET_RX_FRAME_ER:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Frame_Er;
+            break;
+        case sceInetNDCC_GET_RX_FIFO_ER:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Fifo_Er;
+            break;
+        case sceInetNDCC_GET_RX_MISSED_ER:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Missed_Er;
+            break;
+        case sceInetNDCC_GET_TX_ABORTED_ER:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Aborted_Er;
+            break;
+        case sceInetNDCC_GET_TX_CARRIER_ER:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Carrier_Er;
+            break;
+        case sceInetNDCC_GET_TX_FIFO_ER:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Fifo_Er;
+            break;
+        case sceInetNDCC_GET_TX_HEARTBEAT_ER:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Heartbeat_Er;
+            break;
+        case sceInetNDCC_GET_TX_WINDOW_ER:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Window_Er;
+            break;
+        case sceInetNDCC_GET_RX_PACKETS:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Packets;
+            break;
+        case sceInetNDCC_GET_TX_PACKETS:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Packets;
+            break;
+        case sceInetNDCC_GET_RX_BYTES:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Bytes;
+            break;
+        case sceInetNDCC_GET_TX_BYTES:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Bytes;
+            break;
+        case sceInetNDCC_GET_RX_ERRORS:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Errors;
+            break;
+        case sceInetNDCC_GET_TX_ERRORS:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Errors;
+            break;
+        case sceInetNDCC_GET_RX_DROPPED:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Dropped;
+            break;
+        case sceInetNDCC_GET_TX_DROPPED:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Dropped;
+            break;
+        case sceInetNDCC_GET_RX_BROADCAST_PACKETS:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Broadcast_Packets;
+            break;
+        case sceInetNDCC_GET_TX_BROADCAST_PACKETS:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Broadcast_Packets;
+            break;
+        case sceInetNDCC_GET_RX_BROADCAST_BYTES:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Broadcast_Bytes;
+            break;
+        case sceInetNDCC_GET_TX_BROADCAST_BYTES:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Broadcast_Bytes;
+            break;
+        case sceInetNDCC_GET_RX_MULTICAST_PACKETS:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Multicast_Packets;
+            break;
+        case sceInetNDCC_GET_TX_MULTICAST_PACKETS:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Multicast_Packets;
+            break;
+        case sceInetNDCC_GET_RX_MULTICAST_BYTES:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Rx_Multicast_Bytes;
+            break;
+        case sceInetNDCC_GET_TX_MULTICAST_BYTES:
+            tmpoutptr = &SmapDrivPrivData->RuntimeStats_NetDev.m_Tx_Multicast_Bytes;
+            break;
+        case sceInetNDCC_SET_MULTICAST_LIST:
+            result = do_set_multicast_list_helper(SmapDrivPrivData, in_out_ptr, in_out_len);
+            break;
+        default:
+            break;
+    }
+
+    if (tmpoutptr && in_out_ptr && in_out_len == 4) {
+        memcpy(in_out_ptr, tmpoutptr, in_out_len);
+        result = 0;
+    }
+#else
+    (void)args_len;
+    (void)length;
+
+    switch (command) {
+        case NETMAN_NETIF_IOCTL_ETH_GET_MAC:
+            result = SMAPGetMACAddress(output);
+            break;
+        case NETMAN_NETIF_IOCTL_ETH_GET_LINK_MODE:
+            result = SMAPGetLinkMode();
+            break;
+        case NETMAN_NETIF_IOCTL_GET_LINK_STATUS:
+            result = SMAPGetLinkStatus();
+            break;
+        case NETMAN_NETIF_IOCTL_GET_TX_DROPPED_COUNT:
+            result = SmapDriverData.RuntimeStats.TxDroppedFrameCount;
+            break;
+        case NETMAN_NETIF_IOCTL_GET_RX_DROPPED_COUNT:
+            result = SmapDriverData.RuntimeStats.RxDroppedFrameCount;
+            break;
+        case NETMAN_NETIF_IOCTL_ETH_GET_RX_EOVERRUN_CNT:
+            result = SmapDriverData.RuntimeStats.RxFrameOverrunCount;
+            break;
+        case NETMAN_NETIF_IOCTL_ETH_GET_RX_EBADLEN_CNT:
+            result = SmapDriverData.RuntimeStats.RxFrameBadLengthCount;
+            break;
+        case NETMAN_NETIF_IOCTL_ETH_GET_RX_EBADFCS_CNT:
+            result = SmapDriverData.RuntimeStats.RxFrameBadFCSCount;
+            break;
+        case NETMAN_NETIF_IOCTL_ETH_GET_RX_EBADALIGN_CNT:
+            result = SmapDriverData.RuntimeStats.RxFrameBadAlignmentCount;
+            break;
+        case NETMAN_NETIF_IOCTL_ETH_GET_TX_ELOSSCR_CNT:
+            result = SmapDriverData.RuntimeStats.TxFrameLOSSCRCount;
+            break;
+        case NETMAN_NETIF_IOCTL_ETH_GET_TX_EEDEFER_CNT:
+            result = SmapDriverData.RuntimeStats.TxFrameEDEFERCount;
+            break;
+        case NETMAN_NETIF_IOCTL_ETH_GET_TX_ECOLL_CNT:
+            result = SmapDriverData.RuntimeStats.TxFrameCollisionCount;
+            break;
+        case NETMAN_NETIF_IOCTL_ETH_GET_TX_EUNDERRUN_CNT:
+            result = SmapDriverData.RuntimeStats.TxFrameUnderrunCount;
+            break;
+        case NETMAN_NETIF_IOCTL_ETH_SET_LINK_MODE:
+            result = SMAPSetLinkMode(*(int *)args);
+            break;
+        case NETMAN_NETIF_IOCTL_ETH_GET_STATUS:
+            ((struct NetManEthStatus *)output)->LinkMode   = SMAPGetLinkMode();
+            ((struct NetManEthStatus *)output)->LinkStatus = SMAPGetLinkStatus();
+            memcpy(&(((struct NetManEthStatus *)output)->stats), &(SmapDriverData.RuntimeStats), sizeof(SmapDriverData.RuntimeStats));
+            result = 0;
+            break;
+        default:
+            result = -1;
+    }
+#endif
+
+#if USE_GP_REGISTER
+    SetGP(OldGP);
+#endif
+
+    return result;
+}
+#endif
+
+void SMAPOutputDebugInformation(void)
+{
+#ifdef SMAP_ENABLE_DEBUG_INFORMATION
+    USE_SMAP_EMAC3_REGS;
+    USE_SMAP_REGS;
+    USE_SMAP_RX_BD;
+    int i;
+    char bdidx;
+
+    DEBUG_PRINTF("SMAP_R_RXFIFO_CTRL:       0x%x\n", SMAP_REG8(SMAP_R_RXFIFO_CTRL));
+    DEBUG_PRINTF("SMAP_R_RXFIFO_RD_PTR:     0x%x\n", SMAP_REG16(SMAP_R_RXFIFO_RD_PTR));
+    DEBUG_PRINTF("SMAP_R_RXFIFO_SIZE:       %d\n", SMAP_REG16(SMAP_R_RXFIFO_SIZE));
+    DEBUG_PRINTF("SMAP_R_RXFIFO_FRAME_CNT:  %d\n", SMAP_REG8(SMAP_R_RXFIFO_FRAME_CNT));
+    DEBUG_PRINTF("SMAP_R_RXFIFO_FRAME_DEC:  %d\n", SMAP_REG8(SMAP_R_RXFIFO_FRAME_DEC));
+    DEBUG_PRINTF("SMAP_R_EMAC3_RxMODE:      0x%x\n", (unsigned int)SMAP_EMAC3_GET32(SMAP_R_EMAC3_RxMODE));
+    DEBUG_PRINTF("SMAP_R_EMAC3_INTR_STAT:   0x%x\n", (unsigned int)SMAP_EMAC3_GET32(SMAP_R_EMAC3_INTR_STAT));
+    DEBUG_PRINTF("SMAP_R_EMAC3_INTR_ENABLE: 0x%x\n", (unsigned int)SMAP_EMAC3_GET32(SMAP_R_EMAC3_INTR_ENABLE));
+    bdidx = SmapDriverData.RxBDIndex % SMAP_BD_MAX_ENTRY;
+    for (i = 0; i < SMAP_BD_MAX_ENTRY; i += 1) {
+        if (rx_bd[i].ctrl_stat != SMAP_BD_RX_EMPTY ||
+            rx_bd[i].reserved != 0 ||
+            rx_bd[i].length != 0 ||
+            rx_bd[i].pointer != 0 ||
+            i == bdidx) {
+            if (i == bdidx)
+                DEBUG_PRINTF(" - rx_bd[%d]: 0x%x / 0x%x / %d / 0x%x <--\n", i, rx_bd[i].ctrl_stat, rx_bd[i].reserved, rx_bd[i].length, rx_bd[i].pointer);
+            else
+                DEBUG_PRINTF(" - rx_bd[%d]: 0x%x / 0x%x / %d / 0x%x\n", i, rx_bd[i].ctrl_stat, rx_bd[i].reserved, rx_bd[i].length, rx_bd[i].pointer);
+        }
+    }
+
+    DEBUG_PRINTF("RxDroppedFrameCount:      %d\n", (int)SmapDriverData.RuntimeStats.RxDroppedFrameCount);
+    DEBUG_PRINTF("RxErrorCount:             %d\n", (int)SmapDriverData.RuntimeStats.RxErrorCount);
+    DEBUG_PRINTF("RxFrameOverrunCount:      %d\n", SmapDriverData.RuntimeStats.RxFrameOverrunCount);
+    DEBUG_PRINTF("RxFrameBadLengthCount:    %d\n", SmapDriverData.RuntimeStats.RxFrameBadLengthCount);
+    DEBUG_PRINTF("RxFrameBadFCSCount:       %d\n", SmapDriverData.RuntimeStats.RxFrameBadFCSCount);
+    DEBUG_PRINTF("RxFrameBadAlignmentCount: %d\n", SmapDriverData.RuntimeStats.RxFrameBadAlignmentCount);
+    DEBUG_PRINTF("TxDroppedFrameCount:      %d\n", (int)SmapDriverData.RuntimeStats.TxDroppedFrameCount);
+    DEBUG_PRINTF("TxErrorCount:             %d\n", (int)SmapDriverData.RuntimeStats.TxErrorCount);
+    DEBUG_PRINTF("TxFrameLOSSCRCount:       %d\n", SmapDriverData.RuntimeStats.TxFrameLOSSCRCount);
+    DEBUG_PRINTF("TxFrameEDEFERCount:       %d\n", SmapDriverData.RuntimeStats.TxFrameEDEFERCount);
+    DEBUG_PRINTF("TxFrameCollisionCount:    %d\n", SmapDriverData.RuntimeStats.TxFrameCollisionCount);
+    DEBUG_PRINTF("TxFrameUnderrunCount:     %d\n", SmapDriverData.RuntimeStats.TxFrameUnderrunCount);
+    DEBUG_PRINTF("RxAllocFail:              %d\n", SmapDriverData.RuntimeStats.RxAllocFail);
+#endif
+}
+
+#ifdef BUILDING_SMAP_MODULAR
+int SMapRegisterHook(const SmapModularHookTable_t *hooktbl, int priority)
+{
+    // Only 0 priority is supported at this time
+    if (priority != 0) {
+        return 1;
+    }
+    // Check version of hook table
+    if (hooktbl != NULL) {
+        if (hooktbl->Version != 1) {
+            return 1;
+        }
+    }
+    SmapDriverData.HookTable[priority] = hooktbl;
+    return 0;
+}
+
+static const SmapModularExportTable_t SmapModularExportTable = {
+    .Version                = 1,
+    .GetMACAddress          = &SMAPGetMACAddress,
+    .Xmit                   = &SMAPXmit,
+    .OutputDebugInformation = &SMAPOutputDebugInformation,
+    .RegisterHook           = &SMapRegisterHook,
+    .RxBDIndexPtr           = &(SmapDriverData.RxBDIndex),
+    .RuntimeStatsPtr        = (SmapModularRuntimeStats_t *)&(SmapDriverData.RuntimeStats),
+};
+
+const SmapModularExportTable_t *SmapModularGetExportTable(void)
+{
+    return &SmapModularExportTable;
+}
+#endif
+
+static inline int SetupNetDev(void)
+{
+    int result;
+    iop_event_t EventFlagData;
+    iop_thread_t ThreadData;
+#ifdef BUILDING_SMAP_NETDEV
+    u32 mac_address_lo, mac_address_hi;
+    // cppcheck-suppress constVariablePointer
+    volatile u8 *emac3_regbase;
+#endif
+#ifdef BUILDING_SMAP_NETMAN
+    static struct NetManNetIF device = {
+        "SMAP",
+        0,
+        0,
+        &SMAPStart,
+        &SMAPStop,
+        &SMAPXmit,
+        &SMAPIoctl,
+        0,
+    };
+#endif
+
+#ifdef BUILDING_SMAP_NETDEV
+    emac3_regbase = SmapDriverData.emac3_regbase;
+
+    SmapDriverData.m_devops.module_name = "smap";
+    SmapDriverData.m_devops.vendor_name = "SCE";
+    SmapDriverData.m_devops.device_name = "Ethernet (Network Adaptor)";
+    SmapDriverData.m_devops.bus_type    = sceInetBus_NIC;
+    SmapDriverData.m_devops.prot_ver    = sceInetDevProtVer;
+    SmapDriverData.m_devops.flags       = sceInetDevF_ARP | sceInetDevF_Multicast | sceInetDevF_NIC;
+    SmapDriverData.m_devops.start       = &SMAPStart;
+    SmapDriverData.m_devops.stop        = &SMAPStop;
+    SmapDriverData.m_devops.xmit        = &SMAPXmit_NetDev;
+    SmapDriverData.m_devops.impl_ver    = 0;
+    SmapDriverData.m_devops.priv        = &SmapDriverData;
+    SmapDriverData.m_devops.control     = &SMAPIoctl;
+    SmapDriverData.m_devops.mtu         = 1500;
+
+    mac_address_hi = SMAP_EMAC3_GET32(SMAP_R_EMAC3_ADDR_HI);
+    mac_address_lo = SMAP_EMAC3_GET32(SMAP_R_EMAC3_ADDR_LO);
+
+    SmapDriverData.m_devops.hw_addr[0] = mac_address_hi >> 8;
+    SmapDriverData.m_devops.hw_addr[1] = mac_address_hi;
+    SmapDriverData.m_devops.hw_addr[2] = mac_address_lo >> 24;
+    SmapDriverData.m_devops.hw_addr[3] = mac_address_lo >> 16;
+    SmapDriverData.m_devops.hw_addr[4] = mac_address_lo >> 8;
+    SmapDriverData.m_devops.hw_addr[5] = mac_address_lo;
+#endif
+
+    EventFlagData.attr   = 0;
+    EventFlagData.option = 0;
+    EventFlagData.bits   = 0;
+
+    if ((result = SmapDriverData.Dev9IntrEventFlag = CreateEventFlag(&EventFlagData)) < 0) {
+        DEBUG_PRINTF("CreateEventFlag -> %d\n", result);
+        return -6;
+    }
+
+    ThreadData.attr      = TH_C;
+    ThreadData.thread    = (void *)&IntrHandlerThread;
+    ThreadData.option    = 0;
+    ThreadData.priority  = ThreadPriority;
+    ThreadData.stacksize = ThreadStackSize;
+    if ((result = SmapDriverData.IntrHandlerThreadID = CreateThread(&ThreadData)) < 0) {
+        DEBUG_PRINTF("CreateThread -> %d\n", result);
+        DeleteEventFlag(SmapDriverData.Dev9IntrEventFlag);
+        return result;
+    }
+
+    if ((result = StartThread(SmapDriverData.IntrHandlerThreadID, &SmapDriverData)) < 0) {
+        sceInetPrintf("smap: StartThread -> %d\n", result);
+        DeleteThread(SmapDriverData.IntrHandlerThreadID);
+        DeleteEventFlag(SmapDriverData.Dev9IntrEventFlag);
+        return result;
+    }
+
+#ifdef BUILDING_SMAP_NETMAN
+    if ((SmapDriverData.NetIFID = NetManRegisterNetIF(&device)) < 0) {
+        sceInetPrintf("smap: NetManRegisterNetIF -> %d\n", result);
+        TerminateThread(SmapDriverData.IntrHandlerThreadID);
+        DeleteThread(SmapDriverData.IntrHandlerThreadID);
+        DeleteEventFlag(SmapDriverData.Dev9IntrEventFlag);
+        return -6;
+    }
+#endif
+
+#ifdef BUILDING_SMAP_NETDEV
+    if ((result = sceInetRegisterNetDevice(&SmapDriverData.m_devops)) < 0) {
+        sceInetPrintf("smap: sceInetRegisterNetDevice -> %d\n", result);
+        TerminateThread(SmapDriverData.IntrHandlerThreadID);
+        DeleteThread(SmapDriverData.IntrHandlerThreadID);
+        DeleteEventFlag(SmapDriverData.Dev9IntrEventFlag);
+        return -6;
+    }
+#endif
+
+    return 0;
+}
+
+static int ParseSmapConfiguration(const char *cmd, unsigned int *configuration)
+{
+    const char *CmdStart, *DigitStart;
+    unsigned int result, base, character, value;
+
+    DigitStart = CmdStart = cmd;
+    base                  = 10;
+
+    if (CmdStart[0] == '0') {
+        if (CmdStart[1] != '\0') {
+            if (CmdStart[1] == 'x') {
+                DigitStart += 2;
+                base = 16;
+            } else {
+                DigitStart++;
+            }
+        }
+    }
+    if (DigitStart[0] == '\0') {
+        goto fail_end;
+    }
+
+    result    = 0;
+    character = DigitStart[0];
+    do {
+        if (character - '0' < 10) {
+            value = character - '0';
+        } else if (character - 'a' < 6) {
+            value = character - 'a' - 0x57;
+        } else
+            goto fail_end;
+
+        if (value >= base)
+            goto fail_end;
+
+        result = result * base + value;
+    } while ((character = *(++DigitStart)) != '\0');
+    *configuration = result;
+
+    return 0;
+fail_end:
+    sceInetPrintf("smap: %s: %s - invalid digit\n", "scan_number", CmdStart);
+    return -1;
+}
+
+int smap_init(int argc, char *argv[])
+{
+    int result, i;
+    const char *CmdString;
+    u16 eeprom_data[4], checksum16;
+    u32 mac_address;
+    USE_SPD_REGS;
+    USE_SMAP_REGS;
+    USE_SMAP_EMAC3_REGS;
+    USE_SMAP_TX_BD;
+    USE_SMAP_RX_BD;
+
+    checksum16 = 0;
+#if defined(BUILDING_SMAP_NETMAN) || defined(BUILDING_SMAP_NETDEV)
+    argc--;
+    argv++;
+#endif
+    SmapDriverData.LinkStatus = -1;
+    while (argc > 0) {
+        if (strcmp("-help", *argv) == 0) {
+            return DisplayHelpMessage();
+        } else if (strcmp("-version", *argv) == 0) {
+            return DisplayBanner();
+        } else if (strcmp("-verbose", *argv) == 0) {
+            EnableVerboseOutput = 1;
+        } else if (strcmp("-auto", *argv) == 0) {
+            EnableAutoNegotiation = 1;
+        } else if (strcmp("-no_auto", *argv) == 0) {
+            EnableAutoNegotiation = 0;
+        } else if (strcmp("-strap", *argv) == 0) {
+            EnablePinStrapConfig = 1;
+        } else if (strcmp("-no_strap", *argv) == 0) {
+            EnablePinStrapConfig = 0;
+        } else if (strncmp("thpri=", *argv, 6) == 0) {
+            CmdString = &(*argv)[6];
+            if (isdigit(CmdString[0])) {
+                ThreadPriority = strtoul(&(*argv)[6], NULL, 10);
+                if (ThreadPriority - 9 >= 0x73) {
+                    return DisplayHelpMessage();
+                }
+
+                if ((*argv)[6] != '\0') {
+                    while (isdigit(*CmdString)) {
+                        CmdString++;
+                    }
+                    if (*CmdString != '\0')
+                        return DisplayHelpMessage();
+                }
+            } else
+                return DisplayHelpMessage();
+        } else if (strncmp("thstack=", *argv, 8) == 0) {
+            CmdString = &(*argv)[8];
+            if (isdigit(CmdString[0])) {
+                ThreadStackSize = strtoul(&(*argv)[8], NULL, 10);
+                if ((*argv)[8] != '\0') {
+                    while (isdigit(*CmdString)) {
+                        CmdString++;
+                    }
+                }
+
+                if (strcmp(CmdString, "KB") == 0)
+                    ThreadStackSize <<= 10;
+            } else
+                return DisplayHelpMessage();
+        } else {
+            if (ParseSmapConfiguration(*argv, &SmapConfiguration) != 0)
+                return DisplayHelpMessage();
+        }
+
+        argc--;
+        argv++;
+    }
+
+    if (argc != 0)
+        return DisplayHelpMessage();
+
+    SmapDriverData.smap_regbase  = smap_regbase;
+    SmapDriverData.emac3_regbase = emac3_regbase;
+    if ((SPD_REG16(SPD_R_REV_3) & SPD_CAPS_SMAP) == 0)
+        return -1;
+    if (SPD_REG16(SPD_R_REV_1) < 0x11)
+        return -6; // Minimum: revision 17, ES2.
+
+    SpdIntrDisable(DEV9_SMAP_ALL_INTR_MASK);
+
+    /* Reset FIFOs. */
+    SMAP_REG8(SMAP_R_TXFIFO_CTRL) = SMAP_TXFIFO_RESET;
+    for (i = 9; SMAP_REG8(SMAP_R_TXFIFO_CTRL) & SMAP_TXFIFO_RESET; i--) {
+        if (i <= 0)
+            return -2;
+        DelayThread(1000);
+    }
+
+    SMAP_REG8(SMAP_R_RXFIFO_CTRL) = SMAP_RXFIFO_RESET;
+    for (i = 9; SMAP_REG8(SMAP_R_RXFIFO_CTRL) & SMAP_RXFIFO_RESET; i--) {
+        if (i <= 0)
+            return -3;
+        DelayThread(1000);
+    }
+
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_MODE0, SMAP_E3_SOFT_RESET);
+    for (i = 9; SMAP_EMAC3_GET32(SMAP_R_EMAC3_MODE0) & SMAP_E3_SOFT_RESET; i--) {
+        if (i <= 0)
+            return -4;
+        DelayThread(1000);
+    }
+
+    SMAP_REG8(SMAP_R_BD_MODE) = 0;
+    for (i = 0; i < SMAP_BD_MAX_ENTRY; i++) {
+        tx_bd[i].ctrl_stat = 0;
+        tx_bd[i].reserved  = 0;
+        tx_bd[i].length    = 0;
+        tx_bd[i].pointer   = 0;
+    }
+
+    for (i = 0; i < SMAP_BD_MAX_ENTRY; i++) {
+        rx_bd[i].ctrl_stat = SMAP_BD_RX_EMPTY;
+        rx_bd[i].reserved  = 0;
+        rx_bd[i].length    = 0;
+        rx_bd[i].pointer   = 0;
+    }
+
+    SMAP_REG16(SMAP_R_INTR_CLR) = DEV9_SMAP_ALL_INTR_MASK;
+
+    /* Retrieve the MAC address and verify it's integrity. */
+    bzero(eeprom_data, 8);
+    if ((result = SpdGetEthernetID(eeprom_data)) < 0) {
+        return (result == -1 ? -7 : -4);
+    }
+
+    for (i = 0; i < 3; i++)
+        checksum16 += eeprom_data[i];
+    if (eeprom_data[0] == 0 && eeprom_data[1] == 0 && eeprom_data[2] == 0) {
+        return -5;
+    }
+    if (checksum16 != eeprom_data[3])
+        return -5;
+
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_MODE1, SMAP_E3_FDX_ENABLE | SMAP_E3_IGNORE_SQE | SMAP_E3_MEDIA_100M | SMAP_E3_RXFIFO_2K | SMAP_E3_TXFIFO_1K | SMAP_E3_TXREQ0_MULTI | SMAP_E3_TXREQ1_SINGLE);
+    // Tx FIFO request priority. Low: 7*8=56, urgent: 15*8=120.
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_TxMODE1, (7 & SMAP_E3_TX_LOW_REQ_MSK) << SMAP_E3_TX_LOW_REQ_BITSFT | (15 & SMAP_E3_TX_URG_REQ_MSK) << SMAP_E3_TX_URG_REQ_BITSFT);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_RxMODE, SMAP_E3_RX_STRIP_PAD | SMAP_E3_RX_STRIP_FCS | SMAP_E3_RX_INDIVID_ADDR | SMAP_E3_RX_BCAST | SMAP_E3_RX_MCAST);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_INTR_STAT, SMAP_E3_INTR_TX_ERR_0 | SMAP_E3_INTR_SQE_ERR_0 | SMAP_E3_INTR_DEAD_0);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_INTR_ENABLE, SMAP_E3_INTR_TX_ERR_0 | SMAP_E3_INTR_SQE_ERR_0 | SMAP_E3_INTR_DEAD_0);
+
+    mac_address = (u16)(eeprom_data[0] >> 8 | eeprom_data[0] << 8);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_ADDR_HI, mac_address);
+
+    mac_address = ((u16)(eeprom_data[1] >> 8 | eeprom_data[1] << 8) << 16) | (u16)(eeprom_data[2] >> 8 | eeprom_data[2] << 8);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_ADDR_LO, mac_address);
+
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_PAUSE_TIMER, 0xFFFF);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_GROUP_HASH1, 0);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_GROUP_HASH2, 0);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_GROUP_HASH3, 0);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_GROUP_HASH4, 0);
+
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_INTER_FRAME_GAP, 4);
+    // Tx threshold, (12+1)*64=832.
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_TX_THRESHOLD, (12 & SMAP_E3_TX_THRESHLD_MSK) << SMAP_E3_TX_THRESHLD_BITSFT);
+    // Rx watermark, low: 16*8=128, high: 128*8=1024.
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_RX_WATERMARK, (16 & SMAP_E3_RX_LO_WATER_MSK) << SMAP_E3_RX_LO_WATER_BITSFT | (128 & SMAP_E3_RX_HI_WATER_MSK) << SMAP_E3_RX_HI_WATER_BITSFT);
+
+    // Register the interrupt handlers for all SMAP events.
+    for (i = 2; i < 7; i++)
+        SpdRegisterIntrHandler(i, &Dev9IntrCb);
+
+    dev9RegisterPreDmaCb(1, &Dev9PreDmaCbHandler);
+    dev9RegisterPostDmaCb(1, &Dev9PostDmaCbHandler);
+
+    return SetupNetDev();
+}
+
+#ifdef BUILDING_SMAP_NETDEV
+int smap_deinit(void)
+{
+    int i;
+    // cppcheck-suppress constVariablePointer
+    volatile u8 *emac3_regbase;
+
+    if ((SmapDriverData.SmapDriverStarting || SmapDriverData.SmapIsInitialized) && !SmapDriverData.NetDevStopFlag) {
+        sceInetPrintf("smap: can't unload (busy)\n");
+        return 2;
+    }
+
+    emac3_regbase = SmapDriverData.emac3_regbase;
+
+    sceInetUnregisterNetDevice(&SmapDriverData.m_devops);
+    TerminateThread(SmapDriverData.IntrHandlerThreadID);
+    DeleteThread(SmapDriverData.IntrHandlerThreadID);
+    DeleteEventFlag(SmapDriverData.Dev9IntrEventFlag);
+    if (SmapDriverData.packetToSend)
+        sceInetFreePkt(&SmapDriverData.m_devops, (sceInetPkt_t *)SmapDriverData.packetToSend);
+    if (SmapDriverData.EnableLinkCheckTimer)
+        CancelAlarm((unsigned int (*)(void *))LinkCheckTimerCB, &SmapDriverData);
+    dev9RegisterPreDmaCb(1, NULL);
+    dev9RegisterPostDmaCb(1, NULL);
+    for (i = 2; i < 7; i++) {
+        dev9RegisterIntrCb(i, NULL);
+    }
+    dev9IntrDisable(DEV9_SMAP_INTR_MASK2);
+    SMAP_EMAC3_SET32(SMAP_R_EMAC3_MODE0, 0);
+    return 1;
+}
+#endif
+
+int SMAPGetMACAddress(u8 *buffer)
+{
+    u32 mac_address_lo, mac_address_hi;
+    // cppcheck-suppress constVariablePointer
+    volatile u8 *emac3_regbase;
+    int OldState;
+
+    emac3_regbase = SmapDriverData.emac3_regbase;
+
+    CpuSuspendIntr(&OldState);
+
+    mac_address_hi = SMAP_EMAC3_GET32(SMAP_R_EMAC3_ADDR_HI);
+    mac_address_lo = SMAP_EMAC3_GET32(SMAP_R_EMAC3_ADDR_LO);
+
+    CpuResumeIntr(OldState);
+
+    buffer[0] = mac_address_hi >> 8;
+    buffer[1] = mac_address_hi;
+    buffer[2] = mac_address_lo >> 24;
+    buffer[3] = mac_address_lo >> 16;
+    buffer[4] = mac_address_lo >> 8;
+    buffer[5] = mac_address_lo;
+
+    return 0;
+}

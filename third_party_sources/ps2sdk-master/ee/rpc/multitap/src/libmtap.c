@@ -1,0 +1,99 @@
+/*
+# _____     ___ ____     ___ ____
+#  ____|   |    ____|   |        | |____|
+# |     ___|   |____ ___|    ____| |    \    PS2DEV Open Source Project.
+#-----------------------------------------------------------------------
+# Copyright 2001-2004, ps2dev - http://www.ps2dev.org
+# Licenced under Academic Free License version 2.0
+# Review ps2sdk README & LICENSE files for further details.
+*/
+
+/**
+ * @file
+ * Functions to provide access to multi-taps.
+ */
+
+#include <tamtypes.h>
+#include <string.h>
+#include <kernel.h>
+#include <sifrpc.h>
+#include <stdarg.h>
+#include <iopcontrol.h>
+
+#include "libmtap.h"
+
+#define MTAPSERV_PORT_OPEN			0x80000901
+#define MTAPSERV_PORT_CLOSE			0x80000902
+#define MTAPSERV_GET_CONNECTION		0x80000903
+
+static unsigned int mtapRpcBuffer[32] __attribute__((aligned (64)));
+static struct t_SifRpcClientData clientPortOpen __attribute__((aligned (64)));
+static struct t_SifRpcClientData clientPortClose __attribute__((aligned (64)));
+static struct t_SifRpcClientData clientGetConnection __attribute__((aligned (64)));
+
+int mtapInit(void)
+{
+	if (HasIopRebootedSinceLastCall())
+	{
+		memset(&clientPortOpen, 0, sizeof(clientPortOpen));
+		memset(&clientPortClose, 0, sizeof(clientPortClose));
+		memset(&clientGetConnection, 0, sizeof(clientGetConnection));
+	}
+	if(clientPortOpen.server && clientPortClose.server && clientGetConnection.server) return -1;
+
+	while(1)
+	{
+		if (sceSifBindRpc(&clientPortOpen, MTAPSERV_PORT_OPEN, 0) < 0) return -1;
+ 		if (clientPortOpen.server != 0) break;
+
+	nopdelay();
+	}
+
+	while(1)
+	{
+		if (sceSifBindRpc(&clientPortClose, MTAPSERV_PORT_CLOSE, 0) < 0) return -1;
+ 		if (clientPortClose.server != 0) break;
+
+	nopdelay();
+	}
+
+	while(1)
+	{
+		if (sceSifBindRpc(&clientGetConnection, MTAPSERV_GET_CONNECTION, 0) < 0) return -1;
+ 		if (clientGetConnection.server != 0) break;
+
+	nopdelay();
+	}
+
+	return 1;
+}
+
+int mtapPortOpen(int port)
+{
+	if(!clientPortOpen.server) return -1;
+
+	mtapRpcBuffer[0] = port;
+	sceSifCallRpc(&clientPortOpen, 1, 0, mtapRpcBuffer, 4, mtapRpcBuffer, 8, NULL, NULL);
+
+	return mtapRpcBuffer[1];
+}
+
+int mtapPortClose(int port)
+{
+	if(!clientPortClose.server) return -1;
+
+	mtapRpcBuffer[0] = port;
+	sceSifCallRpc(&clientPortClose, 1, 0, mtapRpcBuffer, 4, mtapRpcBuffer, 8, NULL, NULL);
+
+	return mtapRpcBuffer[1];
+}
+
+int mtapGetConnection(int port)
+{
+	if(!clientGetConnection.server) return -1;
+
+	mtapRpcBuffer[0] = port;
+	sceSifCallRpc(&clientGetConnection, 1, 0, mtapRpcBuffer, 4, mtapRpcBuffer, 8, NULL, NULL);
+
+	return mtapRpcBuffer[1];
+}

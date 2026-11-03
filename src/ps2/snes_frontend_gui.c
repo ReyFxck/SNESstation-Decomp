@@ -52,7 +52,7 @@ extern uint64_t snes_float_to_u64(float f);
 extern void    snes_frontend_options_00103314(void);
 extern void    snes_wait_controller_001029c4(void);
 extern void    snes_mem_set_0019e414(uint32_t addr);
-extern uint32_t snes_gui_func_00103cb0(uint32_t idx);
+extern uint64_t snes_gui_func_00103cb0(uint32_t idx);
 extern void    snes_gui_func_00103d90(uint32_t idx, uint64_t param);
 extern void    snes_mem_free_0019e784(void *mem);
 extern void    snes_mem_copy_0019c3d4(uint32_t dst, uint32_t src);
@@ -64,7 +64,6 @@ extern void    snes_obj_vram_0019a588(void *obj, uint32_t status, uint32_t a, ui
 extern void    snes_obj_config2_0019b028(void *obj, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f, uint32_t g);
 extern void    snes_obj_wait_001998f8(void *obj);
 extern void    snes_obj_setup_00199ef8(void *obj, uint32_t a, uint32_t b, uint32_t c, uint32_t d);
-extern uint64_t snes_gui_func_00103cb0(uint32_t idx);
 extern void    snes_frontend_sub_00101e8c(void);
 extern void    snes_gui_func_00103cd4(uint32_t idx, uint32_t offset);
 
@@ -126,13 +125,16 @@ void snes_top_level_gui_00102ab0(uint64_t param_1)
                             }
                             goto update_float;
                         }
-                        uint32_t u5 = snes_float_ops_001a3340(*(float *)&g_unk_1bb2c8);
-                        u5 = snes_float_ops_001a35b0(u5, g_unk_1b0ba8);
-                    } else {
-                        uint32_t u5 = snes_float_ops_001a3340(*(float *)&g_unk_1bb2c8);
-                        u5 = snes_float_ops_001a3610(u5, g_unk_1b0ba0);
                     }
-                    f = *(float *)snes_float_ops_001a3cc0(u5);
+                    {
+                        uint32_t u5 = snes_float_ops_001a3340(*(float *)&g_unk_1bb2c8);
+                        if ((buttons & 0x1000) == 0) {
+                            u5 = snes_float_ops_001a35b0(u5, g_unk_1b0ba8);
+                        } else {
+                            u5 = snes_float_ops_001a3610(u5, g_unk_1b0ba0);
+                        }
+                        f = *(float *)snes_float_ops_001a3cc0(u5);
+                    }
                 }
             update_float:
                 g_unk_1bb2c8 = snes_float_to_u64(f);
@@ -180,7 +182,8 @@ void snes_top_level_gui_00102ab0(uint64_t param_1)
             }
 
             if (count > 0 && visible > 0) {
-                for (int32_t i = 0; i < visible; i++) {
+                int32_t i;
+                for (i = 0; i < visible; i++) {
                     int32_t offset = i * 0x100;
                     int32_t idx = start + i;
                     snes_gui_func_00103cd4(idx, offset + 0x427018);
@@ -195,39 +198,43 @@ void snes_top_level_gui_00102ab0(uint64_t param_1)
                 snes_obj_blend_0019b948(0x1bb748, 100, 0x21c, 0xed, 4, 0x80ffffff, 2, 0x1b0a98);
             } else {
                 snes_obj_setup_00199ef8(g_vram_base, 0x78, 0x54, 0x208, 0x186);
-                for (int32_t i = 0; i < visible; i++) {
-                    uint64_t l2 = snes_gui_func_00103cb0(start + i);
-                    int32_t y = i * 0x12 + g_unk_1bb2c4;
-                    uint32_t width = 0x80;
-                    void *src;
-                    uint32_t color;
+                {
+                    int32_t i;
+                    for (i = 0; i < visible; i++) {
+                        uint64_t l2 = snes_gui_func_00103cb0(start + i);
+                        int32_t y = i * 0x12 + g_unk_1bb2c4;
+                        uint32_t width = 0x80;
+                        void *src;
+                        uint32_t color;
+                        int32_t offset;
 
-                    if (l2 == 0) {
-                        if (i != (int)*(float *)&g_unk_1bb2c8 - start) {
+                        if (l2 == 0) {
+                            if (i != (int)*(float *)&g_unk_1bb2c8 - start) {
+                                width = 0x80;
+                                y = i * 0x12 + g_unk_1bb2c4;
+                                goto draw_item;
+                            }
                             width = 0x80;
                             y = i * 0x12 + g_unk_1bb2c4;
-                            goto draw_item;
-                        }
-                        width = 0x80;
-                        y = i * 0x12 + g_unk_1bb2c4;
-                        color = 0x80ffffff;
-                    } else {
-                        y = i * 0x12;
-                        snes_obj_blend_0019b948(0x1bb748, 0x80, 0x280, g_unk_1bb2c4 + y, 4, 0x80808080, 1, 0x1b0af8);
-                        if (i == (int)*(float *)&g_unk_1bb2c8 - start) {
+                            color = 0x80ffffff;
+                        } else {
+                            y = i * 0x12;
+                            snes_obj_blend_0019b948(0x1bb748, 0x80, 0x280, g_unk_1bb2c4 + y, 4, 0x80808080, 1, 0x1b0af8);
+                            if (i == (int)*(float *)&g_unk_1bb2c8 - start) {
+                                y = g_unk_1bb2c4 + y;
+                                width = 0x94;
+                                color = 0x80ffffff;
+                                goto draw_item;
+                            }
                             y = g_unk_1bb2c4 + y;
                             width = 0x94;
-                            color = 0x80ffffff;
-                            goto draw_item;
+                            color = 0x802060ff;
                         }
-                        y = g_unk_1bb2c4 + y;
-                        width = 0x94;
-                        color = 0x802060ff;
-                    }
 
-                draw_item:
-                    int32_t offset = i * 0x100;
-                    snes_obj_blend_0019b948(0x1bb748, width, 0x280, y, 4, color, 1, offset + 0x427018);
+                    draw_item:
+                        offset = i * 0x100;
+                        snes_obj_blend_0019b948(0x1bb748, width, 0x280, y, 4, color, 1, offset + 0x427018);
+                    }
                 }
                 snes_obj_setup_00199ef8(g_vram_base, 0, 0, 0x280, 0x1e0);
             }

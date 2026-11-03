@@ -1,0 +1,1329 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+#include "language.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_CURSOR_SCOPE        CURSOR  DISCARDABLE     "nodrop.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_SNES9X_ACCELERATORS ACCELERATORS DISCARDABLE 
+BEGIN
+    "0",            ID_SOUND_NOSOUND,       ASCII,  ALT, NOINVERT
+    "1",            ID_SOUND_8000HZ,        ASCII,  ALT, NOINVERT
+    "2",            ID_SOUND_11025HZ,       ASCII,  ALT, NOINVERT
+    "3",            ID_SOUND_16000HZ,       ASCII,  ALT, NOINVERT
+    "4",            ID_SOUND_22050HZ,       ASCII,  ALT, NOINVERT
+    "5",            ID_SOUND_30000HZ,       ASCII,  ALT, NOINVERT
+    "6",            ID_SOUND_32000HZ,       ASCII,  ALT, NOINVERT
+    "7",            ID_SOUND_35000HZ,       ASCII,  ALT, NOINVERT
+    "8",            ID_SOUND_44100HZ,       ASCII,  ALT, NOINVERT
+    "9",            ID_SOUND_48000HZ,       ASCII,  ALT, NOINVERT
+    "A",            ID_CHEAT_SEARCH,        VIRTKEY, ALT, NOINVERT
+    "E",            ID_CHEAT_ENTER,         VIRTKEY, ALT, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "R",            ID_SOUND_REVERSE_STEREO, VIRTKEY, ALT, NOINVERT
+    "T",            ID_SOUND_OPTIONS,       VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_WINDOW_STRETCH,      VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_TURBO_R,             VIRTKEY, SHIFT, NOINVERT
+    VK_END,         ID_TURBO_B,             VIRTKEY, SHIFT, NOINVERT
+    VK_F12,         ID_SCREENSHOT,          VIRTKEY, NOINVERT
+    VK_F5,          ID_OPTIONS_DISPLAY,     VIRTKEY, ALT, NOINVERT
+    VK_F7,          ID_OPTIONS_JOYPAD,      VIRTKEY, ALT, NOINVERT
+    VK_F8,          ID_OPTIONS_SETTINGS,    VIRTKEY, ALT, NOINVERT
+    VK_HOME,        ID_TURBO_Y,             VIRTKEY, SHIFT, NOINVERT
+    VK_INSERT,      ID_TURBO_L,             VIRTKEY, SHIFT, NOINVERT
+    VK_NEXT,        ID_TURBO_A,             VIRTKEY, SHIFT, NOINVERT
+    VK_PRIOR,       ID_TURBO_X,             VIRTKEY, SHIFT, NOINVERT
+    VK_RETURN,      ID_WINDOW_FULLSCREEN,   VIRTKEY, ALT, NOINVERT
+    "[",            ID_SOUND_INTERPOLATED,  ASCII,  ALT, NOINVERT
+    "]",            ID_SOUND_SYNC,          ASCII,  ALT, NOINVERT
+    "{",            ID_TURBO_SELECT,        ASCII,  NOINVERT
+    "}",            ID_TURBO_START,         ASCII,  NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SOUND_OPTS DIALOGEX 0, 0, 352, 202
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
+    WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU
+CAPTION "Sound Settings"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Sound Quality",IDC_STATIC,7,7,168,167,0,
+                    WS_EX_TRANSPARENT
+    GROUPBOX        "Sound Emulation",IDC_STATIC,177,7,168,167,0,
+                    WS_EX_TRANSPARENT
+    DEFPUSHBUTTON   "&OK",IDOK,229,178,56,16
+    COMBOBOX        IDC_DRIVER,65,24,106,60,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Sound Driver:",IDC_STATIC,13,25,49,11
+    COMBOBOX        IDC_BUFLEN,65,72,106,101,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Buffer Length:",IDC_STATIC,13,74,49,11
+    COMBOBOX        IDC_RATE,65,40,106,171,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Playback Rate:",IDC_STATIC,13,41,49,11
+    COMBOBOX        IDC_MIX,65,56,106,154,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Mix Interval:",IDC_STATIC,13,57,49,11
+    CONTROL         "&16 Bit playback",IDC_16BIT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,13,92,158,10
+    CONTROL         "&Stereo",IDC_STEREO,"Button",BS_AUTOCHECKBOX | 
+                    BS_NOTIFY | WS_TABSTOP,13,108,158,10
+    CONTROL         "&Reverse Stereo",IDC_REV_STEREO,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,13,124,158,10
+    CONTROL         "Gaussian &Interpolation of Sample Data",
+                    IDC_LINEAR_INTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    13,140,158,10
+    CONTROL         "&Generate sample data in sync with sound CPU",
+                    IDC_SYNC_TO_SOUND_CPU,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,13,156,158,10
+    CONTROL         "&Volume envelope height reading",IDC_ENVX,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,183,23,141,12
+    CONTROL         "&Echo Effects",IDC_ECHO,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,183,40,141,12
+    CONTROL         "&Cache decoded samples",IDC_CACHING,"Button",
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,183,57,141,12
+    CONTROL         "M&aster volume control",IDC_MASTER_VOL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,183,74,141,12
+    CONTROL         "Enable sound CP&U emulation",IDC_SPC700ON,"Button",
+                    BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,183,125,141,12
+    CONTROL         "Anti-Resonance's sample &decoding method",IDC_ANTIRES,
+                    "Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,183,
+                    108,157,12
+    CONTROL         "&Mute sound",IDC_MUTE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,183,91,141,12
+    COMBOBOX        IDC_SKIP_TYPE,249,151,94,59,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "CPU &wait skip style",IDC_STATIC,183,151,64,13
+    PUSHBUTTON      "&Cancel",IDCANCEL,289,178,56,16
+END
+
+IDD_SPC7110_CACHE DIALOG DISCARDABLE  0, 0, 185, 92
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
+    WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU
+CAPTION "SPC7110 Pack Configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,138,48,40,16
+    PUSHBUTTON      "Cancel",IDCANCEL,138,68,40,16
+    CONTROL         "Load All Data into RAM",IDC_SPC7110_ALL,"Button",
+                    BS_AUTORADIOBUTTON,7,7,92,13
+    CONTROL         "Load Some Data into RAM",IDC_SPC7110_SOME,"Button",
+                    BS_AUTORADIOBUTTON,7,26,101,13
+    CONTROL         "Read all data from file",IDC_SPC7110_FILE,"Button",
+                    BS_AUTORADIOBUTTON,7,48,104,13
+    EDITTEXT        IDC_CACHE_MB,112,26,40,13,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPIN_CACHE,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS,146,26,11,13
+END
+
+IDD_7110_RTC DIALOG DISCARDABLE  0, 0, 302, 148
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "SPC7110 RTC Control"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,192,127,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,245,127,50,14
+    GROUPBOX        "RTC Control Registers",IDC_STATIC,7,49,288,71
+    CONTROL         "30 ADJ",IDC_RTC_D8,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,70,62,53,10
+    CONTROL         "IRQ-F",IDC_RTC_D4,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,127,62,53,10
+    CONTROL         "CAL / HW",IDC_RTC_D2,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,184,62,53,10
+    CONTROL         "HOLD",IDC_RTC_D1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    242,62,45,10
+    CONTROL         "T1",IDC_RTC_E8,"Button",BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_TABSTOP,70,80,25,10
+    CONTROL         "T0",IDC_RTC_E4,"Button",BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_TABSTOP,127,80,25,10
+    CONTROL         "INT/STND",IDC_RTC_E2,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,184,80,51,10
+    CONTROL         "MASK",IDC_RTC_E1,"Button",BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_TABSTOP,242,80,36,10
+    CONTROL         "TEST",IDC_RTC_F8,"Button",BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_TABSTOP,70,98,35,10
+    CONTROL         "24/12",IDC_RTC_F4,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,127,98,35,10
+    CONTROL         "STOP",IDC_RTC_F2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    184,98,35,10
+    CONTROL         "RESET",IDC_RTC_F1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    242,98,40,10
+    LTEXT           "Register 0xD",IDC_STATIC,13,62,43,8
+    LTEXT           "Register 0xE",IDC_STATIC,13,80,41,8
+    LTEXT           "Register 0xF",IDC_STATIC,13,98,42,8
+    CONTROL         "Slider1",IDC_DAY,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,59,20,45,8
+    CONTROL         "Slider2",IDC_YEAR,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,106,20,42,8
+    LTEXT           "1",IDC_LBLDAY,74,28,18,8
+    CONTROL         "Slider1",IDC_MONTH,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,7,20,51,8
+    CONTROL         "Slider2",IDC_HOUR,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,160,20,42,8
+    CONTROL         "Slider2",IDC_MINUTE,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,203,20,42,8
+    CONTROL         "Slider2",IDC_SECOND,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,246,20,42,8
+    LTEXT           "1",IDC_LBLMONTH,20,28,26,8
+    LTEXT           "1995",IDC_LBLYEAR,116,28,27,8
+    LTEXT           "Month",IDC_STATIC,20,7,21,8
+    LTEXT           "Day",IDC_STATIC,71,7,14,8
+    LTEXT           "Year",IDC_STATIC,117,7,16,8
+    LTEXT           "Hour",IDC_STATIC,172,7,16,8
+    LTEXT           "Minute",IDC_STATIC,210,7,22,8
+    LTEXT           "Second",IDC_STATIC,252,7,26,8
+    LTEXT           "0",IDC_LBLHOUR,173,29,19,8
+    LTEXT           "0",IDC_LBLMINUTE,219,29,17,8
+    LTEXT           "0",IDC_LBLSECOND,257,28,18,8
+END
+
+IDD_ROM_INFO DIALOG DISCARDABLE  0, 0, 233, 185
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CLIPCHILDREN | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Rom Info"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,85,164,50,14
+    EDITTEXT        IDC_ROM_DATA,7,7,219,146,ES_MULTILINE | ES_READONLY
+    LTEXT           "",IDC_WARNINGS,7,145,219,15,SS_CENTERIMAGE
+END
+
+IDD_ABOUT DIALOGEX 0, 0, 232, 181
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CLIPCHILDREN | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "APP - About Dialog"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,90,160,50,14
+    EDITTEXT        IDC_DISCLAIMER,7,7,218,148,ES_MULTILINE | ES_NOHIDESEL | 
+                    ES_READONLY,WS_EX_STATICEDGE
+END
+
+IDD_EMU_SETTINGS DIALOG DISCARDABLE  0, 0, 320, 113
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CLIPCHILDREN | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "APP - Emulator Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_FREEZE_FOLDER,91,6,163,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Browse...",IDC_BROWSE,264,5,48,14
+    EDITTEXT        IDC_AUTO_SAVE_DELAY,91,25,49,14,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "Spin2",IDC_SRAM_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,302,29,11,
+                    13
+    EDITTEXT        IDC_MAX_SKIP,91,44,49,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin3",IDC_SPIN_MAX_SKIP,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,298,48,11,13
+    EDITTEXT        IDC_TURBO_SKIP,91,63,49,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin4",IDC_SPIN_TURBO_SKIP,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,296,72,11,13
+    CONTROL         "Toggled Turbo Mode",IDC_TOGGLE_TURBO,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,91,82,88,12
+    PUSHBUTTON      "&OK",IDOK,215,92,46,14
+    DEFPUSHBUTTON   "&Cancel",IDCANCEL,267,92,46,14
+    RTEXT           "Freeze Folder Directory",IDC_LABEL_FREEZE,7,7,76,14,
+                    SS_CENTERIMAGE
+    RTEXT           "Auto-Save S-RAM",IDC_LABEL_ASRAM,19,25,64,14,
+                    SS_CENTERIMAGE
+    RTEXT           "Skip at most",IDC_LABEL_SMAX,38,44,45,14,SS_CENTERIMAGE
+    RTEXT           "Skip rendering",IDC_LABEL_STURBO,32,63,51,14,
+                    SS_CENTERIMAGE
+    LTEXT           "seconds after last change (0 disables auto-save)",
+                    IDC_LABEL_ASRAM_TEXT,146,25,161,14,SS_CENTERIMAGE
+    LTEXT           "frames in auto-frame rate mode",IDC_LABEL_SMAX_TEXT,146,
+                    44,138,14,SS_CENTERIMAGE
+    LTEXT           "frames in Turbo mode",IDC_LABEL_STURBO_TEXT,146,63,92,
+                    14,SS_CENTERIMAGE
+END
+
+IDD_OPEN_ROM DIALOGEX 0, 0, 416, 223
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_CENTER | 
+    WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | 
+    WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU
+CAPTION "Open ROM"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "Tree1",IDC_ROM_DIR,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | 
+                    TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | WS_BORDER | 
+                    WS_TABSTOP,4,4,164,192,WS_EX_CLIENTEDGE
+    CONTROL         "List1",IDC_ROMLIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | 
+                    LVS_OWNERDATA | WS_TABSTOP,171,4,239,192,
+                    WS_EX_CLIENTEDGE
+    COMBOBOX        IDC_MEM_TYPE,5,208,66,57,CBS_DROPDOWN | WS_TABSTOP
+    COMBOBOX        IDC_INTERLEAVE,85,208,89,64,CBS_DROPDOWN | WS_TABSTOP
+    COMBOBOX        IDC_VIDEO_MODE,182,208,58,61,CBS_DROPDOWN | WS_TABSTOP
+    COMBOBOX        IDC_HEADER,246,208,73,44,CBS_DROPDOWN | WS_TABSTOP
+    DEFPUSHBUTTON   "&Open ROM",IDOK,325,205,44,15
+    PUSHBUTTON      "&Cancel",IDCANCEL,370,205,44,15
+    LTEXT           "Interleave Mode:",IDC_STATIC,85,196,69,8,NOT WS_GROUP
+    LTEXT           "Memory Type:",IDC_STATIC,5,196,58,11,NOT WS_GROUP
+    LTEXT           "Video System:",IDC_STATIC,181,196,54,8,NOT WS_GROUP
+    LTEXT           "Header:",IDC_STATIC,246,196,54,8,NOT WS_GROUP
+END
+
+IDD_GFX_PACK DIALOG DISCARDABLE  0, 0, 219, 260
+STYLE DS_SETFOREGROUND | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Graphics Pack Configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_STAR_OCEAN,1,20,170,13,ES_AUTOHSCROLL
+    LTEXT           "Star Ocean",IDC_STATIC,1,6,80,12
+    PUSHBUTTON      "Browse...",IDC_SO_BROWSE,173,18,45,14
+    EDITTEXT        IDC_FEOEZ,1,49,171,13,ES_AUTOHSCROLL
+    LTEXT           "Far East of Eden Zero",IDC_STATIC,1,36,80,12
+    PUSHBUTTON      "Browse...",IDC_FEOEZ_BROWSE,173,47,45,14
+    EDITTEXT        IDC_MDH,1,78,170,13,ES_AUTOHSCROLL
+    LTEXT           "Momotaro Densetsu Happy",IDC_STATIC,1,65,114,12
+    PUSHBUTTON      "Browse...",IDC_MDH_BROWSE,173,76,45,14
+    EDITTEXT        IDC_SPL4,1,106,170,13,ES_AUTOHSCROLL
+    LTEXT           "Super Power League 4",IDC_STATIC,1,94,80,12
+    PUSHBUTTON      "Browse...",IDC_SPL4_BROWSE,173,105,45,14
+    EDITTEXT        IDC_SJNS,1,135,170,13,ES_AUTOHSCROLL
+    LTEXT           "Far East of Eden Zero - Shounen Jump no Shou",
+                    IDC_STATIC,1,122,166,12
+    PUSHBUTTON      "Browse...",IDC_FEOEZ_SJNS_BROWSE,173,134,45,14
+    EDITTEXT        IDC_SFA2,1,164,170,13,ES_AUTOHSCROLL
+    LTEXT           "Street Fighter Alpha 2 (US)",IDC_STATIC,1,151,104,12
+    PUSHBUTTON      "Browse...",IDC_SFA2_BROWSE,173,164,45,14
+    EDITTEXT        IDC_SFA2E,1,193,170,13,ES_AUTOHSCROLL
+    LTEXT           "Street Fighter Alpha 2 (E)",IDC_STATIC,1,180,80,12
+    PUSHBUTTON      "Browse...",IDC_SFA2E_BROWSE,173,193,45,14
+    EDITTEXT        IDC_SFZ2,1,225,170,13,ES_AUTOHSCROLL
+    LTEXT           "Street Fighter Zero 2",IDC_STATIC,1,212,80,12
+    PUSHBUTTON      "Browse...",IDC_SFZ2_BROWSE,173,225,45,14
+    PUSHBUTTON      "OK",IDOK,133,244,40,14
+    PUSHBUTTON      "Cancel",IDCANCEL,178,244,40,14
+END
+
+IDD_NPOPTIONS DIALOGEX 0, 0, 187, 161
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CLIPCHILDREN | 
+    WS_CAPTION
+CAPTION "Netplay Options"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Port Settings",IDC_PORTNUMBLOCK,5,5,180,25,0,
+                    WS_EX_TRANSPARENT
+    RTEXT           "Socket Port Number",IDC_LABEL_PORTNUM,10,15,85,10,
+                    SS_CENTERIMAGE
+    EDITTEXT        IDC_PORTNUMBERA,100,15,25,12,ES_RIGHT | ES_AUTOHSCROLL
+    GROUPBOX        "Client Settings",IDC_CLIENTSETTINGSBLOCK,5,35,180,40,0,
+                    WS_EX_TRANSPARENT
+    RTEXT           "Ask Server to Pause when",IDC_LABEL_PAUSEINTERVAL,10,45,
+                    85,10,SS_CENTERIMAGE
+    EDITTEXT        IDC_PAUSEINTERVAL,100,45,30,12,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_PAUSESPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS | WS_TABSTOP,120,45,10,12
+    LTEXT           "frames behind",IDC_LABEL_PAUSEINTERVAL_TEXT,135,45,45,
+                    12,SS_CENTERIMAGE
+    RTEXT           "Maximum Frame Rate Skip",IDC_LABEL_MAXSKIP,10,60,85,10,
+                    SS_CENTERIMAGE
+    EDITTEXT        IDC_MAXSKIP,100,60,30,12,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "Spin2",IDC_MAXSPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS | WS_TABSTOP,120,60,10,12
+    GROUPBOX        "Server Settings",IDC_SERVERSETTINGSBLOCK,5,80,180,60,0,
+                    WS_EX_TRANSPARENT
+    CONTROL         "Send ROM Image to Client on Connect",IDC_SENDROM,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFT | BS_VCENTER | WS_TABSTOP,10,
+                    105,173,15
+    CONTROL         "Act as Server",IDC_ACTASSERVER,"Button",BS_AUTOCHECKBOX | 
+                    BS_LEFT | BS_VCENTER | WS_TABSTOP,10,120,174,15
+    DEFPUSHBUTTON   "OK",IDOK,80,145,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,135,145,50,14
+    CONTROL         "Sync By Reset",IDC_SYNCBYRESET,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,10,90,174,15
+END
+
+IDD_NEWDISPLAY DIALOGEX 0, 0, 337, 175
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CLIPCHILDREN | 
+    WS_CAPTION
+CAPTION "Display Settings"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,5,160,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,60,160,50,14
+    PUSHBUTTON      "Test Mode",IDC_TESTMODE,290,140,39,14
+    PUSHBUTTON      "Set Mode",IDC_SETDMODE,290,160,39,14
+    CONTROL         "List1",IDC_VIDMODELIST,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,185,15,145,120
+    GROUPBOX        "General",IDC_STATIC,3,5,82,55,0,WS_EX_TRANSPARENT
+    CONTROL         "Show Frame Rate",IDC_SHOWFPS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,35,73,10
+    CONTROL         "Stretch Image",IDC_STRETCH,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,45,60,10
+    CONTROL         "Full Screen",IDC_FULLSCREEN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,15,51,10
+    CONTROL         "Bi-Linear Mode 7",IDC_BILINEARMD7,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,5,25,69,10
+    GROUPBOX        "SNES Image",IDC_STATIC,95,5,75,55,0,WS_EX_TRANSPARENT
+    CONTROL         "Render 16-bit",IDC_RENDER16BIT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,100,15,59,10
+    CONTROL         "Transparency",IDC_TRANS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,100,25,59,10
+    CONTROL         "Hi Res",IDC_HIRES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    100,35,37,10
+    GROUPBOX        "Output Image Processing",IDC_STATIC,0,60,170,30,0,
+                    WS_EX_TRANSPARENT
+    COMBOBOX        IDC_FILTERBOX,5,70,160,90,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    CONTROL         "Automatic Frame Skipping",IDC_AUTOFRAME,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,5,95,98,10
+    CONTROL         "Use Frame Rate Limiter",IDC_LIMITFRAMES,"Button",
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,5,105,89,10
+    GROUPBOX        "Fixed Frame Skipping Rate",IDC_STATIC,0,115,170,40,0,
+                    WS_EX_TRANSPARENT
+    CONTROL         "Slider2",IDC_FRAMERATESKIPSLIDER,"msctls_trackbar32",
+                    TBS_AUTOTICKS | WS_TABSTOP,7,134,160,19
+    GROUPBOX        "Display Settings",IDC_STATIC,180,5,155,170,0,
+                    WS_EX_TRANSPARENT
+    CONTROL         "Enable Double Buffering",IDC_DBLBUFFER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,185,140,93,10
+    LTEXT           "Current Mode: 1024x1024x16",IDC_CURRMODE,185,155,94,8
+    LTEXT           "0",IDC_STATIC,14,126,11,8
+    RTEXT           "9",IDC_STATIC,148,126,11,8
+END
+
+IDD_CHEATER DIALOGEX 0, 0, 262, 218
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_CENTER | 
+    WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CLIPCHILDREN | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Cheat Entry and Editor"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "List1",IDC_CHEAT_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
+                    WS_BORDER | WS_TABSTOP,5,5,200,125,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "&Add",IDC_ADD_CHEAT,215,5,40,15,WS_DISABLED
+    PUSHBUTTON      "&Delete",IDC_DELETE_CHEAT,215,25,40,15,WS_DISABLED
+    PUSHBUTTON      "&Update",IDC_UPDATE_CHEAT,215,45,40,15,WS_DISABLED
+    PUSHBUTTON      "C&lear",IDC_CLEAR_CHEATS,215,65,40,15
+    EDITTEXT        IDC_CHEAT_CODE,86,134,118,15,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_CHEAT_DESCRIPTION,85,154,119,15,ES_AUTOHSCROLL
+    EDITTEXT        IDC_CHEAT_ADDRESS,85,175,44,15,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_CHEAT_BYTE,215,175,26,15,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "&OK",IDOK,93,196,50,15
+    PUSHBUTTON      "&Cancel",IDCANCEL,151,196,50,15
+    RTEXT           "Enter Cheat Code:",IDC_LABEL_CHEAT_CODE,23,134,59,15,
+                    SS_CENTERIMAGE
+    RTEXT           "Cheat Description",IDC_LABEL_CHEAT_DESCRIPTION,19,154,
+                    61,15,SS_CENTERIMAGE
+    RTEXT           "Cheat Address (hex)",IDC_LABEL_CHEAT_ADDRESS,18,175,64,
+                    15,SS_CENTERIMAGE
+    RTEXT           "New Value (dec or hex)",IDC_LABEL_CHEAT_BYTE,134,175,74,
+                    15,SS_CENTERIMAGE
+END
+
+IDD_NETPLAYPROGRESS DIALOG DISCARDABLE  0, 0, 186, 61
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Static",IDC_STATIC,5,0,160,20
+    CONTROL         "Progress1",IDC_NPPROGRESS,"msctls_progress32",WS_BORDER,
+                    5,30,160,25
+END
+
+IDD_INPUTCONFIG DIALOGEX 0, 0, 299, 127
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CLIPCHILDREN | 
+    WS_CAPTION
+CAPTION "Input Config"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_JPCOMBO,0,0,70,60,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Disabled",IDC_JPTOGGLE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,75,2,42,10
+    CONTROL         "WOG!",IDC_UP,"InputCustom",WS_TABSTOP,30,20,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_LEFT,"InputCustom",WS_TABSTOP,30,33,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_DOWN,"InputCustom",WS_TABSTOP,30,46,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_RIGHT,"InputCustom",WS_TABSTOP,30,59,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_B,"InputCustom",WS_TABSTOP,30,72,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_A,"InputCustom",WS_TABSTOP,30,85,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_Y,"InputCustom",WS_TABSTOP,30,98,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_X,"InputCustom",WS_TABSTOP,30,111,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         " ",IDC_START,"InputCustom",WS_TABSTOP,142,20,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         " ",IDC_SELECT,"InputCustom",WS_TABSTOP,142,33,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         " ",IDC_L,"InputCustom",WS_TABSTOP,142,46,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         " ",IDC_R,"InputCustom",WS_TABSTOP,142,59,71,12,
+                    WS_EX_CLIENTEDGE
+    CONTROL         " ",IDC_UPLEFT,"InputCustom",WS_DISABLED | WS_TABSTOP,
+                    142,72,71,12,WS_EX_CLIENTEDGE
+    CONTROL         " ",IDC_UPRIGHT,"InputCustom",WS_DISABLED | WS_TABSTOP,
+                    142,85,71,12,WS_EX_CLIENTEDGE
+    CONTROL         " ",IDC_DWNRIGHT,"InputCustom",WS_DISABLED | WS_TABSTOP,
+                    142,98,71,12,WS_EX_CLIENTEDGE
+    CONTROL         " ",IDC_DWNLEFT,"InputCustom",WS_DISABLED | WS_TABSTOP,
+                    142,111,71,12,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Toggle Diagonals",IDC_DIAGTOGGLE,216,95,80,15
+    PUSHBUTTON      "Cancel",IDCANCEL,216,111,39,14
+    PUSHBUTTON      "OK",IDOK,256,111,40,14
+    LTEXT           "Blue means the current key/button is already mapped; Red means its in use by windows or is in use by Snes9x",
+                    IDC_LABEL_BLUE,120,0,179,19
+    RTEXT           "UP",IDC_LABEL_UP,2,23,24,8
+    RTEXT           "DILDO",IDC_LABEL_RIGHT,2,62,23,8
+    RTEXT           "LEFT",IDC_LABEL_LEFT,2,36,24,8
+    RTEXT           "DOWN",IDC_LABEL_DOWN,2,49,24,8
+    RTEXT           "A",IDC_LABEL_A,2,87,24,8
+    RTEXT           "X",IDC_LABEL_X,2,114,24,8
+    RTEXT           "B",IDC_LABEL_B,2,75,24,8
+    RTEXT           "Y",IDC_LABEL_Y,2,101,24,8
+    RTEXT           "L",IDC_LABEL_L,115,48,24,8
+    RTEXT           "START",IDC_LABEL_START,115,22,24,8
+    RTEXT           "R",IDC_LABEL_R,115,61,24,8
+    RTEXT           "SELECT",IDC_LABEL_SELECT,111,35,28,8
+    RTEXT           "UP LEFT",IDC_LABEL_UPLEFT,109,75,30,8
+    RTEXT           "DN RIGHT",IDC_LABEL_DOWNRIGHT,103,101,36,8
+    RTEXT           "UP RIGHT",IDC_LABEL_UPRIGHT,103,88,36,8
+    RTEXT           "DN LEFT",IDC_LABEL_DOWNLEFT,108,114,31,8
+    CONTROL         133,IDC_STATIC,"Static",SS_BITMAP,215,20,80,74
+END
+
+IDD_CHEAT_SEARCH DIALOGEX 0, 0, 273, 271
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_CENTER | WS_VISIBLE | 
+    WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU
+CAPTION "Cheat Search"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "&OK",IDOK,161,250,50,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,216,250,50,14
+    CONTROL         "List1",IDC_ADDYS,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_OWNERDATA | 
+                    WS_BORDER | WS_TABSTOP,7,7,201,152,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "&Search",IDC_C_SEARCH,214,7,52,16
+    PUSHBUTTON      "&Add Cheat",IDC_C_ADD,214,29,52,16,WS_DISABLED
+    PUSHBUTTON      "&Reset",IDC_C_RESET,214,51,52,16
+    CONTROL         "1 byte",IDC_1_BYTE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,211,172,42,11
+    CONTROL         "2 bytes",IDC_2_BYTE,"Button",BS_AUTORADIOBUTTON,211,185,
+                    42,11
+    CONTROL         "3 bytes",IDC_3_BYTE,"Button",BS_AUTORADIOBUTTON,211,198,
+                    42,11
+    CONTROL         "4 bytes",IDC_4_BYTE,"Button",BS_AUTORADIOBUTTON,211,211,
+                    42,11
+    GROUPBOX        "Data Size",IDC_STATIC,204,162,54,66,0,WS_EX_TRANSPARENT
+    GROUPBOX        "Comparison Type",IDC_STATIC,7,162,114,78,0,
+                    WS_EX_TRANSPARENT
+    CONTROL         "< (Less Than)",IDC_LESS_THAN,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,13,170,90,11
+    CONTROL         "> (Greater Than)",IDC_GREATER_THAN,"Button",
+                    BS_AUTORADIOBUTTON,13,181,90,11
+    CONTROL         "<= (Less Than or Equal to)",IDC_LESS_THAN_EQUAL,"Button",
+                    BS_AUTORADIOBUTTON,13,192,106,11
+    CONTROL         ">= (Greater than or Equal To)",IDC_GREATER_THAN_EQUAL,
+                    "Button",BS_AUTORADIOBUTTON,13,203,105,11
+    CONTROL         "= (Equal To)",IDC_EQUAL,"Button",BS_AUTORADIOBUTTON,13,
+                    214,90,11
+    CONTROL         "!= (Not Equal To)",IDC_NOT_EQUAL,"Button",
+                    BS_AUTORADIOBUTTON,13,225,90,11
+    GROUPBOX        "Data Type",IDC_STATIC,125,197,75,40,0,WS_EX_TRANSPARENT
+    GROUPBOX        "Compare To",IDC_STATIC,125,162,75,32,0,
+                    WS_EX_TRANSPARENT
+    CONTROL         "Previous Value",IDC_PREV,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,129,171,67,10
+    CONTROL         "Entered Value",IDC_ENTERED,"Button",BS_AUTORADIOBUTTON,
+                    129,182,67,10
+    CONTROL         "Unsigned (>=0)",IDC_UNSIGNED,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,129,205,67,10
+    CONTROL         "Signed (+/-)",IDC_SIGNED,"Button",BS_AUTORADIOBUTTON,
+                    129,215,67,10
+    CONTROL         "Hexadecimal",IDC_HEX,"Button",BS_AUTORADIOBUTTON,129,
+                    225,67,10
+    EDITTEXT        IDC_VALUE_ENTER,72,250,83,12,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL | WS_DISABLED
+    RTEXT           "Enter a Value:",IDC_ENTER_LABEL,7,250,54,12,
+                    SS_CENTERIMAGE | WS_DISABLED
+END
+
+IDD_DIALOG1 DIALOG DISCARDABLE  0, 0, 271, 68
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,221,52,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,169,52,50,14
+    COMBOBOX        IDC_COMBO1,25,7,188,12,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_CHEAT_FROM_SEARCH DIALOG DISCARDABLE  0, 0, 187, 143
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_CENTER | 
+    WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CLIPCHILDREN | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Cheat Details"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "&OK",IDOK,85,123,45,13
+    PUSHBUTTON      "&Cancel",IDCANCEL,135,123,45,13
+    EDITTEXT        IDC_NC_ADDRESS,79,7,101,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_NC_CURRVAL,79,31,101,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_NC_PREVVAL,79,55,101,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_NC_NEWVAL,79,79,101,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_NC_DESC,79,103,101,12,ES_AUTOHSCROLL
+    RTEXT           "Address",IDC_STATIC,7,7,70,12,SS_CENTERIMAGE
+    RTEXT           "Current Value",IDC_STATIC,7,31,70,12,SS_CENTERIMAGE
+    RTEXT           "Previous Value",IDC_STATIC,7,55,70,12,SS_CENTERIMAGE
+    RTEXT           "New Value",IDC_STATIC,7,79,70,12,SS_CENTERIMAGE
+    RTEXT           "Description",IDC_STATIC,7,103,70,12,SS_CENTERIMAGE
+END
+
+IDD_OPENMOVIE DIALOG DISCARDABLE  0, 0, 303, 214
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Play Movie"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,187,193,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,246,193,50,14
+    EDITTEXT        IDC_MOVIE_PATH,7,18,230,13,ES_AUTOHSCROLL
+    LTEXT           "Movie File",IDC_STATIC,7,7,33,8
+    PUSHBUTTON      "&Browse...",IDC_BROWSE_MOVIE,248,17,48,14
+    GROUPBOX        "Record Options",IDC_STATIC,7,129,91,54
+    CONTROL         "Record from now",IDC_RECORD_NOW,"Button",
+                    BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP | WS_TABSTOP,
+                    14,144,70,10
+    CONTROL         "Record from reset",IDC_RECORD_RESET,"Button",
+                    BS_AUTORADIOBUTTON | WS_DISABLED | WS_TABSTOP,14,154,72,
+                    10
+    CONTROL         "Joypad 1",IDC_JOY1,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,127,144,45,10
+    CONTROL         "Joypad 3",IDC_JOY3,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,127,164,45,10
+    CONTROL         "Joypad 2",IDC_JOY2,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,127,154,45,10
+    CONTROL         "Joypad 4",IDC_JOY4,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,181,144,45,10
+    CONTROL         "Joypad 5",IDC_JOY5,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,181,154,45,10
+    GROUPBOX        "Record Controllers",IDC_STATIC,118,129,120,54
+    LTEXT           "Recording Date:",IDC_STATIC,15,51,53,8
+    LTEXT           "Length:",IDC_STATIC,43,60,25,8
+    LTEXT           "Frames:",IDC_STATIC,43,69,26,8
+    LTEXT           "Re-record Count:",IDC_STATIC,13,78,55,8
+    LTEXT           "DATE",IDC_MOVIE_DATE,71,51,81,8
+    LTEXT           "LENGTH",IDC_MOVIE_LENGTH,71,60,81,8
+    LTEXT           "FRAMES",IDC_MOVIE_FRAMES,71,69,81,8
+    LTEXT           "RERECORD",IDC_MOVIE_RERECORD,71,78,81,8
+    LTEXT           "Author Info:",IDC_STATIC,30,95,38,8
+    CONTROL         "Open Read-Only",IDC_READONLY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,35,69,10
+    LTEXT           "Static",IDC_MOVIE_METADATA,70,95,226,21,WS_BORDER
+END
+
+IDD_CREATEMOVIE DIALOGEX 0, 0, 303, 150
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Record Movie"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,187,129,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,246,129,50,14
+    EDITTEXT        IDC_MOVIE_PATH,7,18,230,13,ES_AUTOHSCROLL
+    LTEXT           "Movie File",IDC_STATIC,7,7,33,8
+    PUSHBUTTON      "&Browse...",IDC_BROWSE_MOVIE,248,17,48,14
+    GROUPBOX        "Record Options",IDC_STATIC,7,44,91,51
+    CONTROL         "Record from now",IDC_RECORD_NOW,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,57,70,10
+    CONTROL         "Record from reset",IDC_RECORD_RESET,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,14,68,72,10
+    CONTROL         "Joypad 1",IDC_JOY1,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,127,57,45,10
+    CONTROL         "Joypad 3",IDC_JOY3,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,127,79,45,10
+    CONTROL         "Joypad 2",IDC_JOY2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,127,68,45,10
+    CONTROL         "Joypad 4",IDC_JOY4,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,181,57,45,10
+    CONTROL         "Joypad 5",IDC_JOY5,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,181,68,45,10
+    GROUPBOX        "Record Controllers",IDC_STATIC,118,44,120,51
+    EDITTEXT        IDC_MOVIE_METADATA,67,105,229,14,ES_AUTOHSCROLL
+    LTEXT           "Author Info:",IDC_STATIC,18,108,43,8,0,WS_EX_RIGHT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_SOUND_OPTS DLGINIT
+BEGIN
+    IDC_DRIVER, 0x403, 19, 0
+0x6e53, 0x7365, 0x7839, 0x4420, 0x7269, 0x6365, 0x5374, 0x756f, 0x646e, 
+"\000" 
+    IDC_DRIVER, 0x403, 17, 0
+0x4d46, 0x444f, 0x4420, 0x7269, 0x6365, 0x5374, 0x756f, 0x646e, "\000" 
+    IDC_DRIVER, 0x403, 24, 0
+0x4d46, 0x444f, 0x5720, 0x6e69, 0x6f64, 0x7377, 0x4d20, 0x6c75, 0x6974, 
+0x656d, 0x6964, 0x0061, 
+    IDC_DRIVER, 0x403, 9, 0
+0x4d46, 0x444f, 0x4120, 0x4433, "\000" 
+    IDC_BUFLEN, 0x403, 6, 0
+0x3031, 0x6d20, 0x0073, 
+    IDC_BUFLEN, 0x403, 6, 0
+0x3032, 0x6d20, 0x0073, 
+    IDC_BUFLEN, 0x403, 6, 0
+0x3034, 0x6d20, 0x0073, 
+    IDC_BUFLEN, 0x403, 6, 0
+0x3038, 0x6d20, 0x0073, 
+    IDC_BUFLEN, 0x403, 7, 0
+0x3631, 0x2030, 0x736d, "\000" 
+    IDC_BUFLEN, 0x403, 7, 0
+0x3233, 0x2030, 0x736d, "\000" 
+    IDC_BUFLEN, 0x403, 7, 0
+0x3436, 0x2030, 0x736d, "\000" 
+    IDC_RATE, 0x403, 11, 0
+0x4e3c, 0x206f, 0x6f53, 0x6e75, 0x3e64, "\000" 
+    IDC_RATE, 0x403, 8, 0
+0x2038, 0x2020, 0x484b, 0x007a, 
+    IDC_RATE, 0x403, 7, 0
+0x3131, 0x4b20, 0x7a48, "\000" 
+    IDC_RATE, 0x403, 7, 0
+0x3631, 0x4b20, 0x7a48, "\000" 
+    IDC_RATE, 0x403, 7, 0
+0x3232, 0x4b20, 0x7a48, "\000" 
+    IDC_RATE, 0x403, 7, 0
+0x3033, 0x4b20, 0x7a48, "\000" 
+    IDC_RATE, 0x403, 7, 0
+0x3533, 0x4b20, 0x7a48, "\000" 
+    IDC_RATE, 0x403, 7, 0
+0x3434, 0x4b20, 0x7a48, "\000" 
+    IDC_RATE, 0x403, 7, 0
+0x3834, 0x4b20, 0x7a48, "\000" 
+    IDC_MIX, 0x403, 6, 0
+0x3031, 0x6d20, 0x0073, 
+    IDC_MIX, 0x403, 6, 0
+0x3032, 0x6d20, 0x0073, 
+    IDC_MIX, 0x403, 6, 0
+0x3033, 0x6d20, 0x0073, 
+    IDC_MIX, 0x403, 6, 0
+0x3034, 0x6d20, 0x0073, 
+    IDC_MIX, 0x403, 6, 0
+0x3035, 0x6d20, 0x0073, 
+    IDC_MIX, 0x403, 6, 0
+0x3036, 0x6d20, 0x0073, 
+    IDC_MIX, 0x403, 6, 0
+0x3037, 0x6d20, 0x0073, 
+    IDC_MIX, 0x403, 6, 0
+0x3038, 0x6d20, 0x0073, 
+    IDC_MIX, 0x403, 6, 0
+0x3039, 0x6d20, 0x0073, 
+    IDC_MIX, 0x403, 7, 0
+0x3031, 0x2030, 0x736d, "\000" 
+    IDC_MIX, 0x403, 7, 0
+0x3131, 0x2030, 0x736d, "\000" 
+    IDC_MIX, 0x403, 7, 0
+0x3231, 0x2030, 0x736d, "\000" 
+    IDC_MIX, 0x403, 7, 0
+0x3331, 0x2030, 0x736d, "\000" 
+    IDC_MIX, 0x403, 7, 0
+0x3431, 0x2030, 0x736d, "\000" 
+    IDC_MIX, 0x403, 7, 0
+0x3531, 0x2030, 0x736d, "\000" 
+    IDC_SKIP_TYPE, 0x403, 15, 0
+0x6b53, 0x7069, 0x6d20, 0x7465, 0x6f68, 0x2064, 0x3123, "\000" 
+    IDC_SKIP_TYPE, 0x403, 15, 0
+0x6b53, 0x7069, 0x6d20, 0x7465, 0x6f68, 0x2064, 0x3223, "\000" 
+    IDC_SKIP_TYPE, 0x403, 15, 0
+0x6b53, 0x7069, 0x6d20, 0x7465, 0x6f68, 0x2064, 0x3323, "\000" 
+    IDC_SKIP_TYPE, 0x403, 15, 0
+0x6b53, 0x7069, 0x6d20, 0x7465, 0x6f68, 0x2064, 0x3423, "\000" 
+    IDC_SKIP_TYPE, 0x403, 15, 0
+0x6b53, 0x7069, 0x6d20, 0x7465, 0x6f68, 0x2064, 0x3523, "\000" 
+    0
+END
+
+IDD_INPUTCONFIG DLGINIT
+BEGIN
+    IDC_JPCOMBO, 0x403, 10, 0
+0x6f4a, 0x7079, 0x6461, 0x2320, 0x0031, 
+    IDC_JPCOMBO, 0x403, 10, 0
+0x6f4a, 0x7079, 0x6461, 0x2320, 0x0032, 
+    IDC_JPCOMBO, 0x403, 10, 0
+0x6f4a, 0x7079, 0x6461, 0x2320, 0x0033, 
+    IDC_JPCOMBO, 0x403, 10, 0
+0x6f4a, 0x7079, 0x6461, 0x2320, 0x0034, 
+    IDC_JPCOMBO, 0x403, 10, 0
+0x6f4a, 0x7079, 0x6461, 0x2320, 0x0035, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_SOUND_OPTS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 345
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 194
+    END
+
+    IDD_SPC7110_CACHE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 178
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 85
+    END
+
+    IDD_ROM_INFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 226
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 178
+    END
+
+    IDD_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 225
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 174
+    END
+
+    IDD_EMU_SETTINGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        BOTTOMMARGIN, 106
+    END
+
+    IDD_OPEN_ROM, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 410
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 221
+    END
+
+    IDD_GFX_PACK, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 212
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 253
+    END
+
+    IDD_NEWDISPLAY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 330
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 168
+    END
+
+    IDD_CHEATER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 255
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 211
+    END
+
+    IDD_NETPLAYPROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 54
+    END
+
+    IDD_INPUTCONFIG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 290
+        VERTGUIDE, 72
+        VERTGUIDE, 92
+        BOTTOMMARGIN, 126
+        HORZGUIDE, 122
+    END
+
+    IDD_CHEAT_SEARCH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 266
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 264
+    END
+
+    IDD_DIALOG1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 264
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 61
+    END
+
+    IDD_CHEAT_FROM_SEARCH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_OPENMOVIE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 296
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 207
+        HORZGUIDE, 31
+        HORZGUIDE, 51
+        HORZGUIDE, 116
+        HORZGUIDE, 129
+        HORZGUIDE, 183
+    END
+
+    IDD_CREATEMOVIE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 296
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 143
+        HORZGUIDE, 31
+        HORZGUIDE, 44
+        HORZGUIDE, 95
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON    DISCARDABLE     "icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_OPENFOLDER          BITMAP  DISCARDABLE     "openfold.bmp"
+IDB_CLOSEDFOLDER        BITMAP  DISCARDABLE     "closedfold.bmp"
+IDB_CDDRIVE             BITMAP  DISCARDABLE     "cdd.bmp"
+IDB_NETDRIVE            BITMAP  DISCARDABLE     "nd.bmp"
+IDB_HARDDRIVE           BITMAP  DISCARDABLE     "hd.bmp"
+IDB_PAD                 BITMAP  DISCARDABLE     "pad.bmp"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Dutch (Netherlands) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NLD)
+#ifdef _WIN32
+LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,4,0,0
+ PRODUCTVERSION 1,4,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080904b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "Gary Henderson\0"
+            VALUE "FileDescription", "Snes9XW\0"
+            VALUE "FileVersion", "1.40\0"
+            VALUE "InternalName", "Snes9X\0"
+            VALUE "LegalCopyright", "Copyright © 1996-2001\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "Snes9XW.exe\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "Snes9X SNES Emulator\0"
+            VALUE "ProductVersion", "1.40\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x809, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "#include ""language.h""\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU_NL MENU DISCARDABLE 
+BEGIN
+    POPUP "&Bestand"
+    BEGIN
+        MENUITEM "&Openen",                     ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "&Sluiten",                    ID_FILE_EXIT
+    END
+    POPUP "&Opties"
+    BEGIN
+        MENUITEM "Joypad configuratie",         ID_OPTIONS_JOYPAD
+    END
+    POPUP "&Geluid"
+    BEGIN
+        POPUP "&8-Bit"
+        BEGIN
+            MENUITEM "8000 Hz, mono",               ID_SOUND_8BIT8000HZMONO
+            MENUITEM "8000 Hz, stereo",             ID_SOUND_8BIT8000HZSTEREO
+
+            MENUITEM "11025 Hz, mono",              ID_SOUND_8BIT11025HZMONO
+            MENUITEM "11025 Hz, stereo",            ID_SOUND_8BIT11025HZSTEREO
+
+            MENUITEM "22050 Hz, mono",              ID_SOUND_8BIT22050HZMONO
+            MENUITEM "22050 Hz, stereo",            ID_SOUND_8BIT22050HZSTEREO
+
+            MENUITEM "44100 Hz, mono",              ID_SOUND_8BIT44100HZMONO
+            MENUITEM "44100 Hz, stereo",            ID_SOUND_8BIT44100HZSTEREO
+
+        END
+        POPUP "&16-Bit"
+        BEGIN
+            MENUITEM "8000 Hz, mono",               ID_SOUND_16BIT8000HZMONO
+            MENUITEM "8000 Hz, stereo",             ID_SOUND_16BIT8000HZSTEREO
+
+            MENUITEM "11025 Hz, mono",              ID_SOUND_16BIT11025HZMONO
+
+            MENUITEM "11025 Hz, stereo",            ID_SOUND_16BIT11025HZSTEREO
+
+            MENUITEM "22050 Hz, mono",              ID_SOUND_16BIT22050HZMONO
+
+            MENUITEM "22050 Hz, stereo",            ID_SOUND_16BIT22050HZSTEREO
+
+            MENUITEM "44100 Hz, mono",              ID_SOUND_16BIT44100HZMONO
+
+            MENUITEM "44100 Hz, stereo",            ID_SOUND_16BIT44100HZSTEREO
+
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Geen Geluid",                ID_SOUND_NOSOUND
+    END
+    POPUP "&Venster"
+    BEGIN
+        POPUP "&Taal"
+        BEGIN
+            MENUITEM "&English",                    ID_LANGUAGE_ENGLISH
+            MENUITEM "&Nederlands",                 ID_LANGUAGE_NEDERLANDS
+            , CHECKED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Verberg menubalk\tESC",      ID_WINDOW_HIDEMENUBAR
+    END
+END
+
+#endif    // Dutch (Netherlands) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_NETCONNECT DIALOG DISCARDABLE  0, 0, 227, 61
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CLIPCHILDREN | 
+    WS_CAPTION
+CAPTION "Connect to Server"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "&OK",IDOK,120,45,50,14
+    PUSHBUTTON      "Canccel",IDCANCEL,175,45,50,14
+    RTEXT           "Server Address",IDC_LABEL_SERVERADDY,5,5,50,14,
+                    SS_CENTERIMAGE
+    PUSHBUTTON      "Clear History",IDC_CLEARHISTORY,175,5,50,14
+    RTEXT           "Port Number",IDC_LABEL_PORTNUM,5,25,50,14,
+                    SS_CENTERIMAGE
+    EDITTEXT        IDC_PORTNUMBER,60,25,25,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_HOSTNAME,60,5,110,40,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU_US MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "L&oad Game...\tCtrl+O",       ID_FILE_OPEN
+        POPUP "Recent &Games"
+        BEGIN
+            MENUITEM "Dummy",                       ID_RECENT_DUMMY
+            , INACTIVE
+        END
+        POPUP "&Save Game Position"
+        BEGIN
+            MENUITEM "Slot #1\tShift+F1",           ID_FILE_SAVE1, GRAYED
+            MENUITEM "Slot #2\tShift+F2",           ID_FILE_SAVE2, GRAYED
+            MENUITEM "Slot #3\tShift+F3",           ID_FILE_SAVE3, GRAYED
+            MENUITEM "Slot #4\tShift+F4",           ID_FILE_SAVE4, GRAYED
+            MENUITEM "Slot #5\tShift+F5",           ID_FILE_SAVE5, GRAYED
+            MENUITEM "Slot #6\tShift+F6",           ID_FILE_SAVE6, GRAYED
+            MENUITEM "Slot #7\tShift+F7",           ID_FILE_SAVE7, GRAYED
+            MENUITEM "Slot #8\tShift+F8",           ID_FILE_SAVE8, GRAYED
+            MENUITEM "Slot #9\tShift+F9",           ID_FILE_SAVE9, GRAYED
+        END
+        POPUP "&Load Game Position"
+        BEGIN
+            MENUITEM "Slot #1\tF1",                 ID_FILE_LOAD1, GRAYED
+            MENUITEM "Slot #2\tF2",                 ID_FILE_LOAD2, GRAYED
+            MENUITEM "Slot #3\tF3",                 ID_FILE_LOAD3, GRAYED
+            MENUITEM "Slot #4\tF4",                 ID_FILE_LOAD4, GRAYED
+            MENUITEM "Slot #5\tF5",                 ID_FILE_LOAD5, GRAYED
+            MENUITEM "Slot #6\tF6",                 ID_FILE_LOAD6, GRAYED
+            MENUITEM "Slot #7\tF7",                 ID_FILE_LOAD7, GRAYED
+            MENUITEM "Slot #8\tF8",                 ID_FILE_LOAD8, GRAYED
+            MENUITEM "Slot #9\tF9",                 ID_FILE_LOAD9, GRAYED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "S&ave SPC Data",              ID_FILE_SAVE_SPC_DATA
+        , GRAYED
+        MENUITEM "Sa&ve S-RAM Data",            ID_FILE_SAVE_SRAM_DATA
+        , GRAYED
+        MENUITEM "Save SPC&7110 log",           IDM_LOG_7110, GRAYED
+        MENUITEM "ROM Information...",          IDM_ROM_INFO, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Movie Play...",               ID_FILE_MOVIE_PLAY, GRAYED
+        MENUITEM "Movie Record...",             ID_FILE_MOVIE_RECORD, GRAYED
+        MENUITEM "Movie Stop",                  ID_FILE_MOVIE_STOP, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Record AVI...",               ID_FILE_WRITE_AVI, GRAYED
+        MENUITEM "Stop AVI Recording",          ID_FILE_STOP_AVI, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Reset Game",                 ID_FILE_RESET, GRAYED
+        MENUITEM "&Pause\tPause",               ID_FILE_PAUSE, GRAYED
+        MENUITEM "E&xit\tAlt+F4",               ID_FILE_EXIT
+    END
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "&Display Configuration...\tAlt+F5", ID_OPTIONS_DISPLAY
+        MENUITEM "&Settings...\tAlt+F8",        ID_OPTIONS_SETTINGS
+        MENUITEM "SPC7110 Cache Settings...",   IDM_7110_CACHE
+        MENUITEM "GFX Pack Configuration...",   IDM_GFX_PACKS
+    END
+    POPUP "&Input"
+    BEGIN
+        MENUITEM "&Joypad configuration...\tAlt+F7", ID_OPTIONS_JOYPAD
+        MENUITEM "Enable Multitap 5",           IDM_ENABLE_MULTITAP
+        MENUITEM "Enable Mouse",                IDM_MOUSE_TOGGLE
+        MENUITEM "Enable Superscope",           IDM_SCOPE_TOGGLE
+        MENUITEM "Enable Justifiers",           IDM_JUSTIFIER
+    END
+    POPUP "&Sound"
+    BEGIN
+        POPUP "&Playback Rate"
+        BEGIN
+            MENUITEM "&No Sound\tAlt+0",            ID_SOUND_NOSOUND, GRAYED
+            MENUITEM "8KHz\tAlt+1",                 ID_SOUND_8000HZ, GRAYED
+            MENUITEM "11KHz\tAlt+2",                ID_SOUND_11025HZ, GRAYED
+            MENUITEM "16KHz\tAlt+3",                ID_SOUND_16000HZ, GRAYED
+            MENUITEM "22KHz\tAlt+4",                ID_SOUND_22050HZ, GRAYED
+            MENUITEM "30KHz\tAlt+5",                ID_SOUND_30000HZ, GRAYED
+            MENUITEM "32KHz\tAlt+6",                ID_SOUND_32000HZ, GRAYED
+            MENUITEM "35KHz\tAlt+7",                ID_SOUND_35000HZ, GRAYED
+            MENUITEM "44KHz\tAlt+8",                ID_SOUND_44100HZ, GRAYED
+            MENUITEM "48KHz\tAlt+9",                ID_SOUND_48000HZ, GRAYED
+        END
+        POPUP "&Buffer Length"
+        BEGIN
+            MENUITEM "&10ms",                       ID_SOUND_25MS, GRAYED
+            MENUITEM "&20ms",                       ID_SOUND_50MS, GRAYED
+            MENUITEM "&40ms",                       ID_SOUND_100MS, GRAYED
+            MENUITEM "&80ms",                       ID_SOUND_200MS, GRAYED
+            MENUITEM "1&60ms",                      ID_SOUND_500MS, GRAYED
+            MENUITEM "&320ms",                      ID_SOUND_1S, GRAYED
+            MENUITEM "64&0ms",                      ID_SOUND_2S, GRAYED
+        END
+        MENUITEM "&16-Bit Sound",               ID_SOUND_16BIT
+        MENUITEM "&Stereo",                     ID_SOUND_STEREO
+        MENUITEM "&Reverse Stereo\tAlt+R",      ID_SOUND_REVERSE_STEREO
+        MENUITEM SEPARATOR
+        MENUITEM "Catch-up Sample Generation",  IDM_CATCH_UP_SOUND
+        MENUITEM "&Interpolated\tAlt+[",        ID_SOUND_INTERPOLATED
+        MENUITEM "S&ync Sound\tAlt+]",          ID_SOUND_SYNC
+        MENUITEM "&Settings...\tAlt+T",         ID_SOUND_OPTIONS
+    END
+    POPUP "&Window"
+    BEGIN
+        POPUP "&Language"
+        BEGIN
+            MENUITEM "&English",                    ID_LANGUAGE_ENGLISH
+            , CHECKED
+            MENUITEM "&Nederlands",                 ID_LANGUAGE_NEDERLANDS
+            , GRAYED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Hide menubar\tESC",          ID_WINDOW_HIDEMENUBAR
+        MENUITEM "&Full Screen\tAlt+Return",    ID_WINDOW_FULLSCREEN
+        MENUITEM "&Stretch Image\tAlt+Del",     ID_WINDOW_STRETCH
+    END
+    POPUP "&Cheat"
+    BEGIN
+        MENUITEM "&Game Genie, Pro-Action Replay Codes\tAlt+E", 
+                                                ID_CHEAT_ENTER, GRAYED
+        MENUITEM "&Search for New Cheats\tAlt+A", ID_CHEAT_SEARCH, GRAYED
+        MENUITEM "&Apply Cheats",               ID_CHEAT_APPLY
+        , CHECKED, GRAYED
+        MENUITEM "Set SPC7110 RTC",             IDM_7110_RTC, GRAYED
+    END
+    POPUP "&Netplay", GRAYED
+    BEGIN
+        MENUITEM "&Connect to Server...",       ID_NETPLAY_CONNECT
+        MENUITEM "&Disconnect from Server",     ID_NETPLAY_DISCONNECT
+        MENUITEM SEPARATOR
+        MENUITEM "&Act as Server",              ID_NETPLAY_SERVER
+        MENUITEM "&Re-sync all Clients Using Freeze File Now", 
+                                                ID_NETPLAY_SYNC
+        MENUITEM "&Send ROM Image to Clients Now", ID_NETPLAY_ROM
+        MENUITEM "S&end ROM Image to Clients",  ID_NETPLAY_SEND_ROM_ON_CONNECT
+
+        MENUITEM "S&ync Using Reset Game",      ID_NETPLAY_SYNC_BY_RESET
+        , CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "&Options...",                 ID_NETPLAY_OPTIONS
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About...",                   ID_HELP_ABOUT
+    END
+END
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

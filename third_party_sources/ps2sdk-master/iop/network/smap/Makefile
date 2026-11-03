@@ -1,0 +1,72 @@
+# _____     ___ ____     ___ ____
+#  ____|   |    ____|   |        | |____|
+# |     ___|   |____ ___|    ____| |    \    PS2DEV Open Source Project.
+#-----------------------------------------------------------------------
+# Copyright 2001-2004, ps2dev - http://www.ps2dev.org
+# Licenced under Academic Free License version 2.0
+# Review ps2sdk README & LICENSE files for further details.
+
+# Build for use with a DHCP-enabled LWIP stack.
+LWIP_DHCP ?= 1
+
+# Build against the netman library.
+SMAP_NETMAN ?= 1
+
+# Build against the ps2ip library.
+SMAP_PS2IP ?= 0
+
+# Build against the netdev interface.
+SMAP_NETDEV ?= 0
+
+# Enable the modular interface.
+SMAP_MODULAR ?= 0
+
+# Poll instead of relying on interrupts when receiving multiple packets.
+# This will avoid the IOP locking up due to the large amount of interrupts.
+SMAP_RX_PACKETS_POLLING_MODE ?= 1
+
+IOP_PREFER_GPOPT = 16384
+IOP_CFLAGS += -mno-check-zero-division
+
+IOP_IMPORT_INCS += \
+	dev9/dev9 \
+	system/dmacman \
+	system/intrman \
+	system/loadcore \
+	system/modload \
+	system/stdio \
+	system/sysclib \
+	system/threadman
+
+IOP_OBJS ?= exports.o main.o smap.o xfer.o ipstack.o imports.o
+
+ifneq (x$(LWIP_DHCP),x0)
+IOP_CFLAGS += -DLWIP_DHCP=1
+endif
+
+ifneq (x$(SMAP_NETMAN),x0)
+IOP_CFLAGS += -DBUILDING_SMAP_NETMAN=1
+endif
+
+ifneq (x$(SMAP_PS2IP),x0)
+IOP_CFLAGS += -DBUILDING_SMAP_PS2IP=1
+IOP_IMPORT_INCS += tcpip/tcpip
+endif
+
+ifneq (x$(SMAP_NETDEV),x0)
+IOP_CFLAGS += -DBUILDING_SMAP_NETDEV=1
+IOP_IMPORT_INCS += network/netman
+endif
+
+ifneq (x$(SMAP_MODULAR),x0)
+IOP_CFLAGS += -DBUILDING_SMAP_MODULAR=1
+endif
+
+ifneq (x$(SMAP_RX_PACKETS_POLLING_MODE),x0)
+IOP_CFLAGS += -DSMAP_RX_PACKETS_POLLING_MODE=1
+endif
+
+include $(PS2SDKSRC)/Defs.make
+include $(PS2SDKSRC)/iop/Rules.bin.make
+include $(PS2SDKSRC)/iop/Rules.make
+include $(PS2SDKSRC)/iop/Rules.release

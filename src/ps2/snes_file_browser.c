@@ -41,7 +41,7 @@ extern void    snes_obj_blend_0019b948(uint32_t *link, uint32_t a, uint32_t b, u
 extern void    snes_obj_setup_00199ef8(void *obj, uint32_t a, uint32_t b, uint32_t c, uint32_t d);
 extern uint32_t snes_file_func_00103cb0(uint32_t idx);
 extern int32_t snes_file_func_00106bcc(uint32_t path);
-extern int32_t snes_file_func_00106c08(uint32_t path, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f);
+extern uint64_t snes_file_func_00106c08(uint32_t path, ...);
 extern void    snes_mem_copy_0019e3d0(void *dst, uint32_t src, uint32_t val);
 extern void    snes_mem_set_0019c528(void *dst, uint32_t val);
 extern void    snes_obj_setup2_00199ef8b(void *obj, uint32_t a, uint32_t b, uint32_t c, uint32_t d);
@@ -91,13 +91,16 @@ void snes_file_browser_00106ca0(void)
                             }
                             goto update_selection;
                         }
-                        uint32_t u3 = snes_float_ops_001a3340(f13);
-                        u3 = snes_float_ops_001a35b0(u3, g_unk_1b1470);
-                    } else {
-                        uint32_t u3 = snes_float_ops_001a3340(f13);
-                        u3 = snes_float_ops_001a3610(u3, g_unk_1b1468);
                     }
-                    f13 = *(float *)snes_float_ops_001a3cc0(u3);
+                    {
+                        uint32_t u3 = snes_float_ops_001a3340(f13);
+                        if ((buttons & 0x1000) == 0) {
+                            u3 = snes_float_ops_001a35b0(u3, g_unk_1b1470);
+                        } else {
+                            u3 = snes_float_ops_001a3610(u3, g_unk_1b1468);
+                        }
+                        f13 = *(float *)snes_float_ops_001a3cc0(u3);
+                    }
                 }
 
             update_selection:
@@ -123,6 +126,8 @@ void snes_file_browser_00106ca0(void)
                         do { csr = REG_GS_CSR; } while ((csr & 8) == 0);
                     } while (1);
                 }
+            show_preview:
+                ;
 
                 if ((buttons & 0x20) == 0) {
                     local_c0 = 0;
@@ -158,8 +163,10 @@ void snes_file_browser_00106ca0(void)
                 snes_obj_blend_0019b948(0x1bb748, 100, 0x21c, 0xe5, 2, 0x80ffffff, 2, 0x1b13d0);
             } else {
                 snes_obj_setup_00199ef8(g_vram_base, 0x78, 0x54, 0x208, 0x186);
-                for (int32_t i4 = 0; i4 < local_c8; i4++) {
-                    uint32_t color = 0x80ffffff;
+                {
+                    int32_t i4;
+                    for (i4 = 0; i4 < local_c8; i4++) {
+                        uint32_t color = 0x80ffffff;
                     if (i4 != (int)f13 - i11) color = 0x802060ff;
 
                     uint32_t path_offset = i11 * 0x40 + (uint32_t)list_mem - 0x20;
@@ -176,25 +183,27 @@ void snes_file_browser_00106ca0(void)
 
                     l2 = snes_file_func_00106bcc(path_offset);
                     void *pu6 = &g_unk_1b1370;
+                    uint32_t u5 = 0;
                     if (l2 == 0) {
                         pu6 = (void *)0x427018 + 0x110;  // auStack_110
-                        l2 = snes_file_func_00106c08(path_offset, 0x181, 0x280, y, 2, color, 1, 0x1b1370);
+                        l2 = snes_file_func_00106c08(path_offset, 0x181, 0x280, y, 2, color, 1);
                         if (l2 != 0) {
-                            uint64_t u3 = snes_file_func_00106c08(path_offset);
+                            uint64_t u3 = snes_file_func_00106c08(path_offset, 0);
                             snes_mem_copy_0019e3d0(pu6, 0x1b13c0, u3);
                             goto draw_filename;
                         }
-                        uint32_t u5 = *(uint32_t *)(path_offset - 0x10);
+                        u5 = *(uint32_t *)(path_offset - 0x10);
                     } else {
                     draw_filename:
                         snes_obj_blend_0019b948(0x1bb748, 0x181, 0x280, y, 2, color, 1, pu6);
-                        uint32_t u5 = *(uint32_t *)(path_offset - 0x10);
+                        u5 = *(uint32_t *)(path_offset - 0x10);
                     }
 
                     snes_mem_copy_0019e3d0((void *)0x427018 + 0x100, 0x1b1378, u5 >> 10);  // auStack_100
                     path_offset += 0x40;
                     y = i4 * 0x12;
                     snes_obj_blend_0019b948(0x1bb748, 0x1d1, 0x280, y + 0x6e, 2, color, 1, (void *)0x427018 + 0x100);
+                }
                 }
                 snes_obj_setup2_00199ef8b(g_vram_base, 0, 0, 0x280, 0x1e0);
             }

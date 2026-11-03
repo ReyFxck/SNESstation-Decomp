@@ -76,6 +76,8 @@ extern uint32_t g_unk_1ebae4;                  /* 0x001ebae4 */
 extern uint32_t g_unk_1bbd44;                  /* 0x001bbd44 */
 extern uint32_t g_unk_1bbd50;                  /* 0x001bbd50 */
 extern uint32_t g_unk_345340;                  /* 0x00345340 */
+extern uint32_t g_unk_1b0eb8;                  /* 0x001b0eb8 */
+extern uint32_t g_unk_1b0eb9;                  /* 0x001b0eb9 */
 
 /* External function declarations */
 extern void   *snes_obj_alloc_001a9e88(uint32_t size);
@@ -220,6 +222,7 @@ void snes_frontend_main_00104f18(uint64_t param_1, uint64_t param_2)
 
     /* Main loop */
     while (1) {
+        uint32_t u1 = 0;
         while (1) {
             g_unk_1bbd44 = 0;
             snes_gui_main_00102ab0(0x428180);
@@ -272,7 +275,7 @@ void snes_frontend_main_00104f18(uint64_t param_1, uint64_t param_2)
                 snes_func_00104e58();
             }
 
-            uint32_t u1 = g_unk_345340;
+            u1 = g_unk_345340;
             l4b = snes_rom_load3_001513bc(0x34e2b0, 0x428180);
             if (l4b != 0) break;
 
@@ -335,7 +338,7 @@ void snes_frontend_main_00104f18(uint64_t param_1, uint64_t param_2)
         }
 
         snes_func_00101858();
-        snes_mem_copy_0019e3d0((void *)0x345060, 0x1b0f10, 0x3592d8, 0x1b0f20);
+        snes_mem_copy_0019e3d0((void *)0x345060, 0x1b0f10, 0x3592d8, 0x1b0f20, 0);
         snes_func_0010191c(0x345060);
         snes_audio_init_0010a934();
 

@@ -1,0 +1,20 @@
+#ifdef BUILDING_RMMAN2
+#ifdef BUILDING_RMMANX
+DECLARE_EXPORT_TABLE(rmmanx, 1, 1)
+#else
+DECLARE_EXPORT_TABLE(rmman2, 1, 1)
+#endif
+#else
+DECLARE_EXPORT_TABLE(rmman, 1, 1)
+#endif
+	DECLARE_EXPORT(_start)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(rmmanInit)
+	DECLARE_EXPORT(rmmanOpen)
+	DECLARE_EXPORT(rmmanClose)
+	DECLARE_EXPORT(rmmanEnd)
+END_EXPORT_TABLE
+
+void _retonly() {}

@@ -1,0 +1,11 @@
+
+build information:
+cc................ gcc
+cxx............... g++
+libs..............  -L/usr/X11R6/lib -lXxf86dga -lXxf86vm -lnsl -L/usr/X11R6/lib -lX11 -lXext
+defines...........  -DZLIB -DUSE_DGA_EXTENSION -DUSE_VIDMODE_EXTENSION -DHAVE_STRINGS_H '-DACCEPT_SIZE_T=socklen_t'
+sound support..... yes
+display system.... X11
+joystick support.. yes
+using asm cores... yes
+

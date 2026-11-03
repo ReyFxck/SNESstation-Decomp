@@ -3,6 +3,8 @@
  * Canonical source from progress13_runtime_more_recovered.c @ 0x001a7580
  */
 
+#include <stdint.h>
+
 /* 0x001a7580 -- libgcc signed DI -> double conversion helper (__floatdidf). */
 double snes9x_floatdidf(int64_t value)
 {

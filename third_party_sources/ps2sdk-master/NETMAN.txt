@@ -1,0 +1,57 @@
+PlayStation 2 Network Manager (NETMAN)	- 2018/02/25
+----------------------------------------------------
+
+For "end-user" developers who want to bring network support to their software:
+
+1. Load NETMAN.IRX.
+2. Load the network InterFace (IF) driver (e.g. SMAP.IRX).
+3. Load and initialize the network stack:
+	1. If it's an IOP-side stack like the LWIP v2.0.0 stack (ps2ip-nm), load ps2ip-nm.irx. After which, call NetManInit() to initialize basic RPC functions, if required.
+	2. If it's an EE-side stack like the LWIP v2.0.0 stack, invoke ps2ipInit(). ps2ipInit() will fully initialize the NETMAN RPC service.
+		As timing is performed based on the HSYNC clock, the EE-side stack needs to know the number of HSYNC ticks that elapse in one millisecond.
+		The default is 16, which is suitable for both PAL and NTSC video modes. If other video modes are used, specify the appropriate value with ps2ipSetHsyncTicksPerMSec().
+
+For developers who want to develop their own network adaptor drivers:
+	At startup, your driver should register itself with NETMAN using NetManRegisterNetIF().
+	The driver should have the following functions implemented:
+		SMAPStart		-> Called when the interface is to be brought up.
+		SMAPStop		-> Called when the interface is to be brought down.
+		SMAPSendPacket		-> Called when a frame is to be sent out of the interface.
+		SMAPIoctl		-> Invoked for IOCTL calls (e.g. for retrieving the MAC address etc). Refer to common/include/netman.h for a list of IOCTL calls to implement.
+
+	When a frame is to be received, the process would be something like this:
+		1. Frame is received by the driver.
+		2. Driver allocates a frame buffer with NetManRpcNetProtStackAllocRxPacket() and transfers the frame into the allocated buffer.
+		3. Driver enqueues the frame with NetManRpcProtStackEnQRxPacket().
+		4. Driver does 2 and 3 until there are either no more frames to process or no more frame buffers can be allocated.
+		5. If there are more frames received, repeat from step 1.
+
+	More than one network adaptor driver can be registered, but only the first one that has a link up state will be used. To toggle the link state, use NetManToggleNetIFLinkState().
+
+	On shutdown, the driver should be unregistered with NetManUnregisterNetIF().
+
+	For a working example, please refer to iop/network/smap.
+
+For developers who want to develop their own network protocol stack:
+	1. Initialize NETMAN and register itself with NetManInit().
+	2. Initialize itself after doing that if it needs access to the network adaptor (e.g. for its MAC address). Access to the network adaptor can only take place after NETMAN has been initialized.
+
+	Unlike network adaptor drivers, only one network protocol stack may be registered simultaneously (Regardless of whether it's on the EE or IOP).
+
+	The network protocol stack should have the following functions implemented:
+		LinkStateUp	-> A callback for handling a link up state by the network adaptor.
+		LinkStateDown	-> A callback for handling a link down state by the network adaptor.
+		AllocRxPacket	-> Buffer allocation function for an incoming packet.
+		FreeRxPacket	-> Buffer freeing function for an incoming packet.
+		EnQRxPacket	-> Frame queuing function for incoming packets.
+
+	Network protocol stacks can use these two functions provided by NETMAN during their runtime:
+		NetManNetIFSendPacket	-> Send a single frame out of the network adaptor.
+		NetManIoctl		-> Issue IOCTL call to the network adaptor. Used for obtaining statistics, statuses and the MAC address (For Ethernet adaptors) from the network adaptor.
+
+	On shutdown, NetManDeinit() should be invoked.
+
+	For working examples, please refer to ee/network/tcpip and iop/tcpip/tcpip-netman.
+
+Note regarding SIFCMD:
+	NETMAN uses SIFCMD 0x8000000D for transferring frames between the EE and IOP.

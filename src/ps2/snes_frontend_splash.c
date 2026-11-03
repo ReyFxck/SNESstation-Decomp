@@ -25,7 +25,7 @@ extern void    snes_obj_callback_0019a580(void *obj, uint32_t cb);
 extern uint32_t snes_obj_status_00199198(void *obj);
 extern void    snes_obj_vram_0019a588(void *obj, uint32_t status, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f);
 extern void    snes_obj_config2_0019b028(void *obj, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f, uint32_t g);
-extern void    snes_obj_config_0019adf8(void *obj, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f, uint32_t g);
+extern void    snes_obj_config_0019adf8(void *obj, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f);
 
 /* 0x00101ef0: Boot splash screen animation */
 void snes_frontend_splash_00101ef0(void)
@@ -59,6 +59,7 @@ void snes_frontend_splash_00101ef0(void)
 
     /* Second animation phase: scroll up from -0x132 to 0x55 */
     int32_t y_pos = -0x132;
+    int32_t y_next;
     do {
         snes_frontend_sub_00101b04();
         int32_t y1 = y_pos + 0x18;
@@ -82,7 +83,7 @@ void snes_frontend_splash_00101ef0(void)
         snes_obj_config_0019adf8(g_splash_obj, 0x7c, y3, 0x204, y_pos + 0x129, 3, 0xffffffff80b95c00);
 
         snes_obj_config2_0019b028(g_splash_obj, 100, y_pos, 0, 0, 0x7c, y1, 0x17);
-        int32_t y_next = y_pos + 2;
+        y_next = y_pos + 2;
         snes_obj_config2_0019b028(g_splash_obj, 0x21c, y_pos, 0, 0, 0x204, y1, 0x17);
         snes_obj_config2_0019b028(g_splash_obj, 100, y3, 0, 0, 0x7c, y2, 0x17);
         snes_obj_config2_0019b028(g_splash_obj, 0x21c, y3, 0, 0, 0x204, y2, 0x17);

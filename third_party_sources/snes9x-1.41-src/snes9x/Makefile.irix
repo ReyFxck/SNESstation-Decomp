@@ -1,0 +1,50 @@
+OBJECTS=cpu.o cpuops.o cpuexec.o debug.o gfx.o tile.o memmap.o \
+	ppu.o dma.o snes9x.o snapshot.o snaporig.o spc700.o apu.o soundux.o \
+        cheats.o data.o globals.o clip.o dsp1.o \
+	fxinst.o \
+	fxemu.o fxdbg.o unix.o
+
+X11R5=/usr
+#ZLIB=../zlib-1.0.4
+#CCC = CC -fast -O3 +w
+#CCC = gcc -fast -O3 +w
+LD = CC
+CCC = DCC -O3 +w
+CCFLAGS =  -I$(X11R5)/include -DMITSHM \
+-I. \
+-DSPC700_SHUTDOWN \
+-DCPU_SHUTDOWN \
+-DNO_INLINE_SET_GET \
+-DVAR_CYCLES
+#-DZLIB -I$(ZLIB) \
+
+#-DEXECUTE_SUPERFX_PER_LINE
+#-DDEBUGGER
+#-DNO_INLINE_SET_GET
+#-DVAR_CYCLES
+#-DCPU_SHUTDOWN
+#-DSPC700_SHUTDOWN
+
+.SUFFIXES: .o .cpp .c .cc .h .m .i
+LDLIBS = -L$(X11R5)/lib -L$(ZLIB)
+
+all: snes9x
+
+snes9x: $(OBJECTS) unix/x11.o
+	$(LD) $(INCLUDES) -o $@ $(OBJECTS) x11.o $(LDLIBS) -lXext -lX11 -lm -laudio
+#	$(CCC) $(INCLUDES) -o $@ $(OBJECTS) x11.o $(LDLIBS) -lXext -lX11 -lz
+
+.cpp.o:
+	$(CCC) $(INCLUDES) -c $(CCFLAGS) $*.cpp
+#	$(CCC) $(INCLUDES) -c $(CCFLAGS) $*.cpp -o $@
+
+.cc.o:
+	$(CCC) $(INCLUDES) -c $(CCFLAGS) $*.cc
+#	$(CCC) $(INCLUDES) -c $(CCFLAGS) $*.cc -o $@
+
+clean:
+	rm -f $(OBJECTS) unix/svga.o x11.o
+
+#release: CCFLAGS += -DNO_DEBUGGER
+
+release: clean all

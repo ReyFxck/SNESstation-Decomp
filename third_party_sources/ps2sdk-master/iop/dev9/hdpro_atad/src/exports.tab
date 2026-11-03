@@ -1,0 +1,32 @@
+/* We conform to the 1.3 version of atad.irx exports.
+   Note: most exports were removed because hdpro_io_start and hdpro_io_end must be caused around the code that accesses HDPro.  */
+
+DECLARE_EXPORT_TABLE(atad, 1, 3)
+	DECLARE_EXPORT(_start)
+	DECLARE_EXPORT(_retonly)
+	DECLARE_EXPORT(shutdown)
+	DECLARE_EXPORT(_retonly)
+
+	DECLARE_EXPORT(sceAtaInit)
+/*05*/	DECLARE_EXPORT(_unsupported)
+	DECLARE_EXPORT(_unsupported)
+	DECLARE_EXPORT(_unsupported)
+	DECLARE_EXPORT(_unsupported)
+	DECLARE_EXPORT(sceAtaDmaTransfer)
+/*10*/	DECLARE_EXPORT(_unsupported)
+	DECLARE_EXPORT(sceAtaSecurityUnLock)
+	DECLARE_EXPORT(_unsupported)
+	DECLARE_EXPORT(_unsupported)
+	DECLARE_EXPORT(_unsupported)
+/*15*/	DECLARE_EXPORT(_unsupported)
+	DECLARE_EXPORT(_unsupported)
+	DECLARE_EXPORT(sceAtaFlushCache)
+	DECLARE_EXPORT(_unsupported)
+
+END_EXPORT_TABLE
+
+void _retonly() {}
+
+int _unsupported(void) {
+	return -1;
+}

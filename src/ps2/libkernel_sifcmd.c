@@ -147,7 +147,7 @@ int SifCmd_0019f138(int cmd, void *buf, int size, void *arg3, int arg4, int arg5
     register int v12 __asm__("$20");
     register int v13 __asm__("$21");
     register int v14 __asm__("$22");
-    register int v15 __asm__("$ra");
+    register int v15 __asm__("$31");
 
     __asm__ volatile(
         /* ============================================================
@@ -359,7 +359,7 @@ int SifCmdHelper_0019f264(int cmd, void *buf, int size, void *arg3, int arg4, in
     register int v8 __asm__("$19");
     register int v9 __asm__("$20");
     register int v10 __asm__("$21");
-    register int v11 __asm__("$ra");
+    register int v11 __asm__("$31");
 
     __asm__ volatile(
         /* ============================================================
@@ -445,7 +445,7 @@ int SifCmdHelper2_0019f2a0(int cmd, void *buf, int size, void *arg3, int arg4, i
     register int v8 __asm__("$19");
     register int v9 __asm__("$20");
     register int v10 __asm__("$21");
-    register int v11 __asm__("$ra");
+    register int v11 __asm__("$31");
 
     __asm__ volatile(
         /* ============================================================
@@ -644,9 +644,9 @@ int SifCmdIrq_0019fb00(int arg)
 #if defined(__mips__)
     register int v0 __asm__("$2") = arg;
     register int v1 __asm__("$3");
-    register int v2 __asm__("$16");
+    register int v2 __asm__("$8");   /* Use $8 (t0) instead of $16 for mfc0 result */
     register int v3 __asm__("$17");
-    register int v4 __asm__("$ra");
+    register int v4 __asm__("$31");
 
     __asm__ volatile(
         /* ============================================================
@@ -662,7 +662,7 @@ int SifCmdIrq_0019fb00(int arg)
         /* ============================================================
          * READ COP0 STATUS AND EXTRACT IE BIT
          * ============================================================ */
-        "mfc0  %2, $12, 0\n"       /* v2 ($16/s0) = COP0 Status register */
+        "mfc0  %2, $12\n"          /* v2 ($8/t0) = COP0 Status register */
         "lui   %1, 0x1\n"          /* v1 = 0x10000 */
         "and   %2, %2, %1\n"       /* v2 = Status & 0x10000 (IE bit) */
 
@@ -678,9 +678,7 @@ int SifCmdIrq_0019fb00(int arg)
         /* Call func_0019fcd0 (syscall 0x16) */
         "jal   0x19fcd0\n"         /* Call syscall 0x16 handler */
         "move  $4, %3\n"           /* delay: a0 = arg */
-        "move  %3, %1\n"           /* v3 = v1 (0x10000) - hmm, this seems odd */
-        /* Wait: %1 is v1 which was 0x10000. But after mfc0/and, %2 has the IE bit.
-         * %1 still has 0x10000 from lui. So v3 = 0x10000? */
+        "move  %3, %1\n"           /* v3 = v1 (0x10000) */
         "sync\n"                   /* Memory barrier */
         "bnez  %2, 2f\n"           /* if (IE was set) goto label 2 */
         "nop\n"                    /* branch delay slot */
@@ -721,7 +719,7 @@ int SifCmdIrq_0019fb00(int arg)
         "nop\n"                    /* delay slot */
         : "=r"(v0), "=r"(v1), "=r"(v2), "=r"(v3), "=r"(v4)
         : "r"(v0)
-        : "memory", "$1", "$4", "$5", "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
+        : "memory", "$1", "$4", "$5", "$6", "$7", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
     );
     return v0;
 #else
@@ -755,9 +753,9 @@ int SifCmdIrq2_0019fb78(int arg)
 #if defined(__mips__)
     register int v0 __asm__("$2") = arg;
     register int v1 __asm__("$3");
-    register int v2 __asm__("$16");
+    register int v2 __asm__("$8");   /* Use $8 (t0) instead of $16 for mfc0 result */
     register int v3 __asm__("$17");
-    register int v4 __asm__("$ra");
+    register int v4 __asm__("$31");
 
     __asm__ volatile(
         /* ============================================================
@@ -773,7 +771,7 @@ int SifCmdIrq2_0019fb78(int arg)
         /* ============================================================
          * READ COP0 STATUS AND EXTRACT IE BIT
          * ============================================================ */
-        "mfc0  %2, $12, 0\n"       /* v2 ($16/s0) = COP0 Status register */
+        "mfc0  %2, $12\n"          /* v2 ($8/t0) = COP0 Status register */
         "lui   %1, 0x1\n"          /* v1 = 0x10000 */
         "and   %2, %2, %1\n"       /* v2 = Status & 0x10000 (IE bit) */
 
@@ -830,7 +828,7 @@ int SifCmdIrq2_0019fb78(int arg)
         "nop\n"                    /* delay slot */
         : "=r"(v0), "=r"(v1), "=r"(v2), "=r"(v3), "=r"(v4)
         : "r"(v0)
-        : "memory", "$1", "$4", "$5", "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
+        : "memory", "$1", "$4", "$5", "$6", "$7", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25"
     );
     return v0;
 #else
@@ -881,7 +879,7 @@ int SifCmdHandler_0019fbf0(void)
     register int v3 __asm__("$5");
     register int v4 __asm__("$6");
     register int v5 __asm__("$16");
-    register int v6 __asm__("$ra");
+    register int v6 __asm__("$31");
 
     __asm__ volatile(
         /* ============================================================
@@ -900,7 +898,7 @@ int SifCmdHandler_0019fbf0(void)
         "lw    %4, 0x5a88(%5)\n"   /* v4 = *(0x425a88) - global command struct */
         "move  %6, $0\n"           /* v6 = 0 (loop index) */
         "lbu   %0, 0x0(%4)\n"      /* v0 = *(v4+0) - command byte */
-        "beqz  %0, exit_path\n"    /* if command == 0, exit */
+        "beqz  %0, 4f\n"           /* if command == 0, exit (use numeric label 4) */
         "addiu %5, %5, 0x5a88\n"   /* v5 = 0x425a88 (global base) */
         "addiu %1, %0, 0x1e\n"     /* v1 = command + 0x1e */
         "sra   %2, %1, 4\n"        /* v2 = (command + 0x1e) >> 4 (loop count) */
@@ -920,7 +918,7 @@ int SifCmdHandler_0019fbf0(void)
         "addu  %0, %1, %4\n"       /* v0 = v4 + loop_index*16 (command entry) */
         "lq    %1, 0x0(%1)\n"      /* v1 = *(v4 + loop_index*16) - quad load! */
         "addu  %3, %1, $sp\n"      /* v3 = v1 + sp */
-        "ext   %1, %3, 0, 1\n"     /* v1 = extract bit 0 of v3 */
+        "and   %1, %3, 1\n"        /* v1 = extract bit 0 of v3 (ext not supported on R5900) */
         "addiu %0, $0, -1\n"       /* v0 = -1 */
         "bne   %2, %0, loop_body\n"  /* if (loop_count != -1) continue loop */
         "addiu %6, %6, 1\n"        /* delay: loop_index++ */
@@ -936,13 +934,11 @@ int SifCmdHandler_0019fbf0(void)
         "ori   %0, %0, 0xffff\n"   /* v0 = 0x7fffffff */
         "and   %2, %1, %0\n"       /* v2 = v1 & 0x7fffffff */
         "slti  %0, %2, 0x20\n"     /* v0 = (v2 < 32) ? 1 : 0 */
-        "beqz  %0, exit_path\n"    /* if (v2 >= 32) exit */
+        "beqz  %0, 4f\n"           /* if (v2 >= 32) exit (use numeric label 4) */
         "nop\n"                    /* delay slot */
         "bgezl %1, load_ptr\n"     /* if (v1 >= 0) goto load_ptr */
         "lw    %5, 0x14(%5)\n"     /* delay: v5 = *(v5+0x14) */
         "lw    %5, 0xc(%5)\n"      /* delay2: v5 = *(v5+0xc) */
-        /* Note: bgezl has delay slot, but there are two instructions?
-         * Actually the second lw might be in the delay slot of the first? */
 
         "load_ptr:\n"
         "sll   %0, %2, 3\n"        /* v0 = v2 * 8 */
@@ -952,9 +948,9 @@ int SifCmdHandler_0019fbf0(void)
         "lw    %4, 0x4(%0)\n"      /* delay: v4 = *(v0+4) - argument? */
 
         /* ============================================================
-         * EXIT_PATH: Cleanup and return
+         * LABEL 4: EXIT - Cleanup and return
          * ============================================================ */
-        "exit_path:\n"
+        "4:\n"
         "sync\n"                   /* Memory barrier */
         "jal   0x19f060\n"         /* Call EIntr (enable interrupts) */
         "nop\n"                    /* delay slot */
@@ -970,7 +966,7 @@ int SifCmdHandler_0019fbf0(void)
         "call_func:\n"
         "jalr  %1\n"               /* Call function pointer in v1 */
         "move  $4, $sp\n"          /* delay: a0 = sp (stack as arg) */
-        "b     exit_path\n"        /* goto exit */
+        "b     4b\n"               /* goto exit (label 4 backward) */
         "nop\n"                    /* delay slot */
         : "=r"(v0), "=r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5), "=r"(v6)
         :

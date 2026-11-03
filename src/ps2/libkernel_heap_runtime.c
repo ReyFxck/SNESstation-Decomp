@@ -1043,9 +1043,9 @@ int MallocMutexLock_0019f078(size_t size)
         "nop\n"                    /* branch delay slot */
         "b     try_lock\n"         /* Retry with interrupts disabled */
         "lw    %3, 0x5a80(%16)\n"  /* delay: reload mutex value */
-        : "=r"(v0), "+r"(v1), "+r"(v2), "+r"(v3), "+r"(v4), "+r"(v5), "+r"(v6),
-          "+r"(v7), "+r"(v8), "+r"(v9), "+r"(v10), "+r"(v11), "+r"(v12), "+r"(v13),
-          "+r"(v14), "+r"(v15), "+r"(v16), "+r"(v17)
+        : "=r"(v0), "=r"(v1), "=r"(v2), "=r"(v3), "=r"(v4), "=r"(v5), "=r"(v6),
+          "=r"(v7), "=r"(v8), "=r"(v9), "=r"(v10), "=r"(v11), "=r"(v12), "=r"(v13),
+          "=r"(v14), "=r"(v15), "=r"(v16), "=r"(v17)
         : "r"(v0)
         : "memory", "$1", "$24", "$25"
     );

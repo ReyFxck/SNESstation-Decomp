@@ -37,9 +37,12 @@ uint16_t snes9x_read16(uint32_t address, uint8_t *open_bus_shadow,
 void snes9x_map_page(uint32_t *map, uint32_t data_base_address,
                       uint32_t group, uint32_t page)
 {
-    for (uint32_t block = 0u; block < 256u; block += 16u) {
-        uint32_t pointer = data_base_address + (page << 20) + (block << 12);
-        for (uint32_t i = 0u; i < 16u; ++i)
+    uint32_t block;
+    uint32_t i;
+    uint32_t pointer;
+    for (block = 0u; block < 256u; block += 16u) {
+        pointer = data_base_address + (page << 20) + (block << 12);
+        for (i = 0u; i < 16u; ++i)
             map[0xc0au + (group << 8) + block + i] = pointer;
     }
 }
@@ -47,8 +50,9 @@ void snes9x_map_page(uint32_t *map, uint32_t data_base_address,
 void snes9x_init_chip_memory(uint8_t *chip_memory, uint32_t *map,
                               uint32_t data_base_address)
 {
+    uint32_t i;
     memset(chip_memory + 0x4800u, 0, 4u);
-    for (uint32_t i = 0u; i < 4u; ++i) {
+    for (i = 0u; i < 4u; ++i) {
         chip_memory[0x4804u + i] = (uint8_t)i;
         snes9x_map_page(map, data_base_address, i, i);
     }

@@ -4,6 +4,7 @@
  * 0x00108bfc, 0x00108ce4
  */
 
+#include <stddef.h>
 #include <stdint.h>
 
 typedef int (*SnesFrontendRpcCallback)(unsigned command, const void *send_buffer,

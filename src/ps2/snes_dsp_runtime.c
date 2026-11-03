@@ -83,7 +83,8 @@ typedef struct SnesWaveTableState {
 
 void snes_wave_table_build(SnesWaveTableState *state)
 {
-    for (uint32_t i = 0; i < 2048; ++i) {
+    uint32_t i;
+    for (i = 0; i < 2048; ++i) {
         int32_t val = state->hooks.read_wave(state->hooks.opaque, i);
         state->table[i] = val;
     }

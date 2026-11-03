@@ -15,6 +15,8 @@ extern uint8_t  g_unk_1ebd43;                  /* 0x001ebd43 */
 extern uint8_t  g_unk_1ebd44;                  /* 0x001ebd44 */
 extern uint8_t  g_unk_1ebd45;                  /* 0x001ebd45 */
 extern uint8_t  g_unk_1ebd46;                  /* 0x001ebd46 */
+extern uint8_t  g_unk_1ebd48;                  /* 0x001ebd48 */
+extern uint8_t  g_unk_1ebd4c;                  /* 0x001ebd4c */
 extern uint8_t  g_unk_1ebaec;                  /* 0x001ebaec */
 extern void    *g_vram_base;                   /* 0x001bb2c0 / DAT_001baf08 */
 
@@ -38,7 +40,7 @@ extern void    snes_config_save_001064c0(void);
 void snes_frontend_options_00103314(void)
 {
     g_unk_1bb2cc = 0;
-    bool exit_menu = false;
+    int exit_menu = 0;
     uint16_t prev_buttons = 0;
     int32_t selection = 0;
 
@@ -95,14 +97,13 @@ void snes_frontend_options_00103314(void)
                     g_unk_1ebd44 = g_unk_1ebd44 ? 0 : 1;
                     break;
                 case 10: /* Option 10: Save config and exit */
-                    exit_menu = true;
+                    exit_menu = 1;
                     break;
                 }
             }
         }
-
-    after_draw:
         int32_t i9 = 0;
+    after_draw:
         snes_frontend_sub_00101b64();
         snes_obj_wait_001998f8(g_vram_base);
         snes_obj_blend_0019b948(0x1bb748, 0, 0x280, 0x6e, 4, 0x80ffffff, 2, 0x1b0bb0);

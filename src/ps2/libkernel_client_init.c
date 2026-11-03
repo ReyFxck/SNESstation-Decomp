@@ -209,7 +209,7 @@ int SifInitIopHeap_0019f9e8(void)
     register int v8 __asm__("$17");
     register int v9 __asm__("$18");
     register int v10 __asm__("$19");
-    register int v11 __asm__("$ra");
+    register int v11 __asm__("$31");
 
     __asm__ volatile(
         /* ============================================================
@@ -425,7 +425,7 @@ int SifLoadFileInit_0019fd20(void)
     register int v8 __asm__("$17");
     register int v9 __asm__("$18");
     register int v10 __asm__("$19");
-    register int v11 __asm__("$ra");
+    register int v11 __asm__("$31");
 
     __asm__ volatile(
         /* ============================================================
@@ -578,7 +578,7 @@ int vprintf_0019faa8(const char *fmt, va_list ap)
     register int v3 __asm__("$5");
     register int v4 __asm__("$16");
     register int v5 __asm__("$17");
-    register int v6 __asm__("$ra");
+    register int v6 __asm__("$31");
 
     __asm__ volatile(
         /* ============================================================
@@ -704,7 +704,7 @@ int fio_io_0019f708(void *buf, int mode, void *user_ptr, int size)
     register int v6 __asm__("$8");
     register int v7 __asm__("$16");
     register int v8 __asm__("$17");
-    register int v9 __asm__("$ra");
+    register int v9 __asm__("$31");
 
     __asm__ volatile(
         /* ============================================================

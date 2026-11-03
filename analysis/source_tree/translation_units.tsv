@@ -1,60 +1,60 @@
 order	source	subsystem	language	link_role	object	replaces	rationale
 1	src/app/main_bootstrap.c	app	c	canonical	app/main_bootstrap.o		Canonical recovered translation unit.
-2	src/app/main_flow_.c	app	c	canonical	app/main_flow_recovered.o		Canonical recovered translation unit.
+2	src/app/main_flow.c	app	c	canonical	app/main_flow_recovered.o		Canonical recovered translation unit.
 3	src/ps2/address_leaf.c	ps2	c	canonical	ps2/address_leaf.o		Canonical address-labelled leaf functions at various addresses; small helpers returning constants or simple operations.
-4	src/ps2/audio_rpc_.c	ps2	c	canonical	ps2/audio_rpc_recovered.o		Canonical recovered translation unit.
+4	src/ps2/audio_rpc.c	ps2	c	canonical	ps2/audio_rpc_recovered.o		Canonical recovered translation unit.
 5	src/ps2/cdvd_rpc.c	ps2	c	canonical	ps2/cdvd_rpc.o		Byte-exact recovered historical libcdvd EE RPC translation unit.
-6	src/ps2/cpp_runtime_.c	ps2	c	canonical	ps2/cpp_runtime_recovered.o		Canonical recovered translation unit.
-7	src/ps2/ee_cache_.c	ps2	c	canonical	ps2/ee_cache_recovered.o		Canonical recovered translation unit.
+6	src/ps2/cpp_runtime.c	ps2	c	canonical	ps2/cpp_runtime_recovered.o		Canonical recovered translation unit.
+7	src/ps2/ee_cache.c	ps2	c	canonical	ps2/ee_cache_recovered.o		Canonical recovered translation unit.
 8	src/ps2/fileio.c	ps2	c	canonical	ps2/fileio.o		Recovered historical PS2LIB FILEIO translation unit; byte-exact gate covers target FILEIO members.
-9	src/ps2/gcc_fde_runtime_.c	ps2	c	canonical	ps2/gcc_fde_runtime_recovered.o		Canonical recovered translation unit.
-10	src/ps2/gcc_unwind_pe_.c	ps2	c	canonical	ps2/gcc_unwind_pe_recovered.o		Canonical recovered translation unit.
-11	src/ps2/gs_buffer_.c	ps2	c	canonical	ps2/gs_buffer_recovered.o		Canonical recovered translation unit.
-12	src/ps2/gs_fifo_.c	ps2	c	canonical	ps2/gs_fifo_recovered.o		Canonical recovered translation unit.
+9	src/ps2/gcc_fde_runtime.c	ps2	c	canonical	ps2/gcc_fde_runtime_recovered.o		Canonical recovered translation unit.
+10	src/ps2/gcc_unwind_pe.c	ps2	c	canonical	ps2/gcc_unwind_pe_recovered.o		Canonical recovered translation unit.
+11	src/ps2/gs_buffer.c	ps2	c	canonical	ps2/gs_buffer_recovered.o		Canonical recovered translation unit.
+12	src/ps2/gs_fifo.c	ps2	c	canonical	ps2/gs_fifo_recovered.o		Canonical recovered translation unit.
 13	src/ps2/gsdriver.c	ps2	c	canonical	ps2/gsdriver.o		Canonical recovered translation unit.
-14	src/ps2/gsfont_.c	ps2	c	canonical	ps2/gsfont_recovered.o		Canonical recovered translation unit.
+14	src/ps2/gsfont.c	ps2	c	canonical	ps2/gsfont_recovered.o		Canonical recovered translation unit.
 15	src/ps2/gslib_hw.c	ps2	c	canonical	ps2/gslib_hw.o		Canonical recovered translation unit.
-16	src/ps2/gspipe_.c	ps2	c	canonical	ps2/gspipe_recovered.o		Canonical recovered translation unit.
+16	src/ps2/gspipe.c	ps2	c	canonical	ps2/gspipe_recovered.o		Canonical recovered translation unit.
 17	src/ps2/libc_misc.c	ps2	c	canonical	ps2/libc_misc.o		Canonical libc leaves at 0x00107578 (abort/fatal spin) and 0x00108A34 (rand LCG); 2 functions.
-18	src/ps2/libc_text_.c	ps2	c	canonical	ps2/libc_text_recovered.o		Canonical recovered translation unit.
-19	src/ps2/libgcc_runtime_.c	ps2	c	canonical	ps2/libgcc_runtime_recovered.o		Canonical recovered translation unit.
+18	src/ps2/libc_text.c	ps2	c	canonical	ps2/libc_text_recovered.o		Canonical recovered translation unit.
+19	src/ps2/libgcc_runtime.c	ps2	c	canonical	ps2/libgcc_runtime_recovered.o		Canonical recovered translation unit.
 20	src/ps2/libkernel_client_init.c	ps2	c	canonical	ps2/libkernel_client_init.o		Canonical libkernel client init at 0x0019F600; fioInit, fio_intr, SifInitIopHeap, SifLoadFileInit, vprintf, fio_io; 6 functions, ~300 bytes total.
 21	src/ps2/alloc.c	ps2	c	canonical	ps2/alloc.o		Historical PS2LIB alloc.c recovered byte-exact from ps2sdk@694100b7; target allocator corridor 1004/1004 raw bytes.
 22	src/ps2/libkernel_heap_runtime.c	ps2	c	canonical	ps2/libkernel_heap_runtime.o		Canonical libkernel heap runtime at 0x0019E474; DIntr/EIntr, EndOfHeap, HeapFindBlock, malloc/calloc/memalign/free, mutex lock; 7 functions, ~500 bytes total.
 23	src/ps2/kernel.S	ps2	asm-cpp	canonical	ps2/kernel.o		Exact historical ps2sdk@a80df908 kernel.S; 22/22 selected members and 508/508 target bytes proved.
 24	src/ps2/strncmp.S	ps2	asm-cpp	canonical	ps2/strncmp.o		Exact historical ps2sdk@694100b7 strncmp.S; 1/1 object and 72/72 target bytes proved, replacing last provisional libc string TU.
-25	src/ps2/libmc_.c	ps2	c	canonical	ps2/libmc_recovered.o		Canonical recovered translation unit.
+25	src/ps2/libmc.c	ps2	c	canonical	ps2/libmc_recovered.o		Canonical recovered translation unit.
 26	src/ps2/libmtap.c	ps2	c	canonical	ps2/libmtap.o		Canonical mtap RPC leaves (init, port open/close, get connection) at 0x00104998-0x00104BBC and frontend_shutdown at 0x00104E58; 5 functions.
-27	src/ps2/libpad_.c	ps2	c	canonical	ps2/libpad_recovered.o		Canonical recovered translation unit.
-28	src/ps2/libsupcxx_rtti_.c	ps2	c	canonical	ps2/libsupcxx_rtti_recovered.o		Canonical recovered translation unit.
+27	src/ps2/libpad.c	ps2	c	canonical	ps2/libpad_recovered.o		Canonical recovered translation unit.
+28	src/ps2/libsupcxx_rtti.c	ps2	c	canonical	ps2/libsupcxx_rtti_recovered.o		Canonical recovered translation unit.
 29	src/ps2/load_module_buffer.c	ps2	c	canonical	ps2/load_module_buffer.o		Canonical recovered translation unit.
 30	src/ps2/iopcontrol.c	ps2	c	canonical	ps2/iopcontrol.o		Recovered historical PS2LIB IOP control translation unit; SifIopReset is byte-exact 268/268.
-31	src/ps2/newlib_mathfp_.c	ps2	c	canonical	ps2/newlib_mathfp_recovered.o		Canonical recovered translation unit.
+31	src/ps2/newlib_mathfp.c	ps2	c	canonical	ps2/newlib_mathfp_recovered.o		Canonical recovered translation unit.
 32	src/ps2/path_helpers.c	ps2	c	canonical	ps2/path_helpers.o		Canonical recovered translation unit.
 33	src/ps2/xprintf.c	ps2	c	canonical	ps2/xprintf.o		Recovered PS2LIB xprintf lineage; formatter core and target wrappers are byte-exact, with the target no-newline puts override.
 34	src/ps2/glue.c	ps2	c	canonical	ps2/glue.o		Byte-exact historical PS2LIB DMAC glue wrappers recovered from ps2sdk@a80df908.
 35	src/ps2/sifcmd.c	ps2	c	canonical	ps2/sifcmd.o		Byte-exact historical PS2LIB SIF command source recovered from ps2sdk@a80df908.
 36	src/ps2/sifrpc.c	ps2	c	canonical	ps2/sifrpc.o		Historical PS2LIB SIF RPC source recovered byte-exact from ps2sdk@a80df908; combined canonical TU preserves original F_* object bodies.
-37	src/ps2/small_dispatch_.c	ps2	c	canonical	ps2/small_dispatch_recovered.o		Canonical recovered translation unit.
+37	src/ps2/small_dispatch.c	ps2	c	canonical	ps2/small_dispatch_recovered.o		Canonical recovered translation unit.
 38	src/snes9x/memory_cleanup.c	snes9x	c	canonical	snes9x/memory_cleanup.o		Canonical SNES9x per-ROM cleanup at 0x00151330; rom_cleanup and per_rom_buffer_cleanup; 2 functions.
-39	src/unzip/explode_.c	unzip	c	canonical	unzip/explode_recovered.o		Canonical recovered translation unit.
-40	src/unzip/unreduce_.c	unzip	c	canonical	unzip/unreduce_recovered.o		Canonical recovered translation unit.
-41	src/unzip/unshrink_.c	unzip	c	canonical	unzip/unshrink_recovered.o		Canonical recovered translation unit.
-42	src/unzip/unzip_api_.c	unzip	c	canonical	unzip/unzip_api_recovered.o		Canonical recovered translation unit.
-43	src/zlib/crc32_.c	zlib	c	canonical	zlib/crc32_recovered.o		Canonical recovered translation unit.
-44	src/zlib/deflate_engine_.c	zlib	c	canonical	zlib/deflate_engine_recovered.o		Canonical recovered translation unit.
-45	src/zlib/deflate_state_.c	zlib	c	canonical	zlib/deflate_state_recovered.o		Canonical recovered translation unit.
-46	src/zlib/gzio_.c	zlib	c	canonical	zlib/gzio_recovered.o		Canonical recovered translation unit.
-47	src/zlib/infblock_engine_.c	zlib	c	canonical	zlib/infblock_engine_recovered.o		Canonical recovered translation unit.
-48	src/zlib/infblock_frontend_.c	zlib	c	canonical	zlib/infblock_frontend_recovered.o		Canonical recovered translation unit.
-49	src/zlib/infcodes_.c	zlib	c	canonical	zlib/infcodes_recovered.o		Canonical recovered translation unit.
-50	src/zlib/inffast_.c	zlib	c	canonical	zlib/inffast_recovered.o		Canonical recovered translation unit.
-51	src/zlib/inflate_state_.c	zlib	c	canonical	zlib/inflate_state_recovered.o		Canonical recovered translation unit.
-52	src/zlib/inftrees_.c	zlib	c	canonical	zlib/inftrees_recovered.o		Canonical recovered translation unit.
-53	src/zlib/infutil_.c	zlib	c	canonical	zlib/infutil_recovered.o		Canonical recovered translation unit.
-54	src/zlib/trees_.c	zlib	c	canonical	zlib/trees_recovered.o		Canonical recovered translation unit.
-55	src/zlib/zlib_buffer_api_.c	zlib	c	canonical	zlib/zlib_buffer_api_recovered.o		Canonical recovered translation unit.
-56	src/zlib/zutil_adler_.c	zlib	c	canonical	zlib/zutil_adler_recovered.o		Canonical recovered translation unit.
+39	src/unzip/explode.c	unzip	c	canonical	unzip/explode_recovered.o		Canonical recovered translation unit.
+40	src/unzip/unreduce.c	unzip	c	canonical	unzip/unreduce_recovered.o		Canonical recovered translation unit.
+41	src/unzip/unshrink.c	unzip	c	canonical	unzip/unshrink_recovered.o		Canonical recovered translation unit.
+42	src/unzip/unzip_api.c	unzip	c	canonical	unzip/unzip_api_recovered.o		Canonical recovered translation unit.
+43	src/zlib/crc32.c	zlib	c	canonical	zlib/crc32_recovered.o		Canonical recovered translation unit.
+44	src/zlib/deflate_engine.c	zlib	c	canonical	zlib/deflate_engine_recovered.o		Canonical recovered translation unit.
+45	src/zlib/deflate_state.c	zlib	c	canonical	zlib/deflate_state_recovered.o		Canonical recovered translation unit.
+46	src/zlib/gzio.c	zlib	c	canonical	zlib/gzio_recovered.o		Canonical recovered translation unit.
+47	src/zlib/infblock_engine.c	zlib	c	canonical	zlib/infblock_engine_recovered.o		Canonical recovered translation unit.
+48	src/zlib/infblock_frontend.c	zlib	c	canonical	zlib/infblock_frontend_recovered.o		Canonical recovered translation unit.
+49	src/zlib/infcodes.c	zlib	c	canonical	zlib/infcodes_recovered.o		Canonical recovered translation unit.
+50	src/zlib/inffast.c	zlib	c	canonical	zlib/inffast_recovered.o		Canonical recovered translation unit.
+51	src/zlib/inflate_state.c	zlib	c	canonical	zlib/inflate_state_recovered.o		Canonical recovered translation unit.
+52	src/zlib/inftrees.c	zlib	c	canonical	zlib/inftrees_recovered.o		Canonical recovered translation unit.
+53	src/zlib/infutil.c	zlib	c	canonical	zlib/infutil_recovered.o		Canonical recovered translation unit.
+54	src/zlib/trees.c	zlib	c	canonical	zlib/trees_recovered.o		Canonical recovered translation unit.
+55	src/zlib/zlib_buffer_api.c	zlib	c	canonical	zlib/zlib_buffer_api_recovered.o		Canonical recovered translation unit.
+56	src/zlib/zutil_adler.c	zlib	c	canonical	zlib/zutil_adler_recovered.o		Canonical recovered translation unit.
 57	src/ps2/iopheap.c	ps2	c	canonical	ps2/iopheap.o		Recovered historical PS2LIB IOP heap translation unit; exact gate covers SifInitIopHeap, SifAllocIopHeap and SifFreeIopHeap.
 58	src/ps2/loadfile.c	ps2	c	canonical	ps2/loadfile.o		Byte-exact historical PS2LIB LOADFILE translation unit; five target members pass raw linked equality.
 59	src/ps2/memcpy.S	ps2	asm-cpp	canonical	ps2/memcpy.o		Exact historical ps2sdk@694100b7 memcpy.S; 1/1 object and 56/56 target bytes proved.
@@ -198,62 +198,77 @@ order	source	subsystem	language	link_role	object	replaces	rationale
 197	src/snes9x/snes9x_controller.c	snes9x	c	canonical	snes9x/snes9x_controller.o		Canonical recovered translation unit.
 198	src/snes9x/snes9x_datetime.c	snes9x	c	canonical	snes9x/snes9x_datetime.o		Canonical recovered translation unit.
 199	src/snes9x/snes9x_frontend_init.c	snes9x	c	canonical	snes9x/snes9x_frontend_init.o		Canonical recovered translation unit.
-200	src/snes9x/snes9x_matrix.c	snes9x	c	canonical	snes9x/snes9x_matrix.o		Canonical recovered translation unit.
-201	src/snes9x/snes9x_memory_map.c	snes9x	c	canonical	snes9x/snes9x_memory_map.o		Canonical recovered translation unit.
-202	src/snes9x/snes9x_palette.c	snes9x	c	canonical	snes9x/snes9x_palette.o		Canonical recovered translation unit.
-203	src/snes9x/snes9x_path.c	snes9x	c	canonical	snes9x/snes9x_path.o		Canonical recovered translation unit.
-204	src/snes9x/snes9x_renderer_gate.c	snes9x	c	canonical	snes9x/snes9x_renderer_gate.o		Canonical recovered translation unit.
-205	src/snes9x/snes9x_renderer_leaf.c	snes9x	c	canonical	snes9x/snes9x_renderer_leaf.o		Canonical recovered translation unit.
-206	src/snes9x/snes9x_softfloat.c	snes9x	c	canonical	snes9x/snes9x_softfloat.o		Canonical recovered translation unit.
-207	src/snes9x/snes9x_state_machine.c	snes9x	c	canonical	snes9x/snes9x_state_machine.o		Canonical recovered translation unit.
-208	src/ps2/snes_startup.c	ps2	c	canonical	ps2/snes_startup.o		Canonical recovered translation unit from progress28.
-209	src/ps2/snes_frontend_menu.c	ps2	c	canonical	ps2/snes_frontend_menu.o		Canonical recovered translation unit from progress28.
-210	src/ps2/snes_frontend_splash.c	ps2	c	canonical	ps2/snes_frontend_splash.o		Canonical recovered translation unit from progress28.
-211	src/ps2/snes_frontend_gui.c	ps2	c	canonical	ps2/snes_frontend_gui.o		Canonical recovered translation unit from progress28.
-212	src/ps2/snes_frontend_options.c	ps2	c	canonical	ps2/snes_frontend_options.o		Canonical recovered translation unit from progress28.
-213	src/ps2/snes_config.c	ps2	c	canonical	ps2/snes_config.o		Canonical recovered translation unit from progress28.
-214	src/ps2/snes_frontend_main.c	ps2	c	canonical	ps2/snes_frontend_main.o		Canonical recovered translation unit from progress28.
-215	src/ps2/snes_sdd1.c	ps2	c	canonical	ps2/snes_sdd1.o		Canonical recovered translation unit from progress28.
-216	src/ps2/snes_file_browser.c	ps2	c	canonical	ps2/snes_file_browser.o		Canonical recovered translation unit from progress28.
-217	src/ps2/snes_hdd.c	ps2	c	canonical	ps2/snes_hdd.o		Canonical recovered translation unit from progress28.
-218	src/ps2/snes_cdfs.c	ps2	c	canonical	ps2/snes_cdfs.o		Canonical recovered translation unit.
-219	src/ps2/snes_write.c	ps2	c	canonical	ps2/snes_write.o		Canonical recovered translation unit.
-220	src/ps2/snes_sdd1_io.c	ps2	c	canonical	ps2/snes_sdd1_io.o		Canonical recovered translation unit.
-221	src/ps2/snes_transfer.c	ps2	c	canonical	ps2/snes_transfer.o		Canonical recovered translation unit.
-222	src/ps2/snes_softdouble_add.c	ps2	c	canonical	ps2/snes_softdouble_add.o		Canonical recovered translation unit.
-223	src/ps2/snes_state_helpers.c	ps2	c	canonical	ps2/snes_state_helpers.o		Canonical recovered translation unit.
-224	src/ps2/snes_softdiv.c	ps2	c	canonical	ps2/snes_softdiv.o		Canonical recovered translation unit.
-225	src/ps2/snes_file_buffer.c	ps2	c	canonical	ps2/snes_file_buffer.o		Canonical recovered translation unit.
-226	src/ps2/snes_core_blend.c	ps2	c	canonical	ps2/snes_core_blend.o		Canonical recovered translation unit.
-227	src/ps2/snes_register_read.c	ps2	c	canonical	ps2/snes_register_read.o		Canonical recovered translation unit.
-228	src/ps2/snes_frontend_init.c	ps2	c	canonical	ps2/snes_frontend_init.o		Canonical recovered translation unit.
-229	src/ps2/snes_frontend_panel.c	ps2	c	canonical	ps2/snes_frontend_panel.o		Canonical recovered translation unit.
-230	src/ps2/snes_channel_state.c	ps2	c	canonical	ps2/snes_channel_state.o		Canonical recovered translation unit.
-231	src/ps2/snes_ppu_bounds.c	ps2	c	canonical	ps2/snes_ppu_bounds.o		Canonical recovered translation unit.
-232	src/snes9x/snes9x_io.c	snes9x	c	canonical	snes9x/snes9x_io.o		Canonical recovered translation unit.
-233	src/snes9x/snes9x_map.c	snes9x	c	canonical	snes9x/snes9x_map.o		Canonical recovered translation unit.
-234	src/snes9x/snes9x_cheat.c	snes9x	c	canonical	snes9x/snes9x_cheat.o		Canonical recovered translation unit.
-235	src/snes9x/snes9x_memory.c	snes9x	c	canonical	snes9x/snes9x_memory.o		Canonical recovered translation unit.
-236	src/snes9x/snes9x_code_stream.c	snes9x	c	canonical	snes9x/snes9x_code_stream.o		Canonical recovered translation unit.
-237	src/snes9x/snes9x_table.c	snes9x	c	canonical	snes9x/snes9x_table.o		Canonical recovered translation unit.
-238	src/snes9x/snes9x_state.c	snes9x	c	canonical	snes9x/snes9x_state.o		Canonical recovered translation unit.
-239	src/snes9x/snes9x_transform.c	snes9x	c	canonical	snes9x/snes9x_transform.o		Canonical recovered translation unit.
-240	src/snes9x/snes9x_slot_runtime.c	snes9x	c	canonical	snes9x/snes9x_slot_runtime.o		Canonical recovered translation unit.
-241	src/snes9x/snes9x_gate.c	snes9x	c	canonical	snes9x/snes9x_gate.o		Canonical recovered translation unit.
-242	src/snes9x/snes9x_palette_expand.c	snes9x	c	canonical	snes9x/snes9x_palette_expand.o		Canonical recovered translation unit.
-243	src/snes9x/snes9x_ppu_reset.c	snes9x	c	canonical	snes9x/snes9x_ppu_reset.o		Canonical recovered translation unit.
-244	src/snes9x/snes9x_map_window.c	snes9x	c	canonical	snes9x/snes9x_map_window.o		Canonical recovered translation unit.
-245	src/snes9x/snes9x_rotate.c	snes9x	c	canonical	snes9x/snes9x_rotate.o		Canonical recovered translation unit.
-246	src/snes9x/snes9x_runtime_block.c	snes9x	c	canonical	snes9x/snes9x_runtime_block.o		Canonical recovered translation unit.
-247	src/snes9x/snes9x_frontend_table.c	snes9x	c	canonical	snes9x/snes9x_frontend_table.o		Canonical recovered translation unit.
-248	src/snes9x/snes9x_multibyte.c	snes9x	c	canonical	snes9x/snes9x_multibyte.o		Canonical recovered translation unit.
-249	src/snes9x/snes9x_ppu_frontend.c	snes9x	c	canonical	snes9x/snes9x_ppu_frontend.o		Canonical recovered translation unit.
-250	src/snes9x/snes9x_record.c	snes9x	c	canonical	snes9x/snes9x_record.o		Canonical recovered translation unit.
-251	src/snes9x/snes9x_floatdidf.c	snes9x	c	canonical	snes9x/snes9x_floatdidf.o		Canonical recovered translation unit.
-252	src/snes9x/snes9x_days_in_month.c	snes9x	c	canonical	snes9x/snes9x_days_in_month.o		Canonical recovered translation unit.
-253	src/snes9x/snes9x_stage.c	snes9x	c	canonical	snes9x/snes9x_stage.o		Canonical recovered translation unit.
-254	src/snes9x/snes9x_record_ram.c	snes9x	c	canonical	snes9x/snes9x_record_ram.o		Canonical recovered translation unit.
-255	src/snes9x/snes9x_color_blend.c	snes9x	c	canonical	snes9x/snes9x_color_blend.o		Canonical recovered translation unit.
-256	src/snes9x/snes9x_map_cursor.c	snes9x	c	canonical	snes9x/snes9x_map_cursor.o		Canonical recovered translation unit.
-257	src/snes9x/snes9x_controller_mask.c	snes9x	c	canonical	snes9x/snes9x_controller_mask.o		Canonical recovered translation unit.
-258	src/snes9x/snes9x_weekday.c	snes9x	c	canonical	snes9x/snes9x_weekday.o		Canonical recovered translation unit.
+200	src/snes9x/snes9x_memory_map.c	snes9x	c	canonical	snes9x/snes9x_memory_map.o		Canonical recovered translation unit.
+201	src/snes9x/snes9x_palette.c	snes9x	c	canonical	snes9x/snes9x_palette.o		Canonical recovered translation unit.
+202	src/snes9x/snes9x_path.c	snes9x	c	canonical	snes9x/snes9x_path.o		Canonical recovered translation unit.
+203	src/snes9x/snes9x_renderer_gate.c	snes9x	c	canonical	snes9x/snes9x_renderer_gate.o		Canonical recovered translation unit.
+204	src/snes9x/snes9x_renderer_leaf.c	snes9x	c	canonical	snes9x/snes9x_renderer_leaf.o		Canonical recovered translation unit.
+205	src/snes9x/snes9x_softfloat.c	snes9x	c	canonical	snes9x/snes9x_softfloat.o		Canonical recovered translation unit.
+206	src/ps2/snes_startup.c	ps2	c	canonical	ps2/snes_startup.o		Canonical recovered translation unit from progress28.
+207	src/ps2/snes_frontend_menu.c	ps2	c	canonical	ps2/snes_frontend_menu.o		Canonical recovered translation unit from progress28.
+208	src/ps2/snes_frontend_splash.c	ps2	c	canonical	ps2/snes_frontend_splash.o		Canonical recovered translation unit from progress28.
+209	src/ps2/snes_frontend_gui.c	ps2	c	canonical	ps2/snes_frontend_gui.o		Canonical recovered translation unit from progress28.
+210	src/ps2/snes_frontend_options.c	ps2	c	canonical	ps2/snes_frontend_options.o		Canonical recovered translation unit from progress28.
+211	src/ps2/snes_config.c	ps2	c	canonical	ps2/snes_config.o		Canonical recovered translation unit from progress28.
+212	src/ps2/snes_frontend_main.c	ps2	c	canonical	ps2/snes_frontend_main.o		Canonical recovered translation unit from progress28.
+213	src/ps2/snes_sdd1.c	ps2	c	canonical	ps2/snes_sdd1.o		Canonical recovered translation unit from progress28.
+214	src/ps2/snes_file_browser.c	ps2	c	canonical	ps2/snes_file_browser.o		Canonical recovered translation unit from progress28.
+215	src/ps2/snes_hdd.c	ps2	c	canonical	ps2/snes_hdd.o		Canonical recovered translation unit from progress28.
+216	src/ps2/snes_cdfs.c	ps2	c	canonical	ps2/snes_cdfs.o		Canonical recovered translation unit.
+217	src/ps2/snes_write.c	ps2	c	canonical	ps2/snes_write.o		Canonical recovered translation unit.
+218	src/ps2/snes_sdd1_io.c	ps2	c	canonical	ps2/snes_sdd1_io.o		Canonical recovered translation unit.
+219	src/ps2/snes_transfer.c	ps2	c	canonical	ps2/snes_transfer.o		Canonical recovered translation unit.
+220	src/ps2/snes_state_helpers.c	ps2	c	canonical	ps2/snes_state_helpers.o		Canonical recovered translation unit.
+221	src/ps2/snes_softdiv.c	ps2	c	canonical	ps2/snes_softdiv.o		Canonical recovered translation unit.
+222	src/ps2/snes_file_buffer.c	ps2	c	canonical	ps2/snes_file_buffer.o		Canonical recovered translation unit.
+223	src/ps2/snes_core_blend.c	ps2	c	canonical	ps2/snes_core_blend.o		Canonical recovered translation unit.
+224	src/ps2/snes_register_read.c	ps2	c	canonical	ps2/snes_register_read.o		Canonical recovered translation unit.
+225	src/ps2/snes_frontend_init.c	ps2	c	canonical	ps2/snes_frontend_init.o		Canonical recovered translation unit.
+226	src/ps2/snes_frontend_panel.c	ps2	c	canonical	ps2/snes_frontend_panel.o		Canonical recovered translation unit.
+227	src/ps2/snes_channel_state.c	ps2	c	canonical	ps2/snes_channel_state.o		Canonical recovered translation unit.
+228	src/snes9x/snes9x_io.c	snes9x	c	canonical	snes9x/snes9x_io.o		Canonical recovered translation unit.
+229	src/snes9x/snes9x_map.c	snes9x	c	canonical	snes9x/snes9x_map.o		Canonical recovered translation unit.
+230	src/snes9x/snes9x_cheat.c	snes9x	c	canonical	snes9x/snes9x_cheat.o		Canonical recovered translation unit.
+231	src/snes9x/snes9x_memory.c	snes9x	c	canonical	snes9x/snes9x_memory.o		Canonical recovered translation unit.
+232	src/snes9x/snes9x_code_stream.c	snes9x	c	canonical	snes9x/snes9x_code_stream.o		Canonical recovered translation unit.
+233	src/snes9x/snes9x_table.c	snes9x	c	canonical	snes9x/snes9x_table.o		Canonical recovered translation unit.
+234	src/snes9x/snes9x_state.c	snes9x	c	canonical	snes9x/snes9x_state.o		Canonical recovered translation unit.
+235	src/snes9x/snes9x_transform.c	snes9x	c	canonical	snes9x/snes9x_transform.o		Canonical recovered translation unit.
+236	src/snes9x/snes9x_slot_runtime.c	snes9x	c	canonical	snes9x/snes9x_slot_runtime.o		Canonical recovered translation unit.
+237	src/snes9x/snes9x_gate.c	snes9x	c	canonical	snes9x/snes9x_gate.o		Canonical recovered translation unit.
+238	src/snes9x/snes9x_palette_expand.c	snes9x	c	canonical	snes9x/snes9x_palette_expand.o		Canonical recovered translation unit.
+239	src/snes9x/snes9x_ppu_reset.c	snes9x	c	canonical	snes9x/snes9x_ppu_reset.o		Canonical recovered translation unit.
+240	src/snes9x/snes9x_map_window.c	snes9x	c	canonical	snes9x/snes9x_map_window.o		Canonical recovered translation unit.
+241	src/snes9x/snes9x_rotate.c	snes9x	c	canonical	snes9x/snes9x_rotate.o		Canonical recovered translation unit.
+242	src/snes9x/snes9x_runtime_block.c	snes9x	c	canonical	snes9x/snes9x_runtime_block.o		Canonical recovered translation unit.
+243	src/snes9x/snes9x_frontend_table.c	snes9x	c	canonical	snes9x/snes9x_frontend_table.o		Canonical recovered translation unit.
+244	src/snes9x/snes9x_multibyte.c	snes9x	c	canonical	snes9x/snes9x_multibyte.o		Canonical recovered translation unit.
+245	src/snes9x/snes9x_ppu_frontend.c	snes9x	c	canonical	snes9x/snes9x_ppu_frontend.o		Canonical recovered translation unit.
+246	src/snes9x/snes9x_record.c	snes9x	c	canonical	snes9x/snes9x_record.o		Canonical recovered translation unit.
+247	src/snes9x/snes9x_floatdidf.c	snes9x	c	canonical	snes9x/snes9x_floatdidf.o		Canonical recovered translation unit.
+248	src/snes9x/snes9x_stage.c	snes9x	c	canonical	snes9x/snes9x_stage.o		Canonical recovered translation unit.
+249	src/snes9x/snes9x_record_ram.c	snes9x	c	canonical	snes9x/snes9x_record_ram.o		Canonical recovered translation unit.
+250	src/snes9x/snes9x_color_blend.c	snes9x	c	canonical	snes9x/snes9x_color_blend.o		Canonical recovered translation unit.
+251	src/snes9x/snes9x_map_cursor.c	snes9x	c	canonical	snes9x/snes9x_map_cursor.o		Canonical recovered translation unit.
+252	src/snes9x/snes9x_controller_mask.c	snes9x	c	canonical	snes9x/snes9x_controller_mask.o		Canonical recovered translation unit.
+253	src/snes9x/snes9x_weekday.c	snes9x	c	canonical	snes9x/snes9x_weekday.o		Canonical recovered translation unit.
+254	src/ps2/libgcc_cpp_eh.c	ps2	c	canonical	ps2/libgcc_cpp_eh_recovered.o		Canonical recovered translation unit.
+255	src/ps2/libgcc_softfloat.c	ps2	c	canonical	ps2/libgcc_softfloat_recovered.o		Canonical recovered translation unit.
+256	src/snes9x/apu_alloc.c	snes9x	c	canonical	snes9x/apu_alloc_recovered.o		Canonical recovered translation unit.
+257	src/snes9x/apumem.c	snes9x	c	canonical	snes9x/apumem_recovered.o		Canonical recovered translation unit.
+258	src/snes9x/cpu_shutdown_renderer_select.c	snes9x	c	canonical	snes9x/cpu_shutdown_renderer_select_recovered.o		Canonical recovered translation unit.
+259	src/snes9x/draw_large_pixel.c	snes9x	c	canonical	snes9x/draw_large_pixel_recovered.o		Canonical recovered translation unit.
+260	src/snes9x/getset.c	snes9x	c	canonical	snes9x/getset_recovered.o		Canonical recovered translation unit.
+261	src/snes9x/memmap_metadata.c	snes9x	c	canonical	snes9x/memmap_metadata_recovered.o		Canonical recovered translation unit.
+262	src/snes9x/memory_init.c	snes9x	c	canonical	snes9x/memory_init_recovered.o		Canonical recovered translation unit.
+263	src/snes9x/sram.c	snes9x	c	canonical	snes9x/sram_recovered.o		Canonical recovered translation unit.
+264	src/snes9x/tile_16bit.c	snes9x	c	canonical	snes9x/tile_16bit_recovered.o		Canonical recovered translation unit.
+265	src/snes9x/tile_color_math.c	snes9x	c	canonical	snes9x/tile_color_math_recovered.o		Canonical recovered translation unit.
+266	src/snes9x/tile_converter.c	snes9x	c	canonical	snes9x/tile_converter_recovered.o		Canonical recovered translation unit.
+267	src/snes9x/tile_draw.c	snes9x	c	canonical	snes9x/tile_draw_recovered.o		Canonical recovered translation unit.
+268	src/snes9x/tile_draw_clipped.c	snes9x	c	canonical	snes9x/tile_draw_clipped_recovered.o		Canonical recovered translation unit.
+269	src/snes9x/tile_large16.c	snes9x	c	canonical	snes9x/tile_large16_recovered.o		Canonical recovered translation unit.
+270	src/snes9x/tile_lookup_tables.c	snes9x	c	canonical	snes9x/tile_lookup_tables_recovered.o		Canonical recovered translation unit.
+271	src/snes9x/tile_pixel_helpers.c	snes9x	c	canonical	snes9x/tile_pixel_helpers_recovered.o		Canonical recovered translation unit.
+272	src/snes9x/tile_scaled_remaining.c	snes9x	c	canonical	snes9x/tile_scaled_remaining_recovered.o		Canonical recovered translation unit.
+273	src/snes9x/tile_x2.c	snes9x	c	canonical	snes9x/tile_x2_recovered.o		Canonical recovered translation unit.

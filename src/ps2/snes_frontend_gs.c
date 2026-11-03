@@ -4,9 +4,7 @@
  */
 
 #include <stdint.h>
-
-struct gsDriverRecovered;
-struct gsPipeRecovered;
+#include "gslib_recovered.h"
 
 extern void gsDriver_RemoveVSyncCallback_00199420(struct gsDriverRecovered *driver,
                                                   uint32_t callback_id);

@@ -55,7 +55,7 @@ extern void    snes_obj_vram_0019a588(void *obj, uint32_t status, uint32_t a, ui
 extern void    snes_obj_config2_0019b028(void *obj, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f, uint32_t g);
 extern void    snes_copy_0019e3d0(void *dst, uint32_t src, uint32_t a, uint32_t b);
 extern void    snes_obj_blend_0019b948(uint32_t *link, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f, void *src);
-extern void    snes_obj_poll_001991e8(void *obj);
+extern uint32_t snes_obj_poll_001991e8(void *obj);
 extern void    snes_obj_wait2_00199208(void *obj);
 extern void    snes_obj_poll2_00199268(void *obj);
 

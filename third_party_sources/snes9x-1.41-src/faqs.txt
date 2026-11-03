@@ -1,0 +1,43 @@
+Le FAQ de Snes9x
+
+Wassail,
+This is the much anticipated and highly informative Frequently Asked Questions article, which contains, believe it or not, Frequently Asked Questions!  I shall be your host on this gleeful sojourn through a text document, where anything can, but probably won't, happen.
+
+On our first section of this mystical journey you shall see various frequently asked questions, as well as their answers!
+
+Q: When is the next version (of Snes9x) coming out?
+  J: I didn't even realise it was gay!
+    A: Chances are it will be coming out when enough changes have been made to suitabley make a release.  You can generally guesstimate the release date by paying attention to the Developers forum at snes9x.com.
+
+Q: Why doesn't Star Ocean/SFA 2 work?
+  A: These games contained a rare, and difficult to emulate, proccessor. It is possible to play these on Snes9x, though you need to obtain the aptly named "graphics packs" which contain the uncompressed graphics of the two games.  After you have obtained these, you can fiddle with setting them up, which is explained in the readme, you too can play your emulated copy of the games you no doubt own.
+
+Q: Why do my games run too fast?
+  J: Through proper nutrition and training an increase in abilities is often found. It is possible that certain Roms, whilst training for the annual romh race, surpassed a sane limit.  Generally not allowing them to run will cause atrophy, making them somewhat slower.
+    A: Try using the + and/or - keys to adjust the emulated speed. If you are feeling lucky, you might also wish to try holding down Shift, and pressing the + and/or - keys.
+
+Q: Why doesn't Snes9x have feature X?
+  A: There is no feature X, it is only an illusion... A trick of the mind, if you will.  
+
+Q: Why doesn't MegaManX2 and/or 3 work?
+  J: With the present state of economy it is often hard for valuable tradesmen to find long-standing jobs. As such, it proves even more difficult for the aforementioned games.
+    A: More than likely it does work however, depending on your operating system, it may not yet be implemented. If this is the case, upgrade your OS or, alternativley, bribe your port maintainer to implement the code.
+
+Q: Why doesn't game X work?
+  A: There are three possible answers to this question, depending on the scenario.  Answer one is that it does work, but your Rom dump is incorrect (this MAY be fixed by re-attatching your cartridge to your copier and redumping). Answer two is that we have found a solution to the problem, but have not yet implemented a fix.  Answer three, a subsiduary of answer two, is that we do NOT know what is wrong with it, and as such have not yet implemented a fix.
+
+Q: Why can't I run forward while jumping and shooting?
+  J: Lack of cognitive excersize can often affect brain patterns, resulting in an inability to multitask.  An example would be an inability to rub ones tummy whilst patting ones head.  Occasionally the cognitive abilities can atrophy so much that you are unable to run and jump whilst carrying firearms.
+    A: All keyboards can only input so much data to the CPU at a time. Depending on the brand and placement of the keys, this number can vary, however three keys does seem to be a standard limit.  There are multiple solutions to this problem.  Obtaining a gamepad of some form is the most highly suggested method, as playing the snes with a keyboard was not one of the greatest videogame ideas of the last century.  You can also try to reassign buttons to keys that allow more input; Ctrl and ALt for example.  The final method is to assign multiple tasks to a single key, though this can be frustrating in near-all instances.  As an example you could configure the spacebar to jump AND shoot, however the drawback is that you would not be able to jump without shooting, or shoot without jumping.
+
+Q: Why doesn't Snes9x support transparencies?
+  A: It does!!!!
+
+Q: Why doesn't Snes9x display SD3/Secret of Mana/other hi-res game?
+  A: To answer this one must first understand what hi-res games are.  There are games that used Higher resoltuion than the Super Nintendo standard. You can easily activate the Hi-res mode by configuring it in the settings panel.  This may slow down game speed on some lower-end computers, which is why it is an optional feature.  
+
+Q: Snes9x netplay sucks, can I make it better?
+  A: Yes you can!  Now that Snes9x is open source, all you need to make netplay better is advanced programming knowledge and a will to improve upon it. However, at present time it is more of a Lanplay, best used for a small network of local computers. I recommend Zsnes (www.zsnes.com) and zbattle (www.zbattle.net) for your random chaotic netplay needs.
+
+Q: Is Maria S. Kendora available?
+  A: No, at present time she is happily involved with a very nice man, and as such is not accepting proposals unless you are rich, handsome AND live in the southern penninsula of France, next to Andorra.
