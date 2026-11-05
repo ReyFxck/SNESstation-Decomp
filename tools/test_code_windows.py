@@ -349,6 +349,8 @@ class CodeWindowsTests(unittest.TestCase):
     def test_remaining_sifrpc_helpers_link_from_canonical_selectors(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
         expected = {
+            "sifrpc-checkstat": ("build/code-windows/canonical/sifrpc-checkstat.o",
+                                 0x001A1AF4, 0x002C, 0),
             "sifrpc-get-packet": ("build/code-windows/canonical/sifrpc-get-packet.o",
                                   0x0019CD70, 0x00BC, 3),
             "sifrpc-get-fpacket": ("build/code-windows/canonical/sifrpc-get-fpacket.o",
@@ -367,7 +369,8 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(
             {(tag, define, address, size, relocs)
              for tag, _obj, define, address, size, relocs in gate.SIFRPC_SELECTOR_SPECS},
-            {("sifrpc-get-packet", "F__rpc_get_packet", 0x0019CD70, 0x00BC, 3),
+            {("sifrpc-checkstat", "F_SifCheckStatRpc", 0x001A1AF4, 0x002C, 0),
+             ("sifrpc-get-packet", "F__rpc_get_packet", 0x0019CD70, 0x00BC, 3),
              ("sifrpc-get-fpacket", "F__rpc_get_fpacket", 0x0019CE2C, 0x0030, 0)},
         )
 
