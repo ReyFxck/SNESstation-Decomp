@@ -38,9 +38,9 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(189, result["direct_candidate_object_inputs"])
+        self.assertEqual(191, result["direct_candidate_object_inputs"])
         self.assertEqual(9964, result["evidence_candidate_object_bytes"])
-        self.assertEqual(24860, result["evidence_listing_bytes"])
+        self.assertEqual(24732, result["evidence_listing_bytes"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -178,6 +178,26 @@ class CodeWindowsTests(unittest.TestCase):
             "C4CalcWireFrame": 0x0010BECC,
         }.items():
             self.assertEqual(gate.CLEAN_SOURCE_PROVIDER_TARGETS[name], address)
+
+    def test_strcat_runtime_member_links_with_proved_strcpy_call(self):
+        rows = {row[0]: row for row in gate.DIRECT_RUNTIME_OBJECTS}
+        self.assertIn("rtstrcat", rows)
+        row = rows["rtstrcat"]
+        self.assertEqual(row[1:5], ("libc/strcat.o", 0x0019C3D4, 56, 1))
+        self.assertEqual(row[5], ())
+        self.assertEqual(row[6], {".data": 0, ".bss": 0})
+        self.assertEqual(gate.CLEAN_SOURCE_PROVIDER_TARGETS["strcpy"], 0x0019C528)
+
+    def test_strncmp_links_from_canonical_source_tree_object(self):
+        rows = [row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES if row[0] == "strncmp"]
+        self.assertEqual(len(rows), 1)
+        row = rows[0]
+        self.assertEqual(row[1], "build/source-tree/objects/ps2/strncmp.o")
+        self.assertEqual(row[2:6], (0x0019C410, 0, 0x0048, 0))
+        self.assertEqual(row[6], ())
+        self.assertEqual(row[7], {".data": 0, ".bss": 0})
+        self.assertEqual(row[8], 0x0048)
+        self.assertEqual(row[9], frozenset())
 
     def test_zero_relocation_ps2lib_string_runtime_members_link_directly(self):
         rows = {row[0]: row for row in gate.DIRECT_RUNTIME_OBJECTS}
