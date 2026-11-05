@@ -228,6 +228,49 @@ def main() -> None:
     if not full_ok:
         raise SystemExit("libpad full-object relocation-normalized gate failed")
 
+    # Resolve the complete public object exactly as the target does and require
+    # the final linked .text bytes to match the public target corridor. This
+    # closes relocation targets as well as relocation-normalized instruction bits.
+    ld = cc.with_name("ee-ld")
+    objcopy = cc.with_name("ee-objcopy")
+    linker = BUILD / "libpad-full-target.ld"
+    linked = BUILD / "libpad-full-target.elf"
+    linked_text = BUILD / "libpad-full-target.text.bin"
+    linker.write_text(
+        """ENTRY(padGetDmaStr)\n\n"
+        "PROVIDE(SyncDCache = 0x001ab3c0);\n"
+        "PROVIDE(SifBindRpc = 0x0019c688);\n"
+        "PROVIDE(SifCallRpc = 0x0019c7b0);\n"
+        "PROVIDE(memset = 0x0019c39c);\n"
+        "PROVIDE(memcpy = 0x0019c364);\n"
+        "PROVIDE(strcpy = 0x0019c528);\n\n"
+        "SECTIONS\n{\n"
+        "  . = 0x001a8420;\n"
+        "  .text : { *(.text) }\n"
+        "  . = 0x001bacc8;\n"
+        "  .rodata : { *(.rodata) }\n"
+        "  . = 0x00426524;\n"
+        "  .data : { *(.data) }\n"
+        "  . = 0x00447780;\n"
+        "  .bss (NOLOAD) : { *(.bss) *(COMMON) }\n"
+        "  /DISCARD/ : { *(.comment) *(.mdebug*) *(.pdr) }\n"
+        "}\n""",
+        encoding="utf-8",
+    )
+    run([ld, "-T", linker, obj, "-o", linked])
+    run([objcopy, "-j", ".text", "-O", "binary", linked, linked_text])
+    linked_raw = linked_text.read_bytes()
+    if linked_raw != expected_full:
+        first = next(
+            (i for i, (a, b) in enumerate(zip(linked_raw, expected_full)) if a != b),
+            None,
+        )
+        raise SystemExit(
+            f"libpad full-object raw link failed: bytes={len(linked_raw)}/{len(expected_full)} "
+            f"first_diff={('-' if first is None else hex(first))}"
+        )
+    print(f"RAW FULL MATCH libpad .text bytes={len(linked_raw)}/{len(expected_full)}")
+
     pad_init_ok = False
     for symbol_name, address, expected_size in SPECS:
         sym = elf.find_symbol(symbol_name)
