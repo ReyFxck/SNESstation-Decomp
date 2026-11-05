@@ -3,7 +3,7 @@ name: XPRINTF C source recovery
 on:
   push:
     branches:
-      - source-recovery-file-by-file
+      - main
     paths:
       - "src/ps2/xprintf.c"
       - "include/xprintf_legacy_compat.h"
