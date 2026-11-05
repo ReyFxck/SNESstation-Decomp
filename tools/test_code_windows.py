@@ -38,10 +38,10 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(218, result["direct_candidate_object_inputs"])
+        self.assertEqual(216, result["direct_candidate_object_inputs"])
         self.assertEqual(3928, result["evidence_candidate_object_bytes"])
-        self.assertEqual(20220, result["evidence_listing_bytes"])
-        self.assertEqual(440, result["direct_object_sections"])
+        self.assertEqual(19248, result["evidence_listing_bytes"])
+        self.assertEqual(434, result["direct_object_sections"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -52,6 +52,23 @@ class CodeWindowsTests(unittest.TestCase):
             gate.EXPECTED["selected_source_contract_sha256"],
             result["selected_source_contract_sha256"],
         )
+
+    def test_complete_historical_libpad_object_links_directly(self):
+        self.assertEqual(
+            gate.DIRECT_PAD_SLICES,
+            (("padfull", 0x001A8420, 0, 0x0CD8, 131),),
+        )
+        self.assertEqual(
+            gate.PAD_SOURCE,
+            "matching/candidates/progress68/libpad-ps2lib-2004-newpadman.c.txt",
+        )
+        self.assertEqual(
+            gate.PAD_SOURCE_SHA256,
+            "4d96a31c5f8d3f814f3bec872fadf6afd9a4cb67c12705053a9073ae4f8e76d1",
+        )
+        for span in ((0x001A84D4, 20), (0x001A84F0, 12),
+                     (0x001A8534, 20), (0x001A8550, 12)):
+            self.assertNotIn(span, gate.LINKER_ZERO_FILL_SPANS)
 
     def test_c4drawwireframe_links_from_canonical_cpp_object(self):
         matches = [

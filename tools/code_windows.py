@@ -464,8 +464,7 @@ LINKER_ZERO_FILL_SPANS = (
     (0x001A06D4, 8), (0x001A0700, 8), (0x001A1C90, 8),
     (0x001A3464, 12), (0x001A3498, 8), (0x001A3BC4, 12),
     (0x001A7E90, 16), (0x001A80C8, 8), (0x001A8130, 16),
-    (0x001A8330, 8), (0x001A84D4, 20), (0x001A84F0, 12),
-    (0x001A8534, 20), (0x001A8550, 12), (0x001A9C18, 8),
+    (0x001A8330, 8), (0x001A9C18, 8),
     (0x001A9C80, 8), (0x001A9E80, 8), (0x001AADE0, 8),
     (0x001AB078, 8),
 )
@@ -1356,9 +1355,7 @@ DIRECT_RUNTIME_OBJECTS = (
 )
 
 DIRECT_PAD_SLICES = (
-    ("padpost", 0x001A8BE0, 0x800, 1304, 47),
-    ("padmid", 0x001A8880, 0x4A0, 860, 30),
-    ("padread", 0x001A8824, 0x444, 88, 3),
+    ("padfull", 0x001A8420, 0, 0x0CD8, 131),
 )
 
 DIRECT_EH_OBJECT_SLICES = (
@@ -1383,12 +1380,12 @@ DIRECT_EH_OBJECT_SLICES = (
      {".data": 520, ".rel.data": 80, ".bss": 0}, 4112),
 )
 
-PAD_SOURCE = "matching/candidates/progress67/libpad-newpadman-p63-os.c.txt"
-PAD_SOURCE_SHA256 = "ea6129f89fb58f682d24244c5a37ad9a2b17dc59aa7f9d4220243f3e2f0e2d2b"
+PAD_SOURCE = "matching/candidates/progress68/libpad-ps2lib-2004-newpadman.c.txt"
+PAD_SOURCE_SHA256 = "4d96a31c5f8d3f814f3bec872fadf6afd9a4cb67c12705053a9073ae4f8e76d1"
 PAD_SECTION_SHA256 = {
-    ".text": "cf333d4f36924efcc634e5df6bc98fe7329f9b18cfad6dbb2a24f77c56476302",
-    ".rel.text": "c378f72413894d1967275ff624ac7b51053ab29ecba8ae162a3202d84e1ec8d8",
-    ".data": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+    ".text": "89e9050b1eee1dee0aad16d28c8f11d610dff560533693ea94a2ad346b26954a",
+    ".rel.text": "69f07aebe745d0b758de1abd04a07072f34bd33e14ba0eacbf79b2d18f111d75",
+    ".data": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
     ".rodata": "aca55aff32d5fb65b777fafe4dfadfa179ff1e4b3c2bb8c37eaed1cba6d6a845",
 }
 
@@ -1407,7 +1404,7 @@ def compile_pad_candidate(build_dir: Path, compiler: Path) -> None:
         fail("historical libpad header set unavailable")
     output_dir = build_dir / "pad-candidates"
     output_dir.mkdir(parents=True, exist_ok=True)
-    output = output_dir / "progress67.o"
+    output = output_dir / "progress68.o"
     cc = compiler.with_name("ee-gcc")
     run([
         cc, "-G0", "-EL", "-pipe", "-w", "-fomit-frame-pointer",
@@ -5011,14 +5008,15 @@ def probe(args: argparse.Namespace) -> dict:
         pad_output, pad_section = link_historical_code(
             reference, args.build_dir, objcopy, relocation_targets,
             tag=tag,
-            specification=("build/code-windows/pad-candidates/progress67.o",
+            specification=("build/code-windows/pad-candidates/progress68.o",
                            address, size,
-                           ((".bss", 0x00447780),
+                           ((".data", 0x00426524),
+                            (".bss", 0x00447780),
                             (".rodata", 0x001BACC8))),
             expected_relocations=rel_count,
-            expected_layout={".data": 8, ".rodata": 176, ".bss": 576},
+            expected_layout={".data": 4, ".rodata": 176, ".bss": 576},
             named_data_symbols=frozenset(), source_offset=start,
-            source_tail=3352 - start - size,
+            source_tail=3288 - start - size,
         )
         direct_objects.append(pad_output)
         direct_sections.append(pad_section)
