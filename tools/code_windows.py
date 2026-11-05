@@ -457,7 +457,7 @@ LINKER_ZERO_FILL_SPANS = (
     (0x00196370, 16), (0x00196A10, 16), (0x00196A38, 16),
     (0x00196A60, 16), (0x00196C08, 16), (0x00196D68, 16),
     (0x00198BFC, 8), (0x00199170, 8), (0x00199288, 8),
-    (0x0019CFB8, 8), (0x0019F014, 4),
+    (0x0019CE5C, 4), (0x0019CFB8, 8), (0x0019F014, 4),
     (0x0019F594, 12),
     (0x001A0694, 12), (0x001A06A8, 8), (0x001A06B8, 8),
     (0x001A06D4, 8), (0x001A0700, 8), (0x001A1C90, 8),
@@ -998,6 +998,12 @@ SIFCMD_SELECTOR_SPECS = (
     ("sifcmd-sreg-get", "build/code-windows/canonical/sifcmd-sreg-get.o",
      "F_sif_sreg_get", 0x0019F57C, 0x0018, 2),
 )
+SIFRPC_SELECTOR_SPECS = (
+    ("sifrpc-get-packet", "build/code-windows/canonical/sifrpc-get-packet.o",
+     "F__rpc_get_packet", 0x0019CD70, 0x00BC, 3),
+    ("sifrpc-get-fpacket", "build/code-windows/canonical/sifrpc-get-fpacket.o",
+     "F__rpc_get_fpacket", 0x0019CE2C, 0x0030, 0),
+)
 
 DIRECT_RECOVERED_SOURCE_SLICES = (
     ("get-tree", "build/source-tree/objects/unzip/get_tree.o",
@@ -1080,6 +1086,12 @@ DIRECT_RECOVERED_SOURCE_SLICES = (
     ("sifcmd-sreg-get", "build/code-windows/canonical/sifcmd-sreg-get.o",
      0x0019F57C, 0, 0x0018, 2, (),
      {".data": 0, ".bss": 0}, 0x0018, frozenset()),
+    ("sifrpc-get-packet", "build/code-windows/canonical/sifrpc-get-packet.o",
+     0x0019CD70, 0, 0x00BC, 3, (),
+     {".data": 0, ".bss": 0}, 0x00BC, frozenset()),
+    ("sifrpc-get-fpacket", "build/code-windows/canonical/sifrpc-get-fpacket.o",
+     0x0019CE2C, 0, 0x0030, 0, (),
+     {".data": 0, ".bss": 0}, 0x0030, frozenset()),
     ("gslib-hw", "build/source-tree/objects/ps2/gslib_hw_recovered.o",
      0x0019BD38, 0, 0x0138, 9, ((".data", 0x00425A30),),
      {".data": 4, ".bss": 0}, 0x0138,
@@ -1488,6 +1500,17 @@ def compile_clean_source_candidates(compiler: Path) -> None:
             cc,
             (*runtime_members.FLAGS, "-Iinclude", "-D" + define),
             sifcmd_source,
+            output,
+        )
+
+    sifrpc_source = ROOT / "src/ps2/sifrpc.c"
+    for _tag, output_relative, define, _address, _size, _relocs in SIFRPC_SELECTOR_SPECS:
+        output = ROOT / output_relative
+        output.parent.mkdir(parents=True, exist_ok=True)
+        stage3o.stage3i.compile_one(
+            cc,
+            (*runtime_members.FLAGS, "-Iinclude", "-D" + define),
+            sifrpc_source,
             output,
         )
 

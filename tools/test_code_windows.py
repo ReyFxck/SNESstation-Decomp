@@ -38,10 +38,10 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(215, result["direct_candidate_object_inputs"])
+        self.assertEqual(217, result["direct_candidate_object_inputs"])
         self.assertEqual(3928, result["evidence_candidate_object_bytes"])
-        self.assertEqual(20556, result["evidence_listing_bytes"])
-        self.assertEqual(438, result["direct_object_sections"])
+        self.assertEqual(20316, result["evidence_listing_bytes"])
+        self.assertEqual(440, result["direct_object_sections"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -289,6 +289,31 @@ class CodeWindowsTests(unittest.TestCase):
              for tag, _obj, define, address, size, relocs in gate.SIFCMD_SELECTOR_SPECS},
             {("sifcmd-addhandler", "F_sif_cmd_addhandler", 0x0019F544, 0x0038, 2),
              ("sifcmd-sreg-get", "F_sif_sreg_get", 0x0019F57C, 0x0018, 2)},
+        )
+
+    def test_remaining_sifrpc_helpers_link_from_canonical_selectors(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        expected = {
+            "sifrpc-get-packet": ("build/code-windows/canonical/sifrpc-get-packet.o",
+                                  0x0019CD70, 0x00BC, 3),
+            "sifrpc-get-fpacket": ("build/code-windows/canonical/sifrpc-get-fpacket.o",
+                                   0x0019CE2C, 0x0030, 0),
+        }
+        for tag, (obj, address, size, relocs) in expected.items():
+            self.assertIn(tag, rows)
+            row = rows[tag]
+            self.assertEqual(row[1], obj)
+            self.assertEqual(row[2:6], (address, 0, size, relocs))
+            self.assertEqual(row[6], ())
+            self.assertEqual(row[7], {".data": 0, ".bss": 0})
+            self.assertEqual(row[8], size)
+            self.assertEqual(row[9], frozenset())
+        self.assertIn((0x0019CE5C, 4), gate.LINKER_ZERO_FILL_SPANS)
+        self.assertEqual(
+            {(tag, define, address, size, relocs)
+             for tag, _obj, define, address, size, relocs in gate.SIFRPC_SELECTOR_SPECS},
+            {("sifrpc-get-packet", "F__rpc_get_packet", 0x0019CD70, 0x00BC, 3),
+             ("sifrpc-get-fpacket", "F__rpc_get_fpacket", 0x0019CE2C, 0x0030, 0)},
         )
 
     def test_gslib_hw_links_as_complete_canonical_corridor(self):
