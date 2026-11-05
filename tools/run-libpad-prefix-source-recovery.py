@@ -9,6 +9,7 @@ import subprocess
 from pathlib import Path
 
 from compare_elf_functions import ELFFile, compare_function
+import runtime_members as rm
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build" / "matching" / "libpad-prefix-source-recovery"
@@ -196,6 +197,38 @@ def main() -> None:
             print(f"{name}_sha256={hashlib.sha256(raw).hexdigest()}")
 
     target, known = target_image()
+
+    # The modern ps2lib-era candidate is not merely a prefix match: its complete
+    # .text is exactly the target libpad corridor size. Prove every non-relocation
+    # bit across 0x001a8420..0x001a90f8 before considering direct linkage.
+    image, masks, normalized = rm.libgcc.text_image(obj)
+    corridor_start = 0x001A8420
+    corridor_end = 0x001A90F8
+    if len(image) != corridor_end - corridor_start:
+        raise SystemExit(
+            f"libpad full-object size drift: {len(image)}/{corridor_end-corridor_start}"
+        )
+    missing = [a for a in range(corridor_start, corridor_end) if a not in known]
+    if missing:
+        raise SystemExit(
+            f"libpad full-object target coverage incomplete: {len(missing)} bytes; "
+            f"first=0x{missing[0]:08x}"
+        )
+    expected_full = target[
+        corridor_start - TARGET_BASE:corridor_end - TARGET_BASE
+    ]
+    full_diff = rm.libgcc.differing_unmasked(expected_full, image, masks)
+    full_normalized = rm.libgcc.normalize_target(expected_full, masks)
+    full_ok = full_diff == 0 and full_normalized == normalized
+    print(
+        f"{'FULL MATCH' if full_ok else 'FULL DIFF'} libpad .text "
+        f"target=0x{corridor_start:08x}..0x{corridor_end:08x} "
+        f"bytes={len(image)}/{corridor_end-corridor_start} "
+        f"relocs={len(masks)} diff={full_diff}"
+    )
+    if not full_ok:
+        raise SystemExit("libpad full-object relocation-normalized gate failed")
+
     pad_init_ok = False
     for symbol_name, address, expected_size in SPECS:
         sym = elf.find_symbol(symbol_name)
