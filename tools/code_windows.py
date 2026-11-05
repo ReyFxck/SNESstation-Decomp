@@ -1003,6 +1003,8 @@ SIFCMD_SELECTOR_SPECS = (
      "F_sif_sreg_get", 0x0019F57C, 0x0018, 2),
 )
 SIFRPC_SELECTOR_SPECS = (
+    ("sifrpc-checkstat", "build/code-windows/canonical/sifrpc-checkstat.o",
+     "F_SifCheckStatRpc", 0x001A1AF4, 0x002C, 0),
     ("sifrpc-get-packet", "build/code-windows/canonical/sifrpc-get-packet.o",
      "F__rpc_get_packet", 0x0019CD70, 0x00BC, 3),
     ("sifrpc-get-fpacket", "build/code-windows/canonical/sifrpc-get-fpacket.o",
@@ -1093,6 +1095,9 @@ DIRECT_RECOVERED_SOURCE_SLICES = (
     ("sifcmd-sreg-get", "build/code-windows/canonical/sifcmd-sreg-get.o",
      0x0019F57C, 0, 0x0018, 2, (),
      {".data": 0, ".bss": 0}, 0x0018, frozenset()),
+    ("sifrpc-checkstat", "build/code-windows/canonical/sifrpc-checkstat.o",
+     0x001A1AF4, 0, 0x002C, 0, (),
+     {".data": 0, ".bss": 0}, 0x002C, frozenset()),
     ("sifrpc-get-packet", "build/code-windows/canonical/sifrpc-get-packet.o",
      0x0019CD70, 0, 0x00BC, 3, (),
      {".data": 0, ".bss": 0}, 0x00BC, frozenset()),

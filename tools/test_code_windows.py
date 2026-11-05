@@ -38,9 +38,9 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(218, result["direct_candidate_object_inputs"])
+        self.assertEqual(219, result["direct_candidate_object_inputs"])
         self.assertEqual(3928, result["evidence_candidate_object_bytes"])
-        self.assertEqual(19080, result["evidence_listing_bytes"])
+        self.assertEqual(19036, result["evidence_listing_bytes"])
         self.assertEqual(435, result["direct_object_sections"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
@@ -52,6 +52,14 @@ class CodeWindowsTests(unittest.TestCase):
             gate.EXPECTED["selected_source_contract_sha256"],
             result["selected_source_contract_sha256"],
         )
+
+    def test_late_sif_check_stat_rpc_selector_links_directly(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        row = rows["sifrpc-checkstat"]
+        self.assertEqual(row[1], "build/code-windows/canonical/sifrpc-checkstat.o")
+        self.assertEqual(row[2:6], (0x001A1AF4, 0, 0x002C, 0))
+        self.assertEqual(row[6], ())
+        self.assertEqual(row[7], {".data": 0, ".bss": 0})
 
     def test_simple_libgcc_frontier_members_link_from_archive(self):
         rows = {row[0]: row for row in gate.DIRECT_LIBGCC_SLICES}
