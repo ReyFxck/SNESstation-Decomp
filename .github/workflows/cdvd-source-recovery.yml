@@ -3,7 +3,7 @@ name: CDVD C source recovery
 on:
   push:
     branches:
-      - source-recovery-file-by-file
+      - main
     paths:
       - src/ps2/cdvd_rpc.c
       - include/cdvd_legacy_compat.h
