@@ -3,8 +3,8 @@
 The exact-image pipeline and the clean object link are tracked separately.
 
 Stage-3P proves all **720,620/720,620 code bytes** and the complete
-replacement ELF. 200 ELF inputs provide **720,620 code bytes** directly
-through 444 placed code sections. 200 inputs are checked candidate/source
+replacement ELF. 202 ELF inputs provide **720,620 code bytes** directly
+through 446 placed code sections. 202 inputs are checked candidate/source
 objects or slices;
 multiple inputs may derive from distinct slices of the same original object,
 including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o`,
@@ -78,17 +78,22 @@ to the already proved read-only, vtable and BSS providers. Additional exact
 `explode.o`, `unreduce.o` and zlib `infblock.o` slices link from their historical
 objects after checking source layouts, relocation targets and byte identity.
 
-The remaining **27,572 evidence-backed code bytes** are compiled into
+The remaining **27,232 evidence-backed code bytes** are compiled into
 `code-windows.o` from the same frozen public evidence that admitted them to the
 exact-window roster: 4,120 bytes come from selected candidate-object slices and
-23,452 bytes from committed public instruction listings. The PS2LIB string
+23,112 bytes from committed public instruction listings. The PS2LIB string
 corridor at `0x0019c364` through `0x0019c688` now uses direct historical or
 canonical source objects for `memcpy`, `memset`, `strcat`, `strncmp`,
 `memcmp`, `memmove`, `strcpy`, `strncpy`, `strlen`, `strchr` and
 `strcmp`. The later canonical libc corridor contributes `strcasecmp`,
 `strncasecmp`, `strtok`, `strrchr` and the complete 616-byte `ctype`
-unit directly. Together these promotions remove **1,880 bytes** from final
-public-listing transport while preserving the exact code image. Four
+unit directly. Together these libc promotions remove **1,880 bytes** from final
+public-listing transport while preserving the exact code image. The canonical
+byte-exact `numtestf.S` reconstruction removes another 128 listing bytes at
+`0x001a06c0`, and `get_tree.S` removes 212 bytes at `0x0018c124` after
+proving all nine relocations against `ReadByte=0x0018dc60` and
+`bytebuf=0x00426e28`. Total listing-transport reduction since the restored
+last-green tree is therefore **2,220 bytes**. Four
 byte-exact, zero-relocation C4 reconstruction units -- `C4ConvOAM`,
 `C4DoScaleRotate`, `C4TransformLines` and `S9xSetC4` -- now link from
 their canonical source-tree objects, removing another **5,844 bytes** from the
@@ -121,10 +126,10 @@ an original historical C/C++ producer.
 | Public listing construction bucket | **71,480 bytes** |
 | Bytes linked from source-built ELF objects | **720,620/720,620 (100%)** |
 | Final evidence object from candidate slices | **4,120 bytes** |
-| Final evidence object from public listings | **23,452 bytes** |
-| Direct candidate/source object inputs | **200** |
-| Direct ELF object inputs | **200** |
-| Direct placed sections | **444** |
+| Final evidence object from public listings | **23,112 bytes** |
+| Direct candidate/source object inputs | **202** |
+| Direct ELF object inputs | **202** |
+| Direct placed sections | **446** |
 | Bytes remaining behind generated payload | **0** |
 | Strict source-object linkage | **Complete** |
 
@@ -133,9 +138,9 @@ object and generated-payload rows describe how that proven region is transported
 into the final link, so they intentionally overlap those provenance buckets.
 
 Relative to the restored last-green tree, the final evidence transport has
-fallen from **35,296 bytes to 27,572 bytes**: **1,880 fewer listing bytes** and
-**5,844 fewer candidate-object evidence bytes**, a net reduction of **7,724
-bytes (21.9%)**. Exact whole-image coverage remains 720,620/720,620 bytes.
+fallen from **35,296 bytes to 27,232 bytes**: **2,220 fewer listing bytes** and
+**5,844 fewer candidate-object evidence bytes**, a net reduction of **8,064
+bytes (22.8%)**. Exact whole-image coverage remains 720,620/720,620 bytes.
 
 ## Gates
 
