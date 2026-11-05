@@ -38,9 +38,9 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(195, result["direct_candidate_object_inputs"])
+        self.assertEqual(196, result["direct_candidate_object_inputs"])
         self.assertEqual(9964, result["evidence_candidate_object_bytes"])
-        self.assertEqual(24068, result["evidence_listing_bytes"])
+        self.assertEqual(23452, result["evidence_listing_bytes"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -178,6 +178,17 @@ class CodeWindowsTests(unittest.TestCase):
             "C4CalcWireFrame": 0x0010BECC,
         }.items():
             self.assertEqual(gate.CLEAN_SOURCE_PROVIDER_TARGETS[name], address)
+
+    def test_canonical_ps2lib_ctype_corridor_links_directly(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        self.assertIn("ctype", rows)
+        row = rows["ctype"]
+        self.assertEqual(row[1], "build/source-tree/objects/ps2/ctype.o")
+        self.assertEqual(row[2:6], (0x0019EDAC, 0, 0x0268, 13))
+        self.assertEqual(row[6], ())
+        self.assertEqual(row[7], {".data": 0, ".bss": 0})
+        self.assertEqual(row[8], 0x0268)
+        self.assertEqual(row[9], frozenset())
 
     def test_canonical_ps2lib_string_c_corridor_links_directly(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
