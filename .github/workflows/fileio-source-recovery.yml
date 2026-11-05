@@ -3,7 +3,7 @@ name: FILEIO C source recovery
 on:
   push:
     branches:
-      - source-recovery-file-by-file
+      - main
     paths:
       - "tools/run-fileio-source-recovery.py"
       - "src/ps2/fileio.c"
