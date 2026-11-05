@@ -4,7 +4,7 @@ name: SIF RPC C source recovery
 on:
   push:
     branches:
-      - source-recovery-file-by-file
+      - main
     paths:
       - "src/ps2/sifrpc.c"
       - "include/sifrpc_legacy_compat.h"
