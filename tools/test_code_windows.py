@@ -38,10 +38,10 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(219, result["direct_candidate_object_inputs"])
+        self.assertEqual(221, result["direct_candidate_object_inputs"])
         self.assertEqual(3928, result["evidence_candidate_object_bytes"])
-        self.assertEqual(19036, result["evidence_listing_bytes"])
-        self.assertEqual(435, result["direct_object_sections"])
+        self.assertEqual(18592, result["evidence_listing_bytes"])
+        self.assertEqual(437, result["direct_object_sections"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -52,6 +52,30 @@ class CodeWindowsTests(unittest.TestCase):
             gate.EXPECTED["selected_source_contract_sha256"],
             result["selected_source_contract_sha256"],
         )
+
+    def test_zlib_113_buffer_wrappers_link_from_pinned_upstream_source(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        expected = {
+            "zlib-buffer-compress": (
+                "build/code-windows/canonical/zlib-compress.o",
+                0x00190700, 0x00E8, 7, 0x001B8900,
+            ),
+            "zlib-buffer-uncompress": (
+                "build/code-windows/canonical/zlib-uncompress.o",
+                0x001907E8, 0x00D4, 6, 0x001B8908,
+            ),
+        }
+        for tag, (obj, address, size, relocs, rodata) in expected.items():
+            row = rows[tag]
+            self.assertEqual(row[1], obj)
+            self.assertEqual(row[2:6], (address, 0, size, relocs))
+            self.assertEqual(row[6], ((".rodata", rodata),))
+            self.assertEqual(row[7], {".data": 0, ".rodata": 8, ".bss": 0})
+            self.assertEqual(row[8], size)
+            self.assertEqual(row[9], frozenset())
+        self.assertEqual(gate.ZLIB_BUFFER_SOURCE_ROOT,
+                         "third_party/historical_refs/zlib-1.1.3")
+        self.assertIn("-Os", gate.ZLIB_BUFFER_SOURCE_FLAGS)
 
     def test_late_sif_check_stat_rpc_selector_links_directly(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}

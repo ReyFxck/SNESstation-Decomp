@@ -1002,6 +1002,20 @@ SIFCMD_SELECTOR_SPECS = (
     ("sifcmd-sreg-get", "build/code-windows/canonical/sifcmd-sreg-get.o",
      "F_sif_sreg_get", 0x0019F57C, 0x0018, 2),
 )
+ZLIB_BUFFER_SOURCE_ROOT = "third_party/historical_refs/zlib-1.1.3"
+ZLIB_BUFFER_SOURCE_FLAGS = (
+    "-G0", "-EL", "-pipe", "-w",
+    "-fomit-frame-pointer", "-fstrict-aliasing", "-fno-common",
+    "-fshort-double", "-mlong64", "-mhard-float", "-mno-abicalls",
+    "-march=r5900", "-mtune=r5900",
+    "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DALIGN_DWORD",
+    "-DCODE_PLATFORM=3", "-Os",
+)
+ZLIB_BUFFER_SOURCE_OBJECTS = (
+    ("compress.c", "build/code-windows/canonical/zlib-compress.o"),
+    ("uncompr.c", "build/code-windows/canonical/zlib-uncompress.o"),
+)
+
 SIFRPC_SELECTOR_SPECS = (
     ("sifrpc-checkstat", "build/code-windows/canonical/sifrpc-checkstat.o",
      "F_SifCheckStatRpc", 0x001A1AF4, 0x002C, 0),
@@ -1012,6 +1026,12 @@ SIFRPC_SELECTOR_SPECS = (
 )
 
 DIRECT_RECOVERED_SOURCE_SLICES = (
+    ("zlib-buffer-compress", "build/code-windows/canonical/zlib-compress.o",
+     0x00190700, 0, 0x00E8, 7, ((".rodata", 0x001B8900),),
+     {".data": 0, ".rodata": 8, ".bss": 0}, 0x00E8, frozenset()),
+    ("zlib-buffer-uncompress", "build/code-windows/canonical/zlib-uncompress.o",
+     0x001907E8, 0, 0x00D4, 6, ((".rodata", 0x001B8908),),
+     {".data": 0, ".rodata": 8, ".bss": 0}, 0x00D4, frozenset()),
     ("get-tree", "build/source-tree/objects/unzip/get_tree.o",
      0x0018C124, 0, 0x00D4, 9, (),
      {".data": 0, ".bss": 0}, 0x00D4, frozenset()),
@@ -1515,6 +1535,17 @@ def compile_clean_source_candidates(compiler: Path) -> None:
             cc,
             (*runtime_members.FLAGS, *runtime_includes, "-D" + define),
             loadfile_source,
+            output,
+        )
+
+    zlib_buffer_root = ROOT / ZLIB_BUFFER_SOURCE_ROOT
+    for source_name, output_relative in ZLIB_BUFFER_SOURCE_OBJECTS:
+        output = ROOT / output_relative
+        output.parent.mkdir(parents=True, exist_ok=True)
+        stage3o.stage3i.compile_one(
+            cc,
+            (*ZLIB_BUFFER_SOURCE_FLAGS, "-I", str(zlib_buffer_root)),
+            zlib_buffer_root / source_name,
             output,
         )
 
