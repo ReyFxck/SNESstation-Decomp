@@ -38,8 +38,8 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(202, result["direct_candidate_object_inputs"])
-        self.assertEqual(4120, result["evidence_candidate_object_bytes"])
+        self.assertEqual(203, result["direct_candidate_object_inputs"])
+        self.assertEqual(3928, result["evidence_candidate_object_bytes"])
         self.assertEqual(23112, result["evidence_listing_bytes"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
@@ -200,6 +200,17 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(row[7], {".data": 0, ".bss": 0})
         self.assertEqual(row[8], 0x0080)
         self.assertEqual(row[9], frozenset())
+
+    def test_sbrk_links_from_canonical_source_with_program_break_provider(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        self.assertIn("sbrk", rows)
+        row = rows["sbrk"]
+        self.assertEqual(row[1], "build/source-tree/objects/ps2/sbrk.o")
+        self.assertEqual(row[2:6], (0x0019F078, 0, 0x00C0, 13))
+        self.assertEqual(row[6], ((".data", 0x00425A80),))
+        self.assertEqual(row[7], {".data": 4, ".rel.data": 8, ".bss": 0})
+        self.assertEqual(row[8], 0x00C0)
+        self.assertEqual(row[9], frozenset(("_heap_ptr",)))
 
     def test_zero_relocation_c4_reconstructions_link_directly(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
