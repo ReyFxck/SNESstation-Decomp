@@ -38,10 +38,10 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(207, result["direct_candidate_object_inputs"])
+        self.assertEqual(208, result["direct_candidate_object_inputs"])
         self.assertEqual(3928, result["evidence_candidate_object_bytes"])
-        self.assertEqual(21340, result["evidence_listing_bytes"])
-        self.assertEqual(443, result["direct_object_sections"])
+        self.assertEqual(21060, result["evidence_listing_bytes"])
+        self.assertEqual(435, result["direct_object_sections"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -266,6 +266,20 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(row[9], frozenset())
         self.assertIn("-Os", gate.SIFCMD_IRQ_FLAGS)
         self.assertIn("-DF__sif_cmd_int_handler", gate.SIFCMD_IRQ_FLAGS)
+
+    def test_gslib_hw_links_as_complete_canonical_corridor(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        self.assertIn("gslib-hw", rows)
+        row = rows["gslib-hw"]
+        self.assertEqual(row[1], "build/source-tree/objects/ps2/gslib_hw_recovered.o")
+        self.assertEqual(row[2:6], (0x0019BD38, 0, 0x0138, 9))
+        self.assertEqual(row[6], ((".data", 0x00425A30),))
+        self.assertEqual(row[7], {".data": 4, ".bss": 0})
+        self.assertEqual(row[8], 0x0138)
+        self.assertEqual(row[9], frozenset(("VRcount_recovered",)))
+        for span in ((0x0019BD5C, 8), (0x0019BD70, 8),
+                     (0x0019BE18, 8), (0x0019BE5C, 8)):
+            self.assertNotIn(span, gate.LINKER_ZERO_FILL_SPANS)
 
     def test_zero_relocation_c4_reconstructions_link_directly(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
