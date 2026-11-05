@@ -38,9 +38,9 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(191, result["direct_candidate_object_inputs"])
+        self.assertEqual(195, result["direct_candidate_object_inputs"])
         self.assertEqual(9964, result["evidence_candidate_object_bytes"])
-        self.assertEqual(24732, result["evidence_listing_bytes"])
+        self.assertEqual(24068, result["evidence_listing_bytes"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -178,6 +178,37 @@ class CodeWindowsTests(unittest.TestCase):
             "C4CalcWireFrame": 0x0010BECC,
         }.items():
             self.assertEqual(gate.CLEAN_SOURCE_PROVIDER_TARGETS[name], address)
+
+    def test_canonical_ps2lib_string_c_corridor_links_directly(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        expected = {
+            "strcasecmp": (
+                "build/source-tree/objects/ps2/strcasecmp.o",
+                0x0019E860, 0x0084, 4, (), {".data": 0, ".bss": 0},
+            ),
+            "strncasecmp": (
+                "build/source-tree/objects/ps2/strncasecmp.o",
+                0x0019E8E4, 0x00B8, 4, (), {".data": 0, ".bss": 0},
+            ),
+            "strtok": (
+                "build/source-tree/objects/ps2/strtok.o",
+                0x0019E99C, 0x0108, 27, ((".bss", 0x00445140),),
+                {".data": 0, ".bss": 8},
+            ),
+            "strrchr": (
+                "build/source-tree/objects/ps2/string.o",
+                0x0019EAA4, 0x0054, 2, (), {".data": 0, ".bss": 0},
+            ),
+        }
+        for tag, (obj, address, size, relocs, providers, layout) in expected.items():
+            self.assertIn(tag, rows)
+            row = rows[tag]
+            self.assertEqual(row[1], obj)
+            self.assertEqual(row[2:6], (address, 0, size, relocs))
+            self.assertEqual(row[6], providers)
+            self.assertEqual(row[7], layout)
+            self.assertEqual(row[8], size)
+            self.assertEqual(row[9], frozenset())
 
     def test_strcat_runtime_member_links_with_proved_strcpy_call(self):
         rows = {row[0]: row for row in gate.DIRECT_RUNTIME_OBJECTS}

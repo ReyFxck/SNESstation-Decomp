@@ -962,6 +962,18 @@ DIRECT_FRONTEND_SOURCE_SLICES = (
 # a byte-identical producer: recovered/historical C/C++, PS2SDK's syscall macro
 # source, zlib 1.1.3, and the pinned GCC 3.2.2 libsupc++ source build.
 DIRECT_RECOVERED_SOURCE_SLICES = (
+    ("strcasecmp", "build/source-tree/objects/ps2/strcasecmp.o",
+     0x0019E860, 0, 0x0084, 4, (),
+     {".data": 0, ".bss": 0}, 0x0084, frozenset()),
+    ("strncasecmp", "build/source-tree/objects/ps2/strncasecmp.o",
+     0x0019E8E4, 0, 0x00B8, 4, (),
+     {".data": 0, ".bss": 0}, 0x00B8, frozenset()),
+    ("strtok", "build/source-tree/objects/ps2/strtok.o",
+     0x0019E99C, 0, 0x0108, 27, ((".bss", 0x00445140),),
+     {".data": 0, ".bss": 8}, 0x0108, frozenset()),
+    ("strrchr", "build/source-tree/objects/ps2/string.o",
+     0x0019EAA4, 0, 0x0054, 2, (),
+     {".data": 0, ".bss": 0}, 0x0054, frozenset()),
     ("c4draw-wireframe", "build/source-tree/objects/snes9x/c4drawwireframe.o",
      0x0010CDCC, 0, 0x01D8, 15, (), {}, 0x01D8, frozenset()),
     ("dsp2-set", "build/code-windows/clean-source/native_dsp2_set.o",
