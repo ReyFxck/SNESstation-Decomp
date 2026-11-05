@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Sequence
 
 import link_layout_probe
+import runtime_members
 import startup_integration as startup
 import window11_rodata as stage3o
 from build_source_tree import SOURCE_FIXED_FLAGS
@@ -974,6 +975,8 @@ GLUE_SOURCE_FLAGS = (
     "-D_EE", "-DPS2_EE", "-G0", "-EL", "-pipe", "-w", "-Os",
     "-nostdinc", "-Iinclude",
 )
+XPRINTF_VPRINTF_OBJECT = "build/code-windows/canonical/xprintf-vprintf.o"
+XPRINTF_VPRINTF_FLAGS = (*runtime_members.FLAGS, "-DF_vprintf")
 
 DIRECT_RECOVERED_SOURCE_SLICES = (
     ("get-tree", "build/source-tree/objects/unzip/get_tree.o",
@@ -1044,6 +1047,9 @@ DIRECT_RECOVERED_SOURCE_SLICES = (
     ("dmac-glue", GLUE_SOURCE_OBJECT,
      0x0019FB00, 0, 0x00F0, 6, (),
      {".data": 0, ".bss": 0}, 0x00F0, frozenset()),
+    ("xprintf-vprintf", XPRINTF_VPRINTF_OBJECT,
+     0x0019FAA8, 0, 0x0058, 4, ((".bss", 0x004454C0),),
+     {".data": 0, ".bss": 0x1000}, 0x0058, frozenset()),
     ("strncmp", "build/source-tree/objects/ps2/strncmp.o",
      0x0019C410, 0, 0x0048, 0, (),
      {".data": 0, ".bss": 0}, 0x0048, frozenset()),
@@ -1379,6 +1385,28 @@ def compile_clean_source_candidates(compiler: Path) -> None:
     glue_output.parent.mkdir(parents=True, exist_ok=True)
     stage3o.stage3i.compile_one(
         compiler.with_name("ee-gcc"), GLUE_SOURCE_FLAGS, glue_source, glue_output,
+    )
+
+    # F_vprintf is another selector build of the canonical historical xprintf.c.
+    # Use the same pinned runtime-member include closure as the dedicated source
+    # recovery gate; the preceding window11/runtime chain materializes it.
+    cc = compiler.with_name("ee-gcc")
+    runtime_inputs = ROOT / "build/runtime-members/inputs"
+    xprintf_includes: list[str] = ["-I", str(ROOT / "include")]
+    for revision, relative in runtime_members.INCLUDE_DIRS:
+        path = runtime_inputs / revision / relative
+        if not path.is_dir():
+            fail(f"historical xprintf include path unavailable: {path}")
+        xprintf_includes.extend(("-I", str(path)))
+    gcc_include = Path(run([cc, "-print-file-name=include"])).resolve()
+    if not gcc_include.is_dir():
+        fail("historical xprintf compiler include path unavailable")
+    xprintf_includes.extend(("-I", str(gcc_include)))
+    xprintf_source = ROOT / "src/ps2/xprintf.c"
+    xprintf_output = ROOT / XPRINTF_VPRINTF_OBJECT
+    xprintf_output.parent.mkdir(parents=True, exist_ok=True)
+    stage3o.stage3i.compile_one(
+        cc, (*XPRINTF_VPRINTF_FLAGS, *xprintf_includes), xprintf_source, xprintf_output,
     )
 
 

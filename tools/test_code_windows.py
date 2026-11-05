@@ -38,9 +38,9 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(205, result["direct_candidate_object_inputs"])
+        self.assertEqual(206, result["direct_candidate_object_inputs"])
         self.assertEqual(3928, result["evidence_candidate_object_bytes"])
-        self.assertEqual(21652, result["evidence_listing_bytes"])
+        self.assertEqual(21564, result["evidence_listing_bytes"])
         self.assertEqual(443, result["direct_object_sections"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
@@ -240,6 +240,19 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(row[9], frozenset())
         self.assertIn("-Os", gate.GLUE_SOURCE_FLAGS)
         self.assertNotIn("-O2", gate.GLUE_SOURCE_FLAGS)
+
+    def test_vprintf_links_from_canonical_historical_selector(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        self.assertIn("xprintf-vprintf", rows)
+        row = rows["xprintf-vprintf"]
+        self.assertEqual(row[1], gate.XPRINTF_VPRINTF_OBJECT)
+        self.assertEqual(row[2:6], (0x0019FAA8, 0, 0x0058, 4))
+        self.assertEqual(row[6], ((".bss", 0x004454C0),))
+        self.assertEqual(row[7], {".data": 0, ".bss": 0x1000})
+        self.assertEqual(row[8], 0x0058)
+        self.assertEqual(row[9], frozenset())
+        self.assertIn("-Os", gate.XPRINTF_VPRINTF_FLAGS)
+        self.assertIn("-DF_vprintf", gate.XPRINTF_VPRINTF_FLAGS)
 
     def test_zero_relocation_c4_reconstructions_link_directly(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
