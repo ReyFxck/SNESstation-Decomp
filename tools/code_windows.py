@@ -992,6 +992,12 @@ LOADFILE_SELECTOR_SPECS = (
     ("loadfile-load-buffer", "build/code-windows/canonical/loadfile-load-buffer.o",
      "F_SifLoadModuleBuffer", 0x0019D620, 0x001C, 1),
 )
+SIFCMD_SELECTOR_SPECS = (
+    ("sifcmd-addhandler", "build/code-windows/canonical/sifcmd-addhandler.o",
+     "F_sif_cmd_addhandler", 0x0019F544, 0x0038, 2),
+    ("sifcmd-sreg-get", "build/code-windows/canonical/sifcmd-sreg-get.o",
+     "F_sif_sreg_get", 0x0019F57C, 0x0018, 2),
+)
 
 DIRECT_RECOVERED_SOURCE_SLICES = (
     ("get-tree", "build/source-tree/objects/unzip/get_tree.o",
@@ -1068,6 +1074,12 @@ DIRECT_RECOVERED_SOURCE_SLICES = (
     ("sifcmd-irq", SIFCMD_IRQ_OBJECT,
      0x0019FBF0, 0, 0x00E0, 6, (),
      {".data": 0, ".bss": 0}, 0x00E0, frozenset()),
+    ("sifcmd-addhandler", "build/code-windows/canonical/sifcmd-addhandler.o",
+     0x0019F544, 0, 0x0038, 2, (),
+     {".data": 0, ".bss": 0}, 0x0038, frozenset()),
+    ("sifcmd-sreg-get", "build/code-windows/canonical/sifcmd-sreg-get.o",
+     0x0019F57C, 0, 0x0018, 2, (),
+     {".data": 0, ".bss": 0}, 0x0018, frozenset()),
     ("gslib-hw", "build/source-tree/objects/ps2/gslib_hw_recovered.o",
      0x0019BD38, 0, 0x0138, 9, ((".data", 0x00425A30),),
      {".data": 4, ".bss": 0}, 0x0138,
@@ -1469,6 +1481,16 @@ def compile_clean_source_candidates(compiler: Path) -> None:
         )
 
     sifcmd_source = ROOT / "src/ps2/sifcmd.c"
+    for _tag, output_relative, define, _address, _size, _relocs in SIFCMD_SELECTOR_SPECS:
+        output = ROOT / output_relative
+        output.parent.mkdir(parents=True, exist_ok=True)
+        stage3o.stage3i.compile_one(
+            cc,
+            (*runtime_members.FLAGS, "-Iinclude", "-D" + define),
+            sifcmd_source,
+            output,
+        )
+
     sifcmd_output = ROOT / SIFCMD_IRQ_OBJECT
     sifcmd_output.parent.mkdir(parents=True, exist_ok=True)
     stage3o.stage3i.compile_one(

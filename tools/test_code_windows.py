@@ -38,10 +38,10 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(213, result["direct_candidate_object_inputs"])
+        self.assertEqual(215, result["direct_candidate_object_inputs"])
         self.assertEqual(3928, result["evidence_candidate_object_bytes"])
-        self.assertEqual(20636, result["evidence_listing_bytes"])
-        self.assertEqual(437, result["direct_object_sections"])
+        self.assertEqual(20556, result["evidence_listing_bytes"])
+        self.assertEqual(438, result["direct_object_sections"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -266,6 +266,30 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(row[9], frozenset())
         self.assertIn("-Os", gate.SIFCMD_IRQ_FLAGS)
         self.assertIn("-DF__sif_cmd_int_handler", gate.SIFCMD_IRQ_FLAGS)
+
+    def test_remaining_sifcmd_helpers_link_from_canonical_selectors(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        expected = {
+            "sifcmd-addhandler": ("build/code-windows/canonical/sifcmd-addhandler.o",
+                                  0x0019F544, 0x0038, 2),
+            "sifcmd-sreg-get": ("build/code-windows/canonical/sifcmd-sreg-get.o",
+                                0x0019F57C, 0x0018, 2),
+        }
+        for tag, (obj, address, size, relocs) in expected.items():
+            self.assertIn(tag, rows)
+            row = rows[tag]
+            self.assertEqual(row[1], obj)
+            self.assertEqual(row[2:6], (address, 0, size, relocs))
+            self.assertEqual(row[6], ())
+            self.assertEqual(row[7], {".data": 0, ".bss": 0})
+            self.assertEqual(row[8], size)
+            self.assertEqual(row[9], frozenset())
+        self.assertEqual(
+            {(tag, define, address, size, relocs)
+             for tag, _obj, define, address, size, relocs in gate.SIFCMD_SELECTOR_SPECS},
+            {("sifcmd-addhandler", "F_sif_cmd_addhandler", 0x0019F544, 0x0038, 2),
+             ("sifcmd-sreg-get", "F_sif_sreg_get", 0x0019F57C, 0x0018, 2)},
+        )
 
     def test_gslib_hw_links_as_complete_canonical_corridor(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
