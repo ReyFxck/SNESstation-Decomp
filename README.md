@@ -4,7 +4,7 @@
 
 # SNES Station Decompilation
 
-> decomp.dev has disabled all decomp graphics projects xddd :')
+> Progress tracking: [ByteMatch](https://bytematch.dev/ReyFxck/SNESstation-Decomp).
 
 Source recovery and exact-binary preservation of **SNES Station v0.23 WIP**
 (24 January 2004) for PlayStation 2.
@@ -39,7 +39,7 @@ Detailed machine-generated counts are in
 ## Strict source-object linkage
 
 The replacement ELF matches byte for byte. The final linker now places
-**720,620/720,620 code bytes (100%)** from 202 ELF inputs, including
+**720,620/720,620 code bytes (100%)** from 203 ELF inputs, including
 `CPU.o`, `seta.o`, `tile.o`, `CPUOPS.o`, `gfx-short.o`, `CPUEXEC.o`, `dma.o`,
 `ppu-short.o`, `apu-short.o`, `c4.o`, `obc1.o`, `snes-sa1.o`, `snes-CHEATS.o`,
 `SA1CPU.o`, `deflate-1.41.o`, `unzip.o`, `xprintf.o`, `libmc.o`,
@@ -47,8 +47,8 @@ The replacement ELF matches byte for byte. The final linker now places
 `spc7110.o`, `snapshot-short.o`, `sound-normal.o`, `gsFont.o`, `gsPipe.o`,
 original zlib objects, historical PS2LIB runtime members, EE GCC 3.2.2
 `libgcc.a` members and historical C++ exception/RTTI objects. The remaining
-**27,232 evidence-backed code bytes** are compiled into a normal ELF input from
-already selected evidence: 4,120 bytes from checked candidate-object slices and
+**27,040 evidence-backed code bytes** are compiled into a normal ELF input from
+already selected evidence: 3,928 bytes from checked candidate-object slices and
 23,112 bytes from committed public instruction listings. The proved PS2LIB
 string/libc corridor now links `memcpy`, `memset`, `strcat`, `strncmp`,
 `memcmp`, `memmove`, `strcpy`, `strncpy`, `strlen`, `strchr`,
@@ -61,7 +61,9 @@ also link directly, removing 5,844 bytes from candidate-evidence transport.
 from recovered C++ objects. The byte-exact `numtestf.S` reconstruction
 (128 bytes, zero relocations) and `get_tree.S` reconstruction (212 bytes,
 nine proved relocations to `ReadByte`/`bytebuf`) now remove another 340
-bytes from public-listing transport. No code byte passes
+bytes from public-listing transport. Canonical historical `sbrk.c` now links
+its 192-byte body directly at `0x0019f078`, with 13 relocations checked against
+the existing `program_break` provider at `0x00425a80`. No code byte passes
 through a generated `.incbin` section. The audit preserves this distinction;
 listing-derived assembly is exact recovery evidence, not a claim that an
 unavailable historical C/C++ file was found.

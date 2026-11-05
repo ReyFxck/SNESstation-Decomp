@@ -1,4 +1,4 @@
-name: decomp.dev progress report
+name: ByteMatch progress report
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
           python-version: "3.12"
       - name: Generate and validate public objdiff v2 report
         run: make decompdev-report
-      - name: Upload report for decomp.dev
+      - name: Upload report for ByteMatch
         uses: actions/upload-artifact@v4
         with:
           name: SNES_EMU_report
