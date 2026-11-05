@@ -40,6 +40,44 @@ if grep -q 'matching summary: 7/7' "$LOG"; then
         tail -n 80 "$LOG.strict"
         exit 1
     fi
+
+    echo
+    echo "=== whole-corridor raw-link gate ==="
+    EE_BINDIR="$(dirname "$EE_CC")"
+    EE_LD="$EE_BINDIR/ee-ld"
+    EE_OBJCOPY="$EE_BINDIR/ee-objcopy"
+    EE_OBJDUMP="$EE_BINDIR/ee-objdump"
+    LINKER="build/matching/gslib_hw/gslib_hw.target.ld"
+    LINKED="build/matching/gslib_hw/gslib_hw.target-linked.elf"
+    LINKED_TEXT="build/matching/gslib_hw/gslib_hw.target-linked.text.bin"
+    cat >"$LINKER" <<'LDS'
+SECTIONS
+{
+  . = 0x0019bd38;
+  .text : { *(.text) }
+
+  . = 0x00425a30;
+  .bss (NOLOAD) : { *(.bss) *(COMMON) }
+
+  /DISCARD/ : {
+    *(.comment)
+    *(.mdebug*)
+    *(.pdr)
+    *(.reginfo)
+  }
+}
+LDS
+    "$EE_LD" -EL -T "$LINKER" build/matching/gslib_hw/gslib_hw.o -o "$LINKED"
+    "$EE_OBJCOPY" -j .text -O binary "$LINKED" "$LINKED_TEXT"
+    if ! cmp -s build/matching/gslib_hw/listing.bin "$LINKED_TEXT"; then
+        echo "GSLIB whole-corridor raw gate: FAIL" >&2
+        cmp -l build/matching/gslib_hw/listing.bin "$LINKED_TEXT" | head -40 >&2 || true
+        exit 1
+    fi
+    BYTES="$(wc -c < "$LINKED_TEXT" | tr -d ' ')"
+    [[ "$BYTES" == "312" ]] || { echo "unexpected GSLIB .text size: $BYTES" >&2; exit 1; }
+    "$EE_OBJDUMP" -h build/matching/gslib_hw/gslib_hw.o | grep -E '(^|[[:space:]])\.text|(^|[[:space:]])\.bss' || true
+    echo "GSLIB whole-corridor raw gate: MATCH 312/312 bytes"
 fi
 
 echo
