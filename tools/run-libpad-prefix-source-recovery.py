@@ -180,8 +180,7 @@ def main() -> None:
             offset = int(line.strip().split(":", 1)[0], 16)
         except ValueError:
             continue
-        if offset < 0x390:
-            print(line.strip())
+        print(line.strip())
     print("=== libpad prefix historical-source proof ===")
     print(f"source_sha256={SOURCE_SHA256}")
     print(f"compiler={run([cc, '-dumpmachine']).strip()} gcc {run([cc, '-dumpversion']).strip()}")
