@@ -38,10 +38,10 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(216, result["direct_candidate_object_inputs"])
+        self.assertEqual(218, result["direct_candidate_object_inputs"])
         self.assertEqual(3928, result["evidence_candidate_object_bytes"])
-        self.assertEqual(19248, result["evidence_listing_bytes"])
-        self.assertEqual(434, result["direct_object_sections"])
+        self.assertEqual(19080, result["evidence_listing_bytes"])
+        self.assertEqual(435, result["direct_object_sections"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -51,6 +51,23 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(
             gate.EXPECTED["selected_source_contract_sha256"],
             result["selected_source_contract_sha256"],
+        )
+
+    def test_simple_libgcc_frontier_members_link_from_archive(self):
+        rows = {row[0]: row for row in gate.DIRECT_LIBGCC_SLICES}
+        self.assertEqual(
+            rows["gccmuldi"],
+            ("gccmuldi", "_muldi3.o", 0x001A1B20, 0, 120, 0,
+             {".data": 0, ".bss": 0}, 120),
+        )
+        self.assertEqual(
+            rows["gccmakedp"],
+            ("gccmakedp", "_make_df.o", 0x001A3C90, 0, 48, 1,
+             {".data": 0, ".bss": 0}, 48),
+        )
+        self.assertEqual(
+            gate.LIBGCC_PRODUCER_SHA256,
+            "fecc0c0a7e30f977c126274275965785745c2894c7e6fd59b7d07d076961e430",
         )
 
     def test_complete_historical_libpad_object_links_directly(self):

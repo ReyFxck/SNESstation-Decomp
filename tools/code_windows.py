@@ -1239,8 +1239,12 @@ LIBGCC_ARCHIVE = "build/toolchains/ee-gcc-3.2.2-stage1/prefix/lib/gcc-lib/ee/3.2
 # across otherwise identical bootstrap builds. Pin the producer material that
 # can affect the final link instead: selected ELF sections, relocation records,
 # and every relocation-referenced symbol.
-LIBGCC_PRODUCER_SHA256 = "3951a7b9404f3ad31d69b8832ef81d474138a6e9380cc4f7e93b5af9412eea2b"
+LIBGCC_PRODUCER_SHA256 = "fecc0c0a7e30f977c126274275965785745c2894c7e6fd59b7d07d076961e430"
 DIRECT_LIBGCC_SLICES = (
+    ("gccmuldi", "_muldi3.o", 0x001A1B20, 0, 120, 0,
+     {".data": 0, ".bss": 0}, 120),
+    ("gccmakedp", "_make_df.o", 0x001A3C90, 0, 48, 1,
+     {".data": 0, ".bss": 0}, 48),
     ("gccfixuns", "_fixunsdfdi.o", 0x001A1C98, 0, 288, 11, {}, 288),
     ("gccdiv", "_divdi3.o", 0x001A1DB8, 0, 2040, 7,
      {".data": 92, ".rel.data": 16, ".bss": 0}, 2040),
