@@ -969,6 +969,11 @@ CDVD_SOURCE_FLAGS = (
     "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DALIGN_DWORD",
     "-DCODE_PLATFORM=3", "-Iinclude/ee_stage1_compat", "-Iinclude", "-w",
 )
+GLUE_SOURCE_OBJECT = "build/code-windows/canonical/glue.os.o"
+GLUE_SOURCE_FLAGS = (
+    "-D_EE", "-DPS2_EE", "-G0", "-EL", "-pipe", "-w", "-Os",
+    "-nostdinc", "-Iinclude",
+)
 
 DIRECT_RECOVERED_SOURCE_SLICES = (
     ("get-tree", "build/source-tree/objects/unzip/get_tree.o",
@@ -1036,6 +1041,9 @@ DIRECT_RECOVERED_SOURCE_SLICES = (
      ((".data", 0x00425A38), (".bss", 0x0043ED00)),
      {".data": 4, ".bss": 0x4C28}, 0x04F4,
      frozenset(("cdvd_inited",))),
+    ("dmac-glue", GLUE_SOURCE_OBJECT,
+     0x0019FB00, 0, 0x00F0, 6, (),
+     {".data": 0, ".bss": 0}, 0x00F0, frozenset()),
     ("strncmp", "build/source-tree/objects/ps2/strncmp.o",
      0x0019C410, 0, 0x0048, 0, (),
      {".data": 0, ".bss": 0}, 0x0048, frozenset()),
@@ -1364,6 +1372,13 @@ def compile_clean_source_candidates(compiler: Path) -> None:
     cdvd_output.parent.mkdir(parents=True, exist_ok=True)
     stage3o.stage3i.compile_one(
         compiler.with_name("ee-gcc"), CDVD_SOURCE_FLAGS, cdvd_source, cdvd_output,
+    )
+
+    glue_source = ROOT / "src/ps2/glue.c"
+    glue_output = ROOT / GLUE_SOURCE_OBJECT
+    glue_output.parent.mkdir(parents=True, exist_ok=True)
+    stage3o.stage3i.compile_one(
+        compiler.with_name("ee-gcc"), GLUE_SOURCE_FLAGS, glue_source, glue_output,
     )
 
 

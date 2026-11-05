@@ -38,10 +38,10 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(204, result["direct_candidate_object_inputs"])
+        self.assertEqual(205, result["direct_candidate_object_inputs"])
         self.assertEqual(3928, result["evidence_candidate_object_bytes"])
-        self.assertEqual(21892, result["evidence_listing_bytes"])
-        self.assertEqual(441, result["direct_object_sections"])
+        self.assertEqual(21652, result["evidence_listing_bytes"])
+        self.assertEqual(443, result["direct_object_sections"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -227,6 +227,19 @@ class CodeWindowsTests(unittest.TestCase):
             self.assertNotIn(span, gate.LINKER_ZERO_FILL_SPANS)
         self.assertIn("-Os", gate.CDVD_SOURCE_FLAGS)
         self.assertNotIn("-O2", gate.CDVD_SOURCE_FLAGS)
+
+    def test_dmac_glue_links_from_canonical_os_source(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        self.assertIn("dmac-glue", rows)
+        row = rows["dmac-glue"]
+        self.assertEqual(row[1], gate.GLUE_SOURCE_OBJECT)
+        self.assertEqual(row[2:6], (0x0019FB00, 0, 0x00F0, 6))
+        self.assertEqual(row[6], ())
+        self.assertEqual(row[7], {".data": 0, ".bss": 0})
+        self.assertEqual(row[8], 0x00F0)
+        self.assertEqual(row[9], frozenset())
+        self.assertIn("-Os", gate.GLUE_SOURCE_FLAGS)
+        self.assertNotIn("-O2", gate.GLUE_SOURCE_FLAGS)
 
     def test_zero_relocation_c4_reconstructions_link_directly(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
