@@ -283,6 +283,14 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertIn("-Os", gate.GLUE_SOURCE_FLAGS)
         self.assertNotIn("-O2", gate.GLUE_SOURCE_FLAGS)
 
+    def test_xprintf_core_links_from_canonical_vsnprintf_selector(self):
+        self.assertEqual(
+            gate.DIRECT_XPRINTF_CODE_OBJECT,
+            ("build/code-windows/canonical/xprintf-vsnprintf.o",
+             0x0019D84C, 0x0B18,
+             ((".text", 0x0019D84C), (".rodata", 0x001BA478))),
+        )
+
     def test_vprintf_links_from_canonical_historical_selector(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
         self.assertIn("xprintf-vprintf", rows)

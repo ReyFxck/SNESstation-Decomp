@@ -747,7 +747,7 @@ DIRECT_CHEATS_SUFFIX_OBJECT = (
 )
 
 DIRECT_XPRINTF_CODE_OBJECT = (
-    "build/matching/hunt1000plus-v47-closure/ps2lib/xprintf.o",
+    "build/code-windows/canonical/xprintf-vsnprintf.o",
     0x0019D84C, 0x0B18,
     ((".text", 0x0019D84C), (".rodata", 0x001BA478)),
 )
@@ -1478,6 +1478,12 @@ def compile_clean_source_candidates(compiler: Path) -> None:
         fail("historical xprintf compiler include path unavailable")
     runtime_includes.extend(("-I", str(gcc_include)))
     xprintf_source = ROOT / "src/ps2/xprintf.c"
+    xprintf_core_output = ROOT / DIRECT_XPRINTF_CODE_OBJECT[0]
+    xprintf_core_output.parent.mkdir(parents=True, exist_ok=True)
+    stage3o.stage3i.compile_one(
+        cc, (*runtime_members.FLAGS, *runtime_includes, "-DF_vsnprintf"),
+        xprintf_source, xprintf_core_output,
+    )
     xprintf_output = ROOT / XPRINTF_VPRINTF_OBJECT
     xprintf_output.parent.mkdir(parents=True, exist_ok=True)
     stage3o.stage3i.compile_one(
