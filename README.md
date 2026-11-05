@@ -39,7 +39,7 @@ Detailed machine-generated counts are in
 ## Strict source-object linkage
 
 The replacement ELF matches byte for byte. The final linker now places
-**720,620/720,620 code bytes (100%)** from 191 ELF inputs, including
+**720,620/720,620 code bytes (100%)** from 200 ELF inputs, including
 `CPU.o`, `seta.o`, `tile.o`, `CPUOPS.o`, `gfx-short.o`, `CPUEXEC.o`, `dma.o`,
 `ppu-short.o`, `apu-short.o`, `c4.o`, `obc1.o`, `snes-sa1.o`, `snes-CHEATS.o`,
 `SA1CPU.o`, `deflate-1.41.o`, `unzip.o`, `xprintf.o`, `libmc.o`,
@@ -47,13 +47,18 @@ The replacement ELF matches byte for byte. The final linker now places
 `spc7110.o`, `snapshot-short.o`, `sound-normal.o`, `gsFont.o`, `gsPipe.o`,
 original zlib objects, historical PS2LIB runtime members, EE GCC 3.2.2
 `libgcc.a` members and historical C++ exception/RTTI objects. The remaining
-**34,696 evidence-backed code bytes** are compiled into a normal ELF input from
-already selected evidence: 9,964 bytes from checked candidate-object slices and
-24,732 bytes from committed public instruction listings. The PS2LIB
-`memcpy`/`memset`/`strcat`/`strncmp`/`memcmp`/`memmove`/`strcpy`/
-`strncpy`/`strlen`/`strchr`/`strcmp` corridor now links from proved
-historical/canonical objects instead of listing transport. `C4DrawWireFrame` (472 bytes) and `C4DrawLine` (540 bytes) now link
-directly from recovered C++ objects. No code byte passes
+**27,572 evidence-backed code bytes** are compiled into a normal ELF input from
+already selected evidence: 4,120 bytes from checked candidate-object slices and
+23,452 bytes from committed public instruction listings. The proved PS2LIB
+string/libc corridor now links `memcpy`, `memset`, `strcat`, `strncmp`,
+`memcmp`, `memmove`, `strcpy`, `strncpy`, `strlen`, `strchr`,
+`strcmp`, `strcasecmp`, `strncasecmp`, `strtok`, `strrchr` and the
+complete 616-byte `ctype` unit from historical/canonical objects instead of
+listing transport. Four byte-exact zero-relocation C4 reconstruction units
+(`C4ConvOAM`, `C4DoScaleRotate`, `C4TransformLines`, and `S9xSetC4`)
+also link directly, removing 5,844 bytes from candidate-evidence transport.
+`C4DrawWireFrame` (472 bytes) and `C4DrawLine` (540 bytes) link directly
+from recovered C++ objects. No code byte passes
 through a generated `.incbin` section. The audit preserves this distinction;
 listing-derived assembly is exact recovery evidence, not a claim that an
 unavailable historical C/C++ file was found.
