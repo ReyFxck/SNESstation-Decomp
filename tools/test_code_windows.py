@@ -38,9 +38,9 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(181, result["direct_candidate_object_inputs"])
+        self.assertEqual(189, result["direct_candidate_object_inputs"])
         self.assertEqual(9964, result["evidence_candidate_object_bytes"])
-        self.assertEqual(25332, result["evidence_listing_bytes"])
+        self.assertEqual(24860, result["evidence_listing_bytes"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -178,6 +178,26 @@ class CodeWindowsTests(unittest.TestCase):
             "C4CalcWireFrame": 0x0010BECC,
         }.items():
             self.assertEqual(gate.CLEAN_SOURCE_PROVIDER_TARGETS[name], address)
+
+    def test_zero_relocation_ps2lib_string_runtime_members_link_directly(self):
+        rows = {row[0]: row for row in gate.DIRECT_RUNTIME_OBJECTS}
+        expected = {
+            "rtmemcpy": ("libc/memcpy.o", 0x0019C364, 56),
+            "rtmemset": ("libc/memset.o", 0x0019C39C, 56),
+            "rtmemcmp": ("libc/memcmp.o", 0x0019C458, 72),
+            "rtmemmove": ("libc/memmove.o", 0x0019C4A0, 136),
+            "rtstrcpy": ("libc/strcpy.o", 0x0019C528, 40),
+            "rtstrncpy": ("libc/strncpy.o", 0x0019C550, 88),
+            "rtstrlen": ("libc/strlen.o", 0x0019C5E8, 40),
+            "rtstrchr": ("libc/strchr.o", 0x0019C610, 56),
+            "rtstrcmp": ("libc/strcmp.o", 0x0019C648, 64),
+        }
+        for tag, (basename, address, size) in expected.items():
+            self.assertIn(tag, rows)
+            row = rows[tag]
+            self.assertEqual(row[1:5], (basename, address, size, 0))
+            self.assertEqual(row[5], ())
+            self.assertEqual(row[6], {".data": 0, ".bss": 0})
 
     def test_final_linker_isolates_only_source_aggregate_models(self):
         source_input = Path("build/test/source-tree.partial.o")
