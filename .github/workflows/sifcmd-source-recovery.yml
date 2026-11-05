@@ -3,7 +3,7 @@ name: SIF CMD C source recovery
 on:
   push:
     branches:
-      - source-recovery-file-by-file
+      - main
     paths:
       - "tools/run-sifcmd-source-recovery.py"
       - "tools/run-glue-source-recovery.py"

@@ -55,7 +55,33 @@ def main():
         ok=len(image)==size and diff==0 and rm.libgcc.normalize_target(expected,masks)==normalized
         print(f"{'MATCH' if ok else 'DIFF':5} {name:16} bytes={len(image)}/{size} relocs={len(masks)} diff={diff}")
         failed |= not ok
+    combined=BUILD/"glue-combined.o"
+    run([cc,*rm.FLAGS,"-I",str(ROOT/"include"),"-c",source,"-o",combined])
+    image,masks,normalized=rm.libgcc.text_image(combined)
+    expected=target_bytes(BASE,BASE+0xF0)
+    diff=rm.libgcc.differing_unmasked(expected,image,masks)
+    ok=len(image)==0xF0 and diff==0 and rm.libgcc.normalize_target(expected,masks)==normalized
+    print(f"{'MATCH' if ok else 'DIFF':5} glue-combined.o  bytes={len(image)}/240 relocs={len(masks)} diff={diff}")
+    failed |= not ok
+
+    ld=cc.with_name("ee-ld")
+    objcopy=cc.with_name("ee-objcopy")
+    linked=BUILD/"glue-combined.linked.elf"
+    linked_text=BUILD/"glue-combined.linked.bin"
+    script=BUILD/"glue-combined.ld"
+    script.write_text("""ENTRY(EnableDmac)\nPROVIDE(DIntr = 0x0019f018);\nPROVIDE(EIntr = 0x0019f060);\nPROVIDE(_EnableDmac = 0x0019fcd0);\nPROVIDE(_DisableDmac = 0x0019fce0);\nSECTIONS {\n  . = 0x0019fb00;\n  .text : { *(.text) }\n  /DISCARD/ : { *(.comment) *(.mdebug*) *(.pdr) }\n}\n""",encoding="utf-8")
+    run([ld,"-T",script,combined,"-o",linked])
+    run([objcopy,"-j",".text","-O","binary",linked,linked_text])
+    linked_raw=linked_text.read_bytes()
+    raw_ok=linked_raw==expected
+    print(f"{'RAW MATCH' if raw_ok else 'RAW DIFF'} glue-combined linked bytes={len(linked_raw)}/240")
+    failed |= not raw_ok
+
+    objdump=cc.with_name("ee-objdump")
+    if objdump.is_file():
+        print(subprocess.check_output([str(objdump),"-dr",str(combined)],cwd=ROOT,text=True))
+
     if failed: raise SystemExit("GLUE historical-source gate: FAIL")
-    print("GLUE historical-source gate: 2/2 MATCH")
+    print("GLUE historical-source gate: 2/2 selectors + combined object MATCH")
 
 if __name__=="__main__": main()
