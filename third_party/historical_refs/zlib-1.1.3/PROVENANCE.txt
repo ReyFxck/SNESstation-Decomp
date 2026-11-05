@@ -14,5 +14,8 @@ Retained files:
 - uncompr.c
 - zlib.h
 - zconf.h
+- zutil.c
+- zutil.h
+- adler32.c
 
 The zlib license/copyright notice is preserved verbatim in zlib.h.
