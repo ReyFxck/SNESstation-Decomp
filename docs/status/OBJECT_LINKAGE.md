@@ -3,8 +3,8 @@
 The exact-image pipeline and the clean object link are tracked separately.
 
 Stage-3P proves all **720,620/720,620 code bytes** and the complete
-replacement ELF. 179 ELF inputs provide **720,620 code bytes** directly
-through 426 placed code sections. 175 inputs are checked candidate/source
+replacement ELF. 191 ELF inputs provide **720,620 code bytes** directly
+through 437 placed code sections. 191 inputs are checked candidate/source
 objects or slices;
 multiple inputs may derive from distinct slices of the same original object,
 including `2XSAI.o`, `fxemu.o`, `fxinst.o`, `SA1CPU.o`, `ppu-short.o`,
@@ -78,10 +78,15 @@ to the already proved read-only, vtable and BSS providers. Additional exact
 `explode.o`, `unreduce.o` and zlib `infblock.o` slices link from their historical
 objects after checking source layouts, relocation targets and byte identity.
 
-The remaining **35,280 evidence-backed code bytes** are compiled into
+The remaining **34,696 evidence-backed code bytes** are compiled into
 `code-windows.o` from the same frozen public evidence that admitted them to the
 exact-window roster: 9,964 bytes come from selected candidate-object slices and
-25,332 bytes from committed public instruction listings. `C4DrawWireFrame` (472 bytes at `0x0010cdcc`), `C4DrawLine` (540 bytes
+24,732 bytes from committed public instruction listings. The PS2LIB string
+corridor at `0x0019c364` through `0x0019c688` now uses direct historical or
+canonical source objects for `memcpy`, `memset`, `strcat`, `strncmp`,
+`memcmp`, `memmove`, `strcpy`, `strncpy`, `strlen`, `strchr` and
+`strcmp`. This removes 600 bytes from final listing transport while preserving
+the exact code image. `C4DrawWireFrame` (472 bytes at `0x0010cdcc`), `C4DrawLine` (540 bytes
 at `0x0010cbb0`), `libkernel_intr`/`DIntr`/`EIntr` (96 bytes at
 `0x0019f018`), `libkernel_syscalls` (80 bytes at `0x0019fcd0`), `libkernel_syscalls2` (176 bytes at `0x0019ce60`), `libkernel_sif_syscalls` (48 bytes at `0x0019f5d0`), `libkernel_heap_find_block` (64 bytes at `0x0019e474`), and `libkernel_client_init`/`fioInit` (256 bytes at `0x0019f600`) are no longer part of that aggregate: their canonical recovered
 C/C++ objects/functions are linked directly, with 15, 36, 0, 0, 0, 0, 0, and 0 relocations
@@ -101,19 +106,19 @@ an original historical C/C++ producer.
 | Measure | Result |
 |---|---:|
 | Exact code-window bytes | **720,620/720,620** |
-| Candidate ELF objects rebuilt and checked | **115** |
-| Candidate-object slices selected | **508** |
-| Candidate-object evidence bytes | **636,696** |
+| Candidate ELF objects rebuilt and checked | **118** |
+| Candidate-object slices selected | **511** |
+| Candidate-object evidence bytes | **637,064** |
 | Historical/recovered object construction bucket | **562,840 bytes** |
 | Earlier exact-assembly construction bucket | **85,628 bytes** |
 | Explicit residual assembly | **0 bytes** |
 | Public listing construction bucket | **71,480 bytes** |
 | Bytes linked from source-built ELF objects | **720,620/720,620 (100%)** |
 | Final evidence object from candidate slices | **9,964 bytes** |
-| Final evidence object from public listings | **25,332 bytes** |
-| Direct candidate/source object inputs | **180** |
-| Direct ELF object inputs | **180** |
-| Direct placed sections | **426** |
+| Final evidence object from public listings | **24,732 bytes** |
+| Direct candidate/source object inputs | **191** |
+| Direct ELF object inputs | **191** |
+| Direct placed sections | **437** |
 | Bytes remaining behind generated payload | **0** |
 | Strict source-object linkage | **Complete** |
 
