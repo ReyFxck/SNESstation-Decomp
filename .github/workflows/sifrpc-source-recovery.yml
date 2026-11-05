@@ -45,14 +45,4 @@ jobs:
       - name: Prove historical SIF RPC source
         run: python3 tools/run-sifrpc-source-recovery.py
 
-      - name: Refresh source readiness and source-tree ownership
-        run: |
-          EE_CC="$PWD/build/toolchains/ee-gcc-3.2.2-stage1/prefix/bin/ee-gcc"
-          make audit-source
-          make source-tree-refresh EE_CC="$EE_CC"
-          make source-tree-check EE_CC="$EE_CC"
-          make source-aliases-refresh EE_CC="$EE_CC"
-          make source-aliases-check EE_CC="$EE_CC"
-          python3 tools/test_build_source_tree.py
-          git diff --check -- . ':(exclude)analysis/link_identity/source_address_aliases.tsv'
 

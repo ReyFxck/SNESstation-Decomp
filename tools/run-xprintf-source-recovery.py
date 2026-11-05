@@ -322,6 +322,35 @@ SECTIONS {
         f"relocs={len(masks)} raw=96/96"
     )
 
+    # Stage-3P consumes whole .text sections for simple direct source slices.
+    # Rebuild the same proved target override without -ffunction-sections and
+    # require that its flat .text is still byte-identical after resolving the
+    # sole fioWrite relocation. This proves the exact transport shape used by
+    # the final-link promotion rather than assuming section layout is inert.
+    flat_flags = tuple(flag for flag in ro.FLAGS if flag != "-ffunction-sections")
+    flat_obj = compile_obj(
+        compiler, include_flags, "F_puts", "xprintf-puts-flat.o", flags=flat_flags
+    )
+    flat_image, flat_masks, flat_normalized = rm.libgcc.text_image(flat_obj)
+    flat_diff = rm.libgcc.differing_unmasked(puts_raw, flat_image, flat_masks)
+    flat_ok = (
+        len(flat_image) == 0x60
+        and len(flat_masks) == 1
+        and flat_diff == 0
+        and flat_normalized == rm.libgcc.normalize_target(puts_raw, flat_masks)
+    )
+    print(
+        f"{'MATCH' if flat_ok else 'DIFF':5} F_puts flat .text "
+        f"bytes={len(flat_image)}/96 relocs={len(flat_masks)} diff={flat_diff}"
+    )
+    if not flat_ok:
+        raise SystemExit("XPRINTF F_puts flat object gate: FAIL")
+    flat_raw = raw_link(
+        compiler, flat_obj, ".text", 0x0019E414,
+        {"fioWrite": 0x0019D244}, puts_raw,
+    )
+    print(f"RAW   F_puts flat .text bytes={len(flat_raw)}/96 MATCH")
+
     print()
     print("XPRINTF source gate: formatter core + 5 wrappers + target puts MATCH")
 
