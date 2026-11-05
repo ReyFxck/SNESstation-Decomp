@@ -977,6 +977,8 @@ GLUE_SOURCE_FLAGS = (
 )
 XPRINTF_VPRINTF_OBJECT = "build/code-windows/canonical/xprintf-vprintf.o"
 XPRINTF_VPRINTF_FLAGS = (*runtime_members.FLAGS, "-DF_vprintf")
+SIFCMD_IRQ_OBJECT = "build/code-windows/canonical/sifcmd-irq.o"
+SIFCMD_IRQ_FLAGS = (*runtime_members.FLAGS, "-Iinclude", "-DF__sif_cmd_int_handler")
 
 DIRECT_RECOVERED_SOURCE_SLICES = (
     ("get-tree", "build/source-tree/objects/unzip/get_tree.o",
@@ -1050,6 +1052,9 @@ DIRECT_RECOVERED_SOURCE_SLICES = (
     ("xprintf-vprintf", XPRINTF_VPRINTF_OBJECT,
      0x0019FAA8, 0, 0x0058, 4, ((".bss", 0x004454C0),),
      {".data": 0, ".bss": 0x1000}, 0x0058, frozenset()),
+    ("sifcmd-irq", SIFCMD_IRQ_OBJECT,
+     0x0019FBF0, 0, 0x00E0, 6, (),
+     {".data": 0, ".bss": 0}, 0x00E0, frozenset()),
     ("strncmp", "build/source-tree/objects/ps2/strncmp.o",
      0x0019C410, 0, 0x0048, 0, (),
      {".data": 0, ".bss": 0}, 0x0048, frozenset()),
@@ -1407,6 +1412,13 @@ def compile_clean_source_candidates(compiler: Path) -> None:
     xprintf_output.parent.mkdir(parents=True, exist_ok=True)
     stage3o.stage3i.compile_one(
         cc, (*XPRINTF_VPRINTF_FLAGS, *xprintf_includes), xprintf_source, xprintf_output,
+    )
+
+    sifcmd_source = ROOT / "src/ps2/sifcmd.c"
+    sifcmd_output = ROOT / SIFCMD_IRQ_OBJECT
+    sifcmd_output.parent.mkdir(parents=True, exist_ok=True)
+    stage3o.stage3i.compile_one(
+        cc, SIFCMD_IRQ_FLAGS, sifcmd_source, sifcmd_output,
     )
 
 
