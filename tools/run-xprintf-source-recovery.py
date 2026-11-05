@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import json
 import re
 import struct
 import subprocess
@@ -214,6 +215,14 @@ def main() -> None:
         rodata_address=RODATA_ADDR,
     )
     print(f"RAW   F_vsnprintf core bytes={len(raw)}/{CORE_SIZE} MATCH")
+    core_elf = ELFFile(core)
+    section_inventory = {
+        section.name: section.size
+        for section in core_elf.sections
+        if section.name in {".text", ".rel.text", ".data", ".rel.data",
+                            ".rodata", ".rel.rodata", ".bss"}
+    }
+    print("F_vsnprintf section inventory: " + json.dumps(section_inventory, sort_keys=True))
 
     # Three historical wrappers are contiguous in the public exact span.
     wrapper_span = exact_wrapper_span()
