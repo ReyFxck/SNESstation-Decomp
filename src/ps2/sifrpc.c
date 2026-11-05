@@ -49,7 +49,7 @@
  */
 #if !defined(F_SifBindRpc) && !defined(F_SifCallRpc) && \
     !defined(F_SifRpcMain) && !defined(F__rpc_get_packet) && \
-    !defined(F__rpc_get_fpacket)
+    !defined(F__rpc_get_fpacket) && !defined(F_SifCheckStatRpc)
 #define F_SifBindRpc
 #define F_SifCallRpc
 #define F_SifRpcMain
