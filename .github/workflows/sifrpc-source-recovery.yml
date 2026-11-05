@@ -15,6 +15,8 @@ on:
       - "tools/run-sifrpc-source-recovery.py"
       - ".github/workflows/sifrpc-source-recovery.yml"
       - "analysis/functions/sifrpc_0019c688.asm"
+      - "analysis/functions/libmc_frontier_001a0740.asm"
+      - "analysis/functions/libgcc_frontier_001a1b00.asm"
       - "analysis/link_identity/runtime_member_inputs.tsv"
       - "tools/runtime_members.py"
   workflow_dispatch:

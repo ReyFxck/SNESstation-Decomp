@@ -14,6 +14,10 @@ BUILD = ROOT / "build" / "matching" / "sifrpc-source-recovery"
 BASE = 0x0019C688
 END = 0x0019CE5C
 LISTING = ROOT / "analysis" / "functions" / "sifrpc_0019c688.asm"
+BOUNDARY_LISTINGS = (
+    ROOT / "analysis" / "functions" / "libmc_frontier_001a0740.asm",
+    ROOT / "analysis" / "functions" / "libgcc_frontier_001a1b00.asm",
+)
 
 SPECS = (
     ("SifBindRpc.o", "F_SifBindRpc", 0x0019C688, 0x128),
@@ -45,6 +49,27 @@ def target_bytes() -> bytes:
     if missing:
         raise SystemExit(f"SIF RPC target listing has {len(missing)} missing bytes; first=0x{missing[0]:08x}")
     return bytes(byte_map[address] for address in range(BASE, END))
+
+
+def listing_range(paths: tuple[Path, ...], start: int, size: int) -> bytes:
+    byte_map: dict[int, int] = {}
+    for path in paths:
+        for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+            m = INSN.match(line)
+            if not m:
+                continue
+            address = int(m.group(1), 16)
+            raw = bytes(int(m.group(i), 16) for i in range(2, 6))
+            for offset, value in enumerate(raw):
+                prior = byte_map.setdefault(address + offset, value)
+                if prior != value:
+                    raise SystemExit(f"conflicting boundary listing byte @ 0x{address+offset:08x}")
+    missing = [address for address in range(start, start + size) if address not in byte_map]
+    if missing:
+        raise SystemExit(
+            f"boundary listings miss {len(missing)} bytes; first=0x{missing[0]:08x}"
+        )
+    return bytes(byte_map[address] for address in range(start, start + size))
 
 
 def run(command: list[str | Path]) -> None:
@@ -103,6 +128,32 @@ def main() -> None:
         raise SystemExit("SIF RPC historical-source gate: FAIL")
     print()
     print("SIF RPC historical-source gate: 5/5 MATCH")
+
+    # The late libmc-linked SifCheckStatRpc selector lives exactly across the
+    # libmc/libgcc public-listing boundary. Prove it independently so its full
+    # 44-byte historical body can replace that evidence gap.
+    check_obj = BUILD / "SifCheckStatRpc.o"
+    run([
+        compiler, *rm.FLAGS, *include_flags, "-DF_SifCheckStatRpc",
+        "-c", source, "-o", check_obj,
+    ])
+    check_expected = listing_range(BOUNDARY_LISTINGS, 0x001A1AF4, 0x2C)
+    check_image, check_masks, check_normalized = rm.libgcc.text_image(check_obj)
+    check_diff = rm.libgcc.differing_unmasked(check_expected, check_image, check_masks)
+    check_ok = (
+        len(check_image) == 0x2C
+        and len(check_masks) == 0
+        and check_diff == 0
+        and check_normalized == rm.libgcc.normalize_target(check_expected, check_masks)
+    )
+    print(
+        f"{'MATCH' if check_ok else 'DIFF':5} SifCheckStatRpc.o      "
+        f"F_SifCheckStatRpc   bytes={len(check_image)}/44 "
+        f"relocs={len(check_masks)} diff={check_diff}"
+    )
+    if not check_ok or check_image != check_expected:
+        raise SystemExit("SifCheckStatRpc boundary selector gate: FAIL")
+    print("RAW   SifCheckStatRpc.o bytes=44/44 MATCH")
 
     # Stronger gate: resolve the five historical objects at their target text,
     # data and BSS addresses, then require raw equality for the whole corridor.
