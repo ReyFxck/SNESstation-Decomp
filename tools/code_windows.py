@@ -986,6 +986,12 @@ FILEIO_SELECTOR_SPECS = (
     ("fileio-gets", "build/code-windows/canonical/fileio-fio-gets.o",
      "F_fio_gets", 0x0019D558, 0x00A8, 3),
 )
+LOADFILE_SELECTOR_SPECS = (
+    ("loadfile-load-module", "build/code-windows/canonical/loadfile-load-module.o",
+     "F_SifLoadModule", 0x0019D600, 0x0020, 1),
+    ("loadfile-load-buffer", "build/code-windows/canonical/loadfile-load-buffer.o",
+     "F_SifLoadModuleBuffer", 0x0019D620, 0x001C, 1),
+)
 
 DIRECT_RECOVERED_SOURCE_SLICES = (
     ("get-tree", "build/source-tree/objects/unzip/get_tree.o",
@@ -1075,6 +1081,12 @@ DIRECT_RECOVERED_SOURCE_SLICES = (
     ("fileio-gets", "build/code-windows/canonical/fileio-fio-gets.o",
      0x0019D558, 0, 0x00A8, 3, (),
      {".data": 0, ".bss": 0}, 0x00A8, frozenset()),
+    ("loadfile-load-module", "build/code-windows/canonical/loadfile-load-module.o",
+     0x0019D600, 0, 0x0020, 1, (),
+     {".data": 0, ".bss": 0}, 0x0020, frozenset()),
+    ("loadfile-load-buffer", "build/code-windows/canonical/loadfile-load-buffer.o",
+     0x0019D620, 0, 0x001C, 1, (),
+     {".data": 0, ".bss": 0}, 0x001C, frozenset()),
     ("strncmp", "build/source-tree/objects/ps2/strncmp.o",
      0x0019C410, 0, 0x0048, 0, (),
      {".data": 0, ".bss": 0}, 0x0048, frozenset()),
@@ -1440,8 +1452,19 @@ def compile_clean_source_candidates(compiler: Path) -> None:
         output.parent.mkdir(parents=True, exist_ok=True)
         stage3o.stage3i.compile_one(
             cc,
-            (*runtime_members.FLAGS, *runtime_includes, "-" + "D" + define),
+            (*runtime_members.FLAGS, *runtime_includes, "-D" + define),
             fileio_source,
+            output,
+        )
+
+    loadfile_source = ROOT / "src/ps2/loadfile.c"
+    for _tag, output_relative, define, _address, _size, _relocs in LOADFILE_SELECTOR_SPECS:
+        output = ROOT / output_relative
+        output.parent.mkdir(parents=True, exist_ok=True)
+        stage3o.stage3i.compile_one(
+            cc,
+            (*runtime_members.FLAGS, *runtime_includes, "-D" + define),
+            loadfile_source,
             output,
         )
 
