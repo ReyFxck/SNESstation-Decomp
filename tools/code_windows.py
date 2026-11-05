@@ -457,8 +457,7 @@ LINKER_ZERO_FILL_SPANS = (
     (0x00196A60, 16), (0x00196C08, 16), (0x00196D68, 16),
     (0x00198BFC, 8), (0x00199170, 8), (0x00199288, 8),
     (0x0019BD5C, 8), (0x0019BD70, 8), (0x0019BE18, 8),
-    (0x0019BE5C, 8), (0x0019BEB4, 24), (0x0019C050, 12),
-    (0x0019C0B4, 12), (0x0019CFB8, 8), (0x0019F014, 4),
+    (0x0019BE5C, 8), (0x0019CFB8, 8), (0x0019F014, 4),
     (0x0019F594, 12),
     (0x001A0694, 12), (0x001A06A8, 8), (0x001A06B8, 8),
     (0x001A06D4, 8), (0x001A0700, 8), (0x001A1C90, 8),
@@ -961,6 +960,16 @@ DIRECT_FRONTEND_SOURCE_SLICES = (
 # These spans used to sit in the catch-all evidence path despite already having
 # a byte-identical producer: recovered/historical C/C++, PS2SDK's syscall macro
 # source, zlib 1.1.3, and the pinned GCC 3.2.2 libsupc++ source build.
+CDVD_SOURCE_OBJECT = "build/code-windows/canonical/cdvd_rpc.os.o"
+CDVD_SOURCE_FLAGS = (
+    "-Iinclude", "-I-", "-G0", "-Os", "-EL", "-pipe",
+    "-fomit-frame-pointer", "-fstrict-aliasing", "-fno-common",
+    "-fshort-double", "-mlong64", "-mhard-float", "-mno-abicalls",
+    "-march=r5900", "-mtune=r5900",
+    "-DPS2_EE", "-D_EE", "-DLSB_FIRST", "-DALIGN_DWORD",
+    "-DCODE_PLATFORM=3", "-Iinclude/ee_stage1_compat", "-Iinclude", "-w",
+)
+
 DIRECT_RECOVERED_SOURCE_SLICES = (
     ("get-tree", "build/source-tree/objects/unzip/get_tree.o",
      0x0018C124, 0, 0x00D4, 9, (),
@@ -1022,6 +1031,11 @@ DIRECT_RECOVERED_SOURCE_SLICES = (
      0x0019F078, 0, 0x00C0, 13, ((".data", 0x00425A80),),
      {".data": 4, ".rel.data": 8, ".bss": 0}, 0x00C0,
      frozenset(("_heap_ptr",))),
+    ("cdvd-rpc", CDVD_SOURCE_OBJECT,
+     0x0019BE70, 0, 0x04F4, 69,
+     ((".data", 0x00425A38), (".bss", 0x0043ED00)),
+     {".data": 4, ".bss": 0x4C28}, 0x04F4,
+     frozenset(("cdvd_inited",))),
     ("strncmp", "build/source-tree/objects/ps2/strncmp.o",
      0x0019C410, 0, 0x0048, 0, (),
      {".data": 0, ".bss": 0}, 0x0048, frozenset()),
@@ -1330,7 +1344,7 @@ def compile_pad_candidate(build_dir: Path, compiler: Path) -> None:
 
 
 def compile_clean_source_candidates(compiler: Path) -> None:
-    """Rebuild exact recovered C++ bodies as selectable function sections."""
+    """Rebuild exact recovered source bodies used by direct Stage-3P inputs."""
     for _name, source_relative, output_relative, add_function_sections in CLEAN_SOURCE_UNITS:
         source = ROOT / source_relative
         output = ROOT / output_relative
@@ -1340,6 +1354,17 @@ def compile_clean_source_candidates(compiler: Path) -> None:
             flags.append("-ffunction-sections")
         unit_compiler = compiler.with_name("ee-gcc") if source.suffix == ".c" else compiler
         stage3o.stage3i.compile_one(unit_compiler, flags, source, output)
+
+    # The canonical source-tree aggregate intentionally uses its global O2
+    # profile, but historical libcdvd is an independently proved -Os TU.
+    # Rebuild that same canonical C source here with the exact historical
+    # profile rather than linking the non-matching aggregate object.
+    cdvd_source = ROOT / "src/ps2/cdvd_rpc.c"
+    cdvd_output = ROOT / CDVD_SOURCE_OBJECT
+    cdvd_output.parent.mkdir(parents=True, exist_ok=True)
+    stage3o.stage3i.compile_one(
+        compiler.with_name("ee-gcc"), CDVD_SOURCE_FLAGS, cdvd_source, cdvd_output,
+    )
 
 
 def link_clean_source_functions(

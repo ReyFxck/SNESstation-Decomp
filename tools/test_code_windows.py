@@ -38,9 +38,10 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(203, result["direct_candidate_object_inputs"])
+        self.assertEqual(204, result["direct_candidate_object_inputs"])
         self.assertEqual(3928, result["evidence_candidate_object_bytes"])
-        self.assertEqual(23112, result["evidence_listing_bytes"])
+        self.assertEqual(21892, result["evidence_listing_bytes"])
+        self.assertEqual(441, result["direct_object_sections"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -211,6 +212,21 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(row[7], {".data": 4, ".rel.data": 8, ".bss": 0})
         self.assertEqual(row[8], 0x00C0)
         self.assertEqual(row[9], frozenset(("_heap_ptr",)))
+
+    def test_cdvd_rpc_links_from_canonical_os_source(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        self.assertIn("cdvd-rpc", rows)
+        row = rows["cdvd-rpc"]
+        self.assertEqual(row[1], gate.CDVD_SOURCE_OBJECT)
+        self.assertEqual(row[2:6], (0x0019BE70, 0, 0x04F4, 69))
+        self.assertEqual(row[6], ((".data", 0x00425A38), (".bss", 0x0043ED00)))
+        self.assertEqual(row[7], {".data": 4, ".bss": 0x4C28})
+        self.assertEqual(row[8], 0x04F4)
+        self.assertEqual(row[9], frozenset(("cdvd_inited",)))
+        for span in ((0x0019BEB4, 24), (0x0019C050, 12), (0x0019C0B4, 12)):
+            self.assertNotIn(span, gate.LINKER_ZERO_FILL_SPANS)
+        self.assertIn("-Os", gate.CDVD_SOURCE_FLAGS)
+        self.assertNotIn("-O2", gate.CDVD_SOURCE_FLAGS)
 
     def test_zero_relocation_c4_reconstructions_link_directly(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
