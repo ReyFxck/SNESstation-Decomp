@@ -38,10 +38,10 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(208, result["direct_candidate_object_inputs"])
+        self.assertEqual(211, result["direct_candidate_object_inputs"])
         self.assertEqual(3928, result["evidence_candidate_object_bytes"])
-        self.assertEqual(21060, result["evidence_listing_bytes"])
-        self.assertEqual(435, result["direct_object_sections"])
+        self.assertEqual(20696, result["evidence_listing_bytes"])
+        self.assertEqual(436, result["direct_object_sections"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -280,6 +280,39 @@ class CodeWindowsTests(unittest.TestCase):
         for span in ((0x0019BD5C, 8), (0x0019BD70, 8),
                      (0x0019BE18, 8), (0x0019BE5C, 8)):
             self.assertNotIn(span, gate.LINKER_ZERO_FILL_SPANS)
+
+    def test_remaining_fileio_wrappers_link_from_canonical_selectors(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        expected = {
+            "fileio-mkdir": ("build/code-windows/canonical/fileio-fio-mkdir.o",
+                             0x0019D410, 0x00A0, 12),
+            "fileio-putc": ("build/code-windows/canonical/fileio-fio-putc.o",
+                            0x0019D534, 0x0024, 1),
+            "fileio-gets": ("build/code-windows/canonical/fileio-fio-gets.o",
+                            0x0019D558, 0x00A8, 3),
+        }
+        for tag, (path, address, size, relocs) in expected.items():
+            self.assertIn(tag, rows)
+            row = rows[tag]
+            self.assertEqual(row[1], path)
+            self.assertEqual(row[2:6], (address, 0, size, relocs))
+            self.assertEqual(row[6], ())
+            self.assertEqual(row[7], {".data": 0, ".bss": 0})
+            self.assertEqual(row[8], size)
+            self.assertEqual(row[9], frozenset())
+        self.assertEqual(
+            [(tag, path, define, address, size, relocs)
+             for tag, path, define, address, size, relocs
+             in gate.FILEIO_SELECTOR_SPECS],
+            [
+                ("fileio-mkdir", "build/code-windows/canonical/fileio-fio-mkdir.o",
+                 "F_fio_mkdir", 0x0019D410, 0x00A0, 12),
+                ("fileio-putc", "build/code-windows/canonical/fileio-fio-putc.o",
+                 "F_fio_putc", 0x0019D534, 0x0024, 1),
+                ("fileio-gets", "build/code-windows/canonical/fileio-fio-gets.o",
+                 "F_fio_gets", 0x0019D558, 0x00A8, 3),
+            ],
+        )
 
     def test_zero_relocation_c4_reconstructions_link_directly(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}

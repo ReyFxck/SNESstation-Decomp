@@ -978,6 +978,14 @@ XPRINTF_VPRINTF_OBJECT = "build/code-windows/canonical/xprintf-vprintf.o"
 XPRINTF_VPRINTF_FLAGS = (*runtime_members.FLAGS, "-DF_vprintf")
 SIFCMD_IRQ_OBJECT = "build/code-windows/canonical/sifcmd-irq.o"
 SIFCMD_IRQ_FLAGS = (*runtime_members.FLAGS, "-Iinclude", "-DF__sif_cmd_int_handler")
+FILEIO_SELECTOR_SPECS = (
+    ("fileio-mkdir", "build/code-windows/canonical/fileio-fio-mkdir.o",
+     "F_fio_mkdir", 0x0019D410, 0x00A0, 12),
+    ("fileio-putc", "build/code-windows/canonical/fileio-fio-putc.o",
+     "F_fio_putc", 0x0019D534, 0x0024, 1),
+    ("fileio-gets", "build/code-windows/canonical/fileio-fio-gets.o",
+     "F_fio_gets", 0x0019D558, 0x00A8, 3),
+)
 
 DIRECT_RECOVERED_SOURCE_SLICES = (
     ("get-tree", "build/source-tree/objects/unzip/get_tree.o",
@@ -1058,6 +1066,15 @@ DIRECT_RECOVERED_SOURCE_SLICES = (
      0x0019BD38, 0, 0x0138, 9, ((".data", 0x00425A30),),
      {".data": 4, ".bss": 0}, 0x0138,
      frozenset(("VRcount_recovered",))),
+    ("fileio-mkdir", "build/code-windows/canonical/fileio-fio-mkdir.o",
+     0x0019D410, 0, 0x00A0, 12, (),
+     {".data": 0, ".bss": 0}, 0x00A0, frozenset()),
+    ("fileio-putc", "build/code-windows/canonical/fileio-fio-putc.o",
+     0x0019D534, 0, 0x0024, 1, (),
+     {".data": 0, ".bss": 0}, 0x0024, frozenset()),
+    ("fileio-gets", "build/code-windows/canonical/fileio-fio-gets.o",
+     0x0019D558, 0, 0x00A8, 3, (),
+     {".data": 0, ".bss": 0}, 0x00A8, frozenset()),
     ("strncmp", "build/source-tree/objects/ps2/strncmp.o",
      0x0019C410, 0, 0x0048, 0, (),
      {".data": 0, ".bss": 0}, 0x0048, frozenset()),
@@ -1400,22 +1417,33 @@ def compile_clean_source_candidates(compiler: Path) -> None:
     # recovery gate; the preceding window11/runtime chain materializes it.
     cc = compiler.with_name("ee-gcc")
     runtime_inputs = ROOT / "build/runtime-members/inputs"
-    xprintf_includes: list[str] = ["-I", str(ROOT / "include")]
+    runtime_includes: list[str] = ["-I", str(ROOT / "include")]
     for revision, relative in runtime_members.INCLUDE_DIRS:
         path = runtime_inputs / revision / relative
         if not path.is_dir():
-            fail(f"historical xprintf include path unavailable: {path}")
-        xprintf_includes.extend(("-I", str(path)))
+            fail(f"historical runtime include path unavailable: {path}")
+        runtime_includes.extend(("-I", str(path)))
     gcc_include = Path(run([cc, "-print-file-name=include"])).resolve()
     if not gcc_include.is_dir():
         fail("historical xprintf compiler include path unavailable")
-    xprintf_includes.extend(("-I", str(gcc_include)))
+    runtime_includes.extend(("-I", str(gcc_include)))
     xprintf_source = ROOT / "src/ps2/xprintf.c"
     xprintf_output = ROOT / XPRINTF_VPRINTF_OBJECT
     xprintf_output.parent.mkdir(parents=True, exist_ok=True)
     stage3o.stage3i.compile_one(
-        cc, (*XPRINTF_VPRINTF_FLAGS, *xprintf_includes), xprintf_source, xprintf_output,
+        cc, (*XPRINTF_VPRINTF_FLAGS, *runtime_includes), xprintf_source, xprintf_output,
     )
+
+    fileio_source = ROOT / "src/ps2/fileio.c"
+    for _tag, output_relative, define, _address, _size, _relocs in FILEIO_SELECTOR_SPECS:
+        output = ROOT / output_relative
+        output.parent.mkdir(parents=True, exist_ok=True)
+        stage3o.stage3i.compile_one(
+            cc,
+            (*runtime_members.FLAGS, *runtime_includes, "-" + "D" + define),
+            fileio_source,
+            output,
+        )
 
     sifcmd_source = ROOT / "src/ps2/sifcmd.c"
     sifcmd_output = ROOT / SIFCMD_IRQ_OBJECT
