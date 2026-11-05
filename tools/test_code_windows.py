@@ -38,8 +38,8 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(196, result["direct_candidate_object_inputs"])
-        self.assertEqual(9964, result["evidence_candidate_object_bytes"])
+        self.assertEqual(200, result["direct_candidate_object_inputs"])
+        self.assertEqual(4120, result["evidence_candidate_object_bytes"])
         self.assertEqual(23452, result["evidence_listing_bytes"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
@@ -178,6 +178,32 @@ class CodeWindowsTests(unittest.TestCase):
             "C4CalcWireFrame": 0x0010BECC,
         }.items():
             self.assertEqual(gate.CLEAN_SOURCE_PROVIDER_TARGETS[name], address)
+
+    def test_zero_relocation_c4_reconstructions_link_directly(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        expected = {
+            "c4-conv-oam": (
+                "build/source-tree/objects/ps2/c4convoam.o", 0x0010C340, 0x03B8,
+            ),
+            "c4-scale-rotate": (
+                "build/source-tree/objects/ps2/c4doscalerotate.o", 0x0010C6F8, 0x04B8,
+            ),
+            "c4-transform-lines": (
+                "build/source-tree/objects/ps2/c4transformlines.o", 0x0010CFA4, 0x0304,
+            ),
+            "s9x-set-c4": (
+                "build/source-tree/objects/ps2/s9xsetc4.o", 0x0010D7DC, 0x0B60,
+            ),
+        }
+        for tag, (obj, address, size) in expected.items():
+            self.assertIn(tag, rows)
+            row = rows[tag]
+            self.assertEqual(row[1], obj)
+            self.assertEqual(row[2:6], (address, 0, size, 0))
+            self.assertEqual(row[6], ())
+            self.assertEqual(row[7], {".data": 0, ".bss": 0})
+            self.assertEqual(row[8], size)
+            self.assertEqual(row[9], frozenset())
 
     def test_canonical_ps2lib_ctype_corridor_links_directly(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}

@@ -962,6 +962,18 @@ DIRECT_FRONTEND_SOURCE_SLICES = (
 # a byte-identical producer: recovered/historical C/C++, PS2SDK's syscall macro
 # source, zlib 1.1.3, and the pinned GCC 3.2.2 libsupc++ source build.
 DIRECT_RECOVERED_SOURCE_SLICES = (
+    ("c4-conv-oam", "build/source-tree/objects/ps2/c4convoam.o",
+     0x0010C340, 0, 0x03B8, 0, (),
+     {".data": 0, ".bss": 0}, 0x03B8, frozenset()),
+    ("c4-scale-rotate", "build/source-tree/objects/ps2/c4doscalerotate.o",
+     0x0010C6F8, 0, 0x04B8, 0, (),
+     {".data": 0, ".bss": 0}, 0x04B8, frozenset()),
+    ("c4-transform-lines", "build/source-tree/objects/ps2/c4transformlines.o",
+     0x0010CFA4, 0, 0x0304, 0, (),
+     {".data": 0, ".bss": 0}, 0x0304, frozenset()),
+    ("s9x-set-c4", "build/source-tree/objects/ps2/s9xsetc4.o",
+     0x0010D7DC, 0, 0x0B60, 0, (),
+     {".data": 0, ".bss": 0}, 0x0B60, frozenset()),
     ("strcasecmp", "build/source-tree/objects/ps2/strcasecmp.o",
      0x0019E860, 0, 0x0084, 4, (),
      {".data": 0, ".bss": 0}, 0x0084, frozenset()),
