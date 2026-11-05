@@ -1,0 +1,18 @@
+Historical reference: zlib 1.1.3
+
+Upstream repository: https://github.com/madler/zlib.git
+Pinned source commit: 14763ac7c6c03bca62c39e35c03cf5bfc7728802
+Release identity: zlib 1.1.3 (the signed v1.1.3 tag resolves to this source commit)
+
+The files in this directory are unmodified upstream source/header files retained
+only to reproduce the exact SNES Station v0.23 WIP EE code-generation evidence
+for the memory-buffer wrapper corridor. The target independently embeds the
+"1.1.3" and "deflate 1.1.3 Copyright 1995-1998 Jean-loup Gailly" strings.
+
+Retained files:
+- compress.c
+- uncompr.c
+- zlib.h
+- zconf.h
+
+The zlib license/copyright notice is preserved verbatim in zlib.h.
