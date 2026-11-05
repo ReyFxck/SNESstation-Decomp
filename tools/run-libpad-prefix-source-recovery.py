@@ -144,6 +144,29 @@ def main() -> None:
     ]
     run([cc, *flags, *includes, "-x", "c", "-c", SOURCE, "-o", obj])
 
+    # Test whether the already-pinned PS2DEV header universe is sufficient for
+    # the exact object. If so, Stage-3P can rebuild this source without adding
+    # a second historical checkout dependency.
+    ps2dev_includes: list[str] = []
+    for inc in sorted({p for p in (ps2dev / "ps2sdk").rglob("include") if p.is_dir()}):
+        ps2dev_includes += ["-I", str(inc)]
+    simple_obj = BUILD / "libpad-ps2lib-2004-newpadman-os-ps2dev-headers.o"
+    run([cc, *flags, *ps2dev_includes, "-x", "c", "-c", SOURCE, "-o", simple_obj])
+    if obj.read_bytes() == simple_obj.read_bytes():
+        print("PS2DEV_HEADER_ONLY_OBJECT=IDENTICAL")
+    else:
+        full = ELFFile(obj)
+        simple = ELFFile(simple_obj)
+        full_text = full.sections[[x.name for x in full.sections].index(".text")]
+        simple_text = simple.sections[[x.name for x in simple.sections].index(".text")]
+        full_raw = full.data[full_text.offset:full_text.offset + full_text.size]
+        simple_raw = simple.data[simple_text.offset:simple_text.offset + simple_text.size]
+        print(
+            "PS2DEV_HEADER_ONLY_OBJECT=DIFF "
+            f"text_equal={full_raw == simple_raw} "
+            f"full_text={len(full_raw)} simple_text={len(simple_raw)}"
+        )
+
     elf = ELFFile(obj)
     sections = {section.name: section for section in elf.sections}
     objdump = cc.with_name("ee-objdump")
