@@ -38,9 +38,9 @@ class CodeWindowsTests(unittest.TestCase):
         self.assertEqual(0, result["residual_bytes"])
         self.assertEqual(71480, result["listing_bytes"])
         self.assertEqual(720620, result["direct_object_bytes"])
-        self.assertEqual(201, result["direct_candidate_object_inputs"])
+        self.assertEqual(202, result["direct_candidate_object_inputs"])
         self.assertEqual(4120, result["evidence_candidate_object_bytes"])
-        self.assertEqual(23324, result["evidence_listing_bytes"])
+        self.assertEqual(23112, result["evidence_listing_bytes"])
         self.assertEqual(0, result["incbin_payload_bytes"])
         self.assertEqual(0, result["incbin_payload_sections"])
         self.assertEqual((51, 0), (result["exact_chunks"], result["mismatching_chunks"]))
@@ -178,6 +178,17 @@ class CodeWindowsTests(unittest.TestCase):
             "C4CalcWireFrame": 0x0010BECC,
         }.items():
             self.assertEqual(gate.CLEAN_SOURCE_PROVIDER_TARGETS[name], address)
+
+    def test_get_tree_reconstruction_links_directly(self):
+        rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}
+        self.assertIn("get-tree", rows)
+        row = rows["get-tree"]
+        self.assertEqual(row[1], "build/source-tree/objects/unzip/get_tree.o")
+        self.assertEqual(row[2:6], (0x0018C124, 0, 0x00D4, 9))
+        self.assertEqual(row[6], ())
+        self.assertEqual(row[7], {".data": 0, ".bss": 0})
+        self.assertEqual(row[8], 0x00D4)
+        self.assertEqual(row[9], frozenset())
 
     def test_numtestf_reconstruction_links_directly(self):
         rows = {row[0]: row for row in gate.DIRECT_RECOVERED_SOURCE_SLICES}

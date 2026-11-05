@@ -962,6 +962,9 @@ DIRECT_FRONTEND_SOURCE_SLICES = (
 # a byte-identical producer: recovered/historical C/C++, PS2SDK's syscall macro
 # source, zlib 1.1.3, and the pinned GCC 3.2.2 libsupc++ source build.
 DIRECT_RECOVERED_SOURCE_SLICES = (
+    ("get-tree", "build/source-tree/objects/unzip/get_tree.o",
+     0x0018C124, 0, 0x00D4, 9, (),
+     {".data": 0, ".bss": 0}, 0x00D4, frozenset()),
     ("numtestf", "build/source-tree/objects/ps2/numtestf.o",
      0x001A06C0, 0, 0x0080, 0, (),
      {".data": 0, ".bss": 0}, 0x0080, frozenset()),
